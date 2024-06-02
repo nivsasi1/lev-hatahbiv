@@ -1,4 +1,4 @@
-import CartPng from "../../../assets/shopping-cart.png";
+import CartPng from '../../../assets/bag.svg';
 
 export const Cart: React.FC = () => {
   return (
