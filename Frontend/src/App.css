@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  
+}
+
+* {
+  font-family: "Inter", sans-serif;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.flex{
+  display: flex;
+}
+
+.flexcenter{
+  justify-content: "center";
+  /* align-items: "center"; */
+}
+
+img.tankBG {
+  z-index: 0;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 40%;
+  height: auto;
+  filter: blur(5px);
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+
+}
+
+img.tankBGSideBar {
+  z-index: 1;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  width: 300%;
+  height: auto;
+  filter: blur(3px);
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  transform: translateX(-30%);
+}
+img.zevet100 {
+  position: fixed;
+  top: 3rem;
+  right: 4.8rem;
+  mix-blend-mode: multiply;
+  width: 5rem;
+  height: auto;
+  filter: contrast(120%);
+}
+.card {
+  padding: 2em;
+}
+
+.mainGrid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh !important;
+  overflow: hidden;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 3pt;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #bbb9b9;
+  border-radius: 1.5pt;
+}
+.read-the-docs {
+  color: #888;
+}
+body,
+html {
+  background-color: #FBFBFF;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+div.login {
+  transform: translateY(-5vh);
+}
+.addtank {
+  padding: 10rem;
+}
+
