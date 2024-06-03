@@ -1,0 +1,41 @@
+{
+  "name": "reserves_atal",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "start": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.6",
+    "@mui/material": "^5.15.6",
+    "@mui/x-date-pickers": "^6.19.0",
+    "@preact/signals": "^1.2.2",
+    "@tanstack/react-table": "^8.11.7",
+    "@vitejs/plugin-react": "^4.3.0",
+    "dayjs": "^1.11.10",
+    "polyfill-object.fromentries": "^1.0.1",
+    "preact": "^10.19.3",
+    "react-hook-form": "^7.49.3",
+    "react-query": "^3.39.3",
+    "react-router": "^6.21.3",
+    "react-router-dom": "^6.21.3",
+    "stylis": "^4.3.1",
+    "stylis-plugin-rtl": "^2.1.1",
+    "vite-plugin-svgr": "^4.2.0",
+    "write-excel-file": "^1.4.29",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.7.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/stylis": "^4.2.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
+}
