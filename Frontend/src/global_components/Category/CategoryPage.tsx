@@ -184,6 +184,10 @@ const ProductsView: React.FC<{
                       );
                     }}
                   />
+                  {
+                    subSection!.productAmount > 0 && 
+                    <div className={"load-more"}></div>
+                  }
                 </div>
               </>
             );
@@ -260,12 +264,12 @@ const ProductView: React.FC<{
         <div className={"product-img"}>
           <img
             src={"/images/" + imgSrc}
-            // ref={img}
-            // onError={() => {
-            //   if (img.current) {
-            //     img.current!.style.display = "none";
-            //   }
-            // }}
+            ref={img}
+            onError={() => {
+              if (img.current) {
+                img.current!.style.display = "none";
+              }
+            }}
             alt="Product Image"
           />
         </div>
