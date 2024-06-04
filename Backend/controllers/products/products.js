@@ -3,8 +3,9 @@ const Product = require("../../models/products/product.model");
 
 exports.getDataBySub0Cat = async (req, res) => {
     try {
-        const category = req.query.category;
-        const sub_cat = req.query.sub;
+        const category = req.params.category;
+        // const sub_cat = req.params.sub;
+        const sub_cat = "0";
         let initialProducts;
         if (sub_cat == "0") {
             initialProducts = await Product.find({ category: category  });
@@ -19,22 +20,22 @@ exports.getDataBySub0Cat = async (req, res) => {
 };
 
 exports.getCategoryTree = async (req, res) => {
-    categoryName = req.query.category;
+    categoryName = req.params.category;
     
     const result = await Product.aggregate([
         { $match: { category: categoryName } },
         { $group: {
             _id: { sub_cat: '$sub_cat', third_level: '$third_level' },
-            subAmount: { $sum: 1 }
+            productAmount: { $sum: 1 }
         }},
         { $group: {
             _id: '$_id.sub_cat',
-            subAmount: { $sum: '$subAmount' },
+            productAmount: { $sum: '$productAmount' },
             subsLength: { $sum: 1 },
             subs: {
                 $push: {
                     name: '$_id.third_level',
-                    subAmount: '$subAmount',
+                    productAmount: '$productAmount',
                     subs: []
                 }
             }
@@ -42,7 +43,7 @@ exports.getCategoryTree = async (req, res) => {
         { $project: {
             _id: 0,
             name: '$_id',
-            subAmount: 1,
+            productAmount: 1,
             subsLength: 1,
             subs: {
                 $map: {
@@ -50,7 +51,7 @@ exports.getCategoryTree = async (req, res) => {
                     as: 'sub',
                     in: {
                         name: '$$sub.name',
-                        subAmount: '$$sub.subAmount',
+                        productAmount: '$$sub.productAmount',
                         subsLength: { $literal: 0 },
                         subs: []
                     }
@@ -59,12 +60,12 @@ exports.getCategoryTree = async (req, res) => {
         }},
         { $group: {
             _id: null,
-            subAmount: { $sum: '$subAmount' },
+            productAmount: { $sum: '$productAmount' },
             subsLength: { $sum: 1 },
             subs: {
                 $push: {
                     name: '$name',
-                    subAmount: '$subAmount',
+                    productAmount: '$productAmount',
                     subsLength: '$subsLength',
                     subs: '$subs'
                 }
@@ -73,7 +74,7 @@ exports.getCategoryTree = async (req, res) => {
         { $project: {
             _id: 0,
             name: categoryName,
-            subAmount: '$subAmount',
+            productAmount: '$productAmount',
             subsLength: '$subsLength',
             subs: {
                 $map: {
@@ -81,7 +82,7 @@ exports.getCategoryTree = async (req, res) => {
                     as: 'sub',
                     in: {
                         name: '$$sub.name',
-                        subAmount: '$$sub.subAmount',
+                        productAmount: '$$sub.productAmount',
                         subsLength: '$$sub.subsLength',
                         subs: '$$sub.subs'
                     }
