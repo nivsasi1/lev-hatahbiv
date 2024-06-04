@@ -13,25 +13,8 @@ import { MainPage } from "./pages/MainPage/MainPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    // errorElement: <ErrorPage />,
     element: <MainPage />,
   },
-  // {
-  //   path: "/main",
-  //   element: (
-  //     <Page>
-  //       <MainPage />
-  //     </Page>
-  //   ),
-  // },
-  // {
-  //   path: "/addtank",
-  //   element: (
-  //     <Page>
-  //       <AddTank />
-  //     </Page>
-  //   ),
-  // },
 ]);
 
 function App() {

@@ -1,0 +1,106 @@
+[
+    {
+        "title": "צבעים לאמנות",
+        "route": "art-colors",
+        "options": [
+            { "optionTitle": "צבע אקריליק", "route": "acrylic-paint" },
+            { "optionTitle": "צבע שמן", "route": "oil-paint" },
+            { "optionTitle": "צבע גואש", "route": "gouache-paint" },
+            { "optionTitle": "צבע אקוורל", "route": "watercolor-paint" },
+            { "optionTitle": "צבעי פסטל", "route": "pastel-paint" },
+            { "optionTitle": "מדיומים", "route": "mediums" },
+            { "optionTitle": "מרקרים", "route": "markers" }
+        ]
+    },
+    {
+        "title": "צבעים להובי",
+        "route": "hobby-colors",
+        "options": [
+            { "optionTitle": "אקריליק הובי", "route": "hobby-acrylic" },
+            { "optionTitle": "צבע זכוכית ופורצלן", "route": "glass-and-porcelain-paint" },
+            { "optionTitle": "מיקס מדיה", "route": "mixed-media" },
+            { "optionTitle": "צבע דיו אלכוהולי", "route": "alcohol-ink" },
+            { "optionTitle": "אבקות פיגמנטים", "route": "pigment-powders" },
+            { "optionTitle": "ספריי צבע", "route": "spray-paint" },
+            { "optionTitle": "צבעים לבדים וטאיי דיי", "route": "fabric-and-tie-dye" },
+            { "optionTitle": "חידוש רהיטים", "route": "furniture-renewal" }
+        ]
+    },
+    {
+        "title": "רישום/עפרונות",
+        "route": "drawing-pencils",
+        "options": [
+            { "optionTitle": "עפרון אקוורל", "route": "watercolor-pencil" },
+            { "optionTitle": "עפרון שמן/שעווה", "route": "oil-wax-pencil" },
+            { "optionTitle": "עפרון פסטל", "route": "pastel-pencil" },
+            { "optionTitle": "עפרון דיו", "route": "ink-pencil" },
+            { "optionTitle": "עפרון פחם", "route": "charcoal-pencil" },
+            { "optionTitle": "עפרון רישום - גרפיט", "route": "graphite-pencil" },
+            { "optionTitle": "טוש לציור", "route": "drawing-marker" },
+            { "optionTitle": "טוש אקריליק", "route": "acrylic-marker" },
+            { "optionTitle": "טוש אלכוהולי", "route": "alcohol-marker" },
+            { "optionTitle": "ZIG Clear", "route": "zig-clear" },
+            { "optionTitle": "רפידוגרף", "route": "rapidograph" },
+            { "optionTitle": "פחם", "route": "charcoal" },
+            { "optionTitle": "שרטוט חומרי עזר", "route": "drafting-supplies" },
+            { "optionTitle": "עפרונות ופחם חומרי עזר", "route": "pencil-and-charcoal-supplies" }
+        ]
+    },
+    {
+        "title": "מכחולים ואביזרים",
+        "route": "brushes-and-accessories",
+        "options": [
+            { "optionTitle": "שפכטלים", "route": "palette-knives" },
+            { "optionTitle": "מכחולים", "route": "brushes" },
+            { "optionTitle": "חומרי עזר", "route": "auxiliary-materials" }
+        ]
+    },
+    {
+        "title": "נייר לאמנות",
+        "route": "art-paper",
+        "options": [
+            { "optionTitle": "בלוקים", "route": "blocks" },
+            { "optionTitle": "גליונות", "route": "sheets" }
+        ]
+    },
+    {
+        "title": "כני ציור",
+        "route": "easels",
+        "options": [
+            { "optionTitle": "כן ציור סטודיו", "route": "studio-easel" },
+            { "optionTitle": "כן ציור שולחני", "route": "tabletop-easel" },
+            { "optionTitle": "כן ציור נייד ומזוודות", "route": "portable-easel-and-cases" }
+        ]
+    },
+    {
+        "title": "מקרמה/טריקו",
+        "route": "macrame-triko",
+        "options": [
+            { "optionTitle": "צמר", "route": "wool" },
+            { "optionTitle": "טריקו", "route": "triko" },
+            { "optionTitle": "מקרמה", "route": "macrame" }
+        ]
+    },
+    {
+        "title": "חומרי יצירה",
+        "route": "craft-materials",
+        "options": [
+            { "optionTitle": "פיסול", "route": "sculpting" },
+            { "optionTitle": "חימר פולימרי", "route": "polymer-clay" },
+            { "optionTitle": "לבד", "route": "felt" },
+            { "optionTitle": "יצירה - נייר", "route": "paper-crafts" }
+        ]
+    },
+    {
+        "title": "תכשיטנות",
+        "route": "jewelry-making",
+        "options": [
+            { "optionTitle": "תליונים", "route": "pendants" },
+            { "optionTitle": "שרשראות", "route": "necklaces" },
+            { "optionTitle": "חרוזים", "route": "beads" },
+            { "optionTitle": "חוטים", "route": "threads" },
+            { "optionTitle": "אביזרים", "route": "accessories" },
+            { "optionTitle": "כלי עזר", "route": "tools" }
+        ]
+    }
+]

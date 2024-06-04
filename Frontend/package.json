@@ -28,8 +28,7 @@
     "stylis": "^4.3.1",
     "stylis-plugin-rtl": "^2.1.1",
     "vite-plugin-svgr": "^4.2.0",
-    "write-excel-file": "^1.4.29",
-    "xlsx": "^0.18.5"
+    "write-excel-file": "^1.4.29"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",

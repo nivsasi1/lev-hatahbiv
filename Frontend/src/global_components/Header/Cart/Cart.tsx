@@ -1,9 +1,11 @@
 import CartPng from '../../../assets/bag.svg';
 
-export const Cart: React.FC = () => {
+export const Cart: React.FC<{amount: number}> = ({amount}) => {
   return (
-    <button>
-      <img src={CartPng} style={{ height: "40px" }} />
-    </button>
+    <div className={"bag"}>
+      <img src={CartPng}/>
+      <div>סל קנייה</div>
+      {amount > 0 && <div className={"bag-count"}>{amount}</div>}
+    </div>
   );
 };
