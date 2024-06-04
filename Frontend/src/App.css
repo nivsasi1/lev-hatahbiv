@@ -488,3 +488,119 @@ div.sections-menu-item:nth-last-child(1){
   background: #c9c9c9;
   color: #000;
 }
+
+.product-preview {
+  display: flex;
+  background: #f0f0f0;
+  /* padding: 1em; */
+  width: 70vw;
+  border-radius: 1em;
+  overflow: hidden;
+  margin: 0 auto;
+  direction: rtl;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.product-preview>div:nth-of-type(2){
+  padding: 1.25em;
+  align-self: stretch;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.product-preview-img{
+  background: #c9c9c9;
+  width: 40vh;
+  height: 100%;
+  max-width: 25vw;
+  /* max-height: 25vw; */
+  min-height: 40vh;
+  /* height: 40vh; */
+  padding: 1em;
+  border-radius: 1em;
+  overflow: hidden;
+  align-self: stretch;
+}
+
+.product-preview-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.product-preview-info {
+  position: relative;
+  margin: 0 0.5em 0 0;
+  max-height: calc(100% - 3em);
+  /* background: red; */
+  overflow:hidden;
+}
+
+.product-preview-info-content div:nth-last-child(1){
+  padding: 0 0 1em 0;
+}
+
+.product-preview-info>div {
+  font-size: 1em;
+  /* background: red; */
+  height: 100%;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.product-preview-info::before {
+  position: absolute;
+  content: " ";
+  background: linear-gradient(transparent 20%, #f0f0f0);
+  bottom: 0%;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 1.5em;
+}
+
+.product-preview-info>div::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.product-preview-name {
+  font-size: 1.2em;
+  text-align: right;
+  font-weight: 550;
+  margin: 0 0 0.25em 0;
+}
+.product-preview-info>div:nth-of-type(2){
+  font-weight: 500;
+  font-size: 1.05em;
+  margin: 0.1em 0;
+}
+
+.product-preview-buttons{
+  justify-self: end;
+  display: flex;
+}
+.product-preview-add{
+  background: #000;
+  padding: 0.5em 1.75em;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95em;
+  border-radius: 2em;
+  transition: background 0.5s ease;
+}
+
+.product-preview-add:hover {
+  background: #555;
+}
+
+/* .product-preview-info div:nth-child(2){
+  font-size: 0.9em;
+} */
