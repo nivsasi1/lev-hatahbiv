@@ -65,7 +65,7 @@ const CategoryPage:React.FC<{category: number, subCategory: number, thirdLevel: 
     const [currentSection, setCurrentSection] = useState<number>(0)
     const [sections, setSections] = useState<Array<string>>(["שפכטלים", "מכחולים","חומרי עזר"])
     const [products, setProducts] = useState<Array<Product>>(PRODUCTS)
-    const [tree, setTree] = useState<Tree>()
+    const [tree, setTree] = useState<Tree | undefined>()
     
     useEffect(()=>{
 
