@@ -14,7 +14,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-        '/AtalReservesApi': {
+        '/LevHatahbiv': {
             target: URL,
             changeOrigin: true,
         },
