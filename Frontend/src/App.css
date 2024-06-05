@@ -541,7 +541,9 @@ div.sections-menu-item:nth-last-child(1){
   overflow:hidden;
 }
 
-.product-preview-info-content div:nth-last-child(1){
+
+
+.product-preview-info-content div:last-child{
   padding: 0 0 1em 0;
 }
 
@@ -551,6 +553,10 @@ div.sections-menu-item:nth-last-child(1){
   height: 100%;
   overflow-y: scroll;
   position: relative;
+}
+
+.product-preview-info-content div:nth-child(2){
+  font-weight: 600;
 }
 
 .product-preview-info::before {
@@ -585,7 +591,11 @@ div.sections-menu-item:nth-last-child(1){
 .product-preview-buttons{
   justify-self: end;
   display: flex;
+  align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
 }
+
 .product-preview-add{
   background: #000;
   padding: 0.5em 1.75em;
@@ -604,3 +614,109 @@ div.sections-menu-item:nth-last-child(1){
 /* .product-preview-info div:nth-child(2){
   font-size: 0.9em;
 } */
+
+.product-preview-count {
+  display: flex;
+  align-items: center;
+  margin: 1em;
+  border: 0.18em solid #000;
+  border-radius: 1.5em;
+  padding: 0.2em 0.5em;
+}
+
+.product-preview-count div{
+  text-align: center;
+  font-weight: 600;
+  width: 1em;
+}
+
+.product-preview-count div:nth-child(2){
+  width: 2em;
+}
+
+.product-preview-count input {
+  width: 100%;
+  direction: ltr;
+  outline: none;
+  font-size: 1em;
+  font-weight: 550;
+  background: none;
+  border: none;
+  text-align: center;
+}
+
+.product-preview-count input::-webkit-inner-spin-button{
+  display: none;
+}
+
+.product-preview-count svg{
+  width: 1em;
+  height: 1em;
+}
+
+
+.product-preview-count div:nth-last-child(1),
+.product-preview-count div:nth-child(1){
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.product-preview-count div:nth-last-child(1):hover,
+.product-preview-count div:nth-child(1):hover{
+  opacity: 0.5;
+}
+
+.return-button {
+  user-select: none;
+  -webkit-user-select: none;
+  font-weight: 500;
+  margin: 3rem auto 2rem 15vw;
+  width: fit-content;
+  padding: 0.2em 0.8em;
+  font-size: 0.9em;
+  border-radius: 1.5em;
+  border: 0.18em solid #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.return-button svg{
+  margin: 0 0.25em 0 0;
+  height: 1em;
+}
+
+.product-preview-location {
+  width: fit-content;
+  background: #f0f0f0;
+  padding: 0.5em 1em;
+  border-radius: 1.5em;
+  margin: 1em 15vw 1em auto;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.product-preview-location div{
+  display: block;
+  position: relative;
+  font-weight: 500;
+  margin: 0 0.5em;
+}
+
+.product-preview-location div:first-child{
+  margin-right: 0;
+}
+
+.product-preview-location div:last-child{
+  margin-left: 0;
+}
+
+.arrow {
+  /* display: inline-block; */
+  /* margin: 1em; */
+  height: 1em;
+}
