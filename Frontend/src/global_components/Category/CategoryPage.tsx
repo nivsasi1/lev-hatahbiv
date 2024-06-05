@@ -61,7 +61,7 @@ const CategoryPage: React.FC<{
   const [products, setProducts] = useState<Array<Product | any>>();
   const [tree, setTree] = useState<Tree | undefined | any>();
 
-  useEffect(() => {}, [currentSection]);
+  useEffect(() => { }, [currentSection]);
 
   const fetchTreeData = async () => {
     const treeData = await fetch(
@@ -109,15 +109,15 @@ const CategoryPage: React.FC<{
       <div className={"sub-categories"}>
         {sections
           ? sections.map((section, index) => {
-              return (
-                <SubCategoryButton
-                  title={section}
-                  id={index}
-                  isSelected={currentSection === index}
-                  setSection={setCurrentSection}
-                />
-              );
-            })
+            return (
+              <SubCategoryButton
+                title={section}
+                id={index}
+                isSelected={currentSection === index}
+                setSection={setCurrentSection}
+              />
+            );
+          })
           : ""}
       </div>
       {sections && sections.length > 0 && (
@@ -147,11 +147,12 @@ const ProductsView: React.FC<{
 
   //Sub Category
   let sectionsAvailable = false;
-  //Third Level
 
+  //Third Level
   let subSectionsAvailable = false;
   let sections: Array<Tree | undefined> | undefined;
   let subSections: Array<Tree | undefined> | undefined;
+  let repeats = 1
 
   if (!isNil(tree) && !isNil(tree!.subs) && tree!.subsLength > 0) {
     sectionsAvailable = true;
@@ -163,6 +164,9 @@ const ProductsView: React.FC<{
     if (sections![currentSection]!.subsLength > 0) {
       subSectionsAvailable = true;
       subSections = sections![currentSection]!.subs;
+      if (subSections) {
+        repeats = subSections!.length;
+      }
     }
   }
 
@@ -174,47 +178,41 @@ const ProductsView: React.FC<{
             return (
               <>
                 <div className={"products-title"}>{subSection?.name}</div>
-                <div className={"products"}>
-                  <ProductsViewFiltered
-                    products={products}
-                    filter={(p) => {
-                      return (
-                        p.sub_cat === sections![currentSection]!.name &&
-                        p.third_level === subSection?.name
-                      );
-                    }}
-                  />
-                  {
-                    subSection!.productAmount > 0 && 
-                    <div className={"load-more"}></div>
-                  }
-                </div>
+                <ProductsViewFiltered
+                  products={products}
+                  filter={(p) => {
+                    return (
+                      p.sub_cat === sections![currentSection]!.name &&
+                      p.third_level === subSection?.name
+                    );
+                  }}
+                  maxAmount={subSection!.productAmount}
+                />
+
               </>
             );
           })
         ) : sections!.length > currentSection ? (
-          <div className={"products"}>
-            {
-              <ProductsViewFiltered
-                products={products}
-                filter={(p) => {
-                  return p.sub_cat === sections![currentSection]?.name;
-                }}
-              />
-            }
-          </div>
+
+          <ProductsViewFiltered
+            products={products}
+            filter={(p) => {
+              return p.sub_cat === sections![currentSection]?.name;
+            }}
+            maxAmount={sections![currentSection]!.productAmount}
+          />
+
         ) : (
           <div className={"products-title"}>unavailable</div>
         )
       ) : (
-        <div className={"products"}>
-          <ProductsViewFiltered
-            filter={() => {
-              return true;
-            }}
-            products={products}
-          />
-        </div>
+        <ProductsViewFiltered
+          filter={() => {
+            return true;
+          }}
+          products={products}
+          maxAmount={tree!.productAmount}
+        />
       )}
     </>
   );
@@ -223,21 +221,32 @@ const ProductsView: React.FC<{
 const ProductsViewFiltered: React.FC<{
   products: Array<Product> | undefined;
   filter: (p: Product) => boolean;
-}> = ({ products, filter }) => {
+  maxAmount: number,
+}> = ({ products, filter, maxAmount = 5}) => {
+  const [availableProducts, setAvailableProducts] = useState<Array<Product> | undefined>()
+
+  useEffect(()=>{
+    setAvailableProducts(products?.filter(filter).map((p)=> p))
+  }, [products])
+
   return (
-    <>
-      {products?.filter(filter).map((p) => {
+    <div className={"products"}>
+      {availableProducts?.map((p) => {
         return (
           <ProductView
             title={p.name}
             imgSrc={p.img}
             price={p.price}
             isAdded={false}
-            onClick={() => {}}
+            onClick={() => { }}
           />
         );
       })}
-    </>
+      {
+        maxAmount > (availableProducts?.length ?? 0) &&
+        <div className={"load-more"}>טען עוד</div>
+      }
+    </div>
   );
 };
 
