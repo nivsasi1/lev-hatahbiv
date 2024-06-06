@@ -2,9 +2,10 @@ import { useReducer, useState } from "preact/hooks";
 import { useRef } from "react";
 import { useEffect } from "preact/hooks";
 import CartPng from "../../assets/1.png";
+import { Arrow } from "../ProductPreview/ProductPreview";
 
 type Product = {
-  category: number;
+  category: string;
   sub_cat: string | undefined;
   third_level: string | undefined;
   price: number;
@@ -31,12 +32,12 @@ const CONSEPT_TREE: Tree = {
       subs: [
         {
           name: "שפכטלים יוונים",
-          productAmount: 3,
+          productAmount: 11,
           subsLength: 0,
         },
         {
-          name: "שפכטלים איטלקים",
-          productAmount: 2,
+          name: "שפכטל איטלקי",
+          productAmount: 20,
           subsLength: 0,
         },
       ],
@@ -49,6 +50,89 @@ const CONSEPT_TREE: Tree = {
   ],
 };
 
+const PRODUCTS: Array<Product> = [
+  {
+    "name": "שפכטל - ספטולה דגם 1",
+    "price": 43.2,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "1.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 24",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "2.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 28",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "3.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 10",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "4.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 23",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "5.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 2",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "6.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 26",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "7.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 22",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "8.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 8",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "9.png"
+  },
+  {
+    "name": "שפכטל - ספטולה דגם 12",
+    "price": 22,
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "שפכטלים",
+    "third_level": "שפכטל איטלקי",
+    "img": "10.png"
+  }
+]
+
 const CategoryPage: React.FC<{
   category: number;
   subCategory: number;
@@ -57,9 +141,9 @@ const CategoryPage: React.FC<{
   const [title, setTitle] = useState<string>("מכחולים ואביזרים");
   const [currentSection, setCurrentSection] = useState<number>(0);
   //   const [currentSubSection, setSubCurrentSection] = useState<number>(0);
-  const [sections, setSections] = useState<Array<string> | undefined>();
-  const [products, setProducts] = useState<Array<Product | any>>();
-  const [tree, setTree] = useState<Tree | undefined | any>();
+  const [sections, setSections] = useState<Array<string> | undefined>(["שפכטלים"]);
+  const [products, setProducts] = useState<Array<Product | any>>(PRODUCTS);
+  const [tree, setTree] = useState<Tree | undefined | any>(CONSEPT_TREE);
 
   useEffect(() => { }, [currentSection]);
 
@@ -90,6 +174,7 @@ const CategoryPage: React.FC<{
     //fetch category tree
     //fetch products - category & sub
     //fetch products - category & sub & subsub
+    return;
     const fetchDataAndSetState = async () => {
       const { treeData, productsData } = await fetchData();
       const treeJson = await treeData.json(); // Extract JSON data from response
@@ -152,7 +237,6 @@ const ProductsView: React.FC<{
   let subSectionsAvailable = false;
   let sections: Array<Tree | undefined> | undefined;
   let subSections: Array<Tree | undefined> | undefined;
-  let repeats = 1
 
   if (!isNil(tree) && !isNil(tree!.subs) && tree!.subsLength > 0) {
     sectionsAvailable = true;
@@ -160,13 +244,9 @@ const ProductsView: React.FC<{
   }
 
   if (sectionsAvailable && !isNil(sections![currentSection])) {
-    console.log("not nil");
     if (sections![currentSection]!.subsLength > 0) {
       subSectionsAvailable = true;
       subSections = sections![currentSection]!.subs;
-      if (subSections) {
-        repeats = subSections!.length;
-      }
     }
   }
 
@@ -177,10 +257,16 @@ const ProductsView: React.FC<{
           subSections?.map((subSection) => {
             return (
               <>
-                <div className={"products-title"}>{subSection?.name}</div>
+                <div className={"products-title"}>
+                  <span>
+                    {subSection?.name + " - " + subSection!.productAmount + " מוצרים"}
+                  </span>
+                  <Arrow />
+                </div>
                 <ProductsViewFiltered
                   products={products}
                   filter={(p) => {
+                    console.log(`\t${p.sub_cat} === ${sections![currentSection]!.name} \n\t ${p.third_level} === ${subSection?.name}`)
                     return (
                       p.sub_cat === sections![currentSection]!.name &&
                       p.third_level === subSection?.name
@@ -193,13 +279,14 @@ const ProductsView: React.FC<{
             );
           })
         ) : sections!.length > currentSection ? (
-
           <ProductsViewFiltered
             products={products}
             filter={(p) => {
               return p.sub_cat === sections![currentSection]?.name;
             }}
-            maxAmount={sections![currentSection]!.productAmount}
+            maxAmount={
+              sections![currentSection]!.productAmount
+            }
           />
 
         ) : (
@@ -211,7 +298,7 @@ const ProductsView: React.FC<{
             return true;
           }}
           products={products}
-          maxAmount={tree!.productAmount}
+          maxAmount={tree?.productAmount ?? 0}
         />
       )}
     </>
@@ -222,29 +309,38 @@ const ProductsViewFiltered: React.FC<{
   products: Array<Product> | undefined;
   filter: (p: Product) => boolean;
   maxAmount: number,
-}> = ({ products, filter, maxAmount = 5}) => {
+}> = ({ products, filter, maxAmount}) => {
   const [availableProducts, setAvailableProducts] = useState<Array<Product> | undefined>()
+  const [loadedAmount, setLoadedAmount] = useState(5)
 
-  useEffect(()=>{
-    setAvailableProducts(products?.filter(filter).map((p)=> p))
+  useEffect(() => {
+    setAvailableProducts(products?.filter(filter).map((p) => p))
+    setLoadedAmount((last) => Math.min(maxAmount, last))
+    console.log("\tmaxAmount: " + maxAmount)
   }, [products])
 
   return (
     <div className={"products"}>
-      {availableProducts?.map((p) => {
-        return (
-          <ProductView
-            title={p.name}
-            imgSrc={p.img}
-            price={p.price}
-            isAdded={false}
-            onClick={() => { }}
-          />
-        );
-      })}
+      <div>
+        {availableProducts?.slice(0, loadedAmount).map((p) => {
+          return (
+            <>
+                 <ProductView
+                  title={p.name}
+                  imgSrc={p.img}
+                  price={p.price}
+                  isAdded={false}
+                  onClick={() => { }}
+                />
+            </>
+          );
+        })}
+      </div>
       {
-        maxAmount > (availableProducts?.length ?? 0) &&
-        <div className={"load-more"}>טען עוד</div>
+        maxAmount > (loadedAmount ?? 0) &&
+        <div className={"load-more"} onClick={()=>{
+          setLoadedAmount((last)=> Math.min(maxAmount, last + 10))
+        }}>טען עוד</div>
       }
     </div>
   );

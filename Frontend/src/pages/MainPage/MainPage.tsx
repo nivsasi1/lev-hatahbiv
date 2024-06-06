@@ -18,8 +18,8 @@ export const MainPage: React.FC = () => {
       <Header />
       <div style={{marginTop: "10rem"}}>
         {/* <CategoryPage category={0} subCategory={0} thirdLevel={0} /> */}
-        {/* <CategoryPage category={0} subCategory={0} thirdLevel={0} /> */}
-        <ProductPreview product={product}/>
+        <CategoryPage category={0} subCategory={0} thirdLevel={0} />
+        {/* <ProductPreview product={product}/> */}
       </div>
     </>
   );
