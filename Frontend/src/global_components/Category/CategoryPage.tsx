@@ -136,10 +136,9 @@ const CONSEPT_TREE: Tree = {
 // ];
 
 const CategoryPage: React.FC<{
-  category: number;
-  subCategory: number;
-  thirdLevel: number;
-}> = ({ category, subCategory, thirdLevel }) => {
+  category: string;
+  subCategory: string | undefined;
+}> = ({ category, subCategory }) => {
   const [title, setTitle] = useState<string>("מכחולים ואביזרים");
   const [currentSection, setCurrentSection] = useState<number>(0);
   //   const [currentSubSection, setSubCurrentSection] = useState<number>(0);
