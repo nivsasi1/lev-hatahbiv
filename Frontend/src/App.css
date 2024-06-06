@@ -555,6 +555,8 @@ div.sections-menu-item:nth-last-child(1){
   border-radius: 1em;
   overflow: hidden;
   align-self: stretch;
+  display: flex;
+  align-items: center;
 }
 
 .product-preview-img img{
@@ -562,12 +564,14 @@ div.sections-menu-item:nth-last-child(1){
   height: 100%;
   object-fit: contain;
   mix-blend-mode: multiply;
+
 }
 
 .product-preview-info {
   position: relative;
   margin: 0 0.5em 0 0;
-  max-height: calc(100% - 3em);
+  /* max-height: calc(100% - 3em); */
+  flex: 1;
   /* background: red; */
   overflow:hidden;
 }
@@ -713,6 +717,8 @@ div.sections-menu-item:nth-last-child(1){
   align-items: center;
   flex-direction: row-reverse;
   justify-content: space-between;
+  text-decoration: none;
+  color: #000;
 }
 
 .return-button svg{
