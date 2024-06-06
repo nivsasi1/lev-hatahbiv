@@ -24,7 +24,7 @@ export const MainPage: React.FC = () => {
       <Header />
       <div style={{ marginTop: "10rem" }}>
         <ProductPreview />
-        <CategoryPage category={cat || ""} subCategory={sub_cat || ""} />
+        {/*<CategoryPage category={cat || ""} subCategory={sub_cat || ""} />*/}
       </div>
     </>
   );
