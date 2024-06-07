@@ -2,7 +2,7 @@ import { useReducer, useState } from "preact/hooks";
 import { useRef } from "react";
 import { useEffect } from "preact/hooks";
 // import CartPng from "../../assets/1.png";
-import { Arrow } from "../ProductPreview/ProductPreview";
+import { Arrow } from "../../pages/ProductPreviewPage/ProductPreview";
 import { Link } from "react-router-dom";
 
 type Product = {
@@ -22,144 +22,26 @@ type Tree = {
   subs?: Array<Tree>;
 };
 
-const CONSEPT_TREE: Tree = {
-  name: "מכחולים ואביזרים",
-  productAmount: 2,
-  subsLength: 1,
-  subs: [
-    {
-      name: "שפכטלים",
-      productAmount: 5,
-      subsLength: 1,
-      subs: [
-        {
-          name: "שפכטלים יוונים",
-          productAmount: 11,
-          subsLength: 0,
-        },
-        {
-          name: "שפכטל איטלקי",
-          productAmount: 20,
-          subsLength: 0,
-        },
-      ],
-    },
-    {
-      name: "מכחולים",
-      productAmount: 0,
-      subsLength: 0,
-    },
-  ],
-};
-
-// const PRODUCTS: Array<Product> = [
-//   {
-//     name: "שפכטל - ספטולה דגם 1",
-//     price: 43.2,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "1.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 24",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "2.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 28",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "3.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 10",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "4.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 23",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "5.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 2",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "6.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 26",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "7.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 22",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "8.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 8",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "9.png",
-//   },
-//   {
-//     name: "שפכטל - ספטולה דגם 12",
-//     price: 22,
-//     category: "מכחולים ואביזרים",
-//     sub_cat: "שפכטלים",
-//     third_level: "שפכטל איטלקי",
-//     img: "10.png",
-//   },
-// ];
-
 const CategoryPage: React.FC<{
   category: string;
   subCategory: string | undefined;
 }> = ({ category, subCategory }) => {
-  const [title, setTitle] = useState<string>("מכחולים ואביזרים");
+  const [title, setTitle] = useState<string>(category);
   const [currentSection, setCurrentSection] = useState<number>(0);
   //   const [currentSubSection, setSubCurrentSection] = useState<number>(0);
-  const [sections, setSections] = useState<Array<string> | undefined>([
-    "שפכטלים",
-  ]);
+  const [sections, setSections] = useState<Array<string> | undefined>();
   const [products, setProducts] = useState<Array<Product | any>>();
   const [tree, setTree] = useState<Tree | undefined | any>();
 
-  useEffect(() => {}, [currentSection]);
-
   const fetchTreeData = async () => {
-    const treeData = await fetch(
-      `http://localhost:5000/getTree/` + "מכחולים ואביזרים",
-      { method: "GET" }
-    );
+    const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
+      method: "GET",
+    });
     return treeData;
   };
   const fetchProductsData = async () => {
     const productsData = await fetch(
-      `http://localhost:5000/getProducts/` + "מכחולים ואביזרים",
+      `http://localhost:5000/getProducts/${category}/${subCategory}`,
       { method: "GET" }
     );
     return productsData;
@@ -173,23 +55,40 @@ const CategoryPage: React.FC<{
   };
 
   useEffect(() => {
-    //fetch -> structure
-    //fetch category tree
-    //fetch products - category & sub
-    //fetch products - category & sub & subsub
-    // return;
     const fetchDataAndSetState = async () => {
       const { treeData, productsData } = await fetchData();
-      const treeJson = await treeData.json(); // Extract JSON data from response
-      console.log(treeJson);
-      setTree(treeJson.data); // Pass JSON data to setTree function
-      const productsJson = await productsData.json(); // Extract JSON data from response
-      console.log(productsJson);
+      const treeJson = await treeData.json();
+      setTree(treeJson.data);
+      const productsJson = await productsData.json();
       setProducts(productsJson.data);
-      setSections(treeJson.data.subs.map((sub: any) => sub.name));
+      setSections(treeJson.data.subs?.map((sub: any) => sub.name));
+      if (subCategory != "0" && subCategory != undefined) {
+        setCurrentSection(
+          treeJson.data.subs.findIndex((sub: any) => sub.name === subCategory)
+        );
+      }else{
+        setCurrentSection(0)
+      }
     };
     fetchDataAndSetState();
-  }, []);
+    setTitle(category);
+  }, [category]);
+
+  useEffect(() => {
+    if (
+      subCategory != "0" &&
+      subCategory !== undefined &&
+      sections &&
+      sections?.length > 0
+    ) {
+      let index = sections.findIndex((sub: any) => sub === subCategory)
+      setCurrentSection(
+        index !== -1 ? index : 0
+      );
+    }else{
+      setCurrentSection(0)
+    }
+  }, [subCategory]);
 
   return (
     <div className={"category-page"}>
@@ -199,6 +98,7 @@ const CategoryPage: React.FC<{
           ? sections.map((section, index) => {
               return (
                 <SubCategoryButton
+                  cat={category}
                   title={section}
                   id={index}
                   isSelected={currentSection === index}
@@ -268,7 +168,7 @@ const ProductsView: React.FC<{
                   <span>
                     {subSection?.name +
                       " - " +
-                      subSection!.productAmount +
+                      subSection?.productAmount +
                       " מוצרים"}
                   </span>
                   <Arrow />
@@ -276,17 +176,17 @@ const ProductsView: React.FC<{
                 <ProductsViewFiltered
                   products={products}
                   filter={(p) => {
-                    console.log(
-                      `\t${p.sub_cat} === ${
-                        sections![currentSection]!.name
-                      } \n\t ${p.third_level} === ${subSection?.name}`
-                    );
+                    // console.log(
+                    //   `\t${p.sub_cat} === ${
+                    //     sections![currentSection]!.name
+                    //   } \n\t ${p.third_level} === ${subSection?.name}`
+                    // );
                     return (
                       p.sub_cat === sections![currentSection]!.name &&
                       p.third_level === subSection?.name
                     );
                   }}
-                  maxAmount={subSection!.productAmount}
+                  maxAmount={subSection?.productAmount ?? 0}
                 />
               </>
             );
@@ -297,7 +197,7 @@ const ProductsView: React.FC<{
             filter={(p) => {
               return p.sub_cat === sections![currentSection]?.name;
             }}
-            maxAmount={sections![currentSection]!.productAmount}
+            maxAmount={sections![currentSection]?.productAmount ?? 0}
           />
         ) : (
           <div className={"products-title"}>unavailable</div>
@@ -328,7 +228,7 @@ const ProductsViewFiltered: React.FC<{
   useEffect(() => {
     setAvailableProducts(products?.filter(filter).map((p) => p));
     setLoadedAmount(Math.min(maxAmount, 5));
-    console.log("\tmaxAmount: " + maxAmount);
+    // console.log("\tmaxAmount: " + maxAmount);
   }, [filter]);
 
   return (
@@ -364,8 +264,7 @@ const ProductsViewFiltered: React.FC<{
 };
 
 // const ProductCollection: React.FC = ()=>{}
-
-const ProductView: React.FC<{
+interface ProductPreview {
   title: string;
   id: string;
   imgSrc: string;
@@ -373,7 +272,16 @@ const ProductView: React.FC<{
   desc?: string;
   isAdded: boolean;
   onClick: () => void;
-}> = ({ title, id, price, imgSrc, isAdded, onClick }) => {
+}
+
+const ProductView: React.FC<ProductPreview> = ({
+  title,
+  id,
+  price,
+  imgSrc,
+  isAdded,
+  onClick,
+}) => {
   let actualTitle = title ?? "";
   if (actualTitle.length > 26) {
     actualTitle = actualTitle.slice(0, 22) + "...";
@@ -421,16 +329,25 @@ const ProductView: React.FC<{
     </Link>
   );
 };
-
-const SubCategoryButton: React.FC<{
+interface subCategoryButton {
+  cat: string;
   title: string;
   id: number;
   isSelected: boolean;
   setSection: (v: number) => void;
-}> = ({ isSelected, title, id, setSection }) => {
+}
+
+const SubCategoryButton: React.FC<subCategoryButton> = ({
+  cat,
+  title,
+  id,
+  isSelected,
+  setSection,
+}) => {
   return (
     <div
       onClick={() => {
+        window.history.pushState({}, "", `?cat=${cat}&sub_cat=${title}`);
         setSection(id);
       }}
       className={

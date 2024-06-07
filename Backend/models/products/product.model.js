@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
 
 const ProductSchema = new mongoose.Schema(
     {
@@ -14,10 +13,5 @@ const ProductSchema = new mongoose.Schema(
         img: { type: String, trim: true, unique: true, required: true }
     }
 )
-
-//category?name=art-colors&sub=0
-//category = url.name
-//subcategory = url.sub
-//third = ???
 
 module.exports = mongoose.model("Product", ProductSchema);

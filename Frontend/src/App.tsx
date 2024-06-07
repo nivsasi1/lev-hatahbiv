@@ -7,7 +7,7 @@ import "./App.css";
 // import { Page } from "./components/Page.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MainPage } from "./pages/MainPage/MainPage";
-import { ProductPreview } from "./global_components/ProductPreview/ProductPreview";
+import { ProductPreview } from "./pages/ProductPreviewPage/ProductPreview";
 // import { ErrorPage } from "./pages/Error/ErrorPage.tsx";
 // import { TankContextProvider } from "./store/tank-info-context.tsx";
 
