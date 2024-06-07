@@ -8,6 +8,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { ProductPreview } from "./pages/ProductPreviewPage/ProductPreview";
+import { CartPage } from "./pages/CartPage/CartPage";
 // import { ErrorPage } from "./pages/Error/ErrorPage.tsx";
 // import { TankContextProvider } from "./store/tank-info-context.tsx";
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     path: "/product/:id",
     element: <ProductPreview />,
   },
+  {
+    path: "/cart",
+    element: <CartPage />
+  }
 ]);
 
 function App() {

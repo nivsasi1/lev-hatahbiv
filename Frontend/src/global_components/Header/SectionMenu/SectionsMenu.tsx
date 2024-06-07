@@ -21,7 +21,7 @@ export const SectionsMenu: React.FC = () => {
     return (<div className={"sections-menu"}>
         {SectionMenuList.map((section) => {
             // console.log(section)
-            return(<SectionsMenuItem title={section.title} route={section.route} options={section.options} />)
+            return (<SectionsMenuItem title={section.title} route={section.route} options={section.options} />)
         }
         )}
         {/* <SectionsMenuItem title={"צבעים לאומנות"} options={["wow"]}/> */}
@@ -34,13 +34,16 @@ const SectionsMenuItem: React.FC<SectionsMenuItem> = ({ title, route, options })
     return (<div className={"sections-menu-item"}>
         <span><Link to={`/category?cat=${title}&sub_cat=0`}>{title}</Link></span>
         <div className={"sections-menu-list"}>
-            <span>{title}</span>
             <div>
-                {
-                    options?.map((option) => {
-                        return <Link to={`/category?cat=${title}&sub_cat=${option.optionTitle}`}>{option.optionTitle}</Link>
-                    })
-                }</div>
+                <span>{title}</span>
+                <div className={"sections-menu-list-subs"}>
+                    {
+                        options?.map((option) => {
+                            return <Link to={`/category?cat=${title}&sub_cat=${option.optionTitle}`}>{option.optionTitle}</Link>
+                        })
+                    }</div>
+
+            </div>
         </div>
     </div>)
 }

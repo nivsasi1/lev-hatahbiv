@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Dispatch } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Product } from "../../types";
 import { Header } from "../../global_components/Header/Header";
+import { StateUpdater } from "preact/hooks";
 
 export const Arrow: React.FC = () => {
   return (
@@ -102,55 +103,7 @@ export const ProductPreview: React.FC = () => {
                 </div>
                 <div className={"product-preview-buttons"}>
                   <div class={"product-preview-add"}>הוספה לסל</div>
-                  <div className={"product-preview-count"}>
-                    <div
-                      onClick={() => {
-                        setProductsAmount((amount) => {
-                          return Math.max(1, amount - 1);
-                        });
-                      }}
-                    >
-                      <svg viewBox={"0 0 100 100"}>
-                        <path
-                          d="M22,50 h56"
-                          stroke="#000"
-                          stroke-width={"10"}
-                        ></path>
-                      </svg>
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        value={productsAmount}
-                        onInput={(e) => {
-                          console.log(
-                            Math.max(Number(e.currentTarget.value), 1)
-                          );
-                          let newValue: number = Math.max(
-                            Number(e.currentTarget.value),
-                            1
-                          );
-                          setProductsAmount(newValue);
-                          e.currentTarget.value = newValue.toString();
-                        }}
-                      />
-                    </div>
-                    <div
-                      onClick={() => {
-                        setProductsAmount((amount) => {
-                          return amount + 1;
-                        });
-                      }}
-                    >
-                      <svg viewBox={"0 0 100 100"}>
-                        <path
-                          d="M20,50 h60 M50,20 v60"
-                          stroke="#000"
-                          stroke-width={"10"}
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
+                  <ProductCounter productsAmount={productsAmount} setProductsAmount={setProductsAmount}/>
                   <div className={"product-preview-price"}>
                     {product.price}₪
                   </div>
@@ -169,3 +122,56 @@ export const ProductPreview: React.FC = () => {
     </>
   );
 };
+
+export const ProductCounter:React.FC<{productsAmount:number, setProductsAmount:(Dispatch<StateUpdater<number>>)}> = ({productsAmount, setProductsAmount}) => {
+  return (<div className={"product-preview-count"}>
+    <div
+      onClick={() => {
+        setProductsAmount((amount) => {
+          return Math.max(1, amount - 1);
+        });
+      }}
+    >
+      <svg viewBox={"0 0 100 100"}>
+        <path
+          d="M22,50 h56"
+          stroke="#000"
+          stroke-width={"10"}
+        ></path>
+      </svg>
+    </div>
+    <div>
+      <input
+        type="number"
+        value={productsAmount}
+        onInput={(e) => {
+          console.log(
+            Math.max(Number(e.currentTarget.value), 1)
+          );
+          let newValue: number = Math.max(
+            Number(e.currentTarget.value),
+            1
+          );
+          setProductsAmount(newValue);
+          e.currentTarget.value = newValue.toString();
+        }}
+      />
+    </div>
+    <div
+      onClick={() => {
+        setProductsAmount((amount) => {
+          return amount + 1;
+        });
+      }}
+    >
+      <svg viewBox={"0 0 100 100"}>
+        <path
+          d="M20,50 h60 M50,20 v60"
+          stroke="#000"
+          stroke-width={"10"}
+        ></path>
+      </svg>
+    </div>
+  </div>
+  )
+}

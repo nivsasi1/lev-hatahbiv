@@ -2,6 +2,7 @@ import { Header } from "../../global_components/Header/Header";
 import CategoryPage from "../../global_components/Category/CategoryPage";
 import { ProductPreview } from "../ProductPreviewPage/ProductPreview";
 import { useLocation } from "react-router";
+import CartSheet from "../../global_components/Header/Cart/CartSheet";
 
 
 export const MainPage: React.FC = () => {
@@ -13,6 +14,7 @@ export const MainPage: React.FC = () => {
   return (
     <>
       <Header />
+      <CartSheet />
       <div style={{ marginTop: "10rem" }}>
         <CategoryPage category={cat || ""} subCategory={sub_cat || ""} />
       </div>
