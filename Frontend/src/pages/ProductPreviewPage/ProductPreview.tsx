@@ -123,7 +123,8 @@ export const ProductPreview: React.FC = () => {
   );
 };
 
-export const ProductCounter:React.FC<{productsAmount:number, setProductsAmount:(Dispatch<StateUpdater<number>>)}> = ({productsAmount, setProductsAmount}) => {
+export const ProductCounter:React.FC<{productsAmount:number, setProductsAmount:(func: ((value: number) => number)) => void }> = ({productsAmount, setProductsAmount}) => {
+  console.log("WOWOWOWWO: "+productsAmount)
   return (<div className={"product-preview-count"}>
     <div
       onClick={() => {
@@ -152,7 +153,7 @@ export const ProductCounter:React.FC<{productsAmount:number, setProductsAmount:(
             Number(e.currentTarget.value),
             1
           );
-          setProductsAmount(newValue);
+          setProductsAmount(()=> newValue);
           e.currentTarget.value = newValue.toString();
         }}
       />

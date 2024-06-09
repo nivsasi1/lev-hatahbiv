@@ -3,7 +3,28 @@ import { cartData, initState } from "./cart-types.tsx";
 import { Product } from "../Types/globalTypes.tsx"
 
 let initialState: initState = {
-  cartData: null,
+  cartData: [
+    {
+      product: {
+        _id: "wobbuffet",
+        category: "מכחולים ואביזרים",
+        img: "1.png",
+        name: "michol",
+        price: 20
+      },
+      howMany: 2
+    },
+    {
+      product: {
+        _id: "wobbuffet1",
+        category: "מכחולים ואביזרים",
+        img: "1.png",
+        name: "michol metoraf",
+        price: 20
+      },
+      howMany: 2
+    }
+  ],
 };
 
 interface act {
@@ -42,7 +63,7 @@ const reducer = (state: any, action: act) => {
     case "UPDATE_PRODUCTS": {
       const data = (state[action.source] as any[]).map((current) => {
         if (current.product._id === (action.value as any).product._id) {
-          return current.howMany + (action.value as any).howMany;
+          return {product: current.product, howMany: (action.value as any).howMany};
         }
         return current;
       });
@@ -54,19 +75,12 @@ const reducer = (state: any, action: act) => {
   }
 };
 
-// let initialCartData = [
-//   {
-//     product: { _id: "", name: "", price: 0, category: "", img: "" },
-//     howMany: 0,
-//   },
-// ];
-
 export const CartContext = createContext({
   ...initialState,
   addProductToCart: () => {},
-  removeProductToCart: () => {},
-  updateProduct: () => {},
-  addOrUpdate: () => {}
+  removeProductFromCart: (product: Product) => {},
+  updateProduct: (product: Product, count:number) => {},
+  addOrUpdate: (product: Product, amount: number) => {}
 });
 
 export const CartContextProvider: React.FC<React.ReactNode> = ({
@@ -84,7 +98,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
     });
   };
 //send the Product, will remove from cart
-  const removeProductToCart = (product: Product) => {
+  const removeProductFromCart = (product: Product) => {
     dispatch({
       type: "REMOVE_PRODUCT",
       source: "cartData",
@@ -93,6 +107,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
   };
 //send the Product, and how many they want to add/remove, + or - for add or remove
   const updateProduct = (product: Product, howMany: number) => {
+    console.log("product: "+product+", howMany: "+howMany)
     dispatch({
       type: "UPDATE_PRODUCTS",
       source: "cartData",
@@ -102,7 +117,8 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
 
   const addOrUpdate = (product: Product, howMany: number) => {
     if(state["cartData"].find((p: cartData)=>(p.product._id == product._id)))
-        updateProduct(product, howMany)
+        // updateProduct(product, howMany)
+      {}
     else
         addProductToCart(product, howMany)
   };
@@ -112,7 +128,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
       value={{
         ...state,
         addProductToCart,
-        removeProductToCart,
+        removeProductFromCart,
         updateProduct,
         addOrUpdate
       }}

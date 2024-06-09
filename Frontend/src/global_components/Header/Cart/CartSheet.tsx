@@ -1,56 +1,84 @@
-import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks"
+import { Dispatch, StateUpdater, useContext, useEffect, useState } from "preact/hooks"
 import { Product } from "../../../Types/globalTypes"
 import { Arrow, ProductCounter } from "../../../pages/ProductPreviewPage/ProductPreview"
 import { Link } from "react-router-dom"
+import { CartContext } from "../../../context/cart-context"
+import { useRef } from "React"
 
-const CartSheet: React.FC = () => {
-    const [products, setProducts] = useState<Array<Product> | undefined>([{
-        _id: "",
-        category: "",
-        img: "",
-        name: "wow",
-        price: 40
-    }])
-    const [amounts, setAmounts] = useState<Array<number> | undefined>()
+const CartSheet: React.FC<{ show: boolean, setShow: Dispatch<StateUpdater<boolean>> }> = ({ show, setShow }) => {
+    const [totalPrice, setTotalPrice] = useState(0)
+    const cartContext = useContext(CartContext)
+    const sheetRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
-        setAmounts(products?.map(() => 2))
-    }, [products])
+        setTotalPrice(cartContext.cartData?.reduce((sum, info) => {
+            return sum + info.product.price * info.howMany
+        }, 0) ?? 0)
+    }, [cartContext.cartData])
+
+    useEffect(() => {
+        let timer: number | null = null
+
+        if (show === true) {
+            if (sheetRef.current) {
+                sheetRef.current.style.display = "flex"
+                timer = setTimeout(() => {
+                    if (sheetRef.current) {
+                        sheetRef.current.style.transform = "translateX(0)"
+                    }
+                }, 0)
+            }
+        } else if (sheetRef.current) {
+            sheetRef.current.style.transform = "translateX(-150%)"
+            timer = setTimeout(() => {
+                if (sheetRef.current) {
+                    sheetRef.current.style.display = "none"
+                }
+            }, 1000)
+        }
+
+        return () => {
+            if (timer !== null) {
+                clearTimeout(timer)
+            }
+        }
+    }, [show])
+
+    useEffect(() => {
+        const handleClickOut: (e: MouseEvent) => void = (e) => {
+            if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
+                setShow(false)
+            }
+        }
+
+        window.addEventListener("mousedown", handleClickOut)
+
+        return () => {
+            window.removeEventListener("mousedown", handleClickOut)
+        }
+    })
 
     return (
-        <div className={"cart-sheet"}>
-            <div className={"cart-sheet-close"}>
+        <div className={"cart-sheet" + (show ? " visible" : "")} ref={sheetRef}>
+            <div className={"cart-sheet-close"} onClick={() => { setShow((previous) => !previous) }}>
                 <Arrow />
             </div>
             <div className={"cart-sheet-title"}>
-                מוצרים{ },
-                סה״כ פריטים:
-                { }
+                מוצרים&nbsp;({cartContext.cartData?.length ?? 0}),
+                סה״כ פריטים&nbsp;{cartContext.cartData?.reduce((sum, info) => sum + info.howMany, 0)}:
             </div>
             <div className={"cart-sheet-products scrollbar"}>
                 {
-                    products && products.map((product, index) => {
-                        return <ProductItem product={product} amount={amounts ? amounts![index] : 1} setAmount={(amount) => {
-                            setAmounts((value) => {
-                                let copy 
-                                if (value) {
-                                    copy = [...value]
-                                    copy[index] = amount
-                                }
-                                return copy
-                            })
-                        }} />
+                    cartContext.cartData?.map((info) => {
+                        return <ProductItem product={info.product} amount={info.howMany} setAmount={(amount) => {
+                            cartContext.updateProduct(info.product, amount)
+                        }} shouldRemove={() => { cartContext.removeProductFromCart(info.product) }} />
                     })
                 }
             </div>
             <div className={"cart-sheet-amount"}>
                 <div>סכום ביניים</div>
-                <div>{
-                    amounts ? amounts?.reduce((previous, current, index) => {
-                        console.log("INDEX: " + index)
-                        return previous + current * (products && index < products.length ? products[index].price : 1)
-                    }, 0) : 0
-                }$</div>
+                <div>{totalPrice}₪</div>
             </div>
             <Link to={"/cart"} className={"cart-sheet-link"}>לצפייה בסל</Link>
         </div>
@@ -59,20 +87,22 @@ const CartSheet: React.FC = () => {
 
 export default CartSheet
 
-export const ProductItem: React.FC<{ product: Product, amount: number, setAmount: (amount: number) => void }> = ({ product, amount, setAmount }) => {
-    const [productAmount, setProductAmount] = useState(Number(amount) || 1)
+export const ProductItem: React.FC<{
+    product: Product, amount: number, setAmount: (amount: number) => void,
+    shouldRemove?: () => void
+}> = ({ product, amount, setAmount, shouldRemove }) => {
 
-    useEffect(() => {
-        setAmount(productAmount)
-    }, [productAmount])
+    if (!product) {
+        return <></>
+    }
 
     return (
         <div class={"cart-sheet-product"}>
             <div className={"cart-sheet-product-head"}>
-                <div>{"wowowowowo"}</div>
+                <div>{product.name}</div>
                 <div className={"cart-sheet-product-counter"}>
-                    <ProductCounter productsAmount={productAmount} setProductsAmount={setProductAmount} />
-                    <div style="direction: ltr">{productAmount} x {product.price}$ = {product.price * productAmount}$</div>
+                    <ProductCounter productsAmount={amount} setProductsAmount={(calc)=>{setAmount(calc(amount))}} />
+                    <div style="direction: ltr">{amount} x {product.price}₪ = {product.price * amount}₪</div>
                 </div>
             </div>
             <div>
@@ -80,7 +110,7 @@ export const ProductItem: React.FC<{ product: Product, amount: number, setAmount
                     e.currentTarget.style.display = "none"
                 }} />
             </div>
-            <RemoveButton />
+            <RemoveButton handler={shouldRemove} />
         </div>
     )
 }

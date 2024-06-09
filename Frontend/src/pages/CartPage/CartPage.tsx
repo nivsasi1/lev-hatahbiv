@@ -3,35 +3,43 @@ import { Header } from "../../global_components/Header/Header"
 import { Arrow } from "../ProductPreviewPage/ProductPreview"
 import { ProductItem } from "../../global_components/Header/Cart/CartSheet"
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks"
-import { useRef } from "react"
+import { useRef, useContext } from "react"
+import "./CartPage.css"
 import printer from "../../assets/printer.svg"
+import { CartContext } from "../../context/cart-context"
 
-const PRODUCTS = [{
-    _id: "",
-    category: "",
-    img: "",
-    name: "wow",
-    price: 40
-}]
+const DELIVERY_FEE_LIMIT = 200;
 
 export const CartPage: React.FC = () => {
     const [deliveryType, setDeliveryType] = useState(0)
+    const cartContext = useContext(CartContext)
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    console.log("context: " + cartContext.cartData?.toString())
+
+    useEffect(() => {
+        setTotalPrice(cartContext.cartData?.reduce((sum, info) => {
+            return sum + info.product.price * info.howMany
+        }, 0) ?? 0)
+    }, [cartContext.cartData])
 
     return (<>
-        <Header />
-        <div style={"margin-top: 10em"}>
+        <Header shouldShowCartIcon={false} />
+        <div className={"page-content"}>
             <Link to={""} className={"return-button"}>
                 <span>חזור</span>
                 <Arrow />
             </Link>
+            <div className={"page-title"}>סל הקניות שלי</div>
             <div className={"cart-content"}>
                 <div className={"cart-content-title"}>
                     <div>
-                        מוצרים{ },
-                        סה״כ פריטים:
-                        { }
+                        מוצרים&nbsp;({cartContext.cartData?.length ?? 0}) ,
+                        סה״כ פריטים&nbsp;{cartContext.cartData ? cartContext.cartData?.reduce((previous, product) => {
+                            return previous + product.howMany
+                        }, 0) : 0}:
                     </div>
-                    <div className={"cart-print no-select"} onClick={()=>{window.print()}}>
+                    <div className={"cart-print no-select"} onClick={() => { window.print() }}>
                         <span>הדפס הזמנה</span>
                         <img src={printer} alt="" onError={(e) => { e.currentTarget.style.display = "none" }} />
                     </div>
@@ -39,49 +47,36 @@ export const CartPage: React.FC = () => {
                 <div className={"cart-sections"}>
                     <div className={"cart-products "}>
                         <div className={"scrollbar"}>
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
-                            <ProductItem product={PRODUCTS[0]} amount={1} setAmount={() => { }} />
+                            {cartContext.cartData && cartContext.cartData.map((info, index) => {
+                                return <ProductItem product={info.product} amount={info.howMany} setAmount={(amount) => {
+                                    console.log("Amount: " + amount)
+                                    cartContext.updateProduct(info.product, amount)
+                                }} shouldRemove={() => {
+                                    cartContext.removeProductFromCart(info.product)
+                                }} />
+                            })}
                         </div>
                     </div>
                     <div className={"cart-purchase-preview"}>
                         <div>
                             <div style={"font-size: 1.05em"}>סיכום הזמנה</div>
                             <div>שיטת איסוף / שילוח</div>
-                            <DeliveryTypeSelect selected={deliveryType} didSelect={setDeliveryType} />
+                            <DeliveryTypeSelect selected={deliveryType} didSelect={setDeliveryType} cartTotalPrice={totalPrice}/>
                             <div className={"cart-purchase-summary"}>
                                 <div>
                                     <span>סכום ביניים</span>
-                                    <span>{0}₪</span>
+                                    <span>{totalPrice}₪</span>
                                 </div>
                                 <div className={"divider"}></div>
                                 <div>
                                     <span>{DELIVERY_TYPES[deliveryType].title}</span>
-                                    <span>{DELIVERY_TYPES[deliveryType].price}₪</span>
+                                    <span>{totalPrice >= DELIVERY_FEE_LIMIT ? 0: DELIVERY_TYPES[deliveryType].price}₪</span>
                                 </div>
                             </div>
                         </div>
                         <div className={"cart-final-price"}>
                             <span>סך הכל לתשלום</span>
-                            <span>{0}₪</span>
+                            <span>{totalPrice >= DELIVERY_FEE_LIMIT ? totalPrice : totalPrice + DELIVERY_TYPES[deliveryType].price}₪</span>
                         </div>
                         <Link to={""} className={"cart-proceed-pay no-select"}>לתשלום</Link>
                     </div>
@@ -106,16 +101,18 @@ const DELIVERY_TYPES = [{
     price: 0.0
 }]
 
-const DeliveryTypeSelect: React.FC<{ selected: number, didSelect: Dispatch<StateUpdater<number>> }> = ({ selected, didSelect }) => {
+const DeliveryTypeSelect: React.FC<{ selected: number, didSelect: Dispatch<StateUpdater<number>>, cartTotalPrice: number }> = ({ selected, didSelect, cartTotalPrice }) => {
     const [isOpened, setIsOpened] = useState(false)
+    const [isFeeFree, setIsFeeFree] = useState(cartTotalPrice >= DELIVERY_FEE_LIMIT)
     const container = useRef<HTMLDivElement | null>(null)
 
     //TODO: remove delivery fee when price exceeds limit
+    useEffect(()=>{
+        setIsFeeFree(cartTotalPrice >= DELIVERY_FEE_LIMIT)
+    }, [cartTotalPrice])
 
     useEffect(() => {
-        console.log("wow!")
         const handleClickOutside: (e: MouseEvent) => void = (e) => {
-            console.log("CLICK")
             if (container.current && !container.current.contains(e.target as Node)) {
                 setIsOpened(false)
             }
@@ -126,7 +123,7 @@ const DeliveryTypeSelect: React.FC<{ selected: number, didSelect: Dispatch<State
         }
     })
     return (
-        <div className={"delivery-select no-select" + (isOpened ? " opened" : "")} ref={container} onClick={() => {
+        <div className={"delivery-select no-select" + (isOpened ? " opened " : "") + (isFeeFree ? " delivery-no-fee":" delivery-fee" )} ref={container} onClick={() => {
             setIsOpened((current) => !current)
         }}>
             <div>
@@ -134,7 +131,7 @@ const DeliveryTypeSelect: React.FC<{ selected: number, didSelect: Dispatch<State
                     {DELIVERY_TYPES[selected].title}
                 </span>
                 <span>
-                    {DELIVERY_TYPES[selected].price}₪
+                    {isFeeFree ? 0 : DELIVERY_TYPES[selected].price}₪
                 </span>
                 <Arrow rotate={isOpened ? 90 : -90} />
             </div>
@@ -143,7 +140,7 @@ const DeliveryTypeSelect: React.FC<{ selected: number, didSelect: Dispatch<State
                     DELIVERY_TYPES.map((type, index) => {
                         return <div className={"delivery-type" + (index === selected ? " selected" : "")} onClick={() => { didSelect(index) }}>
                             <span>{type.title}</span>
-                            <span>{type.price}₪</span>
+                            <span>{isFeeFree ? 0 : type.price}₪</span>
                             {type.note && <span>{type.note}</span>}
                         </div>
                     })

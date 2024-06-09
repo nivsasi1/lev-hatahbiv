@@ -1,9 +1,11 @@
-import { useReducer, useState } from "preact/hooks";
+import { useContext, useReducer, useState } from "preact/hooks";
 import { useRef } from "react";
 import { useEffect } from "preact/hooks";
 // import CartPng from "../../assets/1.png";
 import { Arrow } from "../../pages/ProductPreviewPage/ProductPreview";
 import { Link } from "react-router-dom";
+import { TEST_VALUES } from "../../pages/Tests/test";
+import { CartContext } from "../../context/cart-context";
 
 type Product = {
   _id: string;
@@ -28,38 +30,39 @@ const CategoryPage: React.FC<{
 }> = ({ category, subCategory }) => {
   const [title, setTitle] = useState<string>(category);
   const [currentSection, setCurrentSection] = useState<number>(0);
-  //   const [currentSubSection, setSubCurrentSection] = useState<number>(0);
   const [sections, setSections] = useState<Array<string> | undefined>();
   const [products, setProducts] = useState<Array<Product | any>>();
   const [tree, setTree] = useState<Tree | undefined | any>();
 
   const fetchTreeData = async () => {
+    return {data: TEST_VALUES.tree}
+    //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
-    });
+    }).then(res => res.json());
     return treeData;
   };
   const fetchProductsData = async () => {
+    return {data: TEST_VALUES.products}
+    //TODO: revert...
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,
       { method: "GET" }
-    );
+    ).then(res => res.json())
     return productsData;
   };
   const fetchData = async () => {
-    const [treeData, productsData] = await Promise.all([
+    const [treeJson, productsJson] = await Promise.all([
       fetchTreeData(),
       fetchProductsData(),
     ]);
-    return { treeData, productsData };
+    return { treeJson, productsJson };
   };
 
   useEffect(() => {
     const fetchDataAndSetState = async () => {
-      const { treeData, productsData } = await fetchData();
-      const treeJson = await treeData.json();
+      const { treeJson, productsJson } = await fetchData();
       setTree(treeJson.data);
-      const productsJson = await productsData.json();
       setProducts(productsJson.data);
       setSections(treeJson.data.subs?.map((sub: any) => sub.name));
       if (subCategory != "0" && subCategory != undefined) {
@@ -224,6 +227,7 @@ const ProductsViewFiltered: React.FC<{
     Array<Product> | undefined
   >();
   const [loadedAmount, setLoadedAmount] = useState(5);
+  const cartContext = useContext(CartContext)
 
   useEffect(() => {
     setAvailableProducts(products?.filter(filter).map((p) => p));
@@ -243,7 +247,9 @@ const ProductsViewFiltered: React.FC<{
                 imgSrc={p.img}
                 price={p.price}
                 isAdded={false}
-                onClick={() => {}}
+                onClick={() => {
+                  cartContext.addOrUpdate(p, 1)
+                }}
               />
             </>
           );
