@@ -16,8 +16,6 @@ const CartSheet: React.FC<{ show: boolean, setShow: Dispatch<StateUpdater<boolea
         }, 0) ?? 0)
     }, [cartContext.cartData])
 
-    //const timer = useRef<number | null>(null)
-
     useEffect(() => {
         let timer: number | null = null
 
@@ -93,22 +91,18 @@ export const ProductItem: React.FC<{
     product: Product, amount: number, setAmount: (amount: number) => void,
     shouldRemove?: () => void
 }> = ({ product, amount, setAmount, shouldRemove }) => {
-    const [productAmount, setProductAmount] = useState(Number(amount) || 1)
+
     if (!product) {
         return <></>
     }
-
-    useEffect(() => {
-        setAmount(productAmount)
-    }, [productAmount])
 
     return (
         <div class={"cart-sheet-product"}>
             <div className={"cart-sheet-product-head"}>
                 <div>{product.name}</div>
                 <div className={"cart-sheet-product-counter"}>
-                    <ProductCounter productsAmount={productAmount} setProductsAmount={setProductAmount} />
-                    <div style="direction: ltr">{productAmount} x {product.price}₪ = {product.price * productAmount}₪</div>
+                    <ProductCounter productsAmount={amount} setProductsAmount={(calc)=>{setAmount(calc(amount))}} />
+                    <div style="direction: ltr">{amount} x {product.price}₪ = {product.price * amount}₪</div>
                 </div>
             </div>
             <div>

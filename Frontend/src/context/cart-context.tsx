@@ -75,19 +75,12 @@ const reducer = (state: any, action: act) => {
   }
 };
 
-// let initialCartData = [
-//   {
-//     product: { _id: "", name: "", price: 0, category: "", img: "" },
-//     howMany: 0,
-//   },
-// ];
-
 export const CartContext = createContext({
   ...initialState,
   addProductToCart: () => {},
   removeProductFromCart: (product: Product) => {},
   updateProduct: (product: Product, count:number) => {},
-  addOrUpdate: () => {}
+  addOrUpdate: (product: Product, amount: number) => {}
 });
 
 export const CartContextProvider: React.FC<React.ReactNode> = ({
@@ -124,7 +117,8 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
 
   const addOrUpdate = (product: Product, howMany: number) => {
     if(state["cartData"].find((p: cartData)=>(p.product._id == product._id)))
-        updateProduct(product, howMany)
+        // updateProduct(product, howMany)
+      {}
     else
         addProductToCart(product, howMany)
   };
