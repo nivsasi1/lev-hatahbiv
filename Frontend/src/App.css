@@ -979,12 +979,11 @@ div.sections-menu-item:nth-last-child(1) {
 }
 
 .cart-sheet {
-  transform: translateX(-100%);
+  transform: translateX(-150%);
   will-change: transform;
   transition: transform 0.5s ease;
   display: none;
 }
-
 /* .cart-sheet.visible {
   transform: translate(0);
 } */

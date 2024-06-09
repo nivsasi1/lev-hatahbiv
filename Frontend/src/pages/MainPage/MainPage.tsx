@@ -4,8 +4,7 @@ import { ProductPreview } from "../ProductPreviewPage/ProductPreview";
 import { useLocation } from "react-router";
 import CartSheet from "../../global_components/Header/Cart/CartSheet";
 import { useState } from "preact/hooks";
-
-
+import { Footer } from "../../global_components/Footer/Footer";
 
 export const MainPage: React.FC = () => {
   const location = useLocation();
@@ -21,6 +20,7 @@ export const MainPage: React.FC = () => {
       <div style={{ marginTop: "10rem" }}>
         <CategoryPage category={cat || ""} subCategory={sub_cat || ""} />
       </div>
+      <Footer />
     </>
   );
 };

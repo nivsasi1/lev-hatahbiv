@@ -29,7 +29,7 @@ const CartSheet: React.FC<{ show: boolean, setShow: Dispatch<StateUpdater<boolea
                 }, 0)
             }
         } else if (sheetRef.current) {
-            sheetRef.current.style.transform = "translateX(-100%)"
+            sheetRef.current.style.transform = "translateX(-150%)"
             timer = setTimeout(() => {
                 if (sheetRef.current) {
                     sheetRef.current.style.display = "none"
