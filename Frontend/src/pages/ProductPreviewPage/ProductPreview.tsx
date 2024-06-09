@@ -5,9 +5,9 @@ import { Product } from "../../types";
 import { Header } from "../../global_components/Header/Header";
 import { StateUpdater } from "preact/hooks";
 
-export const Arrow: React.FC = () => {
+export const Arrow: React.FC<{rotate?: number}> = ({rotate}) => {
   return (
-    <svg viewBox={"10 0 70 100"} className={"arrow"}>
+    <svg viewBox={"0 0 100 100"} className={"arrow"} style={`transform: rotate(${Number(rotate) || 0}deg)`}>
       <path
         d={"M70,17.5 L30,50 L70,82.5"}
         stroke={"#000000"}

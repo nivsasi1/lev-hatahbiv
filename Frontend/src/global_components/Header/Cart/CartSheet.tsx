@@ -1,10 +1,7 @@
-import { useEffect, useState } from "preact/hooks"
+import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks"
 import { Product } from "../../../Types/globalTypes"
 import { Arrow, ProductCounter } from "../../../pages/ProductPreviewPage/ProductPreview"
 import { Link } from "react-router-dom"
-
-const amountHook = ()=>{
-}
 
 const CartSheet: React.FC = () => {
     const [products, setProducts] = useState<Array<Product> | undefined>([{
@@ -16,14 +13,14 @@ const CartSheet: React.FC = () => {
     }])
     const [amounts, setAmounts] = useState<Array<number> | undefined>()
 
-    useEffect(()=>{
+    useEffect(() => {
         setAmounts(products?.map(() => 2))
     }, [products])
 
     return (
         <div className={"cart-sheet"}>
             <div className={"cart-sheet-close"}>
-                <Arrow/>
+                <Arrow />
             </div>
             <div className={"cart-sheet-title"}>
                 מוצרים{ },
@@ -31,13 +28,26 @@ const CartSheet: React.FC = () => {
                 { }
             </div>
             <div className={"cart-sheet-products scrollbar"}>
-                <ProductItem amount={1} />
+                {
+                    products && products.map((product, index) => {
+                        return <ProductItem product={product} amount={amounts ? amounts![index] : 1} setAmount={(amount) => {
+                            setAmounts((value) => {
+                                let copy 
+                                if (value) {
+                                    copy = [...value]
+                                    copy[index] = amount
+                                }
+                                return copy
+                            })
+                        }} />
+                    })
+                }
             </div>
             <div className={"cart-sheet-amount"}>
                 <div>סכום ביניים</div>
                 <div>{
-                    amounts ? amounts?.reduce((previous, current, index)=>{
-                        console.log("INDEX: "+index)
+                    amounts ? amounts?.reduce((previous, current, index) => {
+                        console.log("INDEX: " + index)
                         return previous + current * (products && index < products.length ? products[index].price : 1)
                     }, 0) : 0
                 }$</div>
@@ -49,15 +59,20 @@ const CartSheet: React.FC = () => {
 
 export default CartSheet
 
-const ProductItem: React.FC<{ product: Product, amount: number }> = ({ product, amount }) => {
-    const [productsAmount, setProductsAmount] = useState<number>(amount)
+export const ProductItem: React.FC<{ product: Product, amount: number, setAmount: (amount: number) => void }> = ({ product, amount, setAmount }) => {
+    const [productAmount, setProductAmount] = useState(Number(amount) || 1)
+
+    useEffect(() => {
+        setAmount(productAmount)
+    }, [productAmount])
+
     return (
         <div class={"cart-sheet-product"}>
             <div className={"cart-sheet-product-head"}>
                 <div>{"wowowowowo"}</div>
                 <div className={"cart-sheet-product-counter"}>
-                    <ProductCounter productsAmount={productsAmount} setProductsAmount={setProductsAmount} />
-                    <div style="direction: ltr">{25}$ x {2} = {50}$</div>
+                    <ProductCounter productsAmount={productAmount} setProductsAmount={setProductAmount} />
+                    <div style="direction: ltr">{productAmount} x {product.price}$ = {product.price * productAmount}$</div>
                 </div>
             </div>
             <div>
@@ -70,10 +85,10 @@ const ProductItem: React.FC<{ product: Product, amount: number }> = ({ product, 
     )
 }
 
-const RemoveButton: React.FC<{ handler?: () => void }> = ({handler}) => {
+const RemoveButton: React.FC<{ handler?: () => void }> = ({ handler }) => {
     return (
-        <div className={"cart-sheet-remove-item"} onClick={()=>{
-            if(handler){
+        <div className={"cart-sheet-remove-item"} onClick={() => {
+            if (handler) {
                 handler()
             }
         }}>
