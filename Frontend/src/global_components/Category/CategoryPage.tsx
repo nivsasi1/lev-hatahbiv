@@ -28,18 +28,19 @@ const CategoryPage: React.FC<{
 }> = ({ category, subCategory }) => {
   const [title, setTitle] = useState<string>(category);
   const [currentSection, setCurrentSection] = useState<number>(0);
-  //   const [currentSubSection, setSubCurrentSection] = useState<number>(0);
   const [sections, setSections] = useState<Array<string> | undefined>();
   const [products, setProducts] = useState<Array<Product | any>>();
   const [tree, setTree] = useState<Tree | undefined | any>();
 
   const fetchTreeData = async () => {
+    //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
     });
     return treeData;
   };
   const fetchProductsData = async () => {
+    //TODO: revert...
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,
       { method: "GET" }

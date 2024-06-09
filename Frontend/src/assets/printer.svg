@@ -2,6 +2,6 @@
 <path d="M22.25 24H25C27.2091 24 29 22.2091 29 20V12C29 9.79086 27.2091 8 25 8H6C3.79086 8 2 9.79086 2 12V20C2 22.2091 3.79086 24 6 24H8.75" stroke="black" stroke-width="2.75"/>
 <path d="M21.927 8.36585L21.927 4C21.927 2.89543 21.0316 2 19.927 2L10.488 2C9.38341 2 8.48798 2.89543 8.48798 4L8.48798 8.36585" stroke="black" stroke-width="2.75"/>
 <rect x="7.625" y="18.625" width="15.75" height="11.75" rx="2.375" stroke="black" stroke-width="2.75"/>
-<path d="M11 23H17" stroke="black" stroke-width="2" stroke-linecap="round"/>
-<path d="M11 26.25L19 26.25" stroke="black" stroke-width="2" stroke-linecap="round"/>
+<path d="M11.5 23H17.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
+<path d="M11.5 26.25L19.5 26.25" stroke="black" stroke-width="2" stroke-linecap="round"/>
 </svg>
