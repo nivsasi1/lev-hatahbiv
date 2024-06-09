@@ -1,30 +1,9 @@
 import { createContext, useEffect, useState, useReducer } from "react";
 import { cartData, initState } from "./cart-types.tsx";
-import { Product } from "../Types/globalTypes.tsx"
+import { Product } from "../Types/globalTypes.tsx";
 
 let initialState: initState = {
-  cartData: [
-    {
-      product: {
-        _id: "wobbuffet",
-        category: "מכחולים ואביזרים",
-        img: "1.png",
-        name: "michol",
-        price: 20
-      },
-      howMany: 2
-    },
-    {
-      product: {
-        _id: "wobbuffet1",
-        category: "מכחולים ואביזרים",
-        img: "1.png",
-        name: "michol metoraf",
-        price: 20
-      },
-      howMany: 2
-    }
-  ],
+  cartData: [],
 };
 
 interface act {
@@ -61,12 +40,30 @@ const reducer = (state: any, action: act) => {
     }
 
     case "UPDATE_PRODUCTS": {
-      const data = (state[action.source] as any[]).map((current) => {
+      let data;
+      data = (state[action.source] as any[]).map((current) => {
         if (current.product._id === (action.value as any).product._id) {
-          return {product: current.product, howMany: (action.value as any).howMany};
+          return {
+            product: current.product,
+            howMany: (action.value as any).howMany,
+          };
         }
         return current;
       });
+      if (
+        !state[action.source].find(
+          (current: any) =>
+            current.product._id === (action.value as any).product._id
+        )
+      ) {
+        data = [
+          {
+            product: (action.value as any).product,
+            howMany: (action.value as any).howMany,
+          },
+          ...(state[action.source] as any[]),
+        ];
+      }
       return {
         ...state,
         [action.source]: data,
@@ -79,8 +76,8 @@ export const CartContext = createContext({
   ...initialState,
   addProductToCart: () => {},
   removeProductFromCart: (product: Product) => {},
-  updateProduct: (product: Product, count:number) => {},
-  addOrUpdate: (product: Product, amount: number) => {}
+  updateProduct: (product: Product, count: number) => {},
+  addOrUpdate: (product: Product, amount: number) => {},
 });
 
 export const CartContextProvider: React.FC<React.ReactNode> = ({
@@ -88,8 +85,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-
-//send the Product, if the add more than one send how many
+  //send the Product, if the add more than one send how many
   const addProductToCart = (product: Product, howMany: number) => {
     dispatch({
       type: "ADD_PRODUCT",
@@ -97,7 +93,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
       value: { product, howMany },
     });
   };
-//send the Product, will remove from cart
+  //send the Product, will remove from cart
   const removeProductFromCart = (product: Product) => {
     dispatch({
       type: "REMOVE_PRODUCT",
@@ -105,9 +101,8 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
       value: product._id,
     });
   };
-//send the Product, and how many they want to add/remove, + or - for add or remove
+  //send the Product, and how many they want to add/remove, + or - for add or remove
   const updateProduct = (product: Product, howMany: number) => {
-    console.log("product: "+product+", howMany: "+howMany)
     dispatch({
       type: "UPDATE_PRODUCTS",
       source: "cartData",
@@ -116,11 +111,9 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
   };
 
   const addOrUpdate = (product: Product, howMany: number) => {
-    if(state["cartData"].find((p: cartData)=>(p.product._id == product._id)))
-        // updateProduct(product, howMany)
-      {}
-    else
-        addProductToCart(product, howMany)
+    if (state["cartData"].find((p: cartData) => p.product._id == product._id)) {
+      // updateProduct(product, howMany)
+    } else addProductToCart(product, howMany);
   };
 
   return (
@@ -130,7 +123,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
         addProductToCart,
         removeProductFromCart,
         updateProduct,
-        addOrUpdate
+        addOrUpdate,
       }}
     >
       {children}

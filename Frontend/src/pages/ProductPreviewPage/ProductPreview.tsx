@@ -3,11 +3,16 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Product } from "../../types";
 import { Header } from "../../global_components/Header/Header";
-import { StateUpdater } from "preact/hooks";
+import { StateUpdater, useContext } from "preact/hooks";
+import { CartContext } from "../../context/cart-context";
 
-export const Arrow: React.FC<{rotate?: number}> = ({rotate}) => {
+export const Arrow: React.FC<{ rotate?: number }> = ({ rotate }) => {
   return (
-    <svg viewBox={"0 0 100 100"} className={"arrow"} style={`transform: rotate(${Number(rotate) || 0}deg)`}>
+    <svg
+      viewBox={"0 0 100 100"}
+      className={"arrow"}
+      style={`transform: rotate(${Number(rotate) || 0}deg)`}
+    >
       <path
         d={"M70,17.5 L30,50 L70,82.5"}
         stroke={"#000000"}
@@ -24,6 +29,9 @@ export const ProductPreview: React.FC = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product>();
   const [link, setLink] = useState<string>("/");
+  const { removeProductFromCart, updateProduct, cartData } =
+    useContext(CartContext);
+
   useEffect(() => {
     // Fetch product data
     fetch(`http://localhost:5000/product/${id}`, { method: "GET" })
@@ -49,7 +57,6 @@ export const ProductPreview: React.FC = () => {
         });
       });
   }, [id]);
-
   return (
     <>
       <Header />
@@ -102,8 +109,39 @@ export const ProductPreview: React.FC = () => {
                   </div>
                 </div>
                 <div className={"product-preview-buttons"}>
-                  <div class={"product-preview-add"}>הוספה לסל</div>
-                  <ProductCounter productsAmount={productsAmount} setProductsAmount={setProductsAmount}/>
+                  {/* TODO: make this bottum sexier */}
+                  {cartData &&
+                  cartData.find((info) => info.product._id === product._id) ? (
+                    <div
+                      className={"product-preview-add"}
+                      onClick={() => {
+                        removeProductFromCart(product);
+                      }}
+                    >
+                      {cartData &&
+                      cartData.find((info) => info.product._id === product._id)
+                        ? "הסרת מוצר"
+                        : ""}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                  <div
+                    className={"product-preview-add"}
+                    onClick={() => {
+                      updateProduct(product, productsAmount);
+                    }}
+                  >
+                    {cartData &&
+                    cartData.find((info) => info.product._id === product._id)
+                      ? "עידכון הסל"
+                      : "הוספה לסל"}
+                  </div>
+                  <ProductCounter
+                    productsAmount={productsAmount}
+                    setProductsAmount={setProductsAmount}
+                    shouldRemove={() => {}}
+                  />
                   <div className={"product-preview-price"}>
                     {product.price}₪
                   </div>
@@ -123,56 +161,57 @@ export const ProductPreview: React.FC = () => {
   );
 };
 
-export const ProductCounter:React.FC<{productsAmount:number, setProductsAmount:(func: ((value: number) => number)) => void }> = ({productsAmount, setProductsAmount}) => {
-  console.log("WOWOWOWWO: "+productsAmount)
-  return (<div className={"product-preview-count"}>
-    <div
-      onClick={() => {
-        setProductsAmount((amount) => {
-          return Math.max(1, amount - 1);
-        });
-      }}
-    >
-      <svg viewBox={"0 0 100 100"}>
-        <path
-          d="M22,50 h56"
-          stroke="#000"
-          stroke-width={"10"}
-        ></path>
-      </svg>
-    </div>
-    <div>
-      <input
-        type="number"
-        value={productsAmount}
-        onInput={(e) => {
-          console.log(
-            Math.max(Number(e.currentTarget.value), 1)
-          );
-          let newValue: number = Math.max(
-            Number(e.currentTarget.value),
-            1
-          );
-          setProductsAmount(()=> newValue);
-          e.currentTarget.value = newValue.toString();
+export const ProductCounter: React.FC<{
+  productsAmount: number;
+  setProductsAmount: (func: (value: number) => number) => void;
+  shouldRemove: () => void;
+}> = ({ productsAmount, setProductsAmount, shouldRemove }) => {
+  console.log("WOWOWOWWO: " + productsAmount);
+  return (
+    <div className={"product-preview-count"}>
+      <div
+        onClick={() => {
+          if (productsAmount === 1) {
+            //add popup if sure u want to remove, yes -> shouldRemove, no - return
+            shouldRemove();
+            return;
+          }
+          setProductsAmount((amount) => {
+            return Math.max(1, amount - 1);
+          });
         }}
-      />
+      >
+        <svg viewBox={"0 0 100 100"}>
+          <path d="M22,50 h56" stroke="#000" stroke-width={"10"}></path>
+        </svg>
+      </div>
+      <div>
+        <input
+          type="number"
+          value={productsAmount}
+          onInput={(e) => {
+            console.log(Math.max(Number(e.currentTarget.value), 1));
+            let newValue: number = Math.max(Number(e.currentTarget.value), 1);
+            setProductsAmount(() => newValue);
+            e.currentTarget.value = newValue.toString();
+          }}
+        />
+      </div>
+      <div
+        onClick={() => {
+          setProductsAmount((amount) => {
+            return amount + 1;
+          });
+        }}
+      >
+        <svg viewBox={"0 0 100 100"}>
+          <path
+            d="M20,50 h60 M50,20 v60"
+            stroke="#000"
+            stroke-width={"10"}
+          ></path>
+        </svg>
+      </div>
     </div>
-    <div
-      onClick={() => {
-        setProductsAmount((amount) => {
-          return amount + 1;
-        });
-      }}
-    >
-      <svg viewBox={"0 0 100 100"}>
-        <path
-          d="M20,50 h60 M50,20 v60"
-          stroke="#000"
-          stroke-width={"10"}
-        ></path>
-      </svg>
-    </div>
-  </div>
-  )
-}
+  );
+};

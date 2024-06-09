@@ -5,7 +5,6 @@ export const Cart: React.FC<{amount: number, setShowCartSheet?: Dispatch<StateUp
   return (
     <div className={"bag"} onClick={
           ()=>{
-            console.log("LOL!")
             if(setShowCartSheet){
               setShowCartSheet((previous) => !previous)
             }
