@@ -260,6 +260,10 @@
         display: none;
     }
 
+    footer {
+        display: none;
+    }
+
     .page-content {
         margin-top: 1em;
     }
