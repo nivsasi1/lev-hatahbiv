@@ -32,6 +32,7 @@ body {
 }
 
 .page-content {
+  min-height: 100vh;
   margin-top: 10rem;
 }
 
@@ -394,6 +395,7 @@ div.sections-menu-item:nth-last-child(1) {
 
 .category-page {
   direction: rtl;
+  min-height: 100vh;
 }
 
 .category-title {
@@ -615,6 +617,7 @@ div.sections-menu-item:nth-last-child(1) {
   font-size: 1em;
   /* background: red; */
   height: 100%;
+  padding-left: 1em;
   /* max-height: calc(40vh - 4rem); */
   overflow-y: auto;
   position: relative;

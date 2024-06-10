@@ -1,0 +1,61 @@
+.alert-view {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0000005c;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+    text-align: center;
+    will-change: -webkit-backdrop-filter, backdrop-filter;
+    animation: alertViewAppear 1s ease forwards;
+    font-weight: 500;
+}
+
+@keyframes alertViewAppear {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+    }
+}
+
+.alert-view>div {
+    background: #fff;
+    padding: 1.25em;
+    border-radius: 0.75em;
+}
+
+.alert-view-title {
+    margin: 1em 0.5em;
+}
+
+.alert-view-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1.5em 0 0 0;
+}
+
+.alert-view-buttons>div {
+    padding: 0.25em 1em;
+    border-radius: 1.5em;
+    cursor: pointer;
+}
+
+.alert-view-buttons>div:first-child {
+    margin-left: 0.5em;
+    border: 0.2em solid black;
+}

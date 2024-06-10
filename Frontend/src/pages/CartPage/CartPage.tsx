@@ -7,6 +7,7 @@ import { useRef, useContext } from "react"
 import "./CartPage.css"
 import printer from "../../assets/printer.svg"
 import { CartContext } from "../../context/cart-context"
+import { Footer } from "../../global_components/Footer/Footer"
 
 const DELIVERY_FEE_LIMIT = 200;
 
@@ -26,7 +27,7 @@ export const CartPage: React.FC = () => {
     return (<>
         <Header shouldShowCartIcon={false} />
         <div className={"page-content"}>
-            <Link to={""} className={"return-button"}>
+            <Link to={""} className={"return-button"} onClick={()=>{window.history.back()}}>
                 <span>חזור</span>
                 <Arrow />
             </Link>
@@ -83,6 +84,7 @@ export const CartPage: React.FC = () => {
                 </div>
             </div>
         </div>
+        <Footer />
     </>)
 }
 

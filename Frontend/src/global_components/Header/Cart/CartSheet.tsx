@@ -7,6 +7,7 @@ import {
 } from "preact/hooks";
 import { Product } from "../../../Types/globalTypes";
 import {
+  AlertView,
   Arrow,
   ProductCounter,
 } from "../../../pages/ProductPreviewPage/ProductPreview";
@@ -21,6 +22,8 @@ const CartSheet: React.FC<{
   const [totalPrice, setTotalPrice] = useState(0);
   const cartContext = useContext(CartContext);
   const sheetRef = useRef<HTMLDivElement | null>(null);
+  const [showAlertView, setShowAlertView] = useState(false)
+  const alertViewFullFill = useRef<() => void | undefined>()
 
   useEffect(() => {
     setTotalPrice(
@@ -45,7 +48,7 @@ const CartSheet: React.FC<{
         }, 0);
       }
     } else if (sheetRef.current) {
-      sheetRef.current.style.transform = "translateX(-150%)";
+      sheetRef.current.style.transform = "translateX(-25em)";
       timer = setTimeout(() => {
         if (sheetRef.current) {
           sheetRef.current.style.display = "none";
@@ -61,9 +64,20 @@ const CartSheet: React.FC<{
   }, [show]);
 
   useEffect(() => {
-    const handleClickOut: (e: MouseEvent) => void = (e) => {
+    const handleClickOut: (e: Event) => void = (e) => {
       if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
-        setShow(false);
+        let alertView = document.querySelector(".alert-view")
+        console.log(alertView)
+        console.log("target: " + e.target)
+        if (e.target.className.includes("alert-view")) {
+        }
+        else if (alertView) {
+          if (!alertView.contains(e.target as Node)) {
+            setShow(false)
+          }
+        } else {
+          setShow(false);
+        }
       }
     };
 
@@ -75,43 +89,50 @@ const CartSheet: React.FC<{
   });
 
   return (
-    <div className={"cart-sheet" + (show ? " visible" : "")} ref={sheetRef}>
-      <div
-        className={"cart-sheet-close"}
-        onClick={() => {
-          setShow((previous) => !previous);
-        }}
-      >
-        <Arrow />
+    <>
+      {showAlertView && <AlertView message="המוצר יוסר מעגלת הקנייה" onReject={() => { setShowAlertView(false) }} onFullFill={alertViewFullFill.current} />}
+      <div className={"cart-sheet" + (show ? " visible" : "")} ref={sheetRef}>
+        <div
+          className={"cart-sheet-close"}
+          onClick={() => {
+            setShow((previous) => !previous);
+          }}
+        >
+          <Arrow />
+        </div>
+        <div className={"cart-sheet-title"}>
+          מוצרים&nbsp;({cartContext.cartData?.length ?? 0}), סה״כ פריטים&nbsp;
+          {cartContext.cartData?.reduce((sum, info) => sum + info.howMany, 0)}:
+        </div>
+        <div className={"cart-sheet-products scrollbar"}>
+          {cartContext.cartData?.map((info) => {
+            return (
+              <ProductItem
+                product={info.product}
+                amount={info.howMany}
+                setAmount={(amount) => {
+                  cartContext.updateProduct(info.product, amount);
+                }}
+                shouldRemove={() => {
+                  alertViewFullFill.current = () => {
+                    cartContext.removeProductFromCart(info.product);
+                    setShowAlertView(false)
+                  }
+                  setShowAlertView(true)
+                }}
+              />
+            );
+          })}
+        </div>
+        <div className={"cart-sheet-amount"}>
+          <div>סכום ביניים</div>
+          <div>{totalPrice}₪</div>
+        </div>
+        <Link to={"/cart"} className={"cart-sheet-link"}>
+          לצפייה בסל
+        </Link>
       </div>
-      <div className={"cart-sheet-title"}>
-        מוצרים&nbsp;({cartContext.cartData?.length ?? 0}), סה״כ פריטים&nbsp;
-        {cartContext.cartData?.reduce((sum, info) => sum + info.howMany, 0)}:
-      </div>
-      <div className={"cart-sheet-products scrollbar"}>
-        {cartContext.cartData?.map((info) => {
-          return (
-            <ProductItem
-              product={info.product}
-              amount={info.howMany}
-              setAmount={(amount) => {
-                cartContext.updateProduct(info.product, amount);
-              }}
-              shouldRemove={() => {
-                cartContext.removeProductFromCart(info.product);
-              }}
-            />
-          );
-        })}
-      </div>
-      <div className={"cart-sheet-amount"}>
-        <div>סכום ביניים</div>
-        <div>{totalPrice}₪</div>
-      </div>
-      <Link to={"/cart"} className={"cart-sheet-link"}>
-        לצפייה בסל
-      </Link>
-    </div>
+    </>
   );
 };
 

@@ -5,6 +5,9 @@ import { Product } from "../../types";
 import { Header } from "../../global_components/Header/Header";
 import { StateUpdater, useContext } from "preact/hooks";
 import { CartContext } from "../../context/cart-context";
+import CartSheet from "../../global_components/Header/Cart/CartSheet";
+import "./ProductPreview.css"
+import { Footer } from "../../global_components/Footer/Footer";
 
 export const Arrow: React.FC<{ rotate?: number }> = ({ rotate }) => {
   return (
@@ -29,8 +32,7 @@ export const ProductPreview: React.FC = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product>();
   const [link, setLink] = useState<string>("/");
-  const { removeProductFromCart, updateProduct, cartData } =
-    useContext(CartContext);
+  const { removeProductFromCart, updateProduct, cartData } = useContext(CartContext);
 
   useEffect(() => {
     // Fetch product data
@@ -57,12 +59,28 @@ export const ProductPreview: React.FC = () => {
         });
       });
   }, [id]);
+
+  const [showCart, setShowCart] = useState(false)
+  const [showAlertView, setShowAlertView] = useState(false)
+  const alertViewFullFill = useRef<()=>void | undefined>()
+  const [isInCart, setIsInCart] = useState(false)
+
+  useEffect(()=>{
+    let isIn = false
+    if(cartData && cartData.find((info) => info.product._id === product._id)){
+      isIn = true
+    }
+    setIsInCart(isIn) 
+  }, [cartData])
+
   return (
     <>
-      <Header />
+      {showAlertView && <AlertView message="האם אתה מעוניין להסיר את המוצר?" onFullFill={alertViewFullFill.current} onReject={() => { setShowAlertView(false) }} />}
+      <Header setShowCartSheet={setShowCart} />
+      <CartSheet show={showCart} setShow={setShowCart} />
       {product && (
         <>
-          <div style={{ marginTop: "10rem" }}>
+          <div style={{ marginTop: "10rem", minHeight: "100vh" }}>
             <Link to={link} className={"return-button"}>
               <span>חזור</span>
               <Arrow />
@@ -83,15 +101,11 @@ export const ProductPreview: React.FC = () => {
             <div className={"product-preview"}>
               <div className={"product-preview-img"}>
                 <img
-                  onError={() => {
-                    if (img.current) {
-                      img.current!.style.display = "none";
-                    }
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
                   }}
-                  onLoad={() => {
-                    if (img.current) {
-                      img.current!.style.display = "block";
-                    }
+                  onLoad={(e) => {
+                    e.currentTarget.style.display = "block";
                   }}
                   ref={img}
                   src={"/images/" + product.img}
@@ -109,17 +123,17 @@ export const ProductPreview: React.FC = () => {
                   </div>
                 </div>
                 <div className={"product-preview-buttons"}>
-                  {/* TODO: make this bottum sexier */}
-                  {cartData &&
-                  cartData.find((info) => info.product._id === product._id) ? (
+                  {/* TODO: make this bottom sexier */}
+                  {isInCart ? (
                     <div
                       className={"product-preview-add"}
+                      style={"margin-right: 1em"}
                       onClick={() => {
                         removeProductFromCart(product);
                       }}
                     >
                       {cartData &&
-                      cartData.find((info) => info.product._id === product._id)
+                        cartData.find((info) => info.product._id === product._id)
                         ? "הסרת מוצר"
                         : ""}
                     </div>
@@ -133,14 +147,23 @@ export const ProductPreview: React.FC = () => {
                     }}
                   >
                     {cartData &&
-                    cartData.find((info) => info.product._id === product._id)
-                      ? "עידכון הסל"
+                      cartData.find((info) => info.product._id === product._id)
+                      ? "עידכון כמות"
                       : "הוספה לסל"}
                   </div>
                   <ProductCounter
                     productsAmount={productsAmount}
                     setProductsAmount={setProductsAmount}
-                    shouldRemove={() => {}}
+                    shouldRemove={() => {
+                      if (isInCart) {
+                        alertViewFullFill.current = function() {
+                          console.log("dot")
+                          removeProductFromCart(product)
+                          setShowAlertView(false)
+                        }
+                        setShowAlertView(true)
+                      }
+                    }}
                   />
                   <div className={"product-preview-price"}>
                     {product.price}₪
@@ -153,10 +176,11 @@ export const ProductPreview: React.FC = () => {
       )}
 
       {!product && (
-        <div style={{ marginTop: "10rem" }}>
+        <div style={{ marginTop: "10rem", minHeight: "100vh"}}>
           <div>טוען...</div>
         </div>
       )}
+      <Footer />
     </>
   );
 };
@@ -166,52 +190,79 @@ export const ProductCounter: React.FC<{
   setProductsAmount: (func: (value: number) => number) => void;
   shouldRemove: () => void;
 }> = ({ productsAmount, setProductsAmount, shouldRemove }) => {
-  console.log("WOWOWOWWO: " + productsAmount);
   return (
-    <div className={"product-preview-count"}>
-      <div
-        onClick={() => {
-          if (productsAmount === 1) {
-            //add popup if sure u want to remove, yes -> shouldRemove, no - return
-            shouldRemove();
-            return;
-          }
-          setProductsAmount((amount) => {
-            return Math.max(1, amount - 1);
-          });
-        }}
-      >
-        <svg viewBox={"0 0 100 100"}>
-          <path d="M22,50 h56" stroke="#000" stroke-width={"10"}></path>
-        </svg>
-      </div>
-      <div>
-        <input
-          type="number"
-          value={productsAmount}
-          onInput={(e) => {
-            console.log(Math.max(Number(e.currentTarget.value), 1));
-            let newValue: number = Math.max(Number(e.currentTarget.value), 1);
-            setProductsAmount(() => newValue);
-            e.currentTarget.value = newValue.toString();
+    <>
+      <div className={"product-preview-count"}>
+        <div
+          onClick={() => {
+            if (productsAmount === 1) {
+              shouldRemove();
+              return;
+            }
+            setProductsAmount((amount) => {
+              return Math.max(1, amount - 1);
+            });
           }}
-        />
+        >
+          <svg viewBox={"0 0 100 100"}>
+            <path d="M22,50 h56" stroke="#000" stroke-width={"10"}></path>
+          </svg>
+        </div>
+        <div>
+          <input
+            type="number"
+            value={productsAmount}
+            onInput={(e) => {
+              console.log(Math.max(Number(e.currentTarget.value), 1));
+              let newValue: number = Math.max(Number(e.currentTarget.value), 1);
+              setProductsAmount(() => newValue);
+              e.currentTarget.value = newValue.toString();
+            }}
+          />
+        </div>
+        <div
+          onClick={() => {
+            setProductsAmount((amount) => {
+              return amount + 1;
+            });
+          }}
+        >
+          <svg viewBox={"0 0 100 100"}>
+            <path
+              d="M20,50 h60 M50,20 v60"
+              stroke="#000"
+              stroke-width={"10"}
+            ></path>
+          </svg>
+        </div>
       </div>
-      <div
-        onClick={() => {
-          setProductsAmount((amount) => {
-            return amount + 1;
-          });
-        }}
-      >
-        <svg viewBox={"0 0 100 100"}>
-          <path
-            d="M20,50 h60 M50,20 v60"
-            stroke="#000"
-            stroke-width={"10"}
-          ></path>
-        </svg>
-      </div>
-    </div>
+    </>
   );
 };
+
+export const AlertView: React.FC<{ message: string, onFullFill?: () => void, onReject?: () => void }> = ({ message, onFullFill, onReject }) => {
+  const alertView = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const onClickOut = (e: MouseEvent) => {
+      if (alertView.current && !alertView.current.contains(e.target as Node)) {
+        if (onReject) {
+          onReject()
+        }
+      }
+    }
+
+    window.addEventListener("mousedown", onClickOut)
+    return () => {
+      window.removeEventListener("mousedown", onClickOut)
+    }
+  })
+  return <div className={"alert-view"}>
+    <div ref={alertView}>
+      <div className={"alert-view-title"}>{message}</div>
+      <div className={"alert-view-buttons"}>
+        <div onClick={() => { if (onFullFill) { console.log("clicked"); onFullFill() } }}>אישור</div>
+        <div onClick={() => { if (onReject) { onReject() } }}>ביטול</div>
+      </div>
+    </div>
+  </div>
+}
