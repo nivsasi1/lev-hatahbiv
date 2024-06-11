@@ -48,7 +48,7 @@ const CartSheet: React.FC<{
         }, 0);
       }
     } else if (sheetRef.current) {
-      sheetRef.current.style.transform = "translateX(-25em)";
+      sheetRef.current.style.transform = "translateX(calc(-100% - 10em))";
       timer = setTimeout(() => {
         if (sheetRef.current) {
           sheetRef.current.style.display = "none";

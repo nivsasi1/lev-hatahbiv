@@ -20,35 +20,35 @@ type TestType = {
     products: Array<Product>
 }
 
-// export const TEST_VALUES:TestType = {
-//     tree: {
-//         name: "מכחולים ואביזרים",
-//         subsLength: 1,
-//         productAmount: 0,
-//         subs: [
-//             {
-//                 name: "מכחולים",
-//                 subsLength: 1,
-//                 productAmount: 0,
-//                 subs: [
-//                     {
-//                         name: "איטקלים",
-//                         subsLength: 0,
-//                         productAmount: 1
-//                     }
-//                 ]
-//             }
-//         ]
-//     },
-//     products: [
-//         {
-//             name: "michol psichi",
-//             _id: "micholbenzona",
-//             category: "מכחולים ואביזרים",
-//             sub_cat: "מכחולים",
-//             third_level: "איטקלים", 
-//             img: "",
-//             price: 420
-//         }
-//     ]
-// }
+export const TEST_VALUES:TestType = {
+    tree: {
+        name: "מכחולים ואביזרים",
+        subsLength: 1,
+        productAmount: 0,
+        subs: [
+            {
+                name: "מכחולים",
+                subsLength: 1,
+                productAmount: 0,
+                subs: [
+                    {
+                        name: "איטקלים",
+                        subsLength: 0,
+                        productAmount: 1
+                    }
+                ]
+            }
+        ]
+    },
+    products: [
+        {
+            name: "michol psichi",
+            _id: "micholbenzona",
+            category: "מכחולים ואביזרים",
+            sub_cat: "מכחולים",
+            third_level: "איטקלים", 
+            img: "",
+            price: 420
+        }
+    ]
+}

@@ -44,12 +44,14 @@ body {
 }
 
 .nav>div:nth-child(1) {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
   padding: 1em;
   background: #fffffff1;
   -webkit-backdrop-filter: blur(5px);
+  z-index: 4;
   /* width: 100%; */
 }
 
@@ -249,6 +251,8 @@ div.sections-menu-item:nth-last-child(1) {
 .search-input {
   opacity: 0.8;
   transition: opacity 0.5s ease;
+  position: relative;
+  z-index: 4;
 }
 
 .search-input:focus-within {
@@ -261,6 +265,41 @@ div.sections-menu-item:nth-last-child(1) {
 
 .search-input input:focus {
   width: 10em;
+}
+
+.search-results {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: calc(100% + 1em);
+  right: 0;
+  padding: 1em;
+  min-width: 100%;
+  background: #f0f0f0;
+  z-index: 4;
+  border-radius: 0.5em;
+  box-shadow: 0 0 0.5em #00000038;
+  font-size: 0.8em;
+  direction: rtl;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+.search-results:hover{
+  display: flex!important;
+}
+
+.search-input:hover {
+  opacity: 1;
+}
+
+.search-input:focus-within>div:last-child{
+  display: flex;
+}
+
+.search-result {
+  padding: 1em;
 }
 
 .bag {

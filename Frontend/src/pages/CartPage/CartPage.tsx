@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Header } from "../../global_components/Header/Header";
-import { Arrow } from "../ProductPreviewPage/ProductPreview";
+import { AlertView, Arrow } from "../ProductPreviewPage/ProductPreview";
 import { ProductItem } from "../../global_components/Header/Cart/CartSheet";
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 import { useRef, useContext } from "react";
@@ -15,6 +15,8 @@ export const CartPage: React.FC = () => {
   const [deliveryType, setDeliveryType] = useState(0);
   const cartContext = useContext(CartContext);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [showAlertView, setShowAlertView] = useState(false)
+  const alertViewFullFill = useRef<() => void | undefined>()
 
   console.log("context: " + cartContext.cartData?.toString());
 
@@ -30,6 +32,7 @@ export const CartPage: React.FC = () => {
 
   return (
     <>
+      {showAlertView && <AlertView message="המוצר יוסר מעגלת הקנייה" onReject={() => { setShowAlertView(false) }} onFullFill={alertViewFullFill.current} product={undefined} />}
       <Header shouldShowCartIcon={false} />
       <div className={"page-content"}>
         <Link
@@ -37,8 +40,7 @@ export const CartPage: React.FC = () => {
           className={"return-button"}
           onClick={() => {
             window.history.back();
-          }}
-        >
+          }}>
           <span>חזור</span>
           <Arrow />
         </Link>
@@ -59,8 +61,7 @@ export const CartPage: React.FC = () => {
               className={"cart-print no-select"}
               onClick={() => {
                 window.print();
-              }}
-            >
+              }}>
               <span>הדפס הזמנה</span>
               <img
                 src={printer}
@@ -81,11 +82,14 @@ export const CartPage: React.FC = () => {
                         product={info.product}
                         amount={info.howMany}
                         setAmount={(amount) => {
-                          console.log("Amount: " + amount);
                           cartContext.updateProduct(info.product, amount);
                         }}
                         shouldRemove={() => {
-                          cartContext.removeProductFromCart(info.product);
+                            alertViewFullFill.current = ()=>{
+                                cartContext.removeProductFromCart(info.product);
+                                setShowAlertView(false)
+                            }
+                            setShowAlertView(true)
                         }}
                       />
                     );

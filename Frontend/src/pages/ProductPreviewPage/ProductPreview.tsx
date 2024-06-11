@@ -32,7 +32,7 @@ export const ProductPreview: React.FC = () => {
   const [product, setProduct] = useState<Product>();
   const [link, setLink] = useState<string>("/");
   const { removeProductFromCart, updateProduct, cartData } =
-  useContext(CartContext);
+    useContext(CartContext);
   //todo: make the product amount to be the how many in case its already in cart
   const [productsAmount, setProductsAmount] = useState<number>(1);
 
@@ -68,18 +68,6 @@ export const ProductPreview: React.FC = () => {
   const alertViewFullFill = useRef<
     ((product: Product | undefined) => void) | undefined
   >();
-  // const [isInCart, setIsInCart] = useState(false);
-
-  // useEffect(() => {
-  //   let isIn = false;
-  //   if (
-  //     cartData &&
-  //     cartData.find((info) => info.product._id === product?._id)
-  //   ) {
-  //     isIn = true;
-  //   }
-  //   setIsInCart(isIn);
-  // }, [cartData]);
   const removeProductFromCartDialog = (product: Product) => {
     if (cartData && cartData.find((info) => info.product._id === product._id)) {
       alertViewFullFill.current = function (product: Product | undefined) {
@@ -157,7 +145,7 @@ export const ProductPreview: React.FC = () => {
                 <div className={"product-preview-buttons"}>
                   {/* TODO: make this bottom sexier */}
                   {cartData &&
-                  cartData.find((info) => info.product._id === product._id) ? (
+                    cartData.find((info) => info.product._id === product._id) ? (
                     <div
                       className={"product-preview-add"}
                       style={"margin-right: 1em"}
@@ -178,7 +166,7 @@ export const ProductPreview: React.FC = () => {
                     }}
                   >
                     {cartData &&
-                    cartData.find((info) => info.product._id === product._id)
+                      cartData.find((info) => info.product._id === product._id)
                       ? "עידכון כמות"
                       : "הוספה לסל"}
                   </div>
@@ -239,8 +227,19 @@ export const ProductCounter: React.FC<{
             onInput={(e) => {
               console.log(Math.max(Number(e.currentTarget.value), 1));
               let newValue: number = Math.max(Number(e.currentTarget.value), 1);
-              setProductsAmount(() => newValue);
-              e.currentTarget.value = newValue.toString();
+              console.log(e.currentTarget.value)
+              console.log(e)
+              if (e.currentTarget.value !== "") {
+                setProductsAmount(() => newValue);
+                e.currentTarget.value = newValue.toString();
+              }
+            }}
+            onKeyPress={(e)=>{
+              let newValue: number = Math.max(Number(e.currentTarget.value), 1);
+              if(e.key === "Enter"){
+                setProductsAmount(() => newValue);
+                e.currentTarget.value = newValue.toString();
+              }
             }}
           />
         </div>
@@ -268,8 +267,8 @@ export const AlertView: React.FC<{
   message: string;
   onFullFill?: (product: Product | undefined) => void;
   onReject?: () => void;
-  product: Product | undefined;
-  howMany: number | null | undefined;
+  product?: Product
+  howMany?: number | null | undefined;
 }> = ({ message, onFullFill, onReject, product, howMany }) => {
   console.log(product);
 
@@ -283,9 +282,19 @@ export const AlertView: React.FC<{
       }
     };
 
+    const onKey = (e: KeyboardEvent)=>{
+      if(e.key === "Escape"){
+        if(onReject){
+          onReject()
+        }
+      }
+    }
+
     window.addEventListener("mousedown", onClickOut);
+    window.addEventListener("keypress", onKey);
     return () => {
       window.removeEventListener("mousedown", onClickOut);
+      window.removeEventListener("keypress", onKey);
     };
   });
   return (
