@@ -67,7 +67,7 @@ export const ProductPreview: React.FC = () => {
 
   useEffect(()=>{
     let isIn = false
-    if(cartData && cartData.find((info) => info.product._id === product._id)){
+    if(cartData && cartData.find((info) => info.product?._id === product?._id)){
       isIn = true
     }
     setIsInCart(isIn) 

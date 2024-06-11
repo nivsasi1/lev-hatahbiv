@@ -6,6 +6,11 @@ let initialState: initState = {
   cartData: [],
 };
 
+const loadInitialState = () => {
+  const localData = localStorage.getItem("cartData");
+  return localData ? JSON.parse(localData) : initialState;
+};
+
 interface act {
   source?: any;
   type: "REMOVE_PRODUCT" | "ADD_PRODUCT" | "UPDATE_PRODUCTS";
@@ -83,7 +88,11 @@ export const CartContext = createContext({
 export const CartContextProvider: React.FC<React.ReactNode> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, loadInitialState());
+
+  useEffect(() => {
+    localStorage.setItem("cartData", JSON.stringify(state));
+  }, [state]);
 
   //send the Product, if the add more than one send how many
   const addProductToCart = (product: Product, howMany: number) => {
@@ -112,7 +121,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
 
   const addOrUpdate = (product: Product, howMany: number) => {
     if (state["cartData"].find((p: cartData) => p.product._id == product._id)) {
-      // updateProduct(product, howMany)
+      updateProduct(product, howMany);
     } else addProductToCart(product, howMany);
   };
 

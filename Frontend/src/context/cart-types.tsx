@@ -1,11 +1,12 @@
 import { Product } from "../Types/globalTypes.tsx";
 
-export type cartData = Array<{
-    product: Product;
-    howMany: number;
-  }>;
-  
+export type cartData = {
+  product: Product;
+  howMany: number;
+};
+
+export type wholeCartData = Array<cartData>;
+
 export type initState = {
-      cartData: cartData | null;
-}
-  
+  cartData: wholeCartData | null;
+};

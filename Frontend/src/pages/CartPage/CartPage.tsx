@@ -19,9 +19,9 @@ export const CartPage: React.FC = () => {
     console.log("context: " + cartContext.cartData?.toString())
 
     useEffect(() => {
-        setTotalPrice(cartContext.cartData?.reduce((sum, info) => {
+        setTotalPrice(Math.floor((cartContext.cartData?.reduce((sum, info) => {
             return sum + info.product.price * info.howMany
-        }, 0) ?? 0)
+        }, 0) ?? 0) * 10) / 10)
     }, [cartContext.cartData])
 
     return (<>

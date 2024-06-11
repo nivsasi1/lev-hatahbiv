@@ -4,7 +4,7 @@ import { useEffect } from "preact/hooks";
 // import CartPng from "../../assets/1.png";
 import { Arrow } from "../../pages/ProductPreviewPage/ProductPreview";
 import { Link } from "react-router-dom";
-import { TEST_VALUES } from "../../pages/Tests/test";
+// import { TEST_VALUES } from "../../pages/Tests/test";
 import { CartContext } from "../../context/cart-context";
 
 type Product = {
@@ -35,7 +35,7 @@ const CategoryPage: React.FC<{
   const [tree, setTree] = useState<Tree | undefined | any>();
 
   const fetchTreeData = async () => {
-    return {data: TEST_VALUES.tree}
+    // return {data: TEST_VALUES.tree}
     //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
@@ -43,7 +43,7 @@ const CategoryPage: React.FC<{
     return treeData;
   };
   const fetchProductsData = async () => {
-    return {data: TEST_VALUES.products}
+    // return {data: TEST_VALUES.products}
     //TODO: revert...
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,

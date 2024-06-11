@@ -20,17 +20,13 @@ export const SectionsMenu: React.FC = () => {
 
     return (<div className={"sections-menu"}>
         {SectionMenuList.map((section) => {
-            // console.log(section)
             return (<SectionsMenuItem title={section.title} route={section.route} options={section.options} />)
         }
         )}
-        {/* <SectionsMenuItem title={"צבעים לאומנות"} options={["wow"]}/> */}
     </div>)
 }
-//            {/* <span><Link to={`/catagory?${route}`}>{title}</Link></span> */}   
 
 const SectionsMenuItem: React.FC<SectionsMenuItem> = ({ title, route, options }) => {
-    // console.log(title, route, options)
     return (<div className={"sections-menu-item"}>
         <span><Link to={`/category?cat=${title}&sub_cat=0`}>{title}</Link></span>
         <div className={"sections-menu-list"}>
