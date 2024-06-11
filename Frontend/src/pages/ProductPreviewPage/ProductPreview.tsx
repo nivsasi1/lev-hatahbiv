@@ -312,7 +312,7 @@ export const AlertView: React.FC<{
           <div
             className={"alert-view-content"}
           >{
-            `${howMany && howMany > 1 ? howMany + " פריטים של" : "פריט " }
+            `${howMany && howMany > 1 ? howMany + " יחידות של" : "יחידה של  " }
             "${product.name}"`
             }</div>
         )}

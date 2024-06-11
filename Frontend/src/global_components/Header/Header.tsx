@@ -5,7 +5,6 @@ import { SearchBar } from "./SearchBar/SearchBar";
 import { SectionsMenu } from "./SectionMenu/SectionsMenu";
 import { CartContext } from "../../context/cart-context";
 import { Link } from "react-router-dom";
-import { Footer } from "../Footer/Footer";
 
 export const Header: React.FC<{
   shouldShowCartIcon?: boolean;
@@ -37,7 +36,6 @@ export const Header: React.FC<{
         </div>
         <SectionsMenu />
       </div>
-      {/* <Footer /> */}
     </>
   );
 };
