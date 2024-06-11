@@ -6,6 +6,7 @@ type Product = {
   price: number;
   name: string;
   img: string;
+  desc?: string;
 };
 
 type Tree = {
@@ -47,6 +48,7 @@ export const TEST_VALUES:TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "מכחולים",
             third_level: "איטקלים", 
+            desc: "michol ben ben zona!",
             img: "",
             price: 420
         }

@@ -67,8 +67,6 @@ const CartSheet: React.FC<{
     const handleClickOut: (e: Event) => void = (e) => {
       if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
         let alertView = document.querySelector(".alert-view")
-        console.log(alertView)
-        console.log("target: " + e.target)
         if ((e.target as HTMLElement).className.includes("alert-view")) {
         }
         else if (alertView) {
@@ -168,10 +166,13 @@ export const ProductItem: React.FC<{
       </div>
       <div>
         <img
-          src=""
-          alt=""
+            src={"/images/" + product.img}
+            alt=""
           onError={(e) => {
             e.currentTarget.style.display = "none";
+          }}
+          onLoad={(e)=>{
+            e.currentTarget.style.display = "block"
           }}
         />
       </div>

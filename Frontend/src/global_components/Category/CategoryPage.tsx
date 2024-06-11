@@ -140,7 +140,26 @@ const ProductsView: React.FC<{
   //Third Level
   let subSectionsAvailable = false;
   let sections: Array<Tree | undefined> | undefined;
-  let subSections: Array<Tree | undefined> | undefined;
+  let subSections: Array<any | undefined> | undefined;
+  const [subSectionsState, setSubSectionsState] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    if (
+      tree &&
+      tree.subs &&
+      tree.subs[currentSection] &&
+      tree.subs[currentSection].subs
+    ) {
+      let subs_subs = tree.subs[currentSection].subs;
+      setSubSectionsState(
+        subs_subs!.map((subSection) => {
+          return { ...subSection, show: true };
+        })
+      );
+    } else {
+      setSubSectionsState([]);
+    }
+  }, [tree, products, currentSection]);
 
   if (!isNil(tree) && !isNil(tree!.subs) && tree!.subsLength > 0) {
     sectionsAvailable = true;
@@ -160,41 +179,75 @@ const ProductsView: React.FC<{
 
   return (
     <>
+      {subSectionsState?.map((subSection: any) => {
+        return (
+          <>
+            <button
+              onClick={() => {
+                const updatedSubs = subSectionsState.map((sub) => {
+                  if (sub.name === subSection.name) {
+                    const flag = !sub.show;
+                    return { ...sub, show: flag };
+                  }
+                  return sub;
+                });
+                console.log(updatedSubs);
+                setSubSectionsState(updatedSubs);
+              }}
+            >
+              {subSection.name}
+            </button>
+          </>
+        );
+      })}
       {sectionsAvailable ? (
         subSectionsAvailable ? (
-          subSections?.map((subSection) => {
+          subSectionsState?.map((subSection) => {
             return (
-              <>
-                <div className={"products-title"}>
-                  <span>
-                    {subSection?.name +
-                      " - " +
-                      subSection?.productAmount +
-                      " מוצרים"}
-                  </span>
-                  <Arrow />
-                </div>
-                <ProductsViewFiltered
-                  products={products}
-                  filter={(p) => {
-                    return (
-                      p.sub_cat === sections![currentSection]!.name &&
-                      p.third_level === subSection?.name
-                    );
-                  }}
-                  maxAmount={subSection?.productAmount ?? 0}
-                />
-              </>
+              subSection.show && (
+                <>
+                  <div className={"products-title"}>
+                    <span>
+                      {subSection?.name +
+                        " - " +
+                        subSection?.productAmount +
+                        " מוצרים"}
+                    </span>
+                    <Arrow />
+                  </div>
+                  <ProductsViewFiltered
+                    products={products}
+                    filter={(p) => {
+                      return (
+                        p.sub_cat === sections![currentSection]!.name &&
+                        p.third_level === subSection?.name
+                      );
+                    }}
+                    maxAmount={subSection?.productAmount ?? 0}
+                  />
+                </>
+              )
             );
           })
         ) : sections!.length > currentSection ? (
-          <ProductsViewFiltered
-            products={products}
-            filter={(p) => {
-              return p.sub_cat === sections![currentSection]?.name;
-            }}
-            maxAmount={sections![currentSection]?.productAmount ?? 0}
-          />
+          <>
+            <div className={"products-title"}>
+              <span>
+                {sections![currentSection]?.name +
+                  " - " +
+                  sections![currentSection]?.productAmount +
+                  " מוצרים"}
+              </span>
+              <Arrow />
+            </div>
+            <ProductsViewFiltered
+              products={products}
+              filter={(p) => {
+                return p.sub_cat === sections![currentSection]?.name;
+              }}
+              maxAmount={sections![currentSection]?.productAmount ?? 0}
+            />
+          </>
         ) : (
           <div className={"products-title"}>unavailable</div>
         )

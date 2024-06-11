@@ -50,6 +50,13 @@ export const ProductPreview: React.FC = () => {
             }
           });
         });
+        cartData &&
+          cartData.find((info) => info.product._id === id) &&
+          setProductsAmount(() => {
+            return (
+              cartData.find((info) => info.product._id === id)?.howMany || 1
+            );
+          });
       })
       .catch(() => {
         setProduct({
@@ -145,7 +152,7 @@ export const ProductPreview: React.FC = () => {
                 <div className={"product-preview-buttons"}>
                   {/* TODO: make this bottom sexier */}
                   {cartData &&
-                    cartData.find((info) => info.product._id === product._id) ? (
+                  cartData.find((info) => info.product._id === product._id) ? (
                     <div
                       className={"product-preview-add"}
                       style={"margin-right: 1em"}
@@ -166,7 +173,7 @@ export const ProductPreview: React.FC = () => {
                     }}
                   >
                     {cartData &&
-                      cartData.find((info) => info.product._id === product._id)
+                    cartData.find((info) => info.product._id === product._id)
                       ? "עידכון כמות"
                       : "הוספה לסל"}
                   </div>
@@ -225,21 +232,21 @@ export const ProductCounter: React.FC<{
             type="number"
             value={productsAmount}
             onInput={(e) => {
-              console.log(Math.max(Number(e.currentTarget.value), 1));
               let newValue: number = Math.max(Number(e.currentTarget.value), 1);
-              console.log(e.currentTarget.value)
-              console.log(e)
               if (e.currentTarget.value !== "") {
                 setProductsAmount(() => newValue);
                 e.currentTarget.value = newValue.toString();
               }
             }}
-            onKeyPress={(e)=>{
+            onKeyPress={(e) => {
               let newValue: number = Math.max(Number(e.currentTarget.value), 1);
-              if(e.key === "Enter"){
+              if (e.key === "Enter") {
                 setProductsAmount(() => newValue);
                 e.currentTarget.value = newValue.toString();
               }
+            }}
+            onBlur={(e) => {
+              e.currentTarget.value = productsAmount.toString();
             }}
           />
         </div>
@@ -267,10 +274,9 @@ export const AlertView: React.FC<{
   message: string;
   onFullFill?: (product: Product | undefined) => void;
   onReject?: () => void;
-  product?: Product
+  product?: Product;
   howMany?: number | null | undefined;
 }> = ({ message, onFullFill, onReject, product, howMany }) => {
-  console.log(product);
 
   const alertView = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -282,13 +288,13 @@ export const AlertView: React.FC<{
       }
     };
 
-    const onKey = (e: KeyboardEvent)=>{
-      if(e.key === "Escape"){
-        if(onReject){
-          onReject()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (onReject) {
+          onReject();
         }
       }
-    }
+    };
 
     window.addEventListener("mousedown", onClickOut);
     window.addEventListener("keypress", onKey);
@@ -302,9 +308,13 @@ export const AlertView: React.FC<{
       <div ref={alertView}>
         <div className={"alert-view-title"}>{message}</div>
         {product && (
+          
           <div
             className={"alert-view-content"}
-          >{`${product.name} - ${howMany}`}</div>
+          >{
+            `${howMany && howMany > 1 ? howMany + " פריטים של" : "פריט " }
+            "${product.name}"`
+            }</div>
         )}
         <div className={"alert-view-buttons"}>
           <div
