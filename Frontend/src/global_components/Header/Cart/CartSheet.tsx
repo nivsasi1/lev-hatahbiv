@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useRef,
 } from "preact/hooks";
 import { Product } from "../../../Types/globalTypes";
 import {
@@ -13,7 +14,6 @@ import {
 } from "../../../pages/ProductPreviewPage/ProductPreview";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../../context/cart-context";
-import { useRef } from "React";
 
 const CartSheet: React.FC<{
   show: boolean;
@@ -69,7 +69,7 @@ const CartSheet: React.FC<{
         let alertView = document.querySelector(".alert-view")
         console.log(alertView)
         console.log("target: " + e.target)
-        if (e.target.className.includes("alert-view")) {
+        if ((e.target as HTMLElement).className.includes("alert-view")) {
         }
         else if (alertView) {
           if (!alertView.contains(e.target as Node)) {
@@ -90,7 +90,7 @@ const CartSheet: React.FC<{
 
   return (
     <>
-      {showAlertView && <AlertView message="המוצר יוסר מעגלת הקנייה" onReject={() => { setShowAlertView(false) }} onFullFill={alertViewFullFill.current} />}
+      {showAlertView && <AlertView message="המוצר יוסר מעגלת הקנייה" onReject={() => { setShowAlertView(false) }} onFullFill={alertViewFullFill.current} product={undefined} />}
       <div className={"cart-sheet" + (show ? " visible" : "")} ref={sheetRef}>
         <div
           className={"cart-sheet-close"}

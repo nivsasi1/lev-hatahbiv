@@ -79,10 +79,10 @@ const reducer = (state: any, action: act) => {
 
 export const CartContext = createContext({
   ...initialState,
-  addProductToCart: () => {},
-  removeProductFromCart: (product: Product) => {},
-  updateProduct: (product: Product, count: number) => {},
-  addOrUpdate: (product: Product, amount: number) => {},
+  addProductToCart: (_product: Product, _howMany: number) => {},
+  removeProductFromCart: (_product: Product) => {},
+  updateProduct: (_product: Product, _howMany: number) => {},
+  addOrUpdate: (_product: Product, _howMany: number) => {},
 });
 
 export const CartContextProvider: React.FC<React.ReactNode> = ({

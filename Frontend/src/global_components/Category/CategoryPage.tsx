@@ -39,7 +39,7 @@ const CategoryPage: React.FC<{
     //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
-    }).then(res => res.json());
+    }).then((res) => res.json());
     return treeData;
   };
   const fetchProductsData = async () => {
@@ -48,7 +48,7 @@ const CategoryPage: React.FC<{
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,
       { method: "GET" }
-    ).then(res => res.json())
+    ).then((res) => res.json());
     return productsData;
   };
   const fetchData = async () => {
@@ -69,8 +69,8 @@ const CategoryPage: React.FC<{
         setCurrentSection(
           treeJson.data.subs.findIndex((sub: any) => sub.name === subCategory)
         );
-      }else{
-        setCurrentSection(0)
+      } else {
+        setCurrentSection(0);
       }
     };
     fetchDataAndSetState();
@@ -84,12 +84,10 @@ const CategoryPage: React.FC<{
       sections &&
       sections?.length > 0
     ) {
-      let index = sections.findIndex((sub: any) => sub === subCategory)
-      setCurrentSection(
-        index !== -1 ? index : 0
-      );
-    }else{
-      setCurrentSection(0)
+      let index = sections.findIndex((sub: any) => sub === subCategory);
+      setCurrentSection(index !== -1 ? index : 0);
+    } else {
+      setCurrentSection(0);
     }
   }, [subCategory]);
 
@@ -222,7 +220,7 @@ const ProductsViewFiltered: React.FC<{
     Array<Product> | undefined
   >();
   const [loadedAmount, setLoadedAmount] = useState(5);
-  const cartContext = useContext(CartContext)
+  const { cartData, addOrUpdate } = useContext(CartContext);
 
   useEffect(() => {
     setAvailableProducts(products?.filter(filter).map((p) => p));
@@ -241,9 +239,13 @@ const ProductsViewFiltered: React.FC<{
                 id={p._id}
                 imgSrc={p.img}
                 price={p.price}
-                isAdded={false}
+                isAdded={
+                  cartData
+                    ? cartData.some((item: any) => item.product._id === p._id)
+                    : false
+                }
                 onClick={() => {
-                  cartContext.addOrUpdate(p, 1)
+                  addOrUpdate(p, 1);
                 }}
               />
             </>
