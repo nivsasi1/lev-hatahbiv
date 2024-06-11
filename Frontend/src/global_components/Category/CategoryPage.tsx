@@ -6,6 +6,7 @@ import { Arrow } from "../../pages/ProductPreviewPage/ProductPreview";
 import { Link } from "react-router-dom";
 // import { TEST_VALUES } from "../../pages/Tests/test";
 import { CartContext } from "../../context/cart-context";
+import { TEST_VALUES } from "../../pages/Tests/test";
 
 type Product = {
   _id: string;
@@ -35,7 +36,7 @@ const CategoryPage: React.FC<{
   const [tree, setTree] = useState<Tree | undefined | any>();
 
   const fetchTreeData = async () => {
-    // return {data: TEST_VALUES.tree}
+    // return { data: TEST_VALUES.tree }
     //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
@@ -43,7 +44,7 @@ const CategoryPage: React.FC<{
     return treeData;
   };
   const fetchProductsData = async () => {
-    // return {data: TEST_VALUES.products}
+    // return { data: TEST_VALUES.products }
     //TODO: revert...
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,
@@ -97,16 +98,16 @@ const CategoryPage: React.FC<{
       <div className={"sub-categories"}>
         {sections
           ? sections.map((section, index) => {
-              return (
-                <SubCategoryButton
-                  cat={category}
-                  title={section}
-                  id={index}
-                  isSelected={currentSection === index}
-                  setSection={setCurrentSection}
-                />
-              );
-            })
+            return (
+              <SubCategoryButton
+                cat={category}
+                title={section}
+                id={index}
+                isSelected={currentSection === index}
+                setSection={setCurrentSection}
+              />
+            );
+          })
           : ""}
       </div>
       {sections && sections.length > 0 && (
@@ -169,6 +170,7 @@ const ProductsView: React.FC<{
   if (
     sectionsAvailable &&
     !isNil(sections![currentSection]) &&
+    sections![currentSection]?.subs &&
     sections![currentSection]?.subs![0]?.name !== ""
   ) {
     if (sections![currentSection]!.subsLength > 0) {
@@ -179,27 +181,30 @@ const ProductsView: React.FC<{
 
   return (
     <>
-      {subSectionsState?.map((subSection: any) => {
-        return (
-          <>
-            <button
-              onClick={() => {
-                const updatedSubs = subSectionsState.map((sub) => {
-                  if (sub.name === subSection.name) {
-                    const flag = !sub.show;
-                    return { ...sub, show: flag };
-                  }
-                  return sub;
-                });
-                console.log(updatedSubs);
-                setSubSectionsState(updatedSubs);
-              }}
-            >
-              {subSection.name}
-            </button>
-          </>
-        );
-      })}
+      <div className={"sub-sub-filters"}>
+        {subSectionsState?.map((subSection: any) => {
+          return (
+            <>
+              <div
+              className={"sub-sub-filter no-select " + (subSection.show ? "":" toggled")}
+                onClick={() => {
+                  const updatedSubs = subSectionsState.map((sub) => {
+                    if (sub.name === subSection.name) {
+                      const flag = !sub.show;
+                      return { ...sub, show: flag };
+                    }
+                    return sub;
+                  });
+                  setSubSectionsState(updatedSubs);
+                }}
+              >
+                <span>{subSection.name}</span>
+                <PlusIcon rotate={subSection.show ? 135:0}/>
+              </div>
+            </>
+          );
+        })}</div>
+
       {sectionsAvailable ? (
         subSectionsAvailable ? (
           subSectionsState?.map((subSection) => {
@@ -414,4 +419,11 @@ const SubCategoryButton: React.FC<subCategoryButton> = ({
     </div>
   );
 };
+
+const PlusIcon:React.FC<{rotate?: number}> = ({rotate})=>{
+  return <svg viewBox="0 0 100 100" style={{transform: `rotate(${(rotate ?? 0)}deg)`}}>
+    <path d="M15,50 h70 M50,15 v70" fill="none" stroke-width="12.5" stroke-linecap={"round"}></path>
+  </svg>
+}
+
 export default CategoryPage;

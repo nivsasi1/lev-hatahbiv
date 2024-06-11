@@ -3,6 +3,7 @@ import SearchPng from "../../../assets/search.svg";
 import { TEST_VALUES } from "../../../pages/Tests/test";
 import { Link } from "react-router-dom";
 import { Product } from "../../../Types/globalTypes";
+import { Arrow } from "../../../pages/ProductPreviewPage/ProductPreview";
 
 export const SearchBar: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Array<Product>>(
@@ -38,6 +39,10 @@ export const SearchBar: React.FC = () => {
             {searchResults.map((product) => {
               return <SearchResult product={product} />;
             })}
+            {searchResults.length > 0 && <Link to={""} className="search-results-more">
+            <span>לצפייה בכלל התוצאות</span> 
+            <Arrow />
+            </Link>}
           </>
         ) : (
           <></>
@@ -65,7 +70,7 @@ const SearchResult: React.FC<{ product: Product }> = ({ product }) => {
         </div>
         <div>
           <span>{product.name}</span>
-          <span>{product.desc ?? ""}</span>
+          <span style={{fontSize: "0.9em", opacity: 0.5}}>{product.desc ?? ""}</span>
         </div>
       </div>
     </Link>
