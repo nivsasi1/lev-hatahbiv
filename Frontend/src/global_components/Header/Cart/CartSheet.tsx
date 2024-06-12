@@ -148,6 +148,18 @@ export const ProductItem: React.FC<{
 
   return (
     <div class={"cart-sheet-product"}>
+      <div class={"cart-sheet-product-image"}>
+        <img
+          src={"/images/" + product.img}
+          alt=""
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+          onLoad={(e) => {
+            e.currentTarget.style.display = "block"
+          }}
+        />
+      </div>
       <div className={"cart-sheet-product-head"}>
         <div>{product.name}</div>
         <div className={"cart-sheet-product-counter"}>
@@ -164,18 +176,7 @@ export const ProductItem: React.FC<{
           </div>
         </div>
       </div>
-      <div>
-        <img
-            src={"/images/" + product.img}
-            alt=""
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-          onLoad={(e)=>{
-            e.currentTarget.style.display = "block"
-          }}
-        />
-      </div>
+
       <RemoveButton handler={shouldRemove} />
     </div>
   );
