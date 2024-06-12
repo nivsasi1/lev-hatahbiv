@@ -4,6 +4,7 @@ import { MainPage } from "./pages/MainPage/MainPage";
 import { ProductPreview } from "./pages/ProductPreviewPage/ProductPreview";
 import { CartPage } from "./pages/CartPage/CartPage";
 import { CartContextProvider } from "./context/cart-context";
+import { CheckoutPage } from "./pages/CheckoutPage/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <CartPage />
+  },
+  {
+    path: "/checkout",
+    element: <CheckoutPage />
   }
 ]);
 

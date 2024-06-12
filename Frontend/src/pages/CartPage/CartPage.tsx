@@ -131,7 +131,7 @@ export const CartPage: React.FC = () => {
                   ₪
                 </span>
               </div>
-              <Link to={""} className={"cart-proceed-pay no-select"}>
+              <Link to={"/checkout"} className={"cart-proceed-pay no-select"}>
                 לתשלום
               </Link>
             </div>
@@ -151,7 +151,7 @@ const DELIVERY_TYPES = [
   },
   {
     title: "דואר רשום",
-    price: 35,
+    price: 28.00,
     note: "דואר ישראל " + "(14 - 7) " + "ימי עסקים",
   },
   {
