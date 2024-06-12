@@ -201,6 +201,11 @@
     opacity: 0.5;
 }
 
+.checkout-payment-option:hover,
+.checkout-delivery-option:hover{
+    background: #d6d6d6;
+}
+
 .selected.checkout-payment-option,
 .selected.checkout-delivery-option {
     background: #bfbfbf;
