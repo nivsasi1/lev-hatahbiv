@@ -9,7 +9,7 @@
 .checkout-return-button {
   font-weight: 550;
   direction: ltr;
-  margin: 0rem auto 2rem 0;
+  margin: 3rem auto 2rem 0;
 }
 
 .checkout-page>div:first-of-type{
@@ -33,7 +33,7 @@
     font-weight: 500;
     display: flex;
     flex-direction: column;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.7em;
 }
 
 .checkout-input-title{
@@ -51,7 +51,7 @@
     padding: 0.5em 1em;
     font-size: 0.8rem;
     background: #e0e0e0;
-    margin: 0.5em 0;
+    margin: 0.2em 0;
     border: 1.5pt solid transparent;
     border-radius: 0.75em;
     font-weight: 500;
@@ -221,5 +221,10 @@
     padding: 1em;
     box-shadow: 0 0 1em #9e9e9e49;
     border-radius: 1em;
+}
+
+.flipped.checkout-input input{
+    text-align: right;
+    direction: ltr;
 }
 
