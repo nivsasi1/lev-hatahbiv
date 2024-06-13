@@ -36,7 +36,7 @@ const CartSheet: React.FC<{
   }, [cartContext.cartData]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
+    let timer: number | null = null;
 
     if (show === true) {
       if (sheetRef.current) {
@@ -67,7 +67,9 @@ const CartSheet: React.FC<{
     const handleClickOut: (e: Event) => void = (e) => {
       if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
         let alertView = document.querySelector(".alert-view")
-        if ((e.target as HTMLElement).className.includes("alert-view")) {
+        let targetClass = (e.target as HTMLElement).className
+        if (targetClass.includes("alert-view") || targetClass.includes("product-add")) {
+          //Ignores closing when either alert view is on screen or user added a product
         }
         else if (alertView) {
           if (!alertView.contains(e.target as Node)) {
@@ -79,9 +81,11 @@ const CartSheet: React.FC<{
       }
     };
 
+    window.addEventListener("touchend", handleClickOut)
     window.addEventListener("mousedown", handleClickOut);
 
     return () => {
+      window.removeEventListener("touchend", handleClickOut)
       window.removeEventListener("mousedown", handleClickOut);
     };
   });

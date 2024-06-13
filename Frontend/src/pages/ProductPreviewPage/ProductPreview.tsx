@@ -18,9 +18,9 @@ export const Arrow: React.FC<{ rotate?: number }> = ({ rotate }) => {
     >
       <path
         d={"M70,17.5 L30,50 L70,82.5"}
-        stroke={"#000000"}
         stroke-width={"12.5"}
         fill="none"
+        style={{ stroke: "var(--text)" }}
       ></path>
     </svg>
   );
@@ -152,7 +152,7 @@ export const ProductPreview: React.FC = () => {
                 <div className={"product-preview-buttons"}>
                   {/* TODO: make this bottom sexier */}
                   {cartData &&
-                  cartData.find((info) => info.product._id === product._id) ? (
+                    cartData.find((info) => info.product._id === product._id) ? (
                     <div
                       className={"product-preview-add"}
                       style={"margin-right: 1em"}
@@ -173,7 +173,7 @@ export const ProductPreview: React.FC = () => {
                     }}
                   >
                     {cartData &&
-                    cartData.find((info) => info.product._id === product._id)
+                      cartData.find((info) => info.product._id === product._id)
                       ? "עידכון כמות"
                       : "הוספה לסל"}
                   </div>
@@ -280,7 +280,7 @@ export const AlertView: React.FC<{
 
   const alertView = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    const onClickOut = (e: MouseEvent) => {
+    const onClickOut = (e: Event) => {
       if (alertView.current && !alertView.current.contains(e.target as Node)) {
         if (onReject) {
           onReject();
@@ -296,9 +296,11 @@ export const AlertView: React.FC<{
       }
     };
 
+    window.addEventListener("touchend", onClickOut);
     window.addEventListener("mousedown", onClickOut);
     window.addEventListener("keypress", onKey);
     return () => {
+      window.removeEventListener("touchend", onClickOut);
       window.removeEventListener("mousedown", onClickOut);
       window.removeEventListener("keypress", onKey);
     };
@@ -308,11 +310,11 @@ export const AlertView: React.FC<{
       <div ref={alertView}>
         <div className={"alert-view-title"}>{message}</div>
         {product && (
-          
+
           <div
             className={"alert-view-content"}
           >{
-            `${howMany && howMany > 1 ? howMany + " יחידות של" : "יחידה של  " }
+              `${howMany && howMany > 1 ? howMany + " יחידות של" : "יחידה של  "}
             "${product.name}"`
             }</div>
         )}

@@ -1,5 +1,5 @@
 import { Dispatch, StateUpdater, useContext } from "preact/hooks";
-import storeLogo from "../../assets/LevHatahbivLogo.png";
+import storeLogo from "../../assets/logo_black.png";
 import { Cart } from "./Cart/Cart";
 import { SearchBar } from "./SearchBar/SearchBar";
 import { SectionsMenu } from "./SectionMenu/SectionsMenu";
@@ -17,7 +17,7 @@ export const Header: React.FC<{
       <div className={"nav"}>
         <div>
           <Link to={"/"}>
-            <img id={"logo"} src={storeLogo} alt="storeLogo" />
+            <img id={"logo"} src={storeLogo} onLoad={(e)=> e.currentTarget.style.display = "block"} onError={(e)=> e.currentTarget.style.display = "none"} alt="storeLogo" />
           </Link>
           <SearchBar />
           {shouldShowCartIcon === false ? (
