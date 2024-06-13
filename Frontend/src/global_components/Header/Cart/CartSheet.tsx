@@ -81,9 +81,11 @@ const CartSheet: React.FC<{
       }
     };
 
+    window.addEventListener("touchend", handleClickOut)
     window.addEventListener("mousedown", handleClickOut);
 
     return () => {
+      window.removeEventListener("touchend", handleClickOut)
       window.removeEventListener("mousedown", handleClickOut);
     };
   });

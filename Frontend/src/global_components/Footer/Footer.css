@@ -7,6 +7,25 @@ footer{
   clip-path: url(#clip);
 }
 
+@media screen and (max-width: 700px) {
+  .h-divider{
+    display: none;
+  } 
+
+  footer{
+    padding: 6em 2em 8em 1em;
+    min-height: 20em;
+  }
+
+  .footer-info{
+    flex-direction: column;
+  }
+
+  .footer-section{
+    padding: 0 0 1em 0;
+  }
+}
+
 .footer-info {
   display: flex;
   height: max-content;
@@ -56,7 +75,7 @@ footer{
 }
 
 .footer-logos img {
-    width: 1.5vw;
+    width: calc(1em + 0.5vw);
     height: auto;
 }
 
@@ -70,6 +89,6 @@ footer{
 }
 
 .main-logo {
-    width: 12.5vw!important;
+    width: calc(7em + 5vw)!important;
     margin: 0!important;
 }

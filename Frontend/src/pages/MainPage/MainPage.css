@@ -1,5 +1,6 @@
 .main-page {
-    margin: 3rem 3rem 0 3rem;
+    /* margin: 3rem 3rem 0 3rem; */
+    margin: 3rem 0;
     font-weight: 500;
     color: var(--text);
 }
@@ -70,4 +71,13 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: start;
+}
+
+.location-display {
+    background: var(--on-container);
+    min-height: 100vh;
+    padding: 1em;
+    margin: 20rem 0 0 0;
+    border-radius: 4em;
+    will-change: border-radius;
 }

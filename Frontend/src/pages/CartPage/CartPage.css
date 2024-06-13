@@ -21,6 +21,23 @@
     color: var(--text);
 }
 
+@media screen and (max-width: 600px){
+    .cart-content {
+        width: calc(100% - 4em);
+    }
+
+    .page-title {
+        margin-right: 1em;
+    }
+
+    .return-button {
+        margin-left: 1em;
+    }
+    .cart-products{
+        margin: 1em 0!important;
+    }
+}
+
 .cart-content-title {
     color: var(--text);
     width: 100%;

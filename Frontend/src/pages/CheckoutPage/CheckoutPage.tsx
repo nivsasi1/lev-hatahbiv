@@ -30,12 +30,12 @@ export const CheckoutPage: React.FC<{}> = () => {
                     to={""}
                     className={"checkout-return-button return-button"}
                     onClick={() => {
-                        if(window.history.length > 2){
+                        if (window.history.length > 2) {
                             window.history.back();
-                        }else{
+                        } else {
                             window.location.replace("/")
                         }
-                       }}>
+                    }}>
                     <span>חזרה לקניות</span>
                     <Arrow />
                 </Link>

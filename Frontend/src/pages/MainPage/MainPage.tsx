@@ -20,6 +20,7 @@ export const MainPage: React.FC = () => {
             <div style={{ fontSize: "0.8em", margin: "0 0 0 0" }}>מקום חביב לחובבי יצירה ואומנות...
               ולכולם !</div>
           </div>
+          <LocationDisplay />
           <Bubble title="צבעים כמו חול אולי נצייר ארמון כחול?" link="/" linkTitle="צבעים בשפע כאן" />
           <Bubble title="כן? כן...? לסטודיו או סתם לחדר" link="/" linkTitle="כני ציור ועוד..." />
         </div>
@@ -29,16 +30,37 @@ export const MainPage: React.FC = () => {
   );
 };
 
+const LocationDisplay: React.FC = () => {
+  const ref = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const onScroll = (e: Event) => {
+      if (ref.current) {
+        let bounds = ref.current.getBoundingClientRect()
+        console.log(`top: ${bounds.top}`)
+        console.log(`dy: ${bounds.top / window.innerHeight}`)
+        ref.current.style.borderRadius = `${Math.min(4, Math.max(0, 4*(bounds.top / (window.innerHeight / 4) - 1)))}em`
+        ref.current.style.opacity = `${(bounds.top + bounds.height * 3/4) / (window.innerHeight)}`
+      }
+    }
+    document.body.addEventListener("scroll", onScroll)
+    return () => {
+      document.body.removeEventListener("scroll", onScroll)
+    }
+  })
+
+  return <div ref={ref} class="location-display"></div>
+}
+
 
 const Bubble: React.FC<{ title: string, linkTitle: string, link: string }> = ({ title, linkTitle, link }) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const onScroll = (e: Event) => {
-      if(ref.current){
+      if (ref.current) {
         let bounds = ref.current.getBoundingClientRect()
-        console.log(`top: ${bounds.top}`)
-        let dy = bounds.height - bounds.top 
+        let dy = bounds.height - bounds.top
         ref.current.style.opacity = `${dy * dy / bounds.height}`
       }
     }
