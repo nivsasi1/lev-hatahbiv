@@ -36,7 +36,7 @@ const CartSheet: React.FC<{
   }, [cartContext.cartData]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
+    let timer: number | null = null;
 
     if (show === true) {
       if (sheetRef.current) {

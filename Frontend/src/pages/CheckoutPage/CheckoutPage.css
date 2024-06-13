@@ -1,9 +1,17 @@
+:root{
+    --disabled-input: #cecece;
+}
+
+.dark-theme{
+    --disabled-input: #151515;
+    --shadow: #00000070;
+}
+
 .checkout-page {
     direction: rtl;
-    /* margin-right: 3.5em;
-    margin-left: 3.5em; */
     margin-left: 10vw;
     margin-right: 10vw;
+    color: var(--text);
 }
 
 .checkout-return-button {
@@ -23,7 +31,8 @@
 
 .checkout-content {
     padding: 1.25em 1.75em;
-    background: #f0f0f0;
+    color: var(--text);
+    background: var(--container);
     margin-top: 1em;
     border-radius: 1em;
 }
@@ -50,7 +59,7 @@
     outline: none;
     padding: 0.5em 1em;
     font-size: 0.8rem;
-    background: #e0e0e0;
+    background: var(--on-container);
     margin: 0.2em 0;
     border: 1.5pt solid transparent;
     border-radius: 0.75em;
@@ -67,7 +76,7 @@
 
 .disabled.checkout-input input {
     font-weight: 550;
-    background: #d0d0d0;
+    background: var(--disabled-input);
 }
 
 .invalid.checkout-input input {
@@ -118,8 +127,8 @@
 }
 
 .checkout-button{
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--background);
     padding: 0.5em 1.5em;
     font-weight: 550;
     font-size: 0.9em;
@@ -135,8 +144,8 @@
 }
 
 .checkout-button.disabled {
-    background: #d0d0d0;
-    color: #777;
+    background: var(--on-container);
+    color: var(--background);
 }
 
 .checkout-back {
@@ -155,6 +164,7 @@
     width: 1.5em;
     height: 1.5em;
     transform: rotate(-90deg);
+    filter: invert(var(--invert))
 }
 
 .checkout-process circle {
@@ -172,7 +182,7 @@
     margin: 1em auto;
     width: fit-content;
     border-radius: 1em;
-    background: #e0e0e0;
+    background: var(--on-container);
     overflow: hidden;
 }
 
@@ -203,12 +213,12 @@
 
 .checkout-payment-option:hover,
 .checkout-delivery-option:hover{
-    background: #d6d6d6;
+    background: var(--sub-container-hover);
 }
 
 .selected.checkout-payment-option,
 .selected.checkout-delivery-option {
-    background: #bfbfbf;
+    background: var(--sub-container);
 }
 
 .checkout-delivery-option>div:first-child{
@@ -219,7 +229,8 @@
     margin: 4rem auto 0 auto;
     max-width: 30em;
     padding: 1em;
-    box-shadow: 0 0 1em #9e9e9e49;
+    /* box-shadow: 0 0 1em #9e9e9e49; */
+    box-shadow: 0 0 1em var(--shadow);
     border-radius: 1em;
 }
 

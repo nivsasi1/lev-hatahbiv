@@ -293,6 +293,6 @@ const Bullets: React.FC<{ currentPage: number, setCurrentPage: Dispatch<StateUpd
 
 const Bullet: React.FC<{ enabled: boolean, onClick: () => void }> = ({ enabled, onClick }) => {
     return <svg viewBox="0 0 100 100" onClick={onClick}>
-        <circle cx="50" cy="50" r="45" fill={enabled ? "#000" : "#a9a9a9"}></circle>
+        <circle cx="50" cy="50" r="45" fill={enabled ? "var(--text)" : "var(--on-container)"}></circle>
     </svg>
 }

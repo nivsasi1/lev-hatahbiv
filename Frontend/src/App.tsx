@@ -5,6 +5,8 @@ import { ProductPreview } from "./pages/ProductPreviewPage/ProductPreview";
 import { CartPage } from "./pages/CartPage/CartPage";
 import { CartContextProvider } from "./context/cart-context";
 import { CheckoutPage } from "./pages/CheckoutPage/CheckoutPage";
+import { CategoryPage } from "./pages/CategoryPage/CategoryPage";
+import { useEffect, useState } from "preact/hooks";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/category",
-    element: <MainPage />,
+    element: <CategoryPage />,
   },
   {
     path: "/product/:id",
@@ -30,10 +32,22 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  useEffect(() => {
+    const didChangeScheme = (event: any) => {
+      document.body.classList.toggle("dark-theme", event.matches)
+    }
+
+    didChangeScheme(window.matchMedia('(prefers-color-scheme: dark)'))
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', didChangeScheme)
+    return () => {
+      window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', didChangeScheme)
+    }
+  })
   return (
-        <CartContextProvider>
-        <RouterProvider router={router} />
-        </CartContextProvider>
+    <CartContextProvider>
+      <RouterProvider router={router} />
+    </CartContextProvider>
   );
 }
 

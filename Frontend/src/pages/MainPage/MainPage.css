@@ -1,0 +1,9 @@
+.main-page {
+    margin: 3rem 3rem 0 3rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.bubble {
+    padding: 1em;
+}

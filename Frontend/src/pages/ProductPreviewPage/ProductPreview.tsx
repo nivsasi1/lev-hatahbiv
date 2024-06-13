@@ -18,9 +18,9 @@ export const Arrow: React.FC<{ rotate?: number }> = ({ rotate }) => {
     >
       <path
         d={"M70,17.5 L30,50 L70,82.5"}
-        stroke={"#000000"}
         stroke-width={"12.5"}
         fill="none"
+        style={{stroke: "var(--text)"}}
       ></path>
     </svg>
   );
