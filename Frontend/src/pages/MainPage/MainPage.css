@@ -5,5 +5,69 @@
 }
 
 .bubble {
-    padding: 1em;
+    height: 100vh;
+    width: 100%;
+    /* background: red; */
+    position: relative;
+    margin: 5em 0 10em 0;
+}
+
+.bubble-container {
+    height: 100%;
+    right: 0;
+    /* background: purple; */
+    position: absolute;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    position: sticky;
+}
+
+.bubble-container>div {
+    position: sticky;
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    bottom: 50%;
+}
+
+.bubble-link {
+    margin: 1em 0 0 0;
+}
+
+.bubble-link a {
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    background: var(--on-container);
+    font-size: 0.8em;
+    font-weight: 550;
+}
+
+.bubble-link svg{
+    margin-right: 0.2em;
+}
+
+.bubble-content {
+    font-size: 1.25em;
+    padding: 1.25em;
+    border-radius: 1.5em;
+    width: fit-content;
+    background: var(--container);
+    min-width: 30vw;
+    min-height: 7em;
+    display: flex;
+}
+
+.bubble-content>div:first-of-type{
+    display: flex;
+    max-width: 10em;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
 }

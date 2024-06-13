@@ -1180,3 +1180,9 @@ div.sections-menu-item:nth-last-child(1) {
 .toggled.sub-sub-filter path{
   stroke: var(--text);
 }
+
+@media screen and (max-width: 600px){
+  :root{
+    font-size: calc(0.3rem + 2vw);
+  }
+}

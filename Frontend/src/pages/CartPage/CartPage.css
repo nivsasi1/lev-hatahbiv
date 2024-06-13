@@ -196,7 +196,7 @@
     height: 1.25pt;
     border-radius: 1em;
     margin: 0.5em !important;
-    background: #000;
+    background: var(--secondary);
 }
 
 .cart-final-price {

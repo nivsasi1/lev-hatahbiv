@@ -24,14 +24,18 @@ export const CheckoutPage: React.FC<{}> = () => {
 
     return (
         <>
-            <Header shouldShowCartIcon={false} />
-            <div className={"checkout-page page-content"}>
+            {/* <Header shouldShowCartIcon={false} /> */}
+            <div className={"checkout-page page-content"} style={"margin-top: 5em!important; margin-bottom: 5em!important"}>
                 <Link
                     to={""}
                     className={"checkout-return-button return-button"}
                     onClick={() => {
-                        window.history.back();
-                    }}>
+                        if(window.history.length > 2){
+                            window.history.back();
+                        }else{
+                            window.location.replace("/")
+                        }
+                       }}>
                     <span>חזרה לקניות</span>
                     <Arrow />
                 </Link>
@@ -53,7 +57,7 @@ export const CheckoutPage: React.FC<{}> = () => {
                         newState[0] = value
                         setPagesValid(newState)
                     }} info={info} setInfo={setInfo} />}
-                    {currentPage === 1 && <DeliveryInfo selected={deliveryType} setSelected={setDeliveryType}/>}
+                    {currentPage === 1 && <DeliveryInfo selected={deliveryType} setSelected={setDeliveryType} />}
                     {currentPage === 2 && <Payment />}
                     <div className={"checkout-buttons"}>
                         {currentPage !== 0 && <div className={"no-select checkout-button checkout-back"} onClick={() => {
@@ -118,12 +122,12 @@ const CreditPayment: React.FC = () => {
     })
 
     return <div className={"checkout-credit-content"}>
-        <Input value={info.number} setValue={(value)=> setInfo({...info, number: value})} title="מספר כרטיס" name="credit-number" placeholder="מספר כרטיס" type="number" warning="יש למלא מספר כרטיס תקין." check={() => true} />
+        <Input value={info.number} setValue={(value) => setInfo({ ...info, number: value })} title="מספר כרטיס" name="credit-number" placeholder="מספר כרטיס" type="number" warning="יש למלא מספר כרטיס תקין." check={() => true} />
         <div class="checkout-input-wrapper">
-            <Input value={info.date} setValue={(value)=> setInfo({...info, date: value})}  title="תאריך תפוגה" placeholder="MM / YY" name="credit-date" type="number" warning="יש למלא תאריך תפוגה תקין." />
-            <Input value={info.code} setValue={(value)=> setInfo({...info, code: value})} title="קוד אבטחה (CVV)" placeholder="XXX" name="credit-code" type="number" warning="יש למלא קוד אבטחה תקין (CVV)." />
+            <Input value={info.date} setValue={(value) => setInfo({ ...info, date: value })} title="תאריך תפוגה" placeholder="MM / YY" name="credit-date" type="number" warning="יש למלא תאריך תפוגה תקין." />
+            <Input value={info.code} setValue={(value) => setInfo({ ...info, code: value })} title="קוד אבטחה (CVV)" placeholder="XXX" name="credit-code" type="number" warning="יש למלא קוד אבטחה תקין (CVV)." />
         </div>
-        <Input value={info.owner} setValue={(value)=> setInfo({...info, owner: value})}  title="שם בעל/ת הכרטיס" name="credit-owner" placeholder="שם מלא" type="number" warning="יש למלא את השם שלך כפי שהוא מוצג בכרטיס" />
+        <Input value={info.owner} setValue={(value) => setInfo({ ...info, owner: value })} title="שם בעל/ת הכרטיס" name="credit-owner" placeholder="שם מלא" type="number" warning="יש למלא את השם שלך כפי שהוא מוצג בכרטיס" />
     </div>
 }
 
@@ -192,7 +196,7 @@ const NumberOnly = (value: any) => {
     return ""
 }
 
-const PersonlInfo: React.FC<{info: PersonalInformation, setInfo: Dispatch<StateUpdater<PersonalInformation>>, setIsValid: (value: boolean) => void }> = ({ setIsValid, info, setInfo }) => {
+const PersonlInfo: React.FC<{ info: PersonalInformation, setInfo: Dispatch<StateUpdater<PersonalInformation>>, setIsValid: (value: boolean) => void }> = ({ setIsValid, info, setInfo }) => {
     // const mailInput = useInput({ validate: Validations["mail"] })
 
     useEffect(() => {
@@ -220,8 +224,8 @@ const PersonlInfo: React.FC<{info: PersonalInformation, setInfo: Dispatch<StateU
             <Input value={info.address} setValue={(value) => { setInfo({ ...info, address: value }) }} name="address" title="שם הרחוב" placeholder="שם הרחוב" warning="יש למלא את שם הרחוב" />
             <Input value={info.homenum} setValue={(value) => { setInfo({ ...info, homenum: value }) }} name="homenum" title="מספר הבית" placeholder="מספר הבית" type="text" check={Validations["homenum"]} warning="יש למלא מספר בית תקין" apply={NumberOnly} />
         </div>
-        <Input value={info.phone} setValue={(value) => { setInfo({ ...info, phone: value }) }} name="phone" title="טלפון" placeholder="מספר טלפון" type="tel" check={Validations["phone"]} flipped={true} warning="יש למלא מספר טלפון תקין"/>
-        <Input value={info.zip} setValue={(value) => { setInfo({ ...info, zip: value }) }} name="zip" title="מיקוד" placeholder="מיקוד" type="text" check={Validations["zip"]} apply={NumberOnly} warning="יש למלא מספר מיקוד תקין (7 ספרות)"/>
+        <Input value={info.phone} setValue={(value) => { setInfo({ ...info, phone: value }) }} name="phone" title="טלפון" placeholder="מספר טלפון" type="tel" check={Validations["phone"]} flipped={true} warning="יש למלא מספר טלפון תקין" />
+        <Input value={info.zip} setValue={(value) => { setInfo({ ...info, zip: value }) }} name="zip" title="מיקוד" placeholder="מיקוד" type="text" check={Validations["zip"]} apply={NumberOnly} warning="יש למלא מספר מיקוד תקין (7 ספרות)" />
     </>
 }
 
@@ -242,7 +246,7 @@ const DELIVERY_TYPES = [
     },
 ]
 
-const DeliveryInfo: React.FC<{selected: number, setSelected: Dispatch<StateUpdater<number>>}> = ({selected, setSelected}) => {
+const DeliveryInfo: React.FC<{ selected: number, setSelected: Dispatch<StateUpdater<number>> }> = ({ selected, setSelected }) => {
     return <>
         <div className={"checkout-section-title"}>אופן השילוח</div>
         <div className={"checkout-delivery-options"}>
@@ -262,15 +266,15 @@ const DeliveryOption: React.FC<{ title: string, price: string, info?: string, se
         </div>)
 }
 
-const Input: React.FC<{flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped }) => {
+const Input: React.FC<{ flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped }) => {
     const [isValid, setIsValid] = useState(true)
 
-    return <div className={"checkout-input " + (!isValid && (value !== "") ? "invalid" : "") + (disabled ? " disabled" : "") + (flipped ? " flipped":"")}>
+    return <div className={"checkout-input " + (!isValid && (value !== "") ? "invalid" : "") + (disabled ? " disabled" : "") + (flipped ? " flipped" : "")}>
         {title && <div className={"checkout-input-title"}>{title}</div>}
         <input onInput={(e) => {
             let newValue = apply ? apply(e.currentTarget.value) : e.currentTarget.value
-            if(!disabled){
-                if(check){
+            if (!disabled) {
+                if (check) {
                     setIsValid(check(newValue))
                 }
                 setValue(newValue)
