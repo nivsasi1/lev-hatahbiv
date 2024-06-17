@@ -6,10 +6,10 @@ import { Arrow } from "../ProductPreviewPage/ProductPreview"
 import { Link } from "react-router-dom"
 import creditImg from "../../assets/credit.png"
 
+const PAGES_AMOUNT = 4
 export const CheckoutPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState(0)
-    const [pagesValid, setPagesValid] = useState([false, true, false])
-    const PAGES_AMOUNT = 3
+    const [pagesValid, setPagesValid] = useState([false, true, false, false])
     const [info, setInfo] = useState<PersonalInformation>({
         mail: "",
         name: "",
@@ -60,22 +60,12 @@ export const CheckoutPage: React.FC<{}> = () => {
                     {currentPage === 1 && <DeliveryInfo selected={deliveryType} setSelected={setDeliveryType} />}
                     {currentPage === 2 && <Payment />}
                     <div className={"checkout-buttons"}>
-                        {currentPage !== 0 && <div className={"no-select checkout-button checkout-back"} onClick={() => {
-                            document.body.scrollTo({
-                                top: 0,
-                                behavior: "smooth"
-                            })
-                            setCurrentPage((current) => Math.max(0, current - 1))
-                        }}>לשלב הקודם</div>}
-                        {<div className={"no-select checkout-button checkout-proceed " + (pagesValid[currentPage] ? "" : "disabled")} onClick={() => {
-                            if (pagesValid[currentPage]) {
-                                document.body.scrollTo({
-                                    top: 0,
-                                    behavior: "smooth"
-                                })
-                                setCurrentPage((current) => Math.min(3 - 1, current + 1))
-                            }
-                        }}>לשלב הבא</div>}
+                        {
+                           currentPage !== 0 && <PageButton currentPage={currentPage} setCurrentPage={setCurrentPage} calcPage={(c) => Math.max(0, c - 1)} title="לשלב הקודם"/>
+                        }
+                        {
+                            <PageButton currentPage={currentPage} setCurrentPage={setCurrentPage} valid={pagesValid[currentPage]} calcPage={(c) => Math.min(PAGES_AMOUNT - 1, c + 1)} title="לשלב הבא"/>
+                        }
                     </div>
                     <Bullets currentPage={currentPage} setCurrentPage={setCurrentPage} amount={3} />
                 </div>
@@ -83,6 +73,24 @@ export const CheckoutPage: React.FC<{}> = () => {
             <Footer />
         </>
     )
+}
+
+const isNil = (obj: any)=>{
+    return obj === null || obj === undefined
+}
+
+const PageButton: React.FC<{ currentPage: number, setCurrentPage: Dispatch<StateUpdater<number>>, valid?: boolean, title: string, calcPage: (v: number) => number}> = ({ currentPage, setCurrentPage, valid, calcPage, title }) => {
+    console.log("VALID: "+valid)
+    console.log("currentPage: "+currentPage)
+    return <div className={"no-select checkout-button checkout-proceed " + (valid === false ? "disabled" : "") + (isNil(valid) ? "checkout-back":"")} onClick={() => {
+        document.body.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+        if (isNil(valid) || valid) {
+            setCurrentPage((current) => calcPage(current))
+        }
+    }}>{title}</div>
 }
 
 const Payment: React.FC = () => {
@@ -202,6 +210,8 @@ const PersonlInfo: React.FC<{ info: PersonalInformation, setInfo: Dispatch<State
     useEffect(() => {
         let isValid = true
         for (let key in info) {
+            //TODO: undo the break
+            break;
             if (typeof Validations[key] === "function") {
                 console.log(`validations[${key}]: ${Validations[key]}`)
                 if (Validations[key]((info as any)[key]) === false) {

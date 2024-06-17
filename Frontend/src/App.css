@@ -232,6 +232,61 @@ div.sections-menu-item:nth-last-child(1) {
   margin-bottom: 1rem;
 } */
 
+@media screen and (max-width: 0px){
+  .sections-menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 4;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    max-width: 50vw;
+    max-height: 100%;
+    flex-direction: column;
+    overflow-y: scroll;
+    align-items: stretch;
+    direction: rtl;
+  }
+
+  div.sections-menu-item:nth-child(1) {
+    margin: 0;
+  }
+  
+  div.sections-menu-item:nth-last-child(1) {
+    margin: 0;
+  }
+  .sections-menu>div{
+    background: green;
+    margin: 0;
+  }
+
+  .sections-menu-item>div{
+    position: relative;
+    clip-path: none;
+    background: none;
+    width: unset;
+  }
+
+  .sections-menu-list span{
+    display: none;
+  }
+
+  .sections-menu-list>div{
+    background: none;
+  }
+
+  .sections-menu-list a::after{
+    background: green;
+  }
+
+  .sections-menu-list-subs{
+    flex-direction: column;
+    margin-right: 0!important;
+    margin-left: 0!important;
+    background: red;
+  }
+}
 #logo {
   width: calc(6em + 1vw);
   filter: invert(var(--invert));
@@ -547,6 +602,7 @@ div.sections-menu-item:nth-last-child(1) {
 
 .products {
   width: calc(100% - 7rem);
+  min-height: 18em;
   margin: 0.5rem auto;
   /* display: flex; */
   flex-wrap: wrap;
@@ -555,6 +611,23 @@ div.sections-menu-item:nth-last-child(1) {
   border-radius: 1em;
   padding: 1em;
   margin-bottom: 2em;
+  animation: productsAppear 0.5s ease forwards;
+  opacity: 0;
+  /* clip-path: inset(0 0 100% 0); */
+  transform-origin: top center;
+}
+
+@keyframes productsAppear {
+  0%{
+    opacity: 0;
+    transform: scaleY(0);
+    /* clip-path: inset(0 0 100% 0); */
+  }
+  100%{
+    /* clip-path: inset(0 0 0 0); */
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .products>div:nth-child(1) {
@@ -602,7 +675,7 @@ div.sections-menu-item:nth-last-child(1) {
   border-radius: 1em;
   padding: 0.75em 1em;
   transition: background 0.5s ease, transform 0.5s cubic-bezier(.17, .67, .8, 1.21);
-  animation: fadeIn 0.5s ease;
+  animation: fadeIn 1s ease;
 }
 
 

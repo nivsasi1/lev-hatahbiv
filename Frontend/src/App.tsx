@@ -39,6 +39,9 @@ function App() {
 
     didChangeScheme(window.matchMedia('(prefers-color-scheme: dark)'))
 
+   
+    // setUpApplePay() 
+
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', didChangeScheme)
     return () => {
       window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', didChangeScheme)
@@ -47,8 +50,37 @@ function App() {
   return (
     <CartContextProvider>
       <RouterProvider router={router} />
+      {/* <div id="lol" style="position: fixed; z-index: 99; background: red; top: 0; left: 0; padding: 1vw" onClick={setUpApplePay}>click</div> */}
     </CartContextProvider>
   );
+}
+
+const setUpApplePay = async ()=>{
+  // const apple_merch_id = ""
+  // if(window.ApplePaySession){
+  //   if(!window.ApplePaySession.canMakePayments()){
+  //     return;
+  //   }
+  //   if(window.ApplePaySession.canMakePaymentsWithActiveCard){
+  //     console.log(`::${await window.ApplePaySession.canMakePaymentsWithActiveCard(apple_merch_id)}`)
+  //   }
+    
+    let request = {
+      countryCode: 'IL',
+      currencyCode: 'ILS',
+      supportedNetworks: ["visa"],
+      merchantCapabilities: ["supports3DS"],
+      total: {label: 'Lev Hatahbiv', amount: '1.0'} 
+    }
+
+    let session = new ApplePaySession(3, request)
+    session.begin()
+    session.addEventListener("onvalidatemerchant", ()=>{
+      console.log('wow')
+    })
+    // let id = ""
+    // let capabilites = window.ApplePaySession.applePayCapabilities(id)
+  // }
 }
 
 export default App;
