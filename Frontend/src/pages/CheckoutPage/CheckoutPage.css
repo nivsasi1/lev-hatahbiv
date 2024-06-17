@@ -54,6 +54,11 @@
 
 .checkout-input-hint {
     font-size: 0.75em;
+    opacity: 0.5;
+}
+
+.invalid div.checkout-input-hint {
+    opacity: 1;
     color: #ed2626;
 }
 
@@ -93,14 +98,21 @@
     align-self: stretch;
 }
 
+.checkout-input-wrapper>div{
+    margin-right: 1em;
+    flex: 1;
+}
 .checkout-input-wrapper>div:first-child {
-    margin-left: 1em;
+    margin-right: 0;
 }
 
 .checkout-input-wrapper>div {
     flex-grow: 1;
 }
 
+.checkout-input input::placeholder{
+    opacity: 0.75;
+}
 
 .invalid.checkout-input input::placeholder {
     color: #e74646;
@@ -216,12 +228,13 @@
 
 .checkout-payment-option:hover,
 .checkout-delivery-option:hover {
-    background: var(--sub-container-hover);
+    background: var(--sub-container);
 }
 
 .selected.checkout-payment-option,
 .selected.checkout-delivery-option {
-    background: var(--sub-container);
+    background: var(--sub-container-hover);
+    /* background: red; */
 }
 
 .checkout-delivery-option>div:first-child {

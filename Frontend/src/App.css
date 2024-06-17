@@ -31,10 +31,13 @@
   --nav-menu: #222222e3;
   --nav-menu-list: #151515;
   --on-container: #303030;
+  --on-container: #242424;
   --shadow: #00000083;
   --invert: 100%;
   --sub-container: #252525;
+  --sub-container: #2e2e2e;
   --sub-container-hover: #3c3c3c;
+  --sub-container-hover: #353535;
   --secondary: #b2b2b2;
   --fee: #3c2323;
   --no-fee: #29352b;
@@ -43,6 +46,7 @@
 html {
   overflow: hidden;
   width: 100vw;
+  height: 100vh;
   margin: 0;
   height: 0;
 }
