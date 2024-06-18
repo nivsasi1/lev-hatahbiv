@@ -34,12 +34,11 @@ const router = createBrowserRouter([
 function App() {
   useEffect(() => {
     const didChangeScheme = (event: any) => {
-      document.body.classList.toggle("dark-theme", event.matches)
+      document.body.className = event.matches ? "dark-theme":""
+      document.documentElement.className = event.matches ? "dark-theme":""
     }
 
     didChangeScheme(window.matchMedia('(prefers-color-scheme: dark)'))
-
-   
     // setUpApplePay() 
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', didChangeScheme)

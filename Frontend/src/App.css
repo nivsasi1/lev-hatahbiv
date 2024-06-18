@@ -1018,6 +1018,8 @@ div.sections-menu-item:nth-last-child(1) {
   /* display: inline-block; */
   /* margin: 1em; */
   height: 1em;
+  transition: transform 0.5s ease;
+  will-change: transform;
 }
 
 .cart-sheet {

@@ -1,14 +1,14 @@
-import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks"
+import { Dispatch, StateUpdater, useContext, useEffect, useState } from "preact/hooks"
 import { Footer } from "../../global_components/Footer/Footer"
-import { Header } from "../../global_components/Header/Header"
 import "./CheckoutPage.css"
 import { Arrow } from "../ProductPreviewPage/ProductPreview"
 import { Link } from "react-router-dom"
 import creditImg from "../../assets/credit.png"
 import bitImg from "../../assets/bit.png"
-import { shouldProcessLinkClick } from "react-router-dom/dist/dom"
+import { CartContext } from "../../context/cart-context"
+import { Product } from "../../Types/globalTypes"
 
-const PAGES_AMOUNT = 4
+const PAGES_AMOUNT = 3
 export const CheckoutPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState(0)
     const [pagesValid, setPagesValid] = useState([false, true, false, false])
@@ -28,7 +28,6 @@ export const CheckoutPage: React.FC<{}> = () => {
 
     return (
         <>
-            {/* <Header shouldShowCartIcon={false} /> */}
             <div className={"checkout-page page-content"} style={"margin-top: 5em!important; margin-bottom: 5em!important"}>
                 <Link
                     to={""}
@@ -62,7 +61,7 @@ export const CheckoutPage: React.FC<{}> = () => {
                         setPagesValid(newState)
                     }} info={info} setInfo={setInfo} />}
                     {currentPage === 1 && <DeliveryInfo selected={deliveryType} setSelected={setDeliveryType} />}
-                    {currentPage === 2 && <Payment />}
+                    {currentPage === 2 && <Payment deliveryType={deliveryType} shouldShowErrors={shouldShowErrors}/>}
                     <div className={"checkout-buttons"}>
                         {
                             currentPage !== 0 && <PageButton setShouldShowErrors={setShouldShowErrors} currentPage={currentPage} setCurrentPage={setCurrentPage} calcPage={(c) => Math.max(0, c - 1)} title="לשלב הקודם" />
@@ -100,29 +99,37 @@ const PageButton: React.FC<{ setShouldShowErrors: Dispatch<StateUpdater<boolean>
     }}>{title}</div>
 }
 
-const Payment: React.FC = () => {
+const Payment: React.FC<{ deliveryType: number, shouldShowErrors?: boolean }> = ({ deliveryType, shouldShowErrors }) => {
     const [selected, setSelected] = useState(0)
 
     return <>
         <div className={"checkout-section-title"}>אמצעי תשלום</div>
-        <div className={"checkout-payment-options"}>
-            <div class={"checkout-payment-option " + (selected === 0 ? " selected" : "")} onClick={() => setSelected(0)}>
-                <div>
-                    כרטיס אשראי / חיוב
+        <div className={"checkout-payment"}>
+
+            <div>
+                <div className={"checkout-payment-options"}>
+                    <div class={"checkout-payment-option " + (selected === 0 ? " selected" : "")} onClick={() => setSelected(0)}>
+                        <div>
+                            כרטיס אשראי / חיוב
+                        </div>
+                        <div>
+                            <img src={creditImg} alt="" style={"vertical-align: middle"} />
+                            <span style={{ fontSize: "0.8em", display: "inline-block", margin: "0 0.3em 0 0" }}>ועוד...</span>
+                        </div>
+                    </div>
+                    <div class={"checkout-payment-option " + (selected === 1 ? " selected" : "")} onClick={() => setSelected(1)}>
+                        <div>bit</div>
+                        <div>
+                            <img src={bitImg} alt="" />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <img src={creditImg} alt="" style={"vertical-align: middle"} />
-                    <span style={{ fontSize: "0.8em", display: "inline-block", margin: "0 0.3em 0 0" }}>ועוד...</span>
-                </div>
+                {selected === 0 && <CreditPayment shouldShowErrors={shouldShowErrors} />}
             </div>
-            <div class={"checkout-payment-option " + (selected === 1 ? " selected" : "")} onClick={() => setSelected(1)}>
-                <div>bit</div>
-                <div>
-                    <img src={bitImg} alt="" />
-                </div>
+            <div>
+                <CartSummary deliveryType={deliveryType} />
             </div>
         </div>
-        {selected === 0 && <CreditPayment />}
     </>
 }
 
@@ -133,7 +140,7 @@ type CreditInformation = {
     owner: string
 }
 
-const CreditPayment: React.FC = () => {
+const CreditPayment: React.FC<{shouldShowErrors?: boolean}> = ({shouldShowErrors}) => {
     const [info, setInfo] = useState<CreditInformation>({
         number: "",
         date: "",
@@ -142,13 +149,42 @@ const CreditPayment: React.FC = () => {
     })
 
     return <div className={"checkout-credit-content"}>
-        <Input value={info.number} setValue={(value) => setInfo({ ...info, number: value })} title="מספר כרטיס" name="credit-number" placeholder="מספר כרטיס" type="number" warning="יש למלא מספר כרטיס תקין." check={() => true} />
+        <Input shouldShowError={shouldShowErrors} value={info.number} setValue={(value) => setInfo({ ...info, number: value })} title="מספר כרטיס" name="credit-number" placeholder="מספר כרטיס" type="string" warning="יש למלא מספר כרטיס תקין." check={ValidCreditNumber} />
         <div class="checkout-input-wrapper">
-            <Input value={info.date} setValue={(value) => setInfo({ ...info, date: value })} title="תאריך תפוגה" placeholder="MM / YY" name="credit-date" type="number" warning="יש למלא תאריך תפוגה תקין." check={()=> true} />
-            <Input value={info.code} setValue={(value) => setInfo({ ...info, code: value })} title="קוד אבטחה (CVV)" placeholder="XXX" name="credit-code" type="number" warning="יש למלא קוד אבטחה תקין (CVV)." check={()=> true}/>
+            <Input shouldShowError={shouldShowErrors} value={info.date} setValue={(value) => setInfo({ ...info, date: value })} title="תאריך תפוגה" placeholder="MM / YY" name="credit-date" type="string" apply={applyCreditDate} warning="יש למלא תאריך תפוגה תקין." check={ValidCreditDate} />
+            <Input shouldShowError={shouldShowErrors} value={info.code} setValue={(value) => setInfo({ ...info, code: value })} title="קוד אבטחה (CVV)" placeholder="XXX" name="credit-code" type="string" apply={(value) => NumberOnlyRanged(value, 4)} warning="יש למלא קוד אבטחה תקין (CVV)." check={(value) => String(value ?? "").match(/^\d{3,4}$/) != null} />
         </div>
-        <Input value={info.owner} setValue={(value) => setInfo({ ...info, owner: value })} title="שם בעל/ת הכרטיס" name="credit-owner" placeholder="שם מלא" type="number" warning="יש למלא את השם שלך כפי שהוא מוצג בכרטיס" check={()=> true} />
+        <Input shouldShowError={shouldShowErrors} value={info.owner} setValue={(value) => setInfo({ ...info, owner: value })} title="שם בעל/ת הכרטיס" name="credit-owner" placeholder="שם מלא" type="number" warning="יש למלא את השם שלך כפי שהוא מוצג בכרטיס" check={(value) => value !== ""} />
     </div>
+}
+
+const applyCreditDate = (value: any) => {
+    if (!value || value === "") {
+        return ""
+    }
+    let str = String(value)
+    if(!str.match(/^(0?[2-9]|1[0-2]?)\/?\d*$/)){
+        return str.slice(0, str.length - 1)
+        // return ""
+    }
+    if (str.match(/^1[0-2]\d+$/)) {
+        return str.slice(0, 2) + "/" + str.slice(2)
+    }else if (str.match(/^0[2-9]\d+$/)) {
+        return str.slice(0, 2) + "/" + str.slice(2)
+    } else if (str.match(/^[2-9]\d+$/)) {
+        return str[0] + "/" + str.slice(1)
+    } 
+    return str.slice(0, 7)
+}
+
+const ValidCreditDate = (value: any) => {
+    // return String(value ?? "").match(/^(0?[2-9]|1[0-2]?)\/?([0-9]{4}|[0-9]{2})$/) != null
+    return String(value ?? "").match(/^(0?[2-9]|1[0-2]?)\/?(2[0-9]{3}|[0-9]{2})$/) != null
+}
+
+const ValidCreditNumber = (value: any) =>{
+    // return String(value ?? "").match(/^[0-9]{4}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/) != null
+    return String(value ?? "").replace(/[,\-]/g,"").match(/^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/) != null
 }
 
 const BitPayment: React.FC = () => {
@@ -199,7 +235,7 @@ const Validations: any = {
     "mail": (value: string) => String(value ?? "").match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/) != null,
     "name": (value: string) => (value ?? "").length > 0,
     "lastname": (value: string) => (value ?? "").length > 0,
-    "address":  (value: string) => (value ?? "").length > 0,
+    "address": (value: string) => (value ?? "").length > 0,
     "region": null,
     "homenum": (value: string) => String(value ?? "").match(/^\d+$/) != null,
     "apartmentnum": (value: string) => String(value ?? "").match(/^\d+$/) != null,
@@ -218,7 +254,11 @@ const NumberOnly = (value: any) => {
     return ""
 }
 
-const PersonlInfo: React.FC<{ shouldShowErrors: boolean, info: PersonalInformation, setInfo: Dispatch<StateUpdater<PersonalInformation>>, setIsValid: (value: boolean) => void }> = ({ setIsValid, info, setInfo, shouldShowErrors}) => {
+const NumberOnlyRanged = (value: any, max: number)=>{
+    return NumberOnly(value).slice(0, max)
+}
+
+const PersonlInfo: React.FC<{ shouldShowErrors: boolean, info: PersonalInformation, setInfo: Dispatch<StateUpdater<PersonalInformation>>, setIsValid: (value: boolean) => void }> = ({ setIsValid, info, setInfo, shouldShowErrors }) => {
     useEffect(() => {
         let isValid = true
         for (let key in info) {
@@ -238,11 +278,11 @@ const PersonlInfo: React.FC<{ shouldShowErrors: boolean, info: PersonalInformati
     return <>
         <div class={"checkout-section-title"}>פרטים אישיים</div>
         <Input shouldShowError={shouldShowErrors} value={info.mail} setValue={(value) => { setInfo({ ...info, mail: value }) }} name="mail" title="מייל" type="email" check={Validations["mail"]} placeholder="mail@example.com" warning="יש למלא כתובת מייל, לדוגמה: example@mysite.com" flipped={true} />
-        <Input shouldShowError={shouldShowErrors} value={info.name} setValue={(value) => { setInfo({ ...info, name: value }) }} name="name" title="שם פרטי" placeholder="שם פרטי" check={Validations["name"]}/>
-        <Input shouldShowError={shouldShowErrors} value={info.lastname} setValue={(value) => { setInfo({ ...info, lastname: value }) }} name="lastname" title="שם משפחה" placeholder="שם משפחה" check={Validations["lastname"]}/>
+        <Input shouldShowError={shouldShowErrors} value={info.name} setValue={(value) => { setInfo({ ...info, name: value }) }} name="name" title="שם פרטי" placeholder="שם פרטי" check={Validations["name"]} />
+        <Input shouldShowError={shouldShowErrors} value={info.lastname} setValue={(value) => { setInfo({ ...info, lastname: value }) }} name="lastname" title="שם משפחה" placeholder="שם משפחה" check={Validations["lastname"]} />
         <div class={"checkout-section-title"}>פרטי המשלוח</div>
         <Input setValue={() => { }} name="region" title="מדינה/אזור" value="ישראל" disabled={true} />
-        <Input shouldShowError={shouldShowErrors} value={info.address} setValue={(value) => { setInfo({ ...info, address: value }) }} name="address" title="כתובת מגורים" placeholder="כתובת מגורים (עיר + רחוב)" warning="יש למלא את כתובת המגורים" check={Validations["address"]}/>
+        <Input shouldShowError={shouldShowErrors} value={info.address} setValue={(value) => { setInfo({ ...info, address: value }) }} name="address" title="כתובת מגורים" placeholder="כתובת מגורים (עיר + רחוב)" warning="יש למלא את כתובת המגורים" check={Validations["address"]} />
         <div className={"checkout-input-wrapper"}>
             <Input shouldShowError={shouldShowErrors} value={info.homenum} setValue={(value) => { setInfo({ ...info, homenum: value }) }} name="homenum" title="מספר בית" placeholder="מספר בית" type="text" check={Validations["homenum"]} warning="יש למלא מספר בית" apply={NumberOnly} />
             <Input shouldShowError={shouldShowErrors} value={info.apartmentnum} setValue={(value) => { setInfo({ ...info, apartmentnum: value }) }} name="apartmentnum" title="מספר דירה" placeholder="מספר דירה" type="text" check={Validations["apartmentnum"]} warning="יש למלא מספר דירה" apply={NumberOnly} />
@@ -255,17 +295,17 @@ const PersonlInfo: React.FC<{ shouldShowErrors: boolean, info: PersonalInformati
 const DELIVERY_TYPES = [
     {
         title: "משלוח עד הבית",
-        price: "35.00₪",
+        price: 35,
         note: "(5 - 1) " + "ימי עבודה",
     },
     {
         title: "דואר רשום",
-        price: "28.00₪",
+        price: 28,
         note: "דואר ישראל " + "(14 - 7) " + "ימי עסקים",
     },
     {
         title: "איסוף עצמי",
-        price: "חינם",
+        price: 0,
     },
 ]
 
@@ -278,25 +318,109 @@ const DeliveryInfo: React.FC<{ selected: number, setSelected: Dispatch<StateUpda
     </>
 }
 
-const DeliveryOption: React.FC<{ title: string, price: string, info?: string, selected: boolean, onClick: () => void }> = ({ selected, onClick, title, price, info }) => {
+const DeliveryOption: React.FC<{ title: string, price: number, info?: string, selected: boolean, onClick: () => void }> = ({ selected, onClick, title, price, info }) => {
     return (
         <div className={"checkout-delivery-option" + (selected ? " selected" : "")} onClick={onClick}>
             <div>
                 <span>{title}</span>
                 {info && <span>{info}</span>}
             </div>
-            <div>{price}</div>
+            <div>{Number(price) === 0 ? "חינם" : price + "₪"}</div>
         </div>)
 }
 
-const isFunc = (obj: any)=>{
+const CartSummary: React.FC<{ deliveryType: number }> = ({ deliveryType }) => {
+    const cartContext = useContext(CartContext)
+    const [expanded, setExpanded] = useState(false)
+    const [productsAmount, setProductsAmount] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    useEffect(() => {
+        setProductsAmount(cartContext.cartData?.reduce((sum, info) => sum + info.howMany, 0) ?? 0)
+        setTotalPrice(getTotalPrice(cartContext))
+    }, [cartContext])
+
+    return <div className={"checkout-cart-summary"}>
+        <div className={"checkout-cart-toggle no-select"} onClick={() => setExpanded((last) => !last)}>
+            <div>
+                <span>סיכום ההזמנה</span>&nbsp;
+                <span>{productsAmount} פריטים</span>
+            </div>
+            <div>
+                <Arrow rotate={expanded ? 90 : -90} />
+            </div>
+        </div>
+        <div className={"cart-summary-content" + (expanded ? " expanded" : "")}>
+            <div className={"checkout-cart-products scrollbar"}>
+                {
+                    cartContext.cartData?.map((info) =>
+                        <ProductSummary product={info.product} amount={info.howMany} />) ?? "nothing"
+                }
+            </div>
+            <div className="ho-divider"></div>
+            <div className={"checkout-cart-title"}>אופן שילוח</div>
+            <div className={"checkout-cart-section"}>
+                <span>
+                    {DELIVERY_TYPES[deliveryType].title}
+                    <span style="font-size: 0.9em; opacity: 0.5; display: inline-block; font-weight: 550; margin-right: 0.5em">{DELIVERY_TYPES[deliveryType].note}</span>
+                </span>
+                <span>{DELIVERY_TYPES[deliveryType].price === 0 ? "חינם" : DELIVERY_TYPES[deliveryType].price + "₪"}</span>
+            </div>
+            <div className="ho-divider"></div>
+            <div className="checkout-cart-title">
+                סיכום
+            </div>
+            <div class={"checkout-cart-section"}>
+                <span>סכום ביניים</span>
+                <span>
+                    {totalPrice}₪
+                </span>
+            </div>
+            <div class={"checkout-cart-section"}>
+                <span>סכום + שילוח לפני מע״מ</span>
+                <span>
+                    {totalPrice + DELIVERY_TYPES[deliveryType].price}₪
+                </span>
+            </div>
+            <div class={"checkout-cart-section"}>
+                <span></span>
+                <span>+ x0.17</span>
+            </div>
+        </div>
+        <div class={"checkout-cart-final-price"}>
+            <span>
+                סכום סופי
+                (כולל מע״מ)
+            </span>
+            <span>{Math.floor(totalPrice * 1.17) + DELIVERY_TYPES[deliveryType].price}₪</span>
+        </div>
+    </div>
+}
+
+const ProductSummary: React.FC<{ product: Product, amount: number }> = ({ product, amount }) => {
+    return <div className={"checkout-product-summary"}>
+        <div>
+            <img src={"/images/" + product.img} onError={(e) => e.currentTarget.style.display = 'none'} onLoad={(e) => e.currentTarget.style.display = 'block'} />
+        </div>
+        <div>
+            <div>{product.name}</div>
+        </div>
+        <div className={"checkout-product-sum-price"}>{amount} x {product.price}₪ = {product.price * amount}</div>
+    </div>
+}
+
+const getTotalPrice = (cartContext: any) => {
+    return cartContext.cartData?.reduce((sum: any, info: any) => sum + info.howMany * info.product.price, 0) ?? 0
+}
+
+const isFunc = (obj: any) => {
     return typeof obj === "function"
 }
 
 const Input: React.FC<{ shouldShowError?: boolean, flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError }) => {
     const [isValid, setIsValid] = useState(isFunc(check) ? check!(isFunc(apply) ? apply!(value) : value) : false)
 
-    console.log(title+"->isValid: "+isValid+", showError:"+shouldShowError)
+    console.log(title + "->isValid: " + isValid + ", showError:" + shouldShowError)
     return <div className={"checkout-input " + (shouldShowError && !isValid ? "invalid" : "") + (disabled ? " disabled" : "") + (flipped ? " flipped" : "")}>
         {title && <div className={"checkout-input-title"}>{title}</div>}
         <input onInput={(e) => {
