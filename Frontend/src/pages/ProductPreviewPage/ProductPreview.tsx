@@ -166,6 +166,10 @@ export const ProductPreview: React.FC = () => {
                     ""
                   )}
 
+                  {/* TODO: make a toast for updating/adding product */}
+                  {/* <div>
+                    המוצר עודכן לכמות של {productsAmount} פריטים
+                  </div> */}
                   <div
                     className={"product-preview-add"}
                     onClick={() => {

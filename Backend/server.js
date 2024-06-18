@@ -19,6 +19,7 @@ require("dotenv").config({ path: ".env" });
 
 //app config
 const app = express();
+app.use(express.json());
 const port = process.env.PORT || 5000;
 // app.set("view engine", "ejs");
 
@@ -36,81 +37,81 @@ const dbUrl = process.env.DB_URL;
 
 // Connect to Mongo with Mongoose
 const store = new MongoDBSession({
-    uri: dbUrl,
-    collection: "sessions",
+  uri: dbUrl,
+  collection: "sessions",
 });
 
 mongoose
-    .connect(dbUrl, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        // useCreateIndex: true,
-    })
-    .then(() =>
-        console.log("MongoDB database connection established successfully")
-    )
-    .catch((err) => console.log(err));
+  .connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    // useCreateIndex: true,
+  })
+  .then(() =>
+    console.log("MongoDB database connection established successfully")
+  )
+  .catch((err) => console.log(err));
 
 app.use(
-    session({
-        secret: process.env.SECRET,
-        resave: false,
-        saveUninitialized: false,
-        store: store,
-        cookie: {
-            maxAge: 60 * 60 * 1000 * 24, // 1 day
-            secure: false, // Set to true if using HTTPS
-            httpOnly: true,
-        },
-    })
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+      maxAge: 60 * 60 * 1000 * 24, // 1 day
+      secure: false, // Set to true if using HTTPS
+      httpOnly: true,
+    },
+  })
 );
 
 passport.use(
-    new Strategy(
-        {
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: process.env.SECRET,
-        },
-        function (jwtPayload, done) {
-            return done(null, jwtPayload);
-        }
-    )
+  new Strategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.SECRET,
+    },
+    function (jwtPayload, done) {
+      return done(null, jwtPayload);
+    }
+  )
 );
 
 // Configure the local strategy
 passport.use(
-    "local",
-    new LocalStrategy(
-        { usernameField: "username", passwordField: "password" },
-        (username, password, done) => {
-            // console.log(personalnumber, adminpassword);
-            if (password !== process.env.PASS) {
-                return done(new Error("invalid admin password"), null);
-            }
-            User.findOne({ username })
-                .then((user) => {
-                    if (!user || !user.approved) {
-                        if (!user) return done("not found", null);
-                    } else {
-                        done(null, user.toObject());
-                    }
-                })
-                .catch((err) => {
-                    return done(err, null);
-                });
-        }
-    )
+  "local",
+  new LocalStrategy(
+    { usernameField: "username", passwordField: "password" },
+    (username, password, done) => {
+      // console.log(personalnumber, adminpassword);
+      if (password !== process.env.PASS) {
+        return done(new Error("invalid admin password"), null);
+      }
+      User.findOne({ username })
+        .then((user) => {
+          if (!user || !user.approved) {
+            if (!user) return done("not found", null);
+          } else {
+            done(null, user.toObject());
+          }
+        })
+        .catch((err) => {
+          return done(err, null);
+        });
+    }
+  )
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 if (process.env.NODE_ENV === "production") {
-    //set static folder
-    app.use(express.static("frontend/build"));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-    });
+  //set static folder
+  app.use(express.static("frontend/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
 }
 // app.post("/admin_signin", async (req, res, next) => {
 //     passport.authenticate("local", { session: false }, (err, user, info) => {
@@ -154,14 +155,9 @@ if (process.env.NODE_ENV === "production") {
 //     }
 // );
 
-
 const products = require("./routes/products/products");
-app.use(
-    "/",
-    products
-);
-
+app.use("/", products);
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+  console.log(`Server is running on port: ${port}`);
 });

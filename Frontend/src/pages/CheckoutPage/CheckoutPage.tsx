@@ -82,7 +82,7 @@ const isNil = (obj: any) => {
     return obj === null || obj === undefined
 }
 
-const PageButton: React.FC<{ setShouldShowErrors: Dispatch<StateUpdater<boolean>>, currentPage: number, setCurrentPage: Dispatch<StateUpdater<number>>, valid?: boolean, title: string, calcPage: (v: number) => number }> = ({ currentPage, setCurrentPage, valid, calcPage, title, setShouldShowErrors }) => {
+export const PageButton: React.FC<{ setShouldShowErrors: Dispatch<StateUpdater<boolean>>, currentPage: number, setCurrentPage: Dispatch<StateUpdater<number>>, valid?: boolean, title: string, calcPage: (v: number) => number }> = ({ currentPage, setCurrentPage, valid, calcPage, title, setShouldShowErrors }) => {
     console.log("VALID: " + valid)
     console.log("currentPage: " + currentPage)
     return <div className={"no-select checkout-button checkout-proceed " + (valid === false ? "disabled" : "") + (isNil(valid) ? "checkout-back" : "")} onClick={() => {
@@ -418,7 +418,7 @@ const isFunc = (obj: any) => {
     return typeof obj === "function"
 }
 
-const Input: React.FC<{ shouldShowError?: boolean, flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError }) => {
+export const Input: React.FC<{ shouldShowError?: boolean, flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError }) => {
     const [isValid, setIsValid] = useState(isFunc(check) ? check!(isFunc(apply) ? apply!(value) : value) : false)
 
     console.log(title + "->isValid: " + isValid + ", showError:" + shouldShowError)

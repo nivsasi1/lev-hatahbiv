@@ -17,6 +17,16 @@ exports.getDataBySub0Cat = async (req, res) => {
   }
 };
 
+exports.addProduct = async (req, res) => {
+  try {
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+    res.status(200).json({ data: newProduct });
+  } catch (err) {
+    res.status(400).json({ error: true, error_message: "Error: " + err });
+  }
+};
+
 exports.fetchProductById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -131,6 +141,6 @@ exports.getCategoryTree = async (req, res) => {
       },
     },
   ]);
-
+  console.log(result[0]);
   res.status(200).json({ data: result[0] });
 };
