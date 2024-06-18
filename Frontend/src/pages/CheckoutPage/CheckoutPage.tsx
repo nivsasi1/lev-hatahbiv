@@ -7,6 +7,7 @@ import creditImg from "../../assets/credit.png"
 import bitImg from "../../assets/bit.png"
 import { CartContext } from "../../context/cart-context"
 import { Product } from "../../Types/globalTypes"
+import { Input } from "../../global_components/Input/Input"
 
 const PAGES_AMOUNT = 3
 export const CheckoutPage: React.FC<{}> = () => {
@@ -86,7 +87,7 @@ export const PageButton: React.FC<{ setShouldShowErrors: Dispatch<StateUpdater<b
     console.log("VALID: " + valid)
     console.log("currentPage: " + currentPage)
     return <div className={"no-select checkout-button checkout-proceed " + (valid === false ? "disabled" : "") + (isNil(valid) ? "checkout-back" : "")} onClick={() => {
-        setShouldShowErrors(!isNil(valid))
+        setShouldShowErrors(!isNil(valid) && !valid)
         setTimeout(() => {
             document.body.scrollTo({
                 top: 0,
@@ -418,25 +419,25 @@ const isFunc = (obj: any) => {
     return typeof obj === "function"
 }
 
-export const Input: React.FC<{ shouldShowError?: boolean, flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError }) => {
-    const [isValid, setIsValid] = useState(isFunc(check) ? check!(isFunc(apply) ? apply!(value) : value) : false)
+// export const Input: React.FC<{ shouldShowError?: boolean, flipped?: boolean, title?: string, value: any, setValue: (value: any) => void, apply?: (v: any) => any, placeholder?: string, warning?: string, check?: (v: string) => boolean, type?: string, disabled?: boolean, name: string }> = ({ title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError }) => {
+//     const [isValid, setIsValid] = useState(isFunc(check) ? check!(isFunc(apply) ? apply!(value) : value) : false)
 
-    console.log(title + "->isValid: " + isValid + ", showError:" + shouldShowError)
-    return <div className={"checkout-input " + (shouldShowError && !isValid ? "invalid" : "") + (disabled ? " disabled" : "") + (flipped ? " flipped" : "")}>
-        {title && <div className={"checkout-input-title"}>{title}</div>}
-        <input onInput={(e) => {
-            let newValue = apply ? apply(e.currentTarget.value) : e.currentTarget.value
-            if (!disabled) {
-                if (check) {
-                    setIsValid(check(newValue))
-                }
-                setValue(newValue)
-                e.currentTarget.value = newValue
-            }
-        }} name={name} placeholder={placeholder ?? ""} type={type ?? "text"} disabled={disabled === true} value={value ?? ""} />
-        {(!isValid && (value !== "") || (shouldShowError && !isValid)) && <div className={"checkout-input-hint"}>{warning ?? ""}</div>}
-    </div>
-}
+//     console.log(title + "->isValid: " + isValid + ", showError:" + shouldShowError)
+//     return <div className={"checkout-input " + (shouldShowError && !isValid ? "invalid" : "") + (disabled ? " disabled" : "") + (flipped ? " flipped" : "")}>
+//         {title && <div className={"checkout-input-title"}>{title}</div>}
+//         <input onInput={(e) => {
+//             let newValue = apply ? apply(e.currentTarget.value) : e.currentTarget.value
+//             if (!disabled) {
+//                 if (check) {
+//                     setIsValid(check(newValue))
+//                 }
+//                 setValue(newValue)
+//                 e.currentTarget.value = newValue
+//             }
+//         }} name={name} placeholder={placeholder ?? ""} type={type ?? "text"} disabled={disabled === true} value={value ?? ""} />
+//         {(!isValid && (value !== "") || (shouldShowError && !isValid)) && <div className={"checkout-input-hint"}>{warning ?? ""}</div>}
+//     </div>
+// }
 
 const Bullets: React.FC<{ currentPage: number, setCurrentPage: Dispatch<StateUpdater<number>>, amount: number }> = ({ currentPage, setCurrentPage, amount }) => {
     return <div className={"bullets"}>

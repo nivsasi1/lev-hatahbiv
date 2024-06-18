@@ -122,7 +122,7 @@ body {
   color: var(--text);
 }
 
-.sections-menu>div {
+.sections-menu-item {
   position: relative;
   /* padding: 0 0.5em; */
   margin: 0 1rem;

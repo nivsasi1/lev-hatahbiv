@@ -1,0 +1,89 @@
+:root{
+    --dropdown-menu: #dfdfdf;
+    --dropdown-menu-selected: #efefef;
+    --dropdown-menu-hover: #ededed;
+}
+
+.dark-theme{
+    --dropdown-menu: #202020;
+    --dropdown-menu-selected: #343434;
+    --dropdown-menu-hover: #333;
+}
+
+.baka-dropdown {
+    direction: rtl;
+    position: relative;
+    background: var(--on-container);
+    color: var(--text);
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    margin: 0 0 1em 0;
+    display: flex;
+    z-index: 4;
+    cursor: pointer;
+    transition: background 0.5s ease;
+}
+
+.baka-dropdown.opened {
+    background: var(--dropdown-menu);
+}
+
+.baka-dropdown>div:first-child {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.baka-dropdown svg {
+    display: inline-block;
+    margin: 0 auto 0 0em;
+    will-change: transform;
+    transition: transform 0.5s ease;
+    transform-origin: center;
+}
+
+.baka-dropdown span {
+    margin: 0 0 0 0.5em;
+}
+
+.baka-dropdown-options {
+    cursor: auto;
+    display: none;
+    top: calc(100% + 0.5em);
+    position: absolute;
+    right: 0;
+    /* overflow-y: scroll; */
+    width: calc(100% - 0.5em);
+    padding: 0.25em 0.25em;
+    border-radius: 1em;
+    background: var(--dropdown-menu);
+}
+
+.baka-dropdown-options.opened {
+    display: block;
+}
+
+.baka-dropdown-option {
+    margin: 0.4em 0.5em 0.4em 0.5em;
+    padding: 0.3em 0.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.baka-dropdown-option.selected {
+    background: var(--dropdown-menu-selected);
+}
+
+.baka-dropdown-option span {
+    display: inline-block;
+    font-weight: 500;
+}
+
+.baka-dropdown-option:hover {
+    background: var(--dropdown-menu-hover);
+}
+
+.baka-dropdown-option span:nth-child(3) {
+    font-size: 0.9em;
+    opacity: 0.7;
+}

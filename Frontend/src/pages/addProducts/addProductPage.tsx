@@ -1,6 +1,8 @@
 import { useState } from "preact/hooks";
-import { Product } from "../../Types/globalTypes";
-import { Input, PageButton } from "../CheckoutPage/CheckoutPage";
+import { PageButton } from "../CheckoutPage/CheckoutPage";
+import { Input, useInput } from "../../global_components/Input/Input";
+import { DropDown } from "../../global_components/DropDown/DropDown";
+import "./addProductPage.css"
 
 interface newProduct {
   name: string;
@@ -76,12 +78,25 @@ export const AddProductPage: React.FC = () => {
   };
 
   return (
-    <div className={"checkout-credit-content"}>
+    <div className={"add-product-form"}>
       {/* //חובה */}
+      {/* <Input {...useInput({
+        shouldShowError: shouldShowErrors,
+        name: "product-name",
+        key: "name",
+        info: productInfo,
+        setValue: setProductInfo,
+        title: "שם המוצר",
+        placeholder: "שם המוצר",
+        type: "string",
+        warning: "השם לא יכול להיות ריק",
+        check: (value) => value !== ""
+      })}/> */}
+         {/* setValue={(value) => setProductInfo({ ...productInfo, name: value })} */}
       <Input
         shouldShowError={shouldShowErrors}
         value={productInfo.name}
-        setValue={(value) => setProductInfo({ ...productInfo, name: value })}
+        setValue={(value) => setProductInfo({...productInfo, name: value})}
         title="שם המוצר"
         name="product-name"
         placeholder="שם המוצר"
@@ -89,7 +104,7 @@ export const AddProductPage: React.FC = () => {
         warning="השם לא יכול להיות ריק"
         check={(value) => value !== ""}
       />
-      <div class="checkout-input-wrapper">
+      <div class="baka-input-wrapper">
         {/* //חובה */}
         <Input
           shouldShowError={shouldShowErrors}
@@ -117,7 +132,7 @@ export const AddProductPage: React.FC = () => {
           placeholder="0"
           name="product-salePrecentage"
           type="number"
-          warning="למקרה ואין מבצע, השאירו 0, אם יש מבצע תשימו את האחוז של המבצע ונעדכן את המחיר בהתאם אוטומטית"
+          warning="במידה ויש מבצע/הנחה על המוצר, מלאו כאן באחוזים"
         />
         {/* //לא חובה, אם לא מכניסים שולחים 0 */}
         <Input
@@ -130,23 +145,14 @@ export const AddProductPage: React.FC = () => {
           placeholder="0"
           name="product-quantity"
           type="number"
-          warning="למקרה ואין הגבלה כרגע, השאירו 0, אם אין במלאי תשאירו 0 ותשנו את האזל במלאי"
+          warning="אם אזל המלאי או שהכמות אינה ידועה השאירו 0"
         />
       </div>
       {/* TODO: dropdown for isAvailable, יש במלאי \ נגמר במלאי */}
-      {/* //לא חובה למלא, אפשרות אוטומטית זה זמין במלאי וזה מה שנשלח אם לא משנים את זה */}
-      <Input
-        shouldShowError={shouldShowErrors}
-        value={productInfo.isAvailable}
-        setValue={(value) =>
-          setProductInfo({ ...productInfo, isAvailable: value })
-        }
-        title="זמין במלאי"
-        name="is-available"
-        placeholder="זמין"
-        type="string"
-      />
-      {/* //לא חובה יכול להשלח ריק */}
+      {/* לא חובה למלא, אפשרות אוטומטית זה זמין במלאי וזה מה שנשלח אם לא משנים את זה */}
+      <div className="add-product-section-title">זמינות במלאי</div>
+      <DropDown selected={productInfo.isAvailable ? 0:1} didSelect={(index)=> setProductInfo({...productInfo, isAvailable: index === 0})} options={["זמין", "לא זמין"]} />
+      {/* לא חובה יכול להשלח ריק */}
       <Input
         shouldShowError={shouldShowErrors}
         value={productInfo.desc}
@@ -156,8 +162,10 @@ export const AddProductPage: React.FC = () => {
         placeholder="תיאור המוצר"
         type="string"
       />
-      {/* //חובה */}
+      {/* חובה */}
       {/* TODO: dropdown for category tree, קטגוריה, תת קטגוריה, תת תת קטגוריה */}
+      <div className={"add-product-section-title"}>קטגוריה</div>
+      <DropDown selected={0} didSelect={()=>{}} options={["false", "true"]} />
       {/* חובה, להעלות תמונה, שולחים לבאק את השם שלה */}
       <div className={"checkout-buttons"}>
         {

@@ -1,0 +1,84 @@
+.baka-input {
+    font-size: 1em;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.7em;
+    color: var(--text);
+}
+
+.baka-input-title {
+    margin-right: 0.2em;
+    font-size: 0.9em;
+}
+
+.baka-input-hint {
+    font-size: 0.75em;
+    opacity: 0.5;
+}
+
+.invalid div.baka-input-hint {
+    opacity: 1;
+    color: #ed2626;
+}
+
+.baka-input input {
+    outline: none;
+    padding: 0.5em 1em;
+    font-size: 0.8rem;
+    color: var(--text);
+    background: var(--on-container);
+    margin: 0.2em 0;
+    border: 1.5pt solid transparent;
+    border-radius: 0.75em;
+    font-weight: 500;
+    min-width: unset;
+    width: calc(100% - 2.5em);
+}
+
+.baka-input input::-webkit-inner-spin-button {
+    display: none;
+}
+
+.baka-input input:focus {
+    border: 1.5pt solid #999;
+}
+
+.disabled.baka-input input {
+    font-weight: 550;
+    background: var(--disabled-input);
+}
+
+.invalid.baka-input input {
+    border-color: #ed2626;
+    background: var(--invalid-background);
+}
+
+.baka-input-wrapper {
+    direction: rtl;
+    display: flex;
+    width: 100%;
+    align-self: stretch;
+}
+
+.baka-input-wrapper>div {
+    margin-right: 1em;
+    flex: 1;
+}
+
+.baka-input-wrapper>div:first-child {
+    margin-right: 0;
+}
+
+.baka-input-wrapper>div {
+    flex-grow: 1;
+}
+
+.baka-input input::placeholder {
+    opacity: 0.75;
+}
+
+.invalid.baka-input input::placeholder {
+    color: #e74646;
+    opacity: 1;
+}
