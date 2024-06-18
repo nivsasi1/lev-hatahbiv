@@ -179,7 +179,8 @@ const applyCreditDate = (value: any) => {
 
 const ValidCreditDate = (value: any) => {
     // return String(value ?? "").match(/^(0?[2-9]|1[0-2]?)\/?([0-9]{4}|[0-9]{2})$/) != null
-    return String(value ?? "").match(/^(0?[2-9]|1[0-2]?)\/?(2[0-9]{3}|[0-9]{2})$/) != null
+    // return String(value ?? "").match(/^(0?[2-9]|1[0-2]?)\/?(2[0-9]{3}|[0-9]{2})$/) != null
+    return String(value ?? "").match(/^(0?[2-9]|1[0-2]?)\/?([0-9]{2})$/) != null
 }
 
 const ValidCreditNumber = (value: any) =>{
