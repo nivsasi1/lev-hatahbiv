@@ -9,11 +9,11 @@ import CartSheet from "../../global_components/Header/Cart/CartSheet";
 import "./ProductPreview.css";
 import { Footer } from "../../global_components/Footer/Footer";
 
-export const Arrow: React.FC<{ rotate?: number }> = ({ rotate }) => {
+export const Arrow: React.FC<{ rotate?: number, className?: string }> = ({ rotate, className }) => {
   return (
     <svg
       viewBox={"0 0 100 100"}
-      className={"arrow"}
+      className={"arrow "+(className ?? "")}
       style={`transform: rotate(${Number(rotate) || 0}deg)`}
     >
       <path

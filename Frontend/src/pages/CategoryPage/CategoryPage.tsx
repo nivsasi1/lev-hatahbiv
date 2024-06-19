@@ -16,7 +16,7 @@ export const CategoryPage: React.FC = () => {
     <>
       <Header setShowCartSheet={setCartSheetVisible}/>
       <CartSheet show={cartSheetVisible} setShow={setCartSheetVisible}/>
-      <div style={{ marginTop: "10rem" }}>
+      <div class={"page-content"}>
         <CategoryContent category={cat || ""} subCategory={sub_cat || ""} />
       </div>
       <Footer />

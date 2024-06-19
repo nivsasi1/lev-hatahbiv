@@ -53,7 +53,7 @@ export const SearchBar: React.FC = () => {
 };
 
 const SearchResult: React.FC<{ product: Product }> = ({ product }) => {
-  console.log(product);
+  // console.log(product);
   return (
     <Link to={"/product/" + product._id} className={"search-result"}>
       <div class="search-result-content">

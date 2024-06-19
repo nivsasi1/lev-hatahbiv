@@ -11,7 +11,7 @@ export const Cart: React.FC<{amount: number, setShowCartSheet?: Dispatch<StateUp
           }
         }>
       <img src={CartPng}/>
-      <div>סל קנייה</div>
+      {/* <div>סל קנייה</div> */}
       {amount > 0 && <div className={"bag-count"}>{amount}</div>}
     </div>
   );

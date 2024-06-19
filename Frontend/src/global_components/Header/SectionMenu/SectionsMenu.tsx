@@ -1,6 +1,8 @@
 // import { useEffect, useState } from "preact/hooks";
 import { Link } from "react-router-dom";
 import SectionMenuList from "./menu.json"
+import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
+import { Arrow } from "../../../pages/ProductPreviewPage/ProductPreview";
 
 interface SectionsMenuItem {
     title: string;
@@ -8,17 +10,29 @@ interface SectionsMenuItem {
     options?: Array<{ optionTitle?: string, route?: string }>;
 }
 
-export const SectionsMenu: React.FC = () => {
-    // const [setctionMenuTitles, setSectionMenuTitles] = useState<SectionMenuItem[]>({});
-    // useEffect({
-    //     const setctionData = await getSetctionMenuTitles();
-    //     if (sectionData.data){setSectionMenuTitles(sectionData.data)}
-    // },[]);
-    // let data = JSON.parse(SectionMenuList)
-    // console.log(SectionMenuList)
-    // // let data = SectionMenuList as Array<any>
+export const SectionsMenu: React.FC<{ visible: boolean, setVisible: Dispatch<StateUpdater<boolean>> }> = ({ visible, setVisible }) => {
+    const ref = useRef<HTMLDivElement | null>(null)
 
-    return (<div className={"sections-menu"}>
+    useEffect(() => {
+        const clickOut = (e: Event) => {
+            let target = (e.target as HTMLElement)
+            if (target instanceof HTMLElement && (target.className.includes("menu-toggle-button") || (target.parentElement && target.parentElement.className.includes("menu-toggle-button")))) {
+                return;
+            }
+            if (ref.current && !ref.current.contains(e.target as Node)) {
+                setVisible(false)
+            } 
+        }
+
+        window.addEventListener("mousedown", clickOut)
+        window.addEventListener("touchstart", clickOut)
+        return () => {
+            window.removeEventListener("mousedown", clickOut)
+            window.removeEventListener("touchstart", clickOut)
+        }
+    })
+
+    return (<div className={"sections-menu " + (visible ? "visible" : "")} ref={ref}>
         {SectionMenuList.map((section) => {
             return (<SectionsMenuItem title={section.title} route={section.route} options={section.options} />)
         }
@@ -27,9 +41,14 @@ export const SectionsMenu: React.FC = () => {
 }
 
 const SectionsMenuItem: React.FC<SectionsMenuItem> = ({ title, route, options }) => {
-    return (<div className={"sections-menu-item"}>
-        <span><Link to={`/category?cat=${title}&sub_cat=0`}>{title}</Link></span>
-        <div className={"sections-menu-list"}>
+    const [expanded, setExpanded] = useState(false)
+
+    return (<div className={"sections-menu-item no-select"} onClick={() => { setExpanded((v) => !v) }}>
+        <span>
+            <Link to={`/category?cat=${title}&sub_cat=0`}>{title}</Link>
+            <Arrow rotate={expanded ? -90 : 0} className={"sections-menu-item-arrow"} />
+        </span>
+        <div className={"sections-menu-list" + (expanded ? " expanded" : "")}>
             <div>
                 <span>{title}</span>
                 <div className={"sections-menu-list-subs"}>
