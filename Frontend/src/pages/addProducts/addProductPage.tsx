@@ -6,6 +6,7 @@ import "./addProductPage.css";
 import SectionMenuList from "../../global_components/Header/SectionMenu/menu.json";
 import React from "preact/compat";
 import FileIcon from "../../assets/file_upload.svg"
+import { Toast, ToastType } from "../../global_components/Toast/Toast";
 
 interface newProduct {
   name: string;
@@ -103,17 +104,36 @@ export const AddProductPage: React.FC = () => {
       console.log("product added successfuly");
       //TODO: toast message added successfuly
       //TODO: clear all inputs for new product
+      setToastType(ToastType.Normal)
+      setToastTitle("המוצר הועלאה בהצלחה")
+      setShowToast(true)
       return true;
     } else {
       console.log("product not added");
       //TODO: toast message failed to add product
       //TODO: toast why it failed, (error message)
+      setToastType(ToastType.Error)
+      setToastTitle("שגיאה בהעלאת המוצר")
+      setShowToast(true)
       return false;
     }
   };
 
+  const [showToast, setShowToast] = useState(true)
+  const [toastTitle, setToastTitle] = useState("example")
+  const [toastType, setToastType] = useState<ToastType>(ToastType.Action)
+
+  //TODO: remove this
+  // useEffect(()=>{
+  //   setTimeout(()=>{
+  //     setToastTitle("damm")
+  //     setShowToast(true)
+  //   }, 2000)
+  // },[])
+
   return (
     <div className={"add-product-form"}>
+      <Toast show={showToast} setShow={setShowToast} title={toastTitle} maxTime={4000} type={toastType} top={"1em"} actionTitle="cancel"/>
       {/* //חובה */}
       {/* <Input {...useInput({
         shouldShowError: shouldShowErrors,
