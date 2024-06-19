@@ -8,8 +8,8 @@
 :root {
   --text: #000;
   --nav: #fffffff1;
-  --nav-menu: #f0f0f0e0;
-  --nav-menu-list: #f9f9f9;
+  --nav: #fff;
+  --nav-menu: #f0f0f0;
   --container: #f0f0f0;
   --container-hover: #000;
   --on-container: #e0e0e0;
@@ -27,9 +27,9 @@
   --text: #d0d0d0;
   --container: #1a1a1a;
   --background: #0c0c0c;
-  --nav: #111111e7;
-  --nav-menu: #222222e3;
   --nav-menu-list: #151515;
+  --nav: #111;
+  --nav-menu: #222;
   --on-container: #303030;
   --on-container: #242424;
   --shadow: #00000083;
@@ -41,6 +41,18 @@
   --secondary: #b2b2b2;
   --fee: #3c2323;
   --no-fee: #29352b;
+}
+
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  :root {
+    --nav-menu: #f0f0f0e0;
+    --nav-menu-list: #f9f9f9;
+  }
+
+  .dark-theme {
+    --nav: #111111e7;
+    --nav-menu: #222222e3;
+  }
 }
 
 html {
@@ -88,6 +100,7 @@ body {
   flex-direction: row-reverse;
   padding: 1em;
   background: var(--nav);
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 4;
   /* width: 100%; */
@@ -95,6 +108,7 @@ body {
 
 .sections-menu {
   background: var(--nav-menu);
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   display: flex;
   flex-direction: row-reverse;
@@ -395,7 +409,7 @@ div.sections-menu-item:nth-last-child(1) {
   justify-content: space-between;
 }
 
-.menu-toggle-button>div{
+.menu-toggle-button>div {
   height: 2px;
   width: 100%;
   background: var(--text);
@@ -403,10 +417,11 @@ div.sections-menu-item:nth-last-child(1) {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.menu-toggle-button:hover div:nth-child(1){
+.menu-toggle-button:hover div:nth-child(1) {
   transform: translateY(12px);
 }
-.menu-toggle-button:hover div:nth-child(3){
+
+.menu-toggle-button:hover div:nth-child(3) {
   transform: translateY(-12px);
 }
 
@@ -817,6 +832,7 @@ div.sections-menu-item:nth-last-child(1) {
   padding: 0 0 0.2em 0;
   /* background: linear-gradient(#f0f0f0 50%, #f0f0f081), linear-gradient(90deg, #f0f0f0, transparent, #f0f0f0); */
   background: radial-gradient(at bottom, var(--nav-menu), var(--container) 50%, var(--container));
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
 
@@ -1305,8 +1321,8 @@ div.sections-menu-item:nth-last-child(1) {
     top: 4rem;
     z-index: 4;
     height: calc(100% - 4rem);
-    padding: 1em 1em 0 0;
-    margin: 0!important;
+    padding: 1em 1em 0 1em;
+    margin: 0 !important;
     width: 100%;
     max-width: 50vw;
     max-height: 100%;
@@ -1332,7 +1348,7 @@ div.sections-menu-item:nth-last-child(1) {
     border-radius: 6px;
   }
 
-  .visible.sections-menu{
+  .visible.sections-menu {
     transition: transform 0.5s ease;
     transform: translateX(40em);
   }
@@ -1346,22 +1362,22 @@ div.sections-menu-item:nth-last-child(1) {
   }
 
   .sections-menu-item {
-    margin: 0!important;
+    margin: 0 !important;
     padding: 0.5em;
   }
 
-  .sections-menu-item>span{
+  .sections-menu-item>span {
     display: flex;
     align-items: center;
   }
 
-  .sections-menu-item-arrow{
+  .sections-menu-item-arrow {
     display: block;
     margin: 0 auto 0 0;
   }
 
-  .sections-menu-item::before{
-    display: none!important;
+  .sections-menu-item::before {
+    display: none !important;
   }
 
   .sections-menu-item>div {
@@ -1373,13 +1389,13 @@ div.sections-menu-item:nth-last-child(1) {
 
   .sections-menu-list {
     display: none;
-    box-shadow: none!important;
+    box-shadow: none !important;
     border-radius: 1em;
-    background: var(--nav-menu-list)!important;
+    background: var(--nav-menu-list) !important;
   }
 
-  .expanded.sections-menu-list{
-    display: block!important;
+  .expanded.sections-menu-list {
+    display: block !important;
   }
 
   .sections-menu-list span {
@@ -1399,14 +1415,14 @@ div.sections-menu-item:nth-last-child(1) {
     margin-right: 0 !important;
     margin-left: 0 !important;
     margin-top: 0;
-    box-shadow: none!important;
+    box-shadow: none !important;
   }
 
-  .category-page{
+  .category-page {
     margin-top: 0;
   }
 
-  .page-content{
+  .page-content {
     margin-top: 5rem;
   }
 }

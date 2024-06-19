@@ -22,3 +22,50 @@
 .baka-dropdown {
     font-size: 0.9em;
 }
+
+.baka-file-input {
+    background: var(--on-container);
+    position: relative;
+    /* width: calc(100%); */
+    /* width: max-content; */
+    /* padding: 2em 0; */
+    border-radius: 1em;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.baka-file-input>div{
+    padding: 1em;
+    opacity: 0.7;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.baka-file-input>div>img{
+    width: 1.2em;
+    height: 1.2em;
+    filter: invert(var(--invert));
+    opacity: 0.9;
+}
+
+.baka-file-input>img{
+    display: block;
+    margin: 0 auto;
+    width: 10em;
+    height: 10;
+    object-fit: contain;
+    border-radius: 1em;
+}
+
+.baka-file-input input{
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}

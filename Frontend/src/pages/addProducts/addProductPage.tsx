@@ -5,6 +5,7 @@ import { DropDown } from "../../global_components/DropDown/DropDown";
 import "./addProductPage.css";
 import SectionMenuList from "../../global_components/Header/SectionMenu/menu.json";
 import React from "preact/compat";
+import FileIcon from "../../assets/file_upload.svg"
 
 interface newProduct {
   name: string;
@@ -304,6 +305,7 @@ export const AddProductPage: React.FC = () => {
         <></>
       )}
 
+      <div className={"add-product-section-title"}>תמונה</div>
       <FileInput setProductInfo={setProductInfo} />
       {/* חובה, להעלות תמונה, שולחים לבאק את השם שלה */}
       <div className={"checkout-buttons"}>
@@ -339,8 +341,16 @@ const FileInput: React.FC<{
   setProductInfo: React.Dispatch<React.SetStateAction<newProduct>>;
 }> = ({ setProductInfo }) => {
   const [file, setFile] = useState<File | null>(null);
+
   return (
-    <div>
+    <div class="baka-file-input">
+      <div>
+        <span>
+          {file ? file.name : "בחר קובץ"}
+        </span>
+        <img src={FileIcon} alt="" onError={(e)=> e.currentTarget.style.display=""} onLoad={(e)=> e.currentTarget.style.display="block"} />
+      </div>
+      <img src={file ? URL.createObjectURL(file):undefined} alt="" />
       <input
         type="file"
         accept="image/*"
