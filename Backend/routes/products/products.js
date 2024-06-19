@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getDataBySub0Cat,
   getCategoryTree,
+  getThirdLevelTree,
   addProduct,
   fetchProductById,
   fetchProductsByName,
@@ -10,6 +11,7 @@ const {
 
 router.get("/getProducts/:category/:subCategory", getDataBySub0Cat);
 router.get("/getTree/:category", getCategoryTree);
+router.get("/getThirdLevelTree", getThirdLevelTree);
 router.post("/addProduct", addProduct);
 router.get("/product/:id", fetchProductById);
 router.get("/findProducts/:name", fetchProductsByName);

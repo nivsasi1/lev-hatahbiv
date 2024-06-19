@@ -11,14 +11,20 @@ export const Header: React.FC<{
   setShowCartSheet?: Dispatch<StateUpdater<boolean>>;
 }> = ({ shouldShowCartIcon, setShowCartSheet }) => {
   const cartContext = useContext(CartContext);
-  const [menuVisible, setMenuVisible] = useState(false)
+  const [menuVisible, setMenuVisible] = useState(false);
 
   return (
     <>
       <div className={"nav"}>
         <div>
           <Link to={"/"}>
-            <img id={"logo"} src={storeLogo} onLoad={(e) => e.currentTarget.style.display = "block"} onError={(e) => e.currentTarget.style.display = "none"} alt="storeLogo" />
+            <img
+              id={"logo"}
+              src={storeLogo}
+              onLoad={(e) => (e.currentTarget.style.display = "block")}
+              onError={(e) => (e.currentTarget.style.display = "none")}
+              alt="storeLogo"
+            />
           </Link>
           <SearchBar />
           {shouldShowCartIcon === false ? (
@@ -34,18 +40,39 @@ export const Header: React.FC<{
               }
             />
           )}
-          <MenuToggleButton margin={shouldShowCartIcon === false ? "0 auto 0 0":""} opened={menuVisible} setOpened={setMenuVisible}/>
+          <MenuToggleButton
+            margin={shouldShowCartIcon === false ? "0 auto 0 0" : ""}
+            opened={menuVisible}
+            setOpened={setMenuVisible}
+          />
         </div>
-        <SectionsMenu visible={menuVisible} setVisible={setMenuVisible}/>
+        <SectionsMenu visible={menuVisible} setVisible={setMenuVisible} />
       </div>
     </>
   );
 };
 
-const MenuToggleButton: React.FC<{opened: boolean, margin?: string, setOpened: Dispatch<StateUpdater<boolean>>}> = ({opened, setOpened, margin}) => {
-  return <div className="menu-toggle-button" style={{margin: margin}} onClick={(e)=> {setOpened((v)=>!v); e.preventDefault()}}>
-      <div style={opened ? "transform: translateY(6px) rotate(45deg)":""}></div>
-      <div style={opened ? "tranform: translateX(20px); opacity: 0": ""}></div>
-      <div style={opened ? "transform: translateY(-6px) rotate(-45deg)":""}></div>
-  </div>
-}
+const MenuToggleButton: React.FC<{
+  opened: boolean;
+  margin?: string;
+  setOpened: Dispatch<StateUpdater<boolean>>;
+}> = ({ opened, setOpened, margin }) => {
+  return (
+    <div
+      className="menu-toggle-button"
+      style={{ margin: margin }}
+      onClick={(e) => {
+        setOpened((v) => !v);
+        e.preventDefault();
+      }}
+    >
+      <div
+        style={opened ? "transform: translateY(6px) rotate(45deg)" : ""}
+      ></div>
+      <div style={opened ? "tranform: translateX(20px); opacity: 0" : ""}></div>
+      <div
+        style={opened ? "transform: translateY(-6px) rotate(-45deg)" : ""}
+      ></div>
+    </div>
+  );
+};

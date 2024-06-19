@@ -144,3 +144,45 @@ exports.getCategoryTree = async (req, res) => {
   console.log(result[0]);
   res.status(200).json({ data: result[0] });
 };
+
+exports.getThirdLevelTree = async (req, res) => {
+  const result = await Product.aggregate([
+    {
+      $match: {
+        $or: [
+          { sub_cat: { $exists: true, $ne: null } }, // Match documents where sub_cat exists and is not null
+          { third_level: { $exists: true, $ne: null, $ne: "" } }, // Match documents where third_level exists, is not null, and is not an empty string
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: "$sub_cat", // Group by sub_cat
+        third_level: {
+          $addToSet: {
+            // Use $addToSet to ensure uniqueness
+            $cond: [
+              {
+                $and: [
+                  { $ne: ["$third_level", ""] },
+                  { $ne: ["$third_level", null] },
+                ],
+              }, // Check that third_level is not an empty string and not null
+              "$third_level", // Use third_level value
+              "$$REMOVE", // If condition is false, remove the item (MongoDB 3.4+)
+            ],
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0, // Exclude the _id field from the output
+        sub_cat: "$_id", // Rename _id to sub_cat
+        third_level: 1, // Include the third_level array as is
+      },
+    },
+  ]);
+  console.log(result);
+  res.status(200).json({ data: result });
+};

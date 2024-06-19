@@ -1,8 +1,10 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { PageButton } from "../CheckoutPage/CheckoutPage";
 import { Input, useInput } from "../../global_components/Input/Input";
 import { DropDown } from "../../global_components/DropDown/DropDown";
-import "./addProductPage.css"
+import "./addProductPage.css";
+import SectionMenuList from "../../global_components/Header/SectionMenu/menu.json";
+import React from "preact/compat";
 
 interface newProduct {
   name: string;
@@ -23,14 +25,46 @@ export const AddProductPage: React.FC = () => {
     price: "",
     salePrecentage: 0,
     quantity: 0,
-    isAvailable: false,
+    isAvailable: true,
     desc: "",
-    category: "",
-    sub_cat: "",
-    third_level: "",
+    category: "צבעים לאמנות",
+    sub_cat: "צבע אקריליק",
+    third_level: "כללי",
     img: "",
   });
   const [shouldShowErrors, setShouldShowErrors] = useState(false);
+  // const category = SectionMenuList.map((section) => {
+  //   return section.title;
+  // });
+  const [category, setCategory] = useState<string[]>(
+    SectionMenuList.map((section) => {
+      return section.title;
+    })
+  );
+  const [sub_cat, setSubCat] = useState<string[] | undefined>(
+    SectionMenuList.find(
+      (section) => section.title === "צבעים לאמנות"
+    )?.options.map((option) => {
+      return option.optionTitle;
+    })
+  );
+  const [third_level, setThirdLevel] = useState<string[] | undefined>(["כללי"]);
+  const [third_levelTree, setThirdLevelTree] = useState<any>();
+
+  const fetchTreeData = async () => {
+    const treeData = await fetch(`http://localhost:5000/getThirdLevelTree`, {
+      method: "GET",
+    }).then((res) => res.json());
+    return treeData;
+  };
+
+  useEffect(() => {
+    if (sub_cat) {
+      fetchTreeData().then((treeData) => {
+        setThirdLevelTree(treeData.data);
+      });
+    }
+  }, []);
 
   const updateProductToDb = async (product: newProduct) => {
     //TODO: check and apply those checks
@@ -63,7 +97,7 @@ export const AddProductPage: React.FC = () => {
       body: JSON.stringify(product),
     });
 
-    const addedSuccessfully = await response.json(); 
+    const addedSuccessfully = await response.json();
     if (addedSuccessfully.status === 200) {
       console.log("product added successfuly");
       //TODO: toast message added successfuly
@@ -92,11 +126,11 @@ export const AddProductPage: React.FC = () => {
         warning: "השם לא יכול להיות ריק",
         check: (value) => value !== ""
       })}/> */}
-         {/* setValue={(value) => setProductInfo({ ...productInfo, name: value })} */}
+      {/* setValue={(value) => setProductInfo({ ...productInfo, name: value })} */}
       <Input
         shouldShowError={shouldShowErrors}
         value={productInfo.name}
-        setValue={(value) => setProductInfo({...productInfo, name: value})}
+        setValue={(value) => setProductInfo({ ...productInfo, name: value })}
         title="שם המוצר"
         name="product-name"
         placeholder="שם המוצר"
@@ -151,7 +185,13 @@ export const AddProductPage: React.FC = () => {
       {/* TODO: dropdown for isAvailable, יש במלאי \ נגמר במלאי */}
       {/* לא חובה למלא, אפשרות אוטומטית זה זמין במלאי וזה מה שנשלח אם לא משנים את זה */}
       <div className="add-product-section-title">זמינות במלאי</div>
-      <DropDown selected={productInfo.isAvailable ? 0:1} didSelect={(index)=> setProductInfo({...productInfo, isAvailable: index === 0})} options={["זמין", "לא זמין"]} />
+      <DropDown
+        selected={productInfo.isAvailable ? 0 : 1}
+        didSelect={(index) =>
+          setProductInfo({ ...productInfo, isAvailable: index === 0 })
+        }
+        options={["זמין", "לא זמין"]}
+      />
       {/* לא חובה יכול להשלח ריק */}
       <Input
         shouldShowError={shouldShowErrors}
@@ -164,8 +204,105 @@ export const AddProductPage: React.FC = () => {
       />
       {/* חובה */}
       {/* TODO: dropdown for category tree, קטגוריה, תת קטגוריה, תת תת קטגוריה */}
+
       <div className={"add-product-section-title"}>קטגוריה</div>
-      <DropDown selected={0} didSelect={()=>{}} options={["false", "true"]} />
+      <DropDown
+        selected={category.indexOf(productInfo.category)}
+        didSelect={(index) => {
+          const sub_cat_list = SectionMenuList.find(
+            (section) => section.title === category[index as number]
+          )?.options.map((option) => {
+            return option.optionTitle;
+          });
+          if (sub_cat_list) {
+            if (third_levelTree) {
+              const third_level_list = third_levelTree.find(
+                (section: any) => section.sub_cat === sub_cat_list[0]
+              )?.third_level;
+              if (third_level_list) {
+                setProductInfo({
+                  ...productInfo,
+                  sub_cat: sub_cat_list[0],
+                  third_level: third_level_list[0],
+                });
+                setThirdLevel(() => ["כללי", ...third_level_list]);
+                setSubCat(() => sub_cat_list);
+              } else {
+                setProductInfo({
+                  ...productInfo,
+                  category: category[index as number],
+                  sub_cat: sub_cat_list[0],
+                  third_level: "כללי",
+                });
+                setSubCat(() => sub_cat_list);
+                setThirdLevel(["כללי"]);
+              }
+            }
+          } else {
+            setProductInfo({
+              ...productInfo,
+              category: category[index as number],
+              sub_cat: "",
+              third_level: "כללי",
+            });
+            setSubCat(undefined);
+            setThirdLevel(["כללי"]);
+          }
+        }}
+        options={category}
+      />
+      {productInfo.category !== "" && sub_cat ? (
+        <>
+          <div className={"add-product-section-title"}>קטגוריה משנית</div>
+          <DropDown
+            selected={sub_cat.indexOf(productInfo.sub_cat)}
+            didSelect={(index) => {
+              if (third_levelTree) {
+                const third_level_list = third_levelTree.find(
+                  (section: any) => section.sub_cat === sub_cat[index as number]
+                )?.third_level;
+                if (third_level_list && third_level_list.length > 0) {
+                  setProductInfo({
+                    ...productInfo,
+                    sub_cat: sub_cat[index as number],
+                    third_level: third_level_list[0],
+                  });
+                  setThirdLevel(() => ["כללי", ...third_level_list]);
+                } else {
+                  setProductInfo({
+                    ...productInfo,
+                    sub_cat: sub_cat[index as number],
+                    third_level: "כללי",
+                  });
+                  setThirdLevel(["כללי"]);
+                }
+              }
+            }}
+            options={sub_cat}
+          />
+        </>
+      ) : (
+        <></>
+      )}
+      {productInfo.sub_cat !== "" && third_level ? (
+        <>
+          <div className={"add-product-section-title"}>סוג</div>
+          <DropDown
+            selected={third_level.indexOf(productInfo.third_level)}
+            didSelect={(index) => {
+              setProductInfo({
+                ...productInfo,
+                third_level: third_level[index as number],
+              });
+            }}
+            options={third_level}
+          />
+        </>
+      ) : (
+        <></>
+      )}
+
+      <FileInput setProductInfo={setProductInfo} />
       {/* חובה, להעלות תמונה, שולחים לבאק את השם שלה */}
       <div className={"checkout-buttons"}>
         {
@@ -187,6 +324,31 @@ export const AddProductPage: React.FC = () => {
           />
         }
       </div>
+    </div>
+  );
+};
+
+const FileInput: React.FC<{
+  setProductInfo: React.Dispatch<React.SetStateAction<newProduct>>;
+}> = ({ setProductInfo }) => {
+  const [file, setFile] = useState<File | null>(null);
+  return (
+    <div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          const inputElement = e.target as HTMLInputElement;
+          if (inputElement.files) {
+            const selectedFile = inputElement.files[0];
+            setFile(selectedFile);
+            setProductInfo((prevProductInfo) => ({
+              ...prevProductInfo,
+              img: selectedFile?.name ?? "",
+            }));
+          }
+        }}
+      />
     </div>
   );
 };

@@ -19,13 +19,13 @@
     border-radius: 1em;
     margin: 0 0 1em 0;
     display: flex;
-    z-index: 4;
     cursor: pointer;
     transition: background 0.5s ease;
 }
 
 .baka-dropdown.opened {
     background: var(--dropdown-menu);
+    z-index: 4;
 }
 
 .baka-dropdown>div:first-child {
