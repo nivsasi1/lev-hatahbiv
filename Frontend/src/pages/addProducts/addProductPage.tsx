@@ -68,6 +68,8 @@ export const AddProductPage: React.FC = () => {
 
   const updateProductToDb = async (product: newProduct) => {
     //TODO: check and apply those checks
+    console.log(product);
+    console.log("submitted")
     if (
       product.name === "" ||
       product.price === "" ||
@@ -96,9 +98,7 @@ export const AddProductPage: React.FC = () => {
       },
       body: JSON.stringify(product),
     });
-
-    const addedSuccessfully = await response.json();
-    if (addedSuccessfully.status === 200) {
+    if (response.status === 200) {
       console.log("product added successfuly");
       //TODO: toast message added successfuly
       //TODO: clear all inputs for new product
@@ -222,6 +222,7 @@ export const AddProductPage: React.FC = () => {
               if (third_level_list) {
                 setProductInfo({
                   ...productInfo,
+                  category: category[index as number],
                   sub_cat: sub_cat_list[0],
                   third_level: third_level_list[0],
                 });
@@ -254,6 +255,7 @@ export const AddProductPage: React.FC = () => {
       {productInfo.category !== "" && sub_cat ? (
         <>
           <div className={"add-product-section-title"}>קטגוריה משנית</div>
+          {/* TODO: autocomplete with freesolo (take a look at material ui autocomplete) */}
           <DropDown
             selected={sub_cat.indexOf(productInfo.sub_cat)}
             didSelect={(index) => {
@@ -323,6 +325,11 @@ export const AddProductPage: React.FC = () => {
             }}
           />
         }
+        <button
+          onClick={async () => {
+            await updateProductToDb(productInfo);
+          }}
+        />
       </div>
     </div>
   );
