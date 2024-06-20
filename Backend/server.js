@@ -84,14 +84,13 @@ passport.use(
   new LocalStrategy(
     { usernameField: "username", passwordField: "password" },
     (username, password, done) => {
-      // console.log(personalnumber, adminpassword);
       if (password !== process.env.PASS) {
         return done(new Error("invalid admin password"), null);
       }
       User.findOne({ username })
         .then((user) => {
-          if (!user || !user.approved) {
-            if (!user) return done("not found", null);
+          if (!user) {
+            if (!user) return done("not found 1", null);
           } else {
             done(null, user.toObject());
           }
@@ -114,33 +113,32 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 app.post("/admin_signin", async (req, res, next) => {
-    passport.authenticate("local", { session: false }, (err, user, info) => {
-        if (err === "not found") {
-            return res
-                .status(400)
-                .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
-        }
-        if (!user) {
-            return res
-                .status(400)
-                .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
-        }
-        req.login(user, { session: false }, (err) => {
-            if (err) {
-                return res
-                    .status(400)
-                    .json({ error: true, error_message: err.message });
-            }
-
-            return res.json({
-                error: false,
-                data: {
-                    jwt: jwt.sign(user, process.env.SECRET),
-                    user: btoa(encodeURIComponent(JSON.stringify(user))),
-                },
-            });
-        });
-    })(req, res, next);
+  passport.authenticate("local", { session: false }, (err, user, info) => {
+    if (err === "not found") {
+      return res
+        .status(400)
+        .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
+    }
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
+    }
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ error: true, error_message: err.message });
+      }
+      return res.json({
+        error: false,
+        data: {
+          jwt: jwt.sign(user, process.env.SECRET),
+          user: btoa(encodeURIComponent(JSON.stringify(user))),
+        },
+      });
+    });
+  })(req, res, next);
 });
 
 // app.get(

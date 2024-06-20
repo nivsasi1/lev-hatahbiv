@@ -13,19 +13,21 @@ export const AdminSignIn = () => {
   }>({ username: "", pass: "" });
 
   const adminSignIn = async (data: { username: string; pass: string }) => {
-      const res = await fetch("http://localhost:5000/admin_signin", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: data.username,
-                password: data.pass,
-            }),
-        }).then((res) => res.json());
-        console.log(res);
-        
+    const res = await fetch("http://localhost:5000/admin_signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: data.username,
+        password: data.pass,
+      }),
+    }).then((res) => res.json());
+    console.log(res);
+
     if (res.data) {
+      console.log("התחברת בהצלחה", "success");
+      console.log(res.data);
       localStorage.setItem("jwt", res.data.jwt);
       ctx.onSuccessfulSignIn(
         JSON.parse(decodeURIComponent(atob(res.data.user)))

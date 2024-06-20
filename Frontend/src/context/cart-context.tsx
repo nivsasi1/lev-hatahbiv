@@ -104,6 +104,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
   }, [state]);
 
   const onSuccessfulSignIn = async (user: any) => {
+    console.log(user);
     dispatch({ type: "SET_USER", value: user });
   };
 
