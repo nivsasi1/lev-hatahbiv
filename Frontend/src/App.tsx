@@ -8,7 +8,7 @@ import { CheckoutPage } from "./pages/CheckoutPage/CheckoutPage";
 import { CategoryPage } from "./pages/CategoryPage/CategoryPage";
 import { useEffect, useState } from "preact/hooks";
 import { AdminSignIn } from "./pages/AdminSignInPage/AdminSignIn";
-import { AddProductPage } from "./pages/addProducts/addProductPage";
+import { AddProductPage } from "./pages/AddProducts/AddProductPage";
 
 const router = createBrowserRouter([
   {
