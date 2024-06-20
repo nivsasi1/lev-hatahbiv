@@ -1,11 +1,11 @@
 import { useEffect, useState } from "preact/hooks";
-import { PageButton } from "../CheckoutPage/CheckoutPage";
+import { NumberOnly, PageButton } from "../CheckoutPage/CheckoutPage";
 import { Input, useInput } from "../../global_components/Input/Input";
 import { DropDown } from "../../global_components/DropDown/DropDown";
 import "./addProductPage.css";
 import SectionMenuList from "../../global_components/Header/SectionMenu/menu.json";
 import React from "preact/compat";
-import FileIcon from "../../assets/file_upload.svg"
+import FileIcon from "../../assets/file_upload.svg";
 import { Toast, ToastType } from "../../global_components/Toast/Toast";
 import { AutoCompleteDropDown } from "../../global_components/AutoCompleteDropDown/AutoCompleteDropDown";
 
@@ -14,7 +14,7 @@ interface newProduct {
   price: string;
   quantity: number;
   isAvailable: boolean;
-  salePrecentage: number;
+  salePercentage: number;
   desc: string;
   category: string;
   sub_cat: string;
@@ -22,17 +22,41 @@ interface newProduct {
   img: string;
 }
 
+const isProductInfoValid = (product: newProduct) => {
+  return (
+    product.name !== "" && 
+    product.price !== "" &&
+    (product.salePercentage >= 0 &&
+    product.salePercentage < 100) &&
+    product.quantity >= 0 &&
+    product.isAvailable !== undefined &&
+    product.category !== "" &&
+    product.sub_cat !== "" &&
+    product.img !== ""
+  );
+};
+
+const ValidString = (value: string)=>{
+  return value.match(/.*/) != null
+}
+
+const FloatNumberOnly = (value: string)=>{
+  let match = String(value ?? "").match(/^(\d+\.?\d*)$/);
+  if (match) return match[0];
+  return "";
+}
+
 export const AddProductPage: React.FC = () => {
   const [productInfo, setProductInfo] = useState<newProduct>({
     name: "",
     price: "",
-    salePrecentage: 0,
+    salePercentage: 0,
     quantity: 0,
     isAvailable: true,
     desc: "",
     category: "צבעים לאמנות",
     sub_cat: "צבע אקריליק",
-    third_level: "כללי",
+    third_level: "",
     img: "",
   });
   const [shouldShowErrors, setShouldShowErrors] = useState(false);
@@ -53,6 +77,7 @@ export const AddProductPage: React.FC = () => {
   );
   const [third_level, setThirdLevel] = useState<string[] | undefined>(["כללי"]);
   const [third_levelTree, setThirdLevelTree] = useState<any>();
+  const [file, setFile] = useState<File | null>(null);
 
   const fetchTreeData = async () => {
     const treeData = await fetch(`http://localhost:5000/getThirdLevelTree`, {
@@ -69,31 +94,42 @@ export const AddProductPage: React.FC = () => {
     }
   }, []);
 
+  const resetProductInfo = () => {
+    setProductInfo({
+      name: "",
+      price: "",
+      salePercentage: 0,
+      quantity: 0,
+      isAvailable: true,
+      desc: "",
+      category: "צבעים לאמנות",
+      sub_cat: "צבע אקריליק",
+      third_level: "",
+      img: "",
+    });
+    setSubCat(
+      SectionMenuList.find(
+        (section) => section.title === "צבעים לאמנות"
+      )?.options.map((option) => {
+        return option.optionTitle;
+      })
+    );
+    setThirdLevel(undefined);
+    setFile(null);
+  };
+
   const updateProductToDb = async (product: newProduct) => {
-    //TODO: check and apply those checks
-    console.log(product);
-    console.log("submitted")
-    if (
-      product.name === "" ||
-      product.price === "" ||
-      !/^(\d+|\d+.\d+)$/.test(product.price) ||
-      product.salePrecentage < 0 ||
-      product.salePrecentage > 100 ||
-      product.quantity < 0 ||
-      product.isAvailable === undefined ||
-      product.desc === "" ||
-      product.category === "" ||
-      product.sub_cat === "" ||
-      product.img === "" ||
-      product.third_level === ""
-    ) {
-      if (product.third_level === "") {
-        product.third_level = "כללי";
-      } else {
-        return false;
-      }
+    console.log("submitted");
+    setShouldShowErrors(true)
+    if (!isProductInfoValid(productInfo)) {
+      setToastType(ToastType.Error);
+      setToastTitle("אחד או יותר מהשדות אינם תקינים");
+      setShowToast(true);
+      return false;
     }
-    console.log(product);
+    if (product.third_level === "") {
+      product.third_level = "כללי";
+    }
     const response = await fetch("http://localhost:5000/addProduct", {
       method: "POST",
       headers: {
@@ -102,53 +138,41 @@ export const AddProductPage: React.FC = () => {
       body: JSON.stringify(product),
     });
     if (response.status === 200) {
+      setShouldShowErrors(false)
       console.log("product added successfuly");
-      //TODO: toast message added successfuly
-      //TODO: clear all inputs for new product
-      setToastType(ToastType.Normal)
-      setToastTitle("המוצר הועלאה בהצלחה")
-      setShowToast(true)
+      setToastType(ToastType.Normal);
+      setToastTitle("המוצר הועלה בהצלחה");
+      setShowToast(true);
+      resetProductInfo();
       return true;
     } else {
       console.log("product not added");
-      //TODO: toast message failed to add product
-      //TODO: toast why it failed, (error message)
-      setToastType(ToastType.Error)
-      setToastTitle("שגיאה בהעלאת המוצר")
-      setShowToast(true)
+      setToastType(ToastType.Error);
+      const error = await response.json();
+      setToastTitle(error.error_message);
+      setShowToast(true);
       return false;
     }
   };
 
-  const [showToast, setShowToast] = useState(true)
-  const [toastTitle, setToastTitle] = useState("example")
-  const [toastType, setToastType] = useState<ToastType>(ToastType.Action)
-
-  //TODO: remove this
-  // useEffect(()=>{
-  //   setTimeout(()=>{
-  //     setToastTitle("damm")
-  //     setShowToast(true)
-  //   }, 2000)
-  // },[])
+  const [showToast, setShowToast] = useState(false);
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastType, setToastType] = useState<ToastType>(ToastType.Action);
 
   return (
     <div className={"add-product-form"}>
-      <Toast show={showToast} setShow={setShowToast} title={toastTitle} maxTime={4000} type={toastType} top={"1em"} actionTitle="cancel"/>
-      {/* //חובה */}
-      {/* <Input {...useInput({
-        shouldShowError: shouldShowErrors,
-        name: "product-name",
-        key: "name",
-        info: productInfo,
-        setValue: setProductInfo,
-        title: "שם המוצר",
-        placeholder: "שם המוצר",
-        type: "string",
-        warning: "השם לא יכול להיות ריק",
-        check: (value) => value !== ""
-      })}/> */}
-      {/* setValue={(value) => setProductInfo({ ...productInfo, name: value })} */}
+      {showToast && (
+        <Toast
+          show={showToast}
+          setShow={setShowToast}
+          title={toastTitle}
+          maxTime={4000}
+          type={toastType}
+          top={"1em"}
+          actionTitle="cancel"
+        />
+      )}
+
       <Input
         shouldShowError={shouldShowErrors}
         value={productInfo.name}
@@ -160,6 +184,7 @@ export const AddProductPage: React.FC = () => {
         warning="השם לא יכול להיות ריק"
         check={(value) => value !== ""}
       />
+
       <div class="baka-input-wrapper">
         {/* //חובה */}
         <Input
@@ -170,25 +195,22 @@ export const AddProductPage: React.FC = () => {
           name="credit-date"
           type="string"
           check={(value) => /^(\d+|\d+.\d+)$/.test(value)}
-          apply={(value) => {
-            let match = String(value ?? "").match(/^(\d+\.?\d*)$/);
-            if (match) return match[0];
-            return "";
-          }}
+          apply={FloatNumberOnly}
           warning="יש למלא מחיר תקין."
         />
         {/* //לא חובה, אם לא מכניסים שולחים 0 */}
         <Input
           shouldShowError={shouldShowErrors}
-          value={productInfo.salePrecentage}
+          value={productInfo.salePercentage}
           setValue={(value) =>
-            setProductInfo({ ...productInfo, salePrecentage: value })
+            setProductInfo({ ...productInfo, salePercentage: value })
           }
           title="אחוז הנחה"
-          placeholder="0"
-          name="product-salePrecentage"
+          name="product-salePercentage "
           type="number"
-          warning="במידה ויש מבצע/הנחה על המוצר, מלאו כאן באחוזים"
+          warning="אחוזים זה בן 0 ל100"
+          check={(value) => Number(value) >= 0 && Number(value) <= 100}
+          apply={NumberOnly}
         />
         {/* //לא חובה, אם לא מכניסים שולחים 0 */}
         <Input
@@ -198,10 +220,11 @@ export const AddProductPage: React.FC = () => {
             setProductInfo({ ...productInfo, quantity: value })
           }
           title="כמות במלאי"
-          placeholder="0"
           name="product-quantity"
           type="number"
           warning="אם אזל המלאי או שהכמות אינה ידועה השאירו 0"
+          check={(v)=> Number(v) >= 0}
+          apply={NumberOnly}
         />
       </div>
       {/* TODO: dropdown for isAvailable, יש במלאי \ נגמר במלאי */}
@@ -223,6 +246,7 @@ export const AddProductPage: React.FC = () => {
         name="product-desc"
         placeholder="תיאור המוצר"
         type="string"
+        check={()=> true}
       />
       {/* חובה */}
       {/* TODO: dropdown for category tree, קטגוריה, תת קטגוריה, תת תת קטגוריה */}
@@ -246,16 +270,19 @@ export const AddProductPage: React.FC = () => {
                   ...productInfo,
                   category: category[index as number],
                   sub_cat: sub_cat_list[0],
-                  third_level: third_level_list[0],
+                  third_level: "",
                 });
-                setThirdLevel(() => ["כללי", ...third_level_list]);
+                setThirdLevel((prevThirdLevel) => {
+                  const updatedThirdLevel = ["כללי", ...third_level_list];
+                  return Array.from(new Set(updatedThirdLevel));
+                });
                 setSubCat(() => sub_cat_list);
               } else {
                 setProductInfo({
                   ...productInfo,
                   category: category[index as number],
                   sub_cat: sub_cat_list[0],
-                  third_level: "כללי",
+                  third_level: "",
                 });
                 setSubCat(() => sub_cat_list);
                 setThirdLevel(["כללי"]);
@@ -266,7 +293,7 @@ export const AddProductPage: React.FC = () => {
               ...productInfo,
               category: category[index as number],
               sub_cat: "",
-              third_level: "כללי",
+              third_level: "",
             });
             setSubCat(undefined);
             setThirdLevel(["כללי"]);
@@ -289,14 +316,17 @@ export const AddProductPage: React.FC = () => {
                   setProductInfo({
                     ...productInfo,
                     sub_cat: sub_cat[index as number],
-                    third_level: third_level_list[0],
+                    third_level: "",
                   });
-                  setThirdLevel(() => ["כללי", ...third_level_list]);
+                  setThirdLevel((prevThirdLevel) => {
+                    const updatedThirdLevel = ["כללי", ...third_level_list];
+                    return Array.from(new Set(updatedThirdLevel));
+                  });
                 } else {
                   setProductInfo({
                     ...productInfo,
                     sub_cat: sub_cat[index as number],
-                    third_level: "כללי",
+                    third_level: "",
                   });
                   setThirdLevel(["כללי"]);
                 }
@@ -308,16 +338,16 @@ export const AddProductPage: React.FC = () => {
       ) : (
         <></>
       )}
-      {productInfo.sub_cat !== "" && third_level ? (
+      {productInfo.sub_cat !== "" && (third_level || third_level === "") ? (
         <>
           <div className={"add-product-section-title"}>סוג</div>
-          <DropDown
-            selected={third_level.indexOf(productInfo.third_level)}
-            didSelect={(index) => {
-              setProductInfo({
-                ...productInfo,
-                third_level: third_level[index as number],
-              });
+          <AutoCompleteDropDown
+            value={productInfo.third_level}
+            setValue={(value) => {
+              setProductInfo((p) => ({
+                ...p,
+                third_level: value as string,
+              }));
             }}
             options={third_level}
           />
@@ -327,53 +357,44 @@ export const AddProductPage: React.FC = () => {
       )}
 
       <div className={"add-product-section-title"}>תמונה</div>
-      <FileInput setProductInfo={setProductInfo} />
+      <FileInput
+        file={file}
+        setFile={setFile}
+        setProductInfo={setProductInfo}
+      />
       <div className={"add-product-section-title"}>&nbsp;</div>
-      <AutoCompleteDropDown options={["amm","damm"]}/>
       {/* חובה, להעלות תמונה, שולחים לבאק את השם שלה */}
       <div className={"checkout-buttons"}>
-        {/* {
-          <PageButton
-            setShouldShowErrors={setShouldShowErrors}
-            //TODO: need to make valid accept async functions
-            valid={
-              true
-              // async () => {await updateProductToDb(productInfo); }  ====> onClick check if valid
-            }
-            title="הוסף מוצר"
-            currentPage={0}
-            setCurrentPage={() => {
-              0;
-            }}
-            calcPage={(num) => {
-              return 0;
-            }}
-          />
-        } */}
-        <button className={"add-product-submit"}
+        <button
+          className={"add-product-submit"}
           onClick={async () => {
             await updateProductToDb(productInfo);
           }}
-        >העלאת המוצר</button>
+        >
+          העלאת המוצר
+        </button>
       </div>
     </div>
   );
 };
 
 const FileInput: React.FC<{
+  file: File | null;
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
   setProductInfo: React.Dispatch<React.SetStateAction<newProduct>>;
-}> = ({ setProductInfo }) => {
-  const [file, setFile] = useState<File | null>(null);
-
+}> = ({ file, setFile, setProductInfo }) => {
   return (
     <div class="baka-file-input">
       <div>
-        <span>
-          {file ? file.name : "בחר קובץ"}
-        </span>
-        <img src={FileIcon} alt="" onError={(e)=> e.currentTarget.style.display=""} onLoad={(e)=> e.currentTarget.style.display="block"} />
+        <span>{file ? file.name : "בחר קובץ"}</span>
+        <img
+          src={FileIcon}
+          alt=""
+          onError={(e) => (e.currentTarget.style.display = "")}
+          onLoad={(e) => (e.currentTarget.style.display = "block")}
+        />
       </div>
-      <img src={file ? URL.createObjectURL(file):undefined} alt="" />
+      <img src={file ? URL.createObjectURL(file) : undefined} alt="" />
       <input
         type="file"
         accept="image/*"

@@ -2,7 +2,7 @@ export type Product = {
   _id: string;
   name: string;
   price: number;
-  salePrecentage?: number;
+  salePercentage ?: number;
   quantity?: number;
   isAvailable?: boolean;
   desc?: string;

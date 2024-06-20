@@ -17,7 +17,7 @@ const filterByString = (value: string, options: Array<string>) => {
     })
 }
 
-export const AutoCompleteDropDown: React.FC<{value: string, setValue: Dispatch<StateUpdater<string>>, placeholder?: string, options: Array<string> }> = ({value, setValue, placeholder, options }) => {
+export const AutoCompleteDropDown: React.FC<{value: string, setValue: (v: string)=> void, placeholder?: string, options: Array<string> }> = ({value, setValue, placeholder, options }) => {
     const ref = useRef<HTMLDivElement | null>(null)
     const [opened, setOpened] = useState(false)
     const [filteredOptions, setFilteredOptions] = useState<Array<string>>(options)
@@ -103,7 +103,7 @@ export const AutoCompleteDropDown: React.FC<{value: string, setValue: Dispatch<S
                         }} />
                     )}
                     {
-                        value !== "" &&
+                        value !== "" && !filteredOptions.find((v)=> v.trim() === value.trim()) &&
                         <AutoCompeleItem title={"הוסף \"" + value + '\"'} value={value} didSelect={() => {
                             setValue(value)
                             setOpened(false)

@@ -20,10 +20,20 @@ exports.getDataBySub0Cat = async (req, res) => {
 exports.addProduct = async (req, res) => {
   try {
     const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.status(200).json({ data: newProduct });
+    const existingProduct = await Product.findOne({ img: newProduct.img });
+    if (existingProduct) {
+      res.status(400).json({ error: true, error_message: "התמונה כבר בשימוש, העלה תמונה אחרת." });
+    } else {
+      await newProduct.save();
+      res.status(200).json({ data: newProduct });
+    }
   } catch (err) {
-    res.status(400).json({ error: true, error_message: "Error: " + err });
+    if (err.name === "MongoError" && err.message.includes("ECONNREFUSED")) {
+      res.status(500).json({ error: true, error_message: "בעיה בDB, פנה למתכנתים" });
+    } else {
+      console.log(err);
+      res.status(400).json({ error: true, error_message: "Error: " + err });
+    }
   }
 };
 

@@ -27,8 +27,10 @@ export const useInput: (props: InputArgs) => any = (args) => {
     }
 }
 
+const isNil = (value: any)=> value === undefined || value === null;
+
 const isValueValid = (value: any, check?: (v: any) => any, apply?: (v: any) => any, key?: any) => {
-    if (!value) {
+    if (isNil(value)) {
         return false
     }
 

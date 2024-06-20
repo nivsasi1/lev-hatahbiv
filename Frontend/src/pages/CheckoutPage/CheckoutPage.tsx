@@ -245,7 +245,7 @@ const Validations: any = {
     "zip": (value: string) => String(value ?? "").match(/^\d{7}$/) != null
 }
 
-const NumberOnly = (value: any) => {
+export const NumberOnly = (value: any) => {
     if (value !== undefined && value !== null) {
         let match = String(value).match(/\d+/)
         if (match) {
@@ -256,7 +256,7 @@ const NumberOnly = (value: any) => {
     return ""
 }
 
-const NumberOnlyRanged = (value: any, max: number)=>{
+export const NumberOnlyRanged = (value: any, max: number)=>{
     return NumberOnly(value).slice(0, max)
 }
 
