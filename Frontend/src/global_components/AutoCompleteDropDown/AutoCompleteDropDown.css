@@ -1,0 +1,115 @@
+.baka-auto-drop {
+    direction: rtl;
+    position: relative;
+    background: var(--on-container);
+    color: var(--text);
+    padding: 0.25em 0 0.25em 1em;
+    border-radius: 1em;
+    margin: 0 0 1em 0;
+    display: flex;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    font-size: 0.95em;
+}
+
+.baka-auto-drop.opened {
+    background: var(--dropdown-menu);
+    z-index: 4;
+}
+
+.baka-auto-drop input{
+    flex: 1;
+    outline: none;
+    min-width: unset;
+    width: unset;
+    min-height: unset;
+    background: transparent;
+    padding: 0.5em 1em 0.5em 0.5em;
+    font-weight: 450;
+    border: none;
+    color: var(--text);
+    font-size: 1em;
+}
+
+.baka-auto-drop>div:first-child {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.baka-auto-drop>div:first-child::after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    content: " ";
+    width: calc(100% - 4em);
+    right: 1em;
+    background: var(--text);
+    opacity: 0;
+    border-radius: 0.2em;
+    height: 0.2em;
+    bottom: 0.4em;
+    transition: opacity 0.75s ease, transform 0.5s ease;
+    transform-origin: right;
+    transform: scaleX(0);
+}
+
+.opened.baka-auto-drop>div:first-child::after{
+    opacity: 0.9!important;
+    transform: scale(1);
+}
+
+.baka-auto-drop svg {
+    display: inline-block;
+    margin: 0 auto 0 0em;
+    will-change: transform;
+    transition: transform 0.5s ease;
+    transform-origin: center;
+}
+
+.baka-auto-drop span {
+    margin: 0 0 0 0.5em;
+}
+
+.baka-auto-drop-options {
+    cursor: auto;
+    display: none;
+    top: calc(100% + 0.5em);
+    position: absolute;
+    right: 0;
+    /* overflow-y: scroll; */
+    width: calc(100% - 0.5em);
+    padding: 0.25em 0.25em;
+    border-radius: 1em;
+    background: var(--dropdown-menu);
+}
+
+.baka-auto-drop-options.opened {
+    display: block;
+    box-shadow: 0 0.3em 1em var(--shadow);
+}
+
+.baka-auto-drop-option {
+    margin: 0.4em 0.5em 0.4em 0.5em;
+    padding: 0.3em 0.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.baka-auto-drop-option.selected {
+    background: var(--dropdown-menu-selected);
+}
+
+.baka-auto-drop-option span {
+    display: inline-block;
+}
+
+.baka-auto-drop-option:hover {
+    background: var(--dropdown-menu-hover);
+}
+
+.baka-auto-drop-option span:nth-child(3) {
+    font-size: 0.9em;
+    opacity: 0.7;
+}

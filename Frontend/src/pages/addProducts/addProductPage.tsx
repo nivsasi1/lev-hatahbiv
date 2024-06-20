@@ -7,6 +7,7 @@ import SectionMenuList from "../../global_components/Header/SectionMenu/menu.jso
 import React from "preact/compat";
 import FileIcon from "../../assets/file_upload.svg"
 import { Toast, ToastType } from "../../global_components/Toast/Toast";
+import { AutoCompleteDropDown } from "../../global_components/AutoCompleteDropDown/AutoCompleteDropDown";
 
 interface newProduct {
   name: string;
@@ -327,9 +328,11 @@ export const AddProductPage: React.FC = () => {
 
       <div className={"add-product-section-title"}>תמונה</div>
       <FileInput setProductInfo={setProductInfo} />
+      <div className={"add-product-section-title"}>&nbsp;</div>
+      <AutoCompleteDropDown options={["amm","damm"]}/>
       {/* חובה, להעלות תמונה, שולחים לבאק את השם שלה */}
       <div className={"checkout-buttons"}>
-        {
+        {/* {
           <PageButton
             setShouldShowErrors={setShouldShowErrors}
             //TODO: need to make valid accept async functions
@@ -346,12 +349,12 @@ export const AddProductPage: React.FC = () => {
               return 0;
             }}
           />
-        }
-        <button
+        } */}
+        <button className={"add-product-submit"}
           onClick={async () => {
             await updateProductToDb(productInfo);
           }}
-        />
+        >העלאת המוצר</button>
       </div>
     </div>
   );

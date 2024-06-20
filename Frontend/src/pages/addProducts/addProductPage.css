@@ -69,3 +69,19 @@
     height: 100%;
     opacity: 0;
 }
+
+.add-product-submit {
+    background: var(--text);
+    color: var(--background);
+    padding: 0.5em 1.5em;
+    font-size: 0.95em;
+    outline: none;
+    appearance: none;
+    border: none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+.add-product-submit:hover{
+    opacity: 0.9;
+}
