@@ -114,9 +114,12 @@ body {
   flex-direction: row-reverse;
   flex-wrap: nowrap;
   align-items: stretch;
-  overflow-x: scroll;
+  overflow-x: hidden;
+  /* justify-content: space-around; */
+  /* justify-content: space-between; */
   padding: 1em 0 1em 1em;
   font-size: 0.8em;
+  overflow: hidden;
 }
 
 .sections-menu::after {
@@ -143,6 +146,7 @@ body {
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
+  /* overflow: hidden; */
 }
 
 .sections-menu-item-arrow {
@@ -175,6 +179,7 @@ div.sections-menu-item:nth-last-child(1) {
 
 .sections-menu-item {
   /* background-color: red; */
+  overflow: visible;
 }
 
 .sections-menu-item>div {
@@ -436,7 +441,6 @@ div.sections-menu-item:nth-last-child(1) {
   cursor: pointer;
   font-weight: 500;
   color: var(--text);
-  filter: brightness(90%);
 }
 
 .bag div {
@@ -445,6 +449,7 @@ div.sections-menu-item:nth-last-child(1) {
 
 .bag img {
   /* opacity: 0; */
+  filter: brightness(90%);
   filter: invert(var(--invert));
   animation: fadeOutIn 1s ease forwards;
   width: 1.15em;
@@ -1235,6 +1240,12 @@ div.sections-menu-item:nth-last-child(1) {
 @media screen and (max-width: 600px) {
   :root {
     font-size: calc(0.3rem + 2vw);
+  }
+}
+
+@media screen and (min-width: 1800px){
+  :root{
+    font-size: calc(0.5rem + 1.5vw)
   }
 }
 

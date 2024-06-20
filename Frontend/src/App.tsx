@@ -7,8 +7,8 @@ import { CartContextProvider } from "./context/cart-context";
 import { CheckoutPage } from "./pages/CheckoutPage/CheckoutPage";
 import { CategoryPage } from "./pages/CategoryPage/CategoryPage";
 import { useEffect, useState } from "preact/hooks";
-import { AddProductPage } from "./pages/AddProducts/addProductPage";
 import { AdminSignIn } from "./pages/AdminSignInPage/AdminSignIn";
+import { AddProductPage } from "./pages/addProducts/addProductPage";
 
 const router = createBrowserRouter([
   {
