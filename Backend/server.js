@@ -113,35 +113,35 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
 }
-// app.post("/admin_signin", async (req, res, next) => {
-//     passport.authenticate("local", { session: false }, (err, user, info) => {
-//         if (err === "not found") {
-//             return res
-//                 .status(400)
-//                 .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
-//         }
-//         if (!user) {
-//             return res
-//                 .status(400)
-//                 .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
-//         }
-//         req.login(user, { session: false }, (err) => {
-//             if (err) {
-//                 return res
-//                     .status(400)
-//                     .json({ error: true, error_message: err.message });
-//             }
+app.post("/admin_signin", async (req, res, next) => {
+    passport.authenticate("local", { session: false }, (err, user, info) => {
+        if (err === "not found") {
+            return res
+                .status(400)
+                .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
+        }
+        if (!user) {
+            return res
+                .status(400)
+                .json({ error: true, error_message: "שגיאה - המשתמש לא נמצא" });
+        }
+        req.login(user, { session: false }, (err) => {
+            if (err) {
+                return res
+                    .status(400)
+                    .json({ error: true, error_message: err.message });
+            }
 
-//             return res.json({
-//                 error: false,
-//                 data: {
-//                     jwt: jwt.sign(user, process.env.SECRET),
-//                     user: btoa(encodeURIComponent(JSON.stringify(user))),
-//                 },
-//             });
-//         });
-//     })(req, res, next);
-// });
+            return res.json({
+                error: false,
+                data: {
+                    jwt: jwt.sign(user, process.env.SECRET),
+                    user: btoa(encodeURIComponent(JSON.stringify(user))),
+                },
+            });
+        });
+    })(req, res, next);
+});
 
 // app.get(
 //     "/get_user",

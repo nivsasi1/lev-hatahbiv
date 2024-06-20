@@ -8,6 +8,7 @@ import React from "preact/compat";
 import FileIcon from "../../assets/file_upload.svg";
 import { Toast, ToastType } from "../../global_components/Toast/Toast";
 import { AutoCompleteDropDown } from "../../global_components/AutoCompleteDropDown/AutoCompleteDropDown";
+import { useParams } from "react-router";
 
 interface newProduct {
   name: string;
@@ -50,6 +51,8 @@ const FloatNumberOnly = (value: string)=>{
 }
 
 export const AddProductPage: React.FC = () => {
+  // const { id } = useParams();
+
   const [productInfo, setProductInfo] = useState<newProduct>({
     name: "",
     price: "",

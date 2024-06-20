@@ -9,4 +9,5 @@ export type wholeCartData = Array<cartData>;
 
 export type initState = {
   cartData: wholeCartData | null;
+  user: any | null;
 };

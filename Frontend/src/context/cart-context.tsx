@@ -4,6 +4,7 @@ import { Product } from "../Types/globalTypes.tsx";
 
 let initialState: initState = {
   cartData: [],
+  user: null,
 };
 
 const loadInitialState = () => {
@@ -13,12 +14,19 @@ const loadInitialState = () => {
 
 interface act {
   source?: any;
-  type: "REMOVE_PRODUCT" | "ADD_PRODUCT" | "UPDATE_PRODUCTS";
+  type: "REMOVE_PRODUCT" | "ADD_PRODUCT" | "UPDATE_PRODUCTS" | "SET_USER";
   value: {};
 }
 
 const reducer = (state: any, action: act) => {
   switch (action.type) {
+    case "SET_USER": {
+      return {
+        ...state,
+        user: action.value,
+      };
+    }
+
     case "REMOVE_PRODUCT": {
       const productId = action.value;
       const data = (state[action.source] as any[]).filter(
@@ -83,6 +91,7 @@ export const CartContext = createContext({
   removeProductFromCart: (_product: Product) => {},
   updateProduct: (_product: Product, _howMany: number) => {},
   addOrUpdate: (_product: Product, _howMany: number) => {},
+  onSuccessfulSignIn: (user: any) => undefined,
 });
 
 export const CartContextProvider: React.FC<React.ReactNode> = ({
@@ -93,6 +102,10 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(state));
   }, [state]);
+
+  const onSuccessfulSignIn = async (user: any) => {
+    dispatch({ type: "SET_USER", value: user });
+  };
 
   //send the Product, if the add more than one send how many
   const addProductToCart = (product: Product, howMany: number) => {
@@ -133,6 +146,7 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
         removeProductFromCart,
         updateProduct,
         addOrUpdate,
+        onSuccessfulSignIn,
       }}
     >
       {children}
