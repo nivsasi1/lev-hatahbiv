@@ -81,3 +81,61 @@
     border-radius: 4em;
     will-change: border-radius;
 }
+
+.float {
+   animation: float 10s ease forwards infinite; 
+}
+
+.float2 {
+   animation: float2 10s ease forwards infinite; 
+   filter: drop-shadow(0 0 5em #00000034)
+}
+
+.float3{
+   animation: float3 10s ease forwards infinite; 
+}
+
+@keyframes float {
+    0%{
+        transform: translate(0);
+    }
+    25%{    
+        transform: translate(20px, 10px);
+    }
+    50%{
+        transform: translate(10px, 10px);
+    }
+    100%{
+        transform: translate(0);
+    }
+}
+
+@keyframes float2 {
+    0%{
+        transform: translate(0);
+    }
+    25%{    
+        transform: translate(-10px, 10px);
+    }
+    50%{
+        transform: translate(10px, -10px);
+    }
+    100%{
+        transform: translate(0);
+    }
+}
+
+@keyframes float3 {
+    0%{
+        transform: translate(0);
+    }
+    25%{    
+        transform: translate(10px, 10px);
+    }
+    50%{
+        transform: translate(5px, 15px);
+    }
+    100%{
+        transform: translate(0);
+    }
+}

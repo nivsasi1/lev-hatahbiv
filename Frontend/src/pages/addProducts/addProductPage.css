@@ -6,6 +6,7 @@
     padding: 0 1em;
     margin: 0 auto;
     direction: rtl;
+    color: var(--text);
 }
 
 .add-product-form {

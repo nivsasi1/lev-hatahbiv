@@ -436,7 +436,7 @@ div.sections-menu-item:nth-last-child(1) {
   cursor: pointer;
   font-weight: 500;
   color: var(--text);
-  filter: brightness(80%);
+  filter: brightness(90%);
 }
 
 .bag div {
@@ -540,7 +540,7 @@ div.sections-menu-item:nth-last-child(1) {
 .bag-count {
   position: absolute;
   padding: 0 0.5em;
-  background: #ffcbda;
+  background: #ffdfe8;
   left: 55%;
   bottom: 75%;
   color: #c62356;
