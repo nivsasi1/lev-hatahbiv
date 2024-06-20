@@ -8,6 +8,8 @@ export enum ToastType {
     Action = 2 //With action
 }
 
+const TOAST_CLASSES = ["success", "error", ""]
+
 export const Toast: React.FC<{ show?: boolean, setShow?: Dispatch<StateUpdater<boolean>>, maxTime?:number, top?: string, title: string, actionTitle?: string, action?: () => void, type: ToastType }> = ({ show, title, actionTitle, top, type, action, maxTime, setShow }) => {
     const ref = useRef<HTMLDivElement | null>(null)
     const timer = useRef<number | null>(null)
@@ -48,8 +50,8 @@ export const Toast: React.FC<{ show?: boolean, setShow?: Dispatch<StateUpdater<b
         }
     }, [show])
 
-    return <div class={"baka-toast no-select "} ref={ref} style={{ top: top ?? "5rem" }}>
-        <div class={"baka-toast-content"}>
+    return <div class={"baka-toast no-select"} ref={ref} style={{ top: top ?? "5rem" }}>
+        <div class={"baka-toast-content "+TOAST_CLASSES[Math.max(0, Math.min(TOAST_CLASSES.length, type))]}>
             <div>{title}</div>
             {type === ToastType.Action && <div onClick={action}>{actionTitle}</div>}
         </div>

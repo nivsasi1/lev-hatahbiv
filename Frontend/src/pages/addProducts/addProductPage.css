@@ -1,12 +1,21 @@
+.add-product-main-title{
+    font-weight: 550;
+    font-size: 1.3em;
+    width: 80vw;
+    max-width: 40rem;
+    padding: 0 1em;
+    margin: 0 auto;
+    direction: rtl;
+}
 
 .add-product-form {
     display: flex;
     flex-direction: column;
-    margin: 4rem auto 0 auto;
+    margin: 0.5rem auto 4rem auto;
     padding: 1em;
     border-radius: 0.75rem;
     direction: rtl;
-    max-width: 40em;
+    max-width: 40rem;
     width: 80vw;
     color: var(--text);
     /* box-shadow: 0 0 1em var(--shadow); */
@@ -75,6 +84,7 @@
     color: var(--background);
     padding: 0.5em 1.5em;
     font-size: 0.95em;
+    font-weight: 500;
     outline: none;
     appearance: none;
     border: none;

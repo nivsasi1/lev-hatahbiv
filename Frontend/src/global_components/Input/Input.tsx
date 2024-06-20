@@ -12,6 +12,7 @@ type InputArgs = {
     warning?: string;
     check?: (v: string) => boolean;
     type?: string;
+    forceWarning?: boolean;
     disabled?: boolean;
     name: string;
     info?: any;
@@ -42,7 +43,7 @@ const isValueValid = (value: any, check?: (v: any) => any, apply?: (v: any) => a
     return false
 }
 
-export const Input: React.FC<InputArgs> = ({key, title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError}) => {
+export const Input: React.FC<InputArgs> = ({forceWarning, key, title, placeholder, type, check, warning, disabled, value, setValue, name, apply, flipped, shouldShowError}) => {
     const [isValid, setIsValid] = useState(isValueValid(value, check, apply, key))
 
     return <div className={"baka-input " + (shouldShowError && !isValid ? "invalid" : "") + (disabled ? " disabled" : "") + (flipped ? " flipped" : "")}>
@@ -57,7 +58,7 @@ export const Input: React.FC<InputArgs> = ({key, title, placeholder, type, check
                 e.currentTarget.value = newValue
             }
         }} name={name} placeholder={placeholder ?? ""} type={type ?? "text"} disabled={disabled === true} value={key ? value[key] : value ?? ""} />
-        {(!isValid && (value !== "") || (shouldShowError && !isValid)) && <div className={"baka-input-hint"}>{warning ?? ""}</div>}
+        {(forceWarning === true || (!isValid && (value !== "")) || (shouldShowError && !isValid)) && <div className={"baka-input-hint"}>{warning ?? ""}</div>}
     </div>
 }
 

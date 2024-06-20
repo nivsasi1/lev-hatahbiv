@@ -1,3 +1,23 @@
+:root{
+    --toast-success-outline: #00a846;
+    --toast-success-background: #dbf5e5;
+    --toast-success-color: rgb(0, 147, 71);
+    --toast-error-outline: #ed2625;
+    --toast-error-background: #f2cccf;
+    --toast-error-color: #ed2625;
+}
+
+
+.dark-theme {
+    --toast-success-outline: #00a846;
+    --toast-success-background: #112211;
+    --toast-success-color: #00a846;
+    --toast-error-outline: #d82121;
+    --toast-error-background: #322;
+    --toast-error-color: #a80030;
+    --toast-error-color: #d82121;
+}
+
 .baka-toast {
     position: fixed;
     right: 0;
@@ -7,7 +27,7 @@
     direction: rtl;
     justify-content: center;
     color: var(--text);
-    font-size: 0.95em;
+    font-size: 0.9em;
     font-weight: 500;
     opacity: 0;
     transition: opacity 1s ease;
@@ -24,9 +44,23 @@
     justify-content: space-between;
     align-items: center;
     background: var(--container);
+    color: var(--text);
+    border: 0.2em solid var(--container);
     box-shadow: 0 0.25em 0.5em var(--shadow);
     text-align: center;
     padding: 0.25em 0.5em;
+}
+
+.success.baka-toast-content {
+    background: var(--toast-success-background);
+    border-color: var(--toast-success-outline);
+    color: var(--toast-success-color);
+}
+
+.error.baka-toast-content {
+    background: var(--toast-error-background)!important;
+    border-color: var(--toast-error-outline)!important;
+    color: var(--toast-error-color)!important;
 }
 
 .baka-toast-content>div:first-child{

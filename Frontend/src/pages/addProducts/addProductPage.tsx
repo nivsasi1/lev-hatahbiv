@@ -24,7 +24,7 @@ interface newProduct {
 
 const isProductInfoValid = (product: newProduct) => {
   return (
-    product.name !== "" && 
+    product.name !== "" &&
     product.price !== "" &&
     (product.salePercentage >= 0 &&
     product.salePercentage < 100) &&
@@ -41,8 +41,11 @@ const ValidString = (value: string)=>{
 }
 
 const FloatNumberOnly = (value: string)=>{
-  let match = String(value ?? "").match(/^(\d+\.?\d*)$/);
+  let newValue = String(value ?? "")
+  let match = newValue.match(/^(\d+\.?\d*)$/);
   if (match) return match[0];
+  match = newValue.slice(0, -1).match(/^(\d+\.?\d*)$/);
+  if(match) return match[0];
   return "";
 }
 
@@ -160,6 +163,8 @@ export const AddProductPage: React.FC = () => {
   const [toastType, setToastType] = useState<ToastType>(ToastType.Action);
 
   return (
+    <div className={"page-content"}>
+    <div className={"add-product-main-title"}>הוספת מוצר</div>
     <div className={"add-product-form"}>
       {showToast && (
         <Toast
@@ -192,9 +197,10 @@ export const AddProductPage: React.FC = () => {
           value={productInfo.price}
           setValue={(value) => setProductInfo({ ...productInfo, price: value })}
           title="מחיר"
+          placeholder="מחיר"
           name="credit-date"
           type="string"
-          check={(value) => /^(\d+|\d+.\d+)$/.test(value)}
+          check={(value) => Number(value) > 0/*/^(\d+|\d+.\d+)$/.test(value)*/}
           apply={FloatNumberOnly}
           warning="יש למלא מחיר תקין."
         />
@@ -207,10 +213,13 @@ export const AddProductPage: React.FC = () => {
           }
           title="אחוז הנחה"
           name="product-salePercentage "
-          type="number"
-          warning="אחוזים זה בן 0 ל100"
-          check={(value) => Number(value) >= 0 && Number(value) <= 100}
+          type="string"
+          warning="אחוזים בן 0 ל100"
+          check={(value) => {
+            return Number(value) >= 0 && Number(value) <= 100
+          }}
           apply={NumberOnly}
+          forceWarning={true}
         />
         {/* //לא חובה, אם לא מכניסים שולחים 0 */}
         <Input
@@ -220,11 +229,13 @@ export const AddProductPage: React.FC = () => {
             setProductInfo({ ...productInfo, quantity: value })
           }
           title="כמות במלאי"
+          placeholder=""
           name="product-quantity"
           type="number"
           warning="אם אזל המלאי או שהכמות אינה ידועה השאירו 0"
           check={(v)=> Number(v) >= 0}
           apply={NumberOnly}
+          forceWarning={true}
         />
       </div>
       {/* TODO: dropdown for isAvailable, יש במלאי \ נגמר במלאי */}
@@ -375,7 +386,7 @@ export const AddProductPage: React.FC = () => {
         </button>
       </div>
     </div>
-  );
+  </div>);
 };
 
 const FileInput: React.FC<{
