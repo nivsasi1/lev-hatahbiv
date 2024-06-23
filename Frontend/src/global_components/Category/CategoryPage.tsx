@@ -98,16 +98,16 @@ const CategoryContent: React.FC<{
       <div className={"sub-categories"}>
         {sections
           ? sections.map((section, index) => {
-            return (
-              <SubCategoryButton
-                cat={category}
-                title={section}
-                id={index}
-                isSelected={currentSection === index}
-                setSection={setCurrentSection}
-              />
-            );
-          })
+              return (
+                <SubCategoryButton
+                  cat={category}
+                  title={section}
+                  id={index}
+                  isSelected={currentSection === index}
+                  setSection={setCurrentSection}
+                />
+              );
+            })
           : ""}
       </div>
       {sections && sections.length > 0 && (
@@ -186,7 +186,10 @@ const ProductsView: React.FC<{
           return (
             <>
               <div
-              className={"sub-sub-filter no-select " + (subSection.show ? "":" toggled")}
+                className={
+                  "sub-sub-filter no-select " +
+                  (subSection.show ? "" : " toggled")
+                }
                 onClick={() => {
                   const updatedSubs = subSectionsState.map((sub) => {
                     if (sub.name === subSection.name) {
@@ -199,11 +202,12 @@ const ProductsView: React.FC<{
                 }}
               >
                 <span>{subSection.name}</span>
-                <PlusIcon rotate={subSection.show ? 135:0}/>
+                <PlusIcon rotate={subSection.show ? 135 : 0} />
               </div>
             </>
           );
-        })}</div>
+        })}
+      </div>
 
       {sectionsAvailable ? (
         subSectionsAvailable ? (
@@ -349,10 +353,21 @@ const ProductView: React.FC<ProductPreview> = ({
   }
   const [isActivated, setIsActivated] = useState(isAdded);
   const img = useRef<HTMLImageElement | null>(null);
+  const ctx = useContext(CartContext);
 
+  const onEditClick = () => {
+    console.log("Edit Clicked");
+  };
   return (
     <Link to={`/product/${id}`} className={"product-container"}>
       <div className={"product"}>
+        <Link
+          to={`/edit_product/${id}`}
+          className={"product-edit " + (ctx.canUserModify() ? "" : "disabled")}
+          disabled={ctx.canUserModify() ? false : true}
+        >
+          עריכת מוצר
+        </Link>
         <div className={"product-img"}>
           <img
             src={"/images/" + imgSrc}
@@ -420,10 +435,20 @@ const SubCategoryButton: React.FC<subCategoryButton> = ({
   );
 };
 
-const PlusIcon:React.FC<{rotate?: number}> = ({rotate})=>{
-  return <svg viewBox="0 0 100 100" style={{transform: `rotate(${(rotate ?? 0)}deg)`}}>
-    <path d="M15,50 h70 M50,15 v70" fill="none" stroke-width="12.5" stroke-linecap={"round"}></path>
-  </svg>
-}
+const PlusIcon: React.FC<{ rotate?: number }> = ({ rotate }) => {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      style={{ transform: `rotate(${rotate ?? 0}deg)` }}
+    >
+      <path
+        d="M15,50 h70 M50,15 v70"
+        fill="none"
+        stroke-width="12.5"
+        stroke-linecap={"round"}
+      ></path>
+    </svg>
+  );
+};
 
 export default CategoryContent;

@@ -141,17 +141,17 @@ app.post("/admin_signin", async (req, res, next) => {
   })(req, res, next);
 });
 
-// app.get(
-//     "/get_user",
-//     passport.authenticate("jwt", { session: false }),
-//     (req, res) => {
-//         if (req) {
-//             res.json({ data: req.user });
-//         } else {
-//             res.json({ error: true, error_message: "not authenticated" });
-//         }
-//     }
-// );
+app.get(
+  "/get_user",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    if (req) {
+      res.json({ data: req.user });
+    } else {
+      res.json({ error: true, error_message: "not authenticated" });
+    }
+  }
+);
 
 const products = require("./routes/products/products");
 app.use("/", products);

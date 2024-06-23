@@ -39,6 +39,10 @@ const router = createBrowserRouter([
     path: "/add-product-by-admin",
     element: <AddProductPage />,
   },
+  {
+    path: "/edit_product/:id",
+    element: <AddProductPage />,
+  },
 ]);
 
 function App() {

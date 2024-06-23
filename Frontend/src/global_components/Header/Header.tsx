@@ -27,6 +27,15 @@ export const Header: React.FC<{
             />
           </Link>
           <SearchBar />
+          <Link
+            to={`/add-product-by-admin`}
+            className={
+              "product-edit " + (cartContext.canUserModify() ? "" : "disabled")
+            }
+            disabled={cartContext.canUserModify() ? false : true}
+          >
+            הוספת מוצרים
+          </Link>
           {shouldShowCartIcon === false ? (
             <></>
           ) : (

@@ -92,6 +92,10 @@ export const CartContext = createContext({
   updateProduct: (_product: Product, _howMany: number) => {},
   addOrUpdate: (_product: Product, _howMany: number) => {},
   onSuccessfulSignIn: (user: any) => undefined,
+  fetchUser: async (): Promise<any | null> => {
+    return null;
+  },
+  canUserModify: () => true,
 });
 
 export const CartContextProvider: React.FC<React.ReactNode> = ({
@@ -104,8 +108,34 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
   }, [state]);
 
   const onSuccessfulSignIn = async (user: any) => {
-    console.log(user);
     dispatch({ type: "SET_USER", value: user });
+  };
+
+  const fetchUser = async (): Promise<any | null> => {
+    const res = await fetch("http://localhost:5000/get_user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      onSuccessfulSignIn(data);
+      return data;
+    } else {
+      console.log("Unauthorized");
+      return null;
+    }
+  };
+
+  const canUserModify = () => {
+    if (!state.user) {
+      return false;
+    }
+  
+    return state.user.role === "0";
   };
 
   //send the Product, if the add more than one send how many
@@ -148,6 +178,8 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
         updateProduct,
         addOrUpdate,
         onSuccessfulSignIn,
+        fetchUser,
+        canUserModify,
       }}
     >
       {children}
