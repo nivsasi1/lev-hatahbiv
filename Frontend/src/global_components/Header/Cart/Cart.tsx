@@ -1,5 +1,5 @@
 import { Dispatch, StateUpdater } from 'preact/hooks';
-import CartPng from '../../../assets/bag.svg';
+import CartPng from '../../../assets/bagv2.svg';
 
 export const Cart: React.FC<{amount: number, setShowCartSheet?: Dispatch<StateUpdater<boolean>>}> = ({amount, setShowCartSheet}) => {
   return (

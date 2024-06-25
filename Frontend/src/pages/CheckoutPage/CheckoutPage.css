@@ -11,9 +11,9 @@
     --background: #0c0c0c;
 }
 
-html, body{
+/* html, body{
     background: var(--background)!important;
-}
+} */
 
 .checkout-page {
     direction: rtl;
