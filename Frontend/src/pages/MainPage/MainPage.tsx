@@ -18,6 +18,7 @@ import bit from "../../assets/bit_white.png"
 import visa from "../../assets/visa.png"
 import mastercard from "../../assets/mastercard.png"
 import flowers2 from "../../assets/flowers2.png"
+import leaves from "../../assets/leaves.png"
 
 export const MainPage: React.FC = () => {
   const [cartSheetVisible, setCartSheetVisible] = useState(false)
@@ -27,8 +28,8 @@ export const MainPage: React.FC = () => {
       <CartSheet show={cartSheetVisible} setShow={setCartSheetVisible} />
       <div class={"page-content"} style={{ direction: "rtl" }}>
         <div className={"main-page"}>
-          <CartBanner />
           <MainSection />
+          <CartBanner />
           <ProductsSections />
           {/* <div style={{ fontSize: "1.6em", padding: "5rem 12vw 0 0", fontWeight: "550" }}>
             לב התחביב
@@ -233,13 +234,18 @@ const ProductPreview: React.FC<{ product: Product }> = ({ product }) => {
 
 const CartBanner: React.FC = () => {
   return <div class="cart-banner">
+    <img src={leaves} style={"position: absolute; right: calc(10vw + 25em); bottom: 50%; width: 20em; filter: grayscale(100%); opacity: 0.15; transform: rotate(-45deg);"} alt="" />
     <div>
+      <div style="width: calc(12vw + 26em); text-align: left; font-weight: 600; color: var(--tint)">
+        <span style="font-size: 1.4em">
+          משלוח עד הבית
+        </span>
+      </div>
       <div class="cart-banner-content">
         <img src={flowers2} style={"mix-blend-mode: luminosity; opacity: 0.08; border-radius: 1em; width: 100%; height: 100%; object-fit: fill; position: absolute;"} />
-    
         <div>
-          <div style="opacity: 0.6">הסל מוכן?</div>
-          <div>למשלמים מעל 250₪</div>
+          <div style="opacity: 0.6; font-size: 1.1em">הסל מוכן?</div>
+          <div>למשלמים מעל 300₪</div>
           <div>משלוח חינם עד הבית</div>
           {/* <img src={truck} alt="" style={"width: 3em; height: 3em"} /> */}
           <Truck />
@@ -250,8 +256,42 @@ const CartBanner: React.FC = () => {
   </div>
 }
 
+const calculateP = (top: number, offset: number, length: number, min?: number, max?: number) => {
+  // console.log(`TOP: ${bounds.top}`)
+  // console.log(`P: ${p}`)
+  // console.log(`x: ${x}`)
+  // console.log(`magnitude: ${magnitude}`)
+  return Math.max(min ?? 0, Math.min(max ?? 1, 1 - (top - offset) / length))
+}
+
+const shouldTriggerAnimation = (top: number, offset: number)=>{
+  if(top < offset){
+    return true
+  }
+  return false 
+}
+
 const CartDemo: React.FC<{ transform?: string }> = ({ transform }) => {
-  return <div class="cart-demo no-select" style={transform ? "transform: " + transform : ""}>
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [enabled, setEnabled] = useState(false)
+  useEffect(() => {
+    const onScroll = (e: Event) => {
+      if (ref.current) {
+        let p = calculateP(ref.current.getBoundingClientRect().top, window.outerHeight / 2, window.outerHeight * 3 / 4)
+        ref.current.style.setProperty("--p", p.toString())
+        if(p === 1){
+          setEnabled(true)
+        }
+      }
+    }
+
+    document.body.addEventListener("scroll", onScroll)
+    return () => {
+      document.body.removeEventListener("scroll", onScroll)
+    }
+  }, [])
+
+  return <div ref={ref} class={"cart-demo no-select "+(enabled ? "enabled":"")} /*style={transform ? "transform: " + transform : ""}*/>
     <div>
       <div style="display: flex; justify-content: space-between">
         <span style="font-size: 1.1em">סל הקניות שלי</span>
@@ -267,8 +307,11 @@ const CartDemo: React.FC<{ transform?: string }> = ({ transform }) => {
         <span>סה״כ לתשלום</span>
         <span style="margin-right: auto">15₪</span>
       </div>
-      <div class="cart-demo-product-pay">
+      <div class={"cart-demo-product-pay "+(enabled ? "enabled":"")}>
+        {/* <span>
         לתשלום
+        </span> */}
+        &nbsp;
       </div>
     </div>
     <div class="cart-demo-methods">
@@ -280,7 +323,7 @@ const CartDemo: React.FC<{ transform?: string }> = ({ transform }) => {
 }
 
 const Truck: React.FC = () => {
-  return <svg class="truck" style={{ width: "3em", height: "3em" }} viewBox="0 0 126 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+  return <svg class="truck" style={{ width: "3em", height: "3em", margin: "0 5vw 0 0" }} viewBox="0 0 126 62" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g style="mix-blend-mode:luminosity">
       <rect x="32" y="44" width="68" height="7" rx="3.5" fill="#FDFDFD" />
       <rect x="33" width="56" height="38" rx="4" fill="#fff" />

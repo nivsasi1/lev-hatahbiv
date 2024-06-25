@@ -158,7 +158,7 @@
     width: fit-content;
 }
 
-.main-section-divider div{
+.main-section-divider div {
     width: fit-content;
     margin: 0 auto;
 }
@@ -428,6 +428,7 @@
 }
 
 .cart-demo {
+    --p: 0.5;
     display: flex;
     flex-direction: column;
     background: var(--tint);
@@ -436,6 +437,10 @@
     width: 50vw;
     border-radius: 1.25em;
     overflow: hidden;
+    opacity: var(--p);
+    transform: translate(calc(var(--p) * -50%), 0);
+    filter: blur(calc((1 - var(--p)) * 5px));
+    will-change: --p, transform, opacity, filter;
 }
 
 .cart-demo-product {
@@ -449,26 +454,66 @@
 }
 
 .cart-demo-product-pay {
-   background: var(--text);
-   color: var(--container);
-   width: fit-content;
-   align-self: center;
-   /* padding: 0.5em 2.5em; */
-   width: calc(100% - 4em);
-   font-weight: 550;
-   padding: 0.75em 0;
-   text-align: center;
-   font-size: 0.95em;
-   margin: 0 auto;
-   border-radius: 2em;
-   transform: translateY(1.5em);
+    background: var(--text);
+    color: var(--container);
+    width: fit-content;
+    align-self: center;
+    /* padding: 0.5em 2.5em; */
+    width: calc(100% - 4em);
+    font-weight: 550;
+    padding: 0.75em 0;
+    text-align: center;
+    font-size: 0.95em;
+    margin: 0 auto;
+    border-radius: 2em;
+    transform: translateY(1.5em);
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
 }
 
-.cart-demo-product img{
+.enabled.cart-demo-product-pay {
+    animation: payFrame 2s ease 1s forwards;
+}
+
+.cart-demo-product-pay::before {
+    white-space: nowrap;
+    content: "נשלח לביתך";
+    position: absolute;
+    width: 100%;
+    right: 0;
+    opacity: 0;
+}
+
+
+.enabled.cart-demo-product-pay::before {
+    animation: fadeIn 1s ease 2s forwards;
+}
+
+.cart-demo-product-pay::after {
+    white-space: nowrap;
+    content: "לתשלום";
+    position: absolute;
+    width: 100%;
+    right: 0;
+    opacity: 1;
+}
+
+.enabled.cart-demo-product-pay::after {
+    animation: fadeOut 1s ease 1s forwards !important;
+}
+
+.enabled.cart-demo-product-pay {}
+
+.cart-demo-product-pay span {
+    animation: payText 2s ease 2s forwards;
+}
+
+.cart-demo-product img {
     margin: 0 0.25em 0 1em;
 }
 
-.cart-demo-product>div:last-child{
+.cart-demo-product>div:last-child {
     border-radius: 1em;
     margin-right: auto;
     direction: ltr;
@@ -478,7 +523,7 @@
     background: var(--sub-container);
 }
 
-.cart-demo>div:first-child{
+.cart-demo>div:first-child {
     padding: 1.25em 1.25em 0 1.25em;
     background: var(--container);
     border-radius: 1em;
@@ -491,16 +536,18 @@
     padding: 2em 1em 1em 1em;
 }
 
-.cart-demo-methods img{
+.cart-demo-methods img {
     height: 1em;
     margin: 0 0.2em;
 }
 
 .cart-banner {
-
+    background: var(--tint-background);
+    margin-top: 5em;
+    position: relative;
 }
 
-.cart-banner-content{
+.cart-banner-content {
     position: relative;
     display: flex;
     background: var(--tint-v2);
@@ -511,89 +558,168 @@
     color: var(--container);
 }
 
-.cart-banner-content>div:first-of-type{
+.cart-banner-content>div:first-of-type {
     position: relative;
-    margin: 0 4vw 0 0;
-    font-size: 1.3em;
+    margin: 0 10vw 0 0;
+    font-size: 1.4em;
     font-weight: 600;
 }
 
-.truck{
+.truck {
     animation: truckShake 2s ease forwards infinite;
     will-change: transform;
 }
 
-.flames{
+.flames {
     animation: flames 4s ease forwards infinite;
     transform-origin: left;
     transform-box: fill-box;
 }
 
-.flames.r{
+.flames.r {
     transform-origin: right;
 }
 
-.wheel{
+.wheel {
     animation: bounce 2s ease forwards infinite;
 }
 
-.wheel.r{
+.wheel.r {
     animation: bounce 2s ease 0.5s forwards infinite;
 }
 
-@keyframes bounce {
-    0%{
-        transform: translate(0,0);
+@keyframes fadeOut {
+    from {
+        opacity: 1;
     }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes payText {
+    0% {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes payFrame {
+    0% {
+        max-width: 100%;
+    }
+
+    25% {
+        clip-path: circle(100%);
+    }
+
+    44.9% {
+        background: var(--text);
+        color: var(--container);
+    }
+
+    45%,
+    55% {
+        /* transform: translateY(1.5em) scale(0); */
+        clip-path: circle(0%);
+        max-width: 2em;
+        background: var(--on-container);
+        color: var(--text);
+    }
+
+    75% {
+        clip-path: circle(100%);
+    }
+
+    100% {
+        background: var(--on-container);
+        color: var(--text);
+        max-width: 100%;
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: translate(0, 0);
+    }
+
     /* 20%{
         transform: scale(1.01) translate(1px,-1px);
     } */
-    50%{
-        transform: translate(0px,-2px);
+    50% {
+        transform: translate(0px, -2px);
     }
+
     /* 80%{
         transform: translate(0px,1px);
     } */
     /* 70%{
         transform: scale(1) translate(-1px,-1px);
     } */
-    100%{
-        transform: translate(0,0);
+    100% {
+        transform: translate(0, 0);
     }
 }
 
 @keyframes truckShake {
-    0%{
+    0% {
         transform: translate(0, 0);
     }
-    20%{
+
+    20% {
         transform: translate(-2px, 1px);
     }
-    50%{
+
+    50% {
         transform: translate(0px, -2px);
     }
-    70%{
+
+    70% {
         transform: translate(1px, 0);
     }
-    100%{
-        transform: translate(0,0);
+
+    100% {
+        transform: translate(0, 0);
     }
 }
 
 @keyframes flames {
-    0%{
+    0% {
         transform: scaleX(1);
     }
-    30%{
+
+    30% {
         transform: scaleX(0.6);
     }
-    50%{
+
+    50% {
         transform: scaleX(0.8);
     }
-    70%{
+
+    70% {
         transform: scaleX(0.9);
     }
-    100%{
+
+    100% {
         transform: scale(1);
     }
 }
@@ -602,5 +728,10 @@
     .main-main-sec-content {
         flex-grow: 3 !important;
         /* width: max-content; */
+    }
+
+    .cart-demo {
+        transform: none !important;
+        margin-left: 1em;
     }
 }
