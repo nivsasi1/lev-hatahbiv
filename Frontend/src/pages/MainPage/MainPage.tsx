@@ -134,7 +134,9 @@ const MainSection: React.FC = () => {
       <img id="heart" src={heart} alt="" />
     </div>
     <div class="main-main-sec-content">
-      <img src={logoPng} alt="" />
+      <div>
+          {/* <img src={logoPng} alt="" /> */}
+      </div>
       <div>
         <span style="font-size: 1.6em">חנות יצירה שיש בה</span><br />
         <span style="font-size: 1.8em">הכל.</span>
@@ -191,17 +193,25 @@ const SearchDemo = () => {
       <span>{options[currentOption].title.slice(0, currentLength)}</span>
     </div>
     <div class="search-demo-result">{
-      time.current < options[currentOption].title.length
+      time.current - 1 < options[currentOption].title.length
         ?
-        <span>מחפש...</span>
+        <span>מחפש<LoadingSearch /></span>
         :
-        <span>
+        <div>
           {options[currentOption].desc + (isNumber(options[currentOption].desc) ? " תוצאות" : "")}
-        </span>
+        </div>
     }
 
     </div>
   </>
+}
+
+const LoadingSearch = () => {
+  return <svg viewBox="0 20 100 50" style={"height: 0.75em; margin-right: 0.5em"} class="search-demo-loading">
+    <circle cx="20" cy="50" r="7" fill="var(--tint)" style="animation-delay:0"></circle>
+    <circle cx="50" cy="50" r="7" fill="var(--tint)" style="animation-delay:0.35s"></circle>
+    <circle cx="80" cy="50" r="7" fill="var(--tint)" style="animation-delay:0.6s"></circle>
+  </svg>
 }
 
 const isNumber = (obj: any) => {
@@ -228,7 +238,7 @@ const ProductsSections: React.FC = () => {
 }
 
 const Stars: React.FC = () => {
-  return <svg viewBox="0 0 100 100" style="width: 1.75em; vertical-align: middle; margin: 0 0.25em 0 0; opacity: 0.9">
+  return <svg viewBox="0 0 100 100" class="circle-around" style="width: 1.75em; vertical-align: middle; margin: 0 0.25em 0 0; opacity: 0.9">
     <defs>
       <path id="" fill="var(--tint)" stroke-linejoin={"round"} stroke="var(--tint)" stroke-width={5} d="M85.5 0L105.594 61.843H170.62L118.013 100.064L138.107 161.907L85.5 123.686L32.8932 161.907L52.9872 100.064L0.38044 61.843H65.406L85.5 0Z"></path>
       <path id="star" fill="var(--tint)" stroke-linejoin={"round"} stroke="var(--tint)" stroke-width={5} d="M30,50 Q45,35 50,20 Q55,35 70,50 Q55,65 50,80 Q45,65 30,50"></path>

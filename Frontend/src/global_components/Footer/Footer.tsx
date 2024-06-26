@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 export const Footer: React.FC = () => {
     return (
-        <footer><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <footer><svg style={"width: 0; height: 0;"} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <clipPath id="clip" clipPathUnits="objectBoundingBox">
                     <path d="M0,0.1 C0.5,-0.05 0.5,0.2 1,0.05 L1,1 0,1 Z" fill="#000"></path>
