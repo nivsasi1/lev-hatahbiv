@@ -11,6 +11,9 @@ export const Footer: React.FC = () => {
                 <clipPath id="clip" clipPathUnits="objectBoundingBox">
                     <path d="M0,0.1 C0.5,-0.05 0.5,0.2 1,0.05 L1,1 0,1 Z" fill="#000"></path>
                 </clipPath>
+                <clipPath id="clip-location" clipPathUnits="objectBoundingBox">
+                    <path d="M0,0.1 C0.5,-0.05 0.5,0.2 1,0.05 L1,0.95 C0.45,1.05 0.5,0.85 0,1 Z" fill="#000"></path>
+                </clipPath>
             </defs>
             <path d="M0,0 1,1" fill="#000"></path>
         </svg>

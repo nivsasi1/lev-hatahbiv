@@ -95,6 +95,31 @@
     animation: float3 10s ease forwards infinite;
 }
 
+.trail {
+    width: 12em;
+    height: 12em;
+    animation: fadeIn 2s ease forwards, trail 4s ease forwards infinite;
+}
+
+.location-pin {
+    width: calc(1.2rem + 3vw);
+    height: calc(1.2rem + 3vw);
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes trail {
+    from {
+        /* opacity: 0; */
+        stroke-dashoffset: 200;
+    }
+
+    to {
+        /* opacity: 1; */
+        stroke-dashoffset: 0;
+    }
+}
+
 @keyframes float {
     0% {
         transform: translate(0);
@@ -543,7 +568,7 @@
 
 .cart-banner {
     background: var(--tint-background);
-    margin-top: 5em;
+    margin: 30vh 0;
     position: relative;
 }
 
@@ -556,6 +581,7 @@
     align-items: center;
     width: fit-content;
     color: var(--container);
+    color: #fff;
 }
 
 .cart-banner-content>div:first-of-type {
@@ -586,6 +612,173 @@
 
 .wheel.r {
     animation: bounce 2s ease 0.5s forwards infinite;
+}
+
+.location-info {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    flex: 1;
+    z-index: 1;
+    color: #fff;
+    justify-content: space-between;
+    /* align-self: stretch; */
+    /* background: green */
+}
+
+.location-info>div:first-of-type {
+    align-self: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    /* background: red; */
+}
+
+.location-info img {
+    width: 18vw;
+    filter: invert(100%)
+}
+
+.location-info>div:last-child {
+    /* margin-bottom: 0; */
+    font-size: calc(0.5rem + 1vw);
+    padding: 1em 1.5em;
+}
+
+.location-bottom {
+    position: relative;
+    display: flex;
+    /* align-items: stretch; */
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
+    overflow: visible;
+    margin-bottom: 10em;
+    /* max-height: 25em; */
+    color: #fff;
+    padding-bottom: 2em;
+}
+
+.location-bottom::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: url(#clip-location);
+    background: #000;
+}
+
+.map-container {
+    margin: 0 10vw 0 5vw;
+    transform: translateY(-1em);
+    height: 32vw;
+}
+
+.map {
+    position: relative;
+    border-radius: 1vw;
+    width: 50vw;
+    border-radius: 2em;
+    overflow: hidden;
+}
+
+.map img {
+    width: 100%;
+}
+
+.map::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background: radial-gradient(#11111168, #000000de);
+}
+
+.map::after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background: #ffffff;
+    mix-blend-mode: overlay;
+    clip-path: circle(20%);
+}
+
+.map-buttons {
+    border-radius: 2em;
+    padding: 0.5em;
+    font-size: 0.8em;
+    background: #222;
+    background: var(--tint-varient);
+    background: var(--tint);
+    margin: 1em auto 0 0;
+    /* direction: ltr; */
+    /* align-self: flex-end; */
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+    width: fit-content;
+    flex-wrap: nowrap;
+    /* transform: translateY(calc(50% + 2em)); */
+}
+
+.map-buttons>a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0.5em 1em;
+    font-weight: 550;
+    margin-left: 1em;
+    cursor: pointer;
+    color: var(--text);
+    background: var(--background);
+    width: fit-content;
+    border-radius: 2em;
+}
+
+.map-buttons>a:last-child{
+    margin-left: 0;
+}
+
+.map-buttons img{
+    filter: invert(var(--invert))
+}
+
+.search-demo-input {
+    display: flex;
+    align-items: center;
+    padding: 0.5em 1em;
+    margin: 1em 0 0 0;
+    border-radius: 2em;
+    font-size: 1em;
+    box-shadow: 0 0 1em var(--shadow);
+    width: 16em;
+    font-size: 1.05em;
+}
+
+.search-demo-input img {
+    filter: invert(var(--invert));
+    width: 1.25em;
+    height: 1.25em;
+    margin-left: 0.25em;
+}
+
+.search-demo-result{
+    background: var(--tint-varient);
+    color: var(--tint);
+    border-radius: 2em;
+    width: fit-content;
+    margin: 1.25em 0.25em;
+    font-weight: 550;
+    font-size: 0.95em;
+    padding: 0.25em 1em;
 }
 
 @keyframes fadeOut {

@@ -47,13 +47,19 @@
   --on-container: #242424;
   --shadow: #00000083;
   --invert: 100%;
-  --sub-container: #252525;
+  --sub-container: #2a2a2a;
   --sub-container: #2e2e2e;
   --sub-container-hover: #3c3c3c;
   --sub-container-hover: #353535;
   --secondary: #b2b2b2;
+  --container: #1d1c1c;
   --fee: #3c2323;
   --no-fee: #29352b;
+  --tint-background: #000000;
+  --tint-varient: #1d191b;
+  --tint: #881a33;
+  --tint-v2: #360512;
+  --tint-grad: #9b2d47;
 }
 
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
@@ -64,8 +70,9 @@
   }
 
   .dark-theme {
-    --nav: #111111e7;
+    --nav: #111111f6;
     --nav-menu: #222222e3;
+    --nav-menu: #111111e7;
   }
 }
 
@@ -137,7 +144,8 @@ body {
   padding: 1em 0 1em 1em;
   font-size: 0.8em;
   overflow: visible;
-  box-shadow: 0 0.2em 0em var(--on-container);
+  /* box-shadow: 0 0.2em 1em var(--on-container); */
+  box-shadow: 0 0 0.5em var(--tint-varient);
 }
 
 .sections-menu::after {
@@ -474,8 +482,8 @@ div.sections-menu-item:nth-last-child(1) {
 
 .bag img {
   /* opacity: 0; */
-  filter: brightness(90%);
-  filter: invert(var(--invert));
+  /* filter: brightness(100%); */
+  filter: invert(var(--invert)) brightness(80%);
   animation: fadeOutIn 1s ease forwards;
   width: 1.15em;
 }
@@ -571,10 +579,15 @@ div.sections-menu-item:nth-last-child(1) {
 .bag-count {
   position: absolute;
   padding: 0 0.5em;
-  background: #ffdfe8;
+  /* background: var(--tint-grad); */
+  background: var(--tint);
+  /* color: rgb(255, 130, 170); */
+  color: #ffffffa8;
   left: 55%;
   bottom: 75%;
-  color: #c62356;
+  font-weight: 550;
+  /* color: #c62356; */
+  /* color: var(--tint); */
   /* clip-path: circle(50%); */
   border-radius: 1em;
   animation: fadeOutIn 1s ease forwards;
