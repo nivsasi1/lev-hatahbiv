@@ -139,7 +139,7 @@ const MainSection: React.FC = () => {
         <span style="font-size: 1.6em">חנות יצירה שיש בה</span><br />
         <span style="font-size: 1.8em">הכל.</span>
       </div>
-      
+
       {/* <div class="tour-button no-select">צבעים, כלים... שנקח אותך לסיור?</div> */}
       <SearchDemo />
       <div class="no-select">
@@ -151,7 +151,7 @@ const MainSection: React.FC = () => {
   </div>
 }
 
-const SearchDemo = ()=>{
+const SearchDemo = () => {
   const options = [
     {
       'title': 'עפרונות',
@@ -168,20 +168,19 @@ const SearchDemo = ()=>{
   const [currentLength, setCurrentLength] = useState(0)
   const time = useRef<number>(0)
 
-  useEffect(()=>{
-    timer.current = setInterval(()=>{
-        setCurrentLength((current) => current +1)
-        time.current += 1
-        console.log("CURRENT LENGTH: "+currentLength)
-        if(time.current >= options[currentOption].title.length){
-          time.current = 0
-          setCurrentLength(0)
-          // setCurrentOption((current) => current +1)
-          setCurrentOption((current) => current + 1 >= options.length - 1 ? 0 : current+1 )
-        }
+  useEffect(() => {
+    timer.current = setInterval(() => {
+      setCurrentLength((current) => current + 1)
+      time.current += 1
+      console.log("CURRENT LENGTH: " + currentLength)
+      if (time.current >= 2 * options[currentOption].title.length) {
+        time.current = 0
+        setCurrentLength(0)
+        setCurrentOption((current) => current >= options.length - 1 ? 0 : current + 1)
+      }
     }, 200)
 
-    return ()=>{
+    return () => {
       clearInterval(timer.current)
     }
   }, [])
@@ -191,13 +190,21 @@ const SearchDemo = ()=>{
       <img src={searchPng} alt="" />
       <span>{options[currentOption].title.slice(0, currentLength)}</span>
     </div>
-    <div class="search-demo-result">
-      { options[currentOption].desc + (isNumber(options[currentOption].desc) ? " תוצאות":"")}
+    <div class="search-demo-result">{
+      time.current < options[currentOption].title.length
+        ?
+        <span>מחפש...</span>
+        :
+        <span>
+          {options[currentOption].desc + (isNumber(options[currentOption].desc) ? " תוצאות" : "")}
+        </span>
+    }
+
     </div>
   </>
 }
 
-const isNumber = (obj: any)=>{
+const isNumber = (obj: any) => {
   return typeof obj === 'number'
 }
 
@@ -421,7 +428,7 @@ const LocationSection: React.FC = () => {
           {/* <div></div> */}
         </div>
         <div class="map-buttons">
-          <a href="https://ul.waze.com/ul?preview_venue_id=22806847.228068470.264234&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location">לפתיחה בוויז<img src={wazeCompact} style="width: 1.2em; height: 1.2em; vertical-align: middle; margin: 0 0.5em 0 0"/></a>
+          <a href="https://ul.waze.com/ul?preview_venue_id=22806847.228068470.264234&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location">לפתיחה בוויז<img src={wazeCompact} style="width: 1.2em; height: 1.2em; vertical-align: middle; margin: 0 0.5em 0 0" /></a>
           <a href="https://www.google.com/maps/place/לב+התחביב%E2%80%AD/@31.8977,34.7984889,15z/data=!4m6!3m5!1s0x1502b71851cba4b7:0xb14666a64cb62aaf!8m2!3d31.8977!4d34.7984889!16s%2Fg%2F1v68p68z?entry=ttu">לצפייה בגוגל מפות</a>
         </div>
       </div>

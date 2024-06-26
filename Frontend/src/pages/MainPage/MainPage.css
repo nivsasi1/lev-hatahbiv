@@ -763,6 +763,12 @@
     font-size: 1.05em;
 }
 
+.search-demo-input::after{
+    content: ".";
+    color: transparent;
+    min-height: 1em;
+}
+
 .search-demo-input img {
     filter: invert(var(--invert));
     width: 1.25em;
@@ -780,6 +786,7 @@
     font-size: 0.95em;
     padding: 0.25em 1em;
 }
+
 
 @keyframes fadeOut {
     from {
