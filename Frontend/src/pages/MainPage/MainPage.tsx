@@ -177,7 +177,7 @@ const SearchDemo = ()=>{
           time.current = 0
           setCurrentLength(0)
           // setCurrentOption((current) => current +1)
-          setCurrentOption((current) => current + 1 >= options[current].title.length - 1 ? 0:current+1 )
+          setCurrentOption((current) => current + 1 >= options.length - 1 ? 0 : current+1 )
         }
     }, 200)
 
