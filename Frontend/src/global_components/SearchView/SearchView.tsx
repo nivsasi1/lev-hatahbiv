@@ -62,7 +62,7 @@ export const SearchView: React.FC<{ visible: boolean, setVisible: (v: boolean) =
         }
     }, [visible])
 
-    return <>{visible && <div class="search-view">
+    return  <div class={"search-view "+(visible ? "visible":"")}>
         <div class="search-view-content" ref={ref}>
             <div class="search-view-input"><img src={searchIcon} onError={(e) => e.currentTarget.style.display = "none"} onLoad={(e) => e.currentTarget.style.display = "block"} /><input value={value} onInput={changeHandler} placeholder={"חיפוש באתר"} /></div>
             {searchResults && searchResults.length > 0 &&
@@ -82,7 +82,7 @@ export const SearchView: React.FC<{ visible: boolean, setVisible: (v: boolean) =
                 <Arrow />
             </Link>}
         </div>
-    </div>}</>
+    </div>
 }
 
 const SearchResult: React.FC<{ product: Product }> = ({ product }) => {
