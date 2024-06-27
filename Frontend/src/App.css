@@ -314,6 +314,8 @@ div.sections-menu-item:nth-last-child(1) {
 }
 
 .search-input img {
+  position: absolute;
+  right: 1em;
   width: 1.25em;
   opacity: 0.4;
   height: 1.25em;
@@ -327,6 +329,7 @@ div.sections-menu-item:nth-last-child(1) {
   appearance: none;
   direction: rtl;
   border: none;
+  text-align: center;
   color: var(--text);
   opacity: 0.5;
   font-weight: 550;
@@ -338,7 +341,9 @@ div.sections-menu-item:nth-last-child(1) {
   padding-right: 0.5em;
   font-weight: 500;
   /* width: 6em; */
+  /* width: 15vw; */
   width: 15vw;
+  min-width: 10em;
   will-change: width;
   transition: width 0.5s ease;
 }

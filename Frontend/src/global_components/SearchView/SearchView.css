@@ -7,6 +7,8 @@
     height: 100vh;
     /* display: flex; */
     background: #00000049;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     direction: rtl;
     animation: fadeIn 0.5s ease;
 }
