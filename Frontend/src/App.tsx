@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MainPage } from "./pages/MainPage/MainPage";
@@ -99,5 +100,12 @@ const setUpApplePay = async () => {
   // let capabilites = window.ApplePaySession.applePayCapabilities(id)
   // }
 };
+
+
+declare global {
+  interface Window {
+    ApplePaySession: any 
+  }
+}
 
 export default App;

@@ -1,0 +1,124 @@
+.search-view{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    width: 100vw;
+    height: 100vh;
+    /* display: flex; */
+    background: #00000049;
+    direction: rtl;
+    animation: fadeIn 0.5s ease;
+}
+
+.search-view-content {
+    margin: 1rem auto 0 auto;
+    min-width: 20em;
+    max-width: 50vw;
+    padding: 1em 1.25em;
+    padding: 0.75em 0.75em;
+    border-radius: 1em;
+    background: var(--container);
+    border: 2px solid var(--on-container);
+    max-height: 50vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* min-height: 10em; */
+}
+
+.search-view-input {
+    display: flex;
+    background: var(--on-container);
+    /* background: var(--tint-varient); */
+    border-radius: 0.5em;
+    padding: 0 0.75em;
+    align-items: center;
+    border: 1.5pt solid transparent;
+    /* outline-style: groove; */
+    /* outline-style: solid; */
+}
+
+.search-view-input:focus-within{
+    border-color: var(--text);
+}
+
+.search-view-input input {
+    /* width: 100%; */
+    /* align-self: stretch; */
+    /* margin: 0 auto 1em auto; */
+    padding: 0.4em 0.2em 0.4em 0.75em;
+    min-width: unset;
+    max-width: unset;
+    height: unset;
+    background: none;
+    /* width: calc(100% - 1.5em); */
+    width: unset;
+    flex: 1;
+    color: var(--text);
+    font-size: 1em;
+    /* padding: 0.4em 0.75em; */
+    border: none;
+    outline: none;
+}
+
+.search-view-input img {
+    width: 1.25em;
+    height: 1.25em;
+    filter: invert(var(--invert)) brightness(80%)
+}
+
+.search-view-results {
+    /* background: green; */
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden scroll;
+}
+
+.search-result {
+  /* margin: 0 0.25em 0.75em 0.25em; */
+  margin: 0 0 0.75em 0;
+  color: var(--text);
+  text-decoration: none;
+  /* flex: 1; */
+  display: block;
+  /* align-self: stretch; */
+  background: var(--on-container);
+  border-radius: 0.75em;
+}
+
+.search-result-content {
+  display: flex;
+  width: fit-content;
+  white-space: nowrap;
+  padding: 0.75em 1em 0.75em 1.25em;
+}
+
+.search-result-content>div:first-child {
+  width: 2.75em;
+  height: 2.75em;
+  align-self: center;
+  background: #d0d0d0;
+  margin-left: 1em;
+  border-radius: 0.25em;
+}
+
+.search-result-content span {
+  display: block;
+}
+
+.search-result-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.search-view-no-results {
+    text-align: center;
+    padding: 1em 0 0.5em 0;
+    color: var(--text);
+    font-weight: 550;
+    opacity: 0.5;
+}

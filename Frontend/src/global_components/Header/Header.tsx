@@ -5,6 +5,7 @@ import { SearchBar } from "./SearchBar/SearchBar";
 import { SectionsMenu } from "./SectionMenu/SectionsMenu";
 import { CartContext } from "../../context/cart-context";
 import { Link } from "react-router-dom";
+import { SearchView } from "../SearchView/SearchView";
 
 export const Header: React.FC<{
   shouldShowCartIcon?: boolean;
@@ -12,6 +13,7 @@ export const Header: React.FC<{
 }> = ({ shouldShowCartIcon, setShowCartSheet }) => {
   const cartContext = useContext(CartContext);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false)
 
   return (
     <>
@@ -26,7 +28,7 @@ export const Header: React.FC<{
               alt="storeLogo"
             />
           </Link>
-          <SearchBar />
+          <SearchBar setSearchVisible={setSearchVisible} />
           <Link
             to={`/add-product-by-admin`}
             className={
@@ -57,6 +59,7 @@ export const Header: React.FC<{
         </div>
         <SectionsMenu visible={menuVisible} setVisible={setMenuVisible} />
       </div>
+      <SearchView visible={searchVisible} setVisible={setSearchVisible}/>
     </>
   );
 };
