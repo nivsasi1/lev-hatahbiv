@@ -35,6 +35,7 @@ export const CartPage: React.FC = () => {
       {showAlertView && <AlertView message="המוצר יוסר מעגלת הקנייה" onReject={() => { setShowAlertView(false) }} onFullFill={alertViewFullFill.current} product={undefined} />}
       <Header shouldShowCartIcon={false} />
       <div className={"page-content"}>
+        &nbsp;
         <Link
           to={""}
           className={"return-button"}

@@ -4,6 +4,8 @@ import { useLocation } from "react-router";
 import CartSheet from "../../global_components/Header/Cart/CartSheet";
 import { useState } from "preact/hooks";
 import { Footer } from "../../global_components/Footer/Footer";
+import flowers from "../../assets/flowers2.png"
+import heart from "../../assets/heart.png"
 
 export const CategoryPage: React.FC = () => {
   const location = useLocation();
@@ -18,6 +20,12 @@ export const CategoryPage: React.FC = () => {
       <CartSheet show={cartSheetVisible} setShow={setCartSheetVisible}/>
       <div class={"page-content"}>
         &nbsp;
+        <div class="page-head-banner">
+          <div></div>
+          <img src={flowers} alt="" />
+          <div></div>
+          <img src={heart} alt="" />
+        </div>
         <CategoryContent category={cat || ""} subCategory={sub_cat || ""} />
       </div>
       <Footer />
