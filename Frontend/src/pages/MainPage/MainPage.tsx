@@ -224,7 +224,7 @@ const ProductsSections: React.FC = () => {
     <div class="main-products-section">
       <div style="z-index: 1; position: relative">
         <div class="main-products-section-title">המוצרים החביבים עליכם<img src={heartIcon} style="width: 1.5em; height: 1.5em; vertical-align: middle; margin-right: 0.25em;" /></div>
-        <div class="main-products-section-content">
+        <div class="main-products-section-content scrollbar-h">
           <ProductPreview product={{ _id: "1", category: "", img: flowers, name: "bababoy", price: 15 }} />
           <ProductPreview product={{ _id: "", category: "", img: flowers, name: "bababoy", price: 15 }} />
           <ProductPreview product={{ _id: "", category: "", img: testPng, name: "bababoy", price: 15, salePercentage: 10 }} />

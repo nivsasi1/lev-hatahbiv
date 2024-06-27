@@ -338,12 +338,49 @@
     box-shadow: 0 0.5em 0 var(--tint-varient);
 }
 
+/* @property --op {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: rgba(0,0,0,0);
+} */
+
+@property --op {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
 .main-products-section-content {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     background: var(--tint-background);
     background: var(--tint-container);
+    overflow-x: scroll;
+    /* margin: 0 1em; */
+    padding: 0 1em;
     /* align-items: flex-end; */
+    transition: --op 1s ease;
+}
+
+.scrollbar-h{
+    --op: 0;
+}
+
+.scrollbar-h:hover{
+    --op: 1;
+    transition: --op .5s ease;
+}
+
+.scrollbar-h::-webkit-scrollbar {
+    background: transparent;
+    height: 5pt;
+}
+
+.scrollbar-h::-webkit-scrollbar-thumb{
+    border-radius: 5pt;
+    background: var(--text);
+    opacity: var(--op);
+    /* background: var(--op); */
 }
 
 .main-product-preview {

@@ -79,11 +79,11 @@ const MenuToggleButton: React.FC<{
       }}
     >
       <div
-        style={opened ? "transform: translateY(6px) rotate(45deg)" : ""}
+        style={opened ? "transform: translateY(0.35em) rotate(45deg)" : ""}
       ></div>
       <div style={opened ? "tranform: translateX(20px); opacity: 0" : ""}></div>
       <div
-        style={opened ? "transform: translateY(-6px) rotate(-45deg)" : ""}
+        style={opened ? "transform: translateY(-0.35em) rotate(-45deg)" : ""}
       ></div>
     </div>
   );

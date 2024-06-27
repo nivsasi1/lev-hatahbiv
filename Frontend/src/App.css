@@ -153,6 +153,7 @@ body {
   overflow: visible;
   /* box-shadow: 0 0.2em 1em var(--on-container); */
   box-shadow: 0 0 0.5em var(--tint-varient);
+  box-shadow: 0 0 0.5em var(--shadow);
 }
 
 .sections-menu::after {
@@ -338,7 +339,7 @@ div.sections-menu-item:nth-last-child(1) {
   /* align-self: stretch; */
   background: none;
   outline: none;
-  padding-right: 0.5em;
+  /* padding-right: 0.5em; */
   font-weight: 500;
   /* width: 6em; */
   /* width: 15vw; */
@@ -423,15 +424,17 @@ div.sections-menu-item:nth-last-child(1) {
   display: none;
   align-items: center;
   cursor: pointer;
-  width: 18px;
-  height: 14px;
+  width: 1em;
+  height: 0.8em;
+  /* width: 1em;
+  height: 0.8em; */
   /* background: red; */
   flex-direction: column;
   justify-content: space-between;
 }
 
 .menu-toggle-button>div {
-  height: 2px;
+  height: 15%;
   width: 100%;
   background: var(--text);
   transform-origin: 50% 50%;
@@ -439,11 +442,11 @@ div.sections-menu-item:nth-last-child(1) {
 }
 
 .menu-toggle-button:hover div:nth-child(1) {
-  transform: translateY(12px);
+  transform: translateY(0.75em);
 }
 
 .menu-toggle-button:hover div:nth-child(3) {
-  transform: translateY(-12px);
+  transform: translateY(-0.75em);
 }
 
 .bag {
@@ -1468,7 +1471,10 @@ div.sections-menu-item:nth-last-child(1) {
     transform: translateX(0);
     font-size: 0.95em;
     border-top-right-radius: 1em;
-    box-shadow: 0.2em 0 0.75em var(--shadow);
+  }
+
+  .nav>div:first-child{
+    box-shadow: 0 0 0.5em var(--shadow);
   }
 
   .sections-menu::-webkit-scrollbar {
