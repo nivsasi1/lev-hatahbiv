@@ -30,7 +30,7 @@
   /* --tint-v2: #b32060; */
   --tint-v2: #ff6282;
   --tint-grad: #ff98b0;
-  --tint-varient: #ffe2f0;
+  --tint-varient: #ffcfde;
   --tint-background: #fff5f9;
   --tint-container: #f8eff2;
   --varient: #ffd365;
@@ -57,13 +57,17 @@
   --fee: #3c2323;
   --no-fee: #29352b;
   --tint-background: #1a090d;
+  --tint-background: #0d0d0d;
   --tint-varient: #1d191b;
   --tint: #881a33;
   --tint: #7e112a;
   --tint-v2: #360512;
-  --tint-grad: #9b2d47;
+  --tint-varient: #250912;
+  /* --tint-grad: #9b2d47; */
   --tint-container: #2f0511;
-  --tint-container: rgb(35, 22, 27);
+  --tint-container: rgb(28, 28, 28);
+  --tint-container: #360512;
+  --tint-container: #1f1a1b;
 }
 
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
@@ -601,7 +605,7 @@ div.sections-menu-item:nth-last-child(1) {
   background: var(--tint-background);
   background: var(--tint-container);
   width: fit-content;
-  padding: 0.35em 0;
+  padding: 0.35em 0.35em;
   border-radius: 2em;
 }
 
@@ -614,12 +618,16 @@ div.sections-menu-item:nth-last-child(1) {
     transform 0.5s cubic-bezier(0.17, 0.67, 0.8, 1.21);
   border-radius: 1.5rem;
   opacity: 0.7;
-  margin: 0 0.5em;
+  margin: 0 0.5em 0 0;
   font-weight: 550;
   user-select: none;
   -webkit-user-select: none;
   color: var(--tint);
   /* background: var(--container); */
+}
+
+div.sub-category-button:first-of-type{
+  margin: 0;
 }
 
 .selected.sub-category-button {
@@ -1099,7 +1107,7 @@ div.sections-menu-item:nth-last-child(1) {
   top: 0;
   height: 100%;
   background: var(--container);
-  background: var(--tint-container);
+  /* background: var(--tint-container); */
   color: var(--text);
   min-width: 20vw;
   max-width: 100vw;
@@ -1363,13 +1371,13 @@ div.sections-menu-item:nth-last-child(1) {
 
 @media screen and (max-width: 600px) {
   :root {
-    font-size: calc(0.3rem + 2vw);
+    /* font-size: calc(0.3rem + 2vw); */
   }
 }
 
 @media screen and (min-width: 1800px) {
   :root {
-    font-size: calc(0.5rem + 1vw);
+    font-size: calc(1rem + 0.5vw);
   }
 }
 

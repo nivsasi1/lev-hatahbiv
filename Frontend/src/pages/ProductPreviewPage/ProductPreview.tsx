@@ -70,6 +70,10 @@ export const ProductPreview: React.FC = () => {
       });
   }, [id]);
 
+  useEffect(()=>{
+    document.body.scrollTo({top: 0}) 
+  },[])
+
   const [showCart, setShowCart] = useState(false);
   const [showAlertView, setShowAlertView] = useState(false);
   const alertViewFullFill = useRef<

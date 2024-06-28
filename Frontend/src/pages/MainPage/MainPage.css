@@ -717,7 +717,7 @@
     width: 100%;
     height: 100%;
     clip-path: url(#clip-location);
-    background: #000;
+    background: #151515;
 }
 
 .map-container {
@@ -822,7 +822,7 @@
 }
 
 .search-demo-input img {
-    filter: invert(var(--invert));
+    filter: invert(var(--invert)) brightness(80%);
     width: 1.25em;
     height: 1.25em;
     margin-left: 0.25em;

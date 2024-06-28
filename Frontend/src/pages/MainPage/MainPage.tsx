@@ -50,36 +50,6 @@ export const MainPage: React.FC = () => {
   );
 };
 
-const LocationDisplay: React.FC = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    const onScroll = (e: Event) => {
-      if (ref.current) {
-        let bounds = ref.current.getBoundingClientRect()
-        console.log(`top: ${bounds.top}`)
-        console.log(`dy: ${bounds.top / window.innerHeight}`)
-        ref.current.style.borderRadius = `${Math.min(4, Math.max(0, 4 * (bounds.top / (window.innerHeight / 4) - 1)))}em`
-        ref.current.style.opacity = `${(bounds.top + bounds.height * 3 / 4) / (window.innerHeight)}`
-      }
-    }
-    document.body.addEventListener("scroll", onScroll)
-    return () => {
-      document.body.removeEventListener("scroll", onScroll)
-    }
-  })
-
-  return <div ref={ref} class="location-display"></div>
-}
-
-const Section1: React.FC = () => {
-  return <div style="margin-top: 10em; position: relative; width: 40vw; margin: 0 auto 0 0; min-height: 50vh; background: #FFF7F0; border-radius: 2vw">
-    <Circle r={"15vw"} fill={"#A9375A"} className="float" style={"position: absolute; left: -2em; top: 2em;"} />
-    <img src={flowers1} class={"float3"} alt="" style={"position: absolute; left: 5vw; top: -5vw; width: 25vw"} />
-    <Circle r={"25vw"} fill={"#A9375A"} className="float2" style={"position: absolute; left: 0; top: 5em "} />
-  </div>
-}
-
 const Circle: React.FC<{ r: string, fill?: string, className?: string, style?: string }> = ({ style, r, fill, className }) => {
   return <svg viewBox={"0 0 100 100"} className={className} style={`width: ${r}; height: ${r}; ${style ?? ""}`}>
     <circle cx="50" cy="50" r="50" fill={fill ?? ""}></circle>
@@ -142,7 +112,6 @@ const MainSection: React.FC = () => {
         <span style="font-size: 1.8em">הכל.</span>
       </div>
 
-      {/* <div class="tour-button no-select">צבעים, כלים... שנקח אותך לסיור?</div> */}
       <SearchDemo />
       <div class="no-select">
         <span>חנות כלי יצירה לחובבי יצירה ואומנות</span>
@@ -233,8 +202,13 @@ const ProductsSections: React.FC = () => {
         </div>
       </div>
     </div>
+    <CategoriesSection />
     <SaleSection />
   </div>
+}
+
+const CategoriesSection: React.FC = ()=>{
+  return <></>
 }
 
 const Stars: React.FC = () => {
@@ -243,9 +217,6 @@ const Stars: React.FC = () => {
       <path id="" fill="var(--tint)" stroke-linejoin={"round"} stroke="var(--tint)" stroke-width={5} d="M85.5 0L105.594 61.843H170.62L118.013 100.064L138.107 161.907L85.5 123.686L32.8932 161.907L52.9872 100.064L0.38044 61.843H65.406L85.5 0Z"></path>
       <path id="star" fill="var(--tint)" stroke-linejoin={"round"} stroke="var(--tint)" stroke-width={5} d="M30,50 Q45,35 50,20 Q55,35 70,50 Q55,65 50,80 Q45,65 30,50"></path>
     </defs>
-    {/* <use href="#star" transform="translate(140, 50) scale(0.9) rotate(-5, 140, 50)"></use>
-    <use href="#star" transform="translate(140, 50) scale(0.9) rotate(-5, 140, 50)"></use>
-    <use href="#star" transform="translate(240, 220) scale(0.65) rotate(-15, 260, 200)"></use> */}
     <use href="#star" transform="translate(50, 50) scale(0.55)"></use>
     <use href="#star" transform="translate(20,50) scale(0.35)"></use>
     <use href="#star" transform="translate(40,5) scale(0.5)"></use>
@@ -263,7 +234,7 @@ const SaleSection = () => {
     <SectionDivider titles={["בלב התחביב יש מבצעים שווים!", "שחבל לפספס..."]} />
     <div class="main-sale-section">
       <div class="main-sale-header">
-        <div >
+        <div style={"color: #e0e0e0;"}>
           <span style="font-size: 1.2em">חוזרים לקלאס בקלאס</span><br />
           <span style={"opacity: 0.7; font-size: 1em"}>מבצעי חזרה ללימודים</span>
         </div>
@@ -361,7 +332,7 @@ const CartDemo: React.FC<{ transform?: string }> = ({ transform }) => {
     <div>
       <div style="display: flex; justify-content: space-between">
         <span style="font-size: 1.1em">סל הקניות שלי</span>
-        <img style="width: 1.25em; height: 1.25em; filter: invert(var(--invert))" src={bag} alt="" />
+        <img style="width: 1.25em; height: 1.25em; filter: invert(var(--invert)) brightness(80%)" src={bag} alt="" />
       </div>
       <div class="cart-demo-product">
         <img style="width: 1.5em; height: 1.5em" src={testPng} alt="" />

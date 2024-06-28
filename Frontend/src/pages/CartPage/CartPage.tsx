@@ -28,6 +28,10 @@ export const CartPage: React.FC = () => {
         }, 0) ?? 0) * 10
       ) / 10
     );
+
+    document.body.scrollTo({
+      top: 0
+    })
   }, [cartContext.cartData]);
 
   return (

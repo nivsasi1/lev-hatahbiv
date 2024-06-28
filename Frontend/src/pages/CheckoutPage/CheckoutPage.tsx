@@ -27,6 +27,10 @@ export const CheckoutPage: React.FC<{}> = () => {
     const [deliveryType, setDeliveryType] = useState(0)
     const [shouldShowErrors, setShouldShowErrors] = useState(false)
 
+  useEffect(()=>{
+    document.body.scrollTo({top: 0}) 
+  },[])
+  
     return (
         <>
             <div className={"checkout-page page-content"} style={"margin-top: 5em!important; margin-bottom: 5em!important"}>
