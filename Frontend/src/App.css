@@ -35,9 +35,11 @@
   --tint-container: #f8eff2;
   --varient: #ffd365;
   /* --tint-background: #fff7fa; */
+  --img: #eeeeee;
 }
 
 .dark-theme {
+  --img: #c9c9c9;
   --text: #c3c3c3;
   --container: #111111;
   --background: #0c0c0c;

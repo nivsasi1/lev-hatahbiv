@@ -418,7 +418,7 @@
     width: 10em;
     height: 10em;
     padding: 1em;
-    background: var(--on-container);
+    background: var(--img);
     border-radius: 1em;
     margin-bottom: 0.5em;
 }
