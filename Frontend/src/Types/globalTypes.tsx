@@ -10,4 +10,7 @@ export type Product = {
   sub_cat?: string;
   third_level?: string;
   img: string;
+  variantsNew?: Array<any>;
+  selectionType: string
 };
+
