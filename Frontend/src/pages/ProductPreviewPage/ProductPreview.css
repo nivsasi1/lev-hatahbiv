@@ -478,8 +478,8 @@
   margin: 0 auto;
   /* justify-self: center; */
   /* margin: 1.5em 0 0 1.5em; */
-  --w: 10em;
-  --h: 10em;
+  --w: 15em;
+  --h: 15em;
   width: var(--w);
   /* background: green; */
   display: flex;
@@ -503,6 +503,7 @@
   height: 100%;
   object-fit: contain;
   transition: transform 1s ease;
+  mix-blend-mode: multiply;
 }
 
 .baka-image-carousel-bullets {
