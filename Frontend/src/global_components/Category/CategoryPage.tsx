@@ -305,8 +305,10 @@ const ProductsViewFiltered: React.FC<{
                     ? cartData.some((item: any) => item.product._id === p._id)
                     : false
                 }
-                onClick={() => {
-                  addOrUpdate(p, 1);
+                onClick={(selectedVariant) => {
+                  console.log("Selected Variant: ", selectedVariant);
+                  console.log("Product: ", p);
+                  addOrUpdate(p, 1, selectedVariant);
                 }}
               />
             </>
@@ -331,7 +333,7 @@ const ProductsViewFiltered: React.FC<{
 interface ProductPreview {
   product: Product,
   isAdded: boolean;
-  onClick: () => void;
+  onClick: (v:number) => void;
 }
 
 const ProductView: React.FC<ProductPreview> = ({
@@ -396,7 +398,7 @@ const ProductView: React.FC<ProductPreview> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              onClick();
+              onClick(selectedVariant);
               // setIsActivated(!isActivated)
               setIsActivated(true);
             }}

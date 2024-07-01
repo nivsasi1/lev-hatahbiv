@@ -112,12 +112,13 @@ const CartSheet: React.FC<{
               <ProductItem
                 product={info.product}
                 amount={info.howMany}
+                option={info.optionSelected}
                 setAmount={(amount) => {
-                  cartContext.updateProduct(info.product, amount);
+                  cartContext.updateProduct(info.product, amount, info.optionSelected);
                 }}
                 shouldRemove={() => {
                   alertViewFullFill.current = () => {
-                    cartContext.removeProductFromCart(info.product);
+                    cartContext.removeProductFromCart(info.product, info.optionSelected);
                     setShowAlertView(false)
                   }
                   setShowAlertView(true)
@@ -143,9 +144,10 @@ export default CartSheet;
 export const ProductItem: React.FC<{
   product: Product;
   amount: number;
+  option?: number;
   setAmount: (amount: number) => void;
   shouldRemove: () => void;
-}> = ({ product, amount, setAmount, shouldRemove }) => {
+}> = ({ product, amount, setAmount, option, shouldRemove }) => {
   if (!product) {
     return <></>;
   }
@@ -165,7 +167,9 @@ export const ProductItem: React.FC<{
         />
       </div>
       <div className={"cart-sheet-product-head"}>
-        <div>{product.name}</div>
+        <div>{product.name} 
+          {product.variantsNew && option !== undefined ? ":"+product.variantsNew[option].title:""}
+        </div>
         <div className={"cart-sheet-product-counter"}>
           <ProductCounter
             productsAmount={amount}

@@ -18,8 +18,6 @@ export const CartPage: React.FC = () => {
   const [showAlertView, setShowAlertView] = useState(false)
   const alertViewFullFill = useRef<() => void | undefined>()
 
-  console.log("context: " + cartContext.cartData?.toString());
-
   useEffect(() => {
     setTotalPrice(
       Math.floor(

@@ -28,14 +28,29 @@ const reducer = (state: any, action: act) => {
     }
 
     case "REMOVE_PRODUCT": {
-      const productId = action.value;
-      const data = (state[action.source] as any[]).filter(
-        (current) => current.product._id !== productId
-      );
-      return {
-        ...state,
-        [action.source]: data,
-      };
+      const value = action.value;
+      if ((value as any).option != undefined) {
+        const data = (state[action.source] as any[]).filter(
+          (current) =>
+            !(
+              current.product._id === (value as any).product &&
+              ((action.value as any).option === undefined ||
+                current.optionSelected == (action.value as any).option)
+            )
+        );
+        return {
+          ...state,
+          [action.source]: data,
+        };
+      } else {
+        const data = (state[action.source] as any[]).filter(
+          (current) => current.product._id !== value
+        );
+        return {
+          ...state,
+          [action.source]: data,
+        };
+      }
     }
 
     case "ADD_PRODUCT": {
@@ -43,6 +58,7 @@ const reducer = (state: any, action: act) => {
         {
           product: (action.value as any).product,
           howMany: (action.value as any).howMany,
+          optionSelected: (action.value as any).option,
         },
         ...(state[action.source] as any[]),
       ];
@@ -55,10 +71,15 @@ const reducer = (state: any, action: act) => {
     case "UPDATE_PRODUCTS": {
       let data;
       data = (state[action.source] as any[]).map((current) => {
-        if (current.product._id === (action.value as any).product._id) {
+        if (
+          current.product._id === (action.value as any).product._id &&
+          ((action.value as any).option === undefined ||
+            current.optionSelected == (action.value as any).option)
+        ) {
           return {
             product: current.product,
             howMany: (action.value as any).howMany,
+            optionSelected: current.optionSelected,
           };
         }
         return current;
@@ -66,13 +87,16 @@ const reducer = (state: any, action: act) => {
       if (
         !state[action.source].find(
           (current: any) =>
-            current.product._id === (action.value as any).product._id
+            current.product._id === (action.value as any).product._id &&
+            ((action.value as any).option === undefined ||
+              current.optionSelected == (action.value as any).option)
         )
       ) {
         data = [
           {
             product: (action.value as any).product,
             howMany: (action.value as any).howMany,
+            optionSelected: (action.value as any).option,
           },
           ...(state[action.source] as any[]),
         ];
@@ -87,10 +111,25 @@ const reducer = (state: any, action: act) => {
 
 export const CartContext = createContext({
   ...initialState,
-  addProductToCart: (_product: Product, _howMany: number) => {},
-  removeProductFromCart: (_product: Product) => {},
-  updateProduct: (_product: Product, _howMany: number) => {},
-  addOrUpdate: (_product: Product, _howMany: number) => {},
+  addProductToCart: (
+    _product: Product,
+    _howMany: number,
+    _optionSelected: any | undefined
+  ) => {},
+  removeProductFromCart: (
+    _product: Product,
+    _optionSelected: any | undefined
+  ) => {},
+  updateProduct: (
+    _product: Product,
+    _howMany: number,
+    _optionSelected: any | undefined
+  ) => {},
+  addOrUpdate: (
+    _product: Product,
+    _howMany: number,
+    _optionSelected: any | undefined
+  ) => {},
   onSuccessfulSignIn: (user: any) => undefined,
   fetchUser: async (): Promise<any | null> => {
     return null;
@@ -134,39 +173,60 @@ export const CartContextProvider: React.FC<React.ReactNode> = ({
     if (!state.user) {
       return false;
     }
-  
+
     return state.user.role === "0";
   };
 
   //send the Product, if the add more than one send how many
-  const addProductToCart = (product: Product, howMany: number) => {
+  const addProductToCart = (
+    product: Product,
+    howMany: number,
+    optionSelected: any | undefined
+  ) => {
     dispatch({
       type: "ADD_PRODUCT",
       source: "cartData",
-      value: { product, howMany },
+      value: { product, howMany, option: optionSelected },
     });
   };
   //send the Product, will remove from cart
-  const removeProductFromCart = (product: Product) => {
+  const removeProductFromCart = (
+    product: Product,
+    optionSelected: any | undefined
+  ) => {
     dispatch({
       type: "REMOVE_PRODUCT",
       source: "cartData",
-      value: product._id,
+      value: { product: product._id, option: optionSelected },
     });
   };
   //send the Product, and how many they want to add/remove, + or - for add or remove
-  const updateProduct = (product: Product, howMany: number) => {
+  const updateProduct = (
+    product: Product,
+    howMany: number,
+    optionSelected: any | undefined
+  ) => {
     dispatch({
       type: "UPDATE_PRODUCTS",
       source: "cartData",
-      value: { product, howMany },
+      value: { product, howMany, option: optionSelected },
     });
   };
 
-  const addOrUpdate = (product: Product, howMany: number) => {
-    if (state["cartData"].find((p: cartData) => p.product._id == product._id)) {
-      updateProduct(product, howMany);
-    } else addProductToCart(product, howMany);
+  const addOrUpdate = (
+    product: Product,
+    howMany: number,
+    optionSelected: any | undefined
+  ) => {
+    if (
+      state["cartData"].find(
+        (p: cartData) =>
+          p.product._id == product._id &&
+          (optionSelected === undefined || p.optionSelected == optionSelected)
+      )
+    ) {
+      updateProduct(product, howMany, optionSelected);
+    } else addProductToCart(product, howMany, optionSelected);
   };
 
   return (
