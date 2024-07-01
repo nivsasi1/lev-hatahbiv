@@ -7,16 +7,18 @@ import { Link } from "react-router-dom";
 // import { TEST_VALUES } from "../../pages/Tests/test";
 import { CartContext } from "../../context/cart-context";
 import { TEST_VALUES } from "../../pages/Tests/test";
+import { Product } from "../../Types/globalTypes";
+import "./CategoryPage.css"
 
-type Product = {
-  _id: string;
-  category: string;
-  sub_cat: string | undefined;
-  third_level: string | undefined;
-  price: number;
-  name: string;
-  img: string;
-};
+// type Product = {
+//   _id: string;
+//   category: string;
+//   sub_cat: string | undefined;
+//   third_level: string | undefined;
+//   price: number;
+//   name: string;
+//   img: string;
+// };
 
 type Tree = {
   name: string;
@@ -297,10 +299,7 @@ const ProductsViewFiltered: React.FC<{
           return (
             <>
               <ProductView
-                title={p.name}
-                id={p._id}
-                imgSrc={p.img}
-                price={p.price}
+                product={p}
                 isAdded={
                   cartData
                     ? cartData.some((item: any) => item.product._id === p._id)
@@ -330,39 +329,33 @@ const ProductsViewFiltered: React.FC<{
 
 // const ProductCollection: React.FC = ()=>{}
 interface ProductPreview {
-  title: string;
-  id: string;
-  imgSrc: string;
-  price: number;
-  desc?: string;
+  product: Product,
   isAdded: boolean;
   onClick: () => void;
 }
 
 const ProductView: React.FC<ProductPreview> = ({
-  title,
-  id,
-  price,
-  imgSrc,
+  product,
   isAdded,
   onClick,
 }) => {
-  let actualTitle = title ?? "";
+  let actualTitle = product.name ?? "";
   if (actualTitle.length > 26) {
     actualTitle = actualTitle.slice(0, 22) + "...";
   }
   const [isActivated, setIsActivated] = useState(isAdded);
   const img = useRef<HTMLImageElement | null>(null);
   const ctx = useContext(CartContext);
+  const [selectedVariant, setSelectVariant] = useState(0)
 
   const onEditClick = () => {
     console.log("Edit Clicked");
   };
   return (
-    <Link to={`/product/${id}`} className={"product-container"}>
+    <Link to={`/product/${product._id}`} className={"product-container"}>
       <div className={"product"}>
         <Link
-          to={`/edit_product/${id}`}
+          to={`/edit_product/${product._id}`}
           className={"product-edit " + (ctx.canUserModify() ? "" : "disabled")}
           disabled={ctx.canUserModify() ? false : true}
         >
@@ -370,7 +363,7 @@ const ProductView: React.FC<ProductPreview> = ({
         </Link>
         <div className={"product-img"}>
           <img
-            src={"/images/" + imgSrc}
+            src={"/images/" + product.img.split(";")[0]}
             ref={img}
             onError={() => {
               if (img.current) {
@@ -386,6 +379,17 @@ const ProductView: React.FC<ProductPreview> = ({
           />
         </div>
         <div className={"product-title"}>{actualTitle}</div>
+        {
+          product.selectionType === "COLOR" && product.variantsNew &&
+          <div class="product-color-variants">
+            {
+              product.variantsNew?.filter((_, index)=> index < 3).map((variant, index)=> <div onClick={(e)=> {e.stopPropagation(); e.preventDefault(); setSelectVariant(index)}} class={selectedVariant === index ? "selected":""} style={`--bg: ${variant.title.split(":")[0]};` }></div>)
+            }
+            {
+              product.variantsNew?.length > 3 && <span>{product.variantsNew.length - 3}+</span>
+            }
+          </div>
+        }
         <div className={"product-bottom"}>
           <div
             className={"product-add " + (isActivated ? "added" : "")}
@@ -399,7 +403,7 @@ const ProductView: React.FC<ProductPreview> = ({
           >
             {isActivated ? "נתווסף" : "הוסף"}
           </div>
-          <div>{price + "₪"}</div>
+          <div>{product.price + "₪"}</div>
         </div>
       </div>
     </Link>

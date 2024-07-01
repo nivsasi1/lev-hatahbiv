@@ -465,6 +465,11 @@
     filter: brightness(100%)!important;
 }
 
+.product-options-list {
+  max-width: 12em;
+  font-size: 1.1em;
+}
+
 /* Image Carousel */
 .baka-image-carousel {
   /* flex: 1; */

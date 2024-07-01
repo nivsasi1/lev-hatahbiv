@@ -7,6 +7,8 @@ type Product = {
     name: string;
     img: string;
     desc?: string;
+    selectionType?: string;
+    variantsNew?: Array<any>
 };
 
 type Tree = {
@@ -21,6 +23,10 @@ type TestType = {
     products: Array<Product>
 }
 
+
+const randomColor = () => {
+    return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
+}
 export const TEST_VALUES: TestType = {
     tree: {
         name: "מכחולים ואביזרים",
@@ -35,7 +41,7 @@ export const TEST_VALUES: TestType = {
                     {
                         name: "איטקלים",
                         subsLength: 0,
-                        productAmount: 1
+                        productAmount: 4
                     },
                     {
                         name: "יוונים",
@@ -47,12 +53,12 @@ export const TEST_VALUES: TestType = {
             {
                 name: "שפכטלים",
                 subsLength: 1,
-                productAmount: 1,
+                productAmount: 2,
                 subs: [
                     {
                         name: "וואו",
                         subsLength: 0,
-                        productAmount: 1
+                        productAmount: 2
                     }
                 ]
             }
@@ -66,7 +72,10 @@ export const TEST_VALUES: TestType = {
             sub_cat: "מכחולים",
             third_level: "איטקלים",
             desc: "michol ben ben zona!",
-            img: "",
+            selectionType: "COLOR",
+            variantsNew:
+                [...new Array(4)].map((_, index) => { return { title: randomColor() + ":option" + index } }),
+            img: "1.png;5.png;6.png;5.png;4.png;5.png;5.png;5.png;5.png;5.png;5.png;5.png",
             price: 420
         },
         {
@@ -76,18 +85,55 @@ export const TEST_VALUES: TestType = {
             sub_cat: "מכחולים",
             third_level: "איטקלים",
             desc: "michol ben ben zona!",
-            img: "",
+            selectionType: "COLOR",
+            variantsNew:
+                [...new Array(10)].map((_, index) => { return { title: randomColor() + ":option" + index } }),
+            img: "1.png;5.png;6.png;5.png;4.png;5.png;5.png;5.png;5.png;5.png;5.png;5.png",
             price: 420
         },
         {
-            name: "michol kushi",
-            _id: "micholkushiamiti",
+            name: "michol niggeri",
+            _id: "micholkushi",
+            category: "מכחולים ואביזרים",
+            sub_cat: "מכחולים",
+            third_level: "איטקלים",
+            desc: "michol ben ben zona!",
+            selectionType: "COLOR",
+            variantsNew:
+                [...new Array(1)].map((_, index) => { return { title: randomColor() + ":option" + index } }),
+            img: "1.png;5.png;6.png;5.png;4.png;5.png;5.png;5.png;5.png;5.png;5.png;5.png",
+            price: 420
+        },
+        {
+            name: "michol niggeri",
+            _id: "micholkushi",
+            category: "מכחולים ואביזרים",
+            sub_cat: "מכחולים",
+            third_level: "איטקלים",
+            desc: "michol ben ben zona!",
+            img: "1.png;5.png;6.png;5.png;4.png;5.png;5.png;5.png;5.png;5.png;5.png;5.png",
+            price: 420
+        },
+        {
+            name: "schpachtel kushi",
+            _id: "schpachtelkushiamiti",
             category: "מכחולים ואביזרים",
             sub_cat: "שפכטלים",
             third_level: "וואו",
             desc: "michol ben ben zona!",
-            img: "",
+            img: "4.png",
+            price: 420
+        },
+        {
+            name: "schpachtel kushi",
+            _id: "schpachtelkushiloamiti",
+            category: "מכחולים ואביזרים",
+            sub_cat: "שפכטלים",
+            third_level: "וואו",
+            desc: "michol ben ben zona!",
+            img: "5.png",
             price: 420
         }
     ]
 }
+

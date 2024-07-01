@@ -21,7 +21,7 @@ export const SectionsMenu: React.FC<{ visible: boolean, setVisible: Dispatch<Sta
             }
             if (ref.current && !ref.current.contains(e.target as Node)) {
                 setVisible(false)
-            } 
+            }
         }
 
         window.addEventListener("mousedown", clickOut)
@@ -33,11 +33,22 @@ export const SectionsMenu: React.FC<{ visible: boolean, setVisible: Dispatch<Sta
     })
 
     return (<div className={"sections-menu " + (visible ? "visible" : "")} ref={ref}>
-        {SectionMenuList.map((section) => {
-            return (<SectionsMenuItem title={section.title} route={section.route} options={section.options} />)
-        }
-        )}
+        <>
+            {SectionMenuList.map((section) => {
+                return (<SectionsMenuItem title={section.title} route={section.route} options={section.options} />)
+            }
+            )}
+            <SectionsMenuItemNoOptions title="אודותינו" route="about"/>
+        </>
     </div>)
+}
+
+const SectionsMenuItemNoOptions: React.FC<{ title: string, route: string  }> = ({ title, route}) => {
+    return <div className={"sections-menu-item no-select"}>
+        <span>
+            <Link to={`/`+route}>{title}</Link>
+        </span>
+    </div>
 }
 
 const SectionsMenuItem: React.FC<SectionsMenuItem> = ({ title, route, options }) => {

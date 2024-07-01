@@ -5,11 +5,12 @@ import { Arrow } from "../../pages/ProductPreviewPage/ProductPreview";
 
 type DropDownProps = {
     selected: number;
+    className?: string;
     didSelect: Dispatch<StateUpdater<number>>;
     options: Array<any>;
 }
 
-export const DropDown: React.FC<DropDownProps> = ({ selected, didSelect, options }) => {
+export const DropDown: React.FC<DropDownProps> = ({ selected, didSelect, options, className }) => {
     const [isOpened, setIsOpened] = useState(false);
     const container = useRef<HTMLDivElement | null>(null);
 
@@ -25,7 +26,7 @@ export const DropDown: React.FC<DropDownProps> = ({ selected, didSelect, options
         };
     });
     return (
-        <div className={"baka-dropdown no-select" + (isOpened ? " opened " : "")} ref={container} onClick={() => {setIsOpened((current) => !current);}}>
+        <div className={"baka-dropdown no-select " + (className ?? "") + (isOpened ? " opened " : "")} ref={container} onClick={() => {setIsOpened((current) => !current);}}>
             <div>
                 <span>{options[selected]}</span>
                 <Arrow rotate={isOpened ? 90 : -90} />

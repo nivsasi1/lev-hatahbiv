@@ -667,7 +667,7 @@ div.sub-category-button:first-of-type{
   background: var(--container);
   background: var(--tint-container);
   border-radius: 1em;
-  padding: 1em;
+  padding: 0.25em 1.25em;
   margin-bottom: 2em;
   animation: productsAppear 0.5s ease forwards;
   opacity: 0;
@@ -694,6 +694,7 @@ div.sub-category-button:first-of-type{
   flex-wrap: wrap;
   width: 100%;
   overflow: hidden;
+  /* align-content: flex-end; */
   /* max-height: 18em; */
   /* overflow-x: scroll; */
 }
@@ -732,17 +733,20 @@ div.sub-category-button:first-of-type{
   text-decoration: none;
   background: var(--on-container);
   background: var(--container);
-  border-radius: 1em;
-  padding: 0.75em 1em;
+  border-radius: 1.25em;
+  /* align-self: stretch; */
+  padding: 0.8em;
   transition: background 0.5s ease,
     transform 0.5s cubic-bezier(0.17, 0.67, 0.8, 1.21);
   animation: fadeIn 1s ease;
 }
 
 .product-img {
+  background: var(--img);
   width: 8em;
   height: 8em;
   padding: 1em;
+  border-radius: 1em;
 }
 
 .product-img img {
@@ -754,7 +758,8 @@ div.sub-category-button:first-of-type{
 
 .product-title {
   font-size: 0.9em;
-  margin: 0.5em 0;
+  font-weight: 500;
+  margin: 0.5em 0 0 0;
   text-align: center;
 }
 
@@ -763,6 +768,7 @@ div.sub-category-button:first-of-type{
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: end;
+  margin-top: 0.25em;
   font-weight: 500;
 }
 
