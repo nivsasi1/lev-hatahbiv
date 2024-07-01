@@ -23,10 +23,10 @@ type TestType = {
     products: Array<Product>
 }
 
-
 const randomColor = () => {
     return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
 }
+
 export const TEST_VALUES: TestType = {
     tree: {
         name: "מכחולים ואביזרים",
@@ -79,7 +79,7 @@ export const TEST_VALUES: TestType = {
             price: 420
         },
         {
-            name: "michol niggeri",
+            name: "michol niggeri achusha that the length is too large to fit!",
             _id: "micholkushi",
             category: "מכחולים ואביזרים",
             sub_cat: "מכחולים",

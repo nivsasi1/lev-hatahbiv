@@ -11,8 +11,8 @@ export const SearchView: React.FC<{ visible: boolean, setVisible: (v: boolean) =
     const [value, setValue] = useState("")
 
     const [searchResults, setSearchResults] = useState<Array<Product>>(
-        // TEST_VALUES.products
-        []
+    TEST_VALUES.products as Array<Product>
+        // []
     );
 
     const changeHandler = async (e: Event) => {
@@ -77,10 +77,10 @@ export const SearchView: React.FC<{ visible: boolean, setVisible: (v: boolean) =
                 </div>
             }
             {searchResults.length === 0 && value !== "" && <div class="search-view-no-results">אין תוצאות</div>}
-            {searchResults.length > 0 && <Link to={""} className="search-results-more">
+            {/* {searchResults.length > 0 && <Link to={""} className="search-results-more">
                 <span>לצפייה בכלל התוצאות</span>
                 <Arrow />
-            </Link>}
+            </Link>} */}
         </div>
     </div>
 }

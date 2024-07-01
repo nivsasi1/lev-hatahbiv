@@ -34,16 +34,14 @@
             { "optionTitle": "עפרון שמן/שעווה", "route": "oil-wax-pencil" },
             { "optionTitle": "עפרון פסטל", "route": "pastel-pencil" },
             { "optionTitle": "עפרון דיו", "route": "ink-pencil" },
-            { "optionTitle": "עפרון פחם", "route": "charcoal-pencil" },
             { "optionTitle": "עפרון רישום - גרפיט", "route": "graphite-pencil" },
+            { "optionTitle": "חומרי עזר לעפרונות", "route": "pencil-supplies" },
             { "optionTitle": "טוש לציור", "route": "drawing-marker" },
             { "optionTitle": "טוש אקריליק", "route": "acrylic-marker" },
             { "optionTitle": "טוש אלכוהולי", "route": "alcohol-marker" },
-            { "optionTitle": "ZIG Clear", "route": "zig-clear" },
             { "optionTitle": "רפידוגרף", "route": "rapidograph" },
             { "optionTitle": "פחם", "route": "charcoal" },
-            { "optionTitle": "שרטוט חומרי עזר", "route": "drafting-supplies" },
-            { "optionTitle": "עפרונות ופחם חומרי עזר", "route": "pencil-and-charcoal-supplies" }
+            { "optionTitle": "שרטוט חומרי עזר", "route": "drafting-supplies" }
         ]
     },
     {

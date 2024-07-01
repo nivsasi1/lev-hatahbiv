@@ -80,9 +80,10 @@
   }
 
   .dark-theme {
-    --nav: #111111f6;
+    --nav: #171717f9;
     --nav-menu: #222222e3;
     --nav-menu: #111111e7;
+    --nav-menu: #171717f6;
   }
 }
 
@@ -111,6 +112,15 @@ body {
   top: 0;
   width: 100vw;
   right: 0;
+}
+
+.header-left {
+  position: absolute;
+  left: 0;
+  display: flex;
+  direction: rtl;
+  align-items: center;
+  left: 1em
 }
 
 .page-content {
@@ -307,6 +317,13 @@ div.sections-menu-item:nth-last-child(1) {
   filter: invert(var(--invert));
 }
 
+/* .search-input-container{
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  width: 100%;
+} */
+
 .search-input {
   display: flex;
   align-items: center;
@@ -430,8 +447,8 @@ div.sections-menu-item:nth-last-child(1) {
   display: none;
   align-items: center;
   cursor: pointer;
-  width: 1em;
-  height: 0.8em;
+  width: 1rem;
+  height: 0.8rem;
   /* width: 1em;
   height: 0.8em; */
   /* background: red; */
@@ -628,7 +645,7 @@ div.sections-menu-item:nth-last-child(1) {
   /* background: var(--container); */
 }
 
-div.sub-category-button:first-of-type{
+div.sub-category-button:first-of-type {
   margin: 0;
 }
 
@@ -747,6 +764,36 @@ div.sub-category-button:first-of-type{
   height: 8em;
   padding: 1em;
   border-radius: 1em;
+}
+
+@media screen and (max-width: 800px) {
+  .product-container {
+    margin: 1em auto;
+  }
+
+  .product-img {
+    width: calc(30vw - 2em);
+    height: calc(30vw - 2em);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .products {
+    width: calc(100% - 3rem);
+    padding: 0.5em 1em;
+  }
+
+  .product-container {
+    font-size: calc(0.6rem + 1.1vw);
+  }
+
+  .product-img {
+    /* font-size: calc(2vw + 0.5em); */
+    width: 10em;
+    height: 10em;
+    /* width: calc(50vw);
+      height: calc(50vw); */
+  }
 }
 
 .product-img img {
@@ -1068,7 +1115,7 @@ div.sub-category-button:first-of-type{
   opacity: 1;
 }
 
-.page-head-banner>div:first-of-type{
+.page-head-banner>div:first-of-type {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -1109,13 +1156,13 @@ div.sub-category-button:first-of-type{
 
 @media screen and (max-width: 600px) {
   :root {
-    /* font-size: calc(0.3rem + 2vw); */
+    font-size: calc(0.3rem + 2vw);
   }
 }
 
 @media screen and (min-width: 1800px) {
   :root {
-    font-size: calc(1rem + 0.5vw);
+    font-size: calc(1rem + 0.1vw);
   }
 }
 
@@ -1219,7 +1266,7 @@ div.sub-category-button:first-of-type{
     border-top-right-radius: 1em;
   }
 
-  .nav>div:first-child{
+  .nav>div:first-child {
     box-shadow: 0 0 0.5em var(--shadow);
   }
 
@@ -1310,5 +1357,9 @@ div.sub-category-button:first-of-type{
 
   .page-content {
     margin-top: 4rem;
+  }
+
+  .return-button {
+    margin-top: 1rem;
   }
 }

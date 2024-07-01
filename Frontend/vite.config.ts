@@ -23,10 +23,10 @@ export default defineConfig({
             changeOrigin: true,
         },
     },
-    https: {
-      key: fs.readFileSync("key.pem"),
-      cert: fs.readFileSync("cert.pem"),
-      passphrase: "Itay"
-    }
+    // https: {
+    //   key: fs.readFileSync("key.pem"),
+    //   cert: fs.readFileSync("cert.pem"),
+    //   passphrase: "Itay"
+    // }
 },
 })

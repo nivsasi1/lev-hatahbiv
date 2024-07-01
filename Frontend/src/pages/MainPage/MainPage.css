@@ -357,7 +357,9 @@
     background: var(--tint-container);
     overflow-x: scroll;
     /* margin: 0 1em; */
-    padding: 0 1em;
+    /* padding: 0 1em; */
+    border-right: 2em solid transparent;
+    border-left: 2em solid transparent;
     /* align-items: flex-end; */
     transition: --op 1s ease;
 }

@@ -29,37 +29,39 @@ export const Header: React.FC<{
             />
           </Link>
           <SearchBar setSearchVisible={setSearchVisible} />
-          <Link
-            to={`/add-product-by-admin`}
-            className={
-              "product-edit " + (cartContext.canUserModify() ? "" : "disabled")
-            }
-            disabled={cartContext.canUserModify() ? false : true}
-          >
-            הוספת מוצרים
-          </Link>
-          {shouldShowCartIcon === false ? (
-            <></>
-          ) : (
-            <Cart
-              setShowCartSheet={setShowCartSheet}
-              amount={
-                cartContext.cartData?.reduce(
-                  (sum, info) => sum + info.howMany,
-                  0
-                ) ?? 0
+          <div class="header-left">
+            <Link
+              to={`/add-product-by-admin`}
+              className={
+                "product-edit " + (cartContext.canUserModify() ? "" : "disabled")
               }
+              disabled={cartContext.canUserModify() ? false : true}
+            >
+              הוספת מוצרים
+            </Link>
+            {shouldShowCartIcon === false ? (
+              <></>
+            ) : (
+              <Cart
+                setShowCartSheet={setShowCartSheet}
+                amount={
+                  cartContext.cartData?.reduce(
+                    (sum, info) => sum + info.howMany,
+                    0
+                  ) ?? 0
+                }
+              />
+            )}
+            <MenuToggleButton
+              margin={shouldShowCartIcon === false ? "0 auto 0 0" : ""}
+              opened={menuVisible}
+              setOpened={setMenuVisible}
             />
-          )}
-          <MenuToggleButton
-            margin={shouldShowCartIcon === false ? "0 auto 0 0" : ""}
-            opened={menuVisible}
-            setOpened={setMenuVisible}
-          />
+          </div>
         </div>
         <SectionsMenu visible={menuVisible} setVisible={setMenuVisible} />
       </div>
-      <SearchView visible={searchVisible} setVisible={setSearchVisible}/>
+      <SearchView visible={searchVisible} setVisible={setSearchVisible} />
     </>
   );
 };

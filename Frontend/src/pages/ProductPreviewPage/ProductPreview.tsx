@@ -136,7 +136,8 @@ export const ProductPreview: React.FC = () => {
       <CartSheet show={showCart} setShow={setShowCart} />
       {product && (
         <>
-          <div style={{ marginTop: "10rem", minHeight: "100vh" }}>
+          <div class="page-content">
+            &nbsp;
             <Link to={link} className={"return-button"}>
               <span>חזור</span>
               <Arrow />
