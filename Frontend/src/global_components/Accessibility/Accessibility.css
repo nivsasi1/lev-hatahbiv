@@ -1,0 +1,35 @@
+.accessibility-button{
+    position: fixed;
+    z-index: 900;
+    right: 0;
+    bottom: 20vh;
+    width: 70px;
+    height: 50px;
+    background: red;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: none;
+}
+
+.accessibility-menu{
+    display: flex;
+    position: fixed;
+    z-index: 901;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--shadow);
+    display: none;
+    /* align-items: center; */
+    overflow-y: scroll;
+    justify-content: center;
+}
+
+.accessibility-menu>div{
+    margin-top: 1em;
+    width: calc(100vw - 4rem);
+    background: var(--container);
+    padding: 1rem;
+    min-height: 100vh;
+}

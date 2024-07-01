@@ -21,7 +21,7 @@
     color: var(--text);
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 800px){
     .cart-content {
         width: calc(100% - 4em);
     }

@@ -439,7 +439,7 @@ const SubCategoryButton: React.FC<subCategoryButton> = ({
   );
 };
 
-const PlusIcon: React.FC<{ rotate?: number }> = ({ rotate }) => {
+export const PlusIcon: React.FC<{ rotate?: number }> = ({ rotate }) => {
   return (
     <svg
       viewBox="0 0 100 100"

@@ -10,6 +10,7 @@ import { CategoryPage } from "./pages/CategoryPage/CategoryPage";
 import { useEffect, useState } from "preact/hooks";
 import { AdminSignIn } from "./pages/AdminSignInPage/AdminSignIn";
 import { AddProductPage } from "./pages/AddProducts/AddProductPage";
+import { Accessibility, AccessibilityButton, AccessibilityMenu } from "./global_components/Accessibility/Accessibility";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,8 @@ function App() {
     <CartContextProvider>
       <RouterProvider router={router} />
       {/* <div id="lol" style="position: fixed; z-index: 99; background: red; top: 0; left: 0; padding: 1vw" onClick={setUpApplePay}>click</div> */}
+      <AccessibilityButton />
+      <AccessibilityMenu />
     </CartContextProvider>
   );
 }
