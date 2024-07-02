@@ -8,7 +8,7 @@ type Product = {
     img: string;
     desc?: string;
     selectionType?: string;
-    variantsNew?: Array<any>
+    variantsNew?: Array<any>;
 };
 
 type Tree = {

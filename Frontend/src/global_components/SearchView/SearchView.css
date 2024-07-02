@@ -22,8 +22,8 @@
     margin: 1rem auto 0 auto;
     min-width: 20em;
     max-width: 50vw;
-    padding: 1em 1.25em;
-    padding: 0.75em 0.75em;
+    /* padding: 1em 1.25em;
+    padding: 0.75em 0.75em; */
     border-radius: 1em;
     background: var(--container);
     border: 1px solid var(--on-container);
@@ -40,6 +40,7 @@
     /* background: var(--tint-varient); */
     border-radius: 0.5em;
     padding: 0 0.75em;
+    margin: 0.75em;
     align-items: center;
     border: 1.5pt solid transparent;
     /* outline-style: groove; */
@@ -78,12 +79,12 @@
 
 .search-view-results {
     /* background: green; */
-    margin-top: 1em;
+    /* margin-top: 1em; */
     display: flex;
     flex-direction: column;
     flex: 1;
     overflow: hidden scroll;
-    padding: 0.25em;
+    padding: 0.25em 0.5em;
 }
 
 .search-view-results::-webkit-scrollbar {

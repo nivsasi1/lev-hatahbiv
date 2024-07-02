@@ -141,54 +141,74 @@ const CartSheet: React.FC<{
 
 export default CartSheet;
 
+const domain = "https://levhatahbiv.s3.eu-north-1.amazonaws.com/";
+
 export const ProductItem: React.FC<{
   product: Product;
   amount: number;
   option?: number;
+  className?: string;
+  titleLimit?: number;
   setAmount: (amount: number) => void;
   shouldRemove: () => void;
-}> = ({ product, amount, setAmount, option, shouldRemove }) => {
+}> = ({ product, amount, setAmount, option, shouldRemove, className, titleLimit }) => {
   if (!product) {
     return <></>;
   }
-
+  let actualTitle = product.name ?? "";
+  let limit = titleLimit ?? 26
+  if (actualTitle.length > limit) {
+    actualTitle = actualTitle.slice(0, limit - 4) + "...";
+  }
   return (
     <div class={"cart-sheet-product"}>
-      <div class={"cart-sheet-product-image"}>
-        <img
-          src={"/images/" + product.img}
-          alt=""
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-          onLoad={(e) => {
-            e.currentTarget.style.display = "block"
-          }}
-        />
-      </div>
-      <div className={"cart-sheet-product-head"}>
-        <div>{product.name} 
-          {product.variantsNew && option !== undefined ? ":"+product.variantsNew[option].title:""}
-        </div>
-        <div className={"cart-sheet-product-counter"}>
-          <ProductCounter
-            productsAmount={amount}
-            setProductsAmount={(calc) => {
-              setAmount(calc(amount));
+      <div class={"cart-sheet-product-content "+(className ?? "")}>
+        <div class={"cart-sheet-product-image"}>
+          <img
+            src={domain+"images/" + product.img.split(";")[0]}
+            alt=""
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
             }}
-            shouldRemove={() => shouldRemove()}
+            onLoad={(e) => {
+              e.currentTarget.style.display = "block"
+            }}
           />
-          <div style="direction: ltr">
-            {amount} x {product.price}₪ ={" "}
-            {Math.floor(product.price * amount * 10) / 10}₪
+        </div>
+        <div className={"cart-sheet-product-head"}>
+          <div class="cart-sheet-product-title">
+            <span>{actualTitle}</span>
+            {product.variantsNew && option !== undefined && <VariantDisplay type={product.selectionType} variant={product.variantsNew[option] ? (product.variantsNew[option].title ?? "") : ""} />}
+          </div>
+          <div className={"cart-sheet-product-counter"}>
+            <ProductCounter
+              productsAmount={amount}
+              setProductsAmount={(calc) => {
+                setAmount(calc(amount));
+              }}
+              shouldRemove={() => shouldRemove()}
+            />
+            <div style="direction: ltr">
+              {amount} x {product.price}₪ ={" "}
+              {Math.floor(product.price * amount * 10) / 10}₪
+            </div>
           </div>
         </div>
       </div>
-
       <RemoveButton handler={shouldRemove} />
     </div>
   );
 };
+
+const VariantDisplay: React.FC<{ type: string, variant: string }> = ({ type, variant }) => {
+  const title = type === "COLOR" ? variant.split(":")[1] : variant
+
+  return <span class={type === "COLOR" ? "color" : ""} style={type === "COLOR" ? `--bg: ${variant.split(":")[0]};` : ""}>
+    {
+      title
+    }
+  </span>
+}
 
 const RemoveButton: React.FC<{ handler?: () => void }> = ({ handler }) => {
   return (

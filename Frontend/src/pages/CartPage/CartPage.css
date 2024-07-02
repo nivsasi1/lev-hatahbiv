@@ -21,9 +21,14 @@
     color: var(--text);
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 850px){
     .cart-content {
-        width: calc(100% - 4em);
+        width: calc(100% - 3em);
+        padding: 1em;
+    }
+
+    .cart-sections{
+        display: block!important;
     }
 
     .page-title {

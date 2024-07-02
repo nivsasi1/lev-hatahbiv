@@ -34,15 +34,14 @@ export const Arrow: React.FC<{ rotate?: number; className?: string }> = ({
 };
 
 const randomColor = () => {
-  return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${
-    Math.random() * 255
-  })`;
+  return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255
+    })`;
 };
 
 const isInCart = (product: Product, option: any, context?: any) => {
   if (context) {
     return context.find(
-      (info:any) =>
+      (info: any) =>
         info.product._id === product._id && info.optionSelected === option
     );
   }
@@ -61,9 +60,6 @@ export const ProductPreview: React.FC = () => {
 
   //Description expanded (for small screen)
   const [descExpanded, setDescExpanded] = useState(false);
-
-  const [isDescriptionOverflowing, setIsDescriptionOverflowing] =
-    useState(false);
 
   const { removeProductFromCart, addOrUpdate, cartData } =
     useContext(CartContext);
@@ -96,21 +92,23 @@ export const ProductPreview: React.FC = () => {
       .catch(() => {
         setProduct({
           _id: "1",
-          name: "מכחול",
+          name: "מכחול עם כותרת - English Michol Very Large Title For No Reason",
           price: 10,
           desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate quisquam veritatis soluta ab ut quae dolores omnis voluptas, explicabo consequuntur necessitatibus dolor quaerat aliquid iste animi ratione, amet, quidem nobis perferendis temporibus! Nobis ullam dolore sapiente temporibus exercitationem nemo, quos pariatur itaque officiis ipsum doloremque. Optio ut harum, ea voluptates quaerat exercitationem tenetur, quasi id in asperiores aut ipsa illum aliquid alias maiores, quae corporis tempora doloribus doloremque. Nulla aliquam minima corporis saepe velit minus nostrum, nihil vel qui repellat, ea perferendis, amet illum maxime inventore deleniti porro! Quisquam distinctio iure deleniti tenetur itaque cumque debitis quia dignissimos temporibus veniam.",
           category: "bulbul",
-          // img: "733145_9c0ba769cc6545949a50620720c5dc8b~mv2.jpg;733145_00629da5cff843d6afa0d86fd0cc0379~mv2.jpg",
-          img: "",
+          img: "733145_9c0ba769cc6545949a50620720c5dc8b~mv2.jpg;733145_00629da5cff843d6afa0d86fd0cc0379~mv2.jpg",
+          // img: "",
           sub_cat: "nigger",
           third_level: "kushi",
+          // selectionType: "",
           selectionType: "COLOR",
-          variantsNew: [...new Array(10)].map((_, index) => {
-            return { title: randomColor() + ":option" + index };
-          }),
+          variantsNew:
+            [...new Array(10)].map((_, index) => {
+              return { title: randomColor() + ":option" + index };
+            }),
           //   [
           //   {
-          //     title: "very small kushi"
+          //     title: "כושי קטן - kushi"
           //   },
           //   {
           //     title: "not very small kushi"
@@ -162,6 +160,7 @@ export const ProductPreview: React.FC = () => {
           }
         />
       )}
+
       <Header setShowCartSheet={setShowCart} />
       <CartSheet show={showCart} setShow={setShowCart} />
       {product && (
@@ -210,6 +209,9 @@ export const ProductPreview: React.FC = () => {
               )}
             </div>
             <div className={"product-preview"}>
+              <svg viewBox={"0 0 100 100"} preserveAspectRatio="none" style={"opacity: 0.5; z-index: 0; width: 100%; height: 10em; position: absolute; bottom: 0; left: 0; border-bottom-right-radius: 1.5em; border-bottom-left-radius: 1.5em"}>
+                  <path d="M0,0 C50,50 50,100 100,100 L0,100 Z" fill="var(--on-container)"></path>
+              </svg>
               <div>
                 {/* <div className={"product-preview-img"}> */}
                 <ImageCarousel
@@ -288,7 +290,7 @@ export const ProductPreview: React.FC = () => {
                       addOrUpdate(product, productsAmount, optionSelected);
                     }}
                   >
-                    {isInCart(product, optionSelected, cartData) 
+                    {isInCart(product, optionSelected, cartData)
                       ? "עידכון כמות"
                       : "הוספה לסל"}
                   </div>
@@ -378,11 +380,9 @@ const ImageCarousel: React.FC<{ images: Array<string>; path: string }> = ({
                 e.currentTarget.style.display = "block";
               }}
               // ref={img}
-              style={`transform: translateX(${
-                (index - currentImage) * 100
-              }%); visibility: ${
-                currentImage + 1 >= index && currentImage - 1 <= index
-              }`}
+              style={`transform: translateX(${(index - currentImage) * 100
+                }%); visibility: ${currentImage + 1 >= index && currentImage - 1 <= index
+                }`}
               src={path + img}
               alt=""
             />
@@ -427,7 +427,7 @@ const ColorOptions: React.FC<{
   didSelect: (v: number) => void;
 }> = ({ options, selected, didSelect }) => {
   return (
-    <>
+    <div class="product-color-options-container">
       <div class="product-color-title">
         <span style="">צבע&nbsp;</span>
         <span style={"--bg: " + options[selected].title.split(":")[0]}>
@@ -448,7 +448,7 @@ const ColorOptions: React.FC<{
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -557,9 +557,8 @@ export const AlertView: React.FC<{
       <div ref={alertView}>
         <div className={"alert-view-title"}>{message}</div>
         {product && (
-          <div className={"alert-view-content"}>{`${
-            howMany && howMany > 1 ? howMany + " יחידות של" : "יחידה של  "
-          }
+          <div className={"alert-view-content"}>{`${howMany && howMany > 1 ? howMany + " יחידות של" : "יחידה של  "
+            }
             "${product.name}"`}</div>
         )}
         <div className={"alert-view-buttons"}>

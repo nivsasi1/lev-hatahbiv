@@ -512,7 +512,9 @@
     background: var(--tint);
     color: var(--text);
     max-width: 20em;
+    min-width: 15em;
     width: 50vw;
+    flex-grow: 1;
     border-radius: 1.25em;
     overflow: hidden;
     opacity: var(--p);

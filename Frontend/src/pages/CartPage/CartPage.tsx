@@ -55,8 +55,8 @@ export const CartPage: React.FC = () => {
               פריטים&nbsp;
               {cartContext.cartData
                 ? cartContext.cartData?.reduce((previous, product) => {
-                    return previous + product.howMany;
-                  }, 0)
+                  return previous + product.howMany;
+                }, 0)
                 : 0}
               :
             </div>
@@ -82,17 +82,19 @@ export const CartPage: React.FC = () => {
                   cartContext.cartData.map((info, index) => {
                     return (
                       <ProductItem
+                        className="cart"
                         product={info.product}
                         amount={info.howMany}
+                        titleLimit={30}
                         setAmount={(amount) => {
-                          cartContext.updateProduct(info.product, amount);
+                          cartContext.updateProduct(info.product, amount, info.optionSelected);
                         }}
                         shouldRemove={() => {
-                            alertViewFullFill.current = ()=>{
-                                cartContext.removeProductFromCart(info.product);
-                                setShowAlertView(false)
-                            }
-                            setShowAlertView(true)
+                          alertViewFullFill.current = () => {
+                            cartContext.removeProductFromCart(info.product, info.optionSelected);
+                            setShowAlertView(false)
+                          }
+                          setShowAlertView(true)
                         }}
                       />
                     );
