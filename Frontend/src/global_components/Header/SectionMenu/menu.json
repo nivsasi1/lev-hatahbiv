@@ -16,8 +16,6 @@
         "title": "צבעים להובי",
         "route": "hobby-colors",
         "options": [
-            { "optionTitle": "אקריליק הובי", "route": "hobby-acrylic" },
-            { "optionTitle": "צבע זכוכית ופורצלן", "route": "glass-and-porcelain-paint" },
             { "optionTitle": "מיקס מדיה", "route": "mixed-media" },
             { "optionTitle": "צבע דיו אלכוהולי", "route": "alcohol-ink" },
             { "optionTitle": "אבקות פיגמנטים", "route": "pigment-powders" },
