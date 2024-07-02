@@ -3,13 +3,13 @@
         "title": "צבעים לאמנות",
         "route": "art-colors",
         "options": [
-            { "optionTitle": "צבע אקריליק", "route": "acrylic-paint" },
-            { "optionTitle": "צבע שמן", "route": "oil-paint" },
-            { "optionTitle": "צבע גואש", "route": "gouache-paint" },
-            { "optionTitle": "צבע אקוורל", "route": "watercolor-paint" },
+            { "optionTitle": "צבעי אקריליק", "route": "acrylic-paint" },
+            { "optionTitle": "צבעי שמן", "route": "oil-paint" },
+            { "optionTitle": "צבעי גואש", "route": "gouache-paint" },
+            { "optionTitle": "צבעי אקוורל", "route": "watercolor-paint" },
             { "optionTitle": "צבעי פסטל", "route": "pastel-paint" },
-            { "optionTitle": "מדיומים", "route": "mediums" },
-            { "optionTitle": "מרקרים", "route": "markers" }
+            { "optionTitle": "מדיומים לציור", "route": "mediums" },
+            { "optionTitle": "הדפס", "route": "print" }
         ]
     },
     {
@@ -84,9 +84,10 @@
         "route": "craft-materials",
         "options": [
             { "optionTitle": "פיסול", "route": "sculpting" },
-            { "optionTitle": "חימר פולימרי", "route": "polymer-clay" },
             { "optionTitle": "לבד", "route": "felt" },
-            { "optionTitle": "יצירה - נייר", "route": "paper-crafts" }
+            { "optionTitle": "נייר ליצירה", "route": "paper-crafts" },
+            { "optionTitle": "מפל - פוליפרופילן", "route": "mapal" },
+            { "optionTitle": "דבקים", "route": "glue" }
         ]
     },
     {
@@ -96,9 +97,7 @@
             { "optionTitle": "תליונים", "route": "pendants" },
             { "optionTitle": "שרשראות", "route": "necklaces" },
             { "optionTitle": "חרוזים", "route": "beads" },
-            { "optionTitle": "חוטים", "route": "threads" },
-            { "optionTitle": "אביזרים", "route": "accessories" },
-            { "optionTitle": "כלי עזר", "route": "tools" }
+            { "optionTitle": "אביזרים", "route": "accessories" }
         ]
     }
 ]
