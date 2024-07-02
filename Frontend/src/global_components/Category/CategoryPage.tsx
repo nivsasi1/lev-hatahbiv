@@ -38,7 +38,7 @@ const CategoryContent: React.FC<{
   const [tree, setTree] = useState<Tree | undefined | any>();
 
   const fetchTreeData = async () => {
-    return { data: TEST_VALUES.tree }
+    // return { data: TEST_VALUES.tree }
     //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
@@ -46,7 +46,7 @@ const CategoryContent: React.FC<{
     return treeData;
   };
   const fetchProductsData = async () => {
-    return { data: TEST_VALUES.products }
+    // return { data: TEST_VALUES.products }
     //TODO: revert...
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,
@@ -364,8 +364,9 @@ const ProductView: React.FC<ProductPreview> = ({
           עריכת מוצר
         </Link>
         <div className={"product-img"}>
+          
           <img
-            src={"/images/" + product.img.split(";")[0]}
+            src={product.img ? "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/" + product.img.split(";")[0] : ""}
             ref={img}
             onError={() => {
               if (img.current) {

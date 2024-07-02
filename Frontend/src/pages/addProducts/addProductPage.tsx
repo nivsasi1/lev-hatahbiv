@@ -17,7 +17,7 @@ interface newProduct {
   quantity: number;
   isAvailable: boolean;
   salePercentage: number;
-  desc: string;
+  description: string;
   category: string;
   sub_cat: string;
   third_level: string;
@@ -61,7 +61,7 @@ export const AddProductPage: React.FC = () => {
     salePercentage: 0,
     quantity: 0,
     isAvailable: true,
-    desc: "",
+    description: "",
     category: "צבעים לאמנות",
     sub_cat: "צבע אקריליק",
     third_level: "",
@@ -146,7 +146,7 @@ export const AddProductPage: React.FC = () => {
       salePercentage: 0,
       quantity: 0,
       isAvailable: true,
-      desc: "",
+      description: "",
       category: "צבעים לאמנות",
       sub_cat: "צבע אקריליק",
       third_level: "",
@@ -297,10 +297,10 @@ export const AddProductPage: React.FC = () => {
         {/* לא חובה יכול להשלח ריק */}
         <Input
           shouldShowError={shouldShowErrors}
-          value={productInfo.desc}
-          setValue={(value) => setProductInfo({ ...productInfo, desc: value })}
+          value={productInfo.description}
+          setValue={(value) => setProductInfo({ ...productInfo, description: value })}
           title="תיאור המוצר"
-          name="product-desc"
+          name="product-description"
           placeholder="תיאור המוצר"
           type="string"
           check={() => true}

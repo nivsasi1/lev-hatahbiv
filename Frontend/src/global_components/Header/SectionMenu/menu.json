@@ -25,21 +25,21 @@
         ]
     },
     {
-        "title": "רישום/עפרונות",
+        "title": "רישום ועפרונות",
         "route": "drawing-pencils",
         "options": [
             { "optionTitle": "עפרון אקוורל", "route": "watercolor-pencil" },
             { "optionTitle": "עפרון שמן/שעווה", "route": "oil-wax-pencil" },
             { "optionTitle": "עפרון פסטל", "route": "pastel-pencil" },
             { "optionTitle": "עפרון דיו", "route": "ink-pencil" },
-            { "optionTitle": "עפרון רישום - גרפיט", "route": "graphite-pencil" },
+            { "optionTitle": "עפרון רישום/גרפיט", "route": "graphite-pencil" },
             { "optionTitle": "חומרי עזר לעפרונות", "route": "pencil-supplies" },
             { "optionTitle": "טוש לציור", "route": "drawing-marker" },
-            { "optionTitle": "טוש אקריליק", "route": "acrylic-marker" },
+            { "optionTitle": "טוש אקרילי", "route": "acrylic-marker" },
             { "optionTitle": "טוש אלכוהולי", "route": "alcohol-marker" },
             { "optionTitle": "רפידוגרף", "route": "rapidograph" },
             { "optionTitle": "פחם", "route": "charcoal" },
-            { "optionTitle": "שרטוט חומרי עזר", "route": "drafting-supplies" }
+            { "optionTitle": "שרטוט - חומרי עזר", "route": "drafting-supplies" }
         ]
     },
     {
@@ -69,7 +69,7 @@
         ]
     },
     {
-        "title": "מקרמה/טריקו",
+        "title": "מקרמה וטריקו",
         "route": "macrame-triko",
         "options": [
             { "optionTitle": "צמר", "route": "wool" },

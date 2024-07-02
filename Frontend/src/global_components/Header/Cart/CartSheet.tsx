@@ -141,7 +141,7 @@ const CartSheet: React.FC<{
 
 export default CartSheet;
 
-const domain = "https://levhatahbiv.s3.eu-north-1.amazonaws.com/";
+const domain = "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/";
 
 export const ProductItem: React.FC<{
   product: Product;
@@ -165,7 +165,7 @@ export const ProductItem: React.FC<{
       <div class={"cart-sheet-product-content "+(className ?? "")}>
         <div class={"cart-sheet-product-image"}>
           <img
-            src={domain+"images/" + product.img.split(";")[0]}
+            src={product.img ? domain + product.img.split(";")[0] : ""}
             alt=""
             onError={(e) => {
               e.currentTarget.style.display = "none";
