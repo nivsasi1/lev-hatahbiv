@@ -97,25 +97,27 @@ const CategoryContent: React.FC<{
   return (
     <div className={"category-page"}>
       <div className={"category-title"}>{title}</div>
-      <div className={"sub-categories"}>
-        {sections
+      {/* <div className={"sub-categories"}> */}
+      {
+        <SubCategories category={category} sections={sections} selected={currentSection} setSelected={setCurrentSection} />
+      }
+      {/* {sections
           ? sections.map((section, index) => {
-              return (
-                <SubCategoryButton
-                  cat={category}
-                  title={section}
-                  id={index}
-                  isSelected={currentSection === index}
-                  setSection={setCurrentSection}
-                />
-              );
-            })
-          : ""}
-      </div>
-      {sections && sections.length > 0 && (
-        <div className={"sub-category-title"}>{sections![currentSection]}</div>
-      )}
+            return (
+              <SubCategoryButton
+                cat={category}
+                title={section}
+                id={index}
+                isSelected={currentSection === index}
+                setSection={setCurrentSection}
+              />
+            );
+          })
+          : ""} */}
+      {/* </div> */}
+
       <ProductsView
+        sectionTitle={sections ? sections[currentSection] : undefined}
         currentSection={currentSection}
         tree={tree}
         products={products}
@@ -129,10 +131,11 @@ const isNil = (obj: any) => {
 };
 
 const ProductsView: React.FC<{
+  sectionTitle?: string;
   currentSection: number;
   tree: Tree | undefined;
   products: Array<Product> | undefined;
-}> = ({ currentSection, tree, products }) => {
+}> = ({ currentSection, tree, products, sectionTitle }) => {
   if (!products) {
     return <></>;
   }
@@ -183,94 +186,107 @@ const ProductsView: React.FC<{
 
   return (
     <>
-      <div className={"sub-sub-filters"}>
-        {subSectionsState?.map((subSection: any) => {
-          return (
-            <>
-              <div
-                className={
-                  "sub-sub-filter no-select " +
-                  (subSection.show ? "" : " toggled")
-                }
-                onClick={() => {
-                  const updatedSubs = subSectionsState.map((sub) => {
-                    if (sub.name === subSection.name) {
-                      const flag = !sub.show;
-                      return { ...sub, show: flag };
-                    }
-                    return sub;
-                  });
-                  setSubSectionsState(updatedSubs);
-                }}
-              >
-                <span>{subSection.name}</span>
-                <PlusIcon rotate={subSection.show ? 135 : 0} />
-              </div>
-            </>
-          );
-        })}
+      <div class="filter-section">
+        <svg viewBox={"0 0 100 100"} preserveAspectRatio={"none"}>
+          <path d="M0,100 L100,100 L100,50 C70,20 30,80 0,90 Z" fill="var(--categories)"></path>
+        </svg>
+        {sectionTitle && (
+          <div className={"sub-category-title"}>{sectionTitle}</div>
+        )}
+        <div className={"sub-sub-filters"}>
+          {subSectionsState?.map((subSection: any) => {
+            return (
+              <>
+                <div
+                  className={
+                    "sub-sub-filter no-select " +
+                    (subSection.show ? "" : " toggled")
+                  }
+                  onClick={() => {
+                    const updatedSubs = subSectionsState.map((sub) => {
+                      if (sub.name === subSection.name) {
+                        const flag = !sub.show;
+                        return { ...sub, show: flag };
+                      }
+                      return sub;
+                    });
+                    setSubSectionsState(updatedSubs);
+                  }}
+                >
+                  <span>{subSection.name}</span>
+                  <PlusIcon rotate={subSection.show ? 135 : 0} />
+                </div>
+              </>
+            );
+          })}
+        </div>
       </div>
 
-      {sectionsAvailable ? (
-        subSectionsAvailable ? (
-          subSectionsState?.map((subSection) => {
-            return (
-              subSection.show && (
-                <>
-                  <div className={"products-title"}>
-                    <span>
-                      {subSection?.name +
-                        " - " +
-                        subSection?.productAmount +
-                        " מוצרים"}
-                    </span>
-                    <Arrow />
-                  </div>
-                  <ProductsViewFiltered
-                    products={products}
-                    filter={(p) => {
-                      return (
-                        p.sub_cat === sections![currentSection]!.name &&
-                        p.third_level === subSection?.name
-                      );
-                    }}
-                    maxAmount={subSection?.productAmount ?? 0}
-                  />
-                </>
-              )
-            );
-          })
-        ) : sections!.length > currentSection ? (
-          <>
-            <div className={"products-title"}>
-              <span>
-                {sections![currentSection]?.name +
-                  " - " +
-                  sections![currentSection]?.productAmount +
-                  " מוצרים"}
-              </span>
-              <Arrow />
-            </div>
-            <ProductsViewFiltered
-              products={products}
-              filter={(p) => {
-                return p.sub_cat === sections![currentSection]?.name;
-              }}
-              maxAmount={sections![currentSection]?.productAmount ?? 0}
-            />
-          </>
+      <div class="category-sections">
+        {sectionsAvailable ? (
+          subSectionsAvailable ? (
+            subSectionsState?.map((subSection) => {
+              return (
+                subSection.show && (
+                  <>
+                    <div className={"products-title"}>
+                      <span>
+                        {subSection?.name
+                          // +
+                          //   " - " +
+                          //   subSection?.productAmount +
+                          //   " מוצרים"
+                        }
+                      </span>
+                      {/* <Arrow /> */}
+                    </div>
+                    <ProductsViewFiltered
+                      products={products}
+                      filter={(p) => {
+                        return (
+                          p.sub_cat === sections![currentSection]!.name &&
+                          p.third_level === subSection?.name
+                        );
+                      }}
+                      maxAmount={subSection?.productAmount ?? 0}
+                    />
+                  </>
+                )
+              );
+            })
+          ) : sections!.length > currentSection ? (
+            <>
+              <div className={"products-title"}>
+                <span>
+                  {sections![currentSection]?.name
+                    // +" - " +
+                    // sections![currentSection]?.productAmount +
+                    // " מוצרים"
+                  }
+                </span>
+                {/* <Arrow /> */}
+              </div>
+              <ProductsViewFiltered
+                products={products}
+                filter={(p) => {
+                  return p.sub_cat === sections![currentSection]?.name;
+                }}
+                maxAmount={sections![currentSection]?.productAmount ?? 0}
+              />
+            </>
+          ) : (
+            <div className={"products-title"}>unavailable</div>
+          )
         ) : (
-          <div className={"products-title"}>unavailable</div>
-        )
-      ) : (
-        <ProductsViewFiltered
-          filter={() => {
-            return true;
-          }}
-          products={products}
-          maxAmount={tree?.productAmount ?? 0}
-        />
-      )}
+          <ProductsViewFiltered
+            filter={() => {
+              return true;
+            }}
+            products={products}
+            maxAmount={tree?.productAmount ?? 0}
+          />
+        )}
+      </div>
     </>
   );
 };
@@ -333,7 +349,7 @@ const ProductsViewFiltered: React.FC<{
 interface ProductPreview {
   product: Product,
   isAdded: boolean;
-  onClick: (v:number) => void;
+  onClick: (v: number) => void;
 }
 
 const ProductView: React.FC<ProductPreview> = ({
@@ -385,7 +401,7 @@ const ProductView: React.FC<ProductPreview> = ({
           product.selectionType === "COLOR" && product.variantsNew &&
           <div class="product-color-variants">
             {
-              product.variantsNew?.filter((_, index)=> index < 3).map((variant, index)=> <div onClick={(e)=> {e.stopPropagation(); e.preventDefault(); setSelectVariant(index)}} class={selectedVariant === index ? "selected":""} style={`--bg: ${variant.title.split(":")[0]};` }></div>)
+              product.variantsNew?.filter((_, index) => index < 3).map((variant, index) => <div onClick={(e) => { e.stopPropagation(); e.preventDefault(); setSelectVariant(index) }} class={selectedVariant === index ? "selected" : ""} style={`--bg: ${variant.title.split(":")[0]};`}></div>)
             }
             {
               product.variantsNew?.length > 3 && <span>{product.variantsNew.length - 3}+</span>
@@ -412,15 +428,59 @@ const ProductView: React.FC<ProductPreview> = ({
   );
 };
 interface subCategoryButton {
-  cat: string;
+  category: string;
   title: string;
   id: number;
   isSelected: boolean;
   setSection: (v: number) => void;
 }
 
+const SubCategories: React.FC<{ category: string, sections?: Array<string>, selected: number, setSelected: (v: number) => void }> = ({
+  category,
+  sections,
+  selected,
+  setSelected
+}) => {
+  if (!sections) {
+    return <></>
+  }
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+  const [rightArrowVisible, setRightArrowVisible] = useState(false)
+  const [leftArrowVisible, setLeftArrowVisible] = useState(true)
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      let view = scrollRef.current
+      let x = view.scrollLeft * -1
+      setRightArrowVisible(x > 0)
+      setLeftArrowVisible(view.scrollWidth - x > view.clientWidth)
+      scrollRef.current.addEventListener("scroll", (e) => {
+        let view = e.currentTarget as HTMLDivElement
+        if (view) {
+          let x = view.scrollLeft * -1
+          console.log(x)
+          setRightArrowVisible(x > 20)
+          setLeftArrowVisible(view.scrollWidth - x > view.clientWidth)
+        }
+      })
+    }
+  }, [])
+  return (
+    <div className={"sub-categories"}>
+      <div ref={scrollRef}>
+        {
+          sections.map((item, index) => {
+            return <SubCategoryButton id={index} category={category} title={item} isSelected={selected === index} setSection={setSelected} />
+          })
+        }</div>
+      {rightArrowVisible && <div id="sub-categories-right" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:200})}}><Arrow rotate={-180}/></div>}
+      {leftArrowVisible && <div id="sub-categories-left" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:-200})}}><Arrow rotate={0}/></div>}
+    </div>)
+}
+
 const SubCategoryButton: React.FC<subCategoryButton> = ({
-  cat,
+  category,
   title,
   id,
   isSelected,
@@ -429,7 +489,7 @@ const SubCategoryButton: React.FC<subCategoryButton> = ({
   return (
     <div
       onClick={() => {
-        window.history.pushState({}, "", `?cat=${cat}&sub_cat=${title}`);
+        window.history.pushState({}, "", `?cat=${category}&sub_cat=${title}`);
         setSection(id);
       }}
       className={

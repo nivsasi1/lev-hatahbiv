@@ -26,12 +26,12 @@ export const CategoryPage: React.FC = () => {
       <CartSheet show={cartSheetVisible} setShow={setCartSheetVisible}/>
       <div class={"page-content"}>
         &nbsp;
-        <div class="page-head-banner">
+        {/* <div class="page-head-banner">
           <div></div>
           <img src={flowers} alt="" />
           <div></div>
           <img src={heart} alt="" />
-        </div>
+        </div> */}
         <CategoryContent category={cat || ""} subCategory={sub_cat || ""} />
       </div>
       <Footer />
