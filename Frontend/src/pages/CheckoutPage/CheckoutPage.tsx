@@ -406,7 +406,7 @@ const CartSummary: React.FC<{ deliveryType: number }> = ({ deliveryType }) => {
 const ProductSummary: React.FC<{ product: Product, amount: number }> = ({ product, amount }) => {
     return <div className={"checkout-product-summary"}>
         <div>
-            <img src={"/images/" + product.img} onError={(e) => e.currentTarget.style.display = 'none'} onLoad={(e) => e.currentTarget.style.display = 'block'} />
+            <img src={product.img ? "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/" + product.img.split(";")[0] : ""} onError={(e) => e.currentTarget.style.display = 'none'} onLoad={(e) => e.currentTarget.style.display = 'block'} />
         </div>
         <div>
             <div>{product.name}</div>

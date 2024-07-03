@@ -94,7 +94,7 @@ export const ProductPreview: React.FC = () => {
           _id: "1",
           name: "מכחול עם כותרת - English Michol Very Large Title For No Reason",
           price: 10,
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate quisquam veritatis soluta ab ut quae dolores omnis voluptas, explicabo consequuntur necessitatibus dolor quaerat aliquid iste animi ratione, amet, quidem nobis perferendis temporibus! Nobis ullam dolore sapiente temporibus exercitationem nemo, quos pariatur itaque officiis ipsum doloremque. Optio ut harum, ea voluptates quaerat exercitationem tenetur, quasi id in asperiores aut ipsa illum aliquid alias maiores, quae corporis tempora doloribus doloremque. Nulla aliquam minima corporis saepe velit minus nostrum, nihil vel qui repellat, ea perferendis, amet illum maxime inventore deleniti porro! Quisquam distinctio iure deleniti tenetur itaque cumque debitis quia dignissimos temporibus veniam.",
+          description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate quisquam veritatis soluta ab ut quae dolores omnis voluptas, explicabo consequuntur necessitatibus dolor quaerat aliquid iste animi ratione, amet, quidem nobis perferendis temporibus! Nobis ullam dolore sapiente temporibus exercitationem nemo, quos pariatur itaque officiis ipsum doloremque. Optio ut harum, ea voluptates quaerat exercitationem tenetur, quasi id in asperiores aut ipsa illum aliquid alias maiores, quae corporis tempora doloribus doloremque. Nulla aliquam minima corporis saepe velit minus nostrum, nihil vel qui repellat, ea perferendis, amet illum maxime inventore deleniti porro! Quisquam distinctio iure deleniti tenetur itaque cumque debitis quia dignissimos temporibus veniam.",
           category: "bulbul",
           img: "733145_9c0ba769cc6545949a50620720c5dc8b~mv2.jpg;733145_00629da5cff843d6afa0d86fd0cc0379~mv2.jpg",
           // img: "",
@@ -231,10 +231,10 @@ export const ProductPreview: React.FC = () => {
                         <div>{product.name}</div>
                       </div>
                       <div>מידע אודות המוצר</div>
-                      <div>{product.desc}</div>
+                      <div>{product.description}</div>
                     </div>
                   </div>
-                  {product.desc && product.desc?.length > 230 && (
+                  {product.description && product.description?.length > 230 && (
                     <div
                       class="product-preview-show-more"
                       onClick={() => setDescExpanded((expanded) => !expanded)}

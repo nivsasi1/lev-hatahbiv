@@ -7,7 +7,7 @@ const ProductSchema = new mongoose.Schema(
         salePercentage : { type: Number, trim: true},
         quantity: { type: Number, trim: true},
         isAvailable: {type: Boolean, default: true},
-        desc: { type: String, trim: true},
+        description: { type: String, trim: true},
         category: { type: String, trim: true, required: true },
         sub_cat: { type: String, trim: true },
         third_level: { type: String, trim: true },

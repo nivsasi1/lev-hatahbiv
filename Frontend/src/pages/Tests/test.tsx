@@ -6,7 +6,7 @@ type Product = {
     price: number;
     name: string;
     img: string;
-    desc?: string;
+    description?: string;
     selectionType?: string;
     variantsNew?: Array<any>;
 };
@@ -193,7 +193,7 @@ export const TEST_VALUES: TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "מכחולים",
             third_level: "איטקלים",
-            desc: "michol ben ben zona!",
+            description: "michol ben ben zona!",
             selectionType: "COLOR",
             variantsNew:
                 [...new Array(4)].map((_, index) => { return { title: randomColor() + ":option" + index } }),
@@ -206,7 +206,7 @@ export const TEST_VALUES: TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "מכחולים",
             third_level: "איטקלים",
-            desc: "michol ben ben zona!",
+            description: "michol ben ben zona!",
             selectionType: "COLOR",
             variantsNew:
                 [...new Array(10)].map((_, index) => { return { title: randomColor() + ":option" + index } }),
@@ -219,7 +219,7 @@ export const TEST_VALUES: TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "מכחולים",
             third_level: "איטקלים",
-            desc: "michol ben ben zona!",
+            description: "michol ben ben zona!",
             selectionType: "COLOR",
             variantsNew:
                 [...new Array(1)].map((_, index) => { return { title: randomColor() + ":option" + index } }),
@@ -232,7 +232,7 @@ export const TEST_VALUES: TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "מכחולים",
             third_level: "איטקלים",
-            desc: "michol ben ben zona!",
+            description: "michol ben ben zona!",
             img: "1.png;5.png;6.png;5.png;4.png;5.png;5.png;5.png;5.png;5.png;5.png;5.png",
             price: 420
         },
@@ -242,7 +242,7 @@ export const TEST_VALUES: TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "שפכטלים",
             third_level: "וואו",
-            desc: "michol ben ben zona!",
+            description: "michol ben ben zona!",
             img: "4.png",
             price: 420
         },
@@ -252,7 +252,7 @@ export const TEST_VALUES: TestType = {
             category: "מכחולים ואביזרים",
             sub_cat: "שפכטלים",
             third_level: "וואו",
-            desc: "michol ben ben zona!",
+            description: "michol ben ben zona!",
             img: "5.png",
             price: 420
         }

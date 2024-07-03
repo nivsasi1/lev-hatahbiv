@@ -91,7 +91,7 @@ const SearchResult: React.FC<{ product: Product }> = ({ product }) => {
             <div class="search-result-content">
                 <div>
                     <img
-                        src={"/images/" + product.img}
+                        src={product.img ? "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/" + product.img.split(";")[0] : ""}
                         onError={(e) => {
                             e.currentTarget.style.display = "none";
                         }}
@@ -102,7 +102,7 @@ const SearchResult: React.FC<{ product: Product }> = ({ product }) => {
                 </div>
                 <div>
                     <span>{product.name}</span>
-                    <span style={{ fontSize: "0.9em", opacity: 0.5 }}>{product.desc ?? ""}</span>
+                    <span style={{ fontSize: "0.9em", opacity: 0.5 }}>{product.description ?? ""}</span>
                 </div>
             </div>
         </Link>

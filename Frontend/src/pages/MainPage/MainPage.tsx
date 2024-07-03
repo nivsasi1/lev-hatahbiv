@@ -126,11 +126,11 @@ const SearchDemo = () => {
   const options = [
     {
       'title': 'עפרונות',
-      'desc': 10,
+      'description': 10,
     },
     {
       'title': 'nigger',
-      'desc': 1000,
+      'description': 1000,
     }
   ]
 
@@ -167,7 +167,7 @@ const SearchDemo = () => {
         <span>מחפש<LoadingSearch /></span>
         :
         <div>
-          {options[currentOption].desc + (isNumber(options[currentOption].desc) ? " תוצאות" : "")}
+          {options[currentOption].description + (isNumber(options[currentOption].description) ? " תוצאות" : "")}
         </div>
     }
 

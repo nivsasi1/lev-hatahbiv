@@ -5,7 +5,7 @@ export type Product = {
   salePercentage ?: number;
   quantity?: number;
   isAvailable?: boolean;
-  desc?: string;
+  description?: string;
   category: string;
   sub_cat?: string;
   third_level?: string;

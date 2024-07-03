@@ -71,8 +71,9 @@ exports.fetchProductsByName = async (req, res) => {
 };
 
 exports.getCategoryTree = async (req, res) => {
+  console.log("hey")
   categoryName = req.params.category;
-
+  console.log(categoryName)
   const result = await Product.aggregate([
     { $match: { category: categoryName } },
     {
@@ -156,6 +157,7 @@ exports.getCategoryTree = async (req, res) => {
 };
 
 exports.getThirdLevelTree = async (req, res) => {
+  console.log("hey")
   const result = await Product.aggregate([
     {
       $match: {
