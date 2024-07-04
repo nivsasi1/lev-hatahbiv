@@ -133,8 +133,11 @@ export const ProductPreview: React.FC = () => {
     if (isInCart(product, optionSelected, cartData)) {
       alertViewFullFill.current = function (product: Product | undefined) {
         console.log("THE SELECTED:" + optionSelected);
+        console.log(product)
         if (product) {
-          removeProductFromCart(product, selected);
+          console.log(removeProductFromCart)
+          removeProductFromCart(product, optionSelected);
+          console.log("SHOULDVE BEEN REMOVED!")
         }
         setShowAlertView(false);
       };

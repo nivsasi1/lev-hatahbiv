@@ -68,7 +68,7 @@ const CartSheet: React.FC<{
       if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
         let alertView = document.querySelector(".alert-view")
         let targetClass = (e.target as HTMLElement).className
-        if (targetClass.includes("alert-view") || targetClass.includes("product-add")) {
+        if (typeof targetClass === "string" && (targetClass.includes("alert-view") || targetClass.includes("product-add"))) {
           //Ignores closing when either alert view is on screen or user added a product
         }
         else if (alertView) {

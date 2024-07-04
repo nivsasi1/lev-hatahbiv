@@ -38,7 +38,7 @@ const CategoryContent: React.FC<{
   const [tree, setTree] = useState<Tree | undefined | any>();
 
   const fetchTreeData = async () => {
-    // return { data: TEST_VALUES.tree }
+    return { data: TEST_VALUES.tree }
     //TODO: revert
     const treeData = await fetch(`http://localhost:5000/getTree/${category}`, {
       method: "GET",
@@ -46,7 +46,7 @@ const CategoryContent: React.FC<{
     return treeData;
   };
   const fetchProductsData = async () => {
-    // return { data: TEST_VALUES.products }
+    return { data: TEST_VALUES.products }
     //TODO: revert...
     const productsData = await fetch(
       `http://localhost:5000/getProducts/${category}/${subCategory}`,
@@ -475,8 +475,8 @@ const SubCategories: React.FC<{ category: string, sections?: Array<string>, sele
             return <SubCategoryButton id={index} category={category} title={item} isSelected={selected === index} setSection={setSelected} />
           })
         }</div>
-      {rightArrowVisible && <div id="sub-categories-right" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:200})}}><Arrow rotate={-180}/></div>}
-      {leftArrowVisible && <div id="sub-categories-left" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:-200})}}><Arrow rotate={0}/></div>}
+      {rightArrowVisible && <div id="sub-categories-right" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:200, behavior:"smooth"})}}><Arrow rotate={-180}/></div>}
+      {leftArrowVisible && <div id="sub-categories-left" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:-200, behavior: "smooth"})}}><Arrow rotate={0}/></div>}
     </div>)
 }
 

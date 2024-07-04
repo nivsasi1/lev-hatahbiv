@@ -1,14 +1,14 @@
 :root {
     --disabled-input: #cecece;
     --invalid-background: #f4d6d6;
-    --background: #fff;
+    /* --background: #fff; */
 }
 
 .dark-theme {
     --disabled-input: #151515;
     --shadow: #00000070;
     --invalid-background: #3f2626;
-    --background: #0c0c0c;
+    /* --background: #0c0c0c; */
 }
 
 /* html, body{

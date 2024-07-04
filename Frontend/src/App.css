@@ -50,6 +50,7 @@
   --text: #c3c3c3;
   --container: #111111;
   --background: #0c0c0c;
+  --background: #131313;
   --nav-menu-list: #151515;
   --nav: #111;
   --nav-menu: #222;
@@ -64,10 +65,12 @@
   --sub-container-hover: #353535;
   --secondary: #b2b2b2;
   --container: #161616;
+  --container: #161616;
   --fee: #3c2323;
   --no-fee: #29352b;
   --tint-background: #1a090d;
   --tint-background: #1c1c1c;
+  --tint-background: #000;
   --tint-varient: #1d191b;
   --tint: #881a33;
   --tint: #7e112a;
@@ -1058,7 +1061,7 @@ div.sub-category-button:first-of-type {
   border-radius: 1em;
   font-size: 0.8em;
   font-weight: 550;
-  opacity: 0.5;
+  opacity: 0.99;
   display: flex;
   align-items: center;
   padding: 0.25em 0.6em;
@@ -1076,14 +1079,15 @@ div.sub-category-button:first-of-type {
   top: 0;
   left: 0;
   background: var(--bg);
+  background: var(--container);
 }
 
 .cart-sheet-product-title>span.color::before{
-  opacity: 0.25;
+  /* opacity: 0.25; */
 }
 .cart-sheet-product-title>span.color::after {
   content: " ";
-  mix-blend-mode: multiply;
+  /* mix-blend-mode: multiply; */
   display: block;
   opacity: 1;
   background: var(--bg);
@@ -1093,9 +1097,10 @@ div.sub-category-button:first-of-type {
   height: 0.8em;
   border-radius: 1em;
   margin: 0 0.65em 0 0;
-  color: var(--on-container);
+  /* color: var(--on-container); */
+  /* color: var(--container); */
   border: 0.2em solid var(--on-container);
-  outline: 0.2em solid var(--bg);
+  outline: 0.15em solid var(--bg);
 }
 
 .cart-sheet-product {

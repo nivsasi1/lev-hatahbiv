@@ -38,6 +38,7 @@
 
 .alert-view>div {
   background: var(--background);
+  background: var(--on-container);
   color: var(--text);
   padding: 1em 1em;
   margin: 0 1em 2em 1em;
