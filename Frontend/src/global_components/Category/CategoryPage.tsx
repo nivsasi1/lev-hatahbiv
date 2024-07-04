@@ -9,6 +9,7 @@ import { CartContext } from "../../context/cart-context";
 import { TEST_VALUES } from "../../pages/Tests/test";
 import { Product } from "../../Types/globalTypes";
 import "./CategoryPage.css"
+import LazyImage from "../LazyImage/LazyImage";
 
 // type Product = {
 //   _id: string;
@@ -19,6 +20,8 @@ import "./CategoryPage.css"
 //   name: string;
 //   img: string;
 // };
+
+const domain = "https://levhatahbiv.s3.eu-north-1.amazonaws.com/"
 
 type Tree = {
   name: string;
@@ -78,6 +81,7 @@ const CategoryContent: React.FC<{
     };
     fetchDataAndSetState();
     setTitle(category);
+    document.body.scrollTo({ top: 0, behavior: "smooth" })
   }, [category]);
 
   useEffect(() => {
@@ -370,63 +374,45 @@ const ProductView: React.FC<ProductPreview> = ({
     console.log("Edit Clicked");
   };
   return (
-    <Link to={`/product/${product._id}`} className={"product-container"}>
-      <div className={"product"}>
-        <Link
-          to={`/edit_product/${product._id}`}
-          className={"product-edit " + (ctx.canUserModify() ? "" : "disabled")}
-          disabled={ctx.canUserModify() ? false : true}
+    <div className={"product"}>
+      <Link
+        to={`/edit_product/${product._id}`}
+        className={"product-edit " + (ctx.canUserModify() ? "" : "disabled")}
+        disabled={ctx.canUserModify() ? false : true}
+      >
+        עריכת מוצר
+      </Link>
+      <Link to={`/product/${product._id}`}><LazyImage src={product.img ? domain + "images/" + product.img.split(";")[0] : ""} className="product-img" /></Link>
+      <div className={"product-title"}>{actualTitle}</div>
+      {
+        product.selectionType === "COLOR" && product.variantsNew &&
+        <div class="product-color-variants">
+          {
+            product.variantsNew?.filter((_, index) => index < 3).map((variant, index) => <div onClick={(e) => { e.stopPropagation(); e.preventDefault(); setSelectVariant(index) }} class={selectedVariant === index ? "selected" : ""} style={`--bg: ${variant.title.split(":")[0]};`}></div>)
+          }
+          {
+            product.variantsNew?.length > 3 && <span>{product.variantsNew.length - 3}+</span>
+          }
+        </div>
+      }
+      <div className={"product-bottom"}>
+        <div
+          className={"product-add " + (isActivated ? "added" : "")}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClick(selectedVariant);
+            // setIsActivated(!isActivated)
+            setIsActivated(true);
+          }}
         >
-          עריכת מוצר
-        </Link>
-        <div className={"product-img"}>
-          
-          <img
-            src={product.img ? "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/" + product.img.split(";")[0] : ""}
-            ref={img}
-            onError={() => {
-              if (img.current) {
-                img.current!.style.display = "none";
-              }
-            }}
-            onLoad={() => {
-              if (img.current) {
-                img.current!.style.display = "block";
-              }
-            }}
-            alt="Product Image"
-          />
+          {isActivated ? "נתווסף" : "הוסף"}
         </div>
-        <div className={"product-title"}>{actualTitle}</div>
-        {
-          product.selectionType === "COLOR" && product.variantsNew &&
-          <div class="product-color-variants">
-            {
-              product.variantsNew?.filter((_, index) => index < 3).map((variant, index) => <div onClick={(e) => { e.stopPropagation(); e.preventDefault(); setSelectVariant(index) }} class={selectedVariant === index ? "selected" : ""} style={`--bg: ${variant.title.split(":")[0]};`}></div>)
-            }
-            {
-              product.variantsNew?.length > 3 && <span>{product.variantsNew.length - 3}+</span>
-            }
-          </div>
-        }
-        <div className={"product-bottom"}>
-          <div
-            className={"product-add " + (isActivated ? "added" : "")}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onClick(selectedVariant);
-              // setIsActivated(!isActivated)
-              setIsActivated(true);
-            }}
-          >
-            {isActivated ? "נתווסף" : "הוסף"}
-          </div>
-          <div>{product.price + "₪"}</div>
-        </div>
+        <div>{product.price + "₪"}</div>
       </div>
-    </Link>
-  );
+    </div >
+  )
+
 };
 interface subCategoryButton {
   category: string;
@@ -448,7 +434,7 @@ const SubCategories: React.FC<{ category: string, sections?: Array<string>, sele
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [rightArrowVisible, setRightArrowVisible] = useState(false)
-  const [leftArrowVisible, setLeftArrowVisible] = useState(true)
+  const [leftArrowVisible, setLeftArrowVisible] = useState(false)
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -465,7 +451,18 @@ const SubCategories: React.FC<{ category: string, sections?: Array<string>, sele
           setLeftArrowVisible(view.scrollWidth - x > view.clientWidth)
         }
       })
+
+
+      new ResizeObserver(() => {
+        if (scrollRef.current) {
+          let view = scrollRef.current
+          let x = view.scrollLeft * -1
+          setRightArrowVisible(x > 20)
+          setLeftArrowVisible(view.scrollWidth - x > view.clientWidth)
+        }
+      }).observe(scrollRef.current)
     }
+
   }, [])
   return (
     <div className={"sub-categories"}>
@@ -475,8 +472,8 @@ const SubCategories: React.FC<{ category: string, sections?: Array<string>, sele
             return <SubCategoryButton id={index} category={category} title={item} isSelected={selected === index} setSection={setSelected} />
           })
         }</div>
-      {rightArrowVisible && <div id="sub-categories-right" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:200, behavior:"smooth"})}}><Arrow rotate={-180}/></div>}
-      {leftArrowVisible && <div id="sub-categories-left" onClick={()=> {if(scrollRef.current) scrollRef.current.scrollBy({left:-200, behavior: "smooth"})}}><Arrow rotate={0}/></div>}
+      {rightArrowVisible && <div id="sub-categories-right" onClick={() => { if (scrollRef.current) scrollRef.current.scrollBy({ left: 200, behavior: "smooth" }) }}><Arrow rotate={-180} /></div>}
+      {leftArrowVisible && <div id="sub-categories-left" onClick={() => { if (scrollRef.current) scrollRef.current.scrollBy({ left: -200, behavior: "smooth" }) }}><Arrow rotate={0} /></div>}
     </div>)
 }
 

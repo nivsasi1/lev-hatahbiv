@@ -1,0 +1,24 @@
+.baka-lazy-image{
+    animation: imageLoading 3s ease forwards infinite;
+}
+
+.baka-lazy-image img{
+    width: 100%;
+    height: 100%;
+}
+
+.loaded.baka-lazy-image{
+    animation: none;
+}
+
+@keyframes imageLoading {
+    0%{
+        filter: brightness(100%)
+    }
+    50%{
+        filter: brightness(90%) opacity(0.8);
+    }
+    100%{
+        filter: brightness(100%)
+    }
+}

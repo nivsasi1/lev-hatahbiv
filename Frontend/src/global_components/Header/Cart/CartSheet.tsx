@@ -14,6 +14,7 @@ import {
 } from "../../../pages/ProductPreviewPage/ProductPreview";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../../context/cart-context";
+import LazyImage from "../../LazyImage/LazyImage";
 
 const CartSheet: React.FC<{
   show: boolean;
@@ -162,19 +163,8 @@ export const ProductItem: React.FC<{
   }
   return (
     <div class={"cart-sheet-product"}>
-      <div class={"cart-sheet-product-content "+(className ?? "")}>
-        <div class={"cart-sheet-product-image"}>
-          <img
-            src={product.img ? domain + product.img.split(";")[0] : ""}
-            alt=""
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-            onLoad={(e) => {
-              e.currentTarget.style.display = "block"
-            }}
-          />
-        </div>
+      <div class={"cart-sheet-product-content " + (className ?? "")}>
+        <LazyImage src={product.img ? domain + product.img.split(";")[0] : ""} className="cart-sheet-product-image" />
         <div className={"cart-sheet-product-head"}>
           <div class="cart-sheet-product-title">
             <span>{actualTitle}</span>
