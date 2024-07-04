@@ -814,7 +814,7 @@ div.sub-category-button:first-of-type {
   display: flex;
   flex-wrap: wrap;
   width: fit-content;
-  max-width: 60em;
+  max-width: 80vw;
   margin: 0 auto;
   overflow: hidden;
   /* align-content: flex-end; */
@@ -847,7 +847,7 @@ div.sub-category-button:first-of-type {
 
 .product {
   color: var(--text);
-  margin: 1em 0 1em 2vw;
+  margin: 1em 0 1em 2em;
   /* margin: 1em 0 1em auto; */
   text-decoration: none;
   background: var(--on-container);
@@ -866,8 +866,8 @@ div.sub-category-button:first-of-type {
 
 .product-img {
   background: var(--img);
-  width: 8em;
-  height: 8em;
+  width: 10em;
+  height: 10em;
   padding: 1em;
   border-radius: 1em;
 }

@@ -11,6 +11,7 @@
 }
 
 .product-color-variants div {
+    cursor: pointer;
     margin: 0 0.15em;
     opacity: 0.5;
     border-radius: 1em;
