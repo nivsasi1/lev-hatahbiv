@@ -37,6 +37,12 @@ export const Footer = () => (
           <a href={store.waze} target="_blank" rel="noreferrer">
             {store.address} 📍
           </a>
+          <a href={store.facebook} target="_blank" rel="noreferrer">
+            פייסבוק
+          </a>
+          <a href={store.instagram} target="_blank" rel="noreferrer">
+            אינסטגרם
+          </a>
         </div>
       </div>
 

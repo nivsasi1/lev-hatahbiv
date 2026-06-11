@@ -52,7 +52,12 @@ export const ProductPage = () => {
             <div className="crumbs">
               <Link to="/">ראשי</Link> ‹{" "}
               <Link to={`/category/${product.category}`}>{category?.name}</Link>{" "}
-              ‹ {product.sub}
+              ‹{" "}
+              <Link
+                to={`/category/${product.category}/${encodeURIComponent(product.sub)}`}
+              >
+                {product.sub}
+              </Link>
             </div>
             <h1 className="display">{product.name}</h1>
             {product.description && <p className="desc">{product.description}</p>}

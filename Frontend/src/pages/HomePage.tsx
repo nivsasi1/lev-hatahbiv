@@ -4,6 +4,7 @@ import {
   products,
   productsByCategory,
   store,
+  workshops,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { Splat, Blob } from "../components/Splat";
@@ -120,14 +121,40 @@ export const HomePage = () => (
       </div>
     </section>
 
+    {/* ---------- workshops ---------- */}
+    <section className="shell">
+      <div className="section-head">
+        <h2 className="display">חוגים וסדנאות</h2>
+        <div className="scribble" />
+      </div>
+      <div className="workshops-card">
+        <p>{workshops.intro}</p>
+        <div className="workshop-topics">
+          {workshops.topics.map((t) => (
+            <span key={t} className="workshop-chip">
+              {t}
+            </span>
+          ))}
+        </div>
+        <div className="workshop-meta">
+          <span>🗓 {workshops.schedule}</span>
+          <span>💰 {workshops.price}</span>
+          <a href={`tel:${store.phone}`} className="btn small">
+            לפרטים והרשמה: {store.phone}
+          </a>
+        </div>
+      </div>
+    </section>
+
     {/* ---------- visit us ---------- */}
     <section className="shell visit">
       <div className="visit-card">
         <h2 className="display">בואו להתלכלך איתנו בצבע</h2>
         <p>
-          לב התחביב היא חנות משפחתית שפועלת מאז {store.since}. אצלנו לא רק
-          קונים — מתייעצים, ממששים את הנייר, משווים גוונים מול האור, ויוצאים
-          עם בדיוק מה שהפרויקט הבא צריך.
+          לב התחביב — המרכז לאמנויות ולתחביבים — היא חנות משפחתית שפועלת
+          ברחובות מאז {store.since}. אצלנו לא רק קונים: מתייעצים עם צוות
+          מקצועי, ממששים את הנייר, משווים גוונים מול האור, ויוצאים עם בדיוק מה
+          שהפרויקט הבא צריך. מארגנים גם ימי הולדת ופעילויות יצירה לילדים.
         </p>
         <div className="visit-rows">
           <div>

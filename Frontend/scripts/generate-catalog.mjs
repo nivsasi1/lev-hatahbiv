@@ -69,6 +69,7 @@ for (const p of dump) {
     desc: stripHtml(p.description),
     cat,
     sub: (p.sub_cat || "").trim() || "כללי",
+    third: (p.third_level || "").trim() || "כללי",
     img: p.img ? p.img.split(";")[0].trim() : "",
     ...(pickupOnly ? { pickupOnly: true } : {}),
   });

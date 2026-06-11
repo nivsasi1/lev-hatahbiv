@@ -11,7 +11,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { CartSheet } from "./components/CartSheet";
 import { HomePage } from "./pages/HomePage";
-import { CategoryPage } from "./pages/CategoryPage";
+import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 
@@ -35,6 +35,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/category/:slug", element: <CategoryPage /> },
+      { path: "/category/:slug/:sub", element: <SubCategoryPage /> },
       { path: "/product/:id", element: <ProductPage /> },
       { path: "/cart", element: <CartPage /> },
       { path: "*", element: <HomePage /> },

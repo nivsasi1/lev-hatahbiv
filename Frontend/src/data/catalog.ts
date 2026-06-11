@@ -33,6 +33,7 @@ export type Product = {
   description: string;
   category: string; // category slug
   sub: string;
+  third: string; // series/brand level inside the sub-category
   img?: string; // photo URL — wins over art unless it fails to load
   art?: ArtKind;
   artColor?: string;
@@ -136,6 +137,7 @@ type RawProduct = {
   desc: string;
   cat: string;
   sub: string;
+  third: string;
   img: string;
   pickupOnly?: boolean;
 };
@@ -150,6 +152,7 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
     description: r.desc,
     category: r.cat,
     sub: r.sub,
+    third: r.third,
     img: r.img ? S3_IMAGES + r.img : undefined,
     art: cat?.art ?? "tube",
     artColor: cat?.color,
@@ -166,6 +169,37 @@ export const getProduct = (id: string) => productById.get(id);
 
 export const productsByCategory = (slug: string) =>
   products.filter((p) => p.category === slug);
+
+export const productsBySub = (slug: string, sub: string) =>
+  products.filter((p) => p.category === slug && p.sub === sub);
+
+export type SubSummary = {
+  sub: string;
+  count: number;
+  cover?: Product; // representative product (first with a photo)
+};
+
+// sub-categories of a category, ordered by size — used for the hub tiles.
+// Cover = the sub's product with the richest description (usually a flagship
+// set with a proper photo) rather than whatever sorts first alphabetically.
+export const subsOfCategory = (slug: string): SubSummary[] => {
+  const map = new Map<string, SubSummary>();
+  for (const p of productsByCategory(slug)) {
+    let s = map.get(p.sub);
+    if (!s) {
+      s = { sub: p.sub, count: 0 };
+      map.set(p.sub, s);
+    }
+    s.count++;
+    if (
+      p.img &&
+      (!s.cover || p.description.length > s.cover.description.length)
+    ) {
+      s.cover = p;
+    }
+  }
+  return [...map.values()].sort((a, b) => b.count - a.count);
+};
 
 export const searchProducts = (query: string) => {
   const words = query.trim().split(/\s+/).filter(Boolean);
@@ -196,8 +230,28 @@ export const store = {
   email: "levhatahbiv@gmail.com",
   waze: "https://waze.com/ul?ll=31.8977,34.7984889&navigate=yes",
   maps: "https://maps.google.com/?q=31.8977,34.7984889",
+  facebook:
+    "https://www.facebook.com/%D7%9C%D7%91-%D7%94%D7%AA%D7%97%D7%91%D7%99%D7%91-971570949543339/",
+  instagram: "https://www.instagram.com/levhatahbiv/",
   hours: [
     { days: "ראשון – שישי", time: "9:00 – 13:30" },
     { days: "א', ב', ד', ה'", time: "16:00 – 18:00" },
+  ],
+};
+
+// חוגים וסדנאות — מתקיימים בחדר הלימוד הצמוד לחנות (מתוך האתר הישן)
+export const workshops = {
+  intro:
+    "בואו להעשיר את יכולות האמנות שלכם — החנות מקיימת חוגים וסדנאות מגוונים בחדר הלימוד הצמוד לחנות, למתחילים ולמתקדמים.",
+  schedule: "יום א' 10:00–13:00 · יום ב' 17:00–20:00",
+  price: "מפגש של שלוש שעות — ₪80",
+  topics: [
+    "פרסקו קולאז' — עיצוב תמונות עתיקות",
+    "צביעה בסגנון עתיק",
+    "פימו — יצירות חרוזים",
+    "צריבה על עץ",
+    "עיצוב אלבומים",
+    "תכשיטנות — חריזה וסריגה",
+    "עיצוב כלי זכוכית",
   ],
 };
