@@ -1,248 +1,103 @@
-import { createContext, useEffect, useState, useReducer } from "react";
-import { cartData, initState } from "./cart-types.tsx";
-import { Product } from "../Types/globalTypes.tsx";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { Product, finalPrice } from "../data/catalog";
 
-let initialState: initState = {
-  cartData: [],
-  user: null,
+export type CartItem = {
+  product: Product;
+  qty: number;
 };
 
-const loadInitialState = () => {
-  const localData = localStorage.getItem("cartData");
-  return localData ? JSON.parse(localData) : initialState;
+type CartContextValue = {
+  items: CartItem[];
+  count: number;
+  total: number;
+  isSheetOpen: boolean;
+  openSheet: () => void;
+  closeSheet: () => void;
+  add: (product: Product, qty?: number) => void;
+  setQty: (productId: string, qty: number) => void;
+  remove: (productId: string) => void;
+  clear: () => void;
 };
 
-interface act {
-  source?: any;
-  type: "REMOVE_PRODUCT" | "ADD_PRODUCT" | "UPDATE_PRODUCTS" | "SET_USER";
-  value: {};
-}
+const CartContext = createContext<CartContextValue | null>(null);
 
-const reducer = (state: any, action: act) => {
-  switch (action.type) {
-    case "SET_USER": {
-      return {
-        ...state,
-        user: action.value,
-      };
-    }
+const STORAGE_KEY = "lh-cart-v2";
 
-    case "REMOVE_PRODUCT": {
-      const value = action.value;
-      if ((value as any).option != undefined) {
-        const data = (state[action.source] as any[]).filter(
-          (current) =>
-            !(
-              current.product._id === (value as any).product &&
-              ((action.value as any).option === undefined ||
-                current.optionSelected == (action.value as any).option)
-            )
-        );
-        return {
-          ...state,
-          [action.source]: data,
-        };
-      } else {
-        const data = (state[action.source] as any[]).filter(
-          (current) => current.product._id !== value
-        );
-        return {
-          ...state,
-          [action.source]: data,
-        };
-      }
-    }
-
-    case "ADD_PRODUCT": {
-      const data = [
-        {
-          product: (action.value as any).product,
-          howMany: (action.value as any).howMany,
-          optionSelected: (action.value as any).option,
-        },
-        ...(state[action.source] as any[]),
-      ];
-      return {
-        ...state,
-        [action.source]: data,
-      };
-    }
-
-    case "UPDATE_PRODUCTS": {
-      let data;
-      data = (state[action.source] as any[]).map((current) => {
-        if (
-          current.product._id === (action.value as any).product._id &&
-          ((action.value as any).option === undefined ||
-            current.optionSelected == (action.value as any).option)
-        ) {
-          return {
-            product: current.product,
-            howMany: (action.value as any).howMany,
-            optionSelected: current.optionSelected,
-          };
-        }
-        return current;
-      });
-      if (
-        !state[action.source].find(
-          (current: any) =>
-            current.product._id === (action.value as any).product._id &&
-            ((action.value as any).option === undefined ||
-              current.optionSelected == (action.value as any).option)
-        )
-      ) {
-        data = [
-          {
-            product: (action.value as any).product,
-            howMany: (action.value as any).howMany,
-            optionSelected: (action.value as any).option,
-          },
-          ...(state[action.source] as any[]),
-        ];
-      }
-      return {
-        ...state,
-        [action.source]: data,
-      };
-    }
+const loadItems = (): CartItem[] => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
   }
 };
 
-export const CartContext = createContext({
-  ...initialState,
-  addProductToCart: (
-    _product: Product,
-    _howMany: number,
-    _optionSelected: any | undefined
-  ) => {},
-  removeProductFromCart: (
-    _product: Product,
-    _optionSelected: any | undefined
-  ) => {},
-  updateProduct: (
-    _product: Product,
-    _howMany: number,
-    _optionSelected: any | undefined
-  ) => {},
-  addOrUpdate: (
-    _product: Product,
-    _howMany: number,
-    _optionSelected: any | undefined
-  ) => {},
-  onSuccessfulSignIn: (user: any) => undefined,
-  fetchUser: async (): Promise<any | null> => {
-    return null;
-  },
-  canUserModify: () => true,
-});
-
-export const CartContextProvider: React.FC<React.ReactNode> = ({
-  children,
-}) => {
-  const [state, dispatch] = useReducer(reducer, loadInitialState());
+export const CartProvider = ({ children }: { children?: any }) => {
+  const [items, setItems] = useState<CartItem[]>(loadItems);
+  const [isSheetOpen, setSheetOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("cartData", JSON.stringify(state));
-  }, [state]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
-  const onSuccessfulSignIn = async (user: any) => {
-    dispatch({ type: "SET_USER", value: user });
+  const add = (product: Product, qty = 1) => {
+    setItems((prev) => {
+      const existing = prev.find((i) => i.product.id === product.id);
+      if (existing) {
+        return prev.map((i) =>
+          i.product.id === product.id ? { ...i, qty: i.qty + qty } : i
+        );
+      }
+      return [{ product, qty }, ...prev];
+    });
+    setSheetOpen(true);
   };
 
-  const fetchUser = async (): Promise<any | null> => {
-    const res = await fetch("http://localhost:5000/get_user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    });
+  const setQty = (productId: string, qty: number) => {
+    setItems((prev) =>
+      qty <= 0
+        ? prev.filter((i) => i.product.id !== productId)
+        : prev.map((i) => (i.product.id === productId ? { ...i, qty } : i))
+    );
+  };
 
-    if (res.ok) {
-      const data = await res.json();
-      onSuccessfulSignIn(data);
-      return data;
-    } else {
-      console.log("Unauthorized");
-      return null;
+  const remove = (productId: string) =>
+    setItems((prev) => prev.filter((i) => i.product.id !== productId));
+
+  const clear = () => setItems([]);
+
+  const { count, total } = useMemo(() => {
+    let count = 0;
+    let total = 0;
+    for (const i of items) {
+      count += i.qty;
+      total += finalPrice(i.product) * i.qty;
     }
-  };
-
-  const canUserModify = () => {
-    if (!state.user) {
-      return false;
-    }
-
-    return state.user.role === "0";
-  };
-
-  //send the Product, if the add more than one send how many
-  const addProductToCart = (
-    product: Product,
-    howMany: number,
-    optionSelected: any | undefined
-  ) => {
-    dispatch({
-      type: "ADD_PRODUCT",
-      source: "cartData",
-      value: { product, howMany, option: optionSelected },
-    });
-  };
-  //send the Product, will remove from cart
-  const removeProductFromCart = (
-    product: Product,
-    optionSelected: any | undefined
-  ) => {
-    dispatch({
-      type: "REMOVE_PRODUCT",
-      source: "cartData",
-      value: { product: product._id, option: optionSelected },
-    });
-  };
-  //send the Product, and how many they want to add/remove, + or - for add or remove
-  const updateProduct = (
-    product: Product,
-    howMany: number,
-    optionSelected: any | undefined
-  ) => {
-    dispatch({
-      type: "UPDATE_PRODUCTS",
-      source: "cartData",
-      value: { product, howMany, option: optionSelected },
-    });
-  };
-
-  const addOrUpdate = (
-    product: Product,
-    howMany: number,
-    optionSelected: any | undefined
-  ) => {
-    if (
-      state["cartData"].find(
-        (p: cartData) =>
-          p.product._id == product._id &&
-          (optionSelected === undefined || p.optionSelected == optionSelected)
-      )
-    ) {
-      updateProduct(product, howMany, optionSelected);
-    } else addProductToCart(product, howMany, optionSelected);
-  };
+    return { count, total };
+  }, [items]);
 
   return (
     <CartContext.Provider
       value={{
-        ...state,
-        addProductToCart,
-        removeProductFromCart,
-        updateProduct,
-        addOrUpdate,
-        onSuccessfulSignIn,
-        fetchUser,
-        canUserModify,
+        items,
+        count,
+        total,
+        isSheetOpen,
+        openSheet: () => setSheetOpen(true),
+        closeSheet: () => setSheetOpen(false),
+        add,
+        setQty,
+        remove,
+        clear,
       }}
     >
       {children}
     </CartContext.Provider>
   );
+};
+
+export const useCart = () => {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used inside CartProvider");
+  return ctx;
 };
