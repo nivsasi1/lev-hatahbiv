@@ -9,6 +9,7 @@ import {
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
+import { API_BASE } from "../data/api";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
@@ -23,6 +24,30 @@ export const CartPage = () => {
   const freeShipping = total >= FREE_SHIPPING_FROM;
   const shippingCost = delivery.id === "pickup" || freeShipping ? 0 : delivery.price;
   const grandTotal = total + shippingCost;
+
+  // record the order in the store's system the moment it's sent —
+  // fire-and-forget so a missing backend never blocks the WhatsApp message
+  const logOrder = () => {
+    try {
+      fetch(`${API_BASE}/order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map(({ product, qty }) => ({
+            productId: product.id,
+            name: product.name,
+            qty,
+            price: finalPrice(product),
+          })),
+          total: grandTotal,
+          delivery: delivery.title,
+        }),
+        keepalive: true, // let the request finish even as WhatsApp opens
+      }).catch(() => {});
+    } catch {
+      /* never block the order */
+    }
+  };
 
   const waText = encodeURIComponent(
     [
@@ -117,12 +142,17 @@ export const CartPage = () => {
             href={`https://wa.me/${store.phoneIntl}?text=${waText}`}
             target="_blank"
             rel="noreferrer"
+            onClick={logOrder}
           >
             שליחת ההזמנה בוואטסאפ 💬
           </a>
           <a className="btn ghost" style={{ width: "100%", marginTop: "0.7rem" }} href={`tel:${store.phone}`}>
             או בטלפון: {store.phone}
           </a>
+          {/* placeholder until a payment provider API is connected */}
+          <button className="btn pay-soon" disabled aria-disabled="true">
+            💳 תשלום מאובטח באתר — בקרוב
+          </button>
 
           <p className="order-note">
             ההזמנה נשלחת אלינו ישירות, ואנחנו חוזרים אליכם לאישור ותשלום.

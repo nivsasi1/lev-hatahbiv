@@ -34,7 +34,8 @@ export type Product = {
   category: string; // category slug
   sub: string;
   third: string; // series/brand level inside the sub-category
-  img?: string; // photo URL — wins over art unless it fails to load
+  img?: string; // primary photo URL — wins over art unless it fails to load
+  imgs?: string[]; // full gallery (primary first), only when more than one
   art?: ArtKind;
   artColor?: string;
   badge?: "חדש" | "מבצע" | "רב מכר";
@@ -141,6 +142,7 @@ type RawProduct = {
   sub: string;
   third: string;
   img: string;
+  gallery?: string[];
   pickupOnly?: boolean;
   soldOut?: boolean;
 };
@@ -151,6 +153,9 @@ const resolveImg = (img: string) =>
 
 export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
   const cat = categoryBySlug.get(r.cat);
+  const imgs = r.gallery
+    ? [r.img, ...r.gallery].map(resolveImg).filter((u): u is string => !!u)
+    : undefined;
   return {
     id: r.id,
     name: r.name,
@@ -161,6 +166,7 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
     sub: r.sub,
     third: r.third,
     img: resolveImg(r.img),
+    imgs,
     art: cat?.art ?? "tube",
     artColor: cat?.color,
     badge: r.salePrice && !r.soldOut ? "מבצע" : undefined,

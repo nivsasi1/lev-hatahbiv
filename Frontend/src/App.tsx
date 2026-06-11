@@ -16,6 +16,9 @@ import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 import { AdminPage } from "./pages/AdminPage";
+import { AccessibilityPage } from "./pages/AccessibilityPage";
+import { SaleOptionsPage } from "./pages/SaleOptionsPage";
+import { A11yWidget } from "./components/A11yWidget";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -28,6 +31,7 @@ const Layout = () => {
       <Footer />
       <CartSheet />
       <NewsletterDialog />
+      <A11yWidget />
     </div>
   );
 };
@@ -42,6 +46,8 @@ const router = createBrowserRouter([
       { path: "/product/:id", element: <ProductPage /> },
       { path: "/cart", element: <CartPage /> },
       { path: "/manage", element: <AdminPage /> },
+      { path: "/accessibility", element: <AccessibilityPage /> },
+      { path: "/sale-options", element: <SaleOptionsPage /> },
       { path: "*", element: <HomePage /> },
     ],
   },

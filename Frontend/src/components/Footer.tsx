@@ -54,6 +54,7 @@ export const Footer = () => (
 
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} לב התחביב בע"מ — נצבע באהבה ברחובות</span>
+        <Link to="/accessibility">הצהרת נגישות</Link>
         <span>משלוח חינם בקנייה מעל ₪300</span>
       </div>
     </div>

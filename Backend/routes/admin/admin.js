@@ -9,6 +9,7 @@ const fs = require("fs");
 const { execFile } = require("child_process");
 const Product = require("../../models/products/product.model");
 const Subscriber = require("../../models/newsletter/subscriber.model");
+const Order = require("../../models/orders/order.model");
 const adminAuth = require("../../middleware/adminAuth");
 
 const router = express.Router();
@@ -178,6 +179,42 @@ router.delete(
     const product = await Product.findByIdAndDelete(req.params.id).lean();
     if (!product) return res.status(404).json({ error: "מוצר לא נמצא" });
     res.json({ deleted: product._id });
+  })
+);
+
+// ---------- orders ----------
+
+router.get(
+  "/orders",
+  asyncRoute(async (_req, res) => {
+    const orders = await Order.find({}).sort({ createdAt: -1 }).limit(300).lean();
+    res.json({ orders });
+  })
+);
+
+router.patch(
+  "/orders/:id/status",
+  asyncRoute(async (req, res) => {
+    const status = String(req.body.status);
+    if (!["new", "handled", "cancelled"].includes(status)) {
+      return res.status(400).json({ error: "סטטוס לא חוקי" });
+    }
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { $set: { status } },
+      { new: true }
+    ).lean();
+    if (!order) return res.status(404).json({ error: "הזמנה לא נמצאה" });
+    res.json({ order });
+  })
+);
+
+router.delete(
+  "/orders/:id",
+  asyncRoute(async (req, res) => {
+    const order = await Order.findByIdAndDelete(req.params.id).lean();
+    if (!order) return res.status(404).json({ error: "הזמנה לא נמצאה" });
+    res.json({ deleted: order._id });
   })
 );
 

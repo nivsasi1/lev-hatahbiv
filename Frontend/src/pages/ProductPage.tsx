@@ -17,8 +17,12 @@ export const ProductPage = () => {
   const { id } = useParams();
   const { add } = useCart();
   const [qty, setQtyLocal] = useState(1);
+  const [imgIdx, setImgIdx] = useState(0);
 
-  useEffect(() => setQtyLocal(1), [id]);
+  useEffect(() => {
+    setQtyLocal(1);
+    setImgIdx(0);
+  }, [id]);
 
   const product = getProduct(id ?? "");
   if (!product) {
@@ -36,23 +40,66 @@ export const ProductPage = () => {
     .filter((p) => p.id !== product.id)
     .slice(0, 4);
   const saved = product.salePrice ? product.price - product.salePrice : 0;
+  const gallery = product.imgs ?? (product.img ? [product.img] : []);
+  const hasGallery = gallery.length > 1;
+  const step = (d: number) =>
+    setImgIdx((i) => (i + d + gallery.length) % gallery.length);
 
   return (
     <main className="page-main">
       <div className="shell">
         <div className="product-view">
-          <div
-            className={`product-stage ${product.img ? "photo" : ""} ${product.soldOut ? "soldout" : ""}`}
-            style={{ "--pv-soft": category?.soft } as any}
-          >
-            <ProductThumb product={product} />
-            {saved > 0 && !product.soldOut && (
-              <div className="sale-flag" aria-hidden="true">
-                <b>{Math.round((saved / product.price) * 100)}%-</b>
-                <i>מבצע</i>
+          <div className="product-stage-wrap">
+            <div
+              className={`product-stage ${product.img ? "photo" : ""} ${product.soldOut ? "soldout" : ""}`}
+              style={{ "--pv-soft": category?.soft } as any}
+            >
+              {gallery.length > 0 ? (
+                gallery.map((src, i) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={i === 0 ? product.name : `${product.name} — תמונה ${i + 1}`}
+                    className={`stage-img ${i === imgIdx ? "on" : ""}`}
+                  />
+                ))
+              ) : (
+                <ProductThumb product={product} />
+              )}
+              {hasGallery && (
+                <>
+                  <button className="stage-arrow next" onClick={() => step(1)} aria-label="התמונה הבאה">
+                    ‹
+                  </button>
+                  <button className="stage-arrow prev" onClick={() => step(-1)} aria-label="התמונה הקודמת">
+                    ›
+                  </button>
+                </>
+              )}
+              {saved > 0 && !product.soldOut && (
+                <div className="sale-flag" aria-hidden="true">
+                  <b>{Math.round((saved / product.price) * 100)}%-</b>
+                  <i>מבצע</i>
+                </div>
+              )}
+              {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}
+            </div>
+            {hasGallery && (
+              <div className="stage-thumbs" role="tablist" aria-label="תמונות המוצר">
+                {gallery.map((src, i) => (
+                  <button
+                    key={src}
+                    className={i === imgIdx ? "on" : ""}
+                    onClick={() => setImgIdx(i)}
+                    aria-label={`תמונה ${i + 1}`}
+                    aria-selected={i === imgIdx}
+                    role="tab"
+                  >
+                    <img src={src} alt="" loading="lazy" />
+                  </button>
+                ))}
               </div>
             )}
-            {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}
           </div>
 
           <div className="product-info">

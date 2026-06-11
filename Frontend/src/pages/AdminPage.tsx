@@ -46,7 +46,7 @@ const emptyForm = {
   category: categories[0].name,
   sub_cat: "",
   third_level: "",
-  img: "",
+  imgs: [] as string[], // stored in Mongo as one semicolon-separated string
 };
 
 export const AdminPage = () => {
@@ -64,6 +64,8 @@ export const AdminPage = () => {
   const [publishing, setPublishing] = useState(false);
   const [subscribers, setSubscribers] = useState<{ _id: string; email: string }[]>([]);
   const [showSubs, setShowSubs] = useState(false);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [view, setView] = useState<"products" | "orders">("products");
 
   const logout = () => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -94,10 +96,11 @@ export const AdminPage = () => {
   };
 
   const refresh = () =>
-    Promise.all([call("/products"), call("/subscribers")])
-      .then(([p, s]) => {
+    Promise.all([call("/products"), call("/subscribers"), call("/orders")])
+      .then(([p, s, o]) => {
         setProducts(p.products);
         setSubscribers(s.subscribers);
+        setOrders(o.orders);
       })
       .catch((e) => setError(e.message));
 
@@ -177,13 +180,18 @@ export const AdminPage = () => {
       category: p.category,
       sub_cat: p.sub_cat || "",
       third_level: p.third_level || "",
-      img: p.img,
+      imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
     });
   };
 
   const submitForm = (e: any) => {
     e.preventDefault();
-    const payload = { ...form, price: Number(form.price) };
+    if (form.imgs.length === 0) {
+      setError("צריך לפחות תמונה אחת למוצר");
+      return;
+    }
+    const { imgs, ...rest } = form;
+    const payload = { ...rest, img: imgs.join(";"), price: Number(form.price) };
     act(async () => {
       if (editingId) {
         const d = await call(`/products/${editingId}`, {
@@ -209,8 +217,8 @@ export const AdminPage = () => {
     body.append("image", file);
     act(async () => {
       const d = await call(`/upload`, { method: "POST", body });
-      setForm((f: any) => ({ ...f, img: d.img }));
-    }, "התמונה הועלתה");
+      setForm((f: any) => ({ ...f, imgs: [...f.imgs, d.img] }));
+    }, "התמונה הועלתה ונוספה לגלריה");
   };
 
   const publish = () => {
@@ -296,9 +304,92 @@ export const AdminPage = () => {
         </div>
       </div>
 
+      <div className="admin-tabs">
+        <button
+          className={view === "products" ? "active" : ""}
+          onClick={() => setView("products")}
+        >
+          🎨 מוצרים ({products.length})
+        </button>
+        <button
+          className={view === "orders" ? "active" : ""}
+          onClick={() => setView("orders")}
+        >
+          🧾 הזמנות ({orders.filter((o) => o.status === "new").length} חדשות)
+        </button>
+      </div>
+
+      {view === "orders" ? (
+        <div className="orders-list">
+          {orders.length === 0 && (
+            <p className="empty-note">עוד אין הזמנות — הן יופיעו כאן ברגע שלקוח ישלח עגלה בוואטסאפ</p>
+          )}
+          {orders.map((o) => (
+            <div key={o._id} className={`order-card ${o.status}`}>
+              <div className="order-head">
+                <b>
+                  {new Date(o.createdAt).toLocaleDateString("he-IL")}{" "}
+                  {new Date(o.createdAt).toLocaleTimeString("he-IL", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </b>
+                <span className={`order-status ${o.status}`}>
+                  {o.status === "new" ? "חדשה" : o.status === "handled" ? "טופלה" : "בוטלה"}
+                </span>
+                <span className="order-total">₪{o.total}</span>
+              </div>
+              <div className="order-items">
+                {o.items.map((i: any, idx: number) => (
+                  <span key={idx}>
+                    {i.name} ×{i.qty}
+                  </span>
+                ))}
+              </div>
+              <div className="order-foot">
+                <span className="meta">{o.delivery}</span>
+                <span className="order-actions">
+                  {o.status !== "handled" && (
+                    <button
+                      className="btn small"
+                      onClick={() =>
+                        act(async () => {
+                          const d = await call(`/orders/${o._id}/status`, {
+                            method: "PATCH",
+                            body: JSON.stringify({ status: "handled" }),
+                          });
+                          setOrders((prev) => prev.map((x) => (x._id === o._id ? d.order : x)));
+                        })
+                      }
+                    >
+                      ✓ סימון טופלה
+                    </button>
+                  )}
+                  {o.status !== "cancelled" && (
+                    <button
+                      className="btn small ghost"
+                      onClick={() =>
+                        act(async () => {
+                          const d = await call(`/orders/${o._id}/status`, {
+                            method: "PATCH",
+                            body: JSON.stringify({ status: "cancelled" }),
+                          });
+                          setOrders((prev) => prev.map((x) => (x._id === o._id ? d.order : x)));
+                        })
+                      }
+                    >
+                      ביטול
+                    </button>
+                  )}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <>
       <p className="admin-stats">
-        {products.length} מוצרים · {saleCount} במבצע · {oosCount} אזלו ·{" "}
-        {hiddenCount} מוסתרים ·{" "}
+        {saleCount} במבצע · {oosCount} אזלו · {hiddenCount} מוסתרים ·{" "}
         <button className="subs-toggle" onClick={() => setShowSubs((v) => !v)}>
           💌 רשימת תפוצה ({subscribers.length})
         </button>
@@ -409,12 +500,37 @@ export const AdminPage = () => {
               onInput={(e: any) => setForm({ ...form, third_level: e.target.value })}
             />
             <input
-              placeholder="תמונה: כתובת URL או שם קובץ ב-S3 *"
-              required
-              value={form.img}
-              onInput={(e: any) => setForm({ ...form, img: e.target.value })}
+              placeholder="הוספת תמונה: URL / שם קובץ S3 + Enter"
+              value={form.imgInput ?? ""}
+              onInput={(e: any) => setForm({ ...form, imgInput: e.target.value })}
+              onKeyDown={(e: any) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  const v = (form.imgInput || "").trim();
+                  if (v) setForm({ ...form, imgs: [...form.imgs, v], imgInput: "" });
+                }
+              }}
             />
           </div>
+          {form.imgs.length > 0 && (
+            <div className="img-chips">
+              {form.imgs.map((im: string, i: number) => (
+                <span key={im + i} className="img-chip">
+                  <img src={imgUrl(im)} alt="" />
+                  {i === 0 && <b>ראשית</b>}
+                  <button
+                    type="button"
+                    aria-label="הסרת תמונה"
+                    onClick={() =>
+                      setForm({ ...form, imgs: form.imgs.filter((_: string, j: number) => j !== i) })
+                    }
+                  >
+                    ✕
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
           <textarea
             placeholder="תיאור המוצר"
             rows={3}
@@ -433,9 +549,6 @@ export const AdminPage = () => {
                 }
               />
             </label>
-            {form.img && (
-              <img className="admin-form-preview" src={imgUrl(form.img)} alt="" />
-            )}
             <button className="btn small" type="submit">
               {editingId ? "שמירת שינויים" : "הוספת המוצר"}
             </button>
@@ -463,7 +576,7 @@ export const AdminPage = () => {
               p.isAvailable === false ? "oos" : ""
             }`}
           >
-            <img src={imgUrl(p.img)} alt="" loading="lazy" />
+            <img src={imgUrl((p.img || "").split(";")[0])} alt="" loading="lazy" />
             <div className="admin-row-mid">
               <span className="nm">{p.name}</span>
               <span className="meta">
@@ -522,6 +635,8 @@ export const AdminPage = () => {
         )}
         {filtered.length === 0 && <p className="empty-note">לא נמצאו מוצרים</p>}
       </div>
+        </>
+      )}
     </main>
   );
 };

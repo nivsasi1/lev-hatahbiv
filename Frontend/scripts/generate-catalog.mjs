@@ -65,6 +65,9 @@ for (const p of dump) {
   const pickupOnly = /איסוף/.test(p.ribbon || "");
   const soldOut = p.isAvailable === false; // shown greyed-out, not hidden
 
+  // semicolon-separated list — first is the primary, the rest feed the gallery
+  const allImgs = (p.img || "").split(";").map((s) => s.trim()).filter(Boolean);
+
   products.push({
     id: String(p._id),
     name: p.name.trim(),
@@ -74,7 +77,8 @@ for (const p of dump) {
     cat,
     sub: (p.sub_cat || "").trim() || "כללי",
     third: (p.third_level || "").trim() || "כללי",
-    img: p.img ? p.img.split(";")[0].trim() : "",
+    img: allImgs[0] || "",
+    ...(allImgs.length > 1 ? { gallery: allImgs.slice(1) } : {}),
     ...(pickupOnly ? { pickupOnly: true } : {}),
     ...(soldOut ? { soldOut: true } : {}),
   });
