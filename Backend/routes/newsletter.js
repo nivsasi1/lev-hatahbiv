@@ -2,6 +2,7 @@
 const express = require("express");
 const Subscriber = require("../models/newsletter/subscriber.model");
 const Order = require("../models/orders/order.model");
+const { notifyNewOrder } = require("../helpers/notify");
 
 const router = express.Router();
 
@@ -77,6 +78,7 @@ router.post("/order", async (req, res) => {
       total: Math.max(0, Number(total) || 0),
       delivery: String(delivery || "").slice(0, 60),
     });
+    notifyNewOrder(order); // WhatsApp + email to the manager, fire-and-forget
     res.status(201).json({ ok: true, orderId: order._id });
   } catch (err) {
     console.error("[order]", err);

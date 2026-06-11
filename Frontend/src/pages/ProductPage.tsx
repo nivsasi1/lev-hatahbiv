@@ -77,9 +77,8 @@ export const ProductPage = () => {
                 </>
               )}
               {saved > 0 && !product.soldOut && (
-                <div className="sale-flag" aria-hidden="true">
-                  <b>{Math.round((saved / product.price) * 100)}%-</b>
-                  <i>מבצע</i>
+                <div className="sale-scarf" aria-hidden="true">
+                  <span>מבצע {Math.round((saved / product.price) * 100)}%-</span>
                 </div>
               )}
               {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}

@@ -25,6 +25,12 @@ const S3 = "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/";
 const imgUrl = (img: string) =>
   !img ? "" : img.startsWith("http") || img.startsWith("/") ? img : S3 + img;
 
+// one-decimal price display (4.333 -> 4.3), same as the storefront
+const ils = (n: number) => {
+  const r = Math.round(Number(n) * 10) / 10;
+  return Number.isInteger(r) ? String(r) : r.toFixed(1);
+};
+
 type AdminProduct = {
   _id: string;
   name: string;
@@ -66,6 +72,7 @@ export const AdminPage = () => {
   const [showSubs, setShowSubs] = useState(false);
   const [orders, setOrders] = useState<any[]>([]);
   const [view, setView] = useState<"products" | "orders">("products");
+  const [statusFilter, setStatusFilter] = useState<"all" | "sale" | "hidden" | "oos">("all");
 
   const logout = () => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -233,15 +240,19 @@ export const AdminPage = () => {
 
   const filtered = useMemo(() => {
     const q = query.trim();
-    if (!q) return products;
-    return products.filter(
+    let list = products;
+    if (statusFilter === "sale") list = list.filter((p) => (p.salePercentage || 0) > 0);
+    if (statusFilter === "hidden") list = list.filter((p) => p.isActive === false);
+    if (statusFilter === "oos") list = list.filter((p) => p.isAvailable === false);
+    if (!q) return list;
+    return list.filter(
       (p) =>
         p.name.includes(q) ||
         p.category.includes(q) ||
         (p.sub_cat || "").includes(q) ||
         (p.third_level || "").includes(q)
     );
-  }, [products, query]);
+  }, [products, query, statusFilter]);
 
   const shown = filtered.slice(0, limit);
   const hiddenCount = products.filter((p) => p.isActive === false).length;
@@ -337,7 +348,10 @@ export const AdminPage = () => {
                 <span className={`order-status ${o.status}`}>
                   {o.status === "new" ? "חדשה" : o.status === "handled" ? "טופלה" : "בוטלה"}
                 </span>
-                <span className="order-total">₪{o.total}</span>
+                <span className="order-channel">
+                  {o.channel === "card" ? "💳 שולם באשראי" : "💬 וואטסאפ"}
+                </span>
+                <span className="order-total">₪{ils(o.total)}</span>
               </div>
               <div className="order-items">
                 {o.items.map((i: any, idx: number) => (
@@ -388,12 +402,30 @@ export const AdminPage = () => {
         </div>
       ) : (
         <>
-      <p className="admin-stats">
-        {saleCount} במבצע · {oosCount} אזלו · {hiddenCount} מוסתרים ·{" "}
+      <div className="admin-filters">
+        {(
+          [
+            ["all", `הכל (${products.length})`],
+            ["sale", `% במבצע (${saleCount})`],
+            ["oos", `📦 אזלו (${oosCount})`],
+            ["hidden", `🚫 מוסתרים (${hiddenCount})`],
+          ] as const
+        ).map(([key, label]) => (
+          <button
+            key={key}
+            className={`sub-chip ${statusFilter === key ? "active" : ""}`}
+            onClick={() => {
+              setStatusFilter(key);
+              setLimit(30);
+            }}
+          >
+            {label}
+          </button>
+        ))}
         <button className="subs-toggle" onClick={() => setShowSubs((v) => !v)}>
           💌 רשימת תפוצה ({subscribers.length})
         </button>
-      </p>
+      </div>
 
       {showSubs && (
         <div className="subs-box">
@@ -580,7 +612,7 @@ export const AdminPage = () => {
             <div className="admin-row-mid">
               <span className="nm">{p.name}</span>
               <span className="meta">
-                {p.category} › {p.sub_cat || "—"} · ₪{p.price}
+                {p.category} › {p.sub_cat || "—"} · ₪{ils(p.price)}
                 {(p.salePercentage || 0) > 0 && (
                   <b className="sale-tag"> מבצע {p.salePercentage}%-</b>
                 )}

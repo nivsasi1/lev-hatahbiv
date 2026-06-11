@@ -231,8 +231,11 @@ export const searchProducts = (query: string) => {
 
 export const finalPrice = (p: Product) => p.salePrice ?? p.price;
 
-export const shekel = (n: number) =>
-  `₪${Number.isInteger(n) ? n : n.toFixed(2).replace(/\.?0+$/, "")}`;
+// all prices display rounded to one decimal (4.333 -> ₪4.3, 4.0 -> ₪4)
+export const shekel = (n: number) => {
+  const r = Math.round(n * 10) / 10;
+  return `₪${Number.isInteger(r) ? r : r.toFixed(1)}`;
+};
 
 export const FREE_SHIPPING_FROM = 300;
 
