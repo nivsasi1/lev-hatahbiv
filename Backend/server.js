@@ -153,6 +153,9 @@ app.get(
   }
 );
 
+const admin = require("./routes/admin/admin");
+app.use("/admin", admin);
+
 const products = require("./routes/products/products");
 app.use("/", products);
 

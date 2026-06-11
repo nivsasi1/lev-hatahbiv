@@ -6,14 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 "לב התחביב" (Lev Hatahbiv) — a Hebrew (RTL) art-supplies store site for a family shop in Rehovot, open since 1985. The site was rebuilt in 2026 as a **standalone static SPA**: Vite + Preact + TypeScript in `Frontend/`, with no server dependency.
 
-`Backend/` contains the legacy Express + Mongo API from the previous version of the site. **Nothing in the current frontend calls it at runtime.** The local MongoDB (`LevHatahbivDB`, see `Backend/.env`) is still the inventory master: `Backend/dump-products.js` exports it to `products-dump.json`, and `Frontend/scripts/generate-catalog.mjs` turns that into `Frontend/src/data/products.json` (~1,800 products). Re-run both to refresh inventory:
+The local MongoDB (`LevHatahbivDB`, see `Backend/.env`) is the inventory master. The **public storefront stays static** — `Backend/dump-products.js` exports Mongo to `products-dump.json`, `Frontend/scripts/generate-catalog.mjs` turns that into `Frontend/src/data/products.json`, and `vite build` bakes it in. The shopper never talks to a server.
 
-```
-cd Backend  && node dump-products.js
-cd Frontend && node scripts/generate-catalog.mjs
-```
+`Backend/` also hosts the **manager dashboard API** (`node server.js`, port **5001** — 5000 belongs to an unrelated local project). `routes/admin/admin.js` exposes JWT-protected CRUD: login (env `ADMIN_USER`/`ADMIN_PASS`), create/edit/delete products, toggle `isActive` (hide from site) and `isAvailable` (sold-out, shown greyed), set `salePercentage`, upload images to `Frontend/public/uploads/`, and `POST /admin/publish` which runs the full dump → generate → build pipeline. The dashboard UI lives at `/manage` in the frontend (`pages/AdminPage.tsx`, token in sessionStorage). The legacy passport/session code in `server.js` predates this and is unused.
 
-Product photos are served from the store's S3 bucket (`levhatahbiv.s3.eu-north-1.amazonaws.com/images/`); the generator keeps only the first of semicolon-separated filenames, skips invisible/unavailable/uncategorized rows, and converts `discountValue` to `salePrice`.
+Product photos resolve in this order: full URL → used as-is; `/uploads/...` → local; otherwise S3 filename (`levhatahbiv.s3.eu-north-1.amazonaws.com/images/`). The generator skips `visible:false`/`isActive:false` rows, keeps sold-out rows with `soldOut:true`, and prefers manager-set `salePercentage` over legacy Wix `discountValue`.
 
 There are no tests or linters configured. `npx tsc --noEmit` in `Frontend/` is the type gate (`vite build` does not type-check).
 

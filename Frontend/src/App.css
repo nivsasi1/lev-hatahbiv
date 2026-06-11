@@ -172,7 +172,7 @@ button {
 
 .header-logo img {
   display: block;
-  height: 3.4rem;
+  height: 4.1rem;
   width: auto;
 }
 
@@ -370,6 +370,27 @@ button {
   font-size: clamp(3.2rem, 9vw, 6.4rem);
   line-height: 0.95;
   margin: 1.6rem 0 1rem;
+}
+
+/* the brand logo as the hero headline */
+.hero-logo {
+  margin: 1.8rem 0 1.2rem;
+}
+
+.hero-logo img {
+  width: min(30rem, 82vw);
+  filter: drop-shadow(0 14px 22px rgba(43, 36, 64, 0.28));
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: rotate(-1deg) translateY(0);
+  }
+  50% {
+    transform: rotate(1.2deg) translateY(-10px);
+  }
 }
 
 .hero p.sub {
@@ -656,6 +677,120 @@ button {
   color: #fff;
 }
 
+/* ---------- sale sash (ribbon draped over the image corner) ---------- */
+.sale-sash {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 11em;
+  height: 11em;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sale-sash span {
+  position: absolute;
+  display: block;
+  /* wide strip rotated across the corner, like a sash tied around it */
+  top: 1.9em;
+  right: -3.2em;
+  width: 14em;
+  padding: 0.42em 0;
+  transform: rotate(45deg);
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: linear-gradient(180deg, #f0564e 0%, var(--red) 55%, #c22f2f 100%);
+  border-top: 2px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 2.5px solid var(--ink);
+  box-shadow: 0 0.25em 0.6em rgba(43, 36, 64, 0.35);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* fabric folds where the sash wraps behind the card edges */
+.sale-sash::before,
+.sale-sash::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0.45em solid transparent;
+  border-top-color: #8f1f1f;
+}
+
+.sale-sash::before {
+  top: 0.95em;
+  right: 8.3em;
+  transform: rotate(45deg);
+}
+
+.sale-sash::after {
+  top: 8.3em;
+  right: 0.95em;
+  transform: rotate(45deg);
+}
+
+.product-stage .sale-sash span {
+  font-size: 1.15rem;
+}
+
+/* ---------- sold out ---------- */
+.p-card.soldout .frame img,
+.p-card.soldout .frame svg,
+.product-stage.soldout img,
+.product-stage.soldout svg {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.p-card.soldout {
+  box-shadow: 0.28em 0.28em 0 rgba(43, 36, 64, 0.07);
+}
+
+.p-card.soldout:hover {
+  box-shadow: 0.3em 0.3em 0 rgba(43, 36, 64, 0.12);
+}
+
+.oos-strip {
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  left: -10%;
+  transform: rotate(-7deg) translateY(-50%);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--ink),
+    var(--ink) 14px,
+    #463d63 14px,
+    #463d63 28px
+  );
+  color: var(--paper);
+  text-align: center;
+  font-weight: 800;
+  padding: 0.4em 0;
+  letter-spacing: 0.05em;
+  border-top: 2px solid var(--paper);
+  border-bottom: 2px solid var(--paper);
+  z-index: 2;
+}
+
+.add-btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.oos-note {
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--paper-deep);
+  border: 2px dashed var(--ink-soft);
+  border-radius: 0.8em;
+  padding: 0.7em 1.2em;
+}
+
 /* ---------- ribbon banner ---------- */
 .ribbon {
   margin: 4rem 0;
@@ -690,6 +825,125 @@ button {
 @keyframes marquee {
   to {
     transform: translateX(50%);
+  }
+}
+
+/* ---------- studio band (story + hours pinned like wall notes) ---------- */
+.studio-band {
+  position: relative;
+  text-align: center;
+  background: var(--paper-deep);
+  border-top: 2.5px solid var(--ink);
+  margin-top: 4rem;
+  padding: 3.5rem 0 4.5rem;
+  overflow: hidden;
+}
+
+.studio-title {
+  font-size: clamp(3rem, 7vw, 5.2rem);
+  line-height: 1;
+  margin: 0 0 1rem;
+}
+
+.studio-text {
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  font-size: 1.08rem;
+  max-width: 42em;
+  margin: 0 auto 2.6rem;
+}
+
+.note-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 26rem));
+  justify-content: center;
+  gap: 2.2rem;
+  align-items: stretch;
+}
+
+.note-card {
+  position: relative;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 0.9rem;
+  box-shadow: 0.4em 0.45em 0 var(--shadow);
+  padding: 1.8rem 1.9rem 1.6rem;
+  text-align: right;
+  transform: rotate(-1.2deg);
+}
+
+.note-card:last-child {
+  transform: rotate(1.1deg);
+}
+
+.note-card.gold {
+  background: var(--gold);
+}
+
+/* strips of washi tape holding each note to the wall */
+.note-card::before,
+.note-card::after {
+  content: "";
+  position: absolute;
+  top: -0.85em;
+  width: 5.2em;
+  height: 1.7em;
+  background: rgba(123, 63, 191, 0.28);
+  border: 1px solid rgba(43, 36, 64, 0.18);
+  backdrop-filter: blur(1px);
+}
+
+.note-card::before {
+  right: 12%;
+  transform: rotate(-8deg);
+}
+
+.note-card::after {
+  left: 12%;
+  transform: rotate(6deg);
+}
+
+.note-card.gold::before,
+.note-card.gold::after {
+  background: rgba(226, 87, 76, 0.32);
+}
+
+.note-card h3 {
+  font-size: 2.3rem;
+  margin: 0 0 0.9rem;
+}
+
+.note-card table {
+  width: 100%;
+  border-collapse: collapse;
+  font-weight: 700;
+}
+
+.note-card td {
+  padding: 0.5em 0;
+  border-bottom: 2px dashed rgba(43, 36, 64, 0.3);
+}
+
+.note-card td:last-child {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.note-foot {
+  margin-top: 0.9rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.note-card:hover {
+  transform: rotate(0) scale(1.015);
+  transition: transform 0.25s ease;
+}
+
+@media (max-width: 760px) {
+  .note-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1102,6 +1356,7 @@ button {
 
 .product-stage {
   position: relative;
+  overflow: hidden;
   border: 2.5px solid var(--ink);
   border-radius: 1.4rem;
   background:
@@ -1493,6 +1748,229 @@ button {
 
 .wa-btn {
   --btn-pop: var(--teal);
+}
+
+/* ---------- manager dashboard ---------- */
+.admin-page {
+  padding: 2.5rem 0 4rem;
+}
+
+.admin-page h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2.8rem, 5vw, 4rem);
+}
+
+.admin-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-head-actions {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.admin-stats {
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+}
+
+.admin-error,
+.admin-notice {
+  font-weight: 700;
+  border-radius: 0.8em;
+  padding: 0.6em 1em;
+  border: 2px solid var(--ink);
+}
+
+.admin-error {
+  background: #fbe3e3;
+  color: #8f1f1f;
+}
+
+.admin-notice {
+  background: #e3f4ec;
+  color: #1f6e4d;
+}
+
+.admin-login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-width: 22rem;
+  margin-top: 1.5rem;
+}
+
+.admin-login input,
+.admin-toolbar input,
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.5em 0.9em;
+  outline: none;
+}
+
+.admin-toolbar {
+  display: flex;
+  gap: 0.8rem;
+  margin: 0 0 1.2rem;
+}
+
+.admin-toolbar input {
+  flex: 1;
+  border-radius: 2em;
+}
+
+.admin-form {
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1.1rem;
+  box-shadow: 0.3em 0.3em 0 var(--shadow);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.admin-form h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.7rem;
+}
+
+.admin-form-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.admin-form-preview {
+  width: 3.2rem;
+  height: 3.2rem;
+  object-fit: contain;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 0.6em;
+}
+
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.admin-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.9rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.admin-row.inactive {
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+.admin-row.oos .nm {
+  color: var(--ink-soft);
+}
+
+.admin-row img {
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  object-fit: contain;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 0.6em;
+}
+
+.admin-row-mid {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-row-mid .nm {
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-row-mid .meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.sale-tag {
+  color: var(--red);
+}
+
+.oos-tag {
+  color: #946200;
+}
+
+.hidden-tag {
+  color: #555;
+}
+
+.admin-row-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.admin-row-actions button {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  border: 2px solid var(--ink);
+  border-radius: 0.6em;
+  background: var(--paper);
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.admin-row-actions button:hover {
+  transform: translateY(-2px);
+  background: var(--paper-deep);
+}
+
+.admin-row-actions .danger:hover {
+  background: #fbe3e3;
+  border-color: var(--red);
+}
+
+@media (max-width: 700px) {
+  .admin-row-actions button {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 /* ---------- responsive ---------- */

@@ -36,10 +36,9 @@ export const HomePage = () => (
 
       <div className="shell hero-inner">
         <span className="hero-kicker">חנות ציוד האמנות של רחובות · מאז {store.since}</span>
-        <h1 className="display">
-          כל יצירה גדולה
-          <br />
-          מתחילה <span className="hl" style={{ "--hl": "#e2574c" } as any}>בלב</span>
+        {/* the logo IS the headline */}
+        <h1 className="hero-logo">
+          <img src="/images/LevHatahbivLogo.png" alt="לב התחביב" />
         </h1>
         <p className="sub">
           צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם כל מה שהידיים שלכם
@@ -146,54 +145,65 @@ export const HomePage = () => (
       </div>
     </section>
 
-    {/* ---------- visit us ---------- */}
-    <section className="shell visit">
-      <div className="visit-card">
-        <h2 className="display">בואו להתלכלך איתנו בצבע</h2>
-        <p>
+    {/* ---------- studio band: story + hours, pinned like notes on a wall ---------- */}
+    <section className="studio-band">
+      <Splat color="#e2574c" size={130} style={{ top: "-4%", right: "3%", opacity: 0.5 }} className="wiggle" />
+      <Splat color="#7b3fbf" size={100} style={{ bottom: "-6%", left: "5%", opacity: 0.45 }} />
+      <div className="shell">
+        <h2 className="display studio-title">
+          כל יצירה גדולה מתחילה{" "}
+          <span className="hl" style={{ "--hl": "#e2574c" } as any}>
+            בלב
+          </span>
+        </h2>
+        <p className="studio-text">
           לב התחביב — המרכז לאמנויות ולתחביבים — היא חנות משפחתית שפועלת
           ברחובות מאז {store.since}. אצלנו לא רק קונים: מתייעצים עם צוות
-          מקצועי, ממששים את הנייר, משווים גוונים מול האור, ויוצאים עם בדיוק מה
-          שהפרויקט הבא צריך. מארגנים גם ימי הולדת ופעילויות יצירה לילדים.
+          מקצועי, ממששים את הנייר, משווים גוונים מול האור, ויוצאים עם בדיוק
+          מה שהפרויקט הבא צריך.
         </p>
-        <div className="visit-rows">
-          <div>
-            <span className="dot" style={{ background: "#e2574c" }} />
-            {store.address}
-          </div>
-          <div>
-            <span className="dot" style={{ background: "#2a9d8f" }} />
-            <a href={`tel:${store.phone}`}>{store.phone}</a>
-          </div>
-          <div>
-            <span className="dot" style={{ background: "#7b3fbf" }} />
-            <a href={`mailto:${store.email}`}>{store.email}</a>
-          </div>
-        </div>
-        <div className="visit-actions">
-          <a href={store.waze} target="_blank" rel="noreferrer" className="btn small">
-            פותחים Waze
-          </a>
-          <a href={store.maps} target="_blank" rel="noreferrer" className="btn small ghost">
-            מפת Google
-          </a>
-        </div>
-      </div>
 
-      <div className="hours-card">
-        <h3 className="display">שעות פתיחה</h3>
-        <table>
-          <tbody>
-            {store.hours.map((h) => (
-              <tr key={h.days}>
-                <td>{h.days}</td>
-                <td>{h.time}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="hours-note">
-          * אחר הצהריים פתוחים בימים א', ב', ד', ה' בלבד
+        <div className="note-row">
+          <div className="note-card gold">
+            <h3 className="display">שעות פתיחה</h3>
+            <table>
+              <tbody>
+                {store.hours.map((h) => (
+                  <tr key={h.days}>
+                    <td>{h.days}</td>
+                    <td>{h.time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="note-foot">* אחה"צ פתוחים בימים א', ב', ד', ה' בלבד</div>
+          </div>
+
+          <div className="note-card">
+            <h3 className="display">קופצים לבקר?</h3>
+            <div className="visit-rows">
+              <div>
+                <span className="dot" style={{ background: "#e2574c" }} />
+                {store.address}
+              </div>
+              <div>
+                <span className="dot" style={{ background: "#2a9d8f" }} />
+                <a href={`tel:${store.phone}`}>{store.phone}</a>
+              </div>
+              <div>
+                <span className="dot" style={{ background: "#7b3fbf" }} />
+                <a href={`mailto:${store.email}`}>{store.email}</a>
+              </div>
+            </div>
+            <div className="visit-actions">
+              <a href={store.waze} target="_blank" rel="noreferrer" className="btn small">
+                פותחים Waze
+              </a>
+              <a href={store.maps} target="_blank" rel="noreferrer" className="btn small ghost">
+                מפת Google
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

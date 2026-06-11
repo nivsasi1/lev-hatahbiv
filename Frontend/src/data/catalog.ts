@@ -39,6 +39,8 @@ export type Product = {
   artColor?: string;
   badge?: "חדש" | "מבצע" | "רב מכר";
   pickupOnly?: boolean;
+  soldOut?: boolean; // shown greyed-out ("אזל מהמלאי"), can't be added to cart
+  isActive?: boolean; // hidden items never reach the build; guard anyway
 };
 
 export type Category = {
@@ -140,7 +142,12 @@ type RawProduct = {
   third: string;
   img: string;
   pickupOnly?: boolean;
+  soldOut?: boolean;
 };
+
+// img can be an S3 filename, a full URL, or a local "/uploads/..." path
+const resolveImg = (img: string) =>
+  !img ? undefined : img.startsWith("http") || img.startsWith("/") ? img : S3_IMAGES + img;
 
 export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
   const cat = categoryBySlug.get(r.cat);
@@ -153,11 +160,13 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
     category: r.cat,
     sub: r.sub,
     third: r.third,
-    img: r.img ? S3_IMAGES + r.img : undefined,
+    img: resolveImg(r.img),
     art: cat?.art ?? "tube",
     artColor: cat?.color,
-    badge: r.salePrice ? "מבצע" : undefined,
+    badge: r.salePrice && !r.soldOut ? "מבצע" : undefined,
     pickupOnly: r.pickupOnly,
+    soldOut: r.soldOut,
+    isActive: true,
   };
 });
 

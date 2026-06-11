@@ -45,21 +45,25 @@ const seen = new Set();
 for (const p of dump) {
   const cat = CATEGORY_SLUGS[p.category];
   if (!cat) continue; // uncategorized legacy rows
-  if (p.visible === false || p.isAvailable === false) continue;
+  if (p.visible === false || p.isActive === false) continue; // hidden by manager
   if (!p.name || !(p.price > 0)) continue;
   if (seen.has(String(p._id))) continue;
   seen.add(String(p._id));
 
+  // manager-set salePercentage wins; legacy Wix discount fields as fallback
   let salePrice;
-  if (p.discountValue > 0) {
+  if (p.salePercentage > 0) {
+    salePrice = round(p.price * (1 - p.salePercentage / 100));
+  } else if (p.discountValue > 0) {
     salePrice =
       p.discountMode === "AMOUNT"
         ? round(p.price - p.discountValue)
         : round(p.price * (1 - p.discountValue / 100));
-    if (!(salePrice > 0 && salePrice < p.price)) salePrice = undefined;
   }
+  if (!(salePrice > 0 && salePrice < p.price)) salePrice = undefined;
 
   const pickupOnly = /איסוף/.test(p.ribbon || "");
+  const soldOut = p.isAvailable === false; // shown greyed-out, not hidden
 
   products.push({
     id: String(p._id),
@@ -72,6 +76,7 @@ for (const p of dump) {
     third: (p.third_level || "").trim() || "כללי",
     img: p.img ? p.img.split(";")[0].trim() : "",
     ...(pickupOnly ? { pickupOnly: true } : {}),
+    ...(soldOut ? { soldOut: true } : {}),
   });
 }
 

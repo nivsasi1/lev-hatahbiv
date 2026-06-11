@@ -14,6 +14,7 @@ import { HomePage } from "./pages/HomePage";
 import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
+import { AdminPage } from "./pages/AdminPage";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "/category/:slug/:sub", element: <SubCategoryPage /> },
       { path: "/product/:id", element: <ProductPage /> },
       { path: "/cart", element: <CartPage /> },
+      { path: "/manage", element: <AdminPage /> },
       { path: "*", element: <HomePage /> },
     ],
   },

@@ -42,10 +42,16 @@ export const ProductPage = () => {
       <div className="shell">
         <div className="product-view">
           <div
-            className={`product-stage ${product.img ? "photo" : ""}`}
+            className={`product-stage ${product.img ? "photo" : ""} ${product.soldOut ? "soldout" : ""}`}
             style={{ "--pv-soft": category?.soft } as any}
           >
             <ProductThumb product={product} />
+            {saved > 0 && !product.soldOut && (
+              <div className="sale-sash" aria-hidden="true">
+                <span>מבצע {Math.round((saved / product.price) * 100)}%-</span>
+              </div>
+            )}
+            {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}
           </div>
 
           <div className="product-info">
@@ -72,27 +78,33 @@ export const ProductPage = () => {
               )}
             </div>
 
-            <div className="qty-row">
-              <div className="qty">
-                <button onClick={() => setQtyLocal((q) => q + 1)} aria-label="הוספה">
-                  +
-                </button>
-                <span>{qty}</span>
+            {product.soldOut ? (
+              <div className="qty-row">
+                <span className="oos-note">אזל מהמלאי — מוזמנים להתקשר ולבדוק מתי יחזור ☎</span>
+              </div>
+            ) : (
+              <div className="qty-row">
+                <div className="qty">
+                  <button onClick={() => setQtyLocal((q) => q + 1)} aria-label="הוספה">
+                    +
+                  </button>
+                  <span>{qty}</span>
+                  <button
+                    onClick={() => setQtyLocal((q) => Math.max(1, q - 1))}
+                    aria-label="הפחתה"
+                  >
+                    −
+                  </button>
+                </div>
                 <button
-                  onClick={() => setQtyLocal((q) => Math.max(1, q - 1))}
-                  aria-label="הפחתה"
+                  className="btn"
+                  style={{ "--btn-pop": category?.color } as any}
+                  onClick={() => add(product, qty)}
                 >
-                  −
+                  הוספה לעגלה 🛒
                 </button>
               </div>
-              <button
-                className="btn"
-                style={{ "--btn-pop": category?.color } as any}
-                onClick={() => add(product, qty)}
-              >
-                הוספה לעגלה 🛒
-              </button>
-            </div>
+            )}
 
             <div className="product-meta">
               {product.pickupOnly && (
