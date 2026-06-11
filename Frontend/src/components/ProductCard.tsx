@@ -42,10 +42,11 @@ export const ProductCard = ({ product }: { product: Product }) => {
       )}
       <div className={`frame ${product.img ? "photo" : ""}`}>
         <ProductThumb product={product} />
-        {/* sale sash — a ribbon draped over the top corner of the image */}
+        {/* sale flag — a stitched ribbon tag hanging from the frame's top */}
         {salePct > 0 && !product.soldOut && (
-          <div className="sale-sash" aria-hidden="true">
-            <span>מבצע {salePct}%-</span>
+          <div className="sale-flag" aria-hidden="true">
+            <b>{salePct}%-</b>
+            <i>מבצע</i>
           </div>
         )}
         {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}

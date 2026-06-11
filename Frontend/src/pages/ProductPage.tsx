@@ -47,8 +47,9 @@ export const ProductPage = () => {
           >
             <ProductThumb product={product} />
             {saved > 0 && !product.soldOut && (
-              <div className="sale-sash" aria-hidden="true">
-                <span>מבצע {Math.round((saved / product.price) * 100)}%-</span>
+              <div className="sale-flag" aria-hidden="true">
+                <b>{Math.round((saved / product.price) * 100)}%-</b>
+                <i>מבצע</i>
               </div>
             )}
             {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}

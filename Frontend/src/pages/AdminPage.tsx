@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { categories } from "../data/catalog";
+import { API_BASE } from "../data/api";
 
 // ─── Manager dashboard (/manage) ────────────────────────────────────────────
-// Talks to the local Express backend; the public storefront stays static.
+// Talks to the Express backend (local now, hosted later via VITE_API_URL).
 // After making changes, press "פרסום לאתר" to regenerate + rebuild the site.
-const API = "http://localhost:5001/admin";
+const API = `${API_BASE}/admin`;
 
 // ─── JWT storage strategy ───────────────────────────────────────────────────
 // The token lives in sessionStorage, NOT localStorage:
@@ -61,6 +62,8 @@ export const AdminPage = () => {
   const [form, setForm] = useState<any>(emptyForm);
   const [showAdd, setShowAdd] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [subscribers, setSubscribers] = useState<{ _id: string; email: string }[]>([]);
+  const [showSubs, setShowSubs] = useState(false);
 
   const logout = () => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -91,8 +94,11 @@ export const AdminPage = () => {
   };
 
   const refresh = () =>
-    call("/products")
-      .then((d) => setProducts(d.products))
+    Promise.all([call("/products"), call("/subscribers")])
+      .then(([p, s]) => {
+        setProducts(p.products);
+        setSubscribers(s.subscribers);
+      })
       .catch((e) => setError(e.message));
 
   useEffect(() => {
@@ -292,8 +298,51 @@ export const AdminPage = () => {
 
       <p className="admin-stats">
         {products.length} מוצרים · {saleCount} במבצע · {oosCount} אזלו ·{" "}
-        {hiddenCount} מוסתרים
+        {hiddenCount} מוסתרים ·{" "}
+        <button className="subs-toggle" onClick={() => setShowSubs((v) => !v)}>
+          💌 רשימת תפוצה ({subscribers.length})
+        </button>
       </p>
+
+      {showSubs && (
+        <div className="subs-box">
+          <div className="subs-head">
+            <b>נרשמו לעדכונים ({subscribers.length})</b>
+            <button
+              className="btn small ghost"
+              onClick={() => {
+                navigator.clipboard.writeText(subscribers.map((s) => s.email).join(", "));
+                setNotice("כל המיילים הועתקו — אפשר להדביק במייל");
+              }}
+              disabled={subscribers.length === 0}
+            >
+              📋 העתקת כל המיילים
+            </button>
+          </div>
+          {subscribers.length === 0 ? (
+            <p className="order-note">עוד אין נרשמים — הדיאלוג באתר כבר עובד על זה 😉</p>
+          ) : (
+            <div className="subs-list">
+              {subscribers.map((s) => (
+                <span key={s._id} className="subs-chip">
+                  {s.email}
+                  <button
+                    aria-label={`הסרת ${s.email}`}
+                    onClick={() =>
+                      act(async () => {
+                        await call(`/subscribers/${s._id}`, { method: "DELETE" });
+                        setSubscribers((prev) => prev.filter((x) => x._id !== s._id));
+                      })
+                    }
+                  >
+                    ✕
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {error && <p className="admin-error">{error}</p>}
       {notice && <p className="admin-notice">{notice}</p>}
@@ -428,24 +477,37 @@ export const AdminPage = () => {
             </div>
             <div className="admin-row-actions">
               <button
-                title={p.isActive === false ? "הצגה באתר" : "הסתרה מהאתר"}
+                data-tip={p.isActive === false ? "הצגה חזרה באתר" : "הסתרה מהאתר"}
+                aria-label={p.isActive === false ? "הצגה חזרה באתר" : "הסתרה מהאתר"}
                 onClick={() => toggleActive(p)}
               >
                 {p.isActive === false ? "🚫" : "👁"}
               </button>
               <button
-                title={p.isAvailable === false ? "החזרה למלאי" : "סימון אזל מהמלאי"}
+                data-tip={p.isAvailable === false ? "החזרה למלאי" : "סימון: אזל מהמלאי"}
+                aria-label={p.isAvailable === false ? "החזרה למלאי" : "סימון: אזל מהמלאי"}
                 onClick={() => toggleStock(p)}
               >
                 📦
               </button>
-              <button title="עריכת פרטים" onClick={() => startEdit(p)}>
+              <button data-tip="עריכת פרטים" aria-label="עריכת פרטים" onClick={() => startEdit(p)}>
                 ✏️
               </button>
-              <button title="מבצע" onClick={() => setSale(p)}>
+              <button
+                data-tip={
+                  (p.salePercentage || 0) > 0 ? `מבצע ${p.salePercentage}% — שינוי/ביטול` : "הפעלת מבצע"
+                }
+                aria-label="הגדרת מבצע"
+                onClick={() => setSale(p)}
+              >
                 %
               </button>
-              <button title="מחיקה לצמיתות" className="danger" onClick={() => remove(p)}>
+              <button
+                data-tip="מחיקה לצמיתות"
+                aria-label="מחיקה לצמיתות"
+                className="danger"
+                onClick={() => remove(p)}
+              >
                 🗑
               </button>
             </div>

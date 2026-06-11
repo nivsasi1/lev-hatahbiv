@@ -8,6 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const { execFile } = require("child_process");
 const Product = require("../../models/products/product.model");
+const Subscriber = require("../../models/newsletter/subscriber.model");
 const adminAuth = require("../../middleware/adminAuth");
 
 const router = express.Router();
@@ -177,6 +178,25 @@ router.delete(
     const product = await Product.findByIdAndDelete(req.params.id).lean();
     if (!product) return res.status(404).json({ error: "מוצר לא נמצא" });
     res.json({ deleted: product._id });
+  })
+);
+
+// ---------- newsletter subscribers ----------
+
+router.get(
+  "/subscribers",
+  asyncRoute(async (_req, res) => {
+    const subscribers = await Subscriber.find({}).sort({ createdAt: -1 }).lean();
+    res.json({ subscribers });
+  })
+);
+
+router.delete(
+  "/subscribers/:id",
+  asyncRoute(async (req, res) => {
+    const sub = await Subscriber.findByIdAndDelete(req.params.id).lean();
+    if (!sub) return res.status(404).json({ error: "כתובת לא נמצאה" });
+    res.json({ deleted: sub._id });
   })
 );
 

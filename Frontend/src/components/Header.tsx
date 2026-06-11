@@ -86,9 +86,16 @@ export const Header = () => {
           </div>
 
           <button className="header-cart" onClick={openSheet} aria-label="עגלת קניות">
-            <BagIcon />
+            <span className="cart-icon">
+              <BagIcon />
+              {/* key={count} restarts the pop animation on every change */}
+              {count > 0 && (
+                <span key={count} className="cart-badge">
+                  {count > 99 ? "99+" : count}
+                </span>
+              )}
+            </span>
             <span className="lbl">עגלה</span>
-            {count > 0 && <span className="cart-badge">{count}</span>}
           </button>
         </div>
 

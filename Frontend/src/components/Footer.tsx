@@ -43,6 +43,12 @@ export const Footer = () => (
           <a href={store.instagram} target="_blank" rel="noreferrer">
             אינסטגרם
           </a>
+          <button
+            className="footer-news-btn"
+            onClick={() => window.dispatchEvent(new Event("lh-open-news"))}
+          >
+            הרשמה לעדכונים 💌
+          </button>
         </div>
       </div>
 

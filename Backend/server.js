@@ -156,6 +156,9 @@ app.get(
 const admin = require("./routes/admin/admin");
 app.use("/admin", admin);
 
+const newsletter = require("./routes/newsletter");
+app.use("/", newsletter);
+
 const products = require("./routes/products/products");
 app.use("/", products);
 

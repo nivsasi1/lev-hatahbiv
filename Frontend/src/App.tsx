@@ -10,6 +10,7 @@ import { CartProvider } from "./context/cart-context";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { CartSheet } from "./components/CartSheet";
+import { NewsletterDialog } from "./components/NewsletterDialog";
 import { HomePage } from "./pages/HomePage";
 import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
@@ -26,6 +27,7 @@ const Layout = () => {
       <Outlet />
       <Footer />
       <CartSheet />
+      <NewsletterDialog />
     </div>
   );
 };
