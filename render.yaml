@@ -66,3 +66,5 @@ services:
         sync: false # same Atlas string — the build reads products from it
       - key: VITE_API_URL
         sync: false # https://lev-hatahbiv-api.onrender.com (after api deploys)
+      - key: VITE_GA_ID
+        sync: false # optional: Google Analytics 4 measurement id (G-XXXXXXXXXX)

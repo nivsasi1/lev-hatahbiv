@@ -11,6 +11,7 @@ const Product = require("../../models/products/product.model");
 const Subscriber = require("../../models/newsletter/subscriber.model");
 const Order = require("../../models/orders/order.model");
 const adminAuth = require("../../middleware/adminAuth");
+const s3 = require("../../helpers/s3");
 
 const router = express.Router();
 
@@ -116,12 +117,22 @@ router.put(
   "/products/:id",
   asyncRoute(async (req, res) => {
     const fields = pickEditable(req.body || {});
+    const before = await Product.findById(req.params.id).select("img").lean();
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       { $set: fields },
       { new: true, runValidators: true }
     ).lean();
     if (!product) return res.status(404).json({ error: "מוצר לא נמצא" });
+    // images removed from the gallery during the edit → clean them off S3
+    if (before && fields.img !== undefined) {
+      const keep = new Set(String(fields.img).split(";").map((s) => s.trim()));
+      const removed = String(before.img || "")
+        .split(";")
+        .map((s) => s.trim())
+        .filter((s) => s && !keep.has(s));
+      if (removed.length) s3.cleanupImages(removed); // fire-and-forget
+    }
     res.json({ product });
   })
 );
@@ -178,6 +189,8 @@ router.delete(
   asyncRoute(async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.id).lean();
     if (!product) return res.status(404).json({ error: "מוצר לא נמצא" });
+    // remove its dashboard-uploaded images from S3 (originals are kept)
+    s3.cleanupImages(product.img); // fire-and-forget
     res.json({ deleted: product._id });
   })
 );
@@ -243,17 +256,7 @@ router.delete(
 // format as every existing photo. Without credentials (local dev), files land
 // in Frontend/public/uploads and the product stores "/uploads/<file>".
 
-const S3_BUCKET = process.env.S3_BUCKET || "levhatahbiv";
-const S3_REGION = process.env.S3_REGION || "eu-north-1";
-const s3Enabled = () =>
-  Boolean(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
-
 const uploadsDir = path.join(__dirname, "..", "..", "..", "Frontend", "public", "uploads");
-
-const newName = (original) => {
-  const ext = path.extname(original).toLowerCase() || ".jpg";
-  return `${Date.now()}-${crypto.randomBytes(4).toString("hex")}${ext}`;
-};
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -268,19 +271,12 @@ router.post("/upload", (req, res) => {
   upload.single("image")(req, res, async (err) => {
     if (err) return res.status(400).json({ error: err.message });
     if (!req.file) return res.status(400).json({ error: "לא נבחר קובץ" });
-    const name = newName(req.file.originalname);
     try {
-      if (s3Enabled()) {
-        const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-        const s3 = new S3Client({ region: S3_REGION });
-        await s3.send(
-          new PutObjectCommand({
-            Bucket: S3_BUCKET,
-            Key: `images/${name}`,
-            Body: req.file.buffer,
-            ContentType: req.file.mimetype,
-            CacheControl: "public, max-age=31536000",
-          })
+      if (s3.enabled()) {
+        const name = await s3.uploadImage(
+          req.file.buffer,
+          req.file.originalname,
+          req.file.mimetype
         );
         // bare filename — the storefront resolves it to the S3 URL
         return res.json({ img: name });
@@ -291,6 +287,7 @@ router.post("/upload", (req, res) => {
           error: "להעלאת תמונות בענן צריך להגדיר מפתחות AWS (אפשר בינתיים להדביק כתובת URL של תמונה)",
         });
       }
+      const name = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}${path.extname(req.file.originalname).toLowerCase() || ".jpg"}`;
       fs.mkdirSync(uploadsDir, { recursive: true });
       fs.writeFileSync(path.join(uploadsDir, name), req.file.buffer);
       res.json({ img: `/uploads/${name}` });

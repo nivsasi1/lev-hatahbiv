@@ -18,10 +18,16 @@ import { CartPage } from "./pages/CartPage";
 import { AdminPage } from "./pages/AdminPage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
 import { A11yWidget } from "./components/A11yWidget";
+import { initAnalytics, trackPageView } from "./data/analytics";
+
+initAnalytics(); // no-op unless VITE_GA_ID is configured
 
 const Layout = () => {
   const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    trackPageView(pathname);
+  }, [pathname]);
 
   return (
     <div className="page">
