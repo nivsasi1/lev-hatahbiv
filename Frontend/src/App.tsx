@@ -17,6 +17,7 @@ import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 import { AdminPage } from "./pages/AdminPage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
+import { SaleOptionsPage } from "./pages/SaleOptionsPage";
 import { A11yWidget } from "./components/A11yWidget";
 
 const Layout = () => {
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       { path: "/cart", element: <CartPage /> },
       { path: "/manage", element: <AdminPage /> },
       { path: "/accessibility", element: <AccessibilityPage /> },
+      { path: "/sale-options", element: <SaleOptionsPage /> },
       { path: "*", element: <HomePage /> },
     ],
   },
