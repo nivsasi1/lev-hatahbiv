@@ -404,7 +404,7 @@ button {
 }
 
 .hero-logo img {
-  width: min(30rem, 82vw);
+  width: min(33rem, 90vw);
   filter: drop-shadow(0 14px 22px rgba(43, 36, 64, 0.28));
   animation: logoFloat 6s ease-in-out infinite;
 }
