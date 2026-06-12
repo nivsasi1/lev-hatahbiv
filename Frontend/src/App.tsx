@@ -35,21 +35,25 @@ const Layout = () => {
   );
 };
 
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      { path: "/", element: <HomePage /> },
-      { path: "/category/:slug", element: <CategoryPage /> },
-      { path: "/category/:slug/:sub", element: <SubCategoryPage /> },
-      { path: "/product/:id", element: <ProductPage /> },
-      { path: "/cart", element: <CartPage /> },
-      { path: "/manage", element: <AdminPage /> },
-      { path: "/accessibility", element: <AccessibilityPage /> },
-      { path: "*", element: <HomePage /> },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      element: <Layout />,
+      children: [
+        { path: "/", element: <HomePage /> },
+        { path: "/category/:slug", element: <CategoryPage /> },
+        { path: "/category/:slug/:sub", element: <SubCategoryPage /> },
+        { path: "/product/:id", element: <ProductPage /> },
+        { path: "/cart", element: <CartPage /> },
+        { path: "/manage", element: <AdminPage /> },
+        { path: "/accessibility", element: <AccessibilityPage /> },
+        { path: "*", element: <HomePage /> },
+      ],
+    },
+  ],
+  // matches Vite's base, so routing works under the GitHub Pages subfolder
+  { basename: import.meta.env.BASE_URL.replace(/\/$/, "") || "/" }
+);
 
 const App = () => (
   <CartProvider>

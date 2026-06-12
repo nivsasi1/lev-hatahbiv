@@ -147,9 +147,20 @@ type RawProduct = {
   soldOut?: boolean;
 };
 
+// Prefix a public-folder path (e.g. "/images/logo.png") with the deploy base,
+// so it resolves correctly under a GitHub Pages subfolder. No-op when base "/".
+export const asset = (p: string) =>
+  import.meta.env.BASE_URL + p.replace(/^\//, "");
+
 // img can be an S3 filename, a full URL, or a local "/uploads/..." path
 const resolveImg = (img: string) =>
-  !img ? undefined : img.startsWith("http") || img.startsWith("/") ? img : S3_IMAGES + img;
+  !img
+    ? undefined
+    : img.startsWith("http")
+      ? img
+      : img.startsWith("/")
+        ? asset(img)
+        : S3_IMAGES + img;
 
 export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
   const cat = categoryBySlug.get(r.cat);

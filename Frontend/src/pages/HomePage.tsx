@@ -5,6 +5,7 @@ import {
   productsByCategory,
   store,
   workshops,
+  asset,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { Splat, Blob } from "../components/Splat";
@@ -38,7 +39,7 @@ export const HomePage = () => (
         <span className="hero-kicker">חנות ציוד האמנות של רחובות · מאז {store.since}</span>
         {/* the logo IS the headline */}
         <h1 className="hero-logo">
-          <img src="/images/LevHatahbivLogo.png" alt="לב התחביב" />
+          <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
         </h1>
         <p className="sub">
           צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם כל מה שהידיים שלכם

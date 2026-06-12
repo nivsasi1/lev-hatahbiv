@@ -5,6 +5,7 @@ import {
   searchProducts,
   finalPrice,
   shekel,
+  asset,
 } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
@@ -44,7 +45,7 @@ export const Header = () => {
       <div className="shell">
         <div className="header-row">
           <Link to="/" className="header-logo" aria-label="לב התחביב — דף הבית">
-            <img src="/images/LevHatahbivLogo.png" alt="לב התחביב" />
+            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
           </Link>
 
           <div className="header-search">
