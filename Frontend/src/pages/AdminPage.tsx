@@ -45,6 +45,114 @@ type AdminProduct = {
   img: string;
 };
 
+// ─── CSV helpers (import/export) ────────────────────────────────────────────
+
+// minimal RFC-4180 parser: quoted fields, embedded commas/newlines, CRLF, BOM
+const parseCsv = (text: string): string[][] => {
+  const src = text.replace(/^\uFEFF/, "");
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = "";
+  let inQuotes = false;
+  for (let i = 0; i < src.length; i++) {
+    const c = src[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (src[i + 1] === '"') { field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else if (c === '"') {
+      inQuotes = true;
+    } else if (c === ",") {
+      row.push(field); field = "";
+    } else if (c === "\n" || c === "\r") {
+      if (c === "\r" && src[i + 1] === "\n") i++;
+      row.push(field); field = "";
+      if (row.some((f) => f.trim() !== "")) rows.push(row);
+      row = [];
+    } else field += c;
+  }
+  row.push(field);
+  if (row.some((f) => f.trim() !== "")) rows.push(row);
+  return rows;
+};
+
+const csvEscape = (v: any) => {
+  const s = String(v ?? "");
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+};
+
+const CSV_HEADERS = [
+  "name", "price", "category", "sub_cat", "third_level", "description", "images", "salePercentage",
+];
+
+const CSV_TEMPLATE =
+  CSV_HEADERS.join(",") +
+  "\n" +
+  [
+    'צבע שמן ואן גוך 208 צהוב קדמיום,32.9,צבעים לאמנות,צבעי שמן,צבע שמן ואן גוך- 20מ"ל,גוון צהוב עשיר ועמיד,vangogh-208.jpg,0',
+    "צבע שמן ואן גוך 311 אדום קרמין,32.9,,,,גוון אדום קלאסי,vangogh-311.jpg,0",
+    "צבע שמן ואן גוך 504 כחול אולטרמרין,32.9,,,,כחול עמוק לשמיים וים,vangogh-504.jpg,10",
+  ].join("\n");
+
+// turns parsed CSV rows into import payload; empty category/sub/third
+// inherit from the previous row (handy for product families), and image
+// entries are matched against the batch-uploaded files by original name
+const rowsToProducts = (rows: string[][], imageMap: Map<string, string>) => {
+  if (rows.length < 2) return { products: [], errors: ["הקובץ ריק או חסרה שורת כותרות"] };
+  const headers = rows[0].map((h) => h.trim().toLowerCase());
+  const idx = (names: string[]) => headers.findIndex((h) => names.includes(h));
+  const col = {
+    name: idx(["name", "שם"]),
+    price: idx(["price", "מחיר"]),
+    category: idx(["category", "קטגוריה"]),
+    sub: idx(["sub_cat", "subcategory", "מדף"]),
+    third: idx(["third_level", "series", "סדרה"]),
+    desc: idx(["description", "תיאור"]),
+    images: idx(["images", "image", "img", "תמונות"]),
+    sale: idx(["salepercentage", "sale", "מבצע"]),
+  };
+  const errors: string[] = [];
+  if (col.name < 0 || col.price < 0 || col.images < 0) {
+    errors.push("חסרות עמודות חובה: name, price, images");
+    return { products: [], errors };
+  }
+  const products: any[] = [];
+  let prev: any = null;
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    const get = (c: number) => (c >= 0 && r[c] !== undefined ? r[c].trim() : "");
+    const images = get(col.images)
+      .split(/[;|]/)
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((entry) => imageMap.get(entry) || imageMap.get(entry.toLowerCase()) || entry);
+    const p = {
+      name: get(col.name),
+      price: get(col.price),
+      category: get(col.category) || (prev ? prev.category : ""),
+      sub_cat: get(col.sub) || (prev ? prev.sub_cat : ""),
+      third_level: get(col.third) || (prev ? prev.third_level : ""),
+      description: get(col.desc),
+      img: images.join(";"),
+      salePercentage: get(col.sale) || 0,
+    };
+    products.push(p);
+    prev = p;
+  }
+  return { products, errors };
+};
+
+const downloadFile = (filename: string, text: string) => {
+  // BOM so Excel opens Hebrew correctly
+  const blob = new Blob(["\uFEFF" + text], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
 const emptyForm = {
   name: "",
   price: "",
@@ -73,6 +181,12 @@ export const AdminPage = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [view, setView] = useState<"products" | "orders">("products");
   const [statusFilter, setStatusFilter] = useState<"all" | "sale" | "hidden" | "oos">("all");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [showImport, setShowImport] = useState(false);
+  const [importCsv, setImportCsv] = useState<File | null>(null);
+  const [importImages, setImportImages] = useState<File[]>([]);
+  const [importBusy, setImportBusy] = useState("");
+  const [importReport, setImportReport] = useState<any>(null);
 
   const logout = () => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -197,6 +311,20 @@ export const AdminPage = () => {
       setError("צריך לפחות תמונה אחת למוצר");
       return;
     }
+    // new category? warn — it won't show on the public site until the
+    // developer adds it to the site's category list (colors, page, theme)
+    const knownCats = new Set([
+      ...categories.map((c) => c.name),
+      ...products.map((p) => p.category),
+    ]);
+    if (form.category && !knownCats.has(form.category.trim())) {
+      const ok = confirm(
+        `"${form.category}" היא קטגוריה חדשה שלא קיימת באתר.\n\n` +
+          `שימו לב: מוצרים בקטגוריה חדשה יישמרו במערכת אבל לא יופיעו באתר ` +
+          `עד שהמתכנת יוסיף אותה לעיצוב האתר.\n\nלהמשיך בכל זאת?`
+      );
+      if (!ok) return;
+    }
     const { imgs, ...rest } = form;
     const payload = { ...rest, img: imgs.join(";"), price: Number(form.price) };
     act(async () => {
@@ -226,6 +354,151 @@ export const AdminPage = () => {
       const d = await call(`/upload`, { method: "POST", body });
       setForm((f: any) => ({ ...f, imgs: [...f.imgs, d.img] }));
     }, "התמונה הועלתה ונוספה לגלריה");
+  };
+
+  // ---- bulk actions on the selection ----
+
+  const toggleSelect = (id: string) =>
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  const bulk = (action: { type: string; value?: any }, okMsg: string) =>
+    act(async () => {
+      const d = await call(`/products/bulk`, {
+        method: "POST",
+        body: JSON.stringify({ ids: [...selected], action }),
+      });
+      setSelected(new Set());
+      await refresh();
+      return d;
+    }, okMsg);
+
+  const bulkSale = () => {
+    const input = prompt(`אחוז הנחה עבור ${selected.size} מוצרים (0 לביטול מבצע):`, "10");
+    if (input === null) return;
+    const pct = Number(input);
+    if (!Number.isFinite(pct) || pct < 0 || pct > 95) {
+      setError("אחוז הנחה חייב להיות מספר בין 0 ל־95");
+      return;
+    }
+    bulk({ type: "sale", value: pct }, pct > 0 ? `מבצע ${pct}% הופעל על ${selected.size} מוצרים` : `המבצע בוטל ל־${selected.size} מוצרים`);
+  };
+
+  const bulkPrice = () => {
+    const input = prompt(
+      `שינוי מחיר באחוזים עבור ${selected.size} מוצרים\n(למשל 10 = ייקור ב־10%, ‎-5 = הוזלה ב־5%):`,
+      "10"
+    );
+    if (input === null) return;
+    const pct = Number(input);
+    if (!Number.isFinite(pct) || pct === 0 || pct < -90 || pct > 500) {
+      setError("יש להזין אחוז שינוי בין -90 ל־500 (לא 0)");
+      return;
+    }
+    bulk({ type: "price", value: pct }, `המחיר של ${selected.size} מוצרים עודכן ב־${pct}%`);
+  };
+
+  const bulkDelete = () => {
+    if (!confirm(`למחוק לצמיתות ${selected.size} מוצרים? אין דרך חזרה!`)) return;
+    bulk({ type: "delete" }, `${selected.size} מוצרים נמחקו`);
+  };
+
+  // ---- duplicate a product into the add form ----
+
+  const duplicate = (p: AdminProduct) => {
+    setEditingId(null);
+    setShowAdd(true);
+    setForm({
+      name: `${p.name} (עותק)`,
+      price: String(p.price),
+      description: p.description || "",
+      category: p.category,
+      sub_cat: p.sub_cat || "",
+      third_level: p.third_level || "",
+      imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // ---- CSV export (also doubles as a backup) ----
+
+  const exportCsv = () => {
+    const lines = [CSV_HEADERS.join(",")];
+    for (const p of products) {
+      lines.push(
+        [
+          csvEscape(p.name),
+          p.price,
+          csvEscape(p.category),
+          csvEscape(p.sub_cat || ""),
+          csvEscape(p.third_level || ""),
+          csvEscape(p.description || ""),
+          csvEscape(p.img || ""),
+          p.salePercentage || 0,
+        ].join(",")
+      );
+    }
+    downloadFile(`lev-hatahbiv-products-${new Date().toISOString().slice(0, 10)}.csv`, lines.join("\n"));
+    setNotice(`יוצאו ${products.length} מוצרים לקובץ CSV`);
+  };
+
+  // ---- CSV import: upload images in batches, map names, create products ----
+
+  const runImport = async () => {
+    if (!importCsv) {
+      setError("בחרו קובץ CSV");
+      return;
+    }
+    setError("");
+    setNotice("");
+    setImportReport(null);
+    try {
+      // 1. upload the images (if any) in chunks, build original-name -> stored-name map
+      const imageMap = new Map<string, string>();
+      const chunks: File[][] = [];
+      for (let i = 0; i < importImages.length; i += 6) chunks.push(importImages.slice(i, i + 6));
+      let uploaded = 0;
+      for (const chunk of chunks) {
+        setImportBusy(`מעלה תמונות... ${uploaded}/${importImages.length}`);
+        const body = new FormData();
+        for (const f of chunk) body.append("images", f);
+        const d = await call(`/upload-batch`, { method: "POST", body });
+        for (const f of d.files) {
+          if (f.img) {
+            imageMap.set(f.original, f.img);
+            imageMap.set(f.original.toLowerCase(), f.img);
+          }
+        }
+        uploaded += chunk.length;
+      }
+
+      // 2. parse the CSV and link images by filename
+      setImportBusy("קורא את הקובץ...");
+      const text = await importCsv.text();
+      const { products: rows, errors } = rowsToProducts(parseCsv(text), imageMap);
+      if (errors.length) throw new Error(errors.join(" · "));
+      if (rows.length === 0) throw new Error("לא נמצאו שורות מוצרים בקובץ");
+
+      // 3. create everything in one shot
+      setImportBusy(`מוסיף ${rows.length} מוצרים...`);
+      const result = await call(`/products/import`, {
+        method: "POST",
+        body: JSON.stringify({ products: rows }),
+      });
+      setImportReport(result);
+      setNotice(`נוספו ${result.created} מוצרים חדשים 🎉`);
+      setImportCsv(null);
+      setImportImages([]);
+      await refresh();
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setImportBusy("");
+    }
   };
 
   const publish = () => {
@@ -258,6 +531,37 @@ export const AdminPage = () => {
   const hiddenCount = products.filter((p) => p.isActive === false).length;
   const oosCount = products.filter((p) => p.isAvailable === false).length;
   const saleCount = products.filter((p) => (p.salePercentage || 0) > 0).length;
+
+  // autocomplete suggestions for the form, derived from real data
+  const catOptions = useMemo(
+    () => [...new Set([...categories.map((c) => c.name), ...products.map((p) => p.category)])].filter(Boolean),
+    [products]
+  );
+  const subOptions = useMemo(
+    () =>
+      [...new Set(
+        products
+          .filter((p) => !form.category || p.category === form.category)
+          .map((p) => p.sub_cat || "")
+      )].filter(Boolean),
+    [products, form.category]
+  );
+  const thirdOptions = useMemo(
+    () =>
+      [...new Set(
+        products
+          .filter(
+            (p) =>
+              (!form.category || p.category === form.category) &&
+              (!form.sub_cat || p.sub_cat === form.sub_cat)
+          )
+          .map((p) => p.third_level || "")
+      )].filter(Boolean),
+    [products, form.category, form.sub_cat]
+  );
+
+  const allFilteredSelected =
+    filtered.length > 0 && filtered.every((p) => selected.has(p._id));
 
   // ─── login screen ───
   if (!token) {
@@ -490,7 +794,85 @@ export const AdminPage = () => {
         >
           {showAdd ? "סגירה" : "+ מוצר חדש"}
         </button>
+        <button className="btn small ghost" onClick={() => setShowImport((v) => !v)}>
+          📥 ייבוא CSV
+        </button>
+        <button className="btn small ghost" onClick={exportCsv}>
+          📤 ייצוא CSV
+        </button>
       </div>
+
+      {showImport && (
+        <div className="admin-form import-panel">
+          <h3 className="display">ייבוא מוצרים מקובץ CSV</h3>
+          <p className="import-help">
+            מוסיפים הרבה מוצרים בבת אחת: בוחרים קובץ CSV + את כל התמונות, ולוחצים
+            ייבוא. בעמודת <b>images</b> כותבים את שם קובץ התמונה (כפי שהוא במחשב),
+            כתובת URL, או שם קובץ S3 — מפרידים כמה תמונות עם נקודה-פסיק.
+            שורה שמשאירה קטגוריה/מדף/סדרה ריקים ממשיכה את השורה שמעליה — נוח
+            למשפחת מוצרים שלמה.{" "}
+            <button
+              type="button"
+              className="subs-toggle"
+              onClick={() => downloadFile("lev-hatahbiv-template.csv", CSV_TEMPLATE)}
+            >
+              ⬇ הורדת קובץ לדוגמה
+            </button>
+          </p>
+          <p className="import-help dim">
+            טיפ: אפשר לבקש מ-Claude לסרוק אתר של מותג ולהחזיר קובץ בדיוק בפורמט
+            הזה — עמודות: name, price, category, sub_cat, third_level,
+            description, images, salePercentage.
+          </p>
+          <div className="import-inputs">
+            <label className="btn small ghost">
+              📄 {importCsv ? importCsv.name : "בחירת קובץ CSV"}
+              <input
+                type="file"
+                accept=".csv,text/csv"
+                hidden
+                onChange={(e: any) => setImportCsv(e.target.files?.[0] ?? null)}
+              />
+            </label>
+            <label className="btn small ghost">
+              🖼 {importImages.length ? `${importImages.length} תמונות נבחרו` : "בחירת תמונות (אפשר הרבה)"}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+                onChange={(e: any) => setImportImages([...(e.target.files ?? [])])}
+              />
+            </label>
+            <button
+              className="btn small wa-btn"
+              onClick={runImport}
+              disabled={!importCsv || Boolean(importBusy)}
+            >
+              {importBusy || "🚀 ייבוא"}
+            </button>
+          </div>
+          {importReport && (
+            <div className="import-report">
+              <b>
+                נוספו {importReport.created} מתוך {importReport.total} שורות
+              </b>
+              {importReport.skipped?.length > 0 && (
+                <ul>
+                  {importReport.skipped.slice(0, 12).map((s: any, i: number) => (
+                    <li key={i}>
+                      {s.name} — {s.reason}
+                    </li>
+                  ))}
+                  {importReport.skipped.length > 12 && (
+                    <li>...ועוד {importReport.skipped.length - 12}</li>
+                  )}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {(showAdd || editingId) && (
         <form className="admin-form" onSubmit={submitForm}>
@@ -511,26 +893,40 @@ export const AdminPage = () => {
               value={form.price}
               onInput={(e: any) => setForm({ ...form, price: e.target.value })}
             />
-            <select
+            <input
+              placeholder="קטגוריה *"
+              required
+              list="dl-categories"
               value={form.category}
-              onChange={(e: any) => setForm({ ...form, category: e.target.value })}
-            >
-              {categories.map((c) => (
-                <option key={c.slug} value={c.name}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+              onInput={(e: any) => setForm({ ...form, category: e.target.value })}
+            />
             <input
               placeholder="תת-קטגוריה (מדף)"
+              list="dl-subs"
               value={form.sub_cat}
               onInput={(e: any) => setForm({ ...form, sub_cat: e.target.value })}
             />
             <input
               placeholder="סדרה / מותג"
+              list="dl-thirds"
               value={form.third_level}
               onInput={(e: any) => setForm({ ...form, third_level: e.target.value })}
             />
+            <datalist id="dl-categories">
+              {catOptions.map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
+            <datalist id="dl-subs">
+              {subOptions.map((s) => (
+                <option key={s} value={s} />
+              ))}
+            </datalist>
+            <datalist id="dl-thirds">
+              {thirdOptions.map((t) => (
+                <option key={t} value={t} />
+              ))}
+            </datalist>
             <input
               placeholder="הוספת תמונה: URL / שם קובץ S3 + Enter"
               value={form.imgInput ?? ""}
@@ -600,14 +996,79 @@ export const AdminPage = () => {
         </form>
       )}
 
+      <div className="select-all-row">
+        <label>
+          <input
+            type="checkbox"
+            checked={allFilteredSelected}
+            onChange={() =>
+              setSelected(
+                allFilteredSelected ? new Set() : new Set(filtered.map((p) => p._id))
+              )
+            }
+          />
+          בחירת כל המסוננים ({filtered.length})
+        </label>
+        {selected.size > 0 && <b>{selected.size} מוצרים נבחרו</b>}
+      </div>
+
+      {selected.size > 0 && (
+        <div className="bulk-bar">
+          <span className="bulk-count">{selected.size} נבחרו:</span>
+          <button className="btn small" onClick={bulkSale}>
+            % מבצע לכולם
+          </button>
+          <button className="btn small" onClick={bulkPrice}>
+            💰 שינוי מחיר ב-%
+          </button>
+          <button
+            className="btn small ghost"
+            onClick={() => bulk({ type: "active", value: true }, `${selected.size} מוצרים הוצגו באתר`)}
+          >
+            👁 הצגה
+          </button>
+          <button
+            className="btn small ghost"
+            onClick={() => bulk({ type: "active", value: false }, `${selected.size} מוצרים הוסתרו`)}
+          >
+            🚫 הסתרה
+          </button>
+          <button
+            className="btn small ghost"
+            onClick={() => bulk({ type: "stock", value: false }, `${selected.size} מוצרים סומנו: אזל`)}
+          >
+            📦 אזל מהמלאי
+          </button>
+          <button
+            className="btn small ghost"
+            onClick={() => bulk({ type: "stock", value: true }, `${selected.size} מוצרים חזרו למלאי`)}
+          >
+            ✅ חזרה למלאי
+          </button>
+          <button className="btn small bulk-danger" onClick={bulkDelete}>
+            🗑 מחיקה
+          </button>
+          <button className="bulk-clear" onClick={() => setSelected(new Set())}>
+            ביטול בחירה
+          </button>
+        </div>
+      )}
+
       <div className="admin-list">
         {shown.map((p) => (
           <div
             key={p._id}
             className={`admin-row ${p.isActive === false ? "inactive" : ""} ${
               p.isAvailable === false ? "oos" : ""
-            }`}
+            } ${selected.has(p._id) ? "row-selected" : ""}`}
           >
+            <input
+              type="checkbox"
+              className="row-check"
+              checked={selected.has(p._id)}
+              onChange={() => toggleSelect(p._id)}
+              aria-label={`בחירת ${p.name}`}
+            />
             <img src={imgUrl((p.img || "").split(";")[0])} alt="" loading="lazy" />
             <div className="admin-row-mid">
               <span className="nm">{p.name}</span>
@@ -637,6 +1098,9 @@ export const AdminPage = () => {
               </button>
               <button data-tip="עריכת פרטים" aria-label="עריכת פרטים" onClick={() => startEdit(p)}>
                 ✏️
+              </button>
+              <button data-tip="שכפול מוצר" aria-label="שכפול מוצר" onClick={() => duplicate(p)}>
+                📋
               </button>
               <button
                 data-tip={

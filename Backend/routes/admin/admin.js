@@ -113,6 +113,148 @@ router.post(
   })
 );
 
+// ---------- bulk actions on many products at once ----------
+// body: { ids: [...], action: { type, value } }
+//   sale   value=0..95   set salePercentage on all
+//   active value=bool    show/hide all
+//   stock  value=bool    in-stock / sold-out all
+//   price  value=±pct    adjust price of all by percentage (rounded to 0.1)
+//   delete               permanently delete all (S3 cleanup included)
+router.post(
+  "/products/bulk",
+  asyncRoute(async (req, res) => {
+    const { ids, action } = req.body || {};
+    if (!Array.isArray(ids) || ids.length === 0 || ids.length > 2000) {
+      return res.status(400).json({ error: "רשימת מוצרים לא תקינה" });
+    }
+    if (!action || !action.type) {
+      return res.status(400).json({ error: "לא נבחרה פעולה" });
+    }
+    const filter = { _id: { $in: ids } };
+    let result;
+
+    switch (action.type) {
+      case "sale": {
+        const pct = Number(action.value);
+        if (!Number.isFinite(pct) || pct < 0 || pct > 95) {
+          return res.status(400).json({ error: "אחוז הנחה חייב להיות בין 0 ל־95" });
+        }
+        result = await Product.updateMany(filter, {
+          $set: { salePercentage: pct, discountValue: 0 },
+        });
+        break;
+      }
+      case "active": {
+        result = await Product.updateMany(filter, {
+          $set: { isActive: Boolean(action.value) },
+        });
+        break;
+      }
+      case "stock": {
+        result = await Product.updateMany(filter, {
+          $set: { isAvailable: Boolean(action.value) },
+        });
+        break;
+      }
+      case "price": {
+        const pct = Number(action.value);
+        if (!Number.isFinite(pct) || pct < -90 || pct > 500 || pct === 0) {
+          return res.status(400).json({ error: "שינוי מחיר חייב להיות באחוזים בין -90 ל־500" });
+        }
+        const k = 1 + pct / 100;
+        // aggregation-pipeline update so each product is multiplied & rounded
+        result = await Product.updateMany(filter, [
+          { $set: { price: { $round: [{ $multiply: ["$price", k] }, 1] } } },
+        ]);
+        break;
+      }
+      case "delete": {
+        const docs = await Product.find(filter).select("img").lean();
+        for (const d of docs) s3.cleanupImages(d.img); // fire-and-forget
+        result = await Product.deleteMany(filter);
+        return res.json({ deleted: result.deletedCount });
+      }
+      default:
+        return res.status(400).json({ error: "פעולה לא מוכרת" });
+    }
+    res.json({ matched: result.matchedCount, modified: result.modifiedCount });
+  })
+);
+
+// ---------- CSV import: create many products in one shot ----------
+// body: { products: [{ name, price, category, sub_cat, third_level,
+//                      description, img, salePercentage }] }
+// Rows are validated individually; duplicates (by exact name) are skipped so
+// re-importing the same file is safe.
+router.post(
+  "/products/import",
+  asyncRoute(async (req, res) => {
+    const rows = req.body && req.body.products;
+    if (!Array.isArray(rows) || rows.length === 0 || rows.length > 500) {
+      return res.status(400).json({ error: "קובץ ריק או גדול מ־500 שורות" });
+    }
+
+    const skipped = [];
+    const valid = [];
+    const seenNames = new Set();
+
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i] || {};
+      const name = String(r.name || "").trim();
+      const price = Number(r.price);
+      const category = String(r.category || "").trim();
+      const img = String(r.img || "").trim();
+      const rowLabel = name || `שורה ${i + 1}`;
+
+      if (!name) { skipped.push({ row: i + 1, name: rowLabel, reason: "חסר שם" }); continue; }
+      if (!(price > 0)) { skipped.push({ row: i + 1, name: rowLabel, reason: "מחיר לא תקין" }); continue; }
+      if (!category) { skipped.push({ row: i + 1, name: rowLabel, reason: "חסרה קטגוריה" }); continue; }
+      if (!img) { skipped.push({ row: i + 1, name: rowLabel, reason: "חסרה תמונה" }); continue; }
+      if (seenNames.has(name)) { skipped.push({ row: i + 1, name: rowLabel, reason: "כפול בתוך הקובץ" }); continue; }
+      seenNames.add(name);
+
+      let pct = Number(r.salePercentage) || 0;
+      if (pct < 0 || pct > 95) pct = 0;
+
+      valid.push({
+        name,
+        price: Math.round(price * 10) / 10,
+        category,
+        sub_cat: String(r.sub_cat || "").trim() || "כללי",
+        third_level: String(r.third_level || "").trim() || "כללי",
+        description: String(r.description || "").trim(),
+        img,
+        salePercentage: pct,
+        isActive: true,
+        isAvailable: true,
+      });
+    }
+
+    // skip products that already exist in the store (same exact name)
+    const existing = await Product.find({ name: { $in: valid.map((v) => v.name) } })
+      .select("name")
+      .lean();
+    const existingNames = new Set(existing.map((e) => e.name));
+    const toCreate = valid.filter((v) => {
+      if (existingNames.has(v.name)) {
+        skipped.push({ name: v.name, reason: "כבר קיים בחנות" });
+        return false;
+      }
+      return true;
+    });
+
+    const created = toCreate.length
+      ? await Product.insertMany(toCreate, { ordered: false })
+      : [];
+
+    res.json({
+      created: created.length,
+      skipped,
+      total: rows.length,
+    });
+  })
+);
+
 router.put(
   "/products/:id",
   asyncRoute(async (req, res) => {
@@ -295,6 +437,41 @@ router.post("/upload", (req, res) => {
       console.error("[upload]", e);
       res.status(500).json({ error: "העלאת התמונה נכשלה" });
     }
+  });
+});
+
+// ---------- batch image upload (for CSV imports) ----------
+// Accepts up to 60 images; returns original-name -> stored-name mapping so a
+// CSV can reference pictures by the filename the manager has on their disk.
+router.post("/upload-batch", (req, res) => {
+  upload.array("images", 60)(req, res, async (err) => {
+    if (err) return res.status(400).json({ error: err.message });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "לא נבחרו קבצים" });
+    }
+    if (!s3.enabled() && process.env.RENDER) {
+      return res.status(400).json({
+        error: "להעלאת תמונות בענן צריך להגדיר מפתחות AWS",
+      });
+    }
+    const files = [];
+    for (const f of req.files) {
+      try {
+        if (s3.enabled()) {
+          const name = await s3.uploadImage(f.buffer, f.originalname, f.mimetype);
+          files.push({ original: f.originalname, img: name });
+        } else {
+          const name = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}${path.extname(f.originalname).toLowerCase() || ".jpg"}`;
+          fs.mkdirSync(uploadsDir, { recursive: true });
+          fs.writeFileSync(path.join(uploadsDir, name), f.buffer);
+          files.push({ original: f.originalname, img: `/uploads/${name}` });
+        }
+      } catch (e) {
+        console.error("[upload-batch]", f.originalname, e.message);
+        files.push({ original: f.originalname, error: "ההעלאה נכשלה" });
+      }
+    }
+    res.json({ files });
   });
 });
 
