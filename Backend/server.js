@@ -105,13 +105,9 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-if (process.env.NODE_ENV === "production") {
-  //set static folder
-  app.use(express.static("frontend/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-  });
-}
+// NOTE: the old site had a production block here that served frontend/build
+// and caught EVERY GET with app.get("*"). On Render (NODE_ENV=production) it
+// swallowed all GET routes and broke the dashboard — removed for good.
 app.post("/admin_signin", async (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err === "not found") {
