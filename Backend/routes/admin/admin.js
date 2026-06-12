@@ -238,20 +238,25 @@ router.delete(
 );
 
 // ---------- image upload ----------
-// Uploaded files land in Frontend/public/uploads so vite ships them with the
-// static site; the product's img is stored as "/uploads/<file>".
+// With AWS credentials configured (the cloud setup), uploads go straight to
+// the store's S3 bucket and the product stores the bare filename — the same
+// format as every existing photo. Without credentials (local dev), files land
+// in Frontend/public/uploads and the product stores "/uploads/<file>".
+
+const S3_BUCKET = process.env.S3_BUCKET || "levhatahbiv";
+const S3_REGION = process.env.S3_REGION || "eu-north-1";
+const s3Enabled = () =>
+  Boolean(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
 
 const uploadsDir = path.join(__dirname, "..", "..", "..", "Frontend", "public", "uploads");
-fs.mkdirSync(uploadsDir, { recursive: true });
+
+const newName = (original) => {
+  const ext = path.extname(original).toLowerCase() || ".jpg";
+  return `${Date.now()}-${crypto.randomBytes(4).toString("hex")}${ext}`;
+};
 
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: uploadsDir,
-    filename: (_req, file, cb) => {
-      const ext = path.extname(file.originalname).toLowerCase();
-      cb(null, `${Date.now()}-${crypto.randomBytes(4).toString("hex")}${ext}`);
-    },
-  }),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     const ok = /^image\/(png|jpe?g|webp|gif|avif)$/.test(file.mimetype);
@@ -260,10 +265,39 @@ const upload = multer({
 });
 
 router.post("/upload", (req, res) => {
-  upload.single("image")(req, res, (err) => {
+  upload.single("image")(req, res, async (err) => {
     if (err) return res.status(400).json({ error: err.message });
     if (!req.file) return res.status(400).json({ error: "לא נבחר קובץ" });
-    res.json({ img: `/uploads/${req.file.filename}` });
+    const name = newName(req.file.originalname);
+    try {
+      if (s3Enabled()) {
+        const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+        const s3 = new S3Client({ region: S3_REGION });
+        await s3.send(
+          new PutObjectCommand({
+            Bucket: S3_BUCKET,
+            Key: `images/${name}`,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+            CacheControl: "public, max-age=31536000",
+          })
+        );
+        // bare filename — the storefront resolves it to the S3 URL
+        return res.json({ img: name });
+      }
+      if (process.env.RENDER) {
+        // cloud without S3 keys: a disk file would vanish — fail loudly
+        return res.status(400).json({
+          error: "להעלאת תמונות בענן צריך להגדיר מפתחות AWS (אפשר בינתיים להדביק כתובת URL של תמונה)",
+        });
+      }
+      fs.mkdirSync(uploadsDir, { recursive: true });
+      fs.writeFileSync(path.join(uploadsDir, name), req.file.buffer);
+      res.json({ img: `/uploads/${name}` });
+    } catch (e) {
+      console.error("[upload]", e);
+      res.status(500).json({ error: "העלאת התמונה נכשלה" });
+    }
   });
 });
 
@@ -292,6 +326,17 @@ router.post(
     if (publishing) return res.status(409).json({ error: "פרסום כבר רץ, חכו רגע" });
     publishing = true;
     try {
+      // Cloud mode: the storefront is a separate static site whose build
+      // reads straight from Atlas — publishing = triggering its deploy hook.
+      if (process.env.DEPLOY_HOOK_URL) {
+        const hookRes = await fetch(process.env.DEPLOY_HOOK_URL, { method: "POST" });
+        if (!hookRes.ok) throw new Error(`deploy hook failed (${hookRes.status})`);
+        return res.json({
+          ok: true,
+          summary: "האתר נבנה מחדש בענן — השינויים יעלו תוך כ-3 דקות",
+        });
+      }
+      // Local mode: rebuild the static site on this machine.
       await run("node", ["dump-products.js"], backendDir);
       const gen = await run("node", ["scripts/generate-catalog.mjs"], frontendDir);
       await run("npx", ["vite", "build"], frontendDir);

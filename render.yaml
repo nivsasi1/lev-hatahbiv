@@ -1,0 +1,68 @@
+# Render blueprint — deploys the whole shop on the free tier:
+#   1. lev-hatahbiv-api  — Express backend (manager dashboard API, newsletter,
+#                          orders). Reads MongoDB Atlas. Free instances sleep
+#                          after ~15min idle and wake in ~30-60s.
+#   2. lev-hatahbiv      — the public storefront. Static, never sleeps. Its
+#                          BUILD pulls fresh products from Atlas, so the
+#                          dashboard's "פרסום" button (deploy hook) is what
+#                          updates the public site.
+#
+# After the first deploy:
+#   - on the static site: copy its Deploy Hook URL (Settings → Deploy Hook)
+#     into the api service's DEPLOY_HOOK_URL env var.
+#   - the AWS_* vars enable photo uploads to S3 (optional until you have keys).
+
+services:
+  - type: web
+    name: lev-hatahbiv-api
+    runtime: node
+    plan: free
+    rootDir: Backend
+    buildCommand: npm ci --omit=dev
+    startCommand: node server.js
+    envVars:
+      - key: DB_URL
+        sync: false # paste the Atlas mongodb+srv://... string
+      - key: SECRET
+        generateValue: true
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASS
+        sync: false
+      - key: DEPLOY_HOOK_URL
+        sync: false # static site's deploy hook (fill after first deploy)
+      - key: S3_BUCKET
+        value: levhatahbiv
+      - key: S3_REGION
+        value: eu-north-1
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: MANAGER_WHATSAPP
+        sync: false
+      - key: CALLMEBOT_APIKEY
+        sync: false
+      - key: MANAGER_EMAIL
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+
+  - type: web
+    name: lev-hatahbiv
+    runtime: static
+    rootDir: .
+    buildCommand: cd Backend && npm ci --omit=dev && node dump-products.js && cd ../Frontend && npm ci && node scripts/generate-catalog.mjs && npm run build
+    staticPublishPath: Frontend/dist
+    routes:
+      # SPA fallback — deep links like /category/paints load the app
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: DB_URL
+        sync: false # same Atlas string — the build reads products from it
+      - key: VITE_API_URL
+        sync: false # https://lev-hatahbiv-api.onrender.com (after api deploys)
