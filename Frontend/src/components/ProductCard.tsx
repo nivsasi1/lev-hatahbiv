@@ -96,10 +96,12 @@ export const ProductCard = ({ product }: { product: Product }) => {
       )}
       <div className={`frame ${product.img ? "photo" : ""}`}>
         <CardGallery product={product} />
-        {/* sale scarf — a fabric band wrapped around the top of the picture */}
+        {/* sale wash — drifting watercolor stain with hand-written discount */}
         {salePct > 0 && !product.soldOut && (
-          <div className="sale-scarf" aria-hidden="true">
-            <span>מבצע {salePct}%-</span>
+          <div className="sale-aqua" aria-hidden="true">
+            <span>
+              מבצע <b>{salePct}%-</b>
+            </span>
           </div>
         )}
         {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}
