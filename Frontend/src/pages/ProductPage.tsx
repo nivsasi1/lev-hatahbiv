@@ -88,7 +88,7 @@ export const ProductPage = () => {
   const related = [
     ...inCategory.filter((p) => p.sub === product.sub),
     ...inCategory.filter((p) => p.sub !== product.sub),
-  ].slice(0, 5);
+  ].slice(0, 4);
   const saved = product.salePrice ? product.price - product.salePrice : 0;
   const gallery = product.imgs ?? (product.img ? [product.img] : []);
   const hasGallery = gallery.length > 1;

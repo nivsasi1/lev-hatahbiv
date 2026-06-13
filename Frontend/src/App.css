@@ -382,32 +382,36 @@ button {
   cursor: grabbing;
 }
 
-/* the chip row. Auto side-margins CENTRE the row as a clean straight line when
-   it fits (desktop), and resolve to 0 when it overflows (tablet/phone) so the
-   first chip stays reachable and the row scrolls from the start — no unreachable
-   spill, at any width, without a magic breakpoint. */
+/* the chip row STRETCHES to fill the track when the chips fit (each chip grows
+   to share the width → a full, even row with no scroll and no empty side
+   margins). When they DON'T fit (tablet/phone) it can't shrink below their
+   natural size, so it overflows and scrolls instead. One rule, every width. */
 .cat-track-inner {
   display: flex;
   align-items: stretch;
   gap: 0.45rem;
-  margin-inline: auto;
-  flex: 0 0 auto;
+  flex: 1 0 auto; /* fill the track; never shrink below content */
+  min-width: max-content; /* → overflow + scroll when the row can't fit */
   /* a touch of vertical padding so the chip shadows aren't clipped */
   padding: 0.2rem 0.1rem 0.3rem;
 }
 
-/* each chip + its dropdown live in a positioned wrapper so the menu can
-   anchor under the chip even while the track scrolls */
+/* each chip + its dropdown live in a positioned wrapper. flex:1 0 auto lets the
+   wraps share the row's spare width evenly (stretch) yet never shrink a chip
+   below its label. The submenu is position:fixed, so it no longer needs this
+   wrapper to anchor it. */
 .cat-chip-wrap {
   position: relative;
-  flex: 0 0 auto;
+  flex: 1 0 auto;
 }
 
 /* the chip itself keeps the brand pill aesthetic, tightened so all nine
    categories read as one straight line at 1024px+ without overflowing */
 .cat-chip {
-  display: inline-flex;
+  display: flex;
+  width: 100%; /* fill the stretched wrap */
   align-items: center;
+  justify-content: center; /* centre the label + caret when stretched */
   gap: 0.32em;
   white-space: nowrap;
   font-family: inherit;
