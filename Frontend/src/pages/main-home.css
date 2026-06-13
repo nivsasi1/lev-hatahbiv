@@ -79,6 +79,12 @@
   .main-home .hero-stage-inner {
     max-width: 100%;
   }
+  /* phones only: trim the dark statement field's height a touch (less vertical
+     padding + tighter inner gap). The desktop slant/width above is untouched. */
+  .main-home .hero-field {
+    padding-block: clamp(1.5rem, 4.5vw, 2.4rem);
+    gap: clamp(0.75rem, 2.2vw, 1.3rem);
+  }
 }
 
 /* ===========================================================================
