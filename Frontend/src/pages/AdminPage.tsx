@@ -1356,18 +1356,18 @@ export const AdminPage = () => {
         <span className="pf-vals">
           ₪{priceMin} – {priceMax === null ? `₪${maxPrice}+` : `₪${priceMax}`}
         </span>
-        {priceActive && (
-          <button
-            className="pf-clear"
-            onClick={() => {
-              setPriceMin(0);
-              setPriceMax(null);
-              setLimit(30);
-            }}
-          >
-            נקה
-          </button>
-        )}
+        <button
+          className={`pf-clear ${priceActive ? "" : "is-hidden"}`}
+          onClick={() => {
+            setPriceMin(0);
+            setPriceMax(null);
+            setLimit(30);
+          }}
+          aria-hidden={!priceActive}
+          tabIndex={priceActive ? 0 : -1}
+        >
+          נקה
+        </button>
       </div>
 
       {showSubs && (

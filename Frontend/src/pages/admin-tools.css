@@ -34,6 +34,9 @@
   color: var(--ink-soft);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  /* fixed box so the price text never reflows the row while dragging */
+  min-width: 8.5em;
+  text-align: center;
 }
 .price-filter .pf-clear {
   font-weight: 700;
@@ -45,6 +48,12 @@
   background: none;
   border: none;
   cursor: pointer;
+  flex: none;
+}
+/* kept in layout (reserves width) but invisible until the filter is active */
+.price-filter .pf-clear.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* dual-thumb slider: two range inputs stacked over one track.

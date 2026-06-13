@@ -257,18 +257,19 @@ export const SubCategoryPage = () => {
             <span className="pr-vals">
               {shekel(priceMin)}–{priceMax === null ? `${shekel(maxPrice)}` : shekel(priceMax)}
             </span>
-            {priceActive && (
-              <button
-                className="pr-clear"
-                onClick={() => {
-                  setPriceMin(0);
-                  setPriceMax(null);
-                  setLimit(PAGE_SIZE);
-                }}
-              >
-                נקה
-              </button>
-            )}
+            {/* always rendered (visibility toggled) so the row never shifts */}
+            <button
+              className={`pr-clear ${priceActive ? "" : "is-hidden"}`}
+              onClick={() => {
+                setPriceMin(0);
+                setPriceMax(null);
+                setLimit(PAGE_SIZE);
+              }}
+              aria-hidden={!priceActive}
+              tabIndex={priceActive ? 0 : -1}
+            >
+              נקה
+            </button>
           </div>
           </div>
         </div>
