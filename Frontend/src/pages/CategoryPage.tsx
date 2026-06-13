@@ -11,6 +11,7 @@ import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
 import { ProductArt } from "../components/ProductArt";
 import { Splat } from "../components/Splat";
+import "./price-range.css";
 
 // Category hub: sub-category tiles instead of an 800-item wall.
 export const CategoryPage = () => {
@@ -113,11 +114,16 @@ export const SubCategoryPage = () => {
   const [third, setThird] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>("default");
   const [limit, setLimit] = useState(PAGE_SIZE);
+  // subtle price-range filter (₪). null upper bound = "up to the max".
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState<number | null>(null);
 
   useEffect(() => {
     setThird(null);
     setSort("default");
     setLimit(PAGE_SIZE);
+    setPriceMin(0);
+    setPriceMax(null);
   }, [slug, sub]);
 
   const category = getCategory(slug ?? "");
@@ -135,7 +141,17 @@ export const SubCategoryPage = () => {
 
   const thirds = [...new Set(all.map((p) => p.third))];
   const showThirds = thirds.length > 1 || (thirds.length === 1 && thirds[0] !== "כללי");
-  const filtered = third ? all.filter((p) => p.third === third) : all;
+  const byThird = third ? all.filter((p) => p.third === third) : all;
+  // price slider bounds: max product price in this sub, rounded up to ₪10
+  const maxPrice = Math.max(10, Math.ceil(Math.max(...all.map(finalPrice)) / 10) * 10);
+  const priceHi = priceMax ?? maxPrice;
+  const priceActive = priceMin > 0 || priceMax !== null;
+  const filtered = priceActive
+    ? byThird.filter((p) => {
+        const v = finalPrice(p);
+        return v >= priceMin && v <= priceHi;
+      })
+    : byThird;
   const sorted = sort === "default" ? filtered : [...filtered].sort(sorters[sort]);
   const shown = sorted.slice(0, limit);
   const remaining = sorted.length - shown.length;
@@ -189,6 +205,7 @@ export const SubCategoryPage = () => {
               ))}
             </div>
           )}
+          <div className="filter-tools">
           <select
             className="sort-select"
             value={sort}
@@ -199,6 +216,61 @@ export const SubCategoryPage = () => {
             <option value="priceAsc">מחיר: מהזול ליקר</option>
             <option value="priceDesc">מחיר: מהיקר לזול</option>
           </select>
+
+          <div className="pr-filter" style={{ "--sc": category.color } as any}>
+            <span className="pr-cap">מחיר</span>
+            <div className="pr-slider">
+              <div className="pr-track" />
+              <div
+                className="pr-range"
+                style={{
+                  left: `${(priceMin / maxPrice) * 100}%`,
+                  width: `${((priceHi - priceMin) / maxPrice) * 100}%`,
+                }}
+              />
+              <input
+                type="range"
+                min={0}
+                max={maxPrice}
+                step={1}
+                value={priceMin}
+                aria-label="מחיר מינימלי"
+                onInput={(e: any) => {
+                  setPriceMin(Math.min(Number(e.target.value), priceHi));
+                  setLimit(PAGE_SIZE);
+                }}
+              />
+              <input
+                type="range"
+                min={0}
+                max={maxPrice}
+                step={1}
+                value={priceHi}
+                aria-label="מחיר מקסימלי"
+                onInput={(e: any) => {
+                  const v = Math.max(Number(e.target.value), priceMin);
+                  setPriceMax(v >= maxPrice ? null : v);
+                  setLimit(PAGE_SIZE);
+                }}
+              />
+            </div>
+            <span className="pr-vals">
+              {shekel(priceMin)}–{priceMax === null ? `${shekel(maxPrice)}` : shekel(priceMax)}
+            </span>
+            {priceActive && (
+              <button
+                className="pr-clear"
+                onClick={() => {
+                  setPriceMin(0);
+                  setPriceMax(null);
+                  setLimit(PAGE_SIZE);
+                }}
+              >
+                נקה
+              </button>
+            )}
+          </div>
+          </div>
         </div>
 
         <div className="product-grid">
@@ -206,6 +278,11 @@ export const SubCategoryPage = () => {
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
+        {shown.length === 0 && (
+          <p className="empty-note">
+            אין מוצרים בטווח המחיר הזה — נסו להרחיב את הטווח 🎨
+          </p>
+        )}
         {remaining > 0 && (
           <div className="load-more-row">
             <button
