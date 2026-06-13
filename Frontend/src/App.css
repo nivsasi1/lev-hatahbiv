@@ -332,14 +332,23 @@ button {
 /* category strip */
 .cat-strip {
   display: flex;
+  /* desktop: wrap so every shelf chip is visible & clickable with a mouse
+     (a hidden-scrollbar single row was unscrollable on a computer) */
+  flex-wrap: wrap;
   gap: 0.5rem;
-  overflow-x: auto;
   padding: 0.55rem 0 0.7rem;
-  scrollbar-width: none;
 }
 
-.cat-strip::-webkit-scrollbar {
-  display: none;
+/* mobile keeps a single swipeable row */
+@media (max-width: 760px) {
+  .cat-strip {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-strip::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .cat-chip {
