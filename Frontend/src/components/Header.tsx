@@ -101,6 +101,18 @@ export const Header = () => {
   const [canStart, setCanStart] = useState(false); // toward inline-start (right in RTL)
   const [canEnd, setCanEnd] = useState(false); // toward inline-end (left in RTL)
 
+  // touch/phone detection — on a coarse pointer the hover dropdown is useless
+  // (a tap can't "hover", so the first tap would just open the menu and the
+  // arrow does nothing). On touch we drop the menu so a single tap navigates.
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: none), (pointer: coarse)");
+    const update = () => setIsTouch(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   // The submenu is position:fixed (so it can never be clipped by the track's
   // scroll box on mobile). We compute its position from the open chip's
   // bounding rect, clamp it into the viewport, then translate into the menu's
@@ -424,6 +436,8 @@ export const Header = () => {
               {categories.map((c) => {
               const subs = getSubs(c.slug);
               const hasMenu = subs.length > 1;
+              // on touch the dropdown is disabled so the chip is a plain link
+              const canOpen = hasMenu && !isTouch;
               const isOpen = openSlug === c.slug;
               const active = slug === c.slug;
               const menuId = `cat-menu-${c.slug}`;
@@ -431,8 +445,8 @@ export const Header = () => {
                 <div
                   key={c.slug}
                   className="cat-chip-wrap"
-                  onMouseEnter={() => hasMenu && openMenu(c.slug)}
-                  onMouseLeave={() => hasMenu && scheduleClose()}
+                  onMouseEnter={() => canOpen && openMenu(c.slug)}
+                  onMouseLeave={() => canOpen && scheduleClose()}
                 >
                   <Link
                     to={`/category/${c.slug}`}
@@ -441,20 +455,22 @@ export const Header = () => {
                       isOpen ? "open" : ""
                     }`}
                     style={{ "--cc": c.color } as any}
-                    aria-haspopup={hasMenu ? "menu" : undefined}
-                    aria-expanded={hasMenu ? isOpen : undefined}
-                    aria-controls={hasMenu && isOpen ? menuId : undefined}
+                    aria-haspopup={canOpen ? "menu" : undefined}
+                    aria-expanded={canOpen ? isOpen : undefined}
+                    aria-controls={canOpen && isOpen ? menuId : undefined}
                     onClick={() => {
-                      // tap also toggles the menu on touch; navigation still
-                      // happens via the Link itself
-                      if (hasMenu && !isOpen) {
+                      // on hover devices the chip toggles its menu; the Link
+                      // still navigates. On touch (canOpen false) we do nothing
+                      // here so a single tap just follows the link.
+                      if (!canOpen) return;
+                      if (!isOpen) {
                         openMenu(c.slug);
                       } else {
                         closeMenu();
                       }
                     }}
                     onKeyDown={(e: any) => {
-                      if (!hasMenu) return;
+                      if (!canOpen) return;
                       if (e.key === "ArrowDown") {
                         e.preventDefault();
                         openMenu(c.slug);
@@ -472,14 +488,14 @@ export const Header = () => {
                     }}
                   >
                     <span className="cat-name">{c.name}</span>
-                    {hasMenu && (
+                    {canOpen && (
                       <span className="cat-caret" aria-hidden="true">
                         ▾
                       </span>
                     )}
                   </Link>
 
-                  {hasMenu && isOpen && (
+                  {canOpen && isOpen && (
                     <div
                       id={menuId}
                       ref={submenuRef}
