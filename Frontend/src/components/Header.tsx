@@ -9,6 +9,7 @@ import {
 } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
+import { AdminBell } from "./AdminBell";
 
 const SearchIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,6 +48,8 @@ export const Header = () => {
           <Link to="/" className="header-logo" aria-label="לב התחביב — דף הבית">
             <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
           </Link>
+
+          <AdminBell />
 
           <div className="header-search">
             <input

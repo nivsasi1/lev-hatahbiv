@@ -551,6 +551,53 @@ button {
   color: var(--cc, var(--purple));
 }
 
+/* little category illustration — helps non-readers pick a shelf */
+.cat-art {
+  position: relative;
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.cat-art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- home page: centred grids + featured carousel ---------- */
+.home-grid {
+  grid-template-columns: repeat(auto-fit, minmax(13.5rem, 16rem));
+  justify-content: center;
+}
+
+.featured-carousel {
+  overflow: hidden;
+}
+
+.featured-carousel .track {
+  display: flex;
+  width: max-content;
+  gap: 1.4rem;
+  animation: featuredScroll 30s linear infinite;
+}
+
+.featured-carousel .track > .p-card {
+  flex: 0 0 14rem;
+}
+
+.featured-carousel:hover .track {
+  animation-play-state: paused;
+}
+
+/* same RTL-friendly direction trick as the ribbon marquee */
+@keyframes featuredScroll {
+  to {
+    transform: translateX(50%);
+  }
+}
+
 /* ---------- product cards ---------- */
 .product-grid {
   display: grid;
@@ -2394,6 +2441,299 @@ button {
   border-radius: 0.6em;
 }
 
+/* centered login card */
+.admin-login-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3rem auto 0;
+  max-width: 24rem;
+  text-align: center;
+}
+
+.admin-login-wrap .admin-login {
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: none;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1.1rem;
+  box-shadow: 0.3em 0.3em 0 var(--shadow);
+  padding: 1.6rem 1.6rem;
+  text-align: start;
+}
+
+/* dimmed disabled form inputs (cascade) */
+.admin-form input:disabled,
+.admin-form select:disabled,
+.admin-form textarea:disabled {
+  opacity: 0.45;
+  background: var(--paper);
+  cursor: not-allowed;
+}
+
+/* pretty dialog (replaces native prompt/confirm) */
+.ui-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: rgba(43, 36, 64, 0.45);
+  padding: 1.2rem;
+}
+
+.ui-dialog {
+  width: min(26rem, 92vw);
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1.1rem;
+  box-shadow: 0.35em 0.35em 0 var(--shadow);
+  padding: 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.ui-dialog h3 {
+  margin: 0;
+  font-size: 2.1rem;
+  color: var(--purple);
+}
+
+.ui-dialog-msg {
+  margin: 0;
+  font-weight: 600;
+  white-space: pre-line;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.ui-dialog input {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.5em 0.9em;
+  outline: none;
+}
+
+.ui-dialog-foot {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+/* stats tab */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.6rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1rem;
+  box-shadow: 0.22em 0.22em 0 var(--shadow);
+  padding: 1rem 1.1rem;
+}
+
+.stat-num {
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--purple);
+}
+
+.stat-label {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.stats-top {
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1rem;
+  box-shadow: 0.22em 0.22em 0 var(--shadow);
+  padding: 1rem 1.3rem 1.2rem;
+  margin-bottom: 1.4rem;
+}
+
+.stats-top h3 {
+  margin: 0 0 0.6rem;
+  font-size: 2rem;
+}
+
+.top-sellers {
+  margin: 0;
+  padding-inline-start: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.top-sellers li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 700;
+}
+
+.top-sellers .ts-qty {
+  color: var(--purple);
+  white-space: nowrap;
+}
+
+.ga-link {
+  display: inline-flex;
+}
+
+/* home-content tab */
+.home-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.home-publish-note {
+  margin: 0;
+  font-weight: 800;
+  color: var(--red);
+  background: #fff4d6;
+  border: 2px dashed var(--ink);
+  border-radius: 0.8em;
+  padding: 0.55em 1em;
+}
+
+.home-block {
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1.1rem;
+  box-shadow: 0.25em 0.25em 0 var(--shadow);
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.home-block h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.home-block .import-help {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.home-block .import-help.dim {
+  opacity: 0.8;
+  font-size: 0.84rem;
+}
+
+.ribbon-area,
+.featured-search {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.5em 0.9em;
+  outline: none;
+}
+
+.featured-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border: 2px dashed var(--ink);
+  border-radius: 0.8em;
+  padding: 0.5rem;
+}
+
+.featured-result {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: start;
+  font-weight: 700;
+  padding: 0.3rem 0.4rem;
+  border-radius: 0.6em;
+}
+
+.featured-result:hover {
+  background: var(--paper-deep);
+}
+
+.featured-result img {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: none;
+  object-fit: contain;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 0.5em;
+}
+
+.featured-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.featured-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.25em 0.6em;
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+.featured-chip img {
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 0.4em;
+}
+
+.featured-chip .fc-name {
+  max-width: 12rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.featured-chip button {
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+
+.featured-chip button:hover {
+  opacity: 1;
+  color: var(--red);
+}
+
+.row-date {
+  color: var(--ink-soft);
+}
+
 /* bulk selection */
 .select-all-row {
   display: flex;
@@ -2650,6 +2990,62 @@ button {
   border-radius: 0.2em;
 }
 
+/* ---------- manager presence on the storefront ---------- */
+.admin-bell {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 0.8rem;
+  box-shadow: 0.18em 0.18em 0 var(--shadow);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admin-bell:hover {
+  transform: translateY(-0.1rem) rotate(-3deg);
+  box-shadow: 0.3em 0.3em 0 var(--gold);
+}
+
+.admin-bell .bell-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.admin-bell .bell-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+/* floating "back to dashboard" pill — bottom-right, clear of the a11y button */
+.admin-return {
+  position: fixed;
+  bottom: 1.1rem;
+  right: 1.1rem;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.55rem 1rem;
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 0.9rem;
+  border: 2.5px solid var(--ink);
+  border-radius: 2em;
+  box-shadow: 0.22em 0.22em 0 var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admin-return:hover {
+  transform: translateY(-0.12rem);
+  box-shadow: 0.34em 0.34em 0 var(--purple);
+}
+
 .a11y-root {
   position: fixed;
   bottom: 1.1rem;
@@ -2793,7 +3189,8 @@ html.a11y-underline a {
   .wiggle,
   .hero-logo img,
   .cart-badge,
-  .sale-flag {
+  .sale-flag,
+  .featured-carousel .track {
     animation: none !important;
   }
 

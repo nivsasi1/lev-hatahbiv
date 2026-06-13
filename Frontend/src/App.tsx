@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
+  Link,
   useLocation,
 } from "react-router-dom";
 import { CartProvider } from "./context/cart-context";
@@ -29,6 +30,11 @@ const Layout = () => {
     trackPageView(pathname);
   }, [pathname]);
 
+  const isAdmin =
+    typeof window !== "undefined" &&
+    !!sessionStorage.getItem("lh-admin-jwt") &&
+    !pathname.startsWith("/manage");
+
   return (
     <div className="page">
       <Header />
@@ -37,6 +43,11 @@ const Layout = () => {
       <CartSheet />
       <NewsletterDialog />
       <A11yWidget />
+      {isAdmin && (
+        <Link to="/manage" className="admin-return">
+          🛠 לניהול
+        </Link>
+      )}
     </div>
   );
 };

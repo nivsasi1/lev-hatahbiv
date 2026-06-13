@@ -34,6 +34,16 @@ export const NewsletterDialog = () => {
     };
   }, []);
 
+  // lock background scroll while the modal is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   // never interrupt the manager screens
   if (pathname.startsWith("/manage")) return null;
 
@@ -67,7 +77,7 @@ export const NewsletterDialog = () => {
 
   return (
     <>
-      <div className="sheet-veil open" onClick={close} />
+      <div className="sheet-veil open" />
       <div className="news-dialog" role="dialog" aria-label="הרשמה לעדכונים">
         <Splat color="#e09f3e" size={90} style={{ top: "-2.2rem", left: "-2.2rem", opacity: 0.85 }} />
         <button className="x-btn" onClick={close} aria-label="סגירה">

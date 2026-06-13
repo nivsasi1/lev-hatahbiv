@@ -43,7 +43,18 @@ type AdminProduct = {
   sub_cat?: string;
   third_level?: string;
   img: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
+
+// ─── promise-based dialog (replaces native prompt/confirm) ──────────────────
+type DialogState = {
+  title: string;
+  message: string;
+  mode: "confirm" | "prompt";
+  defaultValue?: string;
+  resolve: (value: any) => void;
+} | null;
 
 // ─── CSV helpers (import/export) ────────────────────────────────────────────
 
@@ -157,7 +168,7 @@ const emptyForm = {
   name: "",
   price: "",
   description: "",
-  category: categories[0].name,
+  category: "",
   sub_cat: "",
   third_level: "",
   imgs: [] as string[], // stored in Mongo as one semicolon-separated string
@@ -179,7 +190,14 @@ export const AdminPage = () => {
   const [subscribers, setSubscribers] = useState<{ _id: string; email: string }[]>([]);
   const [showSubs, setShowSubs] = useState(false);
   const [orders, setOrders] = useState<any[]>([]);
-  const [view, setView] = useState<"products" | "orders">("products");
+  const [view, setView] = useState<"products" | "orders" | "stats" | "home">("products");
+  const [dialog, setDialog] = useState<DialogState>(null);
+  const [dialogValue, setDialogValue] = useState("");
+  // home-content tab
+  const [ribbonText, setRibbonText] = useState("");
+  const [featuredIds, setFeaturedIds] = useState<string[]>([]);
+  const [featuredSearch, setFeaturedSearch] = useState("");
+  const [homeLoaded, setHomeLoaded] = useState(false);
   const [statusFilter, setStatusFilter] = useState<"all" | "sale" | "hidden" | "oos">("all");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [showImport, setShowImport] = useState(false);
@@ -192,6 +210,24 @@ export const AdminPage = () => {
     sessionStorage.removeItem(TOKEN_KEY);
     setToken(null);
     setProducts([]);
+  };
+
+  // ─── promise-based UI dialogs (replace window.prompt / window.confirm) ───
+  const uiConfirm = (title: string, message: string) =>
+    new Promise<boolean>((resolve) => {
+      setDialogValue("");
+      setDialog({ title, message, mode: "confirm", resolve });
+    });
+
+  const uiPrompt = (title: string, message: string, defaultValue = "") =>
+    new Promise<string | null>((resolve) => {
+      setDialogValue(defaultValue);
+      setDialog({ title, message, mode: "prompt", defaultValue, resolve });
+    });
+
+  const closeDialog = (result: any) => {
+    if (dialog) dialog.resolve(result);
+    setDialog(null);
   };
 
   // fetch wrapper: attaches the JWT, surfaces server errors in Hebrew,
@@ -263,8 +299,9 @@ export const AdminPage = () => {
       patchLocal(d.product);
     });
 
-  const setSale = (p: AdminProduct) => {
-    const input = prompt(
+  const setSale = async (p: AdminProduct) => {
+    const input = await uiPrompt(
+      "הגדרת מבצע",
       `אחוז הנחה עבור "${p.name}" (0 לביטול המבצע):`,
       String(p.salePercentage || 0)
     );
@@ -283,8 +320,9 @@ export const AdminPage = () => {
     }, pct > 0 ? `המוצר במבצע ${pct}%` : "המבצע בוטל");
   };
 
-  const remove = (p: AdminProduct) => {
-    if (!confirm(`למחוק לצמיתות את "${p.name}"? אין דרך חזרה.`)) return;
+  const remove = async (p: AdminProduct) => {
+    const ok = await uiConfirm("מחיקת מוצר", `למחוק לצמיתות את "${p.name}"?\nאין דרך חזרה.`);
+    if (!ok) return;
     act(async () => {
       await call(`/products/${p._id}`, { method: "DELETE" });
       setProducts((prev) => prev.filter((x) => x._id !== p._id));
@@ -305,7 +343,7 @@ export const AdminPage = () => {
     });
   };
 
-  const submitForm = (e: any) => {
+  const submitForm = async (e: any) => {
     e.preventDefault();
     if (form.imgs.length === 0) {
       setError("צריך לפחות תמונה אחת למוצר");
@@ -318,7 +356,8 @@ export const AdminPage = () => {
       ...products.map((p) => p.category),
     ]);
     if (form.category && !knownCats.has(form.category.trim())) {
-      const ok = confirm(
+      const ok = await uiConfirm(
+        "קטגוריה חדשה",
         `"${form.category}" היא קטגוריה חדשה שלא קיימת באתר.\n\n` +
           `שימו לב: מוצרים בקטגוריה חדשה יישמרו במערכת אבל לא יופיעו באתר ` +
           `עד שהמתכנת יוסיף אותה לעיצוב האתר.\n\nלהמשיך בכל זאת?`
@@ -377,20 +416,23 @@ export const AdminPage = () => {
       return d;
     }, okMsg);
 
-  const bulkSale = () => {
-    const input = prompt(`אחוז הנחה עבור ${selected.size} מוצרים (0 לביטול מבצע):`, "10");
+  const bulkSale = async () => {
+    const n = selected.size;
+    const input = await uiPrompt("מבצע לכולם", `אחוז הנחה עבור ${n} מוצרים (0 לביטול מבצע):`, "10");
     if (input === null) return;
     const pct = Number(input);
     if (!Number.isFinite(pct) || pct < 0 || pct > 95) {
       setError("אחוז הנחה חייב להיות מספר בין 0 ל־95");
       return;
     }
-    bulk({ type: "sale", value: pct }, pct > 0 ? `מבצע ${pct}% הופעל על ${selected.size} מוצרים` : `המבצע בוטל ל־${selected.size} מוצרים`);
+    bulk({ type: "sale", value: pct }, pct > 0 ? `מבצע ${pct}% הופעל על ${n} מוצרים` : `המבצע בוטל ל־${n} מוצרים`);
   };
 
-  const bulkPrice = () => {
-    const input = prompt(
-      `שינוי מחיר באחוזים עבור ${selected.size} מוצרים\n(למשל 10 = ייקור ב־10%, ‎-5 = הוזלה ב־5%):`,
+  const bulkPrice = async () => {
+    const n = selected.size;
+    const input = await uiPrompt(
+      "שינוי מחיר באחוזים",
+      `שינוי מחיר באחוזים עבור ${n} מוצרים\n(למשל 10 = ייקור ב־10%, ‎-5 = הוזלה ב־5%):`,
       "10"
     );
     if (input === null) return;
@@ -399,12 +441,30 @@ export const AdminPage = () => {
       setError("יש להזין אחוז שינוי בין -90 ל־500 (לא 0)");
       return;
     }
-    bulk({ type: "price", value: pct }, `המחיר של ${selected.size} מוצרים עודכן ב־${pct}%`);
+    bulk({ type: "price", value: pct }, `המחיר של ${n} מוצרים עודכן ב־${pct}%`);
   };
 
-  const bulkDelete = () => {
-    if (!confirm(`למחוק לצמיתות ${selected.size} מוצרים? אין דרך חזרה!`)) return;
-    bulk({ type: "delete" }, `${selected.size} מוצרים נמחקו`);
+  const bulkSetPrice = async () => {
+    const n = selected.size;
+    const input = await uiPrompt(
+      "מחיר אחיד",
+      `כל המוצרים שנבחרו יקבלו את אותו מחיר (${n} מוצרים):`,
+      ""
+    );
+    if (input === null) return;
+    const price = Number(input);
+    if (!Number.isFinite(price) || price <= 0) {
+      setError("המחיר חייב להיות מספר גדול מ־0");
+      return;
+    }
+    bulk({ type: "setPrice", value: price }, `${n} מוצרים תומחרו ל־₪${ils(price)}`);
+  };
+
+  const bulkDelete = async () => {
+    const n = selected.size;
+    const ok = await uiConfirm("מחיקה מרובה", `למחוק לצמיתות ${n} מוצרים?\nאין דרך חזרה!`);
+    if (!ok) return;
+    bulk({ type: "delete" }, `${n} מוצרים נמחקו`);
   };
 
   // ---- duplicate a product into the add form ----
@@ -511,9 +571,25 @@ export const AdminPage = () => {
 
   // ---- derived list ----
 
+  // newest-edited first; undated products keep their relative order after all
+  // dated ones (stable sort + Infinity-less comparison)
+  const sortedProducts = useMemo(() => {
+    const t = (p: AdminProduct) => {
+      const d = p.updatedAt || p.createdAt;
+      return d ? new Date(d).getTime() : -1;
+    };
+    return [...products]
+      .map((p, i) => [p, i] as const)
+      .sort((a, b) => {
+        const diff = t(b[0]) - t(a[0]);
+        return diff !== 0 ? diff : a[1] - b[1];
+      })
+      .map(([p]) => p);
+  }, [products]);
+
   const filtered = useMemo(() => {
     const q = query.trim();
-    let list = products;
+    let list = sortedProducts;
     if (statusFilter === "sale") list = list.filter((p) => (p.salePercentage || 0) > 0);
     if (statusFilter === "hidden") list = list.filter((p) => p.isActive === false);
     if (statusFilter === "oos") list = list.filter((p) => p.isAvailable === false);
@@ -525,7 +601,7 @@ export const AdminPage = () => {
         (p.sub_cat || "").includes(q) ||
         (p.third_level || "").includes(q)
     );
-  }, [products, query, statusFilter]);
+  }, [sortedProducts, query, statusFilter]);
 
   const shown = filtered.slice(0, limit);
   const hiddenCount = products.filter((p) => p.isActive === false).length;
@@ -563,10 +639,152 @@ export const AdminPage = () => {
   const allFilteredSelected =
     filtered.length > 0 && filtered.every((p) => selected.has(p._id));
 
+  // ─── cascading category fields (clear children when a parent changes) ───
+  const setCategory = (v: string) =>
+    setForm((f: any) =>
+      f.category === v ? { ...f, category: v } : { ...f, category: v, sub_cat: "", third_level: "" }
+    );
+  const setSubCat = (v: string) =>
+    setForm((f: any) =>
+      f.sub_cat === v ? { ...f, sub_cat: v } : { ...f, sub_cat: v, third_level: "" }
+    );
+
+  // ─── stats tab (computed from already-loaded data) ───
+  const stats = useMemo(() => {
+    const live = orders.filter((o) => o.status !== "cancelled");
+    const revenue = live.reduce((s, o) => s + Number(o.total || 0), 0);
+    const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const recent = live.filter((o) => new Date(o.createdAt).getTime() >= cutoff);
+    const recentRevenue = recent.reduce((s, o) => s + Number(o.total || 0), 0);
+    // top sellers by total qty across non-cancelled orders
+    const qtyByName = new Map<string, number>();
+    for (const o of live)
+      for (const i of o.items || [])
+        qtyByName.set(i.name, (qtyByName.get(i.name) || 0) + Number(i.qty || 0));
+    const top = [...qtyByName.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    return {
+      newOrders: orders.filter((o) => o.status === "new").length,
+      totalOrders: orders.length,
+      revenue,
+      recentCount: recent.length,
+      recentRevenue,
+      subscribers: subscribers.length,
+      onSale: saleCount,
+      outOfStock: oosCount,
+      hidden: hiddenCount,
+      top,
+    };
+  }, [orders, subscribers, saleCount, oosCount, hiddenCount]);
+
+  // ─── home-content tab: load settings on first open ───
+  const loadHome = () =>
+    act(async () => {
+      const d = await call(`/settings`);
+      setRibbonText((d.settings.ribbonTexts || []).join("\n"));
+      setFeaturedIds((d.settings.featuredIds || []).filter(Boolean));
+      setHomeLoaded(true);
+    });
+
+  const featuredMatches = useMemo(() => {
+    const q = featuredSearch.trim();
+    if (!q) return [];
+    return products
+      .filter((p) => p.name.includes(q) && !featuredIds.includes(p._id))
+      .slice(0, 8);
+  }, [featuredSearch, products, featuredIds]);
+
+  const addFeatured = (id: string) =>
+    setFeaturedIds((ids) =>
+      ids.includes(id) || ids.length >= 12 ? ids : [...ids, id]
+    );
+  const removeFeatured = (id: string) =>
+    setFeaturedIds((ids) => ids.filter((x) => x !== id));
+
+  const saveHome = () => {
+    const ribbonTexts = ribbonText
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .slice(0, 8);
+    act(async () => {
+      await call(`/settings`, {
+        method: "PUT",
+        body: JSON.stringify({ ribbonTexts, featuredIds }),
+      });
+    }, "תוכן דף הבית נשמר! יופיע באתר אחרי פרסום");
+  };
+
+  const productById = useMemo(
+    () => new Map(products.map((p) => [p._id, p])),
+    [products]
+  );
+
+  // ─── seen markers for the header notification bell ───
+  useEffect(() => {
+    if (view === "orders")
+      localStorage.setItem("lh-noti-seen-orders", new Date().toISOString());
+  }, [view]);
+
+  useEffect(() => {
+    if (view === "home" && !homeLoaded) loadHome();
+  }, [view]);
+
+  useEffect(() => {
+    if (showSubs) localStorage.setItem("lh-noti-seen-subs", String(subscribers.length));
+  }, [showSubs, subscribers.length]);
+
+  // ─── dialog overlay (rendered in both login & dashboard) ───
+  const dialogOverlay = dialog && (
+    <div className="ui-veil" onClick={() => closeDialog(dialog.mode === "confirm" ? false : null)}>
+      <div
+        className="ui-dialog"
+        onClick={(e: any) => e.stopPropagation()}
+        onKeyDown={(e: any) => {
+          if (e.key === "Escape") closeDialog(dialog.mode === "confirm" ? false : null);
+        }}
+      >
+        <h3 className="display">{dialog.title}</h3>
+        <p className="ui-dialog-msg">{dialog.message}</p>
+        {dialog.mode === "prompt" && (
+          <input
+            autoFocus
+            dir="auto"
+            value={dialogValue}
+            onInput={(e: any) => setDialogValue(e.target.value)}
+            onKeyDown={(e: any) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                closeDialog(dialogValue);
+              }
+            }}
+          />
+        )}
+        <div className="ui-dialog-foot">
+          <button
+            className="btn small"
+            onClick={() => closeDialog(dialog.mode === "confirm" ? true : dialogValue)}
+          >
+            אישור
+          </button>
+          <button
+            className="btn small ghost"
+            onClick={() => closeDialog(dialog.mode === "confirm" ? false : null)}
+          >
+            ביטול
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   // ─── login screen ───
   if (!token) {
     return (
       <main className="page-main shell admin-page">
+        {dialogOverlay}
+        <div className="admin-login-wrap">
         <h1 className="display">כניסת מנהלים</h1>
         <form
           className="admin-login"
@@ -600,6 +818,7 @@ export const AdminPage = () => {
             הדשבורד עובד רק במחשב של החנות (השרת המקומי חייב לרוץ).
           </p>
         </form>
+        </div>
       </main>
     );
   }
@@ -607,6 +826,7 @@ export const AdminPage = () => {
   // ─── dashboard ───
   return (
     <main className="page-main shell admin-page">
+      {dialogOverlay}
       <div className="admin-head">
         <h1 className="display">ניהול החנות</h1>
         <div className="admin-head-actions">
@@ -632,9 +852,157 @@ export const AdminPage = () => {
         >
           🧾 הזמנות ({orders.filter((o) => o.status === "new").length} חדשות)
         </button>
+        <button
+          className={view === "stats" ? "active" : ""}
+          onClick={() => setView("stats")}
+        >
+          📊 נתונים
+        </button>
+        <button
+          className={view === "home" ? "active" : ""}
+          onClick={() => setView("home")}
+        >
+          🏠 דף הבית
+        </button>
       </div>
 
-      {view === "orders" ? (
+      {error && <p className="admin-error">{error}</p>}
+      {notice && <p className="admin-notice">{notice}</p>}
+
+      {view === "stats" ? (
+        <div className="stats-wrap">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-num display">{stats.newOrders}</span>
+              <span className="stat-label">הזמנות חדשות</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">{stats.totalOrders}</span>
+              <span className="stat-label">סה״כ הזמנות</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">₪{ils(stats.revenue)}</span>
+              <span className="stat-label">הכנסות סה״כ</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">{stats.recentCount}</span>
+              <span className="stat-label">הזמנות ב-30 הימים האחרונים · ₪{ils(stats.recentRevenue)}</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">{stats.subscribers}</span>
+              <span className="stat-label">נרשמים לרשימת התפוצה</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">{stats.onSale}</span>
+              <span className="stat-label">מוצרים במבצע</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">{stats.outOfStock}</span>
+              <span className="stat-label">אזלו מהמלאי</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-num display">{stats.hidden}</span>
+              <span className="stat-label">מוסתרים</span>
+            </div>
+          </div>
+
+          <div className="stats-top">
+            <h3 className="display">הנמכרים ביותר</h3>
+            {stats.top.length === 0 ? (
+              <p className="empty-note">עוד אין הזמנות — כאן יופיעו המוצרים הנמכרים ביותר</p>
+            ) : (
+              <ol className="top-sellers">
+                {stats.top.map(([name, qty]) => (
+                  <li key={name}>
+                    <span className="ts-name">{name}</span>
+                    <span className="ts-qty">{qty} יח׳</span>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+
+          <a
+            className="btn small ga-link"
+            href="https://analytics.google.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            📈 Google Analytics — נתוני גלישה מלאים
+          </a>
+        </div>
+      ) : view === "home" ? (
+        <div className="home-content">
+          <p className="home-publish-note">
+            השינויים יופיעו באתר אחרי לחיצה על פרסום לאתר
+          </p>
+
+          <section className="home-block">
+            <h3 className="display">הטקסטים בפס הנע</h3>
+            <p className="import-help">שורה אחת לכל טקסט (עד 8 שורות).</p>
+            <textarea
+              className="ribbon-area"
+              rows={6}
+              value={ribbonText}
+              onInput={(e: any) => setRibbonText(e.target.value)}
+            />
+          </section>
+
+          <section className="home-block">
+            <h3 className="display">מוצרים נבחרים לדף הבית</h3>
+            <p className="import-help">
+              עד 4 מוצרים — רשת רגילה; יותר מ-4 — קרוסלה נעה לאט.
+            </p>
+            <input
+              type="search"
+              className="featured-search"
+              placeholder="חיפוש מוצר להוספה..."
+              value={featuredSearch}
+              onInput={(e: any) => setFeaturedSearch(e.target.value)}
+            />
+            {featuredMatches.length > 0 && (
+              <div className="featured-results">
+                {featuredMatches.map((p) => (
+                  <button
+                    key={p._id}
+                    type="button"
+                    className="featured-result"
+                    onClick={() => {
+                      addFeatured(p._id);
+                      setFeaturedSearch("");
+                    }}
+                  >
+                    <img src={imgUrl((p.img || "").split(";")[0])} alt="" loading="lazy" />
+                    <span>{p.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="featured-chips">
+              {featuredIds.length === 0 && (
+                <p className="empty-note">עוד לא נבחרו מוצרים — חיפשו והוסיפו למעלה</p>
+              )}
+              {featuredIds.map((id) => {
+                const p = productById.get(id);
+                return (
+                  <span key={id} className="featured-chip">
+                    <img src={p ? imgUrl((p.img || "").split(";")[0]) : ""} alt="" />
+                    <span className="fc-name">{p ? p.name : id}</span>
+                    <button type="button" aria-label="הסרה" onClick={() => removeFeatured(id)}>
+                      ✕
+                    </button>
+                  </span>
+                );
+              })}
+            </div>
+            <p className="import-help dim">נבחרו {featuredIds.length}/12 מוצרים</p>
+          </section>
+
+          <button className="btn" onClick={saveHome}>
+            שמירה
+          </button>
+        </div>
+      ) : view === "orders" ? (
         <div className="orders-list">
           {orders.length === 0 && (
             <p className="empty-note">עוד אין הזמנות — הן יופיעו כאן ברגע שלקוח ישלח עגלה בוואטסאפ</p>
@@ -771,9 +1139,6 @@ export const AdminPage = () => {
         </div>
       )}
 
-      {error && <p className="admin-error">{error}</p>}
-      {notice && <p className="admin-notice">{notice}</p>}
-
       <div className="admin-toolbar">
         <input
           type="search"
@@ -894,21 +1259,23 @@ export const AdminPage = () => {
               onInput={(e: any) => setForm({ ...form, price: e.target.value })}
             />
             <input
-              placeholder="קטגוריה *"
+              placeholder="קטגוריה * — בחרו מהרשימה או הקלידו חדשה"
               required
               list="dl-categories"
               value={form.category}
-              onInput={(e: any) => setForm({ ...form, category: e.target.value })}
+              onInput={(e: any) => setCategory(e.target.value)}
             />
             <input
-              placeholder="תת-קטגוריה (מדף)"
+              placeholder={form.category.trim() ? "תת-קטגוריה (מדף)" : "קודם בוחרים קטגוריה"}
               list="dl-subs"
+              disabled={!form.category.trim()}
               value={form.sub_cat}
-              onInput={(e: any) => setForm({ ...form, sub_cat: e.target.value })}
+              onInput={(e: any) => setSubCat(e.target.value)}
             />
             <input
-              placeholder="סדרה / מותג"
+              placeholder={form.sub_cat.trim() ? "סדרה / מותג" : "קודם בוחרים מדף"}
               list="dl-thirds"
+              disabled={!form.sub_cat.trim()}
               value={form.third_level}
               onInput={(e: any) => setForm({ ...form, third_level: e.target.value })}
             />
@@ -928,7 +1295,7 @@ export const AdminPage = () => {
               ))}
             </datalist>
             <input
-              placeholder="הוספת תמונה: URL / שם קובץ S3 + Enter"
+              placeholder="קישור לתמונה מהאינטרנט (URL) — ולוחצים Enter"
               value={form.imgInput ?? ""}
               onInput={(e: any) => setForm({ ...form, imgInput: e.target.value })}
               onKeyDown={(e: any) => {
@@ -940,6 +1307,11 @@ export const AdminPage = () => {
               }}
             />
           </div>
+          <p className="import-help">
+            תמונות אפשר להוסיף בשלוש דרכים: הדבקת קישור (URL) + Enter · העלאת קובץ
+            מהמחשב בכפתור למטה · הקלדת שם קובץ שכבר קיים במאגר התמונות (S3) של
+            החנות. התמונה הראשונה ברשימה היא התמונה הראשית.
+          </p>
           {form.imgs.length > 0 && (
             <div className="img-chips">
               {form.imgs.map((im: string, i: number) => (
@@ -1021,6 +1393,9 @@ export const AdminPage = () => {
           <button className="btn small" onClick={bulkPrice}>
             💰 שינוי מחיר ב-%
           </button>
+          <button className="btn small" onClick={bulkSetPrice}>
+            ₪ מחיר אחיד
+          </button>
           <button
             className="btn small ghost"
             onClick={() => bulk({ type: "active", value: true }, `${selected.size} מוצרים הוצגו באתר`)}
@@ -1079,6 +1454,12 @@ export const AdminPage = () => {
                 )}
                 {p.isAvailable === false && <b className="oos-tag"> אזל מהמלאי</b>}
                 {p.isActive === false && <b className="hidden-tag"> מוסתר</b>}
+                {(p.updatedAt || p.createdAt) && (
+                  <span className="row-date">
+                    {" · עודכן "}
+                    {new Date(p.updatedAt || p.createdAt!).toLocaleDateString("he-IL")}
+                  </span>
+                )}
               </span>
             </div>
             <div className="admin-row-actions">

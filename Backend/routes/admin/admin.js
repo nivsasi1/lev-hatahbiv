@@ -8,6 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const { execFile } = require("child_process");
 const Product = require("../../models/products/product.model");
+const SiteSettings = require("../../models/settings/settings.model");
 const Subscriber = require("../../models/newsletter/subscriber.model");
 const Order = require("../../models/orders/order.model");
 const adminAuth = require("../../middleware/adminAuth");
@@ -88,7 +89,7 @@ router.get(
   "/products",
   asyncRoute(async (_req, res) => {
     const products = await Product.find({})
-      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img")
+      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img createdAt updatedAt")
       .sort({ category: 1, name: 1 })
       .lean();
     res.json({ products });
@@ -166,6 +167,16 @@ router.post(
         result = await Product.updateMany(filter, [
           { $set: { price: { $round: [{ $multiply: ["$price", k] }, 1] } } },
         ]);
+        break;
+      }
+      case "setPrice": {
+        const price = Number(action.value);
+        if (!Number.isFinite(price) || price <= 0 || price > 100000) {
+          return res.status(400).json({ error: "מחיר חייב להיות מספר בין 0 ל־100000" });
+        }
+        result = await Product.updateMany(filter, {
+          $set: { price: Math.round(price * 10) / 10 },
+        });
         break;
       }
       case "delete": {
@@ -474,6 +485,49 @@ router.post("/upload-batch", (req, res) => {
     res.json({ files });
   });
 });
+
+// ---------- site settings ----------
+// Singleton controlling the public homepage (marquee ribbon + featured ids).
+// Router is mounted at /admin, so these are /admin/settings to the client.
+
+router.get(
+  "/settings",
+  asyncRoute(async (_req, res) => {
+    const doc = await SiteSettings.findOne({}).lean();
+    res.json({ settings: doc || { ribbonTexts: [], featuredIds: [] } });
+  })
+);
+
+router.put(
+  "/settings",
+  asyncRoute(async (req, res) => {
+    const body = req.body || {};
+
+    if (!Array.isArray(body.ribbonTexts) || !Array.isArray(body.featuredIds)) {
+      return res.status(400).json({ error: "מבנה הגדרות לא תקין" });
+    }
+
+    const ribbonTexts = body.ribbonTexts.map((t) => String(t).trim());
+    if (ribbonTexts.length > 8) {
+      return res.status(400).json({ error: "עד 8 כיתובים בסרט" });
+    }
+    if (ribbonTexts.some((t) => !t || t.length > 80)) {
+      return res.status(400).json({ error: "כל כיתוב חייב להיות לא ריק ועד 80 תווים" });
+    }
+
+    const featuredIds = body.featuredIds.map((id) => String(id));
+    if (featuredIds.length > 12) {
+      return res.status(400).json({ error: "עד 12 מוצרים מומלצים" });
+    }
+
+    const settings = await SiteSettings.findOneAndUpdate(
+      {},
+      { $set: { ribbonTexts, featuredIds } },
+      { upsert: true, new: true }
+    ).lean();
+    res.json({ settings });
+  })
+);
 
 // ---------- publish ----------
 // Re-exports MongoDB to the static catalog and rebuilds the site, so the

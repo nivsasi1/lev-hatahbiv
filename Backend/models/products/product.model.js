@@ -24,6 +24,6 @@ const ProductSchema = new mongoose.Schema({
   discountValue: { type: Number },
   ribbon: { type: String },
   sku: { type: String },
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Product", ProductSchema);

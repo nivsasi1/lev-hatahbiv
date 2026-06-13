@@ -3,15 +3,18 @@ import {
   categories,
   products,
   productsByCategory,
+  getProduct,
+  siteSettings,
   store,
   workshops,
   asset,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
+import { ProductArt } from "../components/ProductArt";
 import { Splat, Blob } from "../components/Splat";
 
 // one photogenic product from each of four different shelves
-const featured = ["paints", "brushes", "drawing", "paper"]
+const heuristicFeatured = ["paints", "brushes", "drawing", "paper"]
   .map((slug) =>
     products.find(
       (p) =>
@@ -24,7 +27,17 @@ const featured = ["paints", "brushes", "drawing", "paper"]
   )
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-const fresh = products.filter((p) => p.salePrice && p.img).slice(0, 4);
+// Manager-curated picks win; otherwise fall back to the heuristic.
+const featured =
+  siteSettings.featuredIds.length > 0
+    ? siteSettings.featuredIds
+        .map((id) => getProduct(id))
+        .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    : heuristicFeatured;
+
+const fresh = products
+  .filter((p) => p.salePrice && !p.soldOut && p.img)
+  .slice(0, 4);
 
 export const HomePage = () => (
   <main className="page-main">
@@ -71,6 +84,9 @@ export const HomePage = () => (
             style={{ "--cc": c.color } as any}
           >
             <Blob color={c.soft} />
+            <span className="cat-art" aria-hidden="true">
+              <ProductArt kind={c.art} color={c.color} />
+            </span>
             <h3 className="display">{c.name}</h3>
             <p>{c.blurb}</p>
             <span className="count">
@@ -86,40 +102,59 @@ export const HomePage = () => (
       <div className="ribbon-track">
         {[0, 1].map((i) => (
           <span key={i}>
-            <span>משלוח חינם מעל ₪300</span>
-            <span>ייעוץ אישי בחנות</span>
-            <span>חדש: חימר פולימרי ב־24 צבעים</span>
-            <span>מבצעי סוף עונה על צבעי שמן</span>
+            {siteSettings.ribbonTexts.map((t, j) => (
+              <span key={j}>{t}</span>
+            ))}
           </span>
         ))}
       </div>
     </div>
 
     {/* ---------- best sellers ---------- */}
-    <section className="shell">
-      <div className="section-head">
-        <h2 className="display">נבחרים מהמדפים</h2>
-        <div className="scribble" />
-      </div>
-      <div className="product-grid">
-        {featured.map((p) => (
-          <ProductCard key={p.id} product={p} />
-        ))}
-      </div>
-    </section>
+    {featured.length > 0 && (
+      <section className="shell">
+        <div className="section-head">
+          <h2 className="display">נבחרים מהמדפים</h2>
+          <div className="scribble" />
+        </div>
+        {featured.length > 4 ? (
+          // slow auto-scrolling carousel; cards duplicated for a seamless loop
+          <div className="featured-carousel">
+            <div
+              className="track"
+              style={{ animationDuration: `${featured.length * 6}s` }}
+            >
+              {[0, 1].map((dup) =>
+                featured.map((p) => (
+                  <ProductCard key={`${dup}-${p.id}`} product={p} />
+                ))
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="product-grid home-grid">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
+      </section>
+    )}
 
     {/* ---------- new & on sale ---------- */}
-    <section className="shell">
-      <div className="section-head">
-        <h2 className="display">במבצע עכשיו</h2>
-        <div className="scribble" />
-      </div>
-      <div className="product-grid">
-        {fresh.map((p) => (
-          <ProductCard key={p.id} product={p} />
-        ))}
-      </div>
-    </section>
+    {fresh.length > 0 && (
+      <section className="shell">
+        <div className="section-head">
+          <h2 className="display">במבצע עכשיו</h2>
+          <div className="scribble" />
+        </div>
+        <div className="product-grid home-grid">
+          {fresh.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      </section>
+    )}
 
     {/* ---------- workshops ---------- */}
     <section className="shell">

@@ -27,7 +27,9 @@ export const CategoryPage = () => {
   }
 
   const subs = subsOfCategory(slug!);
-  const onSale = all.filter((p) => p.salePrice && p.img).slice(0, 4);
+  const onSale = all
+    .filter((p) => p.salePrice && !p.soldOut && p.img)
+    .slice(0, 4);
 
   return (
     <main className="page-main">

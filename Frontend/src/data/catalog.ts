@@ -4,6 +4,7 @@
 // the store's S3 bucket; products whose photo is missing or fails to load
 // fall back to a per-category SVG illustration (ProductArt).
 import rawProducts from "./products.json";
+import settings from "./settings.json";
 
 export type ArtKind =
   | "tube"
@@ -42,6 +43,7 @@ export type Product = {
   pickupOnly?: boolean;
   soldOut?: boolean; // shown greyed-out ("אזל מהמלאי"), can't be added to cart
   isActive?: boolean; // hidden items never reach the build; guard anyway
+  isNew?: boolean; // created within the last 14 days — drives the "חדש" badge
 };
 
 export type Category = {
@@ -145,6 +147,8 @@ type RawProduct = {
   gallery?: string[];
   pickupOnly?: boolean;
   soldOut?: boolean;
+  isNew?: boolean;
+  updated?: string;
 };
 
 // Prefix a public-folder path (e.g. "/images/logo.png") with the deploy base,
@@ -180,12 +184,36 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
     imgs,
     art: cat?.art ?? "tube",
     artColor: cat?.color,
-    badge: r.salePrice && !r.soldOut ? "מבצע" : undefined,
+    badge:
+      r.salePrice && !r.soldOut
+        ? "מבצע"
+        : r.isNew && !r.soldOut
+          ? "חדש"
+          : undefined,
     pickupOnly: r.pickupOnly,
     soldOut: r.soldOut,
+    isNew: r.isNew,
     isActive: true,
   };
 });
+
+// Homepage settings (marquee ribbon + featured ids), baked in at build time
+// from the SiteSettings singleton. Falls back to the original marquee strings
+// when no ribbon texts have been configured.
+const DEFAULT_RIBBON = [
+  "משלוח חינם מעל ₪300",
+  "ייעוץ אישי בחנות",
+  "חדש: חימר פולימרי ב־24 צבעים",
+  "מבצעי סוף עונה על צבעי שמן",
+];
+
+export const siteSettings = {
+  ribbonTexts:
+    settings.ribbonTexts && settings.ribbonTexts.length > 0
+      ? settings.ribbonTexts
+      : DEFAULT_RIBBON,
+  featuredIds: settings.featuredIds ?? [],
+};
 
 const productById = new Map(products.map((p) => [p.id, p]));
 
