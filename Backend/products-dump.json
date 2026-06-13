@@ -197,10 +197,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770346",
@@ -212,10 +213,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770347",
@@ -454,10 +456,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתור בודד - סנט פטרסבורג"
+    "third_level": "אקוורל כפתור בודד - סנט פטרסבורג",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277035a",
@@ -496,10 +499,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתור בודד - סנט פטרסבורג"
+    "third_level": "אקוורל כפתור בודד - סנט פטרסבורג",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277035c",
@@ -2349,10 +2353,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתור בודד - סנט פטרסבורג"
+    "third_level": "אקוורל כפתור בודד - סנט פטרסבורג",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727703d6",
@@ -3221,10 +3226,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "פלטות ואביזרים"
+    "third_level": "פלטות ואביזרים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770413",
@@ -3425,10 +3431,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "עפרון פסטל - פאבר קאסטל - Faber Castell"
+    "third_level": "עפרון פסטל - פאבר קאסטל - Faber Castell",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277042f",
@@ -4431,10 +4438,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - נורה NORA!"
+    "third_level": "טושי אלכוהול - נורה NORA!",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277049a",
@@ -4447,10 +4455,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - נורה NORA!"
+    "third_level": "טושי אלכוהול - נורה NORA!",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277049b",
@@ -4549,14 +4558,15 @@
     "name": "פימו סופט 0 לבן",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_2fc96e189a184d6ea74fd3645f544f01~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a2",
@@ -4564,14 +4574,15 @@
     "name": "פימו סופט 16 sunflower",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_d46453e6daee4ef38849a51cbf1be6d6~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a3",
@@ -4579,14 +4590,15 @@
     "name": "פימו סופט 105 vanilla",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_34842dee3b864c7faf6fa8b4ed1bd8c3~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a4",
@@ -4594,14 +4606,15 @@
     "name": "פימו סופט 10 lemon",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_ee449c59afd84e4a995e84b263e649cd~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a5",
@@ -4609,14 +4622,15 @@
     "name": "פימו סופט 22 raspberry",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_3513261d91a54d5cb487b092d4ccc339~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a6",
@@ -4624,14 +4638,15 @@
     "name": "פימו סופט 24 indian red",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_16ffe49b5b0c431280dece405de2c28d~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a7",
@@ -4639,14 +4654,15 @@
     "name": "פימו סופט 26 cherry red",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_618cee95c62547c1ab1dd4859c69214c~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a8",
@@ -4654,14 +4670,15 @@
     "name": "פימו סופט 305 aqua",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_ef67d6a0431a43c4815658929ce5e6df~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704a9",
@@ -4669,14 +4686,15 @@
     "name": "פימו סופט 205 light pink",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_e196935643ae46b0beb1318ea7f0107f~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704aa",
@@ -4684,14 +4702,15 @@
     "name": "פימו סופט 37 pacific blue",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_5a1243a9f89a4d7abd4ac8cd401c3f44~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704ab",
@@ -4699,14 +4718,15 @@
     "name": "פימו סופט 37 pacific blue",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_af886854dfe54f899f97e76a4048d0ee~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704ac",
@@ -4714,14 +4734,15 @@
     "name": "פימו סופט 39 peppermint",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_8d1c65d5072b4651a0e51b9802f682a3~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704ad",
@@ -4729,14 +4750,15 @@
     "name": "פימו סופט 33 brilliant blue",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_e232026a4c564dcf89c9c3f33fd1b21b~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704ae",
@@ -4744,14 +4766,15 @@
     "name": "פימו סופט 42 tangerine",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_148c8dadaa8049c99294dfe920755030~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704af",
@@ -4759,14 +4782,15 @@
     "name": "פימו סופט 43 pale pink",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_6fff900da4d34729a937c24959e2b1a0~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b0",
@@ -4774,14 +4798,15 @@
     "name": "פימו סופט 50 apple green",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_e0067a04a70f4a73959363a342632205~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b1",
@@ -4789,14 +4814,15 @@
     "name": "פימו סופט 405 peach",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_4f3307c20315497292e0541ed6196d96~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b2",
@@ -4804,14 +4830,15 @@
     "name": "פימו סופט 53 tropical green",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_6f3301f014e74478801d51255e289457~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b3",
@@ -4819,14 +4846,15 @@
     "name": "פימו סופט 56 emerald",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_32c9c0c7ad9c4e54ad56319da07d3507~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b4",
@@ -4834,14 +4862,15 @@
     "name": "פימו סופט 505 mint",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_671b05b734e443238e86bfc592134497~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b5",
@@ -4849,14 +4878,15 @@
     "name": "פימו סופט 605 lilac",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_da3556892ddb47e68e4659338bc1db23~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b6",
@@ -4864,14 +4894,15 @@
     "name": "פימו סופט 61 purpure",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_8f26084ed7774ab6b8059f3827c10c97~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b7",
@@ -4879,14 +4910,15 @@
     "name": "פימו סופט 62 lavender",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_b73d90567a2f4054b426a97b94843783~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b8",
@@ -4894,14 +4926,15 @@
     "name": "פימו סופט 63 plum",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_61b1959adc5f46f084915315ee9f9e9e~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704b9",
@@ -4909,14 +4942,15 @@
     "name": "פימו סופט 7 caramel",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_40ba81c4b5b14cec823ce7255cf6fe54~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704ba",
@@ -4924,14 +4958,15 @@
     "name": "פימו סופט 75 chocolate",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_17ee98f64a4745c093ccad83ef9d7182~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704bb",
@@ -4939,14 +4974,15 @@
     "name": "פימו סופט 76 cognac",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_239dfca4f720437c8abc77787ad86978~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704bc",
@@ -4954,14 +4990,15 @@
     "name": "פימו סופט 70 sahara",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_f7e74a58e5a844d0b0513712eddf3f6c~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704bd",
@@ -4969,14 +5006,15 @@
     "name": "פימו סופט 80 dolphin grey",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_211ee69e2c184399948e9c97b1ae9fed~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704be",
@@ -4984,14 +5022,15 @@
     "name": "פימו סופט 9 black",
     "description": "<p dir=\"rtl\">חימר פולימרי של חברת פימו</p><p dir=\"rtl\">סדרה: סופט&nbsp; (רך)</p><p dir=\"rtl\">כמות: אריזה של 57 גרם</p><p dir=\"rtl\">להקשייה בתנור ביתי בחום 110 מעלום צלזיוס למשך חצי שעה</p><p dir=\"rtl\">תוצרת גרמניה</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_1f96987dd812471892d37dc981f961ed~mv2.png",
-    "price": 12.9,
+    "price": 8.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT"
+    "third_level": "חימר פולימרי - STAEDLER FIMO - SOFT",
+    "updatedAt": "2026-06-13T01:41:28.673Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704bf",
@@ -5682,10 +5721,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "כני ציור",
     "sub_cat": "כני ציור ניידים ומזוודות",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704ee",
@@ -5744,10 +5784,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "פחם",
-    "third_level": "פחם טבעי במקלות"
+    "third_level": "פחם טבעי במקלות",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704f2",
@@ -5790,10 +5831,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "פחם",
-    "third_level": "פחם טבעי במקלות"
+    "third_level": "פחם טבעי במקלות",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727704f5",
@@ -6835,7 +6877,10 @@
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "Sculpey III - חימר פולימרי"
+    "third_level": "Sculpey III - חימר פולימרי",
+    "isActive": true,
+    "salePercentage": 0,
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770551",
@@ -6850,7 +6895,8 @@
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "Sculpey III - חימר פולימרי"
+    "third_level": "Sculpey III - חימר פולימרי",
+    "salePercentage": 0
   },
   {
     "_id": "66844bfdf2e4e8f572770552",
@@ -7255,7 +7301,10 @@
     "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
-    "third_level": "Sculpey Premo - חימר פולימרי"
+    "third_level": "Sculpey Premo - חימר פולימרי",
+    "isActive": true,
+    "salePercentage": 0,
+    "updatedAt": "2026-06-13T01:40:07.389Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277056d",
@@ -8347,10 +8396,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "אבקות פיגמנטים",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727705a4",
@@ -8634,10 +8684,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "אבקות פיגמנטים",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727705b7",
@@ -9285,10 +9336,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "חומרי יצירה",
     "sub_cat": "דבקים",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727705e2",
@@ -9644,10 +9696,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "שרטוט - חומרי עזר",
-    "third_level": "משטח עבודה מתרפא"
+    "third_level": "משטח עבודה מתרפא",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727705fc",
@@ -9998,10 +10051,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבעי משי"
+    "third_level": "עזרים ומדיומים לצבעי משי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770614",
@@ -10029,10 +10083,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבעי משי"
+    "third_level": "עזרים ומדיומים לצבעי משי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770616",
@@ -10156,10 +10211,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבעי משי"
+    "third_level": "עזרים ומדיומים לצבעי משי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277061e",
@@ -10283,10 +10339,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770626",
@@ -10705,10 +10762,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "תכשיטנות",
     "sub_cat": "אביזרים",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770645",
@@ -12026,10 +12084,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277069f",
@@ -12137,10 +12196,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706a6",
@@ -12168,10 +12228,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706a8",
@@ -12183,10 +12244,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706a9",
@@ -12198,10 +12260,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706aa",
@@ -12245,10 +12308,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706ad",
@@ -12276,10 +12340,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706af",
@@ -12355,10 +12420,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706b4",
@@ -12370,10 +12436,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע למשי"
+    "third_level": "צבע למשי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706b5",
@@ -12926,10 +12993,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
-    "third_level": "צבע לטקסטיל - ג'אוונה"
+    "third_level": "צבע לטקסטיל - ג'אוונה",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727706e3",
@@ -13466,10 +13534,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבע אקריליק"
+    "third_level": "עזרים ומדיומים לצבע אקריליק",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770705",
@@ -13481,10 +13550,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבע אקריליק"
+    "third_level": "עזרים ומדיומים לצבע אקריליק",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770706",
@@ -13496,10 +13566,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבע אקריליק"
+    "third_level": "עזרים ומדיומים לצבע אקריליק",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770707",
@@ -13638,10 +13709,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770714",
@@ -13728,10 +13800,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון כללי - PRINCETON"
+    "third_level": "מכחול פרינסטון כללי - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277071a",
@@ -13743,10 +13816,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "פרינסטון מיני - PRINCETON - Mini"
+    "third_level": "פרינסטון מיני - PRINCETON - Mini",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277071b",
@@ -13758,7 +13832,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -13777,7 +13851,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון כללי - PRINCETON"
+    "third_level": "מכחול פרינסטון כללי - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277071c",
@@ -13837,10 +13912,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר"
+    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770720",
@@ -13852,7 +13928,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -13867,7 +13943,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "פרינסטון מיני - PRINCETON - Mini"
+    "third_level": "פרינסטון מיני - PRINCETON - Mini",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770721",
@@ -13879,7 +13956,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -13894,7 +13971,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון כללי - PRINCETON"
+    "third_level": "מכחול פרינסטון כללי - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770722",
@@ -13906,7 +13984,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -13925,7 +14003,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון ליינר - PRINCETON"
+    "third_level": "מכחול פרינסטון ליינר - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770723",
@@ -13937,7 +14016,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -13960,7 +14039,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון ליינר - PRINCETON"
+    "third_level": "מכחול פרינסטון ליינר - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770724",
@@ -13972,7 +14052,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -14019,7 +14099,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר"
+    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770725",
@@ -14047,7 +14128,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -14066,7 +14147,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "פרינסטון מיני - PRINCETON - Mini"
+    "third_level": "פרינסטון מיני - PRINCETON - Mini",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770727",
@@ -14078,7 +14160,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -14093,7 +14175,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון כללי - PRINCETON"
+    "third_level": "מכחול פרינסטון כללי - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770728",
@@ -14105,7 +14188,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -14128,7 +14211,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר"
+    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770729",
@@ -14140,7 +14224,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -14155,7 +14239,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר"
+    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277072a",
@@ -14167,10 +14252,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "פרינסטון מיני - PRINCETON - Mini"
+    "third_level": "פרינסטון מיני - PRINCETON - Mini",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277072b",
@@ -14182,10 +14268,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "פרינסטון מיני - PRINCETON - Mini"
+    "third_level": "פרינסטון מיני - PRINCETON - Mini",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277072c",
@@ -14197,10 +14284,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר"
+    "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277072d",
@@ -14212,7 +14300,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -14235,7 +14323,8 @@
     ],
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול פרינסטון ליינר - PRINCETON"
+    "third_level": "מכחול פרינסטון ליינר - PRINCETON",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277072f",
@@ -14338,10 +14427,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול קולינסקי סידרה 7"
+    "third_level": "מכחול קולינסקי סידרה 7",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770736",
@@ -14721,10 +14811,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
-    "third_level": "מכחול עגול סיגנט - SIGNET"
+    "third_level": "מכחול עגול סיגנט - SIGNET",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277074e",
@@ -15007,10 +15098,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבע שמן"
+    "third_level": "עזרים ומדיומים לצבע שמן",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770760",
@@ -15374,10 +15466,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - PROMARKER - פרומרקר"
+    "third_level": "טושי אלכוהול - PROMARKER - פרומרקר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770778",
@@ -15388,10 +15481,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - PROMARKER - פרומרקר"
+    "third_level": "טושי אלכוהול - PROMARKER - פרומרקר",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770779",
@@ -15509,10 +15603,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "כני ציור",
     "sub_cat": "כני ציור סטודיו",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770795",
@@ -17071,10 +17166,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לצבעי מים"
+    "third_level": "בלוקי נייר לצבעי מים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770815",
@@ -17133,10 +17229,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - נורה NORA!"
+    "third_level": "טושי אלכוהול - נורה NORA!",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770819",
@@ -17165,10 +17262,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - נורה NORA!"
+    "third_level": "טושי אלכוהול - נורה NORA!",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277081b",
@@ -17197,10 +17295,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - נורה NORA!"
+    "third_level": "טושי אלכוהול - נורה NORA!",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277081d",
@@ -17244,10 +17343,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770820",
@@ -17259,10 +17359,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770821",
@@ -17290,10 +17391,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770823",
@@ -17305,10 +17407,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770824",
@@ -17384,10 +17487,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770829",
@@ -17774,10 +17878,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
-    "third_level": "קאפות"
+    "third_level": "קאפות",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770842",
@@ -17853,10 +17958,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
-    "third_level": "גליונות ציור"
+    "third_level": "גליונות ציור",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770847",
@@ -17868,7 +17974,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Size",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -17883,7 +17989,8 @@
     ],
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
-    "third_level": "גליונות ציור"
+    "third_level": "גליונות ציור",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770848",
@@ -17910,10 +18017,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
-    "third_level": "גליונות ציור"
+    "third_level": "גליונות ציור",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277084a",
@@ -17925,7 +18033,7 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "סוג",
     "selectionType": "DROP_DOWN",
     "variantsNew": [
@@ -17940,7 +18048,8 @@
     ],
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
-    "third_level": "גליונות ציור"
+    "third_level": "גליונות ציור",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277084b",
@@ -18336,10 +18445,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770869",
@@ -18364,10 +18474,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277086b",
@@ -18636,10 +18747,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277087e",
@@ -18680,10 +18792,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770881",
@@ -18852,10 +18965,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277088d",
@@ -19023,10 +19137,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770899",
@@ -19444,10 +19559,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד"
+    "third_level": "צבע שמן אולד הולנד",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727708b7",
@@ -20578,10 +20694,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן וינטון 37מ\"ל"
+    "third_level": "צבע שמן וינטון 37מ\"ל",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770909",
@@ -20592,10 +20709,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן וינטון 37מ\"ל"
+    "third_level": "צבע שמן וינטון 37מ\"ל",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277090a",
@@ -20606,10 +20724,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן וינטון 37מ\"ל"
+    "third_level": "צבע שמן וינטון 37מ\"ל",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277090b",
@@ -20693,10 +20812,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן וינטון 37מ\"ל"
+    "third_level": "צבע שמן וינטון 37מ\"ל",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770911",
@@ -20707,10 +20827,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן וינטון 37מ\"ל"
+    "third_level": "צבע שמן וינטון 37מ\"ל",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770912",
@@ -21835,10 +21956,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "מיקס מדיה",
-    "third_level": "בלוק מיקס מדיה"
+    "third_level": "בלוק מיקס מדיה",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770971",
@@ -21878,10 +22000,11 @@
     "visible": true,
     "discountMode": "AMOUNT",
     "discountValue": 11,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לטושים ומרקרים"
+    "third_level": "בלוקי נייר לטושים ומרקרים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770975",
@@ -21907,7 +22030,7 @@
     "visible": false,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "selectionTitle": "Color",
     "selectionType": "COLOR",
     "variantsNew": [
@@ -21922,7 +22045,8 @@
     ],
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לרישום"
+    "third_level": "בלוקי נייר לרישום",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770977",
@@ -22057,10 +22181,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לצבעי מים"
+    "third_level": "בלוקי נייר לצבעי מים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277097e",
@@ -22312,10 +22437,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לצבעי מים"
+    "third_level": "בלוקי נייר לצבעי מים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770993",
@@ -22327,10 +22453,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לטושים ומרקרים"
+    "third_level": "בלוקי נייר לטושים ומרקרים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770994",
@@ -22755,10 +22882,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון שמן/שעווה",
-    "third_level": "דרוונט - DERWENT"
+    "third_level": "דרוונט - DERWENT",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727709b4",
@@ -22769,10 +22897,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון שמן/שעווה",
-    "third_level": "דרוונט - DERWENT"
+    "third_level": "דרוונט - DERWENT",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727709b5",
@@ -22874,10 +23003,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון אקוורל",
-    "third_level": "פאבר קאסטל אדום - Faber Castell"
+    "third_level": "פאבר קאסטל אדום - Faber Castell",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727709bc",
@@ -22950,10 +23080,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון אקוורל",
-    "third_level": "CARAN D'ACHE - קארנדאש"
+    "third_level": "CARAN D'ACHE - קארנדאש",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727709bf",
@@ -23076,10 +23207,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון אקוורל",
-    "third_level": "קוהינור - KOH-I-NOOR"
+    "third_level": "קוהינור - KOH-I-NOOR",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727709c9",
@@ -23282,10 +23414,11 @@
     "visible": false,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
-    "third_level": "צבע אקריליק רמברנדט"
+    "third_level": "צבע אקריליק רמברנדט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727709db",
@@ -24318,10 +24451,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
-    "third_level": "צבע אקריליק אמסטרדם 120"
+    "third_level": "צבע אקריליק אמסטרדם 120",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770a25",
@@ -26176,10 +26310,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טוש ZIG Clear / טושי מים"
+    "third_level": "טוש ZIG Clear / טושי מים",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770aa6",
@@ -26495,10 +26630,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתורים - טאלנס / Royal Talens"
+    "third_level": "אקוורל כפתורים - טאלנס / Royal Talens",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770adc",
@@ -27369,10 +27505,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבע שמן"
+    "third_level": "עזרים ומדיומים לצבע שמן",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b22",
@@ -27463,10 +27600,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b28",
@@ -27510,10 +27648,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש לציור",
-    "third_level": "טושי דיו/פיט"
+    "third_level": "טושי דיו/פיט",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b2d",
@@ -27589,10 +27728,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "פחם",
-    "third_level": "חומרי עזר לפחם"
+    "third_level": "חומרי עזר לפחם",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b30",
@@ -27918,10 +28058,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "עזרים ומדיומים לצבע שמן"
+    "third_level": "עזרים ומדיומים לצבע שמן",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b48",
@@ -28174,10 +28315,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון רישום/גרפיט",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b58",
@@ -28189,10 +28331,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון שמן/שעווה",
-    "third_level": "לירה בסיס - Lyra"
+    "third_level": "לירה בסיס - Lyra",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b5a",
@@ -28393,10 +28536,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתורים - טאלנס / Royal Talens"
+    "third_level": "אקוורל כפתורים - טאלנס / Royal Talens",
+    "updatedAt": "2026-06-13T01:40:00.661Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770b6c",
