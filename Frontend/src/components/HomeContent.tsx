@@ -86,7 +86,37 @@ export const FeaturedRail = ({ items }: { items: Product[] }) => {
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    // Touch drag must win over the auto-drift. On phones there's no hover, so
+    // the mouse pause below never fires and the per-frame scrollLeft write
+    // fights the swipe (it snaps back). On a finger/pen press, stop the drift
+    // at once; resume a beat after the finger lifts, resyncing pos so the
+    // hand-off is seamless. Mouse is left to the hover pause (desktop).
+    let resumeT = 0;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return;
+      window.clearTimeout(resumeT);
+      paused.current = true;
+    };
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return;
+      window.clearTimeout(resumeT);
+      resumeT = window.setTimeout(() => {
+        if (ref.current) pos.current = ref.current.scrollLeft;
+        paused.current = false;
+      }, 1400);
+    };
+    el.addEventListener("pointerdown", onDown, { passive: true });
+    window.addEventListener("pointerup", onUp, { passive: true });
+    window.addEventListener("pointercancel", onUp, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(resumeT);
+      el.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
   }, []);
 
   const nudge = (dir: number) => {
