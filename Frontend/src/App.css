@@ -1915,12 +1915,41 @@ button {
   margin: 0.4rem 0 0.8rem;
 }
 
+.desc-wrap {
+  margin: 0 0 1.6rem;
+}
 .product-info .desc {
   font-weight: 600;
   color: var(--ink-soft);
   line-height: 1.75;
   font-size: 1.05rem;
-  margin: 0 0 1.6rem;
+  margin: 0;
+}
+/* collapsed: show ~5 lines then fade-cut; "read more" reveals the rest */
+.product-info .desc.clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.desc-toggle {
+  margin-top: 0.5rem;
+  padding: 0.15em 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: var(--purple);
+  border-bottom: 2px solid currentColor;
+  line-height: 1.2;
+  transition: opacity 0.15s ease;
+}
+.desc-toggle:hover,
+.desc-toggle:focus-visible {
+  opacity: 0.72;
+  outline: none;
 }
 
 .product-price {

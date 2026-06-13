@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   getProduct,
@@ -20,13 +20,34 @@ export const ProductPage = () => {
   const [qty, setQtyLocal] = useState(1);
   const [imgIdx, setImgIdx] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
+  const [descOverflows, setDescOverflows] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     setQtyLocal(1);
     setImgIdx(0);
     setLightbox(false);
+    setDescExpanded(false);
+  }, [id]);
+
+  // Show "read more" only when the description ACTUALLY exceeds ~5 lines.
+  // Measured (not char-counted): temporarily drop the clamp, compare the full
+  // text height to 5 line-heights. Runs before paint so there's no flash.
+  useLayoutEffect(() => {
+    const el = descRef.current;
+    if (!el) {
+      setDescOverflows(false);
+      return;
+    }
+    const lh = parseFloat(getComputedStyle(el).lineHeight) || 24;
+    const had = el.classList.contains("clamped");
+    el.classList.remove("clamped");
+    const full = el.scrollHeight;
+    if (had) el.classList.add("clamped");
+    setDescOverflows(full > lh * 5 + 4);
   }, [id]);
 
   // Lock body scroll, handle Escape, and manage focus while the lightbox is open.
@@ -59,9 +80,15 @@ export const ProductPage = () => {
   }
 
   const category = getCategory(product.category);
-  const related = productsByCategory(product.category)
-    .filter((p) => p.id !== product.id)
-    .slice(0, 4);
+  // "goes well with" — most relevant first: same sub-category, then fill from
+  // the rest of the category, up to 5.
+  const inCategory = productsByCategory(product.category).filter(
+    (p) => p.id !== product.id
+  );
+  const related = [
+    ...inCategory.filter((p) => p.sub === product.sub),
+    ...inCategory.filter((p) => p.sub !== product.sub),
+  ].slice(0, 5);
   const saved = product.salePrice ? product.price - product.salePrice : 0;
   const gallery = product.imgs ?? (product.img ? [product.img] : []);
   const hasGallery = gallery.length > 1;
@@ -168,7 +195,28 @@ export const ProductPage = () => {
               </Link>
             </div>
             <h1 className="display">{product.name}</h1>
-            {product.description && <p className="desc">{product.description}</p>}
+            {product.description && (
+              <div className="desc-wrap">
+                <p
+                  ref={descRef}
+                  className={`desc ${
+                    descOverflows && !descExpanded ? "clamped" : ""
+                  }`}
+                >
+                  {product.description}
+                </p>
+                {descOverflows && (
+                  <button
+                    type="button"
+                    className="desc-toggle"
+                    aria-expanded={descExpanded}
+                    onClick={() => setDescExpanded((v) => !v)}
+                  >
+                    {descExpanded ? "הצג פחות ▲" : "קרא עוד ▼"}
+                  </button>
+                )}
+              </div>
+            )}
 
             <div className="product-price">
               <span className="now">{shekel(finalPrice(product))}</span>

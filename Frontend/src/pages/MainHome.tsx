@@ -148,7 +148,23 @@ export default () => {
     const RADIUS = 110; // px proximity at which the pull begins
     const PULL = 0.3; // fraction of the offset followed
 
+    // cursor glow: target = the live pointer; the tick loop lerps toward it so
+    // the shine trails the cursor smoothly. Stays at the CSS default centre
+    // until the pointer first moves.
+    let glowTX = 0;
+    let glowTY = 0;
+    let glowX = 0;
+    let glowY = 0;
+    let glowSeen = false;
+
     const onPointerMove = (e: PointerEvent) => {
+      glowTX = e.clientX;
+      glowTY = e.clientY;
+      if (!glowSeen) {
+        glowX = glowTX;
+        glowY = glowTY;
+        glowSeen = true;
+      }
       for (const m of mags) {
         const r = m.node.getBoundingClientRect();
         const mx = r.left + r.width / 2;
@@ -181,6 +197,13 @@ export default () => {
     // -- shared rAF loop: spring each button toward its target ----------------
     let raf = 0;
     const tick = () => {
+      // glow: ease the shine toward the cursor (gentle trail)
+      if (glowSeen) {
+        glowX += (glowTX - glowX) * 0.12;
+        glowY += (glowTY - glowY) * 0.12;
+        el.style.setProperty("--mx", glowX.toFixed(1) + "px");
+        el.style.setProperty("--my", glowY.toFixed(1) + "px");
+      }
       for (const m of mags) {
         m.tx += (m.cx - m.tx) * 0.16;
         m.ty += (m.cy - m.ty) * 0.16;
@@ -209,6 +232,10 @@ export default () => {
 
   return (
     <main className="page-main ph-home main-home" ref={ref}>
+      {/* subtle warm glow that trails the cursor (rAF-lerped --mx/--my; only on
+          hover-capable pointers + motion allowed — see main-home.css) */}
+      <div className="mh-glow" aria-hidden="true" />
+
       {/* ---------- 1) HERO — current split hero (shrunk field + centred logo) ---------- */}
       <section className="hero">
         <div className="hero-field" aria-hidden="true">
