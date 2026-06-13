@@ -491,7 +491,9 @@ button {
 /* ---------- category cards ---------- */
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  /* fixed 3 columns: lays out the 9 shelves as a tidy 3×3 block instead
+     of an orphaned last card (tablet/phone counts handled in media queries) */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.3rem;
 }
 
@@ -574,6 +576,11 @@ button {
 
 .featured-carousel {
   overflow: hidden;
+  /* breathing room so the rotated cards' sale wash + offset shadows
+     are never clipped at the top or bottom; negative margin keeps the
+     section spacing tight despite the inner padding */
+  padding-block: 1.6rem;
+  margin-block: -1.6rem;
 }
 
 .featured-carousel .track {
@@ -887,10 +894,11 @@ button {
 /* ---------- sale wash (living watercolor stain over the picture) ---------- */
 .sale-aqua {
   position: absolute;
-  top: -10%;
+  /* centred over the image: sits in the upper-middle, symmetric L/R */
+  top: 6%;
   right: -8%;
   left: -8%;
-  height: 60%;
+  height: 56%;
   z-index: 2;
   pointer-events: none;
   display: flex;
@@ -903,11 +911,13 @@ button {
   content: "";
   position: absolute;
   inset: 0;
+  /* hotspots mirrored around the horizontal centre (50%) so the wash
+     reads as a balanced blob centred over the product */
   background:
-    radial-gradient(closest-side at 30% 42%, rgba(217, 79, 112, 0.58), transparent),
-    radial-gradient(closest-side at 62% 36%, rgba(123, 63, 191, 0.52), transparent),
-    radial-gradient(closest-side at 48% 74%, rgba(224, 159, 62, 0.42), transparent),
-    radial-gradient(closest-side at 82% 68%, rgba(42, 157, 143, 0.36), transparent);
+    radial-gradient(closest-side at 36% 40%, rgba(217, 79, 112, 0.58), transparent),
+    radial-gradient(closest-side at 64% 40%, rgba(123, 63, 191, 0.52), transparent),
+    radial-gradient(closest-side at 42% 64%, rgba(224, 159, 62, 0.42), transparent),
+    radial-gradient(closest-side at 58% 64%, rgba(42, 157, 143, 0.36), transparent);
   animation: aquaDrift 9s ease-in-out infinite;
 }
 
@@ -2641,7 +2651,7 @@ button {
   font-size: 0.84rem;
 }
 
-.ribbon-area,
+.ribbon-input,
 .featured-search {
   font-family: inherit;
   font-size: 0.95rem;
@@ -2652,6 +2662,53 @@ button {
   border-radius: 0.7em;
   padding: 0.5em 0.9em;
   outline: none;
+}
+
+/* SECTION A — 8 numbered ribbon inputs */
+.ribbon-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ribbon-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ribbon-num {
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  font-family: "Amatic SC", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--purple);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.ribbon-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ribbon-input:focus,
+.featured-search:focus {
+  box-shadow: 0.15em 0.15em 0 var(--shadow);
+}
+
+/* per-section save button row */
+.home-block-foot {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.3rem;
+  padding-top: 0.8rem;
+  border-top: 2px dashed var(--ink);
 }
 
 .featured-results {
@@ -3239,6 +3296,11 @@ html.a11y-underline a {
   .product-view,
   .cart-layout {
     grid-template-columns: 1fr;
+  }
+
+  /* tablet: drop the shelf grid from 3 columns to 2 */
+  .cat-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .summary-card {

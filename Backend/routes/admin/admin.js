@@ -494,7 +494,9 @@ router.get(
   "/settings",
   asyncRoute(async (_req, res) => {
     const doc = await SiteSettings.findOne({}).lean();
-    res.json({ settings: doc || { ribbonTexts: [], featuredIds: [] } });
+    const base = doc || { ribbonTexts: [], featuredIds: [] };
+    // Older singletons predate saleIds — always return [] when absent.
+    res.json({ settings: { ...base, saleIds: base.saleIds || [] } });
   })
 );
 
@@ -504,6 +506,10 @@ router.put(
     const body = req.body || {};
 
     if (!Array.isArray(body.ribbonTexts) || !Array.isArray(body.featuredIds)) {
+      return res.status(400).json({ error: "מבנה הגדרות לא תקין" });
+    }
+    // saleIds is optional in the request body; default to [] when missing.
+    if (body.saleIds !== undefined && !Array.isArray(body.saleIds)) {
       return res.status(400).json({ error: "מבנה הגדרות לא תקין" });
     }
 
@@ -520,9 +526,14 @@ router.put(
       return res.status(400).json({ error: "עד 12 מוצרים מומלצים" });
     }
 
+    const saleIds = (body.saleIds || []).map((id) => String(id));
+    if (saleIds.length > 12) {
+      return res.status(400).json({ error: "עד 12 מוצרים במבצע" });
+    }
+
     const settings = await SiteSettings.findOneAndUpdate(
       {},
-      { $set: { ribbonTexts, featuredIds } },
+      { $set: { ribbonTexts, featuredIds, saleIds } },
       { upsert: true, new: true }
     ).lean();
     res.json({ settings });

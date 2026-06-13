@@ -200,11 +200,17 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
 // Homepage settings (marquee ribbon + featured ids), baked in at build time
 // from the SiteSettings singleton. Falls back to the original marquee strings
 // when no ribbon texts have been configured.
+// keep in sync with DEFAULT_RIBBONS in pages/AdminPage.tsx (what the manager
+// sees pre-filled in the 8 ribbon inputs)
 const DEFAULT_RIBBON = [
   "משלוח חינם מעל ₪300",
   "ייעוץ אישי בחנות",
   "חדש: חימר פולימרי ב־24 צבעים",
   "מבצעי סוף עונה על צבעי שמן",
+  "פותחים דלת מאז 1985",
+  "כל מותגי הצבע במקום אחד",
+  "סדנאות ואמנות לכל המשפחה",
+  "איסוף מהיר מהחנות ברחובות",
 ];
 
 export const siteSettings = {
@@ -213,6 +219,7 @@ export const siteSettings = {
       ? settings.ribbonTexts
       : DEFAULT_RIBBON,
   featuredIds: settings.featuredIds ?? [],
+  saleIds: settings.saleIds ?? [],
 };
 
 const productById = new Map(products.map((p) => [p.id, p]));

@@ -8,6 +8,7 @@ const SiteSettingsSchema = new mongoose.Schema(
   {
     ribbonTexts: { type: [String], default: [] },
     featuredIds: { type: [String], default: [] },
+    saleIds: { type: [String], default: [] },
   },
   { timestamps: true }
 );

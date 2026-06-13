@@ -164,6 +164,27 @@ const downloadFile = (filename: string, text: string) => {
   URL.revokeObjectURL(a.href);
 };
 
+// ─── ribbon (marquee) defaults ──────────────────────────────────────────────
+// The home marquee shows up to 8 lines. When the saved settings are empty we
+// pre-fill the 8 inputs with these examples so the manager sees the format.
+const DEFAULT_RIBBONS = [
+  "משלוח חינם מעל ₪300",
+  "ייעוץ אישי בחנות",
+  "חדש: חימר פולימרי ב־24 צבעים",
+  "מבצעי סוף עונה על צבעי שמן",
+  "פותחים דלת מאז 1985",
+  "כל מותגי הצבע במקום אחד",
+  "סדנאות ואמנות לכל המשפחה",
+  "איסוף מהיר מהחנות ברחובות",
+];
+
+// pads/truncates a saved ribbon list to exactly 8 input slots; empty saved
+// list falls back to the example defaults
+const toRibbonSlots = (saved: string[]): string[] => {
+  const base = saved.filter((t) => t.trim() !== "").length ? saved : DEFAULT_RIBBONS;
+  return Array.from({ length: 8 }, (_, i) => base[i] ?? "");
+};
+
 const emptyForm = {
   name: "",
   price: "",
@@ -194,9 +215,11 @@ export const AdminPage = () => {
   const [dialog, setDialog] = useState<DialogState>(null);
   const [dialogValue, setDialogValue] = useState("");
   // home-content tab
-  const [ribbonText, setRibbonText] = useState("");
+  const [ribbonSlots, setRibbonSlots] = useState<string[]>(() => toRibbonSlots([]));
   const [featuredIds, setFeaturedIds] = useState<string[]>([]);
   const [featuredSearch, setFeaturedSearch] = useState("");
+  const [saleIds, setSaleIds] = useState<string[]>([]);
+  const [saleSearch, setSaleSearch] = useState("");
   const [homeLoaded, setHomeLoaded] = useState(false);
   const [statusFilter, setStatusFilter] = useState<"all" | "sale" | "hidden" | "oos">("all");
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -679,13 +702,36 @@ export const AdminPage = () => {
   }, [orders, subscribers, saleCount, oosCount, hiddenCount]);
 
   // ─── home-content tab: load settings on first open ───
+  // A single load fills all three sections: ribbon inputs (padded/truncated to
+  // 8 slots), featured ids, and sale ids.
   const loadHome = () =>
     act(async () => {
       const d = await call(`/settings`);
-      setRibbonText((d.settings.ribbonTexts || []).join("\n"));
+      setRibbonSlots(toRibbonSlots(d.settings.ribbonTexts || []));
       setFeaturedIds((d.settings.featuredIds || []).filter(Boolean));
+      setSaleIds((d.settings.saleIds || []).filter(Boolean));
       setHomeLoaded(true);
     });
+
+  // each section save sends the CURRENT values of all three keys so that
+  // saving one section never wipes the others. ribbonTexts is always the
+  // non-empty trimmed inputs (the server rejects empty strings).
+  const settingsPayload = () => ({
+    ribbonTexts: ribbonSlots.map((s) => s.trim()).filter(Boolean).slice(0, 8),
+    featuredIds,
+    saleIds,
+  });
+
+  const setRibbonSlot = (i: number, v: string) =>
+    setRibbonSlots((slots) => slots.map((s, j) => (j === i ? v : s)));
+
+  const saveRibbons = () =>
+    act(async () => {
+      await call(`/settings`, {
+        method: "PUT",
+        body: JSON.stringify(settingsPayload()),
+      });
+    }, "הטקסטים נשמרו! יופיעו באתר אחרי פרסום");
 
   const featuredMatches = useMemo(() => {
     const q = featuredSearch.trim();
@@ -702,19 +748,40 @@ export const AdminPage = () => {
   const removeFeatured = (id: string) =>
     setFeaturedIds((ids) => ids.filter((x) => x !== id));
 
-  const saveHome = () => {
-    const ribbonTexts = ribbonText
-      .split("\n")
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .slice(0, 8);
+  const saveFeatured = () =>
     act(async () => {
       await call(`/settings`, {
         method: "PUT",
-        body: JSON.stringify({ ribbonTexts, featuredIds }),
+        body: JSON.stringify(settingsPayload()),
       });
-    }, "תוכן דף הבית נשמר! יופיע באתר אחרי פרסום");
-  };
+    }, "המוצרים הנבחרים נשמרו! יופיעו באתר אחרי פרסום");
+
+  // ─── sale picker (feature #6): candidates are only on-sale products ───
+  const saleMatches = useMemo(() => {
+    const q = saleSearch.trim();
+    if (!q) return [];
+    return products
+      .filter(
+        (p) =>
+          (p.salePercentage || 0) > 0 &&
+          p.name.includes(q) &&
+          !saleIds.includes(p._id)
+      )
+      .slice(0, 8);
+  }, [saleSearch, products, saleIds]);
+
+  const addSale = (id: string) =>
+    setSaleIds((ids) => (ids.includes(id) || ids.length >= 12 ? ids : [...ids, id]));
+  const removeSale = (id: string) =>
+    setSaleIds((ids) => ids.filter((x) => x !== id));
+
+  const saveSales = () =>
+    act(async () => {
+      await call(`/settings`, {
+        method: "PUT",
+        body: JSON.stringify(settingsPayload()),
+      });
+    }, "המבצעים נשמרו! יופיעו באתר אחרי פרסום");
 
   const productById = useMemo(
     () => new Map(products.map((p) => [p._id, p])),
@@ -937,17 +1004,36 @@ export const AdminPage = () => {
             השינויים יופיעו באתר אחרי לחיצה על פרסום לאתר
           </p>
 
+          {/* SECTION A — ribbon (marquee) texts: 8 numbered inputs */}
           <section className="home-block">
             <h3 className="display">הטקסטים בפס הנע</h3>
-            <p className="import-help">שורה אחת לכל טקסט (עד 8 שורות).</p>
-            <textarea
-              className="ribbon-area"
-              rows={6}
-              value={ribbonText}
-              onInput={(e: any) => setRibbonText(e.target.value)}
-            />
+            <p className="import-help">
+              הפס הנע בראש האתר מציג עד 8 טקסטים. מלאו את השורות שתרצו (השאר ריקות
+              יידלגו). עד 80 תווים בשורה.
+            </p>
+            <div className="ribbon-inputs">
+              {ribbonSlots.map((val, i) => (
+                <label key={i} className="ribbon-input-row">
+                  <span className="ribbon-num">{i + 1}</span>
+                  <input
+                    type="text"
+                    className="ribbon-input"
+                    maxLength={80}
+                    placeholder={`טקסט ${i + 1}`}
+                    value={val}
+                    onInput={(e: any) => setRibbonSlot(i, e.target.value)}
+                  />
+                </label>
+              ))}
+            </div>
+            <div className="home-block-foot">
+              <button className="btn" onClick={saveRibbons}>
+                שמירת הטקסטים
+              </button>
+            </div>
           </section>
 
+          {/* SECTION B — featured products picker */}
           <section className="home-block">
             <h3 className="display">מוצרים נבחרים לדף הבית</h3>
             <p className="import-help">
@@ -996,11 +1082,75 @@ export const AdminPage = () => {
               })}
             </div>
             <p className="import-help dim">נבחרו {featuredIds.length}/12 מוצרים</p>
+            <div className="home-block-foot">
+              <button className="btn" onClick={saveFeatured}>
+                שמירת הנבחרים
+              </button>
+            </div>
           </section>
 
-          <button className="btn" onClick={saveHome}>
-            שמירה
-          </button>
+          {/* SECTION C — sale picker: candidates are only on-sale products */}
+          <section className="home-block">
+            <h3 className="display">מבצעים בדף הבית</h3>
+            <p className="import-help">
+              בחרו אילו מבצעים יופיעו בדף הבית. אם לא תבחרו — יוצגו מבצעים אוטומטית.
+            </p>
+            <input
+              type="search"
+              className="featured-search"
+              placeholder="חיפוש מבצע להוספה..."
+              value={saleSearch}
+              onInput={(e: any) => setSaleSearch(e.target.value)}
+            />
+            {saleSearch.trim() && saleMatches.length === 0 && (
+              <p className="import-help dim">לא נמצאו מוצרים במבצע בשם הזה</p>
+            )}
+            {saleMatches.length > 0 && (
+              <div className="featured-results">
+                {saleMatches.map((p) => (
+                  <button
+                    key={p._id}
+                    type="button"
+                    className="featured-result"
+                    onClick={() => {
+                      addSale(p._id);
+                      setSaleSearch("");
+                    }}
+                  >
+                    <img src={imgUrl((p.img || "").split(";")[0])} alt="" loading="lazy" />
+                    <span>{p.name}</span>
+                    <b className="sale-tag">{p.salePercentage}%-</b>
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="featured-chips">
+              {saleIds.length === 0 && (
+                <p className="empty-note">לא נבחרו מבצעים — יוצגו מבצעים אוטומטית</p>
+              )}
+              {saleIds.map((id) => {
+                const p = productById.get(id);
+                return (
+                  <span key={id} className="featured-chip">
+                    <img src={p ? imgUrl((p.img || "").split(";")[0]) : ""} alt="" />
+                    <span className="fc-name">{p ? p.name : id}</span>
+                    {p && (p.salePercentage || 0) > 0 && (
+                      <b className="sale-tag">{p.salePercentage}%-</b>
+                    )}
+                    <button type="button" aria-label="הסרה" onClick={() => removeSale(id)}>
+                      ✕
+                    </button>
+                  </span>
+                );
+              })}
+            </div>
+            <p className="import-help dim">נבחרו {saleIds.length}/12 מבצעים</p>
+            <div className="home-block-foot">
+              <button className="btn" onClick={saveSales}>
+                שמירת המבצעים
+              </button>
+            </div>
+          </section>
         </div>
       ) : view === "orders" ? (
         <div className="orders-list">

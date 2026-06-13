@@ -122,10 +122,11 @@ if (existsSync(settingsDumpPath)) {
 const settings = {
   ribbonTexts: Array.isArray(rawSettings.ribbonTexts) ? rawSettings.ribbonTexts : [],
   featuredIds: Array.isArray(rawSettings.featuredIds) ? rawSettings.featuredIds : [],
+  saleIds: Array.isArray(rawSettings.saleIds) ? rawSettings.saleIds : [],
 };
 writeFileSync(settingsOutPath, JSON.stringify(settings));
 const saleCount = products.filter((p) => p.salePrice != null).length;
 console.log(
-  `wrote settings (${settings.ribbonTexts.length} ribbon, ${settings.featuredIds.length} featured) -> ${settingsOutPath}`
+  `wrote settings (${settings.ribbonTexts.length} ribbon, ${settings.featuredIds.length} featured, ${settings.saleIds.length} sale) -> ${settingsOutPath}`
 );
 console.log(`sale products: ${saleCount}`);

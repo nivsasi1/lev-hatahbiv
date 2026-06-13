@@ -12,10 +12,14 @@ require("dotenv").config({ path: ".env" });
   fs.writeFileSync("products-dump.json", JSON.stringify(products, null, 2));
   console.log(`dumped ${products.length} products`);
 
-  // Site settings singleton (homepage marquee + featured ids). The collection
-  // may be empty on a fresh DB — write {} so the generator always has a file.
+  // Site settings singleton (homepage marquee + featured/sale ids). The
+  // collection may be empty on a fresh DB — write {} so the generator always
+  // has a file. saleIds is normalized to [] for docs that predate the field.
   const settings = await SiteSettings.findOne({}).lean();
-  fs.writeFileSync("settings-dump.json", JSON.stringify(settings || {}, null, 2));
+  const settingsOut = settings
+    ? { ...settings, saleIds: settings.saleIds || [] }
+    : {};
+  fs.writeFileSync("settings-dump.json", JSON.stringify(settingsOut, null, 2));
   console.log(`dumped settings (${settings ? "found" : "none"})`);
 
   await mongoose.disconnect();

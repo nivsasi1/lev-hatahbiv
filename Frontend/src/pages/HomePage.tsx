@@ -35,9 +35,16 @@ const featured =
         .filter((p): p is NonNullable<typeof p> => Boolean(p))
     : heuristicFeatured;
 
-const fresh = products
-  .filter((p) => p.salePrice && !p.soldOut && p.img)
-  .slice(0, 4);
+// Manager-chosen sale picks win; otherwise auto-pick the first few on-sale items.
+const onSale = (p: { salePrice?: number; soldOut?: boolean; img?: string }) =>
+  Boolean(p.salePrice && !p.soldOut && p.img);
+
+const fresh =
+  siteSettings.saleIds.length > 0
+    ? siteSettings.saleIds
+        .map((id) => getProduct(id))
+        .filter((p): p is NonNullable<typeof p> => Boolean(p) && onSale(p!))
+    : products.filter(onSale).slice(0, 4);
 
 export const HomePage = () => (
   <main className="page-main">
