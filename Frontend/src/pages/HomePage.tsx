@@ -7,27 +7,24 @@ import {
   siteSettings,
   store,
   workshops,
-  asset,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { ProductArt } from "../components/ProductArt";
-import { Splat, Blob } from "../components/Splat";
+import "./home-sketchbook.css";
 
-// one photogenic product from each of four different shelves
-const heuristicFeatured = ["paints", "brushes", "drawing", "paper"]
+/* ---------- featured / sale picks (same rules as the base homepage) ---------- */
+const heuristicFeatured = ["paints", "brushes", "drawing", "paper", "craft", "fiber"]
   .map((slug) =>
     products.find(
       (p) =>
         p.category === slug &&
         p.img &&
         p.description.length > 40 &&
-        // prefer products with a Hebrew name on the homepage
         /[֐-׿]/.test(p.name)
     )
   )
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-// Manager-curated picks win; otherwise fall back to the heuristic.
 const featured =
   siteSettings.featuredIds.length > 0
     ? siteSettings.featuredIds
@@ -35,7 +32,6 @@ const featured =
         .filter((p): p is NonNullable<typeof p> => Boolean(p))
     : heuristicFeatured;
 
-// Manager-chosen sale picks win; otherwise auto-pick the first few on-sale items.
 const onSale = (p: { salePrice?: number; soldOut?: boolean; img?: string }) =>
   Boolean(p.salePrice && !p.soldOut && p.img);
 
@@ -46,30 +42,55 @@ const fresh =
         .filter((p): p is NonNullable<typeof p> => Boolean(p) && onSale(p!))
     : products.filter(onSale).slice(0, 4);
 
-export const HomePage = () => (
-  <main className="page-main">
-    {/* ---------- hero ---------- */}
-    <section className="hero">
-      <Splat color="#e2574c" size={170} style={{ top: "8%", right: "6%" }} className="wiggle" />
-      <Splat color="#2a9d8f" size={110} style={{ bottom: "12%", right: "16%", opacity: 0.85 }} />
-      <Splat color="#e09f3e" size={140} style={{ top: "16%", left: "8%", opacity: 0.9 }} />
-      <Splat color="#7b3fbf" size={90} style={{ bottom: "8%", left: "18%" }} className="wiggle" />
+const ribbon = siteSettings.ribbonTexts;
 
-      <div className="shell hero-inner">
-        <span className="hero-kicker">חנות ציוד האמנות של רחובות · מאז {store.since}</span>
-        {/* the logo IS the headline */}
-        <h1 className="hero-logo">
-          <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+/* a few quick hand-drawn doodles */
+const Star = () => (
+  <svg className="sk-doodle star" width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <path d="M24 4 L29 19 L45 19 L32 28 L37 44 L24 34 L11 44 L16 28 L3 19 L19 19 Z"
+      stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+  </svg>
+);
+const Spiral = () => (
+  <svg className="sk-doodle spiral" width="54" height="54" viewBox="0 0 54 54" fill="none" aria-hidden="true">
+    <path d="M27 27 m0 0 a3 3 0 1 1 6 1 a8 8 0 1 1 -13 -3 a14 14 0 1 1 23 6 a20 20 0 1 1 -33 -8"
+      stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+  </svg>
+);
+const Scribble = () => (
+  <svg className="sk-doodle scribble" width="80" height="34" viewBox="0 0 80 34" fill="none" aria-hidden="true">
+    <path d="M4 22 C14 6 20 30 30 16 S46 4 54 20 70 28 76 10"
+      stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+  </svg>
+);
+const ArrowDoodle = () => (
+  <svg className="sk-arrow" width="40" height="26" viewBox="0 0 40 26" fill="none" aria-hidden="true">
+    <path d="M3 14 C12 10 24 18 34 9 M34 9 L27 8 M34 9 L31 16"
+      stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+);
+
+export const HomePage = () => (
+  <main className="sk-home">
+    {/* ---------- hero ---------- */}
+    <section className="sk-hero">
+      <Star />
+      <Spiral />
+      <Scribble />
+      <div className="sk-shell">
+        <span className="sk-tape">חנות האמנות של רחובות · מאז {store.since}</span>
+        <h1>
+          לב <span className="sk-underline">התחביב</span>
         </h1>
-        <p className="sub">
-          צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם כל מה שהידיים שלכם
-          מחפשות, ועם עצה טובה ליד הקופה.
+        <p className="sk-lead">
+          צבעים, מכחולים, נייר וחוטים — חנות משפחתית שמרגישה כמו דף ממחברת
+          הסקיצות שלכם. אלפי פריטים ועצה טובה ליד הקופה.
         </p>
-        <div className="hero-ctas">
-          <Link to={`/category/${categories[0].slug}`} className="btn">
-            לצאת למסע בין המדפים 🎨
+        <div className="sk-ctas">
+          <Link to={`/category/${categories[0].slug}`} className="sk-btn fill">
+            להתחיל לשרבט ✏️
           </Link>
-          <a href={store.waze} target="_blank" rel="noreferrer" className="btn ghost">
+          <a href={store.waze} target="_blank" rel="noreferrer" className="sk-btn">
             ניווט לחנות
           </a>
         </div>
@@ -77,175 +98,135 @@ export const HomePage = () => (
     </section>
 
     {/* ---------- categories ---------- */}
-    <section className="shell">
-      <div className="section-head">
-        <h2 className="display">המדפים שלנו</h2>
-        <div className="scribble" />
-      </div>
-      <div className="cat-grid">
-        {categories.map((c) => (
-          <Link
-            key={c.slug}
-            to={`/category/${c.slug}`}
-            className="cat-card"
-            style={{ "--cc": c.color } as any}
-          >
-            <Blob color={c.soft} />
-            <span className="cat-art" aria-hidden="true">
-              <ProductArt kind={c.art} color={c.color} />
-            </span>
-            <h3 className="display">{c.name}</h3>
-            <p>{c.blurb}</p>
-            <span className="count">
-              {productsByCategory(c.slug).length} מוצרים ←
-            </span>
-          </Link>
-        ))}
+    <section className="sk-sec">
+      <div className="sk-shell">
+        <div className="sk-sec-head">
+          <h2>המדפים שלנו</h2>
+          <ArrowDoodle />
+        </div>
+        <div className="sk-cats">
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              to={`/category/${c.slug}`}
+              className="sk-cat"
+              style={{ "--cc": c.color, "--soft": c.soft } as any}
+            >
+              <span className="sk-orb" aria-hidden="true">
+                <ProductArt kind={c.art} color={c.color} />
+              </span>
+              <h3>{c.name}</h3>
+              <p>{c.blurb}</p>
+              <span className="sk-count">{productsByCategory(c.slug).length} מוצרים ←</span>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
 
     {/* ---------- ribbon ---------- */}
-    <div className="ribbon">
-      <div className="ribbon-track">
-        {[0, 1].map((i) => (
-          <span key={i}>
-            {siteSettings.ribbonTexts.map((t, j) => (
-              <span key={j}>{t}</span>
+    <div className="sk-strip">
+      <div className="sk-track">
+        {[0, 1].map((dup) => (
+          <span key={dup}>
+            {ribbon.map((t, j) => (
+              <span key={j} style={{ gap: 0 }}>{t}</span>
             ))}
           </span>
         ))}
       </div>
     </div>
 
-    {/* ---------- best sellers ---------- */}
+    {/* ---------- featured ---------- */}
     {featured.length > 0 && (
-      <section className="shell">
-        <div className="section-head">
-          <h2 className="display">נבחרים מהמדפים</h2>
-          <div className="scribble" />
-        </div>
-        {featured.length > 4 ? (
-          // slow auto-scrolling carousel; cards duplicated for a seamless loop
-          <div className="featured-carousel">
-            <div
-              className="track"
-              style={{ animationDuration: `${featured.length * 6}s` }}
-            >
-              {[0, 1].map((dup) =>
-                featured.map((p) => (
-                  <ProductCard key={`${dup}-${p.id}`} product={p} />
-                ))
-              )}
-            </div>
+      <section className="sk-sec">
+        <div className="sk-shell">
+          <div className="sk-sec-head">
+            <h2>נבחרים מהמדפים</h2>
+            <ArrowDoodle />
           </div>
-        ) : (
-          <div className="product-grid home-grid">
-            {featured.map((p) => (
+          <div className="sk-grid">
+            {featured.slice(0, 8).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
-        )}
+        </div>
       </section>
     )}
 
-    {/* ---------- new & on sale ---------- */}
+    {/* ---------- on sale ---------- */}
     {fresh.length > 0 && (
-      <section className="shell">
-        <div className="section-head">
-          <h2 className="display">במבצע עכשיו</h2>
-          <div className="scribble" />
-        </div>
-        <div className="product-grid home-grid">
-          {fresh.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+      <section className="sk-sec">
+        <div className="sk-shell">
+          <div className="sk-sec-head">
+            <h2>במבצע עכשיו</h2>
+            <ArrowDoodle />
+          </div>
+          <div className="sk-grid">
+            {fresh.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
         </div>
       </section>
     )}
 
     {/* ---------- workshops ---------- */}
-    <section className="shell">
-      <div className="section-head">
-        <h2 className="display">חוגים וסדנאות</h2>
-        <div className="scribble" />
-      </div>
-      <div className="workshops-card">
-        <p>{workshops.intro}</p>
-        <div className="workshop-topics">
-          {workshops.topics.map((t) => (
-            <span key={t} className="workshop-chip">
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="workshop-meta">
-          <span>🗓 {workshops.schedule}</span>
-          <span>💰 {workshops.price}</span>
-          <a href={`tel:${store.phone}`} className="btn small">
-            לפרטים והרשמה: {store.phone}
-          </a>
+    <section className="sk-sec">
+      <div className="sk-shell">
+        <div className="sk-shop">
+          <h2>חוגים וסדנאות</h2>
+          <p className="intro">{workshops.intro}</p>
+          <div className="sk-notes">
+            {workshops.topics.map((t) => (
+              <span key={t}>{t}</span>
+            ))}
+          </div>
+          <div className="sk-shop-meta">
+            <span className="sk-m">🗓 {workshops.schedule}</span>
+            <span className="sk-m">💰 {workshops.price}</span>
+            <a href={`tel:${store.phone}`} className="sk-btn fill">
+              להרשמה: {store.phone}
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    {/* ---------- studio band: story + hours, pinned like notes on a wall ---------- */}
-    <section className="studio-band">
-      <Splat color="#e2574c" size={130} style={{ top: "-4%", right: "3%", opacity: 0.5 }} className="wiggle" />
-      <Splat color="#7b3fbf" size={100} style={{ bottom: "-6%", left: "5%", opacity: 0.45 }} />
-      <div className="shell">
-        <h2 className="display studio-title">
-          כל יצירה גדולה מתחילה{" "}
-          <span className="hl" style={{ "--hl": "#e2574c" } as any}>
-            בלב
-          </span>
-        </h2>
-        <p className="studio-text">
-          לב התחביב — המרכז לאמנויות ולתחביבים — היא חנות משפחתית שפועלת
-          ברחובות מאז {store.since}. אצלנו לא רק קונים: מתייעצים עם צוות
-          מקצועי, ממששים את הנייר, משווים גוונים מול האור, ויוצאים עם בדיוק
-          מה שהפרויקט הבא צריך.
-        </p>
-
-        <div className="note-row">
-          <div className="note-card gold">
-            <h3 className="display">שעות פתיחה</h3>
-            <table>
-              <tbody>
-                {store.hours.map((h) => (
-                  <tr key={h.days}>
-                    <td>{h.days}</td>
-                    <td>{h.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="note-foot">* אחה"צ פתוחים בימים א', ב', ד', ה' בלבד</div>
+    {/* ---------- visit ---------- */}
+    <section className="sk-sec" style={{ paddingTop: 0 }}>
+      <div className="sk-shell sk-visit">
+        <div className="sk-card">
+          <h3>שעות פתיחה</h3>
+          <table>
+            <tbody>
+              {store.hours.map((h) => (
+                <tr key={h.days}>
+                  <td>{h.days}</td>
+                  <td>{h.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="sk-card">
+          <h3>קופצים לבקר?</h3>
+          <div className="sk-rows">
+            <div>📍 {store.address}</div>
+            <div>
+              📞 <a href={`tel:${store.phone}`}>{store.phone}</a>
+            </div>
+            <div>
+              ✉️ <a href={`mailto:${store.email}`}>{store.email}</a>
+            </div>
           </div>
-
-          <div className="note-card">
-            <h3 className="display">קופצים לבקר?</h3>
-            <div className="visit-rows">
-              <div>
-                <span className="dot" style={{ background: "#e2574c" }} />
-                {store.address}
-              </div>
-              <div>
-                <span className="dot" style={{ background: "#2a9d8f" }} />
-                <a href={`tel:${store.phone}`}>{store.phone}</a>
-              </div>
-              <div>
-                <span className="dot" style={{ background: "#7b3fbf" }} />
-                <a href={`mailto:${store.email}`}>{store.email}</a>
-              </div>
-            </div>
-            <div className="visit-actions">
-              <a href={store.waze} target="_blank" rel="noreferrer" className="btn small">
-                פותחים Waze
-              </a>
-              <a href={store.maps} target="_blank" rel="noreferrer" className="btn small ghost">
-                מפת Google
-              </a>
-            </div>
+          <div className="sk-vactions">
+            <a href={store.waze} target="_blank" rel="noreferrer" className="sk-btn fill">
+              פותחים Waze
+            </a>
+            <a href={store.maps} target="_blank" rel="noreferrer" className="sk-btn">
+              מפת Google
+            </a>
           </div>
         </div>
       </div>
