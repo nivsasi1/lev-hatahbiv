@@ -1,0 +1,241 @@
+/* ===========================================================================
+   Manager dashboard · 2nd design — "נקי" (Clean / Pro)
+   A calmer, more readable, more functional alternative to the artsy Atelier
+   dashboard. Activated by adding `.adm-clean` to the .admin-page root (toggled
+   from the dashboard header). Works by (a) redefining the theme CSS variables
+   so every var()-based admin rule recolors automatically, then (b) a handful of
+   targeted overrides for crisp 1px borders, soft shadows and the Rubik font.
+   The artsy theme is untouched and remains the default.
+   =========================================================================== */
+
+/* full-page neutral canvas while the clean theme is on (toggled on <body>) */
+body.lh-admin-clean { background: #eef1f6; }
+
+.admin-page.adm-clean {
+  /* ---- recolour the shared tokens (calm, professional palette) ---- */
+  --paper: #eef1f6;
+  --paper-deep: #e6eaf1;
+  --card: #ffffff;
+  --ink: #283443;        /* primary text */
+  --ink-soft: #6a7585;   /* secondary text */
+  --purple: #3056d3;     /* accent → calm indigo-blue */
+  --red: #dc3b45;
+  --gold: #b9821a;
+  --teal: #0f9d6b;
+  --blue: #3056d3;
+  --shadow: transparent; /* kills the hard offset shadows used across the admin */
+  --btn-pop: transparent;
+  /* clean-theme-only helpers */
+  --line: #dde3ec;
+  --line-strong: #c7d0dc;
+  --focus: rgba(48, 86, 211, 0.25);
+
+  font-family: "Rubik", "Assistant", system-ui, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- typography: drop the display/cursive look for readable Rubik ---- */
+.adm-clean .display,
+.adm-clean h1,
+.adm-clean h2,
+.adm-clean h3 {
+  font-family: "Rubik", "Assistant", system-ui, sans-serif;
+  letter-spacing: 0;
+}
+.admin-page.adm-clean h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.adm-clean .home-block h3,
+.adm-clean .stats-top h3 { font-size: 1.15rem; font-weight: 700; }
+.adm-clean .stat-num { font-size: 2.1rem; font-weight: 700; font-family: "Rubik", sans-serif; }
+
+/* ---- buttons: flat, solid, accessible ---- */
+.adm-clean .btn {
+  border: 1px solid var(--purple);
+  background: var(--purple);
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background 0.14s ease, box-shadow 0.14s ease, transform 0.08s ease;
+}
+.adm-clean .btn:hover { background: #2746b8; box-shadow: 0 2px 8px rgba(48,86,211,0.28); }
+.adm-clean .btn:active { transform: translateY(1px); }
+.adm-clean .btn.ghost {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--line-strong);
+  box-shadow: none;
+}
+.adm-clean .btn.ghost:hover { background: #f3f6fb; box-shadow: none; }
+.adm-clean .wa-btn { background: var(--teal); border-color: var(--teal); }
+.adm-clean .wa-btn:hover { background: #0c8559; }
+
+/* ---- tabs: underline style instead of pills ---- */
+.adm-clean .admin-tabs {
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.2rem;
+}
+.adm-clean .admin-tabs button {
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  border-radius: 8px 8px 0 0;
+  border-bottom: 2.5px solid transparent;
+  padding: 0.55em 1em;
+  font-weight: 600;
+  margin-bottom: -1px;
+}
+.adm-clean .admin-tabs button:hover { background: #f3f6fb; color: var(--ink); }
+.adm-clean .admin-tabs button.active {
+  background: transparent;
+  color: var(--purple);
+  border-bottom-color: var(--purple);
+}
+
+/* ---- inputs: light fields with a focus ring ---- */
+.adm-clean .admin-login input,
+.adm-clean .admin-toolbar input,
+.adm-clean .admin-form input,
+.adm-clean .admin-form select,
+.adm-clean .admin-form textarea,
+.adm-clean .ribbon-input,
+.adm-clean .featured-search {
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 500;
+  box-shadow: none;
+}
+.adm-clean .admin-login input:focus,
+.adm-clean .admin-toolbar input:focus,
+.adm-clean .admin-form input:focus,
+.adm-clean .admin-form select:focus,
+.adm-clean .admin-form textarea:focus,
+.adm-clean .ribbon-input:focus,
+.adm-clean .featured-search:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px var(--focus);
+}
+
+/* ---- cards / rows / panels: crisp 1px borders, soft drop shadows ---- */
+.adm-clean .stat-card,
+.adm-clean .stats-top,
+.adm-clean .home-block,
+.adm-clean .order-card,
+.adm-clean .admin-row,
+.adm-clean .import-panel,
+.adm-clean .featured-chip,
+.adm-clean .img-chip,
+.adm-clean .subs-chip {
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(40, 52, 67, 0.05);
+}
+.adm-clean .stat-card,
+.adm-clean .home-block,
+.adm-clean .stats-top { border-radius: 12px; }
+.adm-clean .order-card,
+.adm-clean .admin-row { border-radius: 10px; }
+
+/* product list: tighter, scannable rows with a hover state */
+.adm-clean .admin-list { gap: 0.4rem; }
+.adm-clean .admin-row {
+  padding: 0.55rem 0.85rem;
+  transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.adm-clean .admin-row:hover {
+  background: #f7f9fc;
+  border-color: var(--line-strong);
+  box-shadow: 0 2px 8px rgba(40, 52, 67, 0.07);
+}
+.adm-clean .admin-row img { border: 1px solid var(--line); border-radius: 8px; }
+.adm-clean .admin-row.row-selected {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 2px var(--focus);
+  background: #f5f7ff;
+}
+
+/* bulk action bar */
+.adm-clean .bulk-bar {
+  border: 1px solid var(--purple);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(48, 86, 211, 0.12);
+  background: #f7f9ff;
+}
+
+/* row action buttons → neutral outlined chips */
+.adm-clean .admin-row-actions button {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: none;
+}
+.adm-clean .admin-row-actions button:hover { background: #f3f6fb; box-shadow: none; }
+.adm-clean .admin-row-actions .danger:hover { background: #fdecec; border-color: var(--red); }
+
+/* chips / filters */
+.adm-clean .sub-chip {
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 500;
+  box-shadow: none;
+}
+.adm-clean .sub-chip:hover { background: #f3f6fb; }
+.adm-clean .sub-chip.active,
+.adm-clean .admin-filters .sub-chip.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+.adm-clean .featured-chip { border-radius: 999px; background: #f7f9fc; }
+
+/* notices */
+.adm-clean .admin-error { border: 1px solid #f1b5b8; background: #fdecec; color: #a52831; border-radius: 8px; }
+.adm-clean .admin-notice { border: 1px solid #b7e3cd; background: #e9f7f0; color: #11704e; border-radius: 8px; }
+.adm-clean .home-publish-note { border: 1px solid #f0d28a; background: #fff7e4; border-radius: 8px; color: #8a6312; }
+
+/* status pills keep their colour but lose the loud weight */
+.adm-clean .order-status { font-weight: 600; }
+.adm-clean .order-channel { background: var(--paper-deep); }
+
+/* =====================================================================
+   Theme switch — segmented control (styled for BOTH themes so the user
+   can always switch back). Lives in the dashboard header + login screen.
+   ===================================================================== */
+.adm-theme-switch {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 999px;
+  background: rgba(43, 36, 64, 0.08);
+  border: 1px solid rgba(43, 36, 64, 0.16);
+}
+.adm-theme-switch button {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft, #5a5370);
+  padding: 0.34em 0.9em;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  transition: background 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
+}
+.adm-theme-switch button:hover { color: var(--ink, #2b2440); }
+.adm-theme-switch button.on {
+  background: #fff;
+  color: var(--ink, #2b2440);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+/* in the clean theme, the active chip adopts the indigo accent */
+.adm-clean .adm-theme-switch { background: #e3e8f2; border-color: #d4dbe8; }
+.adm-clean .adm-theme-switch button.on { color: var(--purple); }
