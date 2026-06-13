@@ -9,6 +9,7 @@ type DesignEntry = {
   desc: string;
   emoji: string;
   swatch: string;
+  badge?: string; // optional corner ribbon, e.g. the interactive concepts
 };
 
 // Each entry previews one homepage concept. The rest of the site
@@ -112,6 +113,39 @@ const DESIGNS: DesignEntry[] = [
     swatch:
       "linear-gradient(135deg, #c9d6ff 0%, #eaeaea 30%, #b8c6db 55%, #f5e6ff 78%, #c9f0ff 100%)",
   },
+  {
+    num: "עיצוב 11",
+    to: "/design11",
+    name: "קנבס חי",
+    tag: "אינטראקטיבי · Living Canvas",
+    desc: "ציור חי: צבעי מים נמרחים מתחת לעכבר, ומכחולים שנמתחים תוך כדי גלילה.",
+    emoji: "🖌️",
+    badge: "חדש · אינטראקטיבי",
+    swatch:
+      "radial-gradient(circle at 28% 32%, rgba(91,45,142,0.55) 16%, transparent 17%), radial-gradient(circle at 70% 38%, rgba(226,58,58,0.5) 14%, transparent 15%), radial-gradient(circle at 50% 74%, rgba(42,157,143,0.5) 18%, transparent 19%), #faf5ec",
+  },
+  {
+    num: "עיצוב 12",
+    to: "/design12",
+    name: "סטודיו קינטי",
+    tag: "אינטראקטיבי · Kinetic Studio",
+    desc: "גלריה לבנה: כותרת מגנטית שנמשכת לסמן, זרקור רך ומסילת תצוגה אופקית.",
+    emoji: "✨",
+    badge: "חדש · אינטראקטיבי",
+    swatch:
+      "radial-gradient(circle at 70% 30%, rgba(224,159,62,0.5) 0%, transparent 45%), radial-gradient(circle at 30% 70%, rgba(91,45,142,0.32) 0%, transparent 50%), #fffdf7",
+  },
+  {
+    num: "עיצוב 13",
+    to: "/design13",
+    name: "קולאז' חי",
+    tag: "אינטראקטיבי · Living Collage",
+    desc: "קולאז' נייר חתוך שזז בפרלקס עם העכבר, מדבקות שמתקלפות וסקריבל שנמתח.",
+    emoji: "🧩",
+    badge: "חדש · אינטראקטיבי",
+    swatch:
+      "radial-gradient(circle at 26% 30%, #ff5d8f 12%, transparent 13%), radial-gradient(circle at 64% 26%, #3a86ff 10%, transparent 11%), radial-gradient(circle at 46% 72%, #2a9d8f 13%, transparent 14%), #fbf6ea",
+  },
 ];
 
 export const DesignsIndex = () => (
@@ -129,8 +163,9 @@ export const DesignsIndex = () => (
     <section className="shell">
       <div className="di-grid">
         {DESIGNS.map((d) => (
-          <article key={d.to} className="di-card">
+          <article key={d.to} className={`di-card ${d.badge ? "featured" : ""}`}>
             <div className="di-swatch" style={{ background: d.swatch }}>
+              {d.badge && <span className="di-ribbon">{d.badge}</span>}
               <span aria-hidden="true">{d.emoji}</span>
             </div>
             <div className="di-body">

@@ -30,6 +30,10 @@ import DesignPhotographic from "./pages/Design-photographic";
 import DesignRisozine from "./pages/Design-risozine";
 import DesignSketchbook from "./pages/Design-sketchbook";
 import DesignY2k from "./pages/Design-y2k";
+// Round 2: interactive, motion-rich concepts.
+import DesignLivingCanvas from "./pages/Design-livingcanvas";
+import DesignKineticStudio from "./pages/Design-kineticstudio";
+import DesignCollage from "./pages/Design-collage";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -87,6 +91,9 @@ const router = createBrowserRouter(
         { path: "/design8", element: <DesignRisozine /> },
         { path: "/design9", element: <DesignSketchbook /> },
         { path: "/design10", element: <DesignY2k /> },
+        { path: "/design11", element: <DesignLivingCanvas /> },
+        { path: "/design12", element: <DesignKineticStudio /> },
+        { path: "/design13", element: <DesignCollage /> },
         { path: "*", element: <HomePage /> },
       ],
     },

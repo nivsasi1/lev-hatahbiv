@@ -1,0 +1,659 @@
+/* ===========================================================================
+   Home design · "סטודיו קינטי" (Kinetic Studio)
+   A pristine gallery/atelier homepage: generous whitespace, gallery-white +
+   warm ink, one bold accent (purple #5b2d8e with gold #e09f3e). Signature
+   kinetic touches — magnetic wordmark, warm cursor spotlight, brush rules that
+   draw on scroll, and a horizontal scroll-snap exhibition rail.
+
+   SCOPE NOTE: this file loads globally on the live store. EVERY selector is
+   nested under `.ks-home` (or a uniquely-prefixed `.ks-…` child), and EVERY
+   @keyframes is named `ks-…`, so nothing here can match outside the wrapper.
+   Light mode only. chrome70-safe (no :has/color-mix/nesting/scroll-timeline).
+   =========================================================================== */
+
+.ks-home {
+  --ks-paper: #fffdf7;
+  --ks-paper-warm: #faf5ec;
+  --ks-ink: #2b2440;
+  --ks-ink-soft: #6b6478;
+  --ks-hair: #e7e0d2;
+  --ks-purple: #5b2d8e;
+  --ks-gold: #e09f3e;
+
+  position: relative;
+  color: var(--ks-ink);
+  font-family: "Assistant", system-ui, sans-serif;
+  /* warm gallery wash + faint radial-gradient speckle (no SVG filters) */
+  background-color: var(--ks-paper);
+  background-image:
+    radial-gradient(1100px 620px at 88% -8%, rgba(224, 159, 62, 0.07), transparent 60%),
+    radial-gradient(900px 560px at 4% 6%, rgba(91, 45, 142, 0.05), transparent 58%),
+    radial-gradient(rgba(43, 36, 64, 0.05) 1px, transparent 1.4px);
+  background-size: auto, auto, 26px 26px;
+  overflow-x: clip;
+}
+
+.ks-home .ks-shell {
+  width: min(1160px, 92vw);
+  margin-inline: auto;
+}
+
+.ks-home .ks-sec {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+/* ---------- shared accents: eyebrow + brush rule ---------- */
+.ks-home .ks-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  color: var(--ks-purple);
+}
+.ks-home .ks-tick {
+  width: 1.7rem;
+  height: 0.3rem;
+  border-radius: 2em;
+  background: var(--ks-gold);
+  flex: none;
+}
+
+.ks-home .ks-brush {
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin-block: 1rem 0;
+  overflow: visible;
+}
+.ks-home .ks-brush-path {
+  fill: none;
+  stroke: var(--ks-ink);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  /* pathLength=1 → dash the whole length and offset it out, scroll draws it in */
+  stroke-dasharray: 1;
+  stroke-dashoffset: var(--ks-draw, 1);
+  transition: stroke-dashoffset 0.12s linear;
+  vector-effect: non-scaling-stroke;
+}
+.ks-home .ks-brush-gold .ks-brush-path {
+  stroke: var(--ks-gold);
+  stroke-width: 3;
+}
+
+/* ============================ KINETIC HERO ============================ */
+.ks-home .ks-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(3.4rem, 8vw, 7rem) 0 clamp(2.6rem, 5vw, 4.5rem);
+  border-bottom: 1px solid var(--ks-hair);
+}
+
+/* warm cursor spotlight — a soft light, NOT a dark vignette (light mode) */
+.ks-home .ks-spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--ks-spot, 0);
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    340px 340px at var(--ks-mx, 50%) var(--ks-my, 38%),
+    rgba(224, 159, 62, 0.16),
+    rgba(91, 45, 142, 0.06) 42%,
+    transparent 70%
+  );
+}
+
+.ks-home .ks-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: min(1160px, 92vw);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.ks-home .ks-wordmark {
+  margin: 1.4rem auto 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  line-height: 0.86;
+  color: var(--ks-ink);
+}
+.ks-home .ks-wordmark .ks-line {
+  display: block;
+}
+.ks-home .ks-word {
+  display: inline-block;
+  font-size: clamp(3.4rem, 11vw, 8rem);
+  font-weight: 700;
+  will-change: transform;
+  /* eased return when JS clears the inline transform on leave/unmount */
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ks-home .ks-word.ks-accent {
+  color: var(--ks-purple);
+}
+
+.ks-home .ks-hero .ks-brush {
+  width: min(40rem, 80%);
+  margin: 0.6rem auto 0;
+}
+
+.ks-home .ks-lead {
+  font-size: clamp(1.05rem, 1.9vw, 1.28rem);
+  line-height: 1.75;
+  color: var(--ks-ink-soft);
+  max-width: 44ch;
+  margin: 1.6rem auto 2rem;
+}
+
+.ks-home .ks-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+}
+
+/* ---------- magnetic CTA pill ---------- */
+.ks-home .ks-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  background: var(--ks-purple);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.04rem;
+  text-decoration: none;
+  border: 0;
+  will-change: transform;
+  box-shadow: 0 12px 28px rgba(91, 45, 142, 0.26);
+  transition: box-shadow 0.18s ease, background 0.18s ease;
+}
+.ks-home .ks-cta::after {
+  /* gold ring that blooms on hover, keeping the surface flat (no blend) */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--ks-gold);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.ks-home .ks-cta:hover {
+  box-shadow: 0 16px 34px rgba(91, 45, 142, 0.34);
+}
+.ks-home .ks-cta:hover::after {
+  opacity: 1;
+  transform: scale(1.06);
+}
+.ks-home .ks-cta-label {
+  position: relative;
+  z-index: 1;
+}
+.ks-home .ks-cta-sm {
+  padding: 0.7rem 1.4rem;
+  font-size: 0.96rem;
+}
+
+.ks-home .ks-hero-link {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--ks-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+  transition: color 0.16s ease, text-underline-offset 0.16s ease;
+}
+.ks-home .ks-hero-link:hover {
+  color: var(--ks-purple);
+  text-underline-offset: 0.45em;
+}
+
+.ks-home .ks-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--ks-ink);
+  color: var(--ks-ink);
+  font-weight: 800;
+  font-size: 0.96rem;
+  text-decoration: none;
+  background: transparent;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+.ks-home .ks-ghost:hover {
+  background: var(--ks-ink);
+  color: var(--ks-paper);
+}
+
+/* ======================== SECTION HEAD ======================== */
+.ks-home .ks-sec-head {
+  margin-bottom: clamp(1.8rem, 4vw, 3rem);
+}
+.ks-home .ks-sec-title {
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 0.96;
+  margin: 0.5rem 0 0;
+  color: var(--ks-ink);
+}
+.ks-home .ks-sec-head .ks-brush {
+  width: 100%;
+}
+
+/* ==================== NUMBERED CATEGORY INDEX ==================== */
+.ks-home .ks-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ks-hair);
+}
+.ks-home .ks-index-row {
+  border-bottom: 1px solid var(--ks-hair);
+}
+.ks-home .ks-index-link {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: baseline;
+  gap: 0.6rem 1.4rem;
+  padding: clamp(1rem, 2.4vw, 1.7rem) 0.4rem;
+  text-decoration: none;
+  color: var(--ks-ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* the category-colour wash that slides in from the start edge on hover */
+.ks-home .ks-index-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--soft, #f3ecff);
+  transform: scaleX(0);
+  transform-origin: right center; /* RTL → grows from the start (right) */
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ks-home .ks-index-link:hover .ks-index-fill,
+.ks-home .ks-index-link:focus-visible .ks-index-fill {
+  transform: scaleX(1);
+}
+.ks-home .ks-index-no {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: var(--cc, var(--ks-purple));
+  line-height: 1;
+  min-width: 2.4ch;
+}
+.ks-home .ks-index-name {
+  font-size: clamp(1.9rem, 4.4vw, 3.2rem);
+  line-height: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ks-home .ks-index-link:hover .ks-index-name,
+.ks-home .ks-index-link:focus-visible .ks-index-name {
+  transform: translateX(-0.5rem); /* RTL nudge toward the page centre */
+}
+.ks-home .ks-index-blurb {
+  grid-column: 2;
+  align-self: center;
+  font-size: 0.92rem;
+  color: var(--ks-ink-soft);
+  max-width: 40ch;
+}
+.ks-home .ks-index-count {
+  align-self: center;
+  font-weight: 800;
+  font-size: 0.86rem;
+  color: #fff;
+  background: var(--cc, var(--ks-purple));
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem;
+  white-space: nowrap;
+}
+.ks-home .ks-index-arrow {
+  align-self: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--cc, var(--ks-purple));
+  transform: translateX(0.4rem);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+.ks-home .ks-index-link:hover .ks-index-arrow,
+.ks-home .ks-index-link:focus-visible .ks-index-arrow {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ============================ RIBBON ============================ */
+.ks-home .ks-ribbon {
+  border-block: 1px solid var(--ks-hair);
+  background: var(--ks-paper-warm);
+  overflow: hidden;
+  padding-block: 0.85rem;
+}
+.ks-home .ks-ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: ks-marquee 34s linear infinite;
+}
+.ks-home .ks-ribbon-group {
+  display: flex;
+  flex: none;
+}
+.ks-home .ks-ribbon-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-inline: 1.6rem;
+  font-weight: 700;
+  font-size: 0.96rem;
+  color: var(--ks-ink);
+  white-space: nowrap;
+}
+.ks-home .ks-ribbon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ks-gold);
+  flex: none;
+}
+
+@keyframes ks-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* the track holds two identical groups → shift by exactly one group */
+    transform: translateX(50%);
+  }
+}
+
+/* ====================== EXHIBITION RAIL ====================== */
+.ks-home .ks-rail {
+  position: relative;
+}
+.ks-home .ks-rail-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.5rem 0.2rem 1.6rem;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.ks-home .ks-rail-track::-webkit-scrollbar {
+  display: none;
+}
+.ks-home .ks-rail-track:focus-visible {
+  outline: 2px solid var(--ks-purple);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+.ks-home .ks-rail-track.ks-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+.ks-home .ks-plate {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(230px, 30vw, 300px);
+  scroll-snap-align: center;
+  padding: 1.5rem 1.1rem 1.1rem;
+  background: var(--ks-paper);
+  border: 1px solid var(--ks-hair);
+  border-radius: 6px;
+  box-shadow: 0 14px 34px rgba(43, 36, 64, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.ks-home .ks-plate:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 46px rgba(43, 36, 64, 0.12);
+}
+/* a fine "gallery mat" inset frame */
+.ks-home .ks-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  border: 1px solid var(--ks-hair);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 0;
+}
+.ks-home .ks-plate-no {
+  display: block;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  color: var(--ks-gold);
+  margin-bottom: 0.5rem;
+}
+/* the card sits above the mat frame; drag shouldn't select its text */
+.ks-home .ks-plate .p-card {
+  position: relative;
+  z-index: 1;
+}
+.ks-home .ks-rail-track.ks-dragging .ks-plate {
+  user-select: none;
+}
+
+.ks-home .ks-rail-counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.ks-home .ks-counter-now {
+  font-size: 1.9rem;
+  color: var(--ks-purple);
+}
+.ks-home .ks-counter-sep,
+.ks-home .ks-counter-all {
+  font-size: 1.3rem;
+  color: var(--ks-ink-soft);
+}
+
+/* ====================== ON-SALE BAND ====================== */
+.ks-home .ks-saleband {
+  background: var(--ks-paper-warm);
+  border-block: 1px solid var(--ks-hair);
+}
+.ks-home .ks-sale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.3rem;
+}
+
+/* ====================== WORKSHOPS ====================== */
+.ks-home .ks-workshops {
+  border: 1px solid var(--ks-hair);
+  border-radius: 10px;
+  background: var(--ks-paper);
+  padding: clamp(1.6rem, 4vw, 2.8rem);
+  box-shadow: 0 14px 36px rgba(43, 36, 64, 0.06);
+}
+.ks-home .ks-workshops-intro {
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: var(--ks-ink-soft);
+  max-width: 62ch;
+  margin: 0 0 1.4rem;
+}
+.ks-home .ks-workshops-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.6rem;
+}
+.ks-home .ks-chip {
+  border: 1px solid var(--ks-hair);
+  border-radius: 999px;
+  padding: 0.36rem 0.95rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ks-purple);
+  background: var(--ks-paper-warm);
+  transition: border-color 0.16s ease, transform 0.16s ease;
+}
+.ks-home .ks-chip:hover {
+  border-color: var(--ks-purple);
+  transform: translateY(-2px);
+}
+.ks-home .ks-workshops-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem 1.6rem;
+}
+.ks-home .ks-meta-item {
+  font-weight: 700;
+}
+
+/* ====================== VISIT / HOURS ====================== */
+.ks-home .ks-visit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+}
+.ks-home .ks-visit-card {
+  border: 1px solid var(--ks-hair);
+  border-radius: 10px;
+  background: var(--ks-paper);
+  padding: clamp(1.4rem, 3vw, 2rem);
+  box-shadow: 0 12px 30px rgba(43, 36, 64, 0.06);
+}
+.ks-home .ks-visit-h {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin: 0 0 1rem;
+  color: var(--ks-purple);
+}
+.ks-home .ks-hours {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ks-home .ks-hours td {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--ks-hair);
+}
+.ks-home .ks-hours td:last-child {
+  text-align: end;
+  font-weight: 800;
+}
+.ks-home .ks-visit-note {
+  margin: 0.9rem 0 0;
+  font-size: 0.84rem;
+  color: var(--ks-ink-soft);
+}
+.ks-home .ks-visit-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.8rem;
+}
+.ks-home .ks-visit-rows li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.ks-home .ks-visit-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.ks-home .ks-visit-rows a {
+  color: var(--ks-ink);
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+.ks-home .ks-visit-rows a:hover {
+  color: var(--ks-purple);
+  border-bottom-color: var(--ks-gold);
+}
+.ks-home .ks-visit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+/* ====================== REDUCED MOTION ====================== */
+/* JS already disables pointer/scroll effects; this is the CSS guarantee:
+   brush rules render fully drawn, marquee + magnetism hold still. */
+.ks-home.ks-reduced .ks-brush-path {
+  stroke-dashoffset: 0;
+  transition: none;
+}
+.ks-home.ks-reduced .ks-ribbon-track {
+  animation: none;
+}
+.ks-home.ks-reduced .ks-word {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-home .ks-brush-path {
+    stroke-dashoffset: 0 !important;
+    transition: none;
+  }
+  .ks-home .ks-ribbon-track {
+    animation: none;
+  }
+  .ks-home .ks-word,
+  .ks-home .ks-cta {
+    transition: none;
+  }
+}
+
+/* ====================== RESPONSIVE ====================== */
+@media (max-width: 900px) {
+  .ks-home .ks-index-link {
+    grid-template-columns: auto 1fr auto;
+    row-gap: 0.35rem;
+  }
+  .ks-home .ks-index-blurb {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+  .ks-home .ks-index-arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .ks-home .ks-visit {
+    grid-template-columns: 1fr;
+  }
+  .ks-home .ks-hero {
+    padding-top: clamp(2.6rem, 9vw, 4rem);
+  }
+  /* keep the rail comfortably swipeable, plates a touch narrower */
+  .ks-home .ks-plate {
+    width: clamp(210px, 74vw, 280px);
+  }
+  .ks-home .ks-index-blurb {
+    display: none; /* tighten the index on small screens */
+  }
+}
