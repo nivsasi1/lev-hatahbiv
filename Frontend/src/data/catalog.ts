@@ -237,14 +237,24 @@ export const siteSettings = {
       : DEFAULT_RIBBON,
   featuredIds: settings.featuredIds ?? [],
   saleIds: settings.saleIds ?? [],
-  // manager-set shelf photos (from the dashboard) merge over the defaults
-  shelfImages: {
-    ...DEFAULT_SHELF_IMAGES,
-    ...(((settings as any).shelfImages &&
-    typeof (settings as any).shelfImages === "object"
-      ? (settings as any).shelfImages
-      : {}) as Record<string, string>),
-  } as Record<string, string>,
+  // manager-set shelf photos (from the dashboard) merge over the defaults, then
+  // each value is resolved like a product photo (bare S3 filename → full URL,
+  // so a manager upload isn't left as a 404-ing relative path).
+  shelfImages: (() => {
+    const merged: Record<string, string> = {
+      ...DEFAULT_SHELF_IMAGES,
+      ...(((settings as any).shelfImages &&
+      typeof (settings as any).shelfImages === "object"
+        ? (settings as any).shelfImages
+        : {}) as Record<string, string>),
+    };
+    const out: Record<string, string> = {};
+    for (const [slug, url] of Object.entries(merged)) {
+      const r = resolveImg(String(url));
+      if (r) out[slug] = r;
+    }
+    return out;
+  })(),
 };
 
 const productById = new Map(products.map((p) => [p.id, p]));

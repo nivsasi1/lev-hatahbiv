@@ -249,24 +249,35 @@
    (Mobile keeps the global single-column stack from the rule above.)
    =========================================================================== */
 @media (min-width: 761px) {
+  /* the dark statement field becomes a FULL-HEIGHT strip pinned to the right,
+     so it sits on the same level as the centred logo (not above it). The warm
+     logo stage fills the whole hero and centres the logo on the page. */
   .main-home .hero {
-    grid-template-columns: 22% 1fr;
+    display: block;
     position: relative;
-  }
-  .main-home .hero-stage {
-    grid-column: 1 / -1; /* span the whole hero */
-    z-index: 1;
-    place-items: center; /* logo dead-centre on the page */
+    grid-template-columns: none;
   }
   .main-home .hero-field {
-    grid-column: 1; /* dark strip stays on the right (RTL) */
+    position: absolute;
+    inset-block: 0; /* full height → level with the logo */
+    inset-inline-start: 0; /* RTL → right edge */
+    width: clamp(180px, 24%, 340px);
     z-index: 2;
+    justify-content: center; /* centre the statement vertically */
+  }
+  .main-home .hero-stage {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 30rem;
+    display: grid;
+    place-items: center; /* logo centred (h + v) over the whole hero */
   }
   .main-home .hero-stage-inner {
     margin-inline: auto;
-    max-width: min(40rem, 60vw);
+    max-width: min(42rem, 58vw);
   }
   .main-home .hero-stage-inner .hero-logo img {
-    width: min(32rem, 52vw); /* clears the right-side strip at every width */
+    width: min(32rem, 50vw); /* clears the right-side strip at all widths */
   }
 }

@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   categories,
+  subsOfCategory,
   searchProducts,
   finalPrice,
   shekel,
@@ -39,24 +40,172 @@ export const Header = () => {
   const { slug } = useParams();
   const location = useLocation();
 
-  // --- categories dropdown ---
-  const [catOpen, setCatOpen] = useState(false);
-  const catWrapRef = useRef<HTMLDivElement>(null);
-  const catBtnRef = useRef<HTMLButtonElement>(null);
-  const hoverTimer = useRef<number | null>(null);
+  // --- category chip row with per-category sub-menus ---
+  // which category slug's dropdown is open (only one at a time), or null
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null); // <nav> wrapper, for outside-click
+  const scrollRef = useRef<HTMLDivElement>(null); // the scrolling chip track
+  const chipRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const closeTimer = useRef<number | null>(null);
+  // sub-categories computed once per category (memoised by hand)
+  const subsRef = useRef<Record<string, ReturnType<typeof subsOfCategory>>>({});
+  const getSubs = (slug: string) => {
+    let s = subsRef.current[slug];
+    if (!s) {
+      s = subsOfCategory(slug);
+      subsRef.current[slug] = s;
+    }
+    return s;
+  };
 
-  // close on outside click + Escape while open
+  // scroll-affordance state: can the track scroll toward start / end?
+  const [canStart, setCanStart] = useState(false); // toward inline-start (right in RTL)
+  const [canEnd, setCanEnd] = useState(false); // toward inline-end (left in RTL)
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const closeMenu = useCallback(() => {
+    clearCloseTimer();
+    setOpenSlug(null);
+  }, []);
+  const openMenu = (slug: string) => {
+    clearCloseTimer();
+    setOpenSlug(slug);
+  };
+  // short grace delay so moving the mouse from chip to panel doesn't close it
+  const scheduleClose = () => {
+    clearCloseTimer();
+    closeTimer.current = window.setTimeout(() => setOpenSlug(null), 160);
+  };
+
+  // recompute the ‹ › affordances from the track's current scroll position.
+  // scrollLeft is negative in RTL on Chromium, so work off absolute distance.
+  const refreshScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) {
+      setCanStart(false);
+      setCanEnd(false);
+      return;
+    }
+    const max = el.scrollWidth - el.clientWidth;
+    if (max <= 1) {
+      setCanStart(false);
+      setCanEnd(false);
+      return;
+    }
+    const dist = Math.abs(el.scrollLeft); // distance scrolled away from start
+    setCanStart(dist > 1); // can go back toward the start edge
+    setCanEnd(dist < max - 1); // can go further toward the end edge
+  }, []);
+
+  // wheel -> horizontal: map vertical wheel deltas onto the track so a normal
+  // mouse can scroll the row. Non-passive because we preventDefault.
   useEffect(() => {
-    if (!catOpen) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) return; // let pinch-zoom through
+      const max = el.scrollWidth - el.clientWidth;
+      if (max <= 1) return; // nothing to scroll
+      const delta =
+        Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      if (delta === 0) return;
+      el.scrollLeft += delta;
+      e.preventDefault();
+      refreshScroll();
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [refreshScroll]);
+
+  // keep affordances in sync with track scroll + viewport resize
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    refreshScroll();
+    el.addEventListener("scroll", refreshScroll, { passive: true });
+    window.addEventListener("resize", refreshScroll);
+    return () => {
+      el.removeEventListener("scroll", refreshScroll);
+      window.removeEventListener("resize", refreshScroll);
+    };
+  }, [refreshScroll]);
+
+  // nudge the row by roughly one viewport's worth toward start/end.
+  // dir = -1 nudges toward inline-start, +1 toward inline-end.
+  const nudge = (dir: -1 | 1) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const step = Math.max(el.clientWidth * 0.7, 140);
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
+  // drag-to-scroll (pointer) — a nice extra for trackpad-less desktops
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let down = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+    const onDown = (e: PointerEvent) => {
+      if (e.button !== 0) return;
+      down = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = el.scrollLeft;
+    };
+    const onMove = (e: PointerEvent) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      if (moved) {
+        el.scrollLeft = startScroll - dx;
+        el.classList.add("dragging");
+        refreshScroll();
+      }
+    };
+    const onUp = () => {
+      down = false;
+      el.classList.remove("dragging");
+    };
+    // swallow the click that ends a real drag so it doesn't follow the link
+    const onClick = (e: MouseEvent) => {
+      if (moved) {
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+      }
+    };
+    el.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    el.addEventListener("click", onClick, true);
+    return () => {
+      el.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      el.removeEventListener("click", onClick, true);
+    };
+  }, [refreshScroll]);
+
+  // close the open sub-menu on outside click + Escape
+  useEffect(() => {
+    if (openSlug === null) return;
     const onDocClick = (e: MouseEvent) => {
-      if (catWrapRef.current && !catWrapRef.current.contains(e.target as Node)) {
-        setCatOpen(false);
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        closeMenu();
       }
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setCatOpen(false);
-        catBtnRef.current?.focus();
+        const slug = openSlug;
+        closeMenu();
+        chipRefs.current[slug!]?.focus();
       }
     };
     document.addEventListener("mousedown", onDocClick);
@@ -65,29 +214,15 @@ export const Header = () => {
       document.removeEventListener("mousedown", onDocClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, [catOpen]);
+  }, [openSlug, closeMenu]);
 
   // close on route change
   useEffect(() => {
-    setCatOpen(false);
-  }, [location.pathname]);
+    closeMenu();
+  }, [location.pathname, closeMenu]);
 
-  // clean up any pending hover timer on unmount
-  useEffect(
-    () => () => {
-      if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
-    },
-    []
-  );
-
-  const openByHover = () => {
-    if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
-    setCatOpen(true);
-  };
-  const closeByHover = () => {
-    if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
-    hoverTimer.current = window.setTimeout(() => setCatOpen(false), 140);
-  };
+  // tidy timers on unmount
+  useEffect(() => () => clearCloseTimer(), []);
 
   const results = query.trim() ? searchProducts(query).slice(0, 6) : [];
   const showPop = focused && query.trim().length > 0;
@@ -154,51 +289,125 @@ export const Header = () => {
           </button>
         </div>
 
-        <nav className="cat-nav" aria-label="קטגוריות">
-          <div
-            className="cat-dd"
-            ref={catWrapRef}
-            onMouseEnter={openByHover}
-            onMouseLeave={closeByHover}
+        <nav className="cat-nav" aria-label="קטגוריות" ref={navRef}>
+          <button
+            type="button"
+            className={`cat-scroll-btn start ${canStart ? "show" : ""}`}
+            aria-label="גלילה ימינה"
+            tabIndex={-1}
+            aria-hidden={!canStart}
+            onClick={() => nudge(-1)}
           >
-            <button
-              type="button"
-              ref={catBtnRef}
-              className={`cat-trigger ${catOpen ? "open" : ""}`}
-              aria-haspopup="menu"
-              aria-expanded={catOpen}
-              onClick={() => setCatOpen((o) => !o)}
-              onKeyDown={(e) => {
-                if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setCatOpen(true);
-                }
-              }}
-            >
-              <span>המדפים</span>
-              <span className="cat-caret" aria-hidden="true">
-                ▾
-              </span>
-            </button>
+            ›
+          </button>
 
-            {catOpen && (
-              <div className="cat-panel" role="menu" aria-label="קטגוריות">
-                {categories.map((c) => (
+          <div className="cat-track" ref={scrollRef}>
+            {categories.map((c) => {
+              const subs = getSubs(c.slug);
+              const hasMenu = subs.length > 1;
+              const isOpen = openSlug === c.slug;
+              const active = slug === c.slug;
+              const menuId = `cat-menu-${c.slug}`;
+              return (
+                <div
+                  key={c.slug}
+                  className="cat-chip-wrap"
+                  onMouseEnter={() => hasMenu && openMenu(c.slug)}
+                  onMouseLeave={() => hasMenu && scheduleClose()}
+                >
                   <Link
-                    key={c.slug}
                     to={`/category/${c.slug}`}
-                    role="menuitem"
-                    className={`cat-item ${slug === c.slug ? "active" : ""}`}
-                    style={{ "--chip": c.color } as any}
-                    onClick={() => setCatOpen(false)}
+                    ref={(el: any) => (chipRefs.current[c.slug] = el)}
+                    className={`cat-chip ${active ? "active" : ""} ${
+                      isOpen ? "open" : ""
+                    }`}
+                    style={{ "--cc": c.color } as any}
+                    aria-haspopup={hasMenu ? "menu" : undefined}
+                    aria-expanded={hasMenu ? isOpen : undefined}
+                    aria-controls={hasMenu && isOpen ? menuId : undefined}
+                    onClick={() => {
+                      // tap also toggles the menu on touch; navigation still
+                      // happens via the Link itself
+                      if (hasMenu && !isOpen) {
+                        openMenu(c.slug);
+                      } else {
+                        closeMenu();
+                      }
+                    }}
+                    onKeyDown={(e: any) => {
+                      if (!hasMenu) return;
+                      if (e.key === "ArrowDown") {
+                        e.preventDefault();
+                        openMenu(c.slug);
+                        // focus the first item next tick
+                        window.setTimeout(() => {
+                          const first = document.querySelector<HTMLElement>(
+                            `#${menuId} a`
+                          );
+                          first?.focus();
+                        }, 0);
+                      } else if (e.key === "Escape" && isOpen) {
+                        e.preventDefault();
+                        closeMenu();
+                      }
+                    }}
                   >
-                    <span className="cat-dot" aria-hidden="true" />
-                    {c.name}
+                    <span className="cat-name">{c.name}</span>
+                    {hasMenu && (
+                      <span className="cat-caret" aria-hidden="true">
+                        ▾
+                      </span>
+                    )}
                   </Link>
-                ))}
-              </div>
-            )}
+
+                  {hasMenu && isOpen && (
+                    <div
+                      id={menuId}
+                      className="cat-submenu"
+                      role="menu"
+                      aria-label={c.name}
+                      style={{ "--cc": c.color } as any}
+                      onMouseEnter={clearCloseTimer}
+                      onMouseLeave={scheduleClose}
+                    >
+                      {subs.map((s) => (
+                        <Link
+                          key={s.sub}
+                          to={`/category/${c.slug}/${encodeURIComponent(
+                            s.sub
+                          )}`}
+                          role="menuitem"
+                          className="cat-subitem"
+                          onClick={closeMenu}
+                          onKeyDown={(e: any) => {
+                            if (e.key === "Escape") {
+                              e.preventDefault();
+                              closeMenu();
+                              chipRefs.current[c.slug]?.focus();
+                            }
+                          }}
+                        >
+                          <span className="cat-sub-name">{s.sub}</span>
+                          <span className="cat-sub-count">{s.count}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
+
+          <button
+            type="button"
+            className={`cat-scroll-btn end ${canEnd ? "show" : ""}`}
+            aria-label="גלילה שמאלה"
+            tabIndex={-1}
+            aria-hidden={!canEnd}
+            onClick={() => nudge(1)}
+          >
+            ‹
+          </button>
         </nav>
       </div>
     </header>

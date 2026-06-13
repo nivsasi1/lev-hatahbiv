@@ -329,65 +329,147 @@ button {
   }
 }
 
-/* category nav — single row, dropdown holds the full shelf list */
+/* category nav — one horizontal row of chips, each with a sub-menu.
+   The row never wraps: it scrolls horizontally (wheel/drag/‹ › buttons). */
 .cat-nav {
+  position: relative;
   display: flex;
+  align-items: center;
   padding: 0.55rem 0 0.7rem;
 }
 
-.cat-dd {
-  position: relative;
-  display: inline-block;
+/* the scrolling track that holds the chips */
+.cat-track {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible; /* let sub-menus escape downward */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  /* hide the native scrollbar but stay scrollable */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* a touch of padding so the chip shadows + open menus aren't clipped */
+  padding: 0.2rem 0.1rem 0.3rem;
+}
+.cat-track::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+.cat-track.dragging {
+  scroll-behavior: auto;
+  cursor: grabbing;
 }
 
-/* trigger button keeps the chip aesthetic */
-.cat-trigger {
+/* each chip + its dropdown live in a positioned wrapper so the menu can
+   anchor under the chip even while the track scrolls */
+.cat-chip-wrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/* the chip itself keeps the brand pill aesthetic */
+.cat-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
+  gap: 0.4em;
+  white-space: nowrap;
   font-family: inherit;
   font-weight: 700;
   font-size: 0.92rem;
   cursor: pointer;
-  padding: 0.32em 1.05em;
+  padding: 0.32em 0.95em;
   border-radius: 2em;
   border: 2px solid var(--ink);
   background: var(--card);
   color: var(--ink);
-  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+  box-shadow: 0.18em 0.18em 0 var(--shadow);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.cat-trigger:hover,
-.cat-trigger.open {
-  background: var(--ink);
+.cat-chip:hover,
+.cat-chip:focus-visible,
+.cat-chip.open {
+  background: var(--cc, var(--ink));
+  border-color: var(--cc, var(--ink));
   color: #fff;
-  transform: rotate(-1deg);
+  transform: translateY(-1px) rotate(-1deg);
+  outline: none;
+}
+
+/* the active category stays filled in its own colour */
+.cat-chip.active {
+  background: var(--cc, var(--ink));
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.cat-name {
+  line-height: 1.1;
 }
 
 .cat-caret {
-  font-size: 0.8em;
+  font-size: 0.78em;
   line-height: 1;
   transition: transform 0.15s ease;
 }
 
-.cat-trigger.open .cat-caret {
+.cat-chip.open .cat-caret {
   transform: rotate(180deg);
 }
 
-/* dropdown panel — opens under the trigger, RTL-aligned to its start (right) edge */
-.cat-panel {
+/* ‹ › edge scroll buttons — only visible when there's room to scroll */
+.cat-scroll-btn {
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0.15em 0.15em 0 var(--shadow);
+  transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+}
+.cat-scroll-btn.show {
+  display: inline-flex;
+}
+.cat-scroll-btn:hover {
+  background: var(--ink);
+  color: #fff;
+}
+.cat-scroll-btn.start {
+  margin-inline-end: 0.35rem;
+}
+.cat-scroll-btn.end {
+  margin-inline-start: 0.35rem;
+}
+
+/* dropdown of sub-categories — opens under its chip, clamped to the viewport */
+.cat-submenu {
   position: absolute;
   top: calc(100% + 0.4rem);
   inset-inline-start: 0;
-  z-index: 40;
-  min-width: 16rem;
-  max-width: min(80vw, 28rem);
-  max-height: min(70vh, 26rem);
+  z-index: 45;
+  min-width: 13rem;
+  max-width: min(86vw, 22rem);
+  max-height: min(70vh, 24rem);
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.25rem;
-  padding: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.45rem;
   background: var(--card);
   border: 2px solid var(--ink);
   border-radius: 0.9rem;
@@ -406,10 +488,11 @@ button {
   }
 }
 
-.cat-item {
+.cat-subitem {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  justify-content: space-between;
+  gap: 0.7em;
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--ink);
@@ -419,44 +502,43 @@ button {
   transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
 }
 
-.cat-dot {
-  flex: none;
-  width: 0.65em;
-  height: 0.65em;
-  border-radius: 50%;
-  background: var(--chip, var(--gold));
-  border: 1.5px solid var(--ink);
-}
-
-.cat-item:hover,
-.cat-item:focus-visible {
-  background: var(--chip, var(--gold));
+.cat-subitem:hover,
+.cat-subitem:focus-visible {
+  background: var(--cc, var(--gold));
   color: #fff;
   border-color: var(--ink);
   outline: none;
 }
 
-.cat-item:hover .cat-dot,
-.cat-item:focus-visible .cat-dot {
+.cat-sub-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cat-sub-count {
+  flex: none;
+  font-size: 0.78rem;
+  font-weight: 800;
+  min-width: 1.6em;
+  text-align: center;
+  padding: 0.05em 0.45em;
+  border-radius: 1em;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+
+.cat-subitem:hover .cat-sub-count,
+.cat-subitem:focus-visible .cat-sub-count {
   background: var(--card);
 }
 
-.cat-item.active {
-  background: var(--chip, var(--ink));
-  color: #fff;
-  border-color: var(--ink);
-}
-
-.cat-item.active .cat-dot {
-  background: var(--card);
-}
-
-/* mobile: single column, panel may span more of the viewport */
 @media (max-width: 560px) {
-  .cat-panel {
-    grid-template-columns: 1fr;
-    min-width: 13rem;
-    max-width: 86vw;
+  .cat-submenu {
+    min-width: 11rem;
+    max-width: 88vw;
   }
 }
 
@@ -706,6 +788,32 @@ button {
   gap: 1.4rem;
 }
 
+/* phones: two products per row instead of one giant card (easier on the eyes).
+   .ph-home .ph-grid (0,2,0) beats home-photographic.css's base .ph-grid (0,1,0)
+   which is bundled later, so the 2-up wins on the design-7 / main sale grid too. */
+@media (max-width: 560px) {
+  .product-grid,
+  .home-grid,
+  .ph-home .ph-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+  .p-card .name {
+    font-size: 0.85rem;
+    min-height: 2.4em;
+  }
+  .p-card .foot {
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+  }
+  .price-tag {
+    font-size: 0.95rem;
+  }
+  .add-btn {
+    font-size: 0.72rem;
+  }
+}
+
 .p-card {
   position: relative;
   display: flex;
@@ -733,7 +841,8 @@ button {
 
 .p-card .frame {
   position: relative;
-  aspect-ratio: 1;
+  /* a little shorter than square → less card height & wasted space */
+  aspect-ratio: 1 / 0.86;
   background:
     radial-gradient(circle at 70% 20%, var(--pc-soft, #f6efe2) 0%, transparent 60%),
     var(--paper);
@@ -741,13 +850,14 @@ button {
   overflow: hidden;
 }
 
-/* absolute fill so a photo's intrinsic size can never stretch the card */
+/* absolute fill so a photo's intrinsic size can never stretch the card.
+   Tighter inset → the product fills more of the frame (less white space). */
 .p-card .frame img,
 .p-card .frame svg {
   position: absolute;
-  inset: 1rem;
-  width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
+  inset: 0.5rem;
+  width: calc(100% - 1rem);
+  height: calc(100% - 1rem);
   object-fit: contain;
 }
 
@@ -787,8 +897,8 @@ button {
 .p-card .body {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.8rem 0.95rem 0.95rem;
+  gap: 0.3rem;
+  padding: 0.55rem 0.85rem 0.7rem;
   flex: 1;
 }
 
@@ -988,11 +1098,11 @@ button {
 /* ---------- sale wash (living watercolor stain over the picture) ---------- */
 .sale-aqua {
   position: absolute;
-  /* centred over the image: sits in the upper-middle, symmetric L/R */
-  top: 6%;
+  /* sits high on the image (upper area), symmetric L/R */
+  top: -3%;
   right: -8%;
   left: -8%;
-  height: 56%;
+  height: 44%;
   z-index: 2;
   pointer-events: none;
   display: flex;
