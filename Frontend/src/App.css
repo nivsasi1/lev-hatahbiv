@@ -480,6 +480,42 @@ button {
   display: inline-flex;
 }
 
+/* Phones / touch (no hover): you swipe the row with a finger, so the ‹ ›
+   buttons just crowded the chips. Drop them and show a soft gradient fade at
+   whichever edge can still scroll as a subtle "there's more" hint. Desktop
+   keeps the real buttons. RTL: start edge = right, end edge = left. */
+@media (hover: none), (pointer: coarse) {
+  .cat-scroll-btn {
+    display: none !important;
+  }
+  .cat-nav::before,
+  .cat-nav::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.7rem;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .cat-nav::before {
+    right: 0;
+    background: linear-gradient(to left, var(--paper), transparent);
+  }
+  .cat-nav::after {
+    left: 0;
+    background: linear-gradient(to right, var(--paper), transparent);
+  }
+  .cat-nav.can-start::before {
+    opacity: 1;
+  }
+  .cat-nav.can-end::after {
+    opacity: 1;
+  }
+}
+
 /* dropdown of sub-categories — position:fixed so it escapes the track's
    scroll/overflow box in every mode and is never clipped. top/left are set
    inline from the chip's rect (clamped into the viewport) by the JS. */
@@ -838,6 +874,12 @@ button {
   }
   .add-btn {
     font-size: 0.72rem;
+  }
+  /* sale shelf is 2-up on phones — drop a lonely orphan so the grid stays
+     even (aesthetics). Only the sale grid: category pages must show every
+     product. :not(:first-child) keeps a sole sale item from vanishing. */
+  .ph-sale-grid > :last-child:nth-child(odd):not(:first-child) {
+    display: none;
   }
 }
 
