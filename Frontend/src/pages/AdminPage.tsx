@@ -771,7 +771,7 @@ export const AdminPage = () => {
   }, [saleSearch, products, saleIds]);
 
   const addSale = (id: string) =>
-    setSaleIds((ids) => (ids.includes(id) || ids.length >= 12 ? ids : [...ids, id]));
+    setSaleIds((ids) => (ids.includes(id) || ids.length >= 5 ? ids : [...ids, id]));
   const removeSale = (id: string) =>
     setSaleIds((ids) => ids.filter((x) => x !== id));
 
@@ -1144,7 +1144,7 @@ export const AdminPage = () => {
                 );
               })}
             </div>
-            <p className="import-help dim">נבחרו {saleIds.length}/12 מבצעים</p>
+            <p className="import-help dim">נבחרו {saleIds.length}/5 מבצעים</p>
             <div className="home-block-foot">
               <button className="btn" onClick={saveSales}>
                 שמירת המבצעים

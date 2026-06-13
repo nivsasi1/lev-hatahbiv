@@ -1,0 +1,259 @@
+/* ===========================================================================
+   Home design · "אטלייה" (Atelier Shelf — Goal B redesign)
+   The whole-site redesign's homepage, scoped under .gb-home so it can be
+   previewed alongside the live theme without leaking. Split editorial hero
+   (dark statement field + warm logo stage), editorial section eyebrows, and
+   a cream "on sale" feature band. Reuses catalog data + ProductCard.
+   The full Goal B treatment (header/footer/category/product) lives on the
+   `redesign` branch; this route previews the homepage on the current base.
+   =========================================================================== */
+
+.gb-home {
+  /* the three vars Goal B's App.css added on top of the base theme */
+  --ink-deep: #1a1030;
+  --cream-warm: #fdf3e0;
+  --purple-light: #efe6f7;
+}
+
+/* ---------- hero: split editorial field ----------
+   Two zones on a grid: a dark statement band on the start side (RTL → right)
+   with a diagonal cut, and the warm paper logo stage filling the rest.
+   Explicitly neutralises the base `.hero` padding so the grid sits flush. */
+.gb-home .hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42% 1fr;
+  align-items: stretch;
+  border-bottom: 2.5px solid var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+  padding: 0;
+  min-height: 0;
+}
+
+/* --- dark editorial field --- */
+.gb-home .hero-field {
+  position: relative;
+  background: var(--ink-deep);
+  color: #fff;
+  /* gestural diagonal cut on the inner (start→end) edge. In RTL the field
+     sits on the right, so the slope falls toward the page centre. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+  padding: clamp(3rem, 6vw, 5.5rem) clamp(2rem, 4vw, 4rem)
+    clamp(3rem, 6vw, 5.5rem) clamp(3.5rem, 7vw, 7rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+/* CSS-only grain (no feTurbulence): faint white speckle over the flat ink */
+.gb-home .hero-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.9) 1px, transparent 1.3px),
+    radial-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1.2px);
+  background-size: 11px 11px, 27px 27px;
+  background-position: 0 0, 5px 8px;
+}
+
+/* a single ribbon-red wash bleeding up from the bottom, brand-tied, subtle */
+.gb-home .hero-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 80% at 18% 118%, rgba(226, 58, 58, 0.28), transparent 60%),
+    radial-gradient(110% 70% at 90% -10%, rgba(123, 63, 191, 0.22), transparent 55%);
+}
+
+.gb-home .hero-statement {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 0.84;
+  letter-spacing: 0.01em;
+}
+
+.gb-home .hero-statement span {
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-weight: 700;
+}
+
+/* paint-stroke accent on the last word, in gold */
+.gb-home .hero-statement span:last-child {
+  color: var(--gold);
+  width: fit-content;
+}
+
+.gb-home .hero-since {
+  position: relative;
+  z-index: 1;
+  border-top: 3px solid var(--gold);
+  padding-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  width: fit-content;
+}
+
+.gb-home .hero-since-num {
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+}
+
+.gb-home .hero-since-sub {
+  font-weight: 600;
+  font-size: 0.92rem;
+  opacity: 0.78;
+}
+
+/* --- warm paper logo stage --- */
+.gb-home .hero-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3.5rem)
+    clamp(3.2rem, 6vw, 5rem);
+  overflow: hidden;
+}
+
+.gb-home .hero-stage-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 42rem;
+}
+
+.gb-home .hero-logo {
+  margin: 0 0 1.4rem;
+}
+
+.gb-home .hero-logo img {
+  width: min(38rem, 92vw);
+  filter: drop-shadow(0 14px 22px rgba(43, 36, 64, 0.28));
+  animation: logoFloat 8s ease-in-out infinite;
+}
+
+.gb-home .hero p.sub {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  max-width: 30em;
+  margin: 0 auto 2.2rem;
+}
+
+.gb-home .hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* the page's one and only primary purple pill */
+.gb-home .btn.hero-cta {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+  font-size: 1.05rem;
+  padding: 0.7em 1.9em;
+  box-shadow: 0.25em 0.25em 0 var(--gold);
+}
+
+.gb-home .btn.hero-cta:hover {
+  box-shadow: 0.37em 0.37em 0 var(--gold);
+}
+
+.gb-home .btn.hero-cta:active {
+  box-shadow: 0.1em 0.1em 0 var(--gold);
+}
+
+/* ghost CTA is a minimal underlined text link, not a button */
+.gb-home .hero-link {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+  transition: color 0.15s ease, text-underline-offset 0.15s ease;
+}
+
+.gb-home .hero-link:hover {
+  color: var(--purple);
+  text-underline-offset: 0.42em;
+}
+
+/* ---------- editorial eyebrow stacked above each section title ---------- */
+.gb-home .section-titles {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.gb-home .eyebrow {
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--purple);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+/* small painted tick before the eyebrow text */
+.gb-home .eyebrow::before {
+  content: "";
+  width: 1.6rem;
+  height: 0.32rem;
+  border-radius: 2em;
+  background: var(--gold);
+}
+
+.gb-home .eyebrow.sale {
+  color: var(--red);
+}
+
+.gb-home .eyebrow.sale::before {
+  background: var(--red);
+}
+
+/* ---------- cream "on sale" feature band ---------- */
+.gb-home .sale-band {
+  background: var(--cream-warm);
+  border-top: 2.5px solid var(--ink);
+  border-bottom: 2.5px solid var(--ink);
+  margin: 4rem 0;
+  padding: 0.6rem 0 3rem;
+}
+
+.gb-home .sale-band .section-head {
+  margin-top: 2.4rem;
+}
+
+/* ---------- mobile: stack the split hero ---------- */
+@media (max-width: 760px) {
+  .gb-home .hero {
+    grid-template-columns: 1fr;
+  }
+  .gb-home .hero-field {
+    clip-path: none;
+    border-bottom: 2.5px solid var(--ink);
+    padding: 2.6rem 1.5rem;
+    gap: 1.2rem;
+  }
+  .gb-home .hero-statement span {
+    font-size: clamp(2.6rem, 12vw, 4rem);
+  }
+}

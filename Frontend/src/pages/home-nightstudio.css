@@ -1,0 +1,240 @@
+/* ===========================================================================
+   Home design · "אולפן לילה" (Night Studio / Neon-Noir)
+   A dark, moody gallery homepage: deep ink background, soft neon glow accents,
+   gradient washes on cards, spotlit products. Scoped under .ns-home.
+   Glows are box-shadow / radial-gradient only — no feTurbulence, no blend modes.
+   =========================================================================== */
+
+.ns-home {
+  --ns-bg: #0e0b1a;
+  --ns-bg2: #15102a;
+  --ns-panel: #1b1533;
+  --ns-line: #2c2350;
+  --ns-text: #ece8ff;
+  --ns-dim: #a99fd0;
+  --ns-pink: #ff4d9d;
+  --ns-cyan: #3ef0e0;
+  --ns-violet: #9a6cff;
+  --ns-lime: #c6ff5e;
+  --ns-amber: #ffc24b;
+  background:
+    radial-gradient(900px 500px at 82% -8%, rgba(154, 108, 255, 0.28), transparent 60%),
+    radial-gradient(800px 520px at 8% 4%, rgba(62, 240, 224, 0.16), transparent 60%),
+    radial-gradient(700px 600px at 50% 120%, rgba(255, 77, 157, 0.18), transparent 60%),
+    var(--ns-bg);
+  color: var(--ns-text);
+  font-family: "Assistant", system-ui, sans-serif;
+}
+
+.ns-home .ns-shell { width: min(1180px, 92vw); margin-inline: auto; }
+
+/* ---------- hero ---------- */
+.ns-hero { padding: clamp(3rem, 7vw, 6rem) 0 clamp(2.4rem, 5vw, 4rem); text-align: center; position: relative; }
+.ns-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ns-cyan);
+  border: 1px solid rgba(62, 240, 224, 0.4);
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  margin-bottom: 1.6rem;
+  box-shadow: 0 0 18px rgba(62, 240, 224, 0.25);
+}
+.ns-kicker .ns-live {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ns-pink);
+  box-shadow: 0 0 10px var(--ns-pink), 0 0 20px var(--ns-pink);
+  animation: ns-pulse 1.8s ease-in-out infinite;
+}
+@keyframes ns-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.ns-hero h1 {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(4rem, 13vw, 9rem);
+  line-height: 0.85;
+  margin: 0 0 1.2rem;
+  background: linear-gradient(100deg, var(--ns-pink), var(--ns-violet) 45%, var(--ns-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 26px rgba(154, 108, 255, 0.45));
+}
+.ns-hero .ns-lead {
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.75;
+  color: var(--ns-dim);
+  max-width: 46ch;
+  margin: 0 auto 2rem;
+}
+.ns-ctas { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+.ns-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.8rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ns-btn.glow {
+  background: linear-gradient(120deg, var(--ns-pink), var(--ns-violet));
+  color: #fff;
+  box-shadow: 0 0 24px rgba(255, 77, 157, 0.5);
+}
+.ns-btn.glow:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(255, 77, 157, 0.75); }
+.ns-btn.wire {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ns-cyan);
+  border-color: rgba(62, 240, 224, 0.5);
+}
+.ns-btn.wire:hover { transform: translateY(-2px); box-shadow: 0 0 22px rgba(62, 240, 224, 0.4); }
+
+/* ---------- section heads ---------- */
+.ns-sec { padding: clamp(2.4rem, 5vw, 4rem) 0; }
+.ns-sec-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; }
+.ns-sec-head h2 {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  line-height: 1;
+  margin: 0;
+  color: var(--ns-text);
+}
+.ns-sec-head .ns-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--ns-violet), transparent);
+  align-self: center;
+  box-shadow: 0 0 10px rgba(154, 108, 255, 0.5);
+}
+
+/* ---------- category neon tiles ---------- */
+.ns-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+.ns-cat {
+  position: relative;
+  border-radius: 20px;
+  padding: 1.5rem;
+  min-height: 168px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+  border: 1px solid var(--ns-line);
+  text-decoration: none;
+  color: var(--ns-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.ns-cat::after {
+  content: "";
+  position: absolute;
+  inset-block-start: -40%;
+  inset-inline-end: -30%;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cc), transparent 70%);
+  opacity: 0.55;
+}
+.ns-cat:hover {
+  transform: translateY(-5px);
+  border-color: var(--cc);
+  box-shadow: 0 0 30px -4px var(--cc);
+}
+.ns-cat .ns-cat-art { width: 48px; height: 48px; position: relative; filter: drop-shadow(0 0 10px var(--cc)); }
+.ns-cat h3 { font-size: 1.4rem; font-weight: 800; margin: 0.4rem 0 0.2rem; position: relative; }
+.ns-cat p { margin: 0; color: var(--ns-dim); font-size: 0.9rem; position: relative; }
+.ns-cat .ns-cat-count {
+  position: relative;
+  margin-top: 0.7rem;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--cc);
+}
+
+/* ---------- product grids on dark ---------- */
+.ns-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
+/* lift the (light) ProductCard onto the dark stage with a glow frame */
+.ns-grid .p-card {
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.ns-grid .p-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 30px -6px var(--ns-violet), 0 18px 44px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- marquee ---------- */
+.ns-marquee {
+  border-block: 1px solid var(--ns-line);
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  padding: 0.8rem 0;
+}
+.ns-marquee .ns-track {
+  display: flex; gap: 2.4rem; width: max-content; white-space: nowrap;
+  animation: ns-scroll 28s linear infinite;
+  font-weight: 700; color: var(--ns-dim);
+}
+.ns-marquee .ns-track span { display: inline-flex; gap: 2.4rem; align-items: center; }
+.ns-marquee .ns-track span::after { content: "◆"; color: var(--ns-cyan); }
+@keyframes ns-scroll { to { transform: translateX(50%); } }
+
+/* ---------- workshops spotlight ---------- */
+.ns-shop {
+  border-radius: 28px;
+  padding: clamp(1.8rem, 4vw, 3rem);
+  background:
+    radial-gradient(600px 280px at 80% 0%, rgba(154, 108, 255, 0.3), transparent 60%),
+    var(--ns-panel);
+  border: 1px solid var(--ns-line);
+  text-align: center;
+}
+.ns-shop h2 {
+  font-family: "Amatic SC", cursive; font-size: clamp(2.4rem, 5vw, 3.4rem);
+  margin: 0 0 0.8rem; color: var(--ns-text);
+}
+.ns-shop p.intro { color: var(--ns-dim); line-height: 1.7; max-width: 60ch; margin: 0 auto 1.5rem; }
+.ns-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; }
+.ns-chips span {
+  border: 1px solid rgba(154, 108, 255, 0.4);
+  border-radius: 999px; padding: 0.32rem 0.85rem;
+  font-size: 0.85rem; font-weight: 600; color: var(--ns-violet);
+  background: rgba(154, 108, 255, 0.08);
+}
+.ns-shop-meta { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; justify-content: center; align-items: center; }
+.ns-shop-meta .ns-m { font-weight: 700; color: var(--ns-text); }
+
+/* ---------- visit band ---------- */
+.ns-visit { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+.ns-vcard {
+  background: var(--ns-panel);
+  border: 1px solid var(--ns-line);
+  border-radius: 22px;
+  padding: 1.8rem;
+}
+.ns-vcard h3 {
+  font-family: "Amatic SC", cursive; font-size: 2.2rem; margin: 0 0 1rem;
+  color: var(--ns-cyan);
+}
+.ns-vcard table { width: 100%; border-collapse: collapse; }
+.ns-vcard td { padding: 0.5rem 0; border-bottom: 1px solid var(--ns-line); color: var(--ns-text); }
+.ns-vcard td:last-child { text-align: end; font-weight: 700; color: var(--ns-amber); }
+.ns-rows { display: grid; gap: 0.7rem; color: var(--ns-text); }
+.ns-rows a { color: var(--ns-cyan); text-decoration: none; }
+.ns-vactions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.2rem; }
+
+@media (max-width: 900px) { .ns-cats { grid-template-columns: repeat(2, 1fr); } .ns-visit { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .ns-cats { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  .ns-marquee .ns-track { animation: none; }
+  .ns-kicker .ns-live { animation: none; }
+}

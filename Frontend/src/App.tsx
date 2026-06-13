@@ -18,6 +18,13 @@ import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 import { AdminPage } from "./pages/AdminPage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
+import { DesignsIndex } from "./pages/DesignsIndex";
+// Homepage design concepts for the owner to preview & choose (/designs).
+import DesignBoutique from "./pages/Design-boutique";
+import DesignEditorial from "./pages/Design-editorial";
+import DesignBrutalist from "./pages/Design-brutalist";
+import DesignNightstudio from "./pages/Design-nightstudio";
+import DesignGoalB from "./pages/Design-goalb";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -64,6 +71,12 @@ const router = createBrowserRouter(
         { path: "/cart", element: <CartPage /> },
         { path: "/manage", element: <AdminPage /> },
         { path: "/accessibility", element: <AccessibilityPage /> },
+        { path: "/designs", element: <DesignsIndex /> },
+        { path: "/design1", element: <DesignBoutique /> },
+        { path: "/design2", element: <DesignEditorial /> },
+        { path: "/design3", element: <DesignBrutalist /> },
+        { path: "/design4", element: <DesignNightstudio /> },
+        { path: "/design5", element: <DesignGoalB /> },
         { path: "*", element: <HomePage /> },
       ],
     },
