@@ -104,6 +104,9 @@ export const Header = () => {
         </div>
 
         <nav className="cat-strip" aria-label="קטגוריות">
+          <span className="cat-strip-label" aria-hidden="true">
+            המדפים
+          </span>
           {categories.map((c) => (
             <Link
               key={c.slug}

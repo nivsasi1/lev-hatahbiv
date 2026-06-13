@@ -48,38 +48,53 @@ const fresh =
 
 export const HomePage = () => (
   <main className="page-main">
-    {/* ---------- hero ---------- */}
+    {/* ---------- hero: split editorial field ---------- */}
     <section className="hero">
-      <Splat color="#e2574c" size={170} style={{ top: "8%", right: "6%" }} className="wiggle" />
-      <Splat color="#2a9d8f" size={110} style={{ bottom: "12%", right: "16%", opacity: 0.85 }} />
-      <Splat color="#e09f3e" size={140} style={{ top: "16%", left: "8%", opacity: 0.9 }} />
-      <Splat color="#7b3fbf" size={90} style={{ bottom: "8%", left: "18%" }} className="wiggle" />
+      {/* dark editorial field — its power is in the clean type, no splats */}
+      <div className="hero-field" aria-hidden="true">
+        <div className="hero-statement display">
+          <span>כל</span>
+          <span>יצירה</span>
+          <span>מתחילה</span>
+          <span>כאן</span>
+        </div>
+        <div className="hero-since">
+          <span className="hero-since-num">מאז {store.since}</span>
+          <span className="hero-since-sub">חנות ציוד האמנות של רחובות</span>
+        </div>
+      </div>
 
-      <div className="shell hero-inner">
-        <span className="hero-kicker">חנות ציוד האמנות של רחובות · מאז {store.since}</span>
-        {/* the logo IS the headline */}
-        <h1 className="hero-logo">
-          <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
-        </h1>
-        <p className="sub">
-          צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם כל מה שהידיים שלכם
-          מחפשות, ועם עצה טובה ליד הקופה.
-        </p>
-        <div className="hero-ctas">
-          <Link to={`/category/${categories[0].slug}`} className="btn">
-            לצאת למסע בין המדפים 🎨
-          </Link>
-          <a href={store.waze} target="_blank" rel="noreferrer" className="btn ghost">
-            ניווט לחנות
-          </a>
+      {/* warm paper zone — the logo IS the headline */}
+      <div className="hero-stage">
+        <Splat color="#e2574c" size={86} style={{ top: "4%", left: "2%" }} className="wiggle" />
+        <Splat color="#2a9d8f" size={72} style={{ bottom: "6%", right: "4%", opacity: 0.85 }} />
+        <div className="hero-stage-inner">
+          <h1 className="hero-logo">
+            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+          </h1>
+          <p className="sub">
+            צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם כל מה שהידיים שלכם
+            מחפשות, ועם עצה טובה ליד הקופה.
+          </p>
+          <div className="hero-ctas">
+            <Link to={`/category/${categories[0].slug}`} className="btn hero-cta">
+              לצאת למסע בין המדפים 🎨
+            </Link>
+            <a href={store.waze} target="_blank" rel="noreferrer" className="hero-link">
+              ניווט לחנות ←
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
     {/* ---------- categories ---------- */}
-    <section className="shell">
+    <section className="shell" id="shelves">
       <div className="section-head">
-        <h2 className="display">המדפים שלנו</h2>
+        <div className="section-titles">
+          <span className="eyebrow">תשעה מדפים, אינסוף רעיונות</span>
+          <h2 className="display">המדפים שלנו</h2>
+        </div>
         <div className="scribble" />
       </div>
       <div className="cat-grid">
@@ -121,7 +136,10 @@ export const HomePage = () => (
     {featured.length > 0 && (
       <section className="shell">
         <div className="section-head">
-          <h2 className="display">נבחרים מהמדפים</h2>
+          <div className="section-titles">
+            <span className="eyebrow">בחירת הצוות</span>
+            <h2 className="display">נבחרים מהמדפים</h2>
+          </div>
           <div className="scribble" />
         </div>
         {featured.length > 4 ? (
@@ -148,17 +166,22 @@ export const HomePage = () => (
       </section>
     )}
 
-    {/* ---------- new & on sale ---------- */}
+    {/* ---------- new & on sale (warm cream feature band) ---------- */}
     {fresh.length > 0 && (
-      <section className="shell">
-        <div className="section-head">
-          <h2 className="display">במבצע עכשיו</h2>
-          <div className="scribble" />
-        </div>
-        <div className="product-grid home-grid">
-          {fresh.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+      <section className="sale-band">
+        <div className="shell">
+          <div className="section-head">
+            <div className="section-titles">
+              <span className="eyebrow sale">שווה לחטוף</span>
+              <h2 className="display">במבצע עכשיו</h2>
+            </div>
+            <div className="scribble" />
+          </div>
+          <div className="product-grid home-grid">
+            {fresh.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
         </div>
       </section>
     )}
@@ -166,7 +189,10 @@ export const HomePage = () => (
     {/* ---------- workshops ---------- */}
     <section className="shell">
       <div className="section-head">
-        <h2 className="display">חוגים וסדנאות</h2>
+        <div className="section-titles">
+          <span className="eyebrow">בחדר הלימוד הצמוד לחנות</span>
+          <h2 className="display">חוגים וסדנאות</h2>
+        </div>
         <div className="scribble" />
       </div>
       <div className="workshops-card">

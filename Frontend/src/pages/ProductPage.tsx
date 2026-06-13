@@ -177,7 +177,10 @@ export const ProductPage = () => {
         {related.length > 0 && (
           <section className="related">
             <div className="section-head">
-              <h2 className="display">משתלב יפה עם</h2>
+              <div className="section-titles">
+                <span className="eyebrow">מהמדף שלכם</span>
+                <h2 className="display">משתלב יפה עם</h2>
+              </div>
               <div className="scribble" />
               <Link to={`/category/${product.category}`} className="more">
                 לכל המדף ←

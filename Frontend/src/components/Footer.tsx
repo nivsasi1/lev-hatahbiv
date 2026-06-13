@@ -5,11 +5,14 @@ export const Footer = () => (
   <footer className="footer">
     <div className="shell">
       <div className="footer-grid">
-        <div>
+        <div className="footer-brand-col">
           <div className="brand display">
-            לב התחביב
+            <span className="brand-name">לב התחביב</span>
             <small>ציוד אמנות ויצירה · מאז {store.since}</small>
           </div>
+          <p className="footer-tagline">
+            כל יצירה מתחילה כאן — חנות משפחתית ברחובות, עם צוות שמכיר כל מדף.
+          </p>
         </div>
 
         <div className="footer-col">

@@ -43,6 +43,7 @@ export const CategoryPage = () => {
           <div className="crumbs">
             <Link to="/">ראשי</Link> ‹ {category.name}
           </div>
+          <span className="eyebrow cat-hero-eyebrow">מדף הבית · מאז 1985</span>
           <h1 className="display">{category.name}</h1>
           <p>
             {category.blurb} · {all.length} מוצרים
@@ -52,7 +53,10 @@ export const CategoryPage = () => {
 
       <section className="shell cat-products">
         <div className="section-head">
-          <h2 className="display">בחרו מדף</h2>
+          <div className="section-titles">
+            <span className="eyebrow">בחירת מדף</span>
+            <h2 className="display">בחרו מדף</h2>
+          </div>
           <div className="scribble" />
         </div>
         <div className="sub-grid">
@@ -81,7 +85,10 @@ export const CategoryPage = () => {
         {onSale.length > 0 && (
           <>
             <div className="section-head">
-              <h2 className="display">במבצע במדף הזה</h2>
+              <div className="section-titles">
+                <span className="eyebrow sale">שווה לחטוף</span>
+                <h2 className="display">במבצע במדף הזה</h2>
+              </div>
               <div className="scribble" />
             </div>
             <div className="product-grid">
@@ -153,6 +160,7 @@ export const SubCategoryPage = () => {
             <Link to="/">ראשי</Link> ‹{" "}
             <Link to={`/category/${slug}`}>{category.name}</Link> ‹ {sub}
           </div>
+          <span className="eyebrow cat-hero-eyebrow">{category.name}</span>
           <h1 className="display">{sub}</h1>
           <p>
             {all.length} מוצרים · החל מ־{shekel(cheapest)}
