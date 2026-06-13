@@ -1,0 +1,156 @@
+/* Product image lightbox — click-to-zoom modal for the product page.
+   chrome70-safe: no backdrop-filter, no mix-blend-mode, no feTurbulence.
+   Overlay sits above the cart sheet (95) and its veil (90). */
+
+/* Signal clickability on the stage photo */
+.product-stage.zoomable {
+  cursor: zoom-in;
+}
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  /* darker ink veil for a photo */
+  background: rgba(43, 36, 64, 0.82);
+  -webkit-animation: lb-fade 0.18s ease-out both;
+  animation: lb-fade 0.18s ease-out both;
+}
+
+.lightbox-frame {
+  position: relative;
+  max-width: 92vw;
+  max-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-img {
+  display: block;
+  max-width: 90vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: zoom-out;
+  background: #fff;
+  padding: 10px;
+  border: 3px solid var(--ink, #2b2440);
+  border-radius: 10px;
+  box-shadow: 8px 8px 0 rgba(43, 36, 64, 0.45);
+  -webkit-animation: lb-pop 0.2s ease-out both;
+  animation: lb-pop 0.2s ease-out both;
+}
+
+/* Round close button, top corner (inline-end = left in RTL) */
+.lightbox-close {
+  position: fixed;
+  top: 18px;
+  inset-inline-end: 18px;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--ink, #2b2440);
+  background: #fff;
+  color: var(--ink, #2b2440);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 rgba(43, 36, 64, 0.45);
+  -webkit-transition: transform 0.12s ease-out;
+  transition: transform 0.12s ease-out;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  transform: scale(1.08);
+}
+
+/* Prev / next inside the lightbox */
+.lightbox-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid var(--ink, #2b2440);
+  background: #fff;
+  color: var(--ink, #2b2440);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 rgba(43, 36, 64, 0.45);
+  -webkit-transition: transform 0.12s ease-out;
+  transition: transform 0.12s ease-out;
+}
+
+.lightbox-arrow:hover,
+.lightbox-arrow:focus-visible {
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* RTL: "next" sits on the left, "prev" on the right */
+.lightbox-arrow.next {
+  inset-inline-start: 18px;
+}
+
+.lightbox-arrow.prev {
+  inset-inline-end: 18px;
+}
+
+/* Counter pill */
+.lightbox-count {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 2px solid var(--ink, #2b2440);
+  background: #fff;
+  color: var(--ink, #2b2440);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+@-webkit-keyframes lb-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes lb-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@-webkit-keyframes lb-pop {
+  from { opacity: 0; -webkit-transform: scale(0.9); transform: scale(0.9); }
+  to { opacity: 1; -webkit-transform: scale(1); transform: scale(1); }
+}
+@keyframes lb-pop {
+  from { opacity: 0; -webkit-transform: scale(0.9); transform: scale(0.9); }
+  to { opacity: 1; -webkit-transform: scale(1); transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-overlay,
+  .lightbox-img {
+    -webkit-animation: none;
+    animation: none;
+  }
+}

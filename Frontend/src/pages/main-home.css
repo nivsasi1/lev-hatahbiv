@@ -261,9 +261,18 @@
     position: absolute;
     inset-block: 0; /* full height → level with the logo */
     inset-inline-start: 0; /* RTL → right edge */
-    width: clamp(180px, 24%, 340px);
+    width: clamp(260px, 30%, 480px); /* ~30% of site width, larger presence */
     z-index: 2;
     justify-content: center; /* centre the statement vertically */
+    /* SLANT the inner edge (the physical-left edge facing the centred logo):
+       top corner pulled in 20% of the strip's width, bottom corner 8% → a
+       diagonal boundary leaning so the strip is a touch wider at the bottom.
+       12% horizontal offset = a clearly visible but tasteful slant. The 8%
+       bottom inset is the closest the dark fill gets to centre and is what the
+       logo-clearance geometry below is tuned against. Higher specificity than
+       the global .hero-field clip-path, so this wins. */
+    -webkit-clip-path: polygon(20% 0, 100% 0, 100% 100%, 8% 100%);
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 8% 100%);
   }
   .main-home .hero-stage {
     position: relative;
@@ -278,6 +287,12 @@
     max-width: min(42rem, 58vw);
   }
   .main-home .hero-stage-inner .hero-logo img {
-    width: min(32rem, 50vw); /* clears the right-side strip at all widths */
+    /* Logo stays centred on the whole hero (place-items/margin untouched); only
+       its WIDTH is capped so it clears the now-wider (30%) slanted strip. The
+       strip's nearest-to-centre point is its bottom-left at 8% of strip width.
+       With logo = min(28rem, 40vw) the centred logo's right edge clears that
+       diagonal with: ~25px @1024, ~63px @1280, ~99px @1440 (grows wider above).
+       Comfortable gaps at every common desktop width. */
+    width: min(28rem, 40vw);
   }
 }

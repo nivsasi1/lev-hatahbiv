@@ -1,4 +1,10 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   categories,
@@ -11,6 +17,39 @@ import {
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
 import { AdminBell } from "./AdminBell";
+
+// Walk up from `el` to the nearest ancestor that establishes a containing block
+// for position:fixed descendants (an element with transform/filter/perspective/
+// backdrop-filter/will-change other than `none`). Returns null when fixed is
+// relative to the viewport. The sticky <header> here carries a backdrop-filter,
+// so the dropdown's fixed coords must be offset by this element's origin.
+const FIXED_CB_PROPS: (keyof CSSStyleDeclaration)[] = [
+  "transform",
+  "filter",
+  "perspective",
+  "backdropFilter",
+  "webkitBackdropFilter" as keyof CSSStyleDeclaration,
+  "willChange",
+];
+function findFixedContainingBlock(
+  el: HTMLElement | null
+): HTMLElement | null {
+  let node = el?.parentElement ?? null;
+  while (node && node !== document.body && node !== document.documentElement) {
+    const cs = getComputedStyle(node);
+    for (const p of FIXED_CB_PROPS) {
+      const v = cs[p] as unknown as string;
+      if (v && v !== "none" && v !== "auto") {
+        // `will-change` only creates a CB when it names one of the CB props
+        if (p === "willChange" && !/transform|filter|perspective/.test(v))
+          continue;
+        return node;
+      }
+    }
+    node = node.parentElement;
+  }
+  return null;
+}
 
 const SearchIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +101,50 @@ export const Header = () => {
   const [canStart, setCanStart] = useState(false); // toward inline-start (right in RTL)
   const [canEnd, setCanEnd] = useState(false); // toward inline-end (left in RTL)
 
+  // The submenu is position:fixed (so it can never be clipped by the track's
+  // scroll box on mobile). We compute its position from the open chip's
+  // bounding rect, clamp it into the viewport, then translate into the menu's
+  // containing-block coordinates and keep them in state.
+  const submenuRef = useRef<HTMLDivElement>(null);
+  const [menuPos, setMenuPos] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
+
+  // place the fixed submenu under the currently-open chip, clamped to the
+  // viewport so it never spills off either edge. Runs before paint.
+  const positionMenu = useCallback(() => {
+    if (openSlug === null) return;
+    const chip = chipRefs.current[openSlug];
+    const menu = submenuRef.current;
+    if (!chip) return;
+    const r = chip.getBoundingClientRect();
+    const gap = 6;
+    const margin = 8; // keep this far from the viewport edges
+    const vw = document.documentElement.clientWidth;
+    // measured width once the menu exists, else a sensible default
+    const menuW = menu ? menu.offsetWidth : 220;
+    // RTL: align the menu's inline-start (right edge) to the chip's right edge,
+    // i.e. the menu's left = chip.right - menuW, then clamp into the viewport.
+    let left = r.right - menuW;
+    if (left < margin) left = margin;
+    if (left + menuW > vw - margin) left = vw - margin - menuW;
+    if (left < margin) left = margin;
+    let top = r.bottom + gap;
+    // A `backdrop-filter` (or transform/filter/perspective) ancestor — here the
+    // sticky .header carries backdrop-filter — creates a containing block for a
+    // position:fixed descendant, so top/left would then be measured from that
+    // ancestor's padding box rather than the viewport. Find it and subtract its
+    // origin so the viewport-space coords above still land correctly.
+    const cb = findFixedContainingBlock(menu);
+    if (cb) {
+      const cbr = cb.getBoundingClientRect();
+      left -= cbr.left;
+      top -= cbr.top;
+    }
+    setMenuPos({ top, left });
+  }, [openSlug]);
+
   const clearCloseTimer = () => {
     if (closeTimer.current !== null) {
       window.clearTimeout(closeTimer.current);
@@ -81,6 +164,24 @@ export const Header = () => {
     clearCloseTimer();
     closeTimer.current = window.setTimeout(() => setOpenSlug(null), 160);
   };
+
+  // position the fixed submenu before paint whenever it opens, then keep it
+  // pinned to the chip on page scroll / resize. (Track-scroll closes it, see
+  // the affordance effect below, so we don't need to follow that here.)
+  useLayoutEffect(() => {
+    if (openSlug === null) {
+      setMenuPos(null);
+      return;
+    }
+    positionMenu();
+    const onReflow = () => positionMenu();
+    window.addEventListener("scroll", onReflow, true);
+    window.addEventListener("resize", onReflow);
+    return () => {
+      window.removeEventListener("scroll", onReflow, true);
+      window.removeEventListener("resize", onReflow);
+    };
+  }, [openSlug, positionMenu]);
 
   // recompute the ‹ › affordances from the track's current scroll position.
   // scrollLeft is negative in RTL on Chromium, so work off absolute distance.
@@ -135,13 +236,30 @@ export const Header = () => {
     };
   }, [refreshScroll]);
 
-  // nudge the row by roughly one viewport's worth toward start/end.
-  // dir = -1 nudges toward inline-start, +1 toward inline-end.
+  // close the open submenu when the track itself scrolls (mobile): a fixed
+  // dropdown can't follow a scroll box smoothly, so the cleanest UX is to
+  // dismiss it. Only attached while a menu is open.
+  useEffect(() => {
+    if (openSlug === null) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    const onTrackScroll = () => closeMenu();
+    el.addEventListener("scroll", onTrackScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onTrackScroll);
+  }, [openSlug, closeMenu]);
+
+  // nudge the row toward the start/end. dir = -1 nudges toward inline-start
+  // (the visual right in RTL), +1 toward inline-end (the visual left).
+  // Chromium reports a NEGATIVE scrollLeft in RTL, and scrollBy's `left` is in
+  // that same signed space — so to move toward the start (right) we ADD, and
+  // toward the end (left) we SUBTRACT. Hence the flipped sign in RTL.
   const nudge = (dir: -1 | 1) => {
     const el = scrollRef.current;
     if (!el) return;
     const step = Math.max(el.clientWidth * 0.7, 140);
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
+    const rtl = getComputedStyle(el).direction === "rtl";
+    const signed = rtl ? -dir : dir;
+    el.scrollBy({ left: signed * step, behavior: "smooth" });
   };
 
   // drag-to-scroll (pointer) — a nice extra for trackpad-less desktops
@@ -302,7 +420,8 @@ export const Header = () => {
           </button>
 
           <div className="cat-track" ref={scrollRef}>
-            {categories.map((c) => {
+            <div className="cat-track-inner">
+              {categories.map((c) => {
               const subs = getSubs(c.slug);
               const hasMenu = subs.length > 1;
               const isOpen = openSlug === c.slug;
@@ -363,10 +482,21 @@ export const Header = () => {
                   {hasMenu && isOpen && (
                     <div
                       id={menuId}
+                      ref={submenuRef}
                       className="cat-submenu"
                       role="menu"
                       aria-label={c.name}
-                      style={{ "--cc": c.color } as any}
+                      style={
+                        {
+                          "--cc": c.color,
+                          // position:fixed coords computed from the chip rect.
+                          // Kept visibility:hidden until measured so it doesn't
+                          // flash at the top-left corner on the first frame.
+                          top: menuPos ? `${menuPos.top}px` : undefined,
+                          left: menuPos ? `${menuPos.left}px` : undefined,
+                          visibility: menuPos ? "visible" : "hidden",
+                        } as any
+                      }
                       onMouseEnter={clearCloseTimer}
                       onMouseLeave={scheduleClose}
                     >
@@ -395,7 +525,8 @@ export const Header = () => {
                   )}
                 </div>
               );
-            })}
+              })}
+            </div>
           </div>
 
           <button
