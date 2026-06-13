@@ -2,17 +2,50 @@ import { Link } from "react-router-dom";
 import {
   categories,
   products,
-  productsByCategory,
   getProduct,
   siteSettings,
   store,
   workshops,
+  productsByCategory,
   Category,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import "./home-photographic.css";
 
-/* ---------- featured / sale picks (same rules as the base homepage) ---------- */
+/* ---------------------------------------------------------------------------
+   Decorative imagery = curated INTERNET STOCK PHOTOS of art supplies / paint /
+   brushes / paper / yarn / studio (the "header" + "shelf" photos the owner
+   asked for). Real <ProductCard> products stay untouched in the grids below.
+   Every base URL was verified to return 200 image/jpeg before use.
+   --------------------------------------------------------------------------- */
+const BIG = "?auto=format&fit=crop&w=1600&q=70"; // full-bleed backgrounds
+const TILE = "?auto=format&fit=crop&w=800&q=70"; // mosaic / shelf tiles
+const U = "https://images.unsplash.com/";
+
+// inviting art-studio scene for the hero header
+const HERO_IMG = `${U}photo-1459908676235-d5f02a50184b${BIG}`;
+// artful flat-lay for the quote band
+const QUOTE_IMG = `${U}photo-1658303135227-fcdfb0dab396${BIG}`;
+// hands-on supplies for the workshops photo
+const SHOP_IMG = `${U}photo-1460661419201-fd4cecdf8a8b${BIG}`;
+// safe fallback so every mosaic tile always has a photo
+const TILE_FALLBACK = `${U}photo-1558452337-ca6e53836504${TILE}`;
+
+// one fitting "shelf" stock photo per category slug
+const CAT_IMG: Record<string, string> = {
+  paints: `${U}photo-1535673774336-ef95d2851cf3${TILE}`, // tubs of colour
+  hobby: `${U}photo-1456086272160-b28b0645b729${TILE}`, // mixing pots of paint
+  drawing: `${U}photo-1558452337-ca6e53836504${TILE}`, // rich mixed palette
+  brushes: `${U}photo-1633443245758-6a507463c89c${TILE}`, // jars of brushes
+  paper: `${U}photo-1513364776144-60967b0f800f${TILE}`, // brushes on white paper
+  easels: `${U}photo-1613574714687-c33b9e90200d${TILE}`, // studio table + lamp
+  craft: `${U}photo-1609446154807-d56805f0e007${TILE}`, // hands sorting beads
+  fiber: `${U}photo-1584992236310-6edddc08acff${TILE}`, // balls of yarn + needles
+  jewelry: `${U}photo-1646070107254-3713cec279c1${TILE}`, // beads + letter charms
+};
+const coverFor = (slug: string) => CAT_IMG[slug] ?? TILE_FALLBACK;
+
+/* ---------- featured / sale picks (real products — same rules as base) ---------- */
 const heuristicFeatured = ["paints", "brushes", "drawing", "paper", "craft", "fiber"]
   .map((slug) =>
     products.find(
@@ -42,37 +75,21 @@ const fresh =
         .filter((p): p is NonNullable<typeof p> => Boolean(p) && onSale(p!))
     : products.filter(onSale).slice(0, 4);
 
-// a representative photo per category (richest-description product with a photo)
-const coverFor = (slug: string) =>
-  productsByCategory(slug)
-    .filter((p) => p.img)
-    .sort((a, b) => b.description.length - a.description.length)[0]?.img;
-
-const heroImg = featured.find((p) => p.img)?.img ?? coverFor(categories[0].slug);
-// any spare photos for the quote + workshop bands
-const photoPool = categories.map((c) => coverFor(c.slug)).filter(Boolean) as string[];
-const quoteImg = photoPool[2] ?? photoPool[0];
-const shopImg = photoPool[4] ?? photoPool[1];
-
 // mosaic rhythm: 1 big, 1 wide, then standard tiles
 const tileClass = (i: number) => (i === 0 ? "big" : i === 1 ? "wide" : "std");
 
 export default () => (
   <main className="ph-home">
-    {/* ---------- full-bleed hero ---------- */}
+    {/* ---------- full-bleed hero (stock studio photo) ---------- */}
     <section className="ph-hero">
-      {heroImg ? (
-        <img className="ph-hero-bg" src={heroImg} alt="" aria-hidden="true" />
-      ) : (
-        <div className="ph-hero-bg" style={{ background: "#2a241f" }} />
-      )}
+      <img className="ph-hero-bg" src={HERO_IMG} alt="" aria-hidden="true" />
       <div className="ph-scrim" />
       <div className="ph-shell ph-hero-inner">
         <span className="ph-kicker">חנות האמנות של רחובות · מאז {store.since}</span>
         <h1>לב התחביב</h1>
         <p className="ph-lead">
-          צבעים, מכחולים, נייר וחוטים — חנות משפחתית שבה כל פריט מצולם באהבה.
-          אלפי מוצרים, כל מותג, ועצה טובה ליד הקופה.
+          צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם אלפי מוצרים, כל מותג,
+          ועצה טובה ליד הקופה. נכנסים להתרשם, יוצאים עם בדיוק מה שהפרויקט צריך.
         </p>
         <div className="ph-ctas">
           <Link to={`/category/${categories[0].slug}`} className="ph-btn fill">
@@ -85,7 +102,7 @@ export default () => (
       </div>
     </section>
 
-    {/* ---------- photo category mosaic ---------- */}
+    {/* ---------- photo category mosaic (stock "shelf" photos per category) ---------- */}
     <section className="ph-sec">
       <div className="ph-shell">
         <div className="ph-sec-head">
@@ -93,30 +110,23 @@ export default () => (
           <h2>המדפים שלנו</h2>
         </div>
         <div className="ph-mosaic">
-          {categories.map((c: Category, i) => {
-            const cover = coverFor(c.slug);
-            return (
-              <Link key={c.slug} to={`/category/${c.slug}`} className={`ph-tile ${tileClass(i)}`}>
-                {cover ? (
-                  <img src={cover} alt={c.name} loading="lazy" />
-                ) : (
-                  <div className="ph-tile-fallback" style={{ background: c.color }} />
-                )}
-                <div className="ph-tile-scrim" />
-                <div className="ph-tile-body">
-                  <h3>{c.name}</h3>
-                  <span className="ph-tile-count">
-                    {productsByCategory(c.slug).length} מוצרים ←
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+          {categories.map((c: Category, i) => (
+            <Link key={c.slug} to={`/category/${c.slug}`} className={`ph-tile ${tileClass(i)}`}>
+              <img src={coverFor(c.slug)} alt={c.name} loading="lazy" />
+              <div className="ph-tile-scrim" />
+              <div className="ph-tile-body">
+                <h3>{c.name}</h3>
+                <span className="ph-tile-count">
+                  {productsByCategory(c.slug).length} מוצרים ←
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
 
-    {/* ---------- featured ---------- */}
+    {/* ---------- featured (real products) ---------- */}
     {featured.length > 0 && (
       <section className="ph-sec" style={{ paddingTop: 0 }}>
         <div className="ph-shell">
@@ -133,9 +143,9 @@ export default () => (
       </section>
     )}
 
-    {/* ---------- quote band over photo ---------- */}
+    {/* ---------- quote band over stock photo ---------- */}
     <section className="ph-quote">
-      {quoteImg && <img src={quoteImg} alt="" aria-hidden="true" />}
+      <img src={QUOTE_IMG} alt="" aria-hidden="true" loading="lazy" />
       <div className="ph-scrim" />
       <div className="ph-quote-body">
         <h2>כל יצירה גדולה מתחילה בלב</h2>
@@ -146,7 +156,7 @@ export default () => (
       </div>
     </section>
 
-    {/* ---------- on sale ---------- */}
+    {/* ---------- on sale (real products) ---------- */}
     {fresh.length > 0 && (
       <section className="ph-sec">
         <div className="ph-shell">
@@ -163,16 +173,12 @@ export default () => (
       </section>
     )}
 
-    {/* ---------- workshops ---------- */}
+    {/* ---------- workshops (schedule + signup, no price) ---------- */}
     <section className="ph-sec">
       <div className="ph-shell">
         <div className="ph-shop">
           <div className="ph-shop-photo">
-            {shopImg ? (
-              <img src={shopImg} alt="" aria-hidden="true" />
-            ) : (
-              <div style={{ position: "absolute", inset: 0, background: "#2a241f" }} />
-            )}
+            <img src={SHOP_IMG} alt="" aria-hidden="true" loading="lazy" />
           </div>
           <div className="ph-shop-body">
             <h2>חוגים וסדנאות</h2>

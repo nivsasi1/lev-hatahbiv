@@ -33,6 +33,39 @@ const DESIGNS: DesignEntry[] = [
     emoji: "📷",
     swatch: "linear-gradient(160deg, #2d3142 0%, #4f5d75 55%, #bfc0c0 100%)",
   },
+  {
+    num: "עיצוב 8",
+    to: "/design8",
+    name: "לחישת צבע",
+    tag: "רקע נע · עדין מאוד",
+    desc: "עמוד הבית החדש עם רקע גרדיאנט חי שזז בעדינות אחרי העכבר — כמעט לא מורגש, רק נשימה של צבע.",
+    emoji: "🫧",
+    badge: "חדש · בתנועה",
+    swatch:
+      "radial-gradient(circle at 30% 38%, rgba(91,45,142,0.18), transparent 60%), radial-gradient(circle at 74% 64%, rgba(42,157,143,0.16), transparent 60%), #faf5ec",
+  },
+  {
+    num: "עיצוב 9",
+    to: "/design9",
+    name: "זרם צבעים",
+    tag: "רקע נע · בולט",
+    desc: "אותו עמוד בית, עם זרם צבעים נע וברור שמגיב לעכבר — שתי שכבות שזורמות מאחורי התוכן.",
+    emoji: "🌊",
+    badge: "חדש · בתנועה",
+    swatch:
+      "radial-gradient(circle at 24% 34%, rgba(91,45,142,0.34), transparent 55%), radial-gradient(circle at 72% 58%, rgba(226,58,58,0.28), transparent 55%), radial-gradient(circle at 50% 86%, rgba(42,157,143,0.3), transparent 55%), #faf5ec",
+  },
+  {
+    num: "עיצוב 10",
+    to: "/design10",
+    name: "פריזמה",
+    tag: "רקע נע · נמרץ",
+    desc: "גרסה חיה ונמרצת: גרדיאנט עשיר, כתמי צבע צפים ובוהק על שדה הגיבור — אנרגטי אך עדיין בהיר וקריא.",
+    emoji: "🌈",
+    badge: "חדש · בתנועה",
+    swatch:
+      "conic-gradient(from 200deg at 50% 50%, rgba(91,45,142,0.5), rgba(226,58,58,0.42), rgba(224,159,62,0.42), rgba(42,157,143,0.46), rgba(91,45,142,0.5)), #faf5ec",
+  },
 ];
 
 export const DesignsIndex = () => (

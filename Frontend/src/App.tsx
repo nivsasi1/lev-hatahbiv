@@ -22,6 +22,10 @@ import { DesignsIndex } from "./pages/DesignsIndex";
 // Homepage design finalists for the owner to preview (/designs).
 import DesignGoalB from "./pages/Design-goalb";
 import DesignPhotographic from "./pages/Design-photographic";
+// Motion variants: the new homepage with a moving background gradient.
+import DesignGradA from "./pages/Design-grad-a";
+import DesignGradB from "./pages/Design-grad-b";
+import DesignGradC from "./pages/Design-grad-c";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -71,6 +75,9 @@ const router = createBrowserRouter(
         { path: "/designs", element: <DesignsIndex /> },
         { path: "/design5", element: <DesignGoalB /> },
         { path: "/design7", element: <DesignPhotographic /> },
+        { path: "/design8", element: <DesignGradA /> },
+        { path: "/design9", element: <DesignGradB /> },
+        { path: "/design10", element: <DesignGradC /> },
         { path: "*", element: <HomePage /> },
       ],
     },

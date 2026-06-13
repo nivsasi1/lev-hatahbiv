@@ -1,0 +1,161 @@
+/* ============================================================
+   home-grad-b.css — "זרם צבעים" (Colour Stream) motion variant
+   ------------------------------------------------------------
+   Wraps the shared <HomeContent/> with a moving background gradient:
+     - layer 1: a mouse-follow radial (--gx/--gy set by rAF lerp in TSX)
+     - layer 2: a slowly rotating conic + auto-drifting radials
+   Neutral section backgrounds are made translucent so the colour
+   flows visibly behind the content. Dark .hero-field and photo
+   .story-band are left untouched (they have strong backgrounds).
+   Every selector is scoped under .grad-b; every keyframe is grad-b-*.
+   Light/warm palette only — never dark. chrome70-safe:
+   gradients / transform / @keyframes only (no :has, no color-mix).
+   All motion is gated by prefers-reduced-motion below.
+   ============================================================ */
+
+.grad-b {
+  position: relative;
+}
+
+/* keep all real content above the gradient layer */
+.grad-b > :not(.grad-b-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- the moving background ---------- */
+.grad-b-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* layer 1 — mouse-follow radial (purple), riding above layer 2 */
+  background:
+    radial-gradient(
+      46% 56% at var(--gx, 50%) var(--gy, 30%),
+      rgba(91, 45, 142, 0.24),
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 50% at 84% 86%,
+      rgba(226, 58, 58, 0.2),
+      transparent 66%
+    ),
+    radial-gradient(
+      50% 60% at 14% 82%,
+      rgba(42, 157, 143, 0.22),
+      transparent 66%
+    ),
+    radial-gradient(
+      48% 52% at 20% 14%,
+      rgba(224, 159, 62, 0.18),
+      transparent 64%
+    );
+  animation: grad-b-drift 22s ease-in-out infinite alternate;
+}
+
+/* layer 2 — auto-drifting / slowly rotating colour wash behind layer 1 */
+.grad-b-bg::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background:
+    conic-gradient(
+      from 0deg at 50% 50%,
+      rgba(91, 45, 142, 0.16),
+      rgba(42, 157, 143, 0.16),
+      rgba(224, 159, 62, 0.16),
+      rgba(226, 58, 58, 0.16),
+      rgba(91, 45, 142, 0.16)
+    );
+  animation: grad-b-spin 38s linear infinite;
+}
+
+.grad-b-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      40% 48% at 70% 22%,
+      rgba(42, 157, 143, 0.2),
+      transparent 64%
+    ),
+    radial-gradient(
+      44% 52% at 28% 70%,
+      rgba(224, 159, 62, 0.18),
+      transparent 64%
+    );
+  animation: grad-b-pulse 16s ease-in-out infinite alternate;
+}
+
+@keyframes grad-b-drift {
+  from {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 4% -3%, -5% 4%, 3% 5%, -4% 3%;
+  }
+}
+
+@keyframes grad-b-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes grad-b-pulse {
+  from {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.08) translate(2%, -2%);
+    opacity: 1;
+  }
+}
+
+/* ---------- let the gradient breathe through NEUTRAL sections ---------- */
+/* hero photo stage (var(--paper)) */
+.grad-b .hero-stage {
+  background: rgba(250, 245, 236, 0.78);
+}
+
+/* sale band (var(--cream-warm)) */
+.grad-b .sale-band {
+  background: rgba(253, 243, 224, 0.8);
+}
+
+/* visit / studio band (var(--paper-deep)) */
+.grad-b .studio-band {
+  background: rgba(247, 240, 228, 0.78);
+}
+
+/* the white "card" surfaces — workshops + pinned notes */
+.grad-b .workshops-card {
+  background: rgba(255, 253, 247, 0.82);
+}
+.grad-b .note-card {
+  background: rgba(255, 253, 247, 0.84);
+}
+/* keep the gold note clearly gold, just slightly translucent */
+.grad-b .note-card.gold {
+  background: rgba(224, 159, 62, 0.86);
+}
+
+/* the nine category tiles — let a hint of flow show, keep them readable */
+.grad-b .cat-card {
+  background: rgba(255, 253, 247, 0.85);
+}
+
+/* ---------- accessibility: no motion when the user opts out ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .grad-b-bg,
+  .grad-b-bg::before,
+  .grad-b-bg::after {
+    animation: none;
+  }
+}
