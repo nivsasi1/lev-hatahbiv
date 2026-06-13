@@ -1,0 +1,172 @@
+/* ===========================================================================
+   Home design · "תמונה מלאה" (Full-Bleed Photographic)
+   Big edge-to-edge product photography, cinematic gradient scrims, quiet
+   serif-ish display type. Scoped under .ph-home. Scrims are linear-gradients
+   only — no feTurbulence, no blend modes on the photos.
+   =========================================================================== */
+
+.ph-home {
+  --ph-ink: #1a1714;
+  --ph-paper: #faf8f4;
+  --ph-accent: #b8865b;
+  --ph-accent-deep: #8a5a32;
+  background: var(--ph-paper);
+  color: var(--ph-ink);
+  font-family: "Assistant", system-ui, sans-serif;
+}
+
+.ph-home .ph-shell { width: min(1240px, 94vw); margin-inline: auto; }
+
+/* ---------- full-bleed hero ---------- */
+.ph-hero {
+  position: relative;
+  min-height: clamp(440px, 78vh, 760px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #2a241f;
+}
+.ph-hero .ph-hero-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.04);
+  animation: ph-kenburns 22s ease-in-out infinite alternate;
+}
+@keyframes ph-kenburns {
+  from { transform: scale(1.04) translate(0, 0); }
+  to { transform: scale(1.14) translate(-1.5%, -1.5%); }
+}
+.ph-hero .ph-scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(12, 9, 7, 0.86) 0%, rgba(12, 9, 7, 0.35) 42%, rgba(12, 9, 7, 0.1) 100%),
+    linear-gradient(to right, rgba(12, 9, 7, 0.5), transparent 55%);
+}
+.ph-hero-inner { position: relative; z-index: 2; padding: clamp(2rem, 5vw, 4.5rem) 0; color: #fff; }
+.ph-kicker {
+  display: inline-block;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #f0d9bf; margin-bottom: 1rem;
+  border-inline-start: 3px solid var(--ph-accent); padding-inline-start: 0.7rem;
+}
+.ph-hero h1 {
+  font-family: "Amatic SC", cursive; font-weight: 700;
+  font-size: clamp(3.6rem, 11vw, 8rem); line-height: 0.86; margin: 0 0 1rem;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+.ph-hero .ph-lead {
+  font-size: clamp(1.05rem, 1.7vw, 1.28rem); line-height: 1.7;
+  max-width: 48ch; color: #efe7dd; margin: 0 0 1.8rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+}
+.ph-ctas { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+.ph-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.95rem 1.9rem; font-weight: 700; font-size: 1.02rem;
+  text-decoration: none; border-radius: 2px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.ph-btn.fill { background: #fff; color: var(--ph-ink); }
+.ph-btn.fill:hover { transform: translateY(-2px); background: #f0d9bf; }
+.ph-btn.line { border: 1.5px solid rgba(255, 255, 255, 0.6); color: #fff; }
+.ph-btn.line:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.12); }
+
+/* ---------- section heads ---------- */
+.ph-sec { padding: clamp(2.6rem, 5vw, 4.4rem) 0; }
+.ph-sec-head { text-align: center; margin-bottom: 2.2rem; }
+.ph-sec-head .ph-eyebrow {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ph-accent-deep); display: block; margin-bottom: 0.5rem;
+}
+.ph-sec-head h2 {
+  font-family: "Amatic SC", cursive; font-weight: 700;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem); line-height: 1; margin: 0;
+}
+
+/* ---------- editorial photo category mosaic ---------- */
+.ph-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 200px;
+  gap: 14px;
+}
+.ph-tile {
+  position: relative; overflow: hidden; border-radius: 4px;
+  text-decoration: none; color: #fff; display: block;
+  background: #2a241f;
+}
+.ph-tile img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; transition: transform 0.5s ease;
+}
+.ph-tile:hover img { transform: scale(1.07); }
+.ph-tile .ph-tile-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10, 8, 6, 0.82), rgba(10, 8, 6, 0.05) 60%);
+}
+.ph-tile .ph-tile-body { position: absolute; inset-inline: 0; inset-block-end: 0; padding: 1.1rem 1.2rem; }
+.ph-tile .ph-tile-body h3 { font-size: 1.45rem; font-weight: 800; margin: 0 0 0.15rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.ph-tile .ph-tile-body .ph-tile-count {
+  font-size: 0.82rem; font-weight: 700; color: #f0d9bf;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+}
+.ph-tile .ph-tile-fallback { position: absolute; inset: 0; display: grid; place-items: center; }
+/* sizes: first two big, rest standard; keeps a magazine rhythm */
+.ph-tile.big { grid-column: span 3; grid-row: span 2; }
+.ph-tile.wide { grid-column: span 3; }
+.ph-tile.std { grid-column: span 2; }
+
+/* ---------- product strip ---------- */
+.ph-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.3rem; }
+
+/* ---------- quote band over photo ---------- */
+.ph-quote {
+  position: relative; overflow: hidden;
+  min-height: 320px; display: flex; align-items: center; justify-content: center;
+  text-align: center; color: #fff; background: #2a241f;
+}
+.ph-quote img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph-quote .ph-scrim { position: absolute; inset: 0; background: rgba(12, 9, 7, 0.62); }
+.ph-quote .ph-quote-body { position: relative; z-index: 2; padding: 2rem; max-width: 60ch; }
+.ph-quote .ph-quote-body h2 { font-family: "Amatic SC", cursive; font-size: clamp(2.4rem, 6vw, 4rem); margin: 0 0 0.8rem; line-height: 0.95; }
+.ph-quote .ph-quote-body p { font-size: 1.1rem; line-height: 1.7; color: #efe7dd; margin: 0; }
+
+/* ---------- workshops ---------- */
+.ph-shop {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border-radius: 6px; overflow: hidden; box-shadow: 0 20px 50px rgba(26, 23, 20, 0.16);
+}
+.ph-shop .ph-shop-photo { position: relative; min-height: 300px; background: #2a241f; }
+.ph-shop .ph-shop-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph-shop .ph-shop-body { background: var(--ph-ink); color: #fff; padding: clamp(1.8rem, 4vw, 2.8rem); }
+.ph-shop .ph-shop-body h2 { font-family: "Amatic SC", cursive; font-size: 3rem; margin: 0 0 0.7rem; }
+.ph-shop .ph-shop-body p.intro { line-height: 1.7; color: #d9cfc4; margin: 0 0 1.3rem; }
+.ph-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.3rem; }
+.ph-chips span {
+  border: 1px solid rgba(255,255,255,0.28); border-radius: 999px;
+  padding: 0.3rem 0.8rem; font-size: 0.84rem; font-weight: 600; color: #f0d9bf;
+}
+.ph-shop-meta { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: center; }
+.ph-shop-meta .ph-m { font-weight: 700; }
+
+/* ---------- visit ---------- */
+.ph-visit { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+.ph-vcard { border: 1px solid #ece5da; border-radius: 6px; padding: 1.8rem; background: #fff; box-shadow: 0 14px 36px rgba(26,23,20,0.07); }
+.ph-vcard h3 { font-family: "Amatic SC", cursive; font-size: 2.2rem; margin: 0 0 1rem; color: var(--ph-accent-deep); }
+.ph-vcard table { width: 100%; border-collapse: collapse; }
+.ph-vcard td { padding: 0.5rem 0; border-bottom: 1px solid #f0ebe3; }
+.ph-vcard td:last-child { text-align: end; font-weight: 700; }
+.ph-rows { display: grid; gap: 0.7rem; }
+.ph-rows a { color: var(--ph-accent-deep); text-decoration: none; font-weight: 600; }
+.ph-vactions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.1rem; }
+.ph-vactions .ph-btn.fill { background: var(--ph-ink); color: #fff; }
+.ph-vactions .ph-btn.line { border-color: var(--ph-ink); color: var(--ph-ink); }
+
+@media (max-width: 900px) {
+  .ph-mosaic { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 170px; }
+  .ph-tile.big, .ph-tile.wide, .ph-tile.std { grid-column: span 1; grid-row: span 1; }
+  .ph-tile.big { grid-column: span 2; grid-row: span 2; }
+  .ph-shop { grid-template-columns: 1fr; }
+  .ph-visit { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .ph-hero .ph-hero-bg { animation: none; } }

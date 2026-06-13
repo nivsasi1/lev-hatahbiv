@@ -7,27 +7,24 @@ import {
   siteSettings,
   store,
   workshops,
-  asset,
+  Category,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
-import { ProductArt } from "../components/ProductArt";
-import { Splat, Blob } from "../components/Splat";
+import "./home-photographic.css";
 
-// one photogenic product from each of four different shelves
-const heuristicFeatured = ["paints", "brushes", "drawing", "paper"]
+/* ---------- featured / sale picks (same rules as the base homepage) ---------- */
+const heuristicFeatured = ["paints", "brushes", "drawing", "paper", "craft", "fiber"]
   .map((slug) =>
     products.find(
       (p) =>
         p.category === slug &&
         p.img &&
         p.description.length > 40 &&
-        // prefer products with a Hebrew name on the homepage
         /[֐-׿]/.test(p.name)
     )
   )
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-// Manager-curated picks win; otherwise fall back to the heuristic.
 const featured =
   siteSettings.featuredIds.length > 0
     ? siteSettings.featuredIds
@@ -35,7 +32,6 @@ const featured =
         .filter((p): p is NonNullable<typeof p> => Boolean(p))
     : heuristicFeatured;
 
-// Manager-chosen sale picks win; otherwise auto-pick the first few on-sale items.
 const onSale = (p: { salePrice?: number; soldOut?: boolean; img?: string }) =>
   Boolean(p.salePrice && !p.soldOut && p.img);
 
@@ -46,206 +42,192 @@ const fresh =
         .filter((p): p is NonNullable<typeof p> => Boolean(p) && onSale(p!))
     : products.filter(onSale).slice(0, 4);
 
-export const HomePage = () => (
-  <main className="page-main">
-    {/* ---------- hero ---------- */}
-    <section className="hero">
-      <Splat color="#e2574c" size={170} style={{ top: "8%", right: "6%" }} className="wiggle" />
-      <Splat color="#2a9d8f" size={110} style={{ bottom: "12%", right: "16%", opacity: 0.85 }} />
-      <Splat color="#e09f3e" size={140} style={{ top: "16%", left: "8%", opacity: 0.9 }} />
-      <Splat color="#7b3fbf" size={90} style={{ bottom: "8%", left: "18%" }} className="wiggle" />
+// a representative photo per category (richest-description product with a photo)
+const coverFor = (slug: string) =>
+  productsByCategory(slug)
+    .filter((p) => p.img)
+    .sort((a, b) => b.description.length - a.description.length)[0]?.img;
 
-      <div className="shell hero-inner">
-        <span className="hero-kicker">חנות ציוד האמנות של רחובות · מאז {store.since}</span>
-        {/* the logo IS the headline */}
-        <h1 className="hero-logo">
-          <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
-        </h1>
-        <p className="sub">
-          צבעים, מכחולים, נייר וחוטים — חנות משפחתית עם כל מה שהידיים שלכם
-          מחפשות, ועם עצה טובה ליד הקופה.
+const heroImg = featured.find((p) => p.img)?.img ?? coverFor(categories[0].slug);
+// any spare photos for the quote + workshop bands
+const photoPool = categories.map((c) => coverFor(c.slug)).filter(Boolean) as string[];
+const quoteImg = photoPool[2] ?? photoPool[0];
+const shopImg = photoPool[4] ?? photoPool[1];
+
+// mosaic rhythm: 1 big, 1 wide, then standard tiles
+const tileClass = (i: number) => (i === 0 ? "big" : i === 1 ? "wide" : "std");
+
+export const HomePage = () => (
+  <main className="ph-home">
+    {/* ---------- full-bleed hero ---------- */}
+    <section className="ph-hero">
+      {heroImg ? (
+        <img className="ph-hero-bg" src={heroImg} alt="" aria-hidden="true" />
+      ) : (
+        <div className="ph-hero-bg" style={{ background: "#2a241f" }} />
+      )}
+      <div className="ph-scrim" />
+      <div className="ph-shell ph-hero-inner">
+        <span className="ph-kicker">חנות האמנות של רחובות · מאז {store.since}</span>
+        <h1>לב התחביב</h1>
+        <p className="ph-lead">
+          צבעים, מכחולים, נייר וחוטים — חנות משפחתית שבה כל פריט מצולם באהבה.
+          אלפי מוצרים, כל מותג, ועצה טובה ליד הקופה.
         </p>
-        <div className="hero-ctas">
-          <Link to={`/category/${categories[0].slug}`} className="btn">
-            לצאת למסע בין המדפים 🎨
+        <div className="ph-ctas">
+          <Link to={`/category/${categories[0].slug}`} className="ph-btn fill">
+            לגלות את המדפים ←
           </Link>
-          <a href={store.waze} target="_blank" rel="noreferrer" className="btn ghost">
+          <a href={store.waze} target="_blank" rel="noreferrer" className="ph-btn line">
             ניווט לחנות
           </a>
         </div>
       </div>
     </section>
 
-    {/* ---------- categories ---------- */}
-    <section className="shell">
-      <div className="section-head">
-        <h2 className="display">המדפים שלנו</h2>
-        <div className="scribble" />
-      </div>
-      <div className="cat-grid">
-        {categories.map((c) => (
-          <Link
-            key={c.slug}
-            to={`/category/${c.slug}`}
-            className="cat-card"
-            style={{ "--cc": c.color } as any}
-          >
-            <Blob color={c.soft} />
-            <span className="cat-art" aria-hidden="true">
-              <ProductArt kind={c.art} color={c.color} />
-            </span>
-            <h3 className="display">{c.name}</h3>
-            <p>{c.blurb}</p>
-            <span className="count">
-              {productsByCategory(c.slug).length} מוצרים ←
-            </span>
-          </Link>
-        ))}
+    {/* ---------- photo category mosaic ---------- */}
+    <section className="ph-sec">
+      <div className="ph-shell">
+        <div className="ph-sec-head">
+          <span className="ph-eyebrow">Collections</span>
+          <h2>המדפים שלנו</h2>
+        </div>
+        <div className="ph-mosaic">
+          {categories.map((c: Category, i) => {
+            const cover = coverFor(c.slug);
+            return (
+              <Link key={c.slug} to={`/category/${c.slug}`} className={`ph-tile ${tileClass(i)}`}>
+                {cover ? (
+                  <img src={cover} alt={c.name} loading="lazy" />
+                ) : (
+                  <div className="ph-tile-fallback" style={{ background: c.color }} />
+                )}
+                <div className="ph-tile-scrim" />
+                <div className="ph-tile-body">
+                  <h3>{c.name}</h3>
+                  <span className="ph-tile-count">
+                    {productsByCategory(c.slug).length} מוצרים ←
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </section>
 
-    {/* ---------- ribbon ---------- */}
-    <div className="ribbon">
-      <div className="ribbon-track">
-        {[0, 1].map((i) => (
-          <span key={i}>
-            {siteSettings.ribbonTexts.map((t, j) => (
-              <span key={j}>{t}</span>
-            ))}
-          </span>
-        ))}
-      </div>
-    </div>
-
-    {/* ---------- best sellers ---------- */}
+    {/* ---------- featured ---------- */}
     {featured.length > 0 && (
-      <section className="shell">
-        <div className="section-head">
-          <h2 className="display">נבחרים מהמדפים</h2>
-          <div className="scribble" />
-        </div>
-        {featured.length > 4 ? (
-          // slow auto-scrolling carousel; cards duplicated for a seamless loop
-          <div className="featured-carousel">
-            <div
-              className="track"
-              style={{ animationDuration: `${featured.length * 6}s` }}
-            >
-              {[0, 1].map((dup) =>
-                featured.map((p) => (
-                  <ProductCard key={`${dup}-${p.id}`} product={p} />
-                ))
-              )}
-            </div>
+      <section className="ph-sec" style={{ paddingTop: 0 }}>
+        <div className="ph-shell">
+          <div className="ph-sec-head">
+            <span className="ph-eyebrow">Curated</span>
+            <h2>נבחרים מהמדפים</h2>
           </div>
-        ) : (
-          <div className="product-grid home-grid">
-            {featured.map((p) => (
+          <div className="ph-grid">
+            {featured.slice(0, 8).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
-        )}
+        </div>
       </section>
     )}
 
-    {/* ---------- new & on sale ---------- */}
+    {/* ---------- quote band over photo ---------- */}
+    <section className="ph-quote">
+      {quoteImg && <img src={quoteImg} alt="" aria-hidden="true" />}
+      <div className="ph-scrim" />
+      <div className="ph-quote-body">
+        <h2>כל יצירה גדולה מתחילה בלב</h2>
+        <p>
+          לא רק קונים — מתייעצים, ממששים את הנייר, משווים גוונים מול האור,
+          ויוצאים עם בדיוק מה שהפרויקט הבא צריך. מאז {store.since}, ברחובות.
+        </p>
+      </div>
+    </section>
+
+    {/* ---------- on sale ---------- */}
     {fresh.length > 0 && (
-      <section className="shell">
-        <div className="section-head">
-          <h2 className="display">במבצע עכשיו</h2>
-          <div className="scribble" />
-        </div>
-        <div className="product-grid home-grid">
-          {fresh.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+      <section className="ph-sec">
+        <div className="ph-shell">
+          <div className="ph-sec-head">
+            <span className="ph-eyebrow">On sale</span>
+            <h2>במבצע עכשיו</h2>
+          </div>
+          <div className="ph-grid">
+            {fresh.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
         </div>
       </section>
     )}
 
     {/* ---------- workshops ---------- */}
-    <section className="shell">
-      <div className="section-head">
-        <h2 className="display">חוגים וסדנאות</h2>
-        <div className="scribble" />
-      </div>
-      <div className="workshops-card">
-        <p>{workshops.intro}</p>
-        <div className="workshop-topics">
-          {workshops.topics.map((t) => (
-            <span key={t} className="workshop-chip">
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="workshop-meta">
-          <span>🗓 {workshops.schedule}</span>
-          <span>💰 {workshops.price}</span>
-          <a href={`tel:${store.phone}`} className="btn small">
-            לפרטים והרשמה: {store.phone}
-          </a>
+    <section className="ph-sec">
+      <div className="ph-shell">
+        <div className="ph-shop">
+          <div className="ph-shop-photo">
+            {shopImg ? (
+              <img src={shopImg} alt="" aria-hidden="true" />
+            ) : (
+              <div style={{ position: "absolute", inset: 0, background: "#2a241f" }} />
+            )}
+          </div>
+          <div className="ph-shop-body">
+            <h2>חוגים וסדנאות</h2>
+            <p className="intro">{workshops.intro}</p>
+            <div className="ph-chips">
+              {workshops.topics.map((t) => (
+                <span key={t}>{t}</span>
+              ))}
+            </div>
+            <div className="ph-shop-meta">
+              <span className="ph-m">🗓 {workshops.schedule}</span>
+              <span className="ph-m">💰 {workshops.price}</span>
+              <a href={`tel:${store.phone}`} className="ph-btn fill">
+                להרשמה: {store.phone}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    {/* ---------- studio band: story + hours, pinned like notes on a wall ---------- */}
-    <section className="studio-band">
-      <Splat color="#e2574c" size={130} style={{ top: "-4%", right: "3%", opacity: 0.5 }} className="wiggle" />
-      <Splat color="#7b3fbf" size={100} style={{ bottom: "-6%", left: "5%", opacity: 0.45 }} />
-      <div className="shell">
-        <h2 className="display studio-title">
-          כל יצירה גדולה מתחילה{" "}
-          <span className="hl" style={{ "--hl": "#e2574c" } as any}>
-            בלב
-          </span>
-        </h2>
-        <p className="studio-text">
-          לב התחביב — המרכז לאמנויות ולתחביבים — היא חנות משפחתית שפועלת
-          ברחובות מאז {store.since}. אצלנו לא רק קונים: מתייעצים עם צוות
-          מקצועי, ממששים את הנייר, משווים גוונים מול האור, ויוצאים עם בדיוק
-          מה שהפרויקט הבא צריך.
-        </p>
-
-        <div className="note-row">
-          <div className="note-card gold">
-            <h3 className="display">שעות פתיחה</h3>
-            <table>
-              <tbody>
-                {store.hours.map((h) => (
-                  <tr key={h.days}>
-                    <td>{h.days}</td>
-                    <td>{h.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="note-foot">* אחה"צ פתוחים בימים א', ב', ד', ה' בלבד</div>
+    {/* ---------- visit ---------- */}
+    <section className="ph-sec" style={{ paddingTop: 0 }}>
+      <div className="ph-shell ph-visit">
+        <div className="ph-vcard">
+          <h3>שעות פתיחה</h3>
+          <table>
+            <tbody>
+              {store.hours.map((h) => (
+                <tr key={h.days}>
+                  <td>{h.days}</td>
+                  <td>{h.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="ph-vcard">
+          <h3>קופצים לבקר?</h3>
+          <div className="ph-rows">
+            <div>📍 {store.address}</div>
+            <div>
+              📞 <a href={`tel:${store.phone}`}>{store.phone}</a>
+            </div>
+            <div>
+              ✉️ <a href={`mailto:${store.email}`}>{store.email}</a>
+            </div>
           </div>
-
-          <div className="note-card">
-            <h3 className="display">קופצים לבקר?</h3>
-            <div className="visit-rows">
-              <div>
-                <span className="dot" style={{ background: "#e2574c" }} />
-                {store.address}
-              </div>
-              <div>
-                <span className="dot" style={{ background: "#2a9d8f" }} />
-                <a href={`tel:${store.phone}`}>{store.phone}</a>
-              </div>
-              <div>
-                <span className="dot" style={{ background: "#7b3fbf" }} />
-                <a href={`mailto:${store.email}`}>{store.email}</a>
-              </div>
-            </div>
-            <div className="visit-actions">
-              <a href={store.waze} target="_blank" rel="noreferrer" className="btn small">
-                פותחים Waze
-              </a>
-              <a href={store.maps} target="_blank" rel="noreferrer" className="btn small ghost">
-                מפת Google
-              </a>
-            </div>
+          <div className="ph-vactions">
+            <a href={store.waze} target="_blank" rel="noreferrer" className="ph-btn fill">
+              פותחים Waze
+            </a>
+            <a href={store.maps} target="_blank" rel="noreferrer" className="ph-btn line">
+              מפת Google
+            </a>
           </div>
         </div>
       </div>
