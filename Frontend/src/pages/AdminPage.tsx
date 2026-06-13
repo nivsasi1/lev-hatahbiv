@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { categories } from "../data/catalog";
 import { API_BASE } from "../data/api";
 import "./admin-tools.css";
+import "./admin-clean.css";
 
 // ─── Manager dashboard (/manage) ────────────────────────────────────────────
 // Talks to the Express backend (local now, hosted later via VITE_API_URL).
@@ -232,6 +233,38 @@ export const AdminPage = () => {
   const [importImages, setImportImages] = useState<File[]>([]);
   const [importBusy, setImportBusy] = useState("");
   const [importReport, setImportReport] = useState<any>(null);
+
+  // ─── dashboard skin: "atelier" (original, artsy) | "clean" (readable, pro) ───
+  const [adminTheme, setAdminTheme] = useState<"atelier" | "clean">(() =>
+    localStorage.getItem("lh-admin-theme") === "clean" ? "clean" : "atelier"
+  );
+  useEffect(() => {
+    localStorage.setItem("lh-admin-theme", adminTheme);
+    // a body class lets the clean theme own the whole page background
+    document.body.classList.toggle("lh-admin-clean", adminTheme === "clean");
+    return () => document.body.classList.remove("lh-admin-clean");
+  }, [adminTheme]);
+  const rootClass = `page-main shell admin-page${adminTheme === "clean" ? " adm-clean" : ""}`;
+  const ThemeSwitch = () => (
+    <div className="adm-theme-switch" role="group" aria-label="עיצוב הדשבורד">
+      <button
+        type="button"
+        className={adminTheme === "atelier" ? "on" : ""}
+        onClick={() => setAdminTheme("atelier")}
+        aria-pressed={adminTheme === "atelier"}
+      >
+        🎨 קלאסי
+      </button>
+      <button
+        type="button"
+        className={adminTheme === "clean" ? "on" : ""}
+        onClick={() => setAdminTheme("clean")}
+        aria-pressed={adminTheme === "clean"}
+      >
+        📋 נקי
+      </button>
+    </div>
+  );
 
   const logout = () => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -877,10 +910,13 @@ export const AdminPage = () => {
   // ─── login screen ───
   if (!token) {
     return (
-      <main className="page-main shell admin-page">
+      <main className={rootClass}>
         {dialogOverlay}
         <div className="admin-login-wrap">
-        <h1 className="display">כניסת מנהלים</h1>
+        <div className="admin-head">
+          <h1 className="display">כניסת מנהלים</h1>
+          <ThemeSwitch />
+        </div>
         <form
           className="admin-login"
           onSubmit={(e: any) => {
@@ -920,11 +956,12 @@ export const AdminPage = () => {
 
   // ─── dashboard ───
   return (
-    <main className="page-main shell admin-page">
+    <main className={rootClass}>
       {dialogOverlay}
       <div className="admin-head">
         <h1 className="display">ניהול החנות</h1>
         <div className="admin-head-actions">
+          <ThemeSwitch />
           <button className="btn small wa-btn" onClick={publish} disabled={publishing}>
             {publishing ? "מפרסם..." : "📤 פרסום לאתר"}
           </button>
