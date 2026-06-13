@@ -184,9 +184,8 @@ export default () => (
             </div>
             <div className="ph-shop-meta">
               <span className="ph-m">🗓 {workshops.schedule}</span>
-              <span className="ph-m">💰 {workshops.price}</span>
-              <a href={`tel:${store.phone}`} className="ph-btn fill">
-                להרשמה: {store.phone}
+              <a href={`tel:${workshops.contactTel}`} className="ph-btn fill">
+                להרשמה: {workshops.contact}
               </a>
             </div>
           </div>

@@ -19,21 +19,9 @@ import { CartPage } from "./pages/CartPage";
 import { AdminPage } from "./pages/AdminPage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
 import { DesignsIndex } from "./pages/DesignsIndex";
-// Homepage design concepts for the owner to preview & choose (/designs).
-import DesignBoutique from "./pages/Design-boutique";
-import DesignEditorial from "./pages/Design-editorial";
-import DesignBrutalist from "./pages/Design-brutalist";
-import DesignNightstudio from "./pages/Design-nightstudio";
+// Homepage design finalists for the owner to preview (/designs).
 import DesignGoalB from "./pages/Design-goalb";
-import DesignBauhaus from "./pages/Design-bauhaus";
 import DesignPhotographic from "./pages/Design-photographic";
-import DesignRisozine from "./pages/Design-risozine";
-import DesignSketchbook from "./pages/Design-sketchbook";
-import DesignY2k from "./pages/Design-y2k";
-// Round 2: interactive, motion-rich concepts.
-import DesignLivingCanvas from "./pages/Design-livingcanvas";
-import DesignKineticStudio from "./pages/Design-kineticstudio";
-import DesignCollage from "./pages/Design-collage";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -81,19 +69,8 @@ const router = createBrowserRouter(
         { path: "/manage", element: <AdminPage /> },
         { path: "/accessibility", element: <AccessibilityPage /> },
         { path: "/designs", element: <DesignsIndex /> },
-        { path: "/design1", element: <DesignBoutique /> },
-        { path: "/design2", element: <DesignEditorial /> },
-        { path: "/design3", element: <DesignBrutalist /> },
-        { path: "/design4", element: <DesignNightstudio /> },
         { path: "/design5", element: <DesignGoalB /> },
-        { path: "/design6", element: <DesignBauhaus /> },
         { path: "/design7", element: <DesignPhotographic /> },
-        { path: "/design8", element: <DesignRisozine /> },
-        { path: "/design9", element: <DesignSketchbook /> },
-        { path: "/design10", element: <DesignY2k /> },
-        { path: "/design11", element: <DesignLivingCanvas /> },
-        { path: "/design12", element: <DesignKineticStudio /> },
-        { path: "/design13", element: <DesignCollage /> },
         { path: "*", element: <HomePage /> },
       ],
     },
