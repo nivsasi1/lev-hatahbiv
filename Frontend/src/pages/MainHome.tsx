@@ -326,7 +326,7 @@ export default () => {
               <span className="ph-eyebrow">On sale</span>
               <h2>במבצע עכשיו</h2>
             </div>
-            <div className="ph-grid">
+            <div className="ph-grid ph-sale-grid">
               {fresh.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}

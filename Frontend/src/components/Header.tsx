@@ -301,7 +301,13 @@ export const Header = () => {
           </button>
         </div>
 
-        <nav className="cat-nav" aria-label="קטגוריות" ref={navRef}>
+        <nav
+          className={`cat-nav ${canStart ? "can-start" : ""} ${
+            canEnd ? "can-end" : ""
+          }`}
+          aria-label="קטגוריות"
+          ref={navRef}
+        >
           <button
             type="button"
             className={`cat-scroll-btn start ${canStart ? "show" : ""}`}
