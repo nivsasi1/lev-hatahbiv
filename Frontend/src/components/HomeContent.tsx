@@ -57,7 +57,8 @@ const prefersReduced = () =>
 
 // Auto-drifting product rail that you can also steer with the side arrows.
 // Drifts on its own; pauses while the pointer is over it; the arrows nudge it.
-const FeaturedRail = ({ items }: { items: Product[] }) => {
+// Exported so the merged main homepage (MainHome) can reuse the same rail.
+export const FeaturedRail = ({ items }: { items: Product[] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
   const pos = useRef(0); // float drift position (scrollLeft rounds to int)

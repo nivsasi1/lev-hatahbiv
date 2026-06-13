@@ -213,6 +213,23 @@ const DEFAULT_RIBBON = [
   "איסוף מהיר מהחנות ברחובות",
 ];
 
+// Default "shelf" photos for the homepage category mosaic. Curated stock
+// art-supply photos per category slug; the manager can override any of them
+// from the dashboard (saved to SiteSettings.shelfImages, merged over these).
+const SHELF_Q = "?auto=format&fit=crop&w=900&q=70";
+const SHELF_U = "https://images.unsplash.com/";
+export const DEFAULT_SHELF_IMAGES: Record<string, string> = {
+  drawing: `${SHELF_U}photo-1565359184520-fcff70f99c24${SHELF_Q}`, // graphite pencils
+  paints: `${SHELF_U}photo-1535673774336-ef95d2851cf3${SHELF_Q}`, // tubes of colour
+  hobby: `${SHELF_U}photo-1456086272160-b28b0645b729${SHELF_Q}`, // pots of paint
+  brushes: `${SHELF_U}photo-1633443245758-6a507463c89c${SHELF_Q}`, // jars of brushes
+  paper: `${SHELF_U}photo-1513364776144-60967b0f800f${SHELF_Q}`, // paper + brushes
+  easels: `${SHELF_U}photo-1514195037031-83d60ed3b448${SHELF_Q}`, // wooden easel
+  craft: `${SHELF_U}photo-1609446154807-d56805f0e007${SHELF_Q}`, // craft supplies
+  fiber: `${SHELF_U}photo-1584992236310-6edddc08acff${SHELF_Q}`, // balls of yarn
+  jewelry: `${SHELF_U}photo-1646070107254-3713cec279c1${SHELF_Q}`, // beads + charms
+};
+
 export const siteSettings = {
   ribbonTexts:
     settings.ribbonTexts && settings.ribbonTexts.length > 0
@@ -220,6 +237,14 @@ export const siteSettings = {
       : DEFAULT_RIBBON,
   featuredIds: settings.featuredIds ?? [],
   saleIds: settings.saleIds ?? [],
+  // manager-set shelf photos (from the dashboard) merge over the defaults
+  shelfImages: {
+    ...DEFAULT_SHELF_IMAGES,
+    ...(((settings as any).shelfImages &&
+    typeof (settings as any).shelfImages === "object"
+      ? (settings as any).shelfImages
+      : {}) as Record<string, string>),
+  } as Record<string, string>,
 };
 
 const productById = new Map(products.map((p) => [p.id, p]));
@@ -303,10 +328,10 @@ export const store = {
   ],
 };
 
-// חוגים וסדנאות — מתקיימים בחדר הלימוד הצמוד לחנות (מתוך האתר הישן)
+// חוגים וסדנאות — מתקיימים בחנות (מתוך האתר הישן)
 export const workshops = {
   intro:
-    "בואו להעשיר את יכולות האמנות שלכם — החנות מקיימת חוגים וסדנאות בחדר הלימוד הצמוד לחנות, למתחילים ולמתקדמים.",
+    "בואו להעשיר את יכולות האמנות שלכם — החנות מקיימת חוגים וסדנאות בחנות, למתחילים ולמתקדמים.",
   schedule: "ימים א', ב', ג' · 10:00–13:00",
   contact: "בתיה שפר · 050-735-3606",
   contactTel: "0507353606",

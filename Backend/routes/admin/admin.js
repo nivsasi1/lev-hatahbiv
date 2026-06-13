@@ -495,8 +495,14 @@ router.get(
   asyncRoute(async (_req, res) => {
     const doc = await SiteSettings.findOne({}).lean();
     const base = doc || { ribbonTexts: [], featuredIds: [] };
-    // Older singletons predate saleIds — always return [] when absent.
-    res.json({ settings: { ...base, saleIds: base.saleIds || [] } });
+    // Older singletons predate saleIds/shelfImages — default when absent.
+    res.json({
+      settings: {
+        ...base,
+        saleIds: base.saleIds || [],
+        shelfImages: base.shelfImages || {},
+      },
+    });
   })
 );
 
@@ -531,9 +537,30 @@ router.put(
       return res.status(400).json({ error: "עד 12 מוצרים במבצע" });
     }
 
+    // shelfImages is optional: a { categorySlug: imageUrl } map. Empty/blank
+    // urls are dropped (so a cleared field falls back to the built-in default).
+    let shelfImages;
+    if (body.shelfImages !== undefined) {
+      if (
+        typeof body.shelfImages !== "object" ||
+        body.shelfImages === null ||
+        Array.isArray(body.shelfImages)
+      ) {
+        return res.status(400).json({ error: "מבנה תמונות המדפים לא תקין" });
+      }
+      shelfImages = {};
+      for (const [slug, url] of Object.entries(body.shelfImages)) {
+        const u = String(url || "").trim();
+        if (u) shelfImages[String(slug)] = u.slice(0, 500);
+      }
+    }
+
+    const $set = { ribbonTexts, featuredIds, saleIds };
+    if (shelfImages !== undefined) $set.shelfImages = shelfImages;
+
     const settings = await SiteSettings.findOneAndUpdate(
       {},
-      { $set: { ribbonTexts, featuredIds, saleIds } },
+      { $set },
       { upsert: true, new: true }
     ).lean();
     res.json({ settings });

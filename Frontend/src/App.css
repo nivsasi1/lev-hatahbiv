@@ -329,50 +329,135 @@ button {
   }
 }
 
-/* category strip */
-.cat-strip {
+/* category nav — single row, dropdown holds the full shelf list */
+.cat-nav {
   display: flex;
-  /* desktop: wrap so every shelf chip is visible & clickable with a mouse
-     (a hidden-scrollbar single row was unscrollable on a computer) */
-  flex-wrap: wrap;
-  gap: 0.5rem;
   padding: 0.55rem 0 0.7rem;
 }
 
-/* mobile keeps a single swipeable row */
-@media (max-width: 760px) {
-  .cat-strip {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .cat-strip::-webkit-scrollbar {
-    display: none;
-  }
+.cat-dd {
+  position: relative;
+  display: inline-block;
 }
 
-.cat-chip {
-  flex: none;
+/* trigger button keeps the chip aesthetic */
+.cat-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: inherit;
   font-weight: 700;
-  font-size: 0.88rem;
-  padding: 0.28em 1em;
+  font-size: 0.92rem;
+  cursor: pointer;
+  padding: 0.32em 1.05em;
   border-radius: 2em;
   border: 2px solid var(--ink);
   background: var(--card);
-  transition: transform 0.15s ease, background 0.15s ease;
+  color: var(--ink);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
-.cat-chip:hover {
-  transform: rotate(-1.5deg) scale(1.04);
+.cat-trigger:hover,
+.cat-trigger.open {
+  background: var(--ink);
+  color: #fff;
+  transform: rotate(-1deg);
+}
+
+.cat-caret {
+  font-size: 0.8em;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.cat-trigger.open .cat-caret {
+  transform: rotate(180deg);
+}
+
+/* dropdown panel — opens under the trigger, RTL-aligned to its start (right) edge */
+.cat-panel {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  inset-inline-start: 0;
+  z-index: 40;
+  min-width: 16rem;
+  max-width: min(80vw, 28rem);
+  max-height: min(70vh, 26rem);
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  padding: 0.55rem;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.9rem;
+  box-shadow: 0.3em 0.3em 0 var(--shadow);
+  animation: cat-pop 0.13s ease-out;
+}
+
+@keyframes cat-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink);
+  padding: 0.42em 0.7em;
+  border-radius: 0.6rem;
+  border: 2px solid transparent;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.cat-dot {
+  flex: none;
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  background: var(--chip, var(--gold));
+  border: 1.5px solid var(--ink);
+}
+
+.cat-item:hover,
+.cat-item:focus-visible {
   background: var(--chip, var(--gold));
   color: #fff;
-  border-color: transparent;
+  border-color: var(--ink);
+  outline: none;
 }
 
-.cat-chip.active {
+.cat-item:hover .cat-dot,
+.cat-item:focus-visible .cat-dot {
+  background: var(--card);
+}
+
+.cat-item.active {
   background: var(--chip, var(--ink));
-  border-color: transparent;
   color: #fff;
+  border-color: var(--ink);
+}
+
+.cat-item.active .cat-dot {
+  background: var(--card);
+}
+
+/* mobile: single column, panel may span more of the viewport */
+@media (max-width: 560px) {
+  .cat-panel {
+    grid-template-columns: 1fr;
+    min-width: 13rem;
+    max-width: 86vw;
+  }
 }
 
 /* ---------- hero ---------- */

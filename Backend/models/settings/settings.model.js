@@ -9,6 +9,8 @@ const SiteSettingsSchema = new mongoose.Schema(
     ribbonTexts: { type: [String], default: [] },
     featuredIds: { type: [String], default: [] },
     saleIds: { type: [String], default: [] },
+    // homepage category-mosaic photos: { "<categorySlug>": "<imageUrl>" }
+    shelfImages: { type: Object, default: {} },
   },
   { timestamps: true }
 );

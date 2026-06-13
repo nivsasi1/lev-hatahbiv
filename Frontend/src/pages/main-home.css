@@ -1,0 +1,272 @@
+/* ============================================================================
+   main-home.css — merged production homepage overrides + micro-interactions.
+   ----------------------------------------------------------------------------
+   Loaded ALONGSIDE home-photographic.css. That file paints the design-7 body
+   (.ph-*). This file only:
+     1. tweaks the shared global split hero (shrink the dark field, visually
+        centre the logo near the page's horizontal centre),
+     2. adds the design-11 micro-interactions (magnetic CTAs, hover gradient-
+        fill titles, staggered scroll reveals),
+     3. a couple of tiny cohesion tweaks.
+
+   EVERYTHING is scoped under .main-home and every @keyframes is main-home-*,
+   so nothing leaks to other pages that import home-photographic.css.
+
+   chrome70-safe: flexbox / grid / custom-properties / clip-path / transform /
+   transition / @keyframes / background-clip:text (paired -webkit-). No
+   feTurbulence / SVG-filter CSS backgrounds, no mix-blend-mode over photos,
+   no backdrop-filter on large areas, no :has() / container-queries /
+   color-mix() / native-nesting / scroll-timeline.
+   ========================================================================== */
+
+.main-home {
+  --mh-ink: #2b2440;
+  --mh-purple: #5b2d8e;
+  --mh-red: #e23a3a;
+  --mh-gold: #e09f3e;
+  --mh-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ===========================================================================
+   1) HERO TWEAK — shrink the dark statement field, centre the logo stage.
+   The global .hero is `grid-template-columns: 42% 1fr`; here the dark field is
+   only ~26% so the logo stage owns most of the width and the logo reads as
+   sitting near the page's horizontal centre rather than pushed to the side.
+   =========================================================================== */
+.main-home .hero {
+  grid-template-columns: 26% 1fr;
+}
+
+/* the field is narrower now → ease its inner padding and statement type so the
+   Hebrew words still breathe inside the slimmer column */
+.main-home .hero-field {
+  padding: clamp(2.4rem, 5vw, 4.5rem) clamp(1.2rem, 2.4vw, 2.4rem)
+    clamp(2.4rem, 5vw, 4.5rem) clamp(1.6rem, 3vw, 3rem);
+  gap: clamp(1.1rem, 2.4vw, 2rem);
+}
+.main-home .hero-statement span {
+  font-size: clamp(2.4rem, 4.4vw, 4.2rem);
+}
+.main-home .hero-since-num {
+  font-size: 1.02rem;
+  letter-spacing: 0.08em;
+}
+.main-home .hero-since-sub {
+  font-size: 0.84rem;
+}
+
+/* centre the stage content so the logo lands near the page's horizontal middle.
+   The stage is the wide column; capping the inner block and centring it pulls
+   the logo inward (toward page centre) instead of hugging the field edge. */
+.main-home .hero-stage {
+  place-items: center;
+}
+.main-home .hero-stage-inner {
+  margin-inline: auto;
+  max-width: 46rem;
+  text-align: center;
+}
+.main-home .hero-stage-inner .hero-logo img {
+  width: min(34rem, 84vw);
+}
+
+/* responsive: below 760px the global rule already stacks .hero to a single
+   column & removes the clip-path; just make sure our shrink doesn't fight it. */
+@media (max-width: 760px) {
+  .main-home .hero {
+    grid-template-columns: 1fr;
+  }
+  .main-home .hero-stage-inner {
+    max-width: 100%;
+  }
+}
+
+/* ===========================================================================
+   2a) MAGNETIC CTAs — JS feeds --mag-x / --mag-y; the buttons translate toward
+   the pointer and spring back. Composes with each button's own hover lift.
+   =========================================================================== */
+.main-home .ph-btn,
+.main-home .btn {
+  transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
+  transition: transform 0.18s var(--mh-ease), background 0.18s var(--mh-ease),
+    box-shadow 0.2s var(--mh-ease), color 0.18s var(--mh-ease);
+  will-change: transform;
+}
+/* keep the magnetic offset while hovering and add a small lift on top */
+.main-home .ph-btn:hover {
+  transform: translate(
+    calc(var(--mag-x, 0px)),
+    calc(var(--mag-y, 0px) - 2px)
+  );
+}
+.main-home .btn.hero-cta:hover {
+  transform: translate(
+    calc(var(--mag-x, 0px) - 0.1em),
+    calc(var(--mag-y, 0px) - 0.1em)
+  );
+}
+
+/* ===========================================================================
+   2b) HOVER GRADIENT-FILL on TITLES — category tile h3 + section h2 fill with a
+   warm gradient on hover via background-clip:text (paired -webkit-). Default
+   keeps the solid colour so the text is always crisp & legible.
+   =========================================================================== */
+
+/* section heads (mosaic, featured, sale) — warm gradient sweeps in on hover */
+.main-home .ph-sec-head h2 {
+  background-image: linear-gradient(
+    100deg,
+    var(--mh-purple),
+    var(--mh-red) 48%,
+    var(--mh-gold)
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--ph-ink); /* fallback if clip unsupported */
+  transition: background-position 0.55s var(--mh-ease);
+}
+/* hover the whole section head (the h2 is centred, generous hit area) */
+.main-home .ph-sec-head:hover h2 {
+  background-position: 0% 0;
+}
+
+/* keep the gradient crisp even mid-transition: re-fill ink when not hovered is
+   handled by -webkit-text-fill-color:transparent + the color fallback above */
+
+/* category tile h3 — fills warm on tile hover. The tile text sits on a dark
+   scrim, so the gradient runs light→warm to stay readable. */
+.main-home .ph-tile h3 {
+  background-image: linear-gradient(
+    100deg,
+    #ffffff,
+    #ffffff 45%,
+    var(--mh-gold) 60%,
+    #ffd9a0
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff; /* fallback if clip unsupported */
+  transition: background-position 0.5s var(--mh-ease);
+}
+.main-home .ph-tile:hover h3,
+.main-home .ph-tile:focus-visible h3 {
+  background-position: 0% 0;
+}
+
+/* ===========================================================================
+   3) STAGGERED SCROLL REVEALS — FAIL-OPEN.
+   The hidden initial state ONLY applies once JS adds .is-reveal to the root.
+   Without JS (no .is-reveal) everything is fully visible. Under reduced motion
+   the TSX returns early and never adds .is-reveal, so nothing is hidden.
+   =========================================================================== */
+
+/* sections: gentle fade + rise of their inner shell content */
+.main-home.is-reveal .ph-sec .ph-shell,
+.main-home.is-reveal .ph-quote .ph-quote-body {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--mh-ease), transform 0.7s var(--mh-ease);
+}
+.main-home.is-reveal .ph-sec.in .ph-shell,
+.main-home.is-reveal .ph-quote.in .ph-quote-body {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* tiles + product cards: rise + soft scale, honouring per-item --reveal-delay */
+.main-home.is-reveal .ph-tile,
+.main-home.is-reveal .p-card {
+  opacity: 0;
+  transform: translateY(24px) scale(0.985);
+  transition: opacity 0.6s var(--mh-ease), transform 0.6s var(--mh-ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.main-home.is-reveal .ph-tile.in,
+.main-home.is-reveal .p-card.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ===========================================================================
+   Small cohesion tweaks (scoped) — keep the design-7 photographic body, just
+   nudge a couple of touches toward the brand.
+   =========================================================================== */
+
+/* product image gently zooms inside its clipped frame on hover (frame clips) */
+.main-home .p-card .frame img,
+.main-home .p-card .frame svg {
+  transition: transform 0.5s var(--mh-ease);
+}
+.main-home .p-card:hover .frame img,
+.main-home .p-card:hover .frame svg {
+  transform: scale(1.06);
+}
+.main-home .p-card.soldout:hover .frame img,
+.main-home .p-card.soldout:hover .frame svg {
+  transform: none;
+}
+
+/* featured rail arrows pick up the brand purple hover (matches global rail) */
+.main-home .rail-arrow {
+  transition: background 0.18s var(--mh-ease), color 0.18s var(--mh-ease),
+    box-shadow 0.18s var(--mh-ease);
+}
+
+/* ===========================================================================
+   REDUCED MOTION — belt-and-braces fail-open. The TSX also never adds
+   .is-reveal here, so the hidden reveal states above can't apply; this neuters
+   every transform/transition just in case.
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .main-home .ph-btn,
+  .main-home .btn,
+  .main-home .ph-sec-head h2,
+  .main-home .ph-tile h3,
+  .main-home .ph-sec .ph-shell,
+  .main-home .ph-quote .ph-quote-body,
+  .main-home .ph-tile,
+  .main-home .p-card,
+  .main-home .p-card .frame img,
+  .main-home .p-card .frame svg {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ===========================================================================
+   Hero: put the LOGO at the page's horizontal centre (not hugging its column).
+   The warm logo stage spans the FULL hero width so the logo centres on the
+   whole page; the smaller dark field becomes a strip overlaid on the right.
+   The logo width is capped so it always clears that right-side strip.
+   (Mobile keeps the global single-column stack from the rule above.)
+   =========================================================================== */
+@media (min-width: 761px) {
+  .main-home .hero {
+    grid-template-columns: 22% 1fr;
+    position: relative;
+  }
+  .main-home .hero-stage {
+    grid-column: 1 / -1; /* span the whole hero */
+    z-index: 1;
+    place-items: center; /* logo dead-centre on the page */
+  }
+  .main-home .hero-field {
+    grid-column: 1; /* dark strip stays on the right (RTL) */
+    z-index: 2;
+  }
+  .main-home .hero-stage-inner {
+    margin-inline: auto;
+    max-width: min(40rem, 60vw);
+  }
+  .main-home .hero-stage-inner .hero-logo img {
+    width: min(32rem, 52vw); /* clears the right-side strip at every width */
+  }
+}

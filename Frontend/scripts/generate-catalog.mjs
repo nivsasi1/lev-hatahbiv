@@ -123,6 +123,10 @@ const settings = {
   ribbonTexts: Array.isArray(rawSettings.ribbonTexts) ? rawSettings.ribbonTexts : [],
   featuredIds: Array.isArray(rawSettings.featuredIds) ? rawSettings.featuredIds : [],
   saleIds: Array.isArray(rawSettings.saleIds) ? rawSettings.saleIds : [],
+  shelfImages:
+    rawSettings.shelfImages && typeof rawSettings.shelfImages === "object" && !Array.isArray(rawSettings.shelfImages)
+      ? rawSettings.shelfImages
+      : {},
 };
 writeFileSync(settingsOutPath, JSON.stringify(settings));
 const saleCount = products.filter((p) => p.salePrice != null).length;

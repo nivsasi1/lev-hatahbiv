@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   categories,
   searchProducts,
@@ -37,6 +37,57 @@ export const Header = () => {
   const [focused, setFocused] = useState(false);
   const navigate = useNavigate();
   const { slug } = useParams();
+  const location = useLocation();
+
+  // --- categories dropdown ---
+  const [catOpen, setCatOpen] = useState(false);
+  const catWrapRef = useRef<HTMLDivElement>(null);
+  const catBtnRef = useRef<HTMLButtonElement>(null);
+  const hoverTimer = useRef<number | null>(null);
+
+  // close on outside click + Escape while open
+  useEffect(() => {
+    if (!catOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (catWrapRef.current && !catWrapRef.current.contains(e.target as Node)) {
+        setCatOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setCatOpen(false);
+        catBtnRef.current?.focus();
+      }
+    };
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [catOpen]);
+
+  // close on route change
+  useEffect(() => {
+    setCatOpen(false);
+  }, [location.pathname]);
+
+  // clean up any pending hover timer on unmount
+  useEffect(
+    () => () => {
+      if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
+    },
+    []
+  );
+
+  const openByHover = () => {
+    if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
+    setCatOpen(true);
+  };
+  const closeByHover = () => {
+    if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = window.setTimeout(() => setCatOpen(false), 140);
+  };
 
   const results = query.trim() ? searchProducts(query).slice(0, 6) : [];
   const showPop = focused && query.trim().length > 0;
@@ -103,17 +154,51 @@ export const Header = () => {
           </button>
         </div>
 
-        <nav className="cat-strip" aria-label="קטגוריות">
-          {categories.map((c) => (
-            <Link
-              key={c.slug}
-              to={`/category/${c.slug}`}
-              className={`cat-chip ${slug === c.slug ? "active" : ""}`}
-              style={{ "--chip": c.color } as any}
+        <nav className="cat-nav" aria-label="קטגוריות">
+          <div
+            className="cat-dd"
+            ref={catWrapRef}
+            onMouseEnter={openByHover}
+            onMouseLeave={closeByHover}
+          >
+            <button
+              type="button"
+              ref={catBtnRef}
+              className={`cat-trigger ${catOpen ? "open" : ""}`}
+              aria-haspopup="menu"
+              aria-expanded={catOpen}
+              onClick={() => setCatOpen((o) => !o)}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setCatOpen(true);
+                }
+              }}
             >
-              {c.name}
-            </Link>
-          ))}
+              <span>המדפים</span>
+              <span className="cat-caret" aria-hidden="true">
+                ▾
+              </span>
+            </button>
+
+            {catOpen && (
+              <div className="cat-panel" role="menu" aria-label="קטגוריות">
+                {categories.map((c) => (
+                  <Link
+                    key={c.slug}
+                    to={`/category/${c.slug}`}
+                    role="menuitem"
+                    className={`cat-item ${slug === c.slug ? "active" : ""}`}
+                    style={{ "--chip": c.color } as any}
+                    onClick={() => setCatOpen(false)}
+                  >
+                    <span className="cat-dot" aria-hidden="true" />
+                    {c.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
       </div>
     </header>

@@ -222,6 +222,11 @@ export const AdminPage = () => {
   const [featuredSearch, setFeaturedSearch] = useState("");
   const [saleIds, setSaleIds] = useState<string[]>([]);
   const [saleSearch, setSaleSearch] = useState("");
+  // home-page category-mosaic photos: { slug: url }. Only slugs the manager
+  // explicitly set live here; the storefront falls back to DEFAULT_SHELF_IMAGES.
+  const [shelfImages, setShelfImages] = useState<Record<string, string>>({});
+  const [shelfUploading, setShelfUploading] = useState<string | null>(null);
+  const [shelfSaved, setShelfSaved] = useState(false);
   const [homeLoaded, setHomeLoaded] = useState(false);
   const [statusFilter, setStatusFilter] = useState<"all" | "sale" | "hidden" | "oos">("all");
   // price-range filter (₪): null upper bound = "up to the max" (auto-tracks data)
@@ -771,6 +776,11 @@ export const AdminPage = () => {
       setRibbonSlots(toRibbonSlots(d.settings.ribbonTexts || []));
       setFeaturedIds((d.settings.featuredIds || []).filter(Boolean));
       setSaleIds((d.settings.saleIds || []).filter(Boolean));
+      setShelfImages(
+        d.settings.shelfImages && typeof d.settings.shelfImages === "object"
+          ? d.settings.shelfImages
+          : {}
+      );
       setHomeLoaded(true);
     });
 
@@ -781,6 +791,7 @@ export const AdminPage = () => {
     ribbonTexts: ribbonSlots.map((s) => s.trim()).filter(Boolean).slice(0, 8),
     featuredIds,
     saleIds,
+    shelfImages,
   });
 
   const setRibbonSlot = (i: number, v: string) =>
@@ -843,6 +854,43 @@ export const AdminPage = () => {
         body: JSON.stringify(settingsPayload()),
       });
     }, "המבצעים נשמרו! יופיעו באתר אחרי פרסום");
+
+  // ─── shelf images (feature): per-category home-mosaic photos ───
+  // set/clear a slug; an empty value removes the key so the storefront falls
+  // back to its built-in default. Editing resets the "saved ✓" confirmation.
+  const setShelfImage = (slug: string, url: string) => {
+    setShelfSaved(false);
+    setShelfImages((m) => {
+      const next = { ...m };
+      const v = url.trim();
+      if (v) next[slug] = v;
+      else delete next[slug];
+      return next;
+    });
+  };
+  const resetShelfImage = (slug: string) => setShelfImage(slug, "");
+
+  // reuse the product image-upload endpoint (S3 / local) → store the URL
+  const uploadShelfImage = (slug: string, file: File) => {
+    const body = new FormData();
+    body.append("image", file);
+    setShelfUploading(slug);
+    act(async () => {
+      const d = await call(`/upload`, { method: "POST", body });
+      setShelfImage(slug, d.img);
+    }, "התמונה הועלתה — לחצו על שמירה כדי להחיל").finally(() =>
+      setShelfUploading(null)
+    );
+  };
+
+  const saveShelfImages = () =>
+    act(async () => {
+      await call(`/settings`, {
+        method: "PUT",
+        body: JSON.stringify(settingsPayload()),
+      });
+      setShelfSaved(true);
+    }, "תמונות המדפים נשמרו! יופיעו באתר אחרי פרסום");
 
   const productById = useMemo(
     () => new Map(products.map((p) => [p._id, p])),
@@ -1214,6 +1262,85 @@ export const AdminPage = () => {
               <button className="btn" onClick={saveSales}>
                 שמירת המבצעים
               </button>
+            </div>
+          </section>
+
+          {/* SECTION D — shelf images: per-category home-mosaic photos */}
+          <section className="home-block">
+            <h3 className="display">תמונות המדפים בעמוד הבית</h3>
+            <p className="import-help">
+              לכל קטגוריה יש תמונה גדולה במוזאיקת המדפים בדף הבית. אפשר להחליף
+              אותה בהדבקת קישור (URL) או בהעלאת תמונה מהמחשב. קטגוריה שלא תוגדר —
+              תציג את תמונת ברירת המחדל.
+            </p>
+            <div className="shelf-img-grid">
+              {categories.map((cat) => {
+                const url = shelfImages[cat.slug] || "";
+                const isCustom = Boolean(url);
+                return (
+                  <div className="shelf-img-row" key={cat.slug}>
+                    <div className="shelf-img-thumb">
+                      {isCustom ? (
+                        <img src={imgUrl(url)} alt={cat.name} loading="lazy" />
+                      ) : (
+                        <span className="shelf-img-default">
+                          ברירת
+                          <br />
+                          מחדל
+                        </span>
+                      )}
+                    </div>
+                    <div className="shelf-img-main">
+                      <div className="shelf-img-head">
+                        <b className="shelf-img-name">{cat.name}</b>
+                        {isCustom ? (
+                          <span className="shelf-img-badge custom">מותאם אישית</span>
+                        ) : (
+                          <span className="shelf-img-badge">ברירת מחדל</span>
+                        )}
+                      </div>
+                      <input
+                        type="text"
+                        dir="ltr"
+                        className="shelf-img-url"
+                        placeholder="הדביקו קישור לתמונה (URL)..."
+                        value={url}
+                        onInput={(e: any) => setShelfImage(cat.slug, e.target.value)}
+                      />
+                      <div className="shelf-img-ctrls">
+                        <label className="btn small ghost">
+                          {shelfUploading === cat.slug ? "מעלה..." : "📷 העלאת תמונה"}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            disabled={shelfUploading === cat.slug}
+                            onChange={(e: any) =>
+                              e.target.files?.[0] &&
+                              uploadShelfImage(cat.slug, e.target.files[0])
+                            }
+                          />
+                        </label>
+                        <button
+                          type="button"
+                          className="btn small ghost"
+                          disabled={!isCustom}
+                          title={isCustom ? "" : "כבר בברירת המחדל"}
+                          onClick={() => resetShelfImage(cat.slug)}
+                        >
+                          ↺ איפוס לברירת מחדל
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="home-block-foot">
+              <button className="btn" onClick={saveShelfImages}>
+                שמירת התמונות
+              </button>
+              {shelfSaved && <span className="shelf-img-saved">נשמר ▾</span>}
             </div>
           </section>
         </div>

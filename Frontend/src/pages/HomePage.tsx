@@ -1,8 +1,5 @@
-import { HomeContent } from "../components/HomeContent";
+import MainHome from "./MainHome";
 
-// The real homepage is just the shared HomeContent on the global theme.
-export const HomePage = () => (
-  <main className="page-main">
-    <HomeContent />
-  </main>
-);
+// The real homepage is now the merged "MainHome" design (split hero +
+// design-7 body + moving rail + micro-interactions).
+export const HomePage = () => <MainHome />;

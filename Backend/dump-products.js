@@ -17,7 +17,11 @@ require("dotenv").config({ path: ".env" });
   // has a file. saleIds is normalized to [] for docs that predate the field.
   const settings = await SiteSettings.findOne({}).lean();
   const settingsOut = settings
-    ? { ...settings, saleIds: settings.saleIds || [] }
+    ? {
+        ...settings,
+        saleIds: settings.saleIds || [],
+        shelfImages: settings.shelfImages || {},
+      }
     : {};
   fs.writeFileSync("settings-dump.json", JSON.stringify(settingsOut, null, 2));
   console.log(`dumped settings (${settings ? "found" : "none"})`);

@@ -119,3 +119,112 @@
   outline: 2px solid var(--purple);
   outline-offset: 2px;
 }
+
+/* ---- home tab: per-category shelf-image editor ---- */
+.shelf-img-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.shelf-img-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.7rem;
+  background: var(--card, #fff);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 0.12em 0.12em 0 var(--shadow);
+}
+.shelf-img-thumb {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  background: var(--soft, #f3eee6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.shelf-img-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.shelf-img-default {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--ink);
+  opacity: 0.55;
+}
+.shelf-img-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.shelf-img-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.shelf-img-name {
+  font-size: 1.02rem;
+}
+.shelf-img-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--soft, #f3eee6);
+  color: var(--ink);
+  opacity: 0.8;
+}
+.shelf-img-badge.custom {
+  background: var(--purple, #5b2d8e);
+  border-color: var(--purple, #5b2d8e);
+  color: #fff;
+  opacity: 1;
+}
+.shelf-img-url {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem 0.6rem;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--ink);
+}
+.shelf-img-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.shelf-img-ctrls label {
+  cursor: pointer;
+  margin: 0;
+}
+.shelf-img-ctrls .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.shelf-img-saved {
+  display: inline-block;
+  margin-inline-start: 0.7rem;
+  font-weight: 700;
+  color: var(--purple, #5b2d8e);
+  font-size: 0.9rem;
+}
