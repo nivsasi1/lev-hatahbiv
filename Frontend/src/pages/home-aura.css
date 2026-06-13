@@ -1,0 +1,515 @@
+/* ============================================================================
+   home-aura.css — "אווירה" · THE AWWWARDS SHOWPIECE motion homepage variant
+   ----------------------------------------------------------------------------
+   Wraps the shared <HomeContent/> (NOT rebuilt) in a warm, living sunset /
+   atelier gradient field (.aura-home-bg) that drifts on its own AND follows
+   the pointer (rAF-lerped --gx/--gy set on .aura-home by the TSX). Adds a soft
+   custom warm cursor, text clip-path gradient wipes on big titles, scroll-in
+   staggered reveals (fail-open), and magnetic CTAs.
+
+   LIGHT, WARM & COZY only — never dark. Every selector is scoped under
+   .aura-home; every @keyframes is named aura-*.
+
+   chrome70-safe: flexbox/grid/custom-properties/transform/transition/clip-path/
+   @keyframes/radial+linear+conic gradients/background-clip:text. NO
+   feTurbulence, NO mix-blend-mode, NO backdrop-filter, NO :has()/container-
+   queries/color-mix()/native-nesting/scroll-timeline.
+
+   Warm palette: terracotta #c96f4a · burnt-coral #e07a5f · coral #ef8354 ·
+   peach #f4a261 · apricot #f6bd60 · warm-amber #e9c46a · dusty-rose #d98b7a ·
+   warm-pink #e8a0a0 · soft-cream #fdf6ec · warm-ink #3a2a26 · brand-red #e23a3a
+   · purple #5b2d8e (sparing deep accent only).
+   ========================================================================== */
+
+.aura-home {
+  position: relative;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* keep all real content above the fixed gradient layer */
+.aura-home > :not(.aura-home-bg):not(.aura-cursor) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   The fixed, full-viewport WARM living gradient field (behind everything).
+   Mouse-follow from --gx/--gy (set by TSX); gentle self-drift from aura-drift.
+   Sunset / atelier tones on soft cream.
+   ------------------------------------------------------------------------- */
+.aura-home-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      48% 56% at var(--gx, 50%) var(--gy, 30%),
+      rgba(239, 131, 84, 0.34),
+      transparent 70%
+    ),
+    radial-gradient(42% 52% at 86% 84%, rgba(217, 139, 122, 0.32), transparent 66%),
+    radial-gradient(52% 60% at 10% 86%, rgba(246, 189, 96, 0.3), transparent 66%),
+    radial-gradient(46% 54% at 88% 14%, rgba(201, 111, 74, 0.26), transparent 66%),
+    radial-gradient(60% 70% at 50% 50%, rgba(232, 160, 160, 0.16), transparent 72%),
+    linear-gradient(165deg, #fdf6ec 0%, #fbeede 52%, #fbe6d4 100%);
+  animation: aura-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes aura-drift {
+  from {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 4% -3%, -5% 4%, 3% 5%, -4% -3%, 2% 2%, 0 0;
+  }
+}
+
+/* soft warm grain speckle (radial-gradient only — never feTurbulence) */
+.aura-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(rgba(58, 42, 38, 0.06) 1px, transparent 1.3px),
+    radial-gradient(rgba(201, 111, 74, 0.05) 1px, transparent 1.2px);
+  background-size: 13px 13px, 29px 29px;
+  background-position: 0 0, 6px 9px;
+}
+
+/* ---------------------------------------------------------------------------
+   Floating warm blobs — each on its own gentle keyframe, soft radial fills.
+   ------------------------------------------------------------------------- */
+.aura-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+.aura-blob.a1 {
+  top: -8%;
+  right: -4%;
+  width: 42vw;
+  height: 42vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(224, 122, 95, 0.4),
+    transparent 68%
+  );
+  animation: aura-float-1 15s ease-in-out infinite alternate;
+}
+.aura-blob.a2 {
+  bottom: -10%;
+  left: -6%;
+  width: 46vw;
+  height: 46vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(246, 189, 96, 0.38),
+    transparent 68%
+  );
+  animation: aura-float-2 18s ease-in-out infinite alternate;
+}
+.aura-blob.a3 {
+  top: 26%;
+  left: 28%;
+  width: 34vw;
+  height: 34vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(217, 139, 122, 0.3),
+    transparent 66%
+  );
+  animation: aura-float-3 13s ease-in-out infinite alternate;
+}
+.aura-blob.a4 {
+  top: -4%;
+  left: 14%;
+  width: 30vw;
+  height: 30vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(244, 162, 97, 0.34),
+    transparent 66%
+  );
+  animation: aura-float-4 16.5s ease-in-out infinite alternate;
+}
+
+@keyframes aura-float-1 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-6%, 7%, 0) scale(1.12);
+  }
+}
+@keyframes aura-float-2 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  to {
+    transform: translate3d(8%, -6%, 0) scale(0.92);
+  }
+}
+@keyframes aura-float-3 {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    transform: translate3d(7%, 8%, 0) scale(1.14);
+  }
+}
+@keyframes aura-float-4 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, 5%, 0) scale(1.1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Soften the NEUTRAL sections to translucent so the warmth breathes through.
+   The dark .hero-field gets a warm animated sheen (kept dark on purpose), and
+   the photo .story-band keeps its strong background (not overridden).
+   ------------------------------------------------------------------------- */
+.aura-home .hero-stage {
+  background: rgba(253, 246, 236, 0.62);
+}
+.aura-home .cat-card {
+  background: rgba(255, 252, 246, 0.74);
+}
+.aura-home .workshops-card,
+.aura-home .note-card {
+  background: rgba(255, 252, 246, 0.76);
+}
+.aura-home .note-card.gold {
+  background: rgba(233, 196, 106, 0.82);
+}
+.aura-home .sale-band {
+  background: rgba(251, 232, 213, 0.6);
+}
+.aura-home .studio-band {
+  background: rgba(251, 238, 224, 0.55);
+}
+
+/* ---------------------------------------------------------------------------
+   Warm animated sheen sweeping across the dark .hero-field (stays dark; just
+   energized). Sits behind the hero text.
+   ------------------------------------------------------------------------- */
+.aura-home .hero-field {
+  position: relative;
+}
+.aura-home .hero-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg at 32% 24%,
+    rgba(239, 131, 84, 0.22),
+    rgba(226, 58, 58, 0.16),
+    rgba(246, 189, 96, 0.2),
+    rgba(217, 139, 122, 0.16),
+    rgba(239, 131, 84, 0.22)
+  );
+  animation: aura-sheen 20s linear infinite;
+}
+.aura-home .hero-field > * {
+  position: relative;
+  z-index: 1;
+}
+@keyframes aura-sheen {
+  from {
+    transform: rotate(0deg) scale(1.6);
+  }
+  to {
+    transform: rotate(360deg) scale(1.6);
+  }
+}
+
+/* warm-gradient clip-path wipe on the big hero statement (on its own, gentle) */
+.aura-home .hero-statement span {
+  background: linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 40%,
+    #f6bd60 55%,
+    #ef8354 70%,
+    #fff 86%
+  );
+  background-size: 240% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aura-statement-wipe 9s var(--ease) infinite;
+}
+/* keep the gold last word reading gold-ish in its own rhythm */
+.aura-home .hero-statement span:last-child {
+  background: linear-gradient(100deg, #f6bd60 0%, #ef8354 50%, #f6bd60 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aura-statement-wipe 7s var(--ease) infinite;
+}
+@keyframes aura-statement-wipe {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   TEXT CLIP-PATH / background-clip:text warm-gradient reveals on titles.
+   Category card titles wipe warm on hover.
+   ------------------------------------------------------------------------- */
+.aura-home .cat-card h3 {
+  background: linear-gradient(
+    100deg,
+    var(--cc, #3a2a26) 0%,
+    var(--cc, #3a2a26) 42%,
+    #ef8354 58%,
+    #c96f4a 76%,
+    var(--cc, #3a2a26) 92%
+  );
+  background-size: 220% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.6s var(--ease);
+}
+.aura-home .cat-card:hover h3 {
+  background-position: 100% 0;
+}
+
+/* the two section titles wipe warm on hover of their head */
+.aura-home .section-titles h2 {
+  background: linear-gradient(
+    100deg,
+    #3a2a26 0%,
+    #3a2a26 44%,
+    #e07a5f 60%,
+    #f4a261 78%,
+    #3a2a26 92%
+  );
+  background-size: 220% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.7s var(--ease);
+}
+.aura-home .section-head:hover .section-titles h2 {
+  background-position: 100% 0;
+}
+
+/* story title: warm clip-path reveal as the band scrolls in + on hover.
+   The base .story-title is white on a dark photo; we keep that look but let a
+   warm gradient sweep through on hover. Fail-open: default stays solid white. */
+.aura-home .story-title {
+  background: linear-gradient(
+    100deg,
+    #ffffff 0%,
+    #ffffff 42%,
+    #f6bd60 56%,
+    #ef8354 70%,
+    #ffffff 88%
+  );
+  background-size: 240% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.8s var(--ease);
+}
+.aura-home .story-band:hover .story-title {
+  background-position: 100% 0;
+}
+/* the inline accent word keeps a warm gold of its own */
+.aura-home .story-accent {
+  -webkit-text-fill-color: #f6bd60;
+}
+
+/* ---------------------------------------------------------------------------
+   Premium card micro-interactions: smooth lift + warm glow + inner photo zoom.
+   (We never touch mix-blend-mode or filters over product photos.)
+   ------------------------------------------------------------------------- */
+.aura-home .cat-card {
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.aura-home .cat-card:hover {
+  box-shadow: 0.5em 0.5em 0 var(--cc, #ef8354),
+    0 18px 40px rgba(201, 111, 74, 0.28);
+}
+
+.aura-home .p-card {
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.aura-home .p-card:hover {
+  transform: translateY(-0.4rem);
+  box-shadow: 0 18px 40px rgba(224, 122, 95, 0.26);
+}
+/* gentle zoom of the product photo inside its frame (transform only) */
+.aura-home .p-card .photo img,
+.aura-home .p-card img {
+  transition: transform 0.6s var(--ease);
+}
+.aura-home .p-card:hover img {
+  transform: scale(1.05);
+}
+
+/* warm glow on the workshop chips + note cards on hover */
+.aura-home .workshop-chip {
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.aura-home .workshop-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 131, 84, 0.3);
+}
+
+/* ---------------------------------------------------------------------------
+   MAGNETIC CTAs: the TSX sets --mx/--my on the hovered .btn; we translate by
+   that offset on top of the base hover lift. Smooth, springy, premium.
+   ------------------------------------------------------------------------- */
+.aura-home .btn {
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.aura-home .btn.aura-magnetic {
+  transform: translate(var(--mx, 0), var(--my, 0));
+}
+.aura-home .btn.aura-magnetic:hover {
+  transform: translate(calc(var(--mx, 0) - 0.1em), calc(var(--my, 0) - 0.1em));
+}
+
+/* ---------------------------------------------------------------------------
+   CUSTOM WARM CURSOR — a soft dot + trailing ring. Positions set by the TSX
+   via transform. Hidden under coarse pointer / reduced motion (class not
+   added). We hide the native cursor only over the page body where tasteful,
+   but keep it on real form controls/links for usability.
+   ------------------------------------------------------------------------- */
+.aura-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+.aura-cursor-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef8354;
+  box-shadow: 0 0 10px rgba(239, 131, 84, 0.7);
+  will-change: transform;
+  transition: width 0.25s var(--ease), height 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+.aura-cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid rgba(201, 111, 74, 0.55);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(246, 189, 96, 0.12),
+    transparent 70%
+  );
+  will-change: transform;
+  transition: width 0.3s var(--ease), height 0.3s var(--ease),
+    border-color 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+/* grow + warm-up over interactive elements */
+.aura-cursor.is-active .aura-cursor-ring {
+  width: 60px;
+  height: 60px;
+  margin: -11px 0 0 -11px;
+  border-color: rgba(226, 58, 58, 0.6);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(239, 131, 84, 0.2),
+    transparent 70%
+  );
+}
+.aura-cursor.is-active .aura-cursor-dot {
+  width: 12px;
+  height: 12px;
+  margin: -2px 0 0 -2px;
+  background: #e23a3a;
+}
+/* hide the native arrow only when our cursor is live (tasteful, keeps text
+   carets on inputs since we don't touch them) */
+.aura-home.aura-has-cursor,
+.aura-home.aura-has-cursor a,
+.aura-home.aura-has-cursor .btn,
+.aura-home.aura-has-cursor .cat-card,
+.aura-home.aura-has-cursor .rail-arrow {
+  cursor: none;
+}
+
+/* ---------------------------------------------------------------------------
+   SCROLL-IN STAGGERED REVEALS — fail-open.
+   The hidden-initial state ONLY applies once the TSX adds .is-reveal to the
+   root (so no-JS shows everything), and is fully disabled under reduced motion.
+   Cards stagger via the --rv-i index the TSX assigns per sibling group.
+   ------------------------------------------------------------------------- */
+.aura-home.is-reveal .rv {
+  opacity: 0;
+  transform: translateY(26px) scale(0.985);
+  filter: saturate(0.9);
+  transition: opacity 0.7s var(--ease), transform 0.8s var(--ease),
+    filter 0.8s var(--ease);
+  transition-delay: calc(var(--rv-i, 0) * 70ms);
+  will-change: opacity, transform;
+}
+.aura-home.is-reveal .rv.in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ---------------------------------------------------------------------------
+   REDUCED MOTION: freeze every animation, drop the mouse-driven field to a
+   calm static warm wash, and NEVER hide content. (.is-reveal is not added in
+   the TSX under reduced motion, so .rv has no hidden state here either.)
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .aura-home .aura-home-bg,
+  .aura-home .aura-blob,
+  .aura-home .hero-field::after,
+  .aura-home .hero-statement span,
+  .aura-home .hero-statement span:last-child {
+    animation: none !important;
+  }
+  .aura-home .rv {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* coarse pointers (touch): no custom cursor, simpler hovers */
+@media (pointer: coarse) {
+  .aura-home.aura-has-cursor,
+  .aura-home.aura-has-cursor a,
+  .aura-home.aura-has-cursor .btn,
+  .aura-home.aura-has-cursor .cat-card,
+  .aura-home.aura-has-cursor .rail-arrow {
+    cursor: auto;
+  }
+}

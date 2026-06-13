@@ -26,6 +26,10 @@ import DesignPhotographic from "./pages/Design-photographic";
 import DesignGradA from "./pages/Design-grad-a";
 import DesignGradB from "./pages/Design-grad-b";
 import DesignGradC from "./pages/Design-grad-c";
+// Showpiece variants: micro-interactions, awwwards atmosphere, warm sunset.
+import DesignTouch from "./pages/Design-touch";
+import DesignAura from "./pages/Design-aura";
+import DesignSunset from "./pages/Design-sunset";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -78,6 +82,9 @@ const router = createBrowserRouter(
         { path: "/design8", element: <DesignGradA /> },
         { path: "/design9", element: <DesignGradB /> },
         { path: "/design10", element: <DesignGradC /> },
+        { path: "/design11", element: <DesignTouch /> },
+        { path: "/design12", element: <DesignAura /> },
+        { path: "/design13", element: <DesignSunset /> },
         { path: "*", element: <HomePage /> },
       ],
     },

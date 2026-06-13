@@ -1,0 +1,403 @@
+/* ============================================================================
+   home-sunset.css — "שקיעה" WARM SUNSET GRADIENT FLOW homepage variant
+   ----------------------------------------------------------------------------
+   Wraps the shared <HomeContent/> (NOT rebuilt) in a fixed, gently auto-
+   drifting + mouse-following WARM sunset gradient field plus four soft glows.
+   Golden-hour, cozy, dreamy — LIGHT mode only, never dark. Sections are made
+   translucent so the sunset breathes through while every word stays readable.
+
+   Adds: clip-path / background-clip:text warm reveals on category names and
+   section titles (on hover + on scroll-in), cards that bloom with a warm
+   shadow, buttons with a soft warm glow, and gentle staggered scroll reveals
+   that FAIL OPEN (content is only ever hidden behind the JS-added .is-reveal
+   class, and never under prefers-reduced-motion).
+
+   Every selector is scoped under .sunset-home; every keyframe is sunset-*.
+   chrome70-safe: flexbox/grid/custom-properties/clip-path/transform/transition/
+   @keyframes, radial+linear gradients, background-clip:text (-webkit paired).
+   NO feTurbulence/SVG-filter data-URIs, NO mix-blend-mode, NO backdrop-filter,
+   NO :has()/container-queries/color-mix()/native-nesting/scroll-timeline.
+
+   WARM palette:
+     terracotta #c96f4a · burnt-coral #e07a5f · coral #ef8354 · peach #f4a261
+     apricot #f6bd60 · warm-amber #e9c46a · dusty-rose #d98b7a · warm-pink #e8a0a0
+     soft-cream #fdf6ec · warm-ink #3a2a26 · brand warm-red #e23a3a
+   ========================================================================== */
+
+.sunset-home {
+  position: relative;
+}
+
+/* keep all real content above the gradient layer */
+.sunset-home > :not(.sunset-home-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   The fixed, full-viewport warm sunset field (behind everything).
+   Auto-drift via sunset-flow; the top warm pool follows the pointer through
+   --gx/--gy set on .sunset-home by the TSX. Layered warm radial pools:
+   peach → coral → apricot → dusty-rose → warm-amber, over a soft-cream base.
+   Soft enough to keep text readable; rich enough to feel like golden hour.
+   ------------------------------------------------------------------------- */
+.sunset-home-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      48% 52% at var(--gx, 50%) var(--gy, 30%),
+      rgba(244, 162, 97, 0.32),
+      transparent 70%
+    ),
+    radial-gradient(46% 50% at 84% 14%, rgba(246, 189, 96, 0.30), transparent 66%),
+    radial-gradient(52% 58% at 88% 88%, rgba(239, 131, 84, 0.26), transparent 66%),
+    radial-gradient(50% 56% at 12% 86%, rgba(217, 139, 122, 0.28), transparent 66%),
+    radial-gradient(44% 50% at 8% 10%, rgba(233, 196, 106, 0.26), transparent 66%),
+    linear-gradient(160deg, #fdf6ec 0%, #fbeede 50%, #f9e7d4 100%);
+  animation: sunset-flow 26s ease-in-out infinite alternate;
+}
+
+@keyframes sunset-flow {
+  from {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 4% 5%, -5% 4%, 5% -4%, -4% -5%, 4% 4%, 0 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Four soft warm glows that drift independently for the dreamy, breathing
+   golden-hour feel. Pure radial fills, no hard edges, no blend modes.
+   ------------------------------------------------------------------------- */
+.sunset-home-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.sunset-home-glow.g1 {
+  top: -10%;
+  right: -6%;
+  width: 44vw;
+  height: 44vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(246, 189, 96, 0.40),
+    transparent 68%
+  );
+  animation: sunset-drift-1 17s ease-in-out infinite alternate;
+}
+
+.sunset-home-glow.g2 {
+  bottom: -12%;
+  left: -8%;
+  width: 48vw;
+  height: 48vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(239, 131, 84, 0.32),
+    transparent 68%
+  );
+  animation: sunset-drift-2 21s ease-in-out infinite alternate;
+}
+
+.sunset-home-glow.g3 {
+  top: 24%;
+  left: 26%;
+  width: 36vw;
+  height: 36vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(217, 139, 122, 0.30),
+    transparent 66%
+  );
+  animation: sunset-drift-3 14s ease-in-out infinite alternate;
+}
+
+.sunset-home-glow.g4 {
+  top: -4%;
+  left: 16%;
+  width: 30vw;
+  height: 30vw;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(244, 162, 97, 0.34),
+    transparent 66%
+  );
+  animation: sunset-drift-4 19s ease-in-out infinite alternate;
+}
+
+@keyframes sunset-drift-1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-5%, 6%, 0) scale(1.12); }
+}
+@keyframes sunset-drift-2 {
+  from { transform: translate3d(0, 0, 0) scale(1.05); }
+  to { transform: translate3d(7%, -5%, 0) scale(0.94); }
+}
+@keyframes sunset-drift-3 {
+  from { transform: translate3d(0, 0, 0) scale(0.96); }
+  to { transform: translate3d(6%, 7%, 0) scale(1.14); }
+}
+@keyframes sunset-drift-4 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-6%, 4%, 0) scale(1.1); }
+}
+
+/* ---------------------------------------------------------------------------
+   Let the sunset breathe through the NEUTRAL sections. Translucency tuned so
+   the warm field glows behind while body text keeps strong contrast.
+   The dark .hero-field and the photo .story-band keep their own backgrounds.
+   ------------------------------------------------------------------------- */
+.sunset-home .hero-stage {
+  background: rgba(253, 246, 236, 0.66);
+}
+
+.sunset-home .cat-card {
+  background: rgba(255, 252, 246, 0.80);
+  border-color: #3a2a26;
+}
+
+.sunset-home .workshops-card,
+.sunset-home .note-card {
+  background: rgba(255, 252, 246, 0.82);
+}
+
+/* gold note keeps its warm color but softened so the field glows behind */
+.sunset-home .note-card.gold {
+  background: rgba(233, 196, 106, 0.86);
+}
+
+.sunset-home .sale-band {
+  background: rgba(250, 233, 214, 0.60);
+}
+
+.sunset-home .studio-band {
+  background: rgba(249, 235, 220, 0.66);
+}
+
+/* warm the ribbon away from cool purple, into a sunset coral→amber sweep */
+.sunset-home .ribbon {
+  background: linear-gradient(100deg, #e07a5f 0%, #ef8354 48%, #f6bd60 100%);
+  border-color: #3a2a26;
+}
+.sunset-home .ribbon-track span::after {
+  color: #fff7ea;
+}
+
+/* ---------------------------------------------------------------------------
+   Cozy card micro-interactions — cards bloom/lift with a WARM shadow + glow.
+   Overrides only transition/hover, never the photos or layout. Smooth premium
+   easing throughout.
+   ------------------------------------------------------------------------- */
+.sunset-home .cat-card {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sunset-home .cat-card:hover {
+  transform: rotate(0) translateY(-0.45rem) scale(1.012);
+  box-shadow: 0.2em 0.5em 1.4em rgba(224, 122, 95, 0.30),
+    0.42em 0.42em 0 var(--cc, #ef8354);
+}
+
+/* the little category illustration warms + leans in on hover */
+.sunset-home .cat-card .cat-art {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sunset-home .cat-card:hover .cat-art {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.sunset-home .p-card {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sunset-home .p-card:hover {
+  transform: rotate(0) translateY(-0.5rem);
+  box-shadow: 0.2em 0.5em 1.4em rgba(239, 131, 84, 0.28),
+    0.42em 0.42em 0 var(--pc, #e07a5f);
+}
+
+/* ---------------------------------------------------------------------------
+   Clip-path TEXT reveal on hover for CATEGORY NAMES — a warm sunset gradient
+   sweeps across the heading via background-clip:text. No duplicate text.
+   Default sits at the ink-toned end so the title is always fully readable;
+   hover slides the warm gradient across.
+   ------------------------------------------------------------------------- */
+.sunset-home .cat-card h3 {
+  background-image: linear-gradient(
+    100deg,
+    #3a2a26 0%,
+    #3a2a26 42%,
+    #c96f4a 55%,
+    #ef8354 70%,
+    #f6bd60 85%,
+    #e07a5f 100%
+  );
+  background-size: 240% 100%;
+  background-position: 0% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #3a2a26; /* fallback if background-clip:text unsupported */
+  transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sunset-home .cat-card:hover h3 {
+  background-position: 100% 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Section titles get a clip-path WIPE underline that grows in on scroll-reveal
+   and on hover — a warm sunset bar swiping across (RTL-aware: starts at the
+   inline-start edge). Pure clip-path, fail-open (title text never hidden).
+   ------------------------------------------------------------------------- */
+.sunset-home .section-head .section-titles h2 {
+  position: relative;
+  display: inline-block;
+}
+.sunset-home .section-head .section-titles h2::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -0.12em;
+  width: 100%;
+  height: 0.16em;
+  border-radius: 2em;
+  background: linear-gradient(90deg, #ef8354 0%, #f6bd60 60%, #e07a5f 100%);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* reveal the bar when the section scrolls into view */
+.sunset-home section.in .section-head .section-titles h2::after {
+  clip-path: inset(0 0 0 0);
+}
+/* and let hover re-sweep it for a tactile feel */
+.sunset-home .section-head:hover .section-titles h2::after {
+  clip-path: inset(0 0 0 0);
+}
+/* the sale band's bar runs warm-red to match its eyebrow */
+.sunset-home .sale-band .section-head .section-titles h2::after {
+  background: linear-gradient(90deg, #e23a3a 0%, #ef8354 60%, #f6bd60 100%);
+}
+
+/* warm up the eyebrow accent + dash away from cool purple */
+.sunset-home .eyebrow {
+  color: #c96f4a;
+}
+.sunset-home .eyebrow::before {
+  background: #ef8354;
+}
+.sunset-home .eyebrow.sale {
+  color: #e23a3a;
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons — soft WARM glow + premium easing. The TSX adds a magnetic pull via
+   transform, so we must NOT transition transform here (it would fight the rAF
+   loop and feel laggy); we animate only box-shadow/background.
+   ------------------------------------------------------------------------- */
+.sunset-home .btn {
+  transition: box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
+  will-change: transform;
+}
+.sunset-home .btn:hover {
+  box-shadow: 0 0.5em 1.4em rgba(224, 122, 95, 0.42),
+    0.34em 0.34em 0 var(--btn-pop, #f6bd60);
+}
+.sunset-home .btn.hero-cta {
+  box-shadow: 0 0.4em 1.1em rgba(201, 111, 74, 0.32),
+    0.25em 0.25em 0 #f6bd60;
+}
+.sunset-home .btn.hero-cta:hover {
+  box-shadow: 0 0.6em 1.6em rgba(201, 111, 74, 0.46),
+    0.37em 0.37em 0 #f6bd60;
+}
+
+/* the rail arrows pick up the warm hover too */
+.sunset-home .rail-arrow {
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+.sunset-home .rail-arrow:hover {
+  background: #ef8354;
+  color: #fff;
+  border-color: #3a2a26;
+}
+
+/* workshop chips warm up */
+.sunset-home .workshop-chip {
+  border-color: #c96f4a;
+  color: #c96f4a;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
+}
+.sunset-home .workshop-chip:nth-child(even) {
+  border-color: #e07a5f;
+  color: #e07a5f;
+}
+.sunset-home .workshop-chip:hover {
+  background: rgba(244, 162, 97, 0.18);
+  transform: translateY(-0.12rem) rotate(0);
+}
+
+/* ---------------------------------------------------------------------------
+   STAGGERED SCROLL REVEALS — gentle fade + rise + soft clip wipe.
+   FAIL-OPEN: the hidden-initial state is gated behind the JS-added .is-reveal
+   root class, so if JS never runs, nothing is hidden. Under reduced motion the
+   .is-reveal class is never added (see TSX) AND we hard-reset below.
+   ------------------------------------------------------------------------- */
+.sunset-home.is-reveal section,
+.sunset-home.is-reveal .cat-card,
+.sunset-home.is-reveal .p-card {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--rv-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.sunset-home.is-reveal section.in,
+.sunset-home.is-reveal .cat-card.in,
+.sunset-home.is-reveal .p-card.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* The cat-card / p-card hover transforms must win once revealed: clearing the
+   reveal will-change avoids a stuck translate after the transition settles. */
+.sunset-home.is-reveal .cat-card.in,
+.sunset-home.is-reveal .p-card.in {
+  will-change: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Respect reduced motion: freeze the field + glows and show everything. The
+   TSX already skips the rAF loop and never adds .is-reveal, but belt-and-
+   braces here so content is guaranteed visible and static.
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .sunset-home .sunset-home-bg,
+  .sunset-home .sunset-home-glow {
+    animation: none !important;
+  }
+  .sunset-home section,
+  .sunset-home .cat-card,
+  .sunset-home .p-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .sunset-home .cat-card h3 {
+    transition: none !important;
+  }
+  .sunset-home .section-head .section-titles h2::after {
+    clip-path: inset(0 0 0 0) !important;
+    transition: none !important;
+  }
+}

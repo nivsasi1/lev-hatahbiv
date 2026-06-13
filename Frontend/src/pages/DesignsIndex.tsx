@@ -66,6 +66,39 @@ const DESIGNS: DesignEntry[] = [
     swatch:
       "conic-gradient(from 200deg at 50% 50%, rgba(91,45,142,0.5), rgba(226,58,58,0.42), rgba(224,159,62,0.42), rgba(42,157,143,0.46), rgba(91,45,142,0.5)), #faf5ec",
   },
+  {
+    num: "עיצוב 11",
+    to: "/design11",
+    name: "מגע",
+    tag: "מיקרו-אנימציות · Microinteractions",
+    desc: "מאסטר-קלאס של מגע: כרטיסים שמתעוררים, כותרות שמתמלאות גרדיאנט בריחוף, כפתורים מגנטיים וחשיפות עדינות בגלילה.",
+    emoji: "👆",
+    badge: "חדש · מוקפד",
+    swatch:
+      "radial-gradient(circle at 30% 34%, rgba(239,131,84,0.24), transparent 60%), radial-gradient(circle at 72% 66%, rgba(201,111,74,0.2), transparent 60%), #fdf6ec",
+  },
+  {
+    num: "עיצוב 12",
+    to: "/design12",
+    name: "אווירה",
+    tag: "Awwwards · אווירה חמה",
+    desc: "הפנינה: רקע גרדיאנט חם שעוקב אחרי העכבר, סמן מותאם אישית, חשיפות קולנועיות בגלילה וכותרות שמתמלאות צבע.",
+    emoji: "🌅",
+    badge: "חדש · Awwwards",
+    swatch:
+      "linear-gradient(135deg, #c96f4a 0%, #ef8354 30%, #f4a261 55%, #f6bd60 76%, #e8a0a0 100%)",
+  },
+  {
+    num: "עיצוב 13",
+    to: "/design13",
+    name: "שקיעה",
+    tag: "גרדיאנט חם · Sunset",
+    desc: "שעת זהב: גרדיאנט שקיעה חמים וזורם — אפרסק, קורל וורוד מעושן — שמגיב לעכבר, עם אנימציות נעימות וכותרות נחשפות.",
+    emoji: "🌇",
+    badge: "חדש · חם",
+    swatch:
+      "linear-gradient(160deg, #f4a261 0%, #ef8354 36%, #e07a5f 62%, #d98b7a 100%)",
+  },
 ];
 
 export const DesignsIndex = () => (
