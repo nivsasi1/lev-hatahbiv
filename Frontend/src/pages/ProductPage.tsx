@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   getProduct,
@@ -12,17 +12,40 @@ import {
 import { useCart } from "../context/cart-context";
 import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
+import "./product-lightbox.css";
 
 export const ProductPage = () => {
   const { id } = useParams();
   const { add } = useCart();
   const [qty, setQtyLocal] = useState(1);
   const [imgIdx, setImgIdx] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setQtyLocal(1);
     setImgIdx(0);
+    setLightbox(false);
   }, [id]);
+
+  // Lock body scroll, handle Escape, and manage focus while the lightbox is open.
+  useEffect(() => {
+    if (!lightbox) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(false);
+    };
+    document.addEventListener("keydown", onKey);
+    closeBtnRef.current?.focus();
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+      // Restore focus to the trigger image when closing.
+      stageRef.current?.focus();
+    };
+  }, [lightbox]);
 
   const product = getProduct(id ?? "");
   if (!product) {
@@ -42,6 +65,7 @@ export const ProductPage = () => {
   const saved = product.salePrice ? product.price - product.salePrice : 0;
   const gallery = product.imgs ?? (product.img ? [product.img] : []);
   const hasGallery = gallery.length > 1;
+  const canZoom = gallery.length > 0;
   const step = (d: number) =>
     setImgIdx((i) => (i + d + gallery.length) % gallery.length);
 
@@ -51,8 +75,23 @@ export const ProductPage = () => {
         <div className="product-view">
           <div className="product-stage-wrap">
             <div
-              className={`product-stage ${product.img ? "photo" : ""} ${product.soldOut ? "soldout" : ""}`}
+              ref={stageRef}
+              className={`product-stage ${product.img ? "photo" : ""} ${product.soldOut ? "soldout" : ""} ${canZoom ? "zoomable" : ""}`}
               style={{ "--pv-soft": category?.soft } as any}
+              {...(canZoom
+                ? {
+                    role: "button" as const,
+                    tabIndex: 0,
+                    "aria-label": `הגדלת התמונה — ${product.name}`,
+                    onClick: () => setLightbox(true),
+                    onKeyDown: (e: any) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setLightbox(true);
+                      }
+                    },
+                  }
+                : {})}
             >
               {gallery.length > 0 ? (
                 gallery.map((src, i) => (
@@ -68,10 +107,24 @@ export const ProductPage = () => {
               )}
               {hasGallery && (
                 <>
-                  <button className="stage-arrow next" onClick={() => step(1)} aria-label="התמונה הבאה">
+                  <button
+                    className="stage-arrow next"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      step(1);
+                    }}
+                    aria-label="התמונה הבאה"
+                  >
                     ‹
                   </button>
-                  <button className="stage-arrow prev" onClick={() => step(-1)} aria-label="התמונה הקודמת">
+                  <button
+                    className="stage-arrow prev"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      step(-1);
+                    }}
+                    aria-label="התמונה הקודמת"
+                  >
                     ›
                   </button>
                 </>
@@ -191,6 +244,68 @@ export const ProductPage = () => {
           </section>
         )}
       </div>
+
+      {lightbox && canZoom && (
+        <div
+          className="lightbox-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={product.name}
+          onClick={() => setLightbox(false)}
+        >
+          <button
+            ref={closeBtnRef}
+            className="lightbox-close"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox(false);
+            }}
+            aria-label="סגירת התמונה"
+          >
+            ✕
+          </button>
+
+          {hasGallery && (
+            <>
+              <button
+                className="lightbox-arrow next"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  step(1);
+                }}
+                aria-label="התמונה הבאה"
+              >
+                ‹
+              </button>
+              <button
+                className="lightbox-arrow prev"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  step(-1);
+                }}
+                aria-label="התמונה הקודמת"
+              >
+                ›
+              </button>
+            </>
+          )}
+
+          <div className="lightbox-frame">
+            <img
+              className="lightbox-img"
+              src={gallery[imgIdx]}
+              alt={product.name}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+
+          {hasGallery && (
+            <div className="lightbox-count" aria-hidden="true">
+              {imgIdx + 1} / {gallery.length}
+            </div>
+          )}
+        </div>
+      )}
     </main>
   );
 };

@@ -329,31 +329,33 @@ button {
   }
 }
 
-/* category nav — one horizontal row of chips, each with a sub-menu.
-   The row never wraps: it scrolls horizontally (wheel/drag/‹ › buttons). */
+/* category nav — one clean horizontal row of chips, each with a sub-menu.
+   Desktop: all categories sit in a single straight, centred line (no scroll,
+   no arrows). Small screens: the row scrolls horizontally with ‹ › buttons. */
 .cat-nav {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center; /* centre the row across the full shell width */
   padding: 0.55rem 0 0.7rem;
 }
 
-/* the scrolling track that holds the chips */
+/* the track is the SCROLL CONTAINER. The submenu is position:fixed, so it is
+   never clipped by this box — which lets the track be overflow-x:auto at EVERY
+   width: it simply scrolls when the chips don't fit and sits static when they
+   do. (No more "spills off-screen with no scrollbar" gap in the 768-1060px
+   range that a desktop-only overflow:visible left behind.) */
 .cat-track {
   display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
   flex: 1 1 auto;
   min-width: 0;
   overflow-x: auto;
-  overflow-y: visible; /* let sub-menus escape downward */
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   /* hide the native scrollbar but stay scrollable */
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* a touch of padding so the chip shadows + open menus aren't clipped */
-  padding: 0.2rem 0.1rem 0.3rem;
 }
 .cat-track::-webkit-scrollbar {
   width: 0;
@@ -365,6 +367,20 @@ button {
   cursor: grabbing;
 }
 
+/* the chip row. Auto side-margins CENTRE the row as a clean straight line when
+   it fits (desktop), and resolve to 0 when it overflows (tablet/phone) so the
+   first chip stays reachable and the row scrolls from the start — no unreachable
+   spill, at any width, without a magic breakpoint. */
+.cat-track-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 0.45rem;
+  margin-inline: auto;
+  flex: 0 0 auto;
+  /* a touch of vertical padding so the chip shadows aren't clipped */
+  padding: 0.2rem 0.1rem 0.3rem;
+}
+
 /* each chip + its dropdown live in a positioned wrapper so the menu can
    anchor under the chip even while the track scrolls */
 .cat-chip-wrap {
@@ -372,33 +388,37 @@ button {
   flex: 0 0 auto;
 }
 
-/* the chip itself keeps the brand pill aesthetic */
+/* the chip itself keeps the brand pill aesthetic, tightened so all nine
+   categories read as one straight line at 1024px+ without overflowing */
 .cat-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
+  gap: 0.32em;
   white-space: nowrap;
   font-family: inherit;
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   cursor: pointer;
-  padding: 0.32em 0.95em;
+  padding: 0.3em 0.72em;
   border-radius: 2em;
   border: 2px solid var(--ink);
   background: var(--card);
   color: var(--ink);
-  box-shadow: 0.18em 0.18em 0 var(--shadow);
+  box-shadow: 0.16em 0.16em 0 var(--shadow);
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease,
     border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+/* clean, subtle hover: small straight lift + per-category colour fill, no
+   rotation / wobble */
 .cat-chip:hover,
 .cat-chip:focus-visible,
 .cat-chip.open {
   background: var(--cc, var(--ink));
   border-color: var(--cc, var(--ink));
   color: #fff;
-  transform: translateY(-1px) rotate(-1deg);
+  transform: translateY(-2px);
+  box-shadow: 0.2em 0.24em 0 var(--shadow);
   outline: none;
 }
 
@@ -423,12 +443,14 @@ button {
   transform: rotate(180deg);
 }
 
-/* ‹ › edge scroll buttons — only visible when there's room to scroll */
+/* ‹ › edge scroll buttons — hidden on desktop entirely (everything fits in a
+   straight line there). On small screens they appear only when the row really
+   overflows (.show, toggled from canStart/canEnd in JS). */
 .cat-scroll-btn {
   flex: 0 0 auto;
   width: 1.9rem;
   height: 1.9rem;
-  display: none;
+  display: none; /* base + desktop: never shown, even with .show */
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
@@ -442,9 +464,6 @@ button {
   box-shadow: 0.15em 0.15em 0 var(--shadow);
   transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
 }
-.cat-scroll-btn.show {
-  display: inline-flex;
-}
 .cat-scroll-btn:hover {
   background: var(--ink);
   color: #fff;
@@ -454,6 +473,11 @@ button {
 }
 .cat-scroll-btn.end {
   margin-inline-start: 0.35rem;
+}
+/* arrows appear only when the row actually overflows (.show is toggled from
+   canStart/canEnd in JS). On desktop everything fits, so they stay hidden. */
+.cat-scroll-btn.show {
+  display: inline-flex;
 }
 
 /* Phones / touch (no hover): you swipe the row with a finger, so the ‹ ›
@@ -492,12 +516,15 @@ button {
   }
 }
 
-/* dropdown of sub-categories — opens under its chip, clamped to the viewport */
+/* dropdown of sub-categories — position:fixed so it escapes the track's
+   scroll/overflow box in every mode and is never clipped. top/left are set
+   inline from the chip's rect (clamped into the viewport) by the JS. */
 .cat-submenu {
-  position: absolute;
-  top: calc(100% + 0.4rem);
-  inset-inline-start: 0;
-  z-index: 45;
+  position: fixed;
+  top: 0;
+  left: 0; /* both top/left overridden inline with computed px values */
+  right: auto;
+  z-index: 60; /* above the sticky header */
   min-width: 13rem;
   max-width: min(86vw, 22rem);
   max-height: min(70vh, 24rem);
