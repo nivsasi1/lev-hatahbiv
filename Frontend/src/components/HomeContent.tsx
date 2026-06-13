@@ -70,9 +70,15 @@ const FeaturedRail = ({ items }: { items: Product[] }) => {
     const tick = () => {
       if (!paused.current) {
         pos.current += 0.5; // gentle continuous drift
-        // content is tripled; resetting by one segment lands on identical
-        // pixels (periodic) so the loop is seamless at any viewport width
-        const seg = el.scrollWidth / 3;
+        // content is tripled; one segment = the exact offset to the 2nd copy's
+        // first card (precise period → seamless reset; scrollWidth/3 would be
+        // off by the container padding + the missing inter-copy gap)
+        const kids = el.children;
+        const n = items.length;
+        const seg =
+          kids.length > n
+            ? (kids[n] as HTMLElement).offsetLeft - (kids[0] as HTMLElement).offsetLeft
+            : el.scrollWidth / 3;
         if (seg > 0 && pos.current >= seg) pos.current -= seg;
         el.scrollLeft = pos.current;
       }

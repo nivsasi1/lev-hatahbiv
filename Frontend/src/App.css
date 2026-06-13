@@ -3653,6 +3653,13 @@ html.a11y-underline a {
   max-width: 38em;
 }
 
+/* keep the footer above the motion variants' fixed gradient backdrop
+   (a fixed z-index:0 layer would otherwise wash over the non-positioned footer) */
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
 /* ---------- mobile: stack the split hero, smaller arrows ---------- */
 @media (max-width: 760px) {
   .hero {
