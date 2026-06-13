@@ -1,0 +1,204 @@
+/* ===========================================================================
+   Home design · "באוהאוס" (Bauhaus × Memphis — "Primary Play")
+   Bold primary colors, hard geometric shapes (circles / triangles / arches /
+   zigzags), playful squiggles. Scoped under .bh-home. All shapes are CSS or
+   inline SVG — no feTurbulence, no blend modes.
+   =========================================================================== */
+
+.bh-home {
+  --bh-red: #e63946;
+  --bh-blue: #1d4ed8;
+  --bh-yellow: #f7c948;
+  --bh-ink: #141414;
+  --bh-paper: #f7f3ea;
+  --bh-cream: #fffdf6;
+  background: var(--bh-paper);
+  color: var(--bh-ink);
+  font-family: "Assistant", system-ui, sans-serif;
+}
+
+.bh-home .bh-shell { width: min(1180px, 92vw); margin-inline: auto; }
+
+/* ---------- hero: primary-shape composition ---------- */
+.bh-hero {
+  position: relative;
+  border-bottom: 5px solid var(--bh-ink);
+  overflow: hidden;
+  padding: clamp(2.6rem, 6vw, 5rem) 0 clamp(2.4rem, 5vw, 4rem);
+}
+.bh-hero-grid {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(1.4rem, 4vw, 3rem); align-items: center;
+}
+.bh-tag {
+  display: inline-block;
+  background: var(--bh-ink); color: var(--bh-cream);
+  font-weight: 800; letter-spacing: 0.04em;
+  padding: 0.35rem 1rem; margin-bottom: 1.1rem; font-size: 0.85rem;
+}
+.bh-hero h1 {
+  font-family: "Amatic SC", cursive; font-weight: 700;
+  font-size: clamp(4rem, 13vw, 8.5rem); line-height: 0.82; margin: 0 0 1rem;
+}
+.bh-hero h1 .r { color: var(--bh-red); }
+.bh-hero h1 .b { color: var(--bh-blue); }
+.bh-hero .bh-lead {
+  font-size: clamp(1.05rem, 1.7vw, 1.2rem); line-height: 1.65;
+  max-width: 42ch; font-weight: 600; margin: 0 0 1.6rem;
+}
+.bh-ctas { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+.bh-btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.85rem 1.6rem; border: 3px solid var(--bh-ink);
+  font-weight: 800; font-size: 1.02rem; text-decoration: none; color: var(--bh-ink);
+  transition: transform 0.1s ease;
+}
+.bh-btn.red { background: var(--bh-red); color: #fff; }
+.bh-btn.yellow { background: var(--bh-yellow); }
+.bh-btn.blue { background: var(--bh-blue); color: #fff; }
+.bh-btn:hover { transform: translateY(-3px); }
+
+/* hero shape stack (the "primary play" composition) */
+.bh-hero-art {
+  position: relative; aspect-ratio: 1 / 1; min-height: 280px;
+  border: 5px solid var(--bh-ink); background: var(--bh-cream);
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+}
+.bh-hero-art > span { border: 2px solid var(--bh-ink); position: relative; overflow: hidden; }
+.bh-hero-art .q-red { background: var(--bh-red); }
+.bh-hero-art .q-blue { background: var(--bh-blue); }
+.bh-hero-art .q-yellow { background: var(--bh-yellow); }
+/* big circle straddling the grid */
+.bh-hero-art .q-circle::after {
+  content: ""; position: absolute; inset: 18%;
+  border-radius: 50%; background: var(--bh-cream); border: 3px solid var(--bh-ink);
+}
+/* arch (half-circle) */
+.bh-hero-art .q-arch::after {
+  content: ""; position: absolute; inset-block-end: 0; inset-inline: 22%;
+  height: 64%; border-radius: 999px 999px 0 0; background: var(--bh-cream);
+  border: 3px solid var(--bh-ink); border-block-end: none;
+}
+/* triangle */
+.bh-hero-art .q-tri::after {
+  content: ""; position: absolute; inset-block-end: 16%; inset-inline-start: 24%;
+  width: 0; height: 0; border-inline: 40px solid transparent;
+  border-block-end: 70px solid var(--bh-cream);
+}
+
+/* scattered background shapes */
+.bh-deco { position: absolute; z-index: 1; pointer-events: none; }
+.bh-deco.dot { width: 90px; height: 90px; border-radius: 50%; background: var(--bh-yellow); border: 3px solid var(--bh-ink); inset-block-start: 12%; inset-inline-end: 4%; }
+.bh-deco.ring { width: 70px; height: 70px; border-radius: 50%; border: 10px solid var(--bh-red); inset-block-end: 8%; inset-inline-start: 3%; }
+
+/* ---------- zigzag divider ---------- */
+.bh-zig {
+  height: 22px;
+  background:
+    linear-gradient(135deg, var(--bh-blue) 25%, transparent 25%) -14px 0,
+    linear-gradient(225deg, var(--bh-blue) 25%, transparent 25%) -14px 0,
+    linear-gradient(315deg, var(--bh-blue) 25%, transparent 25%),
+    linear-gradient(45deg, var(--bh-blue) 25%, transparent 25%);
+  background-size: 28px 28px;
+  background-color: var(--bh-yellow);
+  border-block: 3px solid var(--bh-ink);
+}
+
+/* ---------- section heads ---------- */
+.bh-sec { padding: clamp(2.4rem, 5vw, 4rem) 0; }
+.bh-sec-head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.8rem; }
+.bh-sec-head .bh-mark { width: 28px; height: 28px; background: var(--bh-red); border: 3px solid var(--bh-ink); }
+.bh-sec-head .bh-mark.circle { border-radius: 50%; background: var(--bh-blue); }
+.bh-sec-head .bh-mark.tri { width: 0; height: 0; border: none; border-inline: 15px solid transparent; border-block-end: 26px solid var(--bh-yellow); }
+.bh-sec-head h2 {
+  font-family: "Amatic SC", cursive; font-weight: 700;
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem); line-height: 1; margin: 0;
+}
+
+/* ---------- category geometric blocks ---------- */
+.bh-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 4px solid var(--bh-ink); }
+.bh-cat {
+  position: relative;
+  border: 1.5px solid var(--bh-ink);
+  background: var(--bh-cream);
+  padding: 1.4rem;
+  min-height: 168px;
+  text-decoration: none; color: var(--bh-ink);
+  display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden;
+  transition: background 0.14s ease;
+}
+.bh-cat:hover { background: var(--cc); color: #fff; }
+.bh-cat::before {
+  content: ""; position: absolute; inset-block-start: -28px; inset-inline-end: -28px;
+  width: 90px; height: 90px; border-radius: 50%; background: var(--cc); opacity: 0.9;
+  border: 3px solid var(--bh-ink);
+  transition: transform 0.18s ease;
+}
+.bh-cat:hover::before { transform: scale(1.25); }
+.bh-cat .bh-cat-art { width: 50px; height: 50px; position: relative; z-index: 1; }
+.bh-cat h3 { font-size: 1.35rem; font-weight: 800; margin: 0.5rem 0 0.2rem; position: relative; z-index: 1; }
+.bh-cat p { margin: 0; font-size: 0.88rem; font-weight: 600; position: relative; z-index: 1; opacity: 0.92; }
+.bh-cat .bh-count { position: relative; z-index: 1; margin-top: 0.6rem; font-weight: 800; font-size: 0.82rem; }
+
+/* ---------- product grids ---------- */
+.bh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.1rem; }
+.bh-grid .p-card { border: 3px solid var(--bh-ink); }
+
+/* ---------- ticker ---------- */
+.bh-ticker {
+  background: var(--bh-red); color: #fff; overflow: hidden; padding: 0.7rem 0;
+  border-block: 4px solid var(--bh-ink);
+}
+.bh-ticker .bh-track {
+  display: flex; gap: 2.2rem; width: max-content; white-space: nowrap;
+  animation: bh-scroll 26s linear infinite; font-weight: 800;
+}
+.bh-ticker .bh-track span { display: inline-flex; gap: 2.2rem; align-items: center; }
+.bh-ticker .bh-track span::after { content: "●"; color: var(--bh-yellow); }
+@keyframes bh-scroll { to { transform: translateX(50%); } }
+
+/* ---------- workshops block ---------- */
+.bh-shop {
+  display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 0;
+  border: 4px solid var(--bh-ink);
+}
+.bh-shop .bh-shop-side {
+  background: var(--bh-blue); color: #fff; padding: 2rem;
+  display: flex; flex-direction: column; justify-content: center;
+  border-inline-end: 4px solid var(--bh-ink);
+}
+.bh-shop .bh-shop-side h2 { font-family: "Amatic SC", cursive; font-size: 3rem; margin: 0 0 0.7rem; line-height: 0.95; }
+.bh-shop .bh-shop-side p { line-height: 1.65; margin: 0; font-weight: 500; }
+.bh-shop .bh-shop-main { background: var(--bh-cream); padding: 2rem; }
+.bh-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.3rem; }
+.bh-chips span {
+  border: 3px solid var(--bh-ink); padding: 0.28rem 0.75rem;
+  font-weight: 700; font-size: 0.84rem; background: var(--bh-yellow);
+}
+.bh-shop-meta { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: center; }
+.bh-shop-meta .bh-m { font-weight: 800; }
+
+/* ---------- visit blocks ---------- */
+.bh-visit { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 4px solid var(--bh-ink); }
+.bh-vcard { padding: 1.8rem; background: var(--bh-cream); }
+.bh-vcard:first-child { background: var(--bh-yellow); border-inline-end: 4px solid var(--bh-ink); }
+.bh-vcard h3 { font-family: "Amatic SC", cursive; font-size: 2.2rem; margin: 0 0 1rem; }
+.bh-vcard table { width: 100%; border-collapse: collapse; }
+.bh-vcard td { padding: 0.5rem 0; border-bottom: 2px solid rgba(20,20,20,0.2); font-weight: 700; }
+.bh-vcard td:last-child { text-align: end; }
+.bh-rows { display: grid; gap: 0.6rem; font-weight: 700; }
+.bh-rows a { color: var(--bh-blue); text-decoration: none; }
+.bh-vactions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.1rem; }
+
+@media (max-width: 900px) {
+  .bh-hero-grid { grid-template-columns: 1fr; }
+  .bh-cats { grid-template-columns: repeat(2, 1fr); }
+  .bh-shop { grid-template-columns: 1fr; }
+  .bh-shop .bh-shop-side { border-inline-end: none; border-block-end: 4px solid var(--bh-ink); }
+  .bh-visit { grid-template-columns: 1fr; }
+  .bh-vcard:first-child { border-inline-end: none; border-block-end: 4px solid var(--bh-ink); }
+}
+@media (max-width: 560px) { .bh-cats { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .bh-ticker .bh-track { animation: none; } }
