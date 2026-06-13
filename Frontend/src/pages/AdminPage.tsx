@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { categories } from "../data/catalog";
 import { API_BASE } from "../data/api";
+import "./admin-tools.css";
 
 // ─── Manager dashboard (/manage) ────────────────────────────────────────────
 // Talks to the Express backend (local now, hosted later via VITE_API_URL).
@@ -222,6 +223,9 @@ export const AdminPage = () => {
   const [saleSearch, setSaleSearch] = useState("");
   const [homeLoaded, setHomeLoaded] = useState(false);
   const [statusFilter, setStatusFilter] = useState<"all" | "sale" | "hidden" | "oos">("all");
+  // price-range filter (₪): null upper bound = "up to the max" (auto-tracks data)
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState<number | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [showImport, setShowImport] = useState(false);
   const [importCsv, setImportCsv] = useState<File | null>(null);
@@ -610,12 +614,25 @@ export const AdminPage = () => {
       .map(([p]) => p);
   }, [products]);
 
+  // upper bound for the price slider — largest product price, rounded up to ₪10
+  const maxPrice = useMemo(() => {
+    const m = products.reduce((mx, p) => Math.max(mx, Number(p.price) || 0), 0);
+    return Math.max(10, Math.ceil(m / 10) * 10);
+  }, [products]);
+  const priceHi = priceMax ?? maxPrice; // null = "no upper limit"
+  const priceActive = priceMin > 0 || priceMax !== null;
+
   const filtered = useMemo(() => {
     const q = query.trim();
     let list = sortedProducts;
     if (statusFilter === "sale") list = list.filter((p) => (p.salePercentage || 0) > 0);
     if (statusFilter === "hidden") list = list.filter((p) => p.isActive === false);
     if (statusFilter === "oos") list = list.filter((p) => p.isAvailable === false);
+    if (priceActive)
+      list = list.filter((p) => {
+        const price = Number(p.price) || 0;
+        return price >= priceMin && price <= priceHi;
+      });
     if (!q) return list;
     return list.filter(
       (p) =>
@@ -624,7 +641,7 @@ export const AdminPage = () => {
         (p.sub_cat || "").includes(q) ||
         (p.third_level || "").includes(q)
     );
-  }, [sortedProducts, query, statusFilter]);
+  }, [sortedProducts, query, statusFilter, priceActive, priceMin, priceHi]);
 
   const shown = filtered.slice(0, limit);
   const hiddenCount = products.filter((p) => p.isActive === false).length;
@@ -661,6 +678,17 @@ export const AdminPage = () => {
 
   const allFilteredSelected =
     filtered.length > 0 && filtered.every((p) => selected.has(p._id));
+
+  // ─── which bulk actions can actually change something in the selection ───
+  // A button is enabled only if at least one selected product would change.
+  const selProducts = useMemo(
+    () => products.filter((p) => selected.has(p._id)),
+    [products, selected]
+  );
+  const anyHidden = selProducts.some((p) => p.isActive === false);
+  const anyVisible = selProducts.some((p) => p.isActive !== false);
+  const anyOos = selProducts.some((p) => p.isAvailable === false);
+  const anyInStock = selProducts.some((p) => p.isAvailable !== false);
 
   // ─── cascading category fields (clear children when a parent changes) ───
   const setCategory = (v: string) =>
@@ -1249,6 +1277,62 @@ export const AdminPage = () => {
         </button>
       </div>
 
+      {/* price-range filter — drag the handles to hide products outside the range */}
+      <div className="price-filter">
+        <span className="pf-label">טווח מחיר</span>
+        <div className="pf-slider">
+          <div className="pf-track" />
+          <div
+            className="pf-range"
+            style={{
+              left: `${(priceMin / maxPrice) * 100}%`,
+              width: `${((priceHi - priceMin) / maxPrice) * 100}%`,
+            }}
+          />
+          <input
+            type="range"
+            min={0}
+            max={maxPrice}
+            step={1}
+            value={priceMin}
+            aria-label="מחיר מינימלי"
+            onInput={(e: any) => {
+              const v = Math.min(Number(e.target.value), priceHi);
+              setPriceMin(v);
+              setLimit(30);
+            }}
+          />
+          <input
+            type="range"
+            min={0}
+            max={maxPrice}
+            step={1}
+            value={priceHi}
+            aria-label="מחיר מקסימלי"
+            onInput={(e: any) => {
+              const v = Math.max(Number(e.target.value), priceMin);
+              setPriceMax(v >= maxPrice ? null : v);
+              setLimit(30);
+            }}
+          />
+        </div>
+        <span className="pf-vals">
+          ₪{priceMin} – {priceMax === null ? `₪${maxPrice}+` : `₪${priceMax}`}
+        </span>
+        {priceActive && (
+          <button
+            className="pf-clear"
+            onClick={() => {
+              setPriceMin(0);
+              setPriceMax(null);
+              setLimit(30);
+            }}
+          >
+            נקה
+          </button>
+        )}
+      </div>
+
       {showSubs && (
         <div className="subs-box">
           <div className="subs-head">
@@ -1548,24 +1632,32 @@ export const AdminPage = () => {
           </button>
           <button
             className="btn small ghost"
+            disabled={!anyHidden}
+            title={anyHidden ? "" : "כל הנבחרים כבר מוצגים"}
             onClick={() => bulk({ type: "active", value: true }, `${selected.size} מוצרים הוצגו באתר`)}
           >
             👁 הצגה
           </button>
           <button
             className="btn small ghost"
+            disabled={!anyVisible}
+            title={anyVisible ? "" : "כל הנבחרים כבר מוסתרים"}
             onClick={() => bulk({ type: "active", value: false }, `${selected.size} מוצרים הוסתרו`)}
           >
             🚫 הסתרה
           </button>
           <button
             className="btn small ghost"
+            disabled={!anyInStock}
+            title={anyInStock ? "" : "כל הנבחרים כבר מסומנים כאזלו"}
             onClick={() => bulk({ type: "stock", value: false }, `${selected.size} מוצרים סומנו: אזל`)}
           >
             📦 אזל מהמלאי
           </button>
           <button
             className="btn small ghost"
+            disabled={!anyOos}
+            title={anyOos ? "" : "כל הנבחרים כבר במלאי"}
             onClick={() => bulk({ type: "stock", value: true }, `${selected.size} מוצרים חזרו למלאי`)}
           >
             ✅ חזרה למלאי

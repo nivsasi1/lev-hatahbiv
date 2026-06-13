@@ -1,0 +1,112 @@
+/* ===========================================================================
+   Manager dashboard — extra tools: price-range slider + smart bulk buttons.
+   Imported by AdminPage. Kept out of App.css to stay self-contained.
+   =========================================================================== */
+
+/* disabled bulk buttons should clearly read as unavailable */
+.bulk-bar .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ---- price-range filter ---- */
+.price-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.9rem;
+  padding: 0.5rem 0.9rem;
+  margin: 0 0 1rem;
+}
+.price-filter .pf-label {
+  font-weight: 800;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.price-filter .pf-vals {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.price-filter .pf-clear {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* dual-thumb slider: two range inputs stacked over one track.
+   LTR inside so ₪0 is on the left and the max on the right regardless of RTL. */
+.pf-slider {
+  position: relative;
+  direction: ltr;
+  flex: 1;
+  min-width: 220px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+.pf-slider .pf-track {
+  position: absolute;
+  inset-inline: 0;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--paper-deep);
+  border: 1px solid var(--ink);
+}
+.pf-slider .pf-range {
+  position: absolute;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--purple);
+}
+/* both inputs lie on top of the track; only their thumbs are interactive */
+.pf-slider input[type="range"] {
+  position: absolute;
+  inset-inline: 0;
+  width: 100%;
+  margin: 0;
+  background: none;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none; /* track ignores clicks; thumbs re-enable below */
+  height: 30px;
+}
+.pf-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  box-shadow: 0.1em 0.1em 0 var(--shadow);
+  cursor: grab;
+}
+.pf-slider input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; }
+.pf-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  cursor: grab;
+}
+.pf-slider input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
