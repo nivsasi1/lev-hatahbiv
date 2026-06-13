@@ -25,6 +25,11 @@ import DesignEditorial from "./pages/Design-editorial";
 import DesignBrutalist from "./pages/Design-brutalist";
 import DesignNightstudio from "./pages/Design-nightstudio";
 import DesignGoalB from "./pages/Design-goalb";
+import DesignBauhaus from "./pages/Design-bauhaus";
+import DesignPhotographic from "./pages/Design-photographic";
+import DesignRisozine from "./pages/Design-risozine";
+import DesignSketchbook from "./pages/Design-sketchbook";
+import DesignY2k from "./pages/Design-y2k";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -77,6 +82,11 @@ const router = createBrowserRouter(
         { path: "/design3", element: <DesignBrutalist /> },
         { path: "/design4", element: <DesignNightstudio /> },
         { path: "/design5", element: <DesignGoalB /> },
+        { path: "/design6", element: <DesignBauhaus /> },
+        { path: "/design7", element: <DesignPhotographic /> },
+        { path: "/design8", element: <DesignRisozine /> },
+        { path: "/design9", element: <DesignSketchbook /> },
+        { path: "/design10", element: <DesignY2k /> },
         { path: "*", element: <HomePage /> },
       ],
     },

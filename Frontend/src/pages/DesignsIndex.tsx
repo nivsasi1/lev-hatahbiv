@@ -62,6 +62,56 @@ const DESIGNS: DesignEntry[] = [
     emoji: "🎨",
     swatch: "linear-gradient(135deg, #1a1030 0%, #1a1030 55%, #fdf3e0 55%)",
   },
+  {
+    num: "עיצוב 6",
+    to: "/design6",
+    name: "באוהאוס",
+    tag: "באוהאוס × ממפיס · Bauhaus",
+    desc: "צבעי יסוד נועזים, צורות גאומטריות חדות וקווים שובבים.",
+    emoji: "🔺",
+    swatch:
+      "linear-gradient(135deg, #e63946 0%, #e63946 34%, #f4d03f 34%, #f4d03f 67%, #2a6f97 67%)",
+  },
+  {
+    num: "עיצוב 7",
+    to: "/design7",
+    name: "תמונה מלאה",
+    tag: "פוטוגרפי · Full-Bleed",
+    desc: "צילום מוצרים מקצה לקצה, שכבות הצללה קולנועיות וטיפוגרפיה שקטה.",
+    emoji: "📷",
+    swatch:
+      "linear-gradient(160deg, #2d3142 0%, #4f5d75 55%, #bfc0c0 100%)",
+  },
+  {
+    num: "עיצוב 8",
+    to: "/design8",
+    name: "קולאז'",
+    tag: "ריזוגרף · Riso Zine",
+    desc: "נייר חתוך בדואוטון, שדות נקודות הַלפטון וכותרת בהדפסת-יתר.",
+    emoji: "✂️",
+    swatch:
+      "radial-gradient(circle at 30% 35%, rgba(255,90,138,0.7) 18%, transparent 19%), radial-gradient(circle at 65% 70%, rgba(46,94,168,0.65) 16%, transparent 17%), #f7f0e0",
+  },
+  {
+    num: "עיצוב 9",
+    to: "/design9",
+    name: "מחברת סקיצות",
+    tag: "רישום ביד · Sketchbook",
+    desc: "דף ממחברת אמן: נייר משובץ, מסגרות מצוירות ביד, דודלים וטושים.",
+    emoji: "✏️",
+    swatch:
+      "repeating-linear-gradient(#fffdf7 0 21px, #cfe0f0 21px 22px), linear-gradient(#fffdf7, #fffdf7)",
+  },
+  {
+    num: "עיצוב 10",
+    to: "/design10",
+    name: "Y2K",
+    tag: "כרום רטרו · Y2K Chrome",
+    desc: "שנות ה-2000: כותרת מתכת נוזלית, כפתורי בועה מבריקים ופאנלים הולוגרפיים.",
+    emoji: "💿",
+    swatch:
+      "linear-gradient(135deg, #c9d6ff 0%, #eaeaea 30%, #b8c6db 55%, #f5e6ff 78%, #c9f0ff 100%)",
+  },
 ];
 
 export const DesignsIndex = () => (
