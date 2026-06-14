@@ -351,3 +351,29 @@
     display: none !important;
   }
 }
+
+/* ===========================================================================
+   PAINT TRAIL — a full-viewport canvas the MainHome rAF loop draws colourful
+   droplets on (flicked off the cursor, falling with gravity, fading). Internal
+   pixel size is set in JS (dpr-aware); CSS just scales it to the viewport.
+   pointer-events:none, real-mouse-only, off under reduced motion.
+   =========================================================================== */
+.main-home .mh-trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4; /* with the glow, above section backgrounds, below the header */
+  pointer-events: none;
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .main-home .mh-trail {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-home .mh-trail {
+    display: none !important;
+  }
+}

@@ -389,7 +389,7 @@ button {
 .cat-track-inner {
   display: flex;
   align-items: stretch;
-  gap: 0.45rem;
+  gap: 0.38rem;
   flex: 1 0 auto; /* fill the track; never shrink below content */
   min-width: max-content; /* → overflow + scroll when the row can't fit */
   /* a touch of vertical padding so the chip shadows aren't clipped */
@@ -416,9 +416,9 @@ button {
   white-space: nowrap;
   font-family: inherit;
   font-weight: 700;
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   cursor: pointer;
-  padding: 0.3em 0.72em;
+  padding: 0.3em 0.62em;
   border-radius: 2em;
   border: 2px solid var(--ink);
   background: var(--card);
