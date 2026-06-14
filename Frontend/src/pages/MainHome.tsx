@@ -197,10 +197,11 @@ export default () => {
     // -- shared rAF loop: spring each button toward its target ----------------
     let raf = 0;
     const tick = () => {
-      // glow: ease the shine toward the cursor (gentle trail)
+      // glow: ease the shine toward the cursor — snappy so the small glow stays
+      // right at the pointer with just a hint of trail.
       if (glowSeen) {
-        glowX += (glowTX - glowX) * 0.12;
-        glowY += (glowTY - glowY) * 0.12;
+        glowX += (glowTX - glowX) * 0.2;
+        glowY += (glowTY - glowY) * 0.2;
         el.style.setProperty("--mx", glowX.toFixed(1) + "px");
         el.style.setProperty("--my", glowY.toFixed(1) + "px");
       }

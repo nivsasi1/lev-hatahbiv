@@ -462,11 +462,17 @@ button {
   transform: rotate(180deg);
 }
 
-/* ‹ › edge scroll buttons — hidden on desktop entirely (everything fits in a
-   straight line there). On small screens they appear only when the row really
-   overflows (.show, toggled from canStart/canEnd in JS). */
+/* ‹ › edge scroll buttons. ABSOLUTELY positioned (overlaid on the track edges,
+   OUT of flow) so showing/hiding them never changes the track width — otherwise
+   an arrow steals width, the stretchy row can't shrink back, and the arrow
+   self-justifies the overflow it just created. They appear only when the row
+   really overflows (.show, toggled from canStart/canEnd in JS) — i.e. on small
+   screens. On desktop everything fits, so they stay hidden and the row stretches
+   edge-to-edge. */
 .cat-scroll-btn {
-  flex: 0 0 auto;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 1.9rem;
   height: 1.9rem;
   display: none; /* base + desktop: never shown, even with .show */
@@ -481,17 +487,18 @@ button {
   background: var(--card);
   color: var(--ink);
   box-shadow: 0.15em 0.15em 0 var(--shadow);
-  transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+  transition: background 0.12s ease, color 0.12s ease;
+  z-index: 3; /* sits over the edge chips when scrolling */
 }
 .cat-scroll-btn:hover {
   background: var(--ink);
   color: #fff;
 }
 .cat-scroll-btn.start {
-  margin-inline-end: 0.35rem;
+  inset-inline-start: 0; /* RTL → right edge */
 }
 .cat-scroll-btn.end {
-  margin-inline-start: 0.35rem;
+  inset-inline-end: 0; /* RTL → left edge */
 }
 /* arrows appear only when the row actually overflows (.show is toggled from
    canStart/canEnd in JS). On desktop everything fits, so they stay hidden. */

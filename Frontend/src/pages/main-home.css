@@ -320,20 +320,21 @@
   /* a soft circular halo that is MOVED with transform (compositor-only, no
      per-frame repaint of a full-screen gradient → smooth on weak hardware). The
      negative margins centre the circle on the translate point (the cursor). */
-  /* a tight, brighter halo that hugs the cursor — "the cursor glows a little" */
-  width: 18rem;
-  height: 18rem;
-  margin-top: -9rem;
-  margin-left: -9rem;
+  /* a small, refined luminous glow right at the cursor — bright warm core that
+     falls off fast (the bright part is ~1rem), with a faint soft halo. */
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-top: -2.25rem;
+  margin-left: -2.25rem;
   z-index: 4; /* above section backgrounds, below the sticky header (70+) */
   pointer-events: none;
   display: none; /* enabled only for real pointers (hover media below) */
   background: radial-gradient(
     circle,
-    rgba(224, 159, 62, 0.32) 0%,
-    rgba(224, 159, 62, 0.18) 38%,
-    rgba(123, 63, 191, 0.08) 62%,
-    transparent 76%
+    rgba(255, 234, 199, 0.6) 0%,
+    rgba(236, 178, 92, 0.42) 22%,
+    rgba(224, 159, 62, 0.16) 46%,
+    transparent 70%
   );
   transform: translate3d(var(--mx, 50vw), var(--my, 38vh), 0);
   will-change: transform;

@@ -205,7 +205,9 @@ export const Header = () => {
       return;
     }
     const max = el.scrollWidth - el.clientWidth;
-    if (max <= 1) {
+    // tolerate a few px of sub-pixel rounding so a stretched-to-fill row (which
+    // can round ~1-2px over) doesn't spuriously show a scroll arrow.
+    if (max <= 3) {
       setCanStart(false);
       setCanEnd(false);
       return;
@@ -235,16 +237,28 @@ export const Header = () => {
     return () => el.removeEventListener("wheel", onWheel);
   }, [refreshScroll]);
 
-  // keep affordances in sync with track scroll + viewport resize
+  // keep affordances in sync with track scroll + viewport resize. A
+  // ResizeObserver also re-checks whenever the track OR its inner row changes
+  // size — crucial because the row stretches to fill once the shell settles to
+  // its final width, which would otherwise leave a stale arrow from the first,
+  // momentarily-narrow paint.
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     refreshScroll();
     el.addEventListener("scroll", refreshScroll, { passive: true });
     window.addEventListener("resize", refreshScroll);
+    let ro: ResizeObserver | undefined;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => refreshScroll());
+      ro.observe(el);
+      const inner = el.firstElementChild;
+      if (inner) ro.observe(inner);
+    }
     return () => {
       el.removeEventListener("scroll", refreshScroll);
       window.removeEventListener("resize", refreshScroll);
+      ro?.disconnect();
     };
   }, [refreshScroll]);
 
