@@ -30,6 +30,11 @@ import DesignGradC from "./pages/Design-grad-c";
 import DesignTouch from "./pages/Design-touch";
 import DesignAura from "./pages/Design-aura";
 import DesignSunset from "./pages/Design-sunset";
+// Cursor-effect variants: the production homepage with different cursor motion.
+import DesignCursorGlow from "./pages/Design-cursor-glow";
+import DesignCursorSparks from "./pages/Design-cursor-sparks";
+import DesignCursorBrush from "./pages/Design-cursor-brush";
+import DesignCursorDrip from "./pages/Design-cursor-drip";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -85,6 +90,10 @@ const router = createBrowserRouter(
         { path: "/design11", element: <DesignTouch /> },
         { path: "/design12", element: <DesignAura /> },
         { path: "/design13", element: <DesignSunset /> },
+        { path: "/design14", element: <DesignCursorGlow /> },
+        { path: "/design15", element: <DesignCursorSparks /> },
+        { path: "/design16", element: <DesignCursorBrush /> },
+        { path: "/design17", element: <DesignCursorDrip /> },
         { path: "*", element: <HomePage /> },
       ],
     },

@@ -99,6 +99,52 @@ const DESIGNS: DesignEntry[] = [
     swatch:
       "linear-gradient(160deg, #f4a261 0%, #ef8354 36%, #e07a5f 62%, #d98b7a 100%)",
   },
+  // --- Cursor-motion options: the SAME homepage, four different cursor effects
+  //     to choose between. Move the mouse on each to feel it.
+  {
+    num: "סמן · זוהר",
+    to: "/design14",
+    name: "זוהר רך",
+    tag: "אנימציית סמן · Glow",
+    desc: "עמוד הבית עם זוהר חמים קטן ועדין שעוקב אחרי העכבר — נקודת אור רכה. הזיזו את העכבר כדי להרגיש.",
+    emoji: "🔆",
+    badge: "חדש · סמן",
+    swatch:
+      "radial-gradient(circle at 50% 46%, rgba(255,234,199,0.95), rgba(224,159,62,0.55) 26%, transparent 60%), #1a1030",
+  },
+  {
+    num: "סמן · ניצוצות",
+    to: "/design15",
+    name: "ניצוצות",
+    tag: "אנימציית סמן · Sparks",
+    desc: "ניצוצות זהב נוצצים שעפים מהעכבר בכל תנועה, מנצנצים לרגע ונעלמים — קסום וקליל.",
+    emoji: "✨",
+    badge: "חדש · סמן",
+    swatch:
+      "radial-gradient(circle at 28% 30%, #fff, transparent 5%), radial-gradient(circle at 64% 50%, #ffe7b0, transparent 6%), radial-gradient(circle at 44% 72%, #e09f3e, transparent 7%), radial-gradient(circle at 80% 78%, #fff, transparent 4%), #20143a",
+  },
+  {
+    num: "סמן · מכחול",
+    to: "/design16",
+    name: "מכחול",
+    tag: "אנימציית סמן · Brush",
+    desc: "משיכת מכחול צבעונית וזורמת שנגררת אחרי הסמן — עבה כשאיטי, דקה כשמהיר — ומתמוססת לאט.",
+    emoji: "🖌️",
+    badge: "חדש · סמן",
+    swatch:
+      "linear-gradient(120deg, #7b3fbf 0%, #d94f70 34%, #e09f3e 64%, #2a9d8f 100%)",
+  },
+  {
+    num: "סמן · טיפות",
+    to: "/design17",
+    name: "טיפות צבע",
+    tag: "אנימציית סמן · Drip",
+    desc: "טיפות צבע צבעוניות שנושרות מהסמן בכוח הכבידה, מותירות נטיפה דקה שזולגת — ונמוגות.",
+    emoji: "🎨",
+    badge: "חדש · סמן",
+    swatch:
+      "linear-gradient(180deg, #fdf3e0 0 38%, #e2574c 38% 45%, #fdf3e0 45% 56%, #7b3fbf 56% 63%, #fdf3e0 63% 74%, #2a9d8f 74% 81%, #fdf3e0 81%)",
+  },
 ];
 
 export const DesignsIndex = () => (

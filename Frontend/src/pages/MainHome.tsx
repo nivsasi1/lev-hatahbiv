@@ -78,9 +78,10 @@ const shelfFor = (slug: string) => siteSettings.shelfImages[slug];
 // mosaic rhythm: 1 big, 1 wide, then standard tiles
 const tileClass = (i: number) => (i === 0 ? "big" : i === 1 ? "wide" : "std");
 
-export default () => {
+// `cursorFx` is an optional cursor-effect element rendered as an overlay — used
+// only by the /designs preview variants. The live homepage passes nothing.
+export default ({ cursorFx }: { cursorFx?: any }) => {
   const ref = useRef<HTMLElement>(null);
-  const trailRef = useRef<HTMLCanvasElement>(null);
 
   /* ---------------------------------------------------------------------------
      Micro-interactions (design 11), all scoped to this <main>:
@@ -149,23 +150,7 @@ export default () => {
     const RADIUS = 110; // px proximity at which the pull begins
     const PULL = 0.3; // fraction of the offset followed
 
-    // cursor glow: target = the live pointer; the tick loop lerps toward it so
-    // the shine trails the cursor smoothly. Stays at the CSS default centre
-    // until the pointer first moves.
-    let glowTX = 0;
-    let glowTY = 0;
-    let glowX = 0;
-    let glowY = 0;
-    let glowSeen = false;
-
     const onPointerMove = (e: PointerEvent) => {
-      glowTX = e.clientX;
-      glowTY = e.clientY;
-      if (!glowSeen) {
-        glowX = glowTX;
-        glowY = glowTY;
-        glowSeen = true;
-      }
       for (const m of mags) {
         const r = m.node.getBoundingClientRect();
         const mx = r.left + r.width / 2;
@@ -195,109 +180,9 @@ export default () => {
       window.removeEventListener("blur", onBlur);
     });
 
-    // -- 3) ART "PAINT" TRAIL --------------------------------------------------
-    // Colourful droplets flick off the cursor as it moves, fall with gravity
-    // (a little drip streak), then fade. Canvas, pointer-events:none, only on a
-    // real mouse. chrome70-safe (2D canvas; no feTurbulence / blend / filter).
-    type Drop = {
-      x: number; y: number; px: number; py: number;
-      vx: number; vy: number; r: number; color: string; age: number; life: number;
-    };
-    const drops: Drop[] = [];
-    const ART = [
-      "#e2574c", "#4f9dd0", "#3f5fbf", "#2a9d8f",
-      "#e09f3e", "#d94f70", "#6a994e", "#7b3fbf",
-    ];
-    const canvas = trailRef.current;
-    const ctx = canvas ? canvas.getContext("2d") : null;
-    const finePointer = window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
-    ).matches;
-
-    const sizeCanvas = () => {
-      if (!canvas || !ctx) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    let pmX = 0, pmY = 0, pmSeen = false;
-    const spawn = (x: number, y: number, speed: number) => {
-      if (drops.length > 90) return;
-      const n = speed > 28 ? 2 : 1;
-      for (let i = 0; i < n; i++) {
-        const ang = Math.random() * Math.PI * 2;
-        const sp = 0.4 + Math.random() * 1.5;
-        drops.push({
-          x, y, px: x, py: y,
-          vx: Math.cos(ang) * sp,
-          vy: Math.sin(ang) * sp - 0.5, // slight upward flick before gravity
-          r: 2.2 + Math.random() * 3.4,
-          color: ART[(Math.random() * ART.length) | 0],
-          age: 0,
-          life: 44 + ((Math.random() * 34) | 0),
-        });
-      }
-    };
-
-    if (ctx && canvas && finePointer) {
-      sizeCanvas();
-      window.addEventListener("resize", sizeCanvas);
-      const onTrailMove = (e: PointerEvent) => {
-        if (!pmSeen) { pmX = e.clientX; pmY = e.clientY; pmSeen = true; return; }
-        const sp = Math.hypot(e.clientX - pmX, e.clientY - pmY);
-        pmX = e.clientX; pmY = e.clientY;
-        if (sp > 4) spawn(e.clientX, e.clientY, sp);
-      };
-      window.addEventListener("pointermove", onTrailMove, { passive: true });
-      cleanups.push(() => {
-        window.removeEventListener("resize", sizeCanvas);
-        window.removeEventListener("pointermove", onTrailMove);
-      });
-    }
-
     // -- shared rAF loop: spring each button toward its target ----------------
     let raf = 0;
     const tick = () => {
-      // glow: ease the shine toward the cursor — snappy so the small glow stays
-      // right at the pointer with just a hint of trail.
-      if (glowSeen) {
-        glowX += (glowTX - glowX) * 0.2;
-        glowY += (glowTY - glowY) * 0.2;
-        el.style.setProperty("--mx", glowX.toFixed(1) + "px");
-        el.style.setProperty("--my", glowY.toFixed(1) + "px");
-      }
-
-      // paint trail: update + draw the droplets (gravity + drip streak + fade)
-      if (ctx && canvas) {
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        ctx.lineCap = "round";
-        for (let i = drops.length - 1; i >= 0; i--) {
-          const d = drops[i];
-          d.px = d.x; d.py = d.y;
-          d.vy += 0.16; // gravity
-          d.vx *= 0.99;
-          d.x += d.vx; d.y += d.vy;
-          d.age++;
-          const a = 1 - d.age / d.life;
-          if (a <= 0) { drops.splice(i, 1); continue; }
-          ctx.globalAlpha = a;
-          ctx.fillStyle = d.color;
-          ctx.strokeStyle = d.color;
-          // thin drip streak from the previous position
-          ctx.lineWidth = d.r * 0.85;
-          ctx.beginPath();
-          ctx.moveTo(d.px, d.py);
-          ctx.lineTo(d.x, d.y);
-          ctx.stroke();
-          // droplet head
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.globalAlpha = 1;
-      }
       for (const m of mags) {
         m.tx += (m.cx - m.tx) * 0.16;
         m.ty += (m.cy - m.ty) * 0.16;
@@ -326,11 +211,9 @@ export default () => {
 
   return (
     <main className="page-main ph-home main-home" ref={ref}>
-      {/* subtle warm glow that trails the cursor (rAF-lerped --mx/--my; only on
-          hover-capable pointers + motion allowed — see main-home.css) */}
-      <div className="mh-glow" aria-hidden="true" />
-      {/* art "paint" trail — colourful droplets flick off the cursor on move */}
-      <canvas className="mh-trail" aria-hidden="true" ref={trailRef} />
+      {/* optional cursor effect — only the /designs preview variants pass one;
+          the live homepage renders nothing here. */}
+      {cursorFx}
 
       {/* ---------- 1) HERO — current split hero (shrunk field + centred logo) ---------- */}
       <section className="hero">
