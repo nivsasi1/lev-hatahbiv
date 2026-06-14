@@ -105,10 +105,11 @@ export default function CursorBrushPointer() {
 
   if (!enabled) return null;
 
-  // Oriented like a real pointer: the bristle TIP is at SVG (4,4) — top-left —
-  // and the thin handle runs down to the bottom-right. Rendered at HALF the
-  // viewBox size (28px / 56 units = 0.5), so the tip at (4,4) lands at 2px; the
-  // SVG is shifted by (-2,-2) so the tip sits exactly on the hotspot.
+  // A classic paintbrush icon (bulbous loaded-paint head + ferrule + tapered
+  // handle), drawn already rotated 90° clockwise into a pointer orientation: the
+  // bristle TIP is at SVG (6,6) — top-left = the hotspot — and the handle runs to
+  // the bottom-right. Rendered at 38px / 64 units (~0.594), so (6,6) lands at
+  // ~3.6px and the SVG is shifted by (-3.6,-3.6) to seat the tip on the hotspot.
   return (
     <div
       ref={wrapRef}
@@ -125,23 +126,22 @@ export default function CursorBrushPointer() {
       }}
     >
       <svg
-        width="34"
-        height="34"
-        viewBox="0 0 56 56"
-        style={{ display: "block", transform: "translate(-2.4px,-2.4px)", overflow: "visible" }}
+        width="38"
+        height="38"
+        viewBox="0 0 64 64"
+        style={{ display: "block", transform: "translate(-3.6px,-3.6px)", overflow: "visible" }}
       >
-        {/* wooden handle — runs to the BOTTOM-RIGHT (held end) */}
-        <line x1="31" y1="31" x2="50" y2="50" stroke="#8f4f24" stroke-width="7.5" stroke-linecap="round" />
-        <line x1="32" y1="32" x2="48" y2="48" stroke="#c89456" stroke-width="3" stroke-linecap="round" />
-        {/* metal ferrule — band at the neck */}
-        <line x1="21" y1="35" x2="35" y2="21" stroke="#aeb4ba" stroke-width="10" stroke-linecap="round" />
-        <line x1="22" y1="34" x2="34" y2="22" stroke="#e9ecee" stroke-width="3.2" />
-        {/* LONG, FAT tapered bristle tuft narrowing to a fine point at (4,4) = hotspot */}
-        <path d="M4 4 C 21 9, 27 17, 31 31 C 17 27, 9 21, 4 4 Z" fill="#2f2a40" />
-        <path ref={tipRef} d="M4 4 C 18 11, 23 16, 28 28 C 16 23, 11 18, 4 4 Z" fill="#7b3fbf" />
-        {/* a couple of hairs for brush texture */}
-        <path d="M5 5 L24 25" stroke="rgba(255,255,255,0.42)" stroke-width="1.1" fill="none" />
-        <path d="M9 4 L27 22" stroke="rgba(0,0,0,0.15)" stroke-width="1.1" fill="none" />
+        {/* tapered handle — a long lance to the BOTTOM-RIGHT */}
+        <path d="M28 34 L34 28 L62 62 Z" fill="#2b2440" />
+        {/* bulbous bristle head, loaded with paint, tip at (6,6) = hotspot */}
+        <path
+          ref={tipRef}
+          d="M6 6 C 1 15 3 25 13 31 C 22 37 32 33 34 24 C 36 15 27 9 6 6 Z"
+          fill="#7b3fbf"
+        />
+        {/* metal ferrule band across the neck */}
+        <line x1="25" y1="39" x2="39" y2="25" stroke="#aeb4ba" stroke-width="7" stroke-linecap="round" />
+        <line x1="26" y1="38" x2="38" y2="26" stroke="#eef0f2" stroke-width="2.4" />
       </svg>
     </div>
   );
