@@ -75,8 +75,10 @@ const fresh = (
 // shelf photo for a category tile — manager-editable map, never product photos
 const shelfFor = (slug: string) => siteSettings.shelfImages[slug];
 
-// mosaic rhythm: 1 big, 1 wide, then standard tiles
-const tileClass = (i: number) => (i === 0 ? "big" : i === 1 ? "wide" : "std");
+// mosaic rhythm: 1 big (2 rows tall) + 2 wide tiles stacked beside it, then
+// standard tiles. The two wides fill the 3 columns left of the big tile on both
+// of its rows, so the 6-col grid tiles cleanly with no orphaned gap.
+const tileClass = (i: number) => (i === 0 ? "big" : i <= 2 ? "wide" : "std");
 
 // `cursorFx` is an optional cursor-effect element rendered as an overlay — used
 // only by the /designs preview variants. The live homepage passes nothing.
