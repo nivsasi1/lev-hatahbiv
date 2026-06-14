@@ -204,6 +204,7 @@ export const AdminPage = () => {
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const [query, setQuery] = useState("");
   const [limit, setLimit] = useState(30);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -969,7 +970,9 @@ export const AdminPage = () => {
           className="admin-login"
           onSubmit={(e: any) => {
             e.preventDefault();
+            if (loggingIn) return;
             const fd = new FormData(e.target);
+            setLoggingIn(true);
             act(async () => {
               const res = await fetch(`${API}/login`, {
                 method: "POST",
@@ -980,21 +983,22 @@ export const AdminPage = () => {
                 }),
               });
               const data = await res.json().catch(() => ({}));
-              if (!res.ok) throw new Error(data.error || "שגיאת התחברות");
+              if (!res.ok) throw new Error(data.error || "שם משתמש או סיסמה שגויים");
               // see "JWT storage strategy" comment at the top of this file
               sessionStorage.setItem(TOKEN_KEY, data.token);
               setToken(data.token);
-            });
+            }).finally(() => setLoggingIn(false));
           }}
         >
-          <input name="username" placeholder="שם משתמש" required />
-          <input name="password" type="password" placeholder="סיסמה" required />
-          <button className="btn" type="submit">
-            כניסה
+          <input name="username" placeholder="שם משתמש" required disabled={loggingIn} />
+          <input name="password" type="password" placeholder="סיסמה" required disabled={loggingIn} />
+          <button className="btn" type="submit" disabled={loggingIn}>
+            {loggingIn ? "מתחבר…" : "כניסה"}
           </button>
           {error && <p className="admin-error">{error}</p>}
           <p className="order-note">
-            הדשבורד עובד רק במחשב של החנות (השרת המקומי חייב לרוץ).
+            בכניסה הראשונה אחרי הפסקה, השרת מתעורר — ההתחברות עשויה לקחת עד דקה.
+            המתינו ל״מתחבר…״ ואל תסגרו את החלון.
           </p>
         </form>
         </div>
