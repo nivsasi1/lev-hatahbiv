@@ -1,0 +1,142 @@
+/* ===========================================================================
+   Design variant 5 — "Constellation"
+   The CursorConstellation canvas IS the background AND the cursor: drifting
+   star dots + faint neighbour links + bright cursor node, all on one fixed
+   full-page canvas (zIndex 5, pointer-events:none). This stylesheet only sets
+   the LIGHT, airy gradient stage the constellation floats over, plus a few soft
+   accent washes. Everything is scoped under .dz5-root.
+
+   Hard-machine safe: no feTurbulence/SVG-filter backgrounds, no mix-blend-mode,
+   no backdrop-filter, no CSS filter on large areas. chrome70-safe: no :has(),
+   no container queries, no color-mix(); only transform/opacity/background-
+   position are animated. -webkit- pairs included for clip-path where the base
+   theme already uses it (inherited, not re-declared here).
+   =========================================================================== */
+
+/* ---- full-page airy backdrop sitting BEHIND everything (z-index:-1) -------- */
+.dz5-root {
+  position: relative;
+}
+.dz5-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* very pale lavender→blue wash, lightest at the top where the hero sits */
+  background: linear-gradient(
+      180deg,
+      #f6f3fc 0%,
+      #f3f1fb 30%,
+      #f4f6fc 70%,
+      #f7f5fb 100%
+    ),
+    radial-gradient(
+      80% 55% at 22% 8%,
+      rgba(123, 63, 191, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(
+      70% 50% at 88% 4%,
+      rgba(79, 157, 208, 0.07),
+      transparent 70%
+    );
+}
+
+/* ---- HERO: the light, animated constellation stage ------------------------ */
+/* A soft lavender/blue gradient that slowly breathes via background-position.
+   The drifting dots + cursor links are painted by the canvas on top. */
+.dz5-root .hero {
+  background: transparent;
+}
+
+.dz5-root .hero-stage {
+  position: relative;
+  background:
+    radial-gradient(
+      120% 90% at 50% 0%,
+      rgba(255, 255, 255, 0.85),
+      rgba(255, 255, 255, 0) 60%
+    ),
+    linear-gradient(
+      135deg,
+      #efe9fb 0%,
+      #eaf0fb 28%,
+      #f3eefb 52%,
+      #e9f1fa 76%,
+      #f1ecfb 100%
+    );
+  background-size: 100% 100%, 220% 220%;
+  background-position: 50% 0%, 0% 50%;
+  animation: dz5-stage-drift 26s ease-in-out infinite alternate;
+}
+
+/* soft corner glows on the stage for depth (kept pale, pointer-events:none) */
+.dz5-root .hero-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      48% 40% at 12% 88%,
+      rgba(63, 95, 191, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      46% 38% at 90% 12%,
+      rgba(217, 79, 112, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 34% at 78% 92%,
+      rgba(42, 157, 143, 0.08),
+      transparent 70%
+    );
+  animation: dz5-glow-breathe 14s ease-in-out infinite alternate;
+}
+
+/* keep the logo + CTAs above the stage washes (canvas is faint & on top, but
+   the page content must out-rank the ::after glow) */
+.dz5-root .hero-stage-inner {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes dz5-stage-drift {
+  0% {
+    background-position: 50% 0%, 0% 50%;
+  }
+  100% {
+    background-position: 50% 0%, 100% 50%;
+  }
+}
+
+@keyframes dz5-glow-breathe {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+/* ---- DARK statement field: keep it readable -------------------------------
+   The base .hero-field is dark with white text — that contrasts nicely with the
+   light stage, so we leave its text white and just give it a faint lavender
+   star speckle that echoes the constellation. No lightening, so no text-colour
+   change needed. */
+.dz5-root .hero-field {
+  position: relative;
+}
+
+/* ---- reduced motion: hold the airy gradients still ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .dz5-root .hero-stage,
+  .dz5-root .hero-stage::after {
+    animation: none;
+  }
+}

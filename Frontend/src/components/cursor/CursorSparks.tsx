@@ -86,7 +86,7 @@ export default function CursorSparks() {
     const emit = (x: number, y: number, speed: number) => {
       // faster moves spit more sparks; slow drifts barely glitter
       const count =
-        speed > 9 ? 4 : speed > 4.5 ? 3 : speed > 1.4 ? 2 : Math.random() < 0.4 ? 1 : 0;
+        speed > 12 ? 2 : speed > 5 ? 1 : Math.random() < 0.16 ? 1 : 0;
       for (let i = 0; i < count; i++) {
         if (sparks.length >= MAX) sparks.shift();
         // mostly gold/white; ~1 in 5 a palette colour for a touch of magic
@@ -143,7 +143,7 @@ export default function CursorSparks() {
         const dx = mx - lastMx;
         const dy = my - lastMy;
         const speed = Math.hypot(dx, dy);
-        if (speed > 0.5) emit(mx, my, speed);
+        if (speed > 1.4) emit(mx, my, speed);
         lastMx = mx;
         lastMy = my;
         moved = false;

@@ -1,0 +1,400 @@
+/* ============================================================================
+   design-bg4.css — "זכוכית" (Glass) · soft GLASSMORPHISM hero variant
+   ----------------------------------------------------------------------------
+   Wraps <MainHome/> (.dz4-root). The HERO becomes a piece of frosted glass over
+   a gentle, slowly-shifting light pastel gradient (lavender → peach → sky).
+   Translucent FROSTED PANELS float and parallax over the gradient; the look is
+   FAKED with layered rgba fills, bright top/left highlight borders, and big soft
+   shadows. The dark statement field is re-cast as a clean white glass panel with
+   DARK text so it reads as light & airy too.
+
+   Inspired by Apple's "Liquid Glass" (WWDC 2025): layered translucent surfaces
+   with bright highlight edges over soft colour.
+
+   HARD CONSTRAINTS honoured: NO feTurbulence/SVG-filter backgrounds, NO
+   mix-blend-mode, NO backdrop-filter, NO CSS filter on large areas. Only
+   transform / opacity / background-position are animated.
+   chrome70-safe: flex/grid/custom-props/transform/transition/@keyframes/
+   linear+radial gradients/-webkit-paired clip-path. NO :has()/container-queries/
+   color-mix()/native-nesting.
+
+   Every selector is scoped under .dz4-root; every @keyframes is named dz4-*.
+   Soft palette: lavender #ece7fb · lilac #e4dcff · peach #ffe7d6 · apricot
+   #ffd9c2 · sky #d9ecff · powder #e3f2ff · mint #dff3ee · white-glass
+   rgba(255,255,255,..). Accents (sparing): #7b3fbf #4f9dd0 #e09f3e #d94f70.
+   ========================================================================== */
+
+.dz4-root {
+  position: relative;
+  --dz4-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   FIXED full-page airy backdrop — a very light pastel wash behind everything,
+   slowly drifting. Sits at z-index:-1 so all real content floats above it.
+   ------------------------------------------------------------------------- */
+.dz4-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(46% 52% at 16% 18%, rgba(228, 220, 255, 0.55), transparent 70%),
+    radial-gradient(44% 50% at 86% 22%, rgba(255, 217, 194, 0.5), transparent 70%),
+    radial-gradient(50% 56% at 80% 86%, rgba(217, 236, 255, 0.55), transparent 72%),
+    radial-gradient(46% 52% at 14% 88%, rgba(223, 243, 238, 0.5), transparent 72%),
+    linear-gradient(160deg, #fbf8ff 0%, #fdf4ef 50%, #f3f8ff 100%);
+  background-size: 160% 160%, 160% 160%, 160% 160%, 160% 160%, 200% 200%;
+  background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%;
+  animation: dz4-backdrop 34s ease-in-out infinite alternate;
+}
+@keyframes dz4-backdrop {
+  from {
+    background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%;
+  }
+  to {
+    background-position: 8% 6%, 92% 8%, 92% 92%, 8% 94%, 44% 56%;
+  }
+}
+
+/* ===========================================================================
+   HERO STAGE — the glassmorphism showpiece.
+   A slowly-shifting light pastel gradient (lavender → peach → sky), plus two
+   floating frosted panels (::before / ::after) that drift + parallax over it.
+   =========================================================================== */
+.dz4-root .hero {
+  position: relative;
+}
+
+.dz4-root .hero-stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 80% at 22% 16%, rgba(232, 224, 255, 0.85), transparent 62%),
+    radial-gradient(58% 78% at 84% 24%, rgba(255, 224, 205, 0.8), transparent 60%),
+    radial-gradient(64% 82% at 78% 88%, rgba(214, 234, 255, 0.85), transparent 64%),
+    radial-gradient(60% 78% at 14% 90%, rgba(223, 243, 238, 0.78), transparent 64%),
+    linear-gradient(135deg, #efe9ff 0%, #ffeede 38%, #e9f3ff 72%, #f2ecff 100%);
+  background-size:
+    150% 150%, 150% 150%, 150% 150%, 150% 150%, 240% 240%;
+  background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%;
+  animation: dz4-stage 30s ease-in-out infinite alternate;
+}
+@keyframes dz4-stage {
+  from {
+    background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%;
+  }
+  to {
+    background-position: 10% 8%, 90% 10%, 88% 90%, 10% 92%, 100% 50%;
+  }
+}
+
+/* keep the logo + CTAs above the floating panels */
+.dz4-root .hero-stage-inner {
+  position: relative;
+  z-index: 3;
+}
+
+/* ---------------------------------------------------------------------------
+   Two floating FROSTED PANELS on the stage (pseudo-elements). Each is a big
+   rounded translucent white card with a bright top/left highlight border and a
+   soft large shadow; they drift + parallax slowly. Faked glass — pure rgba.
+   ------------------------------------------------------------------------- */
+.dz4-root .hero-stage::before,
+.dz4-root .hero-stage::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 30px;
+  /* translucent frosted fill + a soft inner sheen from the top-left */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.62) 0%,
+      rgba(255, 255, 255, 0.4) 46%,
+      rgba(255, 255, 255, 0.28) 100%
+    );
+  /* bright top/left highlight border + dimmer bottom/right + big soft shadow,
+     plus a faint inner top highlight line for the glass edge */
+  border-top: 1px solid rgba(255, 255, 255, 0.85);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 24px 60px rgba(123, 63, 191, 0.16),
+    0 6px 18px rgba(79, 157, 208, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 0 36px rgba(255, 255, 255, 0.28);
+  will-change: transform;
+}
+/* panel 1 — large, upper-left, slow lateral drift */
+.dz4-root .hero-stage::before {
+  top: -7%;
+  left: -5%;
+  width: 38%;
+  height: 62%;
+  transform: rotate(-7deg);
+  animation: dz4-panel-1 19s ease-in-out infinite alternate;
+}
+/* panel 2 — medium, lower-right, gentle counter-drift */
+.dz4-root .hero-stage::after {
+  bottom: -9%;
+  right: -4%;
+  width: 32%;
+  height: 56%;
+  border-radius: 26px;
+  transform: rotate(8deg);
+  animation: dz4-panel-2 23s ease-in-out infinite alternate;
+}
+@keyframes dz4-panel-1 {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1);
+  }
+  to {
+    transform: translate3d(7%, 5%, 0) rotate(-4deg) scale(1.05);
+  }
+}
+@keyframes dz4-panel-2 {
+  from {
+    transform: translate3d(0, 0, 0) rotate(8deg) scale(1.02);
+  }
+  to {
+    transform: translate3d(-6%, -5%, 0) rotate(5deg) scale(0.97);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   A THIRD floating panel as a real element would be ideal, but the hero markup
+   is fixed; instead we add a small extra frosted "chip" behind the splats via
+   the .hero-stage-inner's stacking — done purely with a third drifting layer
+   painted on .hero (its own ::before), parallaxing at a different rate.
+   ------------------------------------------------------------------------- */
+.dz4-root .hero {
+  overflow: hidden;
+}
+.dz4-root .hero::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  top: 38%;
+  left: 40%;
+  width: 22%;
+  height: 38%;
+  border-radius: 24px;
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.3) 60%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 18px 44px rgba(217, 79, 112, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transform: rotate(-5deg);
+  animation: dz4-panel-3 27s ease-in-out infinite alternate;
+}
+@keyframes dz4-panel-3 {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-5deg) scale(0.98);
+  }
+  to {
+    transform: translate3d(5%, -7%, 0) rotate(-1deg) scale(1.04);
+  }
+}
+
+/* the logo keeps its soft float; give it a touch more drop so it lifts off
+   the glass (dark art on light pastel reads great as-is) */
+.dz4-root .hero-stage-inner .hero-logo img {
+  filter: drop-shadow(0 16px 26px rgba(91, 45, 142, 0.22));
+}
+/* sub copy: ensure it stays dark & readable on the light pastel */
+.dz4-root .hero-stage-inner .sub {
+  color: #4a4263;
+}
+
+/* ===========================================================================
+   STATEMENT FIELD — re-cast the dark field as a clean WHITE GLASS panel, and
+   switch its text to DARK so the whole hero stays light & airy. We override the
+   base dark background + the two dark decorative layers (::before grain stays
+   subtle; ::after dark glow is replaced with a soft pastel tint).
+   =========================================================================== */
+.dz4-root .hero-field {
+  background:
+    linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.66) 0%,
+      rgba(255, 255, 255, 0.46) 52%,
+      rgba(255, 255, 255, 0.36) 100%
+    );
+  color: #352b52;
+  border-top: 1px solid rgba(255, 255, 255, 0.85);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 24px 64px rgba(123, 63, 191, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 0 60px rgba(255, 255, 255, 0.3);
+}
+/* dim the white speckle (it was tuned for a dark field) */
+.dz4-root .hero-field::before {
+  opacity: 0.04;
+}
+/* replace the dark red/purple glow with a soft pastel one */
+.dz4-root .hero-field::after {
+  background:
+    radial-gradient(120% 80% at 18% 118%, rgba(217, 79, 112, 0.14), transparent 60%),
+    radial-gradient(110% 70% at 90% -10%, rgba(123, 63, 191, 0.14), transparent 55%);
+}
+/* statement words: dark ink, soft per-word fade-up on load (transform/opacity) */
+.dz4-root .hero-statement span {
+  color: #2f2750;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: dz4-word 0.7s var(--dz4-ease) forwards;
+}
+.dz4-root .hero-statement span:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.dz4-root .hero-statement span:nth-child(2) {
+  animation-delay: 0.22s;
+}
+.dz4-root .hero-statement span:nth-child(3) {
+  animation-delay: 0.34s;
+}
+.dz4-root .hero-statement span:nth-child(4) {
+  animation-delay: 0.46s;
+}
+/* the last word keeps a warm accent (was --gold; make it a soft amber) */
+.dz4-root .hero-statement span:last-child {
+  color: #d98b3a;
+}
+@keyframes dz4-word {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* the "since" block: dark text + a soft amber rule instead of the gold-on-dark */
+.dz4-root .hero-since {
+  border-top-color: rgba(217, 144, 58, 0.7);
+}
+.dz4-root .hero-since-num {
+  color: #2f2750;
+}
+.dz4-root .hero-since-sub {
+  color: #5a5174;
+  opacity: 0.92;
+}
+
+/* ===========================================================================
+   GLASS HERO CTAs — give the primary CTA a soft glass pill look that fits the
+   theme (the base .btn is dark ink; here we keep it readable + glassy on hover).
+   Only background/box-shadow/transform animate. (Magnetic offset comes from
+   MainHome's --mag-x/--mag-y; we don't override transform so it composes.)
+   =========================================================================== */
+.dz4-root .hero-ctas .hero-cta.btn {
+  transition: box-shadow 0.3s var(--dz4-ease), background 0.3s var(--dz4-ease);
+}
+.dz4-root .hero-ctas .hero-cta.btn:hover {
+  box-shadow:
+    0 14px 30px rgba(123, 63, 191, 0.26),
+    0 4px 10px rgba(79, 157, 208, 0.18);
+}
+.dz4-root .hero-link {
+  color: #5b2d8e;
+}
+
+/* ===========================================================================
+   BODY (.ph-*) POLISH — keep it light & cohesive. The body sections already use
+   warm paper/ink photographic styling; we lift the two light "visit" cards into
+   subtle glass and add gentle premium hovers. We DO NOT touch product photos
+   (no filter / no blend) and DO NOT lighten the dark photo bands (they stay).
+   =========================================================================== */
+
+/* visit cards → frosted glass */
+.dz4-root .ph-vcard {
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 16px 40px rgba(123, 63, 191, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.4s var(--dz4-ease), box-shadow 0.4s var(--dz4-ease);
+}
+.dz4-root .ph-vcard:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 24px 54px rgba(123, 63, 191, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* category mosaic tiles + product cards: smooth lift + gentle photo zoom
+   (transform only — never filters/blends over photos) */
+.dz4-root .ph-tile,
+.dz4-root .p-card {
+  transition: transform 0.4s var(--dz4-ease), box-shadow 0.4s var(--dz4-ease);
+}
+.dz4-root .ph-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 48px rgba(91, 45, 142, 0.2);
+}
+.dz4-root .p-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px rgba(79, 157, 208, 0.2);
+}
+.dz4-root .ph-tile img {
+  transition: transform 0.6s var(--dz4-ease);
+}
+.dz4-root .ph-tile:hover img {
+  transform: scale(1.05);
+}
+
+/* the eyebrow labels pick up a soft brand tint to tie the variant together */
+.dz4-root .ph-eyebrow {
+  color: #7b3fbf;
+}
+
+/* ===========================================================================
+   RESPONSIVE — below 760px the hero stacks; ease the floating panels so they
+   don't crowd the logo on small screens.
+   =========================================================================== */
+@media (max-width: 760px) {
+  .dz4-root .hero-stage::before {
+    width: 46%;
+    height: 40%;
+    top: -4%;
+  }
+  .dz4-root .hero-stage::after {
+    width: 42%;
+    height: 36%;
+  }
+  .dz4-root .hero::before {
+    display: none;
+  }
+}
+
+/* ===========================================================================
+   REDUCED MOTION — freeze every animation to a calm static glass scene; never
+   hide anything (the statement words must be fully visible at rest).
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .dz4-root::before,
+  .dz4-root .hero-stage,
+  .dz4-root .hero-stage::before,
+  .dz4-root .hero-stage::after,
+  .dz4-root .hero::before,
+  .dz4-root .hero-statement span {
+    animation: none !important;
+  }
+  .dz4-root .hero-statement span {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

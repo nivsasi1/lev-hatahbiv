@@ -22,6 +22,12 @@ import { DesignsIndex } from "./pages/DesignsIndex";
 // Remaining cursor-effect previews for the owner to choose between (/designs).
 import DesignCursorSparks from "./pages/Design-cursor-sparks";
 import DesignCursorBrush from "./pages/Design-cursor-brush";
+// Light-background + custom-cursor design variants.
+import DesignAurora from "./pages/Design-bg1";
+import DesignBlobs from "./pages/Design-bg2";
+import DesignWatercolor from "./pages/Design-bg3";
+import DesignGlass from "./pages/Design-bg4";
+import DesignConstellation from "./pages/Design-bg5";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -71,6 +77,11 @@ const router = createBrowserRouter(
         { path: "/designs", element: <DesignsIndex /> },
         { path: "/design15", element: <DesignCursorSparks /> },
         { path: "/design16", element: <DesignCursorBrush /> },
+        { path: "/design17", element: <DesignAurora /> },
+        { path: "/design18", element: <DesignBlobs /> },
+        { path: "/design19", element: <DesignWatercolor /> },
+        { path: "/design20", element: <DesignGlass /> },
+        { path: "/design21", element: <DesignConstellation /> },
         { path: "*", element: <HomePage /> },
       ],
     },

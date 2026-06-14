@@ -76,8 +76,8 @@ export default function CursorBrushPointer() {
       // tight follow with a hair of trail
       x += (tx - x) * 0.4;
       y += (ty - y) * 0.4;
-      // lean the brush with horizontal speed (paint-stroke feel)
-      const target = Math.max(-24, Math.min(24, (tx - lastX) * 0.9));
+      // gentle lean with horizontal speed (kept small so it reads as a pointer)
+      const target = Math.max(-14, Math.min(14, (tx - lastX) * 0.6));
       lastX = tx;
       ang += (target - ang) * 0.15;
       el.style.transform =
@@ -105,8 +105,9 @@ export default function CursorBrushPointer() {
 
   if (!enabled) return null;
 
-  // The bristle tip is at SVG (4,56); the wrapper is placed at the cursor and
-  // the SVG is shifted up/left by that so the tip lands exactly on the hotspot.
+  // Oriented like a real pointer: the bristle TIP is at SVG (5,5) — top-left —
+  // and the handle runs down to the bottom-right. The wrapper sits at the cursor
+  // and the SVG is shifted up/left by (5,5) so the tip lands on the hotspot.
   return (
     <div
       ref={wrapRef}
@@ -123,22 +124,20 @@ export default function CursorBrushPointer() {
       }}
     >
       <svg
-        width="62"
-        height="62"
-        viewBox="0 0 62 62"
-        style={{ display: "block", transform: "translate(-4px,-56px)", overflow: "visible" }}
+        width="58"
+        height="58"
+        viewBox="0 0 58 58"
+        style={{ display: "block", transform: "translate(-5px,-5px)", overflow: "visible" }}
       >
-        {/* soft contact shadow under the tip */}
-        <ellipse cx="6" cy="58" rx="6" ry="2.2" fill="rgba(43,36,64,0.18)" />
-        {/* wooden handle */}
-        <line x1="27" y1="33" x2="56" y2="6" stroke="#8f4f24" stroke-width="8.5" stroke-linecap="round" />
-        <line x1="28" y1="32" x2="54" y2="9" stroke="#c89456" stroke-width="3.2" stroke-linecap="round" />
-        {/* metal ferrule */}
-        <line x1="18" y1="45" x2="31" y2="32" stroke="#aeb4ba" stroke-width="10" stroke-linecap="butt" />
-        <line x1="19" y1="44" x2="30" y2="33" stroke="#e9ecee" stroke-width="3" />
-        {/* bristles (dark base + cycling paint) */}
-        <path d="M16 44 L31 29 L3 57 Z" fill="#322c45" />
-        <path ref={tipRef} d="M13 45 L27 33 L4 56 Z" fill="#7b3fbf" />
+        {/* wooden handle — runs to the BOTTOM-RIGHT (where the hand holds it) */}
+        <line x1="22" y1="22" x2="52" y2="52" stroke="#8f4f24" stroke-width="8.5" stroke-linecap="round" />
+        <line x1="23" y1="23" x2="50" y2="50" stroke="#c89456" stroke-width="3.2" stroke-linecap="round" />
+        {/* metal ferrule — band across the neck */}
+        <line x1="13" y1="25" x2="25" y2="13" stroke="#aeb4ba" stroke-width="10" stroke-linecap="butt" />
+        <line x1="14" y1="24" x2="24" y2="14" stroke="#e9ecee" stroke-width="3" />
+        {/* bristles taper up-left to the TIP at (5,5) = the hotspot */}
+        <path d="M5 5 L23 14 L14 23 Z" fill="#322c45" />
+        <path ref={tipRef} d="M5 5 L19 12 L12 19 Z" fill="#7b3fbf" />
       </svg>
     </div>
   );

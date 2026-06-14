@@ -1,0 +1,191 @@
+/* =============================================================================
+   /design17 "Aurora" — design variant N=1
+   A soft pastel AURORA / mesh-gradient hero background: layered light radial
+   blobs (lavender, peach, mint, sky) over near-white, slowly drifting on long
+   ease-in-out keyframes, with a barely-there mouse parallax driven by the
+   CursorAuroraGlow component (it writes --gx / --gy on .dz1-root).
+
+   HARD constraints honoured: no feTurbulence / SVG-filter backgrounds, no CSS
+   mix-blend-mode, no backdrop-filter, no CSS `filter` on large areas. Only
+   transform / opacity / background-position are animated. chrome70-safe.
+   Everything is scoped under .dz1-root.
+   ============================================================================= */
+
+.dz1-root {
+  --gx: 0px;
+  --gy: 0px;
+  position: relative;
+}
+
+/* ---- fixed, full-page dreamy backdrop: near-white wash + faint pastel pools --
+   Subtle so body sections stay readable; the real show is on the hero. */
+.dz1-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: #fbfaff;
+  background-image:
+    radial-gradient(46% 40% at 16% 8%, rgba(217, 202, 245, 0.45), transparent 70%),
+    radial-gradient(44% 42% at 88% 14%, rgba(207, 230, 255, 0.42), transparent 72%),
+    radial-gradient(50% 46% at 78% 96%, rgba(255, 217, 196, 0.34), transparent 72%),
+    radial-gradient(46% 44% at 10% 92%, rgba(205, 238, 222, 0.36), transparent 72%);
+  background-repeat: no-repeat;
+  /* gentle drift of the whole wash */
+  animation: dz1-wash 34s ease-in-out infinite;
+}
+
+@keyframes dz1-wash {
+  0%,
+  100% {
+    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+  50% {
+    background-position: 4% 3%, -4% 2%, -3% -3%, 3% -2%;
+  }
+}
+
+/* =============================================================================
+   HERO STAGE — the light column becomes the aurora canvas.
+   ============================================================================= */
+.dz1-root .hero-stage {
+  position: relative;
+  /* near-white base; the drifting blobs live in ::before / ::after below */
+  background: #fbfaff;
+  overflow: hidden;
+}
+
+/* layer A: lavender + sky blobs, slow clockwise-ish drift.
+   The radial-gradients are very soft (feathered stops) so they read as glowing
+   light pools without any CSS filter/blur. Parallax: translate by a fraction of
+   --gx/--gy so the whole field nudges with the pointer. */
+.dz1-root .hero-stage::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(38% 46% at 22% 30%, rgba(217, 202, 245, 0.85), transparent 66%),
+    radial-gradient(42% 48% at 80% 24%, rgba(207, 230, 255, 0.8), transparent 66%),
+    radial-gradient(40% 50% at 64% 78%, rgba(205, 238, 222, 0.72), transparent 68%);
+  background-repeat: no-repeat;
+  transform: translate3d(calc(var(--gx) * 1), calc(var(--gy) * 1), 0);
+  animation: dz1-blobA 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* layer B: peach + mint + blush blobs, counter-drift on a longer cycle for a
+   shifting moiré of light. Parallax pushes the opposite way for depth. */
+.dz1-root .hero-stage::after {
+  content: "";
+  position: absolute;
+  inset: -24%;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(40% 48% at 14% 74%, rgba(255, 217, 196, 0.78), transparent 66%),
+    radial-gradient(36% 46% at 92% 80%, rgba(255, 213, 232, 0.62), transparent 66%),
+    radial-gradient(34% 44% at 50% 10%, rgba(206, 235, 250, 0.62), transparent 66%);
+  background-repeat: no-repeat;
+  transform: translate3d(calc(var(--gx) * -1.4), calc(var(--gy) * -1.4), 0);
+  animation: dz1-blobB 29s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* the hero content must float above the aurora */
+.dz1-root .hero-stage-inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* keep the existing decorative splats visible above the wash too */
+.dz1-root .hero-stage .splat {
+  z-index: 1;
+}
+
+/* drift keyframes — only transform + opacity, parallax preserved by re-adding
+   the var translation inside each keyframe so it composes with the var() value
+   the JS sets (the animation overrides transform, so we fold the parallax back
+   in via custom-prop translation). */
+@keyframes dz1-blobA {
+  0%,
+  100% {
+    transform: translate3d(var(--gx), var(--gy), 0) scale(1);
+    opacity: 0.92;
+  }
+  33% {
+    transform: translate3d(calc(var(--gx) + 3%), calc(var(--gy) - 2%), 0) scale(1.06);
+    opacity: 1;
+  }
+  66% {
+    transform: translate3d(calc(var(--gx) - 2%), calc(var(--gy) + 3%), 0) scale(1.02);
+    opacity: 0.96;
+  }
+}
+
+@keyframes dz1-blobB {
+  0%,
+  100% {
+    transform: translate3d(calc(var(--gx) * -1.4), calc(var(--gy) * -1.4), 0) scale(1.04);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(
+        calc(var(--gx) * -1.4 - 3%),
+        calc(var(--gy) * -1.4 + 2%),
+        0
+      )
+      scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* =============================================================================
+   HERO field (the dark statement column) — keep it DARK so the WHITE text and
+   gold rule stay readable. We just soften the lower clip seam with a faint
+   pastel glow at its top-right so it ties into the aurora without lightening
+   the field itself.
+   ============================================================================= */
+.dz1-root .hero-field {
+  position: relative;
+}
+.dz1-root .hero-field::after {
+  /* recolour the existing inner glow toward the aurora pastels (purple/sky)
+     while staying low-alpha — the field background stays dark. */
+  background:
+    radial-gradient(120% 80% at 18% 118%, rgba(123, 63, 191, 0.3), transparent 60%),
+    radial-gradient(110% 70% at 90% -10%, rgba(79, 157, 208, 0.26), transparent 55%);
+}
+
+/* lighten the hard bottom border so the hero floats on the airy backdrop */
+.dz1-root .hero {
+  border-bottom-color: rgba(43, 36, 64, 0.18);
+}
+
+/* give the whole page a touch of air: let the soft backdrop show through the
+   default paper of the first body section so the hero blends downward. */
+.dz1-root .ph-home {
+  background: transparent;
+}
+.dz1-root .page-main.ph-home {
+  background: transparent;
+}
+
+/* =============================================================================
+   Reduced motion — drop all drift; keep one calm static aurora. The cursor
+   component already renders null under reduced motion, so --gx/--gy stay 0.
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .dz1-root::before,
+  .dz1-root .hero-stage::before,
+  .dz1-root .hero-stage::after {
+    animation: none;
+  }
+  .dz1-root .hero-stage::before {
+    transform: none;
+  }
+  .dz1-root .hero-stage::after {
+    transform: none;
+  }
+}

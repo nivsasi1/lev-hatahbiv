@@ -38,6 +38,63 @@ const DESIGNS: DesignEntry[] = [
     swatch:
       "linear-gradient(120deg, #7b3fbf 0%, #d94f70 34%, #e09f3e 64%, #2a9d8f 100%)",
   },
+  // --- Light-background + custom-cursor design directions (the hero gets an
+  //     airy animated background; each has its own cursor effect). ---
+  {
+    num: "רקע · זוהר",
+    to: "/design17",
+    name: "זוהר צפוני",
+    tag: "רקע נע · Aurora",
+    desc: "גרדיאנט פסטל אוורירי שזורם לאט מאחורי הלוגו, עם זוהר רך שעוקב אחרי העכבר ומחליף גוונים.",
+    emoji: "🌌",
+    badge: "רקע + סמן",
+    swatch:
+      "radial-gradient(circle at 28% 30%, #d9caf5, transparent 55%), radial-gradient(circle at 72% 62%, #ffd9c4, transparent 55%), radial-gradient(circle at 50% 92%, #cdeede, transparent 55%), #fbfaff",
+  },
+  {
+    num: "רקע · בועות",
+    to: "/design18",
+    name: "בועות רכות",
+    tag: "רקע נע · Blobs",
+    desc: "כתמי צבע פסטל גדולים שצפים ומשנים צורה בעדינות, עם בועה רכה שנגררת אחרי הסמן ונמתחת.",
+    emoji: "🫧",
+    badge: "רקע + סמן",
+    swatch:
+      "radial-gradient(circle at 30% 34%, #ffd9e0, transparent 52%), radial-gradient(circle at 72% 60%, #cfe6ff, transparent 52%), radial-gradient(circle at 48% 88%, #cdeede, transparent 52%), #fdfaf4",
+  },
+  {
+    num: "רקע · אקוורל",
+    to: "/design19",
+    name: "אקוורל",
+    tag: "רקע · Watercolour",
+    desc: "שטיפת מים רכה שנושמת על נייר חם, והסמן צובע כתמי אקוורל שקופים שמתפשטים ומתייבשים.",
+    emoji: "🎨",
+    badge: "רקע + סמן",
+    swatch:
+      "radial-gradient(circle at 34% 36%, rgba(123,63,191,0.3), transparent 55%), radial-gradient(circle at 68% 58%, rgba(79,157,208,0.28), transparent 55%), radial-gradient(circle at 52% 84%, rgba(226,87,76,0.24), transparent 55%), #fcf7ee",
+  },
+  {
+    num: "רקע · זכוכית",
+    to: "/design20",
+    name: "זכוכית",
+    tag: "רקע · Glass",
+    desc: "לוחות זכוכית מטושטשת בהירים שצפים מעל גרדיאנט פסטל, עם דיסקת זכוכית שקופה שעוקבת אחרי העכבר.",
+    emoji: "🧊",
+    badge: "רקע + סמן",
+    swatch:
+      "linear-gradient(135deg, #efe9ff 0%, #ffe7d8 52%, #e9f3ff 100%)",
+  },
+  {
+    num: "רקע · כוכבים",
+    to: "/design21",
+    name: "קונסטלציה",
+    tag: "רקע נע · Constellation",
+    desc: "שדה כוכבים רך שנע לאט וקווים דקים מתחברים ביניהם — ונמתחים אל העכבר כשהוא מתקרב.",
+    emoji: "✦",
+    badge: "רקע + סמן",
+    swatch:
+      "radial-gradient(circle at 30% 30%, #fff, transparent 4%), radial-gradient(circle at 62% 48%, #c9b8f0, transparent 5%), radial-gradient(circle at 78% 72%, #fff, transparent 4%), linear-gradient(135deg, #efe9fb, #eaf0fb)",
+  },
 ];
 
 export const DesignsIndex = () => (
