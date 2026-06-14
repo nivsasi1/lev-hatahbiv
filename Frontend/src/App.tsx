@@ -19,22 +19,9 @@ import { CartPage } from "./pages/CartPage";
 import { AdminPage } from "./pages/AdminPage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
 import { DesignsIndex } from "./pages/DesignsIndex";
-// Homepage design finalists for the owner to preview (/designs).
-import DesignGoalB from "./pages/Design-goalb";
-import DesignPhotographic from "./pages/Design-photographic";
-// Motion variants: the new homepage with a moving background gradient.
-import DesignGradA from "./pages/Design-grad-a";
-import DesignGradB from "./pages/Design-grad-b";
-import DesignGradC from "./pages/Design-grad-c";
-// Showpiece variants: micro-interactions, awwwards atmosphere, warm sunset.
-import DesignTouch from "./pages/Design-touch";
-import DesignAura from "./pages/Design-aura";
-import DesignSunset from "./pages/Design-sunset";
-// Cursor-effect variants: the production homepage with different cursor motion.
-import DesignCursorGlow from "./pages/Design-cursor-glow";
+// Remaining cursor-effect previews for the owner to choose between (/designs).
 import DesignCursorSparks from "./pages/Design-cursor-sparks";
 import DesignCursorBrush from "./pages/Design-cursor-brush";
-import DesignCursorDrip from "./pages/Design-cursor-drip";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -82,18 +69,8 @@ const router = createBrowserRouter(
         { path: "/manage", element: <AdminPage /> },
         { path: "/accessibility", element: <AccessibilityPage /> },
         { path: "/designs", element: <DesignsIndex /> },
-        { path: "/design5", element: <DesignGoalB /> },
-        { path: "/design7", element: <DesignPhotographic /> },
-        { path: "/design8", element: <DesignGradA /> },
-        { path: "/design9", element: <DesignGradB /> },
-        { path: "/design10", element: <DesignGradC /> },
-        { path: "/design11", element: <DesignTouch /> },
-        { path: "/design12", element: <DesignAura /> },
-        { path: "/design13", element: <DesignSunset /> },
-        { path: "/design14", element: <DesignCursorGlow /> },
         { path: "/design15", element: <DesignCursorSparks /> },
         { path: "/design16", element: <DesignCursorBrush /> },
-        { path: "/design17", element: <DesignCursorDrip /> },
         { path: "*", element: <HomePage /> },
       ],
     },
