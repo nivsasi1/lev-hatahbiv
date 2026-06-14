@@ -70,8 +70,8 @@ function paletteAt(t: number): { r: number; g: number; b: number } {
 
 const LIFE = 1000; // ms a point stays visible before it is fully gone
 const MAX_POINTS = 110; // hard cap on tracked points
-const MAX_WIDTH = 30; // slow-cursor stroke thickness (px)
-const MIN_WIDTH = 4; // fast-cursor stroke thickness (px)
+const MAX_WIDTH = 24; // slow-cursor stroke thickness (px) — 20% thinner
+const MIN_WIDTH = 3.2; // fast-cursor stroke thickness (px) — 20% thinner
 const SPEED_FOR_MIN = 26; // px/frame at which the stroke is fully thin
 
 export default function CursorBrush() {

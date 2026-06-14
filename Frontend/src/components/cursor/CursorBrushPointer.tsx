@@ -125,23 +125,23 @@ export default function CursorBrushPointer() {
       }}
     >
       <svg
-        width="28"
-        height="28"
+        width="34"
+        height="34"
         viewBox="0 0 56 56"
-        style={{ display: "block", transform: "translate(-2px,-2px)", overflow: "visible" }}
+        style={{ display: "block", transform: "translate(-2.4px,-2.4px)", overflow: "visible" }}
       >
-        {/* thin wooden handle — runs to the BOTTOM-RIGHT (held end) */}
-        <line x1="31" y1="31" x2="50" y2="50" stroke="#8f4f24" stroke-width="5.5" stroke-linecap="round" />
-        <line x1="32" y1="32" x2="48" y2="48" stroke="#c89456" stroke-width="2.2" stroke-linecap="round" />
-        {/* metal ferrule — short band at the neck */}
-        <line x1="22" y1="34" x2="34" y2="22" stroke="#aeb4ba" stroke-width="7.5" stroke-linecap="round" />
-        <line x1="23" y1="33" x2="33" y2="23" stroke="#e9ecee" stroke-width="2.4" />
-        {/* LONG tapered bristle tuft narrowing to a fine point at (4,4) = hotspot */}
-        <path d="M4 4 C 18 11, 23 18, 29 29 C 18 23, 11 18, 4 4 Z" fill="#2f2a40" />
-        <path ref={tipRef} d="M4 4 C 16 12, 20 16, 26 26 C 16 20, 12 16, 4 4 Z" fill="#7b3fbf" />
+        {/* wooden handle — runs to the BOTTOM-RIGHT (held end) */}
+        <line x1="31" y1="31" x2="50" y2="50" stroke="#8f4f24" stroke-width="7.5" stroke-linecap="round" />
+        <line x1="32" y1="32" x2="48" y2="48" stroke="#c89456" stroke-width="3" stroke-linecap="round" />
+        {/* metal ferrule — band at the neck */}
+        <line x1="21" y1="35" x2="35" y2="21" stroke="#aeb4ba" stroke-width="10" stroke-linecap="round" />
+        <line x1="22" y1="34" x2="34" y2="22" stroke="#e9ecee" stroke-width="3.2" />
+        {/* LONG, FAT tapered bristle tuft narrowing to a fine point at (4,4) = hotspot */}
+        <path d="M4 4 C 21 9, 27 17, 31 31 C 17 27, 9 21, 4 4 Z" fill="#2f2a40" />
+        <path ref={tipRef} d="M4 4 C 18 11, 23 16, 28 28 C 16 23, 11 18, 4 4 Z" fill="#7b3fbf" />
         {/* a couple of hairs for brush texture */}
-        <path d="M5 5 L22 23" stroke="rgba(255,255,255,0.4)" stroke-width="0.9" fill="none" />
-        <path d="M8 4 L25 21" stroke="rgba(0,0,0,0.14)" stroke-width="0.9" fill="none" />
+        <path d="M5 5 L24 25" stroke="rgba(255,255,255,0.42)" stroke-width="1.1" fill="none" />
+        <path d="M9 4 L27 22" stroke="rgba(0,0,0,0.15)" stroke-width="1.1" fill="none" />
       </svg>
     </div>
   );
