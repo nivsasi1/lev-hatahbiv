@@ -16,11 +16,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink-soft);
 }
 .pr-filter .pr-cap {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   white-space: nowrap;
 }
 .pr-slider {
@@ -83,7 +83,7 @@
   outline-offset: 2px;
 }
 .pr-vals {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   /* fixed box so 1↔3 digit prices never reflow the row */
@@ -92,7 +92,8 @@
   display: inline-block;
 }
 .pr-clear {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
+  font-weight: 700;
   color: var(--sc, var(--purple));
   background: none;
   border: none;
