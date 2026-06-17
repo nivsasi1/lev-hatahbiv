@@ -1012,8 +1012,8 @@ button {
 .p-card .foot {
   margin-top: auto;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.5rem;
 }
 
@@ -1034,20 +1034,27 @@ button {
 }
 
 .add-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  white-space: nowrap;
   font-weight: 800;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--ink);
   border: 2.5px solid var(--ink);
   border-radius: 2em;
-  padding: 0.18em 0.95em;
+  padding: 0.45em 0.9em;
   background: var(--card);
+  cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .add-btn:hover {
   background: var(--ink);
   color: var(--card);
-  transform: scale(1.05) rotate(-1.5deg);
+  transform: translateY(-1px);
 }
 
 .add-btn.added {

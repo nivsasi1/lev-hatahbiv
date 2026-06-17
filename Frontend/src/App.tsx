@@ -16,6 +16,7 @@ import { HomePage } from "./pages/HomePage";
 import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
+import { SalePage } from "./pages/SalePage";
 import { AdminPage } from "./pages/AdminPage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
 import { A11yWidget } from "./components/A11yWidget";
@@ -62,6 +63,7 @@ const router = createBrowserRouter(
         { path: "/category/:slug/:sub", element: <SubCategoryPage /> },
         { path: "/product/:id", element: <ProductPage /> },
         { path: "/cart", element: <CartPage /> },
+        { path: "/sale", element: <SalePage /> },
         { path: "/manage", element: <AdminPage /> },
         { path: "/accessibility", element: <AccessibilityPage /> },
         { path: "*", element: <HomePage /> },

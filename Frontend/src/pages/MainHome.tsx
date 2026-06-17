@@ -339,6 +339,11 @@ export default ({ cursorFx }: { cursorFx?: any }) => {
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
+            <div className="ph-sale-more">
+              <Link to="/sale" className="btn ghost">
+                לעוד מוצרים ←
+              </Link>
+            </div>
           </div>
         </section>
       )}
