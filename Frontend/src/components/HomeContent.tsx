@@ -97,7 +97,19 @@ export const FeaturedRail = ({ items }: { items: Product[] }) => {
         onClick={() => nudge(-1)}
         aria-label="המוצרים הקודמים"
       >
-        ‹
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="9 6 15 12 9 18" />
+        </svg>
       </button>
       <div className="featured-rail" ref={ref}>
         {loop.map((p, i) => (
@@ -110,7 +122,19 @@ export const FeaturedRail = ({ items }: { items: Product[] }) => {
         onClick={() => nudge(1)}
         aria-label="המוצרים הבאים"
       >
-        ›
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="15 6 9 12 15 18" />
+        </svg>
       </button>
     </div>
   );
