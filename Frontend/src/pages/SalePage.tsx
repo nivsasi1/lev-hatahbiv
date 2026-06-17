@@ -9,7 +9,7 @@ import "./home-photographic.css"; // reuses the .ph-grid product layout
 const onSale = (p: { salePrice?: number; soldOut?: boolean; img?: string }) =>
   Boolean(p.salePrice && !p.soldOut && p.img);
 
-const PAGE = 12; // how many to reveal at a time ("load more" adds another batch)
+const PAGE = 15; // how many to reveal at a time ("load more" adds another batch)
 
 export const SalePage = () => {
   const sale = products.filter(onSale);
@@ -18,7 +18,9 @@ export const SalePage = () => {
 
   return (
     <main className="page-main shell" style={{ paddingBottom: "4rem" }}>
-      <h1 className="display">כל המבצעים</h1>
+      <h1 className="display" style={{ fontSize: "clamp(2.8rem, 7vw, 4.5rem)" }}>
+        כל המבצעים
+      </h1>
       {sale.length > 0 ? (
         <>
           <p className="sale-count">{sale.length} מוצרים במבצע 🎉</p>
