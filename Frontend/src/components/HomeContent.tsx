@@ -108,7 +108,7 @@ export const FeaturedRail = ({ items }: { items: Product[] }) => {
           strokeLinejoin="round"
           aria-hidden="true"
         >
-          <polyline points="9 6 15 12 9 18" />
+          <polyline points="15 6 9 12 15 18" />
         </svg>
       </button>
       <div className="featured-rail" ref={ref}>
@@ -133,7 +133,7 @@ export const FeaturedRail = ({ items }: { items: Product[] }) => {
           strokeLinejoin="round"
           aria-hidden="true"
         >
-          <polyline points="15 6 9 12 15 18" />
+          <polyline points="9 6 15 12 9 18" />
         </svg>
       </button>
     </div>
