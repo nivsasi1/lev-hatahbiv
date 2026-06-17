@@ -20,6 +20,7 @@ const deliveryOptions = [
 export const CartPage = () => {
   const { items, total, setQty, remove, clear } = useCart();
   const [delivery, setDelivery] = useState(deliveryOptions[0]);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   const freeShipping = total >= FREE_SHIPPING_FROM;
   const shippingCost = delivery.id === "pickup" || freeShipping ? 0 : delivery.price;
@@ -161,12 +162,43 @@ export const CartPage = () => {
           <button
             className="add-btn"
             style={{ marginTop: "0.8rem" }}
-            onClick={clear}
+            onClick={() => setConfirmClear(true)}
           >
             ריקון העגלה
           </button>
         </aside>
       </div>
+
+      {confirmClear && (
+        <div
+          className="confirm-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="confirm-clear-title"
+          onClick={() => setConfirmClear(false)}
+        >
+          <div className="confirm-card" onClick={(e) => e.stopPropagation()}>
+            <h3 className="display" id="confirm-clear-title">
+              לרוקן את כל העגלה?
+            </h3>
+            <p>כל המוצרים יוסרו מהעגלה. אי אפשר לבטל את הפעולה.</p>
+            <div className="confirm-actions">
+              <button className="btn ghost" onClick={() => setConfirmClear(false)}>
+                ביטול
+              </button>
+              <button
+                className="btn danger"
+                onClick={() => {
+                  clear();
+                  setConfirmClear(false);
+                }}
+              >
+                כן, לרוקן
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

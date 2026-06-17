@@ -3930,6 +3930,52 @@ html.a11y-underline a {
   box-shadow: 0.07em 0.07em 0 var(--shadow);
 }
 
+/* ---------- generic confirm dialog (cart "empty cart" guard) ---------- */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  background: rgba(43, 36, 64, 0.55);
+}
+.confirm-card {
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1rem;
+  box-shadow: 0.3em 0.3em 0 var(--shadow);
+  padding: 1.5rem 1.5rem 1.3rem;
+  max-width: 22rem;
+  width: 100%;
+  text-align: center;
+}
+.confirm-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.7rem;
+}
+.confirm-card p {
+  margin: 0 0 1.2rem;
+  color: var(--ink-soft);
+}
+.confirm-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+.confirm-actions .btn {
+  flex: 1;
+}
+.btn.danger {
+  background: #d64545;
+  color: #fff;
+  border-color: var(--ink);
+}
+.btn.danger:hover {
+  background: #c23b3b;
+  color: #fff;
+}
+
 /* ---------- story band: photo behind "כל יצירה גדולה מתחילה בלב" ---------- */
 .story-band {
   position: relative;
