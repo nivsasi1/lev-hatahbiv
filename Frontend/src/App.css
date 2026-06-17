@@ -1140,7 +1140,6 @@ button {
   box-shadow: 0.15em 0.15em 0 var(--shadow);
   z-index: 3;
   transition: transform 0.15s ease;
-  padding-bottom: 0.2rem;
 }
 
 .stage-arrow:hover {
