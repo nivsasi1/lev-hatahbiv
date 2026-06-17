@@ -501,6 +501,7 @@ router.get(
         ...base,
         saleIds: base.saleIds || [],
         shelfImages: base.shelfImages || {},
+        coupons: base.coupons || [],
       },
     });
   })
@@ -555,8 +556,27 @@ router.put(
       }
     }
 
+    // coupons is optional: [{ code, percent }]. Codes upper-cased + trimmed,
+    // percent clamped 1..100; blank codes dropped.
+    let coupons;
+    if (body.coupons !== undefined) {
+      if (!Array.isArray(body.coupons)) {
+        return res.status(400).json({ error: "מבנה הקופונים לא תקין" });
+      }
+      coupons = body.coupons
+        .map((c) => ({
+          code: String((c && c.code) || "").trim().toUpperCase().slice(0, 40),
+          percent: Math.min(Math.max(Math.round(Number(c && c.percent) || 0), 1), 100),
+        }))
+        .filter((c) => c.code);
+      if (coupons.length > 50) {
+        return res.status(400).json({ error: "עד 50 קופונים" });
+      }
+    }
+
     const $set = { ribbonTexts, featuredIds, saleIds };
     if (shelfImages !== undefined) $set.shelfImages = shelfImages;
+    if (coupons !== undefined) $set.coupons = coupons;
 
     const settings = await SiteSettings.findOneAndUpdate(
       {},

@@ -3982,6 +3982,107 @@ html.a11y-underline a {
   color: #fff;
 }
 
+/* ---------- checkout coupon ---------- */
+.coupon-box {
+  margin: 0.7rem 0 0;
+}
+.coupon-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.coupon-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+.coupon-input {
+  flex: 1;
+  min-width: 0;
+  border: 2px solid var(--ink);
+  border-radius: 0.6em;
+  padding: 0.4em 0.7em;
+  font: inherit;
+  font-weight: 700;
+}
+.btn.coupon-confirm {
+  flex: none;
+  width: auto;
+  padding: 0.4em 1.1em;
+}
+.coupon-err {
+  display: block;
+  margin-top: 0.4rem;
+  color: #c23b3b;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.coupon-applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--teal);
+  color: #fff;
+  border-radius: 0.6em;
+  padding: 0.45em 0.8em;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.coupon-remove {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.2em;
+}
+
+/* ---------- dashboard coupons editor ---------- */
+.coupon-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+}
+.coupon-admin-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.coupon-admin-code {
+  flex: 1;
+  min-width: 8rem;
+  border: 2px solid var(--ink);
+  border-radius: 0.5em;
+  padding: 0.4em 0.7em;
+  font: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.coupon-admin-pct {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-weight: 700;
+}
+.coupon-admin-pct input {
+  width: 4.5em;
+  border: 2px solid var(--ink);
+  border-radius: 0.5em;
+  padding: 0.4em 0.5em;
+  font: inherit;
+  font-weight: 700;
+}
+
 /* ---------- story band: photo behind "כל יצירה גדולה מתחילה בלב" ---------- */
 .story-band {
   position: relative;

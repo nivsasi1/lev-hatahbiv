@@ -5,6 +5,7 @@ import {
   shekel,
   FREE_SHIPPING_FROM,
   store,
+  findCoupon,
 } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
@@ -21,10 +22,17 @@ export const CartPage = () => {
   const { items, total, setQty, remove, clear } = useCart();
   const [delivery, setDelivery] = useState(deliveryOptions[0]);
   const [confirmClear, setConfirmClear] = useState(false);
+  const [couponOpen, setCouponOpen] = useState(false);
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<
+    { code: string; percent: number } | null
+  >(null);
+  const [couponError, setCouponError] = useState("");
 
   const freeShipping = total >= FREE_SHIPPING_FROM;
   const shippingCost = delivery.id === "pickup" || freeShipping ? 0 : delivery.price;
-  const grandTotal = total + shippingCost;
+  const discount = appliedCoupon ? Math.round((total * appliedCoupon.percent) / 100) : 0;
+  const grandTotal = total - discount + shippingCost;
 
   // record the order in the store's system the moment it's sent —
   // fire-and-forget so a missing backend never blocks the WhatsApp message
@@ -50,6 +58,22 @@ export const CartPage = () => {
     }
   };
 
+  const applyCoupon = () => {
+    const c = findCoupon(couponInput);
+    if (!c) {
+      setCouponError("קוד הקופון אינו תקין");
+      return;
+    }
+    setAppliedCoupon(c);
+    setCouponOpen(false);
+    setCouponError("");
+  };
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponInput("");
+    setCouponError("");
+  };
+
   const waText = encodeURIComponent(
     [
       `היי ${store.name}! אשמח להזמין:`,
@@ -59,6 +83,9 @@ export const CartPage = () => {
       ),
       ``,
       `אספקה: ${delivery.title}${shippingCost ? ` (${shekel(shippingCost)})` : freeShipping && delivery.id !== "pickup" ? " (חינם 🎉)" : ""}`,
+      ...(appliedCoupon
+        ? [`קופון: ${appliedCoupon.code} (${appliedCoupon.percent}%- = -${shekel(discount)})`]
+        : []),
       `סה"כ: ${shekel(grandTotal)}`,
     ].join("\n")
   );
@@ -120,6 +147,58 @@ export const CartPage = () => {
               </button>
             ))}
           </div>
+
+          <div className="coupon-box">
+            {!appliedCoupon && !couponOpen && (
+              <button
+                type="button"
+                className="coupon-toggle"
+                onClick={() => setCouponOpen(true)}
+              >
+                יש לי קופון
+              </button>
+            )}
+            {!appliedCoupon && couponOpen && (
+              <form
+                className="coupon-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  applyCoupon();
+                }}
+              >
+                <input
+                  type="text"
+                  className="coupon-input"
+                  placeholder="קוד קופון"
+                  value={couponInput}
+                  onInput={(e) => {
+                    setCouponInput((e.target as HTMLInputElement).value);
+                    setCouponError("");
+                  }}
+                  autoFocus
+                />
+                <button type="submit" className="btn coupon-confirm">
+                  אישור
+                </button>
+              </form>
+            )}
+            {couponError && <span className="coupon-err">{couponError}</span>}
+            {appliedCoupon && (
+              <div className="coupon-applied">
+                <span>
+                  קופון {appliedCoupon.code} · הנחה {appliedCoupon.percent}% 🎉
+                </span>
+                <button
+                  type="button"
+                  className="coupon-remove"
+                  onClick={removeCoupon}
+                  aria-label="הסרת קופון"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         <aside className="summary-card">
@@ -133,6 +212,14 @@ export const CartPage = () => {
             <span>{delivery.title}</span>
             <span>{shippingCost === 0 ? "חינם" : shekel(shippingCost)}</span>
           </div>
+          {appliedCoupon && (
+            <div className="sum-row">
+              <span>
+                קופון {appliedCoupon.code} ({appliedCoupon.percent}%-)
+              </span>
+              <span>−{shekel(discount)}</span>
+            </div>
+          )}
           <div className="sum-row total">
             <span>סה"כ לתשלום</span>
             <span>{shekel(grandTotal)}</span>

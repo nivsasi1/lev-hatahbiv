@@ -11,6 +11,8 @@ const SiteSettingsSchema = new mongoose.Schema(
     saleIds: { type: [String], default: [] },
     // homepage category-mosaic photos: { "<categorySlug>": "<imageUrl>" }
     shelfImages: { type: Object, default: {} },
+    // checkout discount coupons: [{ code: "SUMMER", percent: 10 }]
+    coupons: { type: [{ code: String, percent: Number, _id: false }], default: [] },
   },
   { timestamps: true }
 );

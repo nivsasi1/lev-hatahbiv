@@ -226,6 +226,7 @@ export const AdminPage = () => {
   // home-page category-mosaic photos: { slug: url }. Only slugs the manager
   // explicitly set live here; the storefront falls back to DEFAULT_SHELF_IMAGES.
   const [shelfImages, setShelfImages] = useState<Record<string, string>>({});
+  const [coupons, setCoupons] = useState<Array<{ code: string; percent: number }>>([]);
   const [shelfUploading, setShelfUploading] = useState<string | null>(null);
   const [shelfSaved, setShelfSaved] = useState(false);
   const [homeLoaded, setHomeLoaded] = useState(false);
@@ -782,6 +783,11 @@ export const AdminPage = () => {
           ? d.settings.shelfImages
           : {}
       );
+      setCoupons(
+        Array.isArray(d.settings.coupons)
+          ? d.settings.coupons.filter((c: any) => c && c.code)
+          : []
+      );
       setHomeLoaded(true);
     });
 
@@ -793,6 +799,7 @@ export const AdminPage = () => {
     featuredIds,
     saleIds,
     shelfImages,
+    coupons,
   });
 
   const setRibbonSlot = (i: number, v: string) =>
@@ -805,6 +812,27 @@ export const AdminPage = () => {
         body: JSON.stringify(settingsPayload()),
       });
     }, "הטקסטים נשמרו! יופיעו באתר אחרי פרסום");
+
+  const addCoupon = () => setCoupons((cs) => [...cs, { code: "", percent: 10 }]);
+  const updateCoupon = (i: number, field: "code" | "percent", v: string) =>
+    setCoupons((cs) =>
+      cs.map((c, j) =>
+        j !== i
+          ? c
+          : field === "code"
+            ? { ...c, code: v.toUpperCase() }
+            : { ...c, percent: Math.min(Math.max(Math.round(Number(v) || 0), 1), 100) }
+      )
+    );
+  const deleteCoupon = (i: number) =>
+    setCoupons((cs) => cs.filter((_, j) => j !== i));
+  const saveCoupons = () =>
+    act(async () => {
+      await call(`/settings`, {
+        method: "PUT",
+        body: JSON.stringify(settingsPayload()),
+      });
+    }, "הקופונים נשמרו! יופיעו באתר אחרי פרסום");
 
   const featuredMatches = useMemo(() => {
     const q = featuredSearch.trim();
@@ -1345,6 +1373,56 @@ export const AdminPage = () => {
                 שמירת התמונות
               </button>
               {shelfSaved && <span className="shelf-img-saved">נשמר ▾</span>}
+            </div>
+          </section>
+
+          {/* SECTION E — coupons: discount codes applied at checkout */}
+          <section className="home-block">
+            <h3 className="display">קופונים</h3>
+            <p className="import-help">
+              הוסיפו קודי קופון ואת אחוז ההנחה של כל אחד. הקונה מקליד את הקוד
+              בעמוד התשלום ומקבל את ההנחה. הקופונים מתעדכנים באתר אחרי פרסום.
+            </p>
+            <div className="coupon-admin-list">
+              {coupons.length === 0 && (
+                <p className="import-help dim">אין קופונים עדיין.</p>
+              )}
+              {coupons.map((c, i) => (
+                <div className="coupon-admin-row" key={i}>
+                  <input
+                    type="text"
+                    className="coupon-admin-code"
+                    placeholder="קוד (לדוגמה SUMMER)"
+                    value={c.code}
+                    onInput={(e: any) => updateCoupon(i, "code", e.target.value)}
+                  />
+                  <div className="coupon-admin-pct">
+                    <input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={c.percent}
+                      onInput={(e: any) => updateCoupon(i, "percent", e.target.value)}
+                    />
+                    <span>%</span>
+                  </div>
+                  <button
+                    type="button"
+                    className="btn small ghost"
+                    onClick={() => deleteCoupon(i)}
+                  >
+                    🗑 מחיקה
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="home-block-foot">
+              <button type="button" className="btn small ghost" onClick={addCoupon}>
+                ➕ קופון חדש
+              </button>
+              <button className="btn" onClick={saveCoupons}>
+                שמירת הקופונים
+              </button>
             </div>
           </section>
         </div>
