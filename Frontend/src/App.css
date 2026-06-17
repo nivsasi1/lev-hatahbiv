@@ -4083,6 +4083,23 @@ html.a11y-underline a {
   font-weight: 700;
 }
 
+/* newsletter welcome-code badge */
+.news-coupon-code {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--purple);
+  border: 2.5px dashed var(--ink);
+  border-radius: 0.6em;
+  padding: 0.25em 0.9em;
+  margin: 0.2rem 0 0.6rem;
+}
+.news-coupon-note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
 /* ---------- story band: photo behind "כל יצירה גדולה מתחילה בלב" ---------- */
 .story-band {
   position: relative;

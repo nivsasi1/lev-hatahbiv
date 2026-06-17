@@ -87,7 +87,14 @@ export const NewsletterDialog = () => {
         {status === "done" ? (
           <div className="news-body">
             <h2 className="display">איזה כיף! נשמרתם אצלנו 🎨</h2>
-            <p>מבטיחים לכתוב רק כשיש משהו ששווה את הצבע.</p>
+            <p>
+              מתנת הצטרפות 🎁 — הזינו את הקוד הזה בעמוד התשלום ל־10% הנחה על
+              ההזמנה הראשונה:
+            </p>
+            <div className="news-coupon-code">LEV10</div>
+            <p className="news-coupon-note">
+              מבטיחים לכתוב רק כשיש משהו ששווה את הצבע.
+            </p>
             <button className="btn small" onClick={close}>
               סגירה
             </button>
@@ -110,8 +117,9 @@ export const NewsletterDialog = () => {
             <span className="hero-kicker">חדש על המדף · מבצעים · סדנאות</span>
             <h2 className="display">נשארים בקשר?</h2>
             <p>
-              השאירו אימייל ונעדכן אתכם כשמשהו שווה מגיע לחנות — בלי חפירות,
-              מבטיחים.
+              השאירו אימייל ונעדכן אתכם כשמשהו שווה מגיע לחנות — ותקבלו{" "}
+              <span className="hl">10% הנחה</span> על ההזמנה הראשונה, רק
+              למצטרפים חדשים 🎉
             </p>
             <form onSubmit={submit} className="news-form">
               <input
