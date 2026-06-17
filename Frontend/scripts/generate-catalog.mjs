@@ -132,6 +132,8 @@ const settings = {
         .map((c) => ({ code: String((c && c.code) || "").trim(), percent: Number(c && c.percent) || 0 }))
         .filter((c) => c.code && c.percent > 0)
     : [],
+  welcomeCoupon:
+    typeof rawSettings.welcomeCoupon === "string" ? rawSettings.welcomeCoupon.trim().toUpperCase() : "",
 };
 writeFileSync(settingsOutPath, JSON.stringify(settings));
 const saleCount = products.filter((p) => p.salePrice != null).length;

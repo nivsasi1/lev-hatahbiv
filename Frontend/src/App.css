@@ -4099,6 +4099,16 @@ html.a11y-underline a {
   font-size: 0.85rem;
   color: var(--ink-soft);
 }
+.welcome-coupon-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0.9rem;
+  max-width: 26rem;
+}
+.welcome-coupon-field > span {
+  font-weight: 700;
+}
 
 /* ---------- story band: photo behind "כל יצירה גדולה מתחילה בלב" ---------- */
 .story-band {

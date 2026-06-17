@@ -22,6 +22,7 @@ require("dotenv").config({ path: ".env" });
         saleIds: settings.saleIds || [],
         shelfImages: settings.shelfImages || {},
         coupons: settings.coupons || [],
+        welcomeCoupon: settings.welcomeCoupon || "",
       }
     : {};
   fs.writeFileSync("settings-dump.json", JSON.stringify(settingsOut, null, 2));

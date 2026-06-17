@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { API_BASE } from "../data/api";
-import { store } from "../data/catalog";
+import { store, siteSettings, findCoupon } from "../data/catalog";
 import { Splat } from "./Splat";
 
 // Shows once per visitor (15s after first arriving), or whenever something
@@ -16,6 +16,10 @@ export const NewsletterDialog = () => {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const { pathname } = useLocation();
+  // the manager-set welcome code, only if a matching coupon actually exists
+  const welcome = siteSettings.welcomeCoupon
+    ? findCoupon(siteSettings.welcomeCoupon)
+    : null;
 
   useEffect(() => {
     const openNow = () => {
@@ -87,14 +91,17 @@ export const NewsletterDialog = () => {
         {status === "done" ? (
           <div className="news-body">
             <h2 className="display">איזה כיף! נשמרתם אצלנו 🎨</h2>
-            <p>
-              מתנת הצטרפות 🎁 — הזינו את הקוד הזה בעמוד התשלום ל־10% הנחה על
-              ההזמנה הראשונה:
-            </p>
-            <div className="news-coupon-code">LEV10</div>
-            <p className="news-coupon-note">
-              מבטיחים לכתוב רק כשיש משהו ששווה את הצבע.
-            </p>
+            {welcome ? (
+              <>
+                <p>
+                  מתנת הצטרפות 🎁 — הזינו את הקוד בעמוד התשלום ל־{welcome.percent}%
+                  הנחה על ההזמנה הראשונה:
+                </p>
+                <div className="news-coupon-code">{welcome.code}</div>
+              </>
+            ) : (
+              <p>מבטיחים לכתוב רק כשיש משהו ששווה את הצבע.</p>
+            )}
             <button className="btn small" onClick={close}>
               סגירה
             </button>
@@ -111,16 +118,31 @@ export const NewsletterDialog = () => {
             >
               הצטרפות בוואטסאפ 💬
             </a>
+            {welcome && (
+              <>
+                <p className="news-coupon-note" style={{ marginTop: "0.9rem" }}>
+                  ובכל מקרה — הקוד שלכם ל־{welcome.percent}% הנחה:
+                </p>
+                <div className="news-coupon-code">{welcome.code}</div>
+              </>
+            )}
           </div>
         ) : (
           <div className="news-body">
             <span className="hero-kicker">חדש על המדף · מבצעים · סדנאות</span>
             <h2 className="display">נשארים בקשר?</h2>
-            <p>
-              השאירו אימייל ונעדכן אתכם כשמשהו שווה מגיע לחנות — ותקבלו{" "}
-              <span className="hl">10% הנחה</span> על ההזמנה הראשונה, רק
-              למצטרפים חדשים 🎉
-            </p>
+            {welcome ? (
+              <p>
+                השאירו אימייל ותקבלו{" "}
+                <span className="hl">{welcome.percent}% הנחה</span> על ההזמנה
+                הראשונה, רק למצטרפים חדשים 🎉
+              </p>
+            ) : (
+              <p>
+                השאירו אימייל ונעדכן אתכם כשמשהו שווה מגיע לחנות — בלי חפירות,
+                מבטיחים.
+              </p>
+            )}
             <form onSubmit={submit} className="news-form">
               <input
                 type="email"

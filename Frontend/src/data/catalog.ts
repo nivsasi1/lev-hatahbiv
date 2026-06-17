@@ -259,6 +259,9 @@ export const siteSettings = {
   coupons: (((settings as any).coupons as Array<{ code: string; percent: number }>) ?? []).filter(
     (c) => c && c.code && c.percent > 0
   ),
+  // code advertised to new newsletter subscribers (matches one of `coupons`).
+  welcomeCoupon:
+    typeof (settings as any).welcomeCoupon === "string" ? (settings as any).welcomeCoupon : "",
 };
 
 // Look up a coupon by its code (case-insensitive). Returns null if none match.

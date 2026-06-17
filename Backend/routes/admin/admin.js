@@ -502,6 +502,7 @@ router.get(
         saleIds: base.saleIds || [],
         shelfImages: base.shelfImages || {},
         coupons: base.coupons || [],
+        welcomeCoupon: base.welcomeCoupon || "",
       },
     });
   })
@@ -574,9 +575,16 @@ router.put(
       }
     }
 
+    // welcomeCoupon: optional code string shown to new newsletter subscribers.
+    let welcomeCoupon;
+    if (body.welcomeCoupon !== undefined) {
+      welcomeCoupon = String(body.welcomeCoupon || "").trim().toUpperCase().slice(0, 40);
+    }
+
     const $set = { ribbonTexts, featuredIds, saleIds };
     if (shelfImages !== undefined) $set.shelfImages = shelfImages;
     if (coupons !== undefined) $set.coupons = coupons;
+    if (welcomeCoupon !== undefined) $set.welcomeCoupon = welcomeCoupon;
 
     const settings = await SiteSettings.findOneAndUpdate(
       {},

@@ -227,6 +227,7 @@ export const AdminPage = () => {
   // explicitly set live here; the storefront falls back to DEFAULT_SHELF_IMAGES.
   const [shelfImages, setShelfImages] = useState<Record<string, string>>({});
   const [coupons, setCoupons] = useState<Array<{ code: string; percent: number }>>([]);
+  const [welcomeCoupon, setWelcomeCoupon] = useState("");
   const [shelfUploading, setShelfUploading] = useState<string | null>(null);
   const [shelfSaved, setShelfSaved] = useState(false);
   const [homeLoaded, setHomeLoaded] = useState(false);
@@ -788,6 +789,9 @@ export const AdminPage = () => {
           ? d.settings.coupons.filter((c: any) => c && c.code)
           : []
       );
+      setWelcomeCoupon(
+        typeof d.settings.welcomeCoupon === "string" ? d.settings.welcomeCoupon : ""
+      );
       setHomeLoaded(true);
     });
 
@@ -800,6 +804,7 @@ export const AdminPage = () => {
     saleIds,
     shelfImages,
     coupons,
+    welcomeCoupon,
   });
 
   const setRibbonSlot = (i: number, v: string) =>
@@ -1416,6 +1421,19 @@ export const AdminPage = () => {
                 </div>
               ))}
             </div>
+            <label className="welcome-coupon-field">
+              <span>קוד למצטרפים חדשים (מופיע בפופאפ ההרשמה לניוזלטר):</span>
+              <input
+                type="text"
+                className="coupon-admin-code"
+                placeholder="לדוגמה LEV10"
+                value={welcomeCoupon}
+                onInput={(e: any) => setWelcomeCoupon(e.target.value.toUpperCase())}
+              />
+              <small className="import-help dim">
+                צריך להתאים לאחד הקופונים למעלה, אחרת לא יוצג בפופאפ.
+              </small>
+            </label>
             <div className="home-block-foot">
               <button type="button" className="btn small ghost" onClick={addCoupon}>
                 ➕ קופון חדש

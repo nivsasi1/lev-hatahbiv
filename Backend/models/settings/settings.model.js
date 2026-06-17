@@ -13,6 +13,8 @@ const SiteSettingsSchema = new mongoose.Schema(
     shelfImages: { type: Object, default: {} },
     // checkout discount coupons: [{ code: "SUMMER", percent: 10 }]
     coupons: { type: [{ code: String, percent: Number, _id: false }], default: [] },
+    // code shown to new newsletter subscribers (should match one of `coupons`)
+    welcomeCoupon: { type: String, default: "" },
   },
   { timestamps: true }
 );
