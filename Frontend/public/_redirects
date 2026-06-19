@@ -1,3 +1,0 @@
-# Cloudflare Pages SPA fallback — deep links (e.g. /category/paints, /sale,
-# /product/:id, /manage) must serve index.html so the client router handles them.
-/*    /index.html   200
