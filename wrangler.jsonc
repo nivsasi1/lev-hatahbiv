@@ -1,0 +1,16 @@
+{
+  // Cloudflare Workers (Static Assets) config for the storefront.
+  // Phase 1: assets-only — `npx wrangler deploy` serves the built SPA from
+  // Frontend/dist, with client-side routing handled by the SPA fallback.
+  // Phase 2 will add "main" (a Worker entry) + KV/D1 bindings for the coupon /
+  // payment functions, e.g.:
+  //   "main": "worker/index.ts",
+  //   "kv_namespaces": [{ "binding": "COUPONS", "id": "..." }],
+  //   "d1_databases": [{ "binding": "DB", "database_name": "lev", "database_id": "..." }]
+  "name": "lev-hatahbiv",
+  "compatibility_date": "2026-06-18",
+  "assets": {
+    "directory": "./Frontend/dist",
+    "not_found_handling": "single-page-application"
+  }
+}
