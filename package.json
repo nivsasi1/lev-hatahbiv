@@ -1,5 +1,12 @@
 {
   "dependencies": {
     "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "wrangler": "^4.103.0"
+  },
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   }
 }
