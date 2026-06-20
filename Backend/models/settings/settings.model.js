@@ -11,10 +11,8 @@ const SiteSettingsSchema = new mongoose.Schema(
     saleIds: { type: [String], default: [] },
     // homepage category-mosaic photos: { "<categorySlug>": "<imageUrl>" }
     shelfImages: { type: Object, default: {} },
-    // checkout discount coupons: [{ code: "SUMMER", percent: 10 }]
-    coupons: { type: [{ code: String, percent: Number, _id: false }], default: [] },
-    // code shown to new newsletter subscribers (should match one of `coupons`)
-    welcomeCoupon: { type: String, default: "" },
+    // NOTE: coupons + the newsletter welcome offer moved to the Cloudflare
+    // Worker (D1). See worker/index.ts + worker/schema.sql.
   },
   { timestamps: true }
 );

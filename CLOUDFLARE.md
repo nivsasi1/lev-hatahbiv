@@ -4,11 +4,19 @@
 - ✅ **Phase 1 — storefront on Cloudflare (LIVE, test URL):**
   `https://lev-hatahbiv.nivsasi.workers.dev` — static SPA on Cloudflare Workers
   (Static Assets), edge-served, ~0ms cold start, never sleeps.
-- 🧱 **Phase 2 — dynamic API (scaffolded, not yet activated):** `worker/index.ts`
-  (coupon validation + rate limiting). Needs a KV namespace + wrangler wiring.
+- ✅ **Phase 2 — dynamic API on D1 (Worker live + frontend wired):**
+  `worker/index.ts` serves `/api/*` from **D1**: coupon validation, manager
+  coupon CRUD (JWT), the newsletter welcome offer (`/api/welcome` +
+  `/api/subscribe`, mints a per-email single-use code), and the subscriber list
+  (`/api/admin/subscribers`). Per-IP rate limiting throughout. The storefront
+  (checkout + signup dialog), the dashboard coupon editor, the subscribers tab
+  and the admin bell all call the Worker now. The old baked/Mongo coupon
+  pipeline was **removed**. Coupons + the welcome offer are live instantly (no
+  publish).
 - Unchanged: the **real domain / DNS still points at Render**, and the
-  **dashboard API is still on Render** (`VITE_API_URL`). Cloudflare is a parallel
-  test deploy until Phase 2 is done.
+  **products/orders/publish API is still on Render** (`VITE_API_URL`). Next step
+  is the cut-over — merge to `main`, make Cloudflare the storefront host, retire
+  the Render front. (Card payments + DNS-from-Wix come later.)
 
 ## Architecture (where things run)
 - **Cloudflare Pages/Workers Static Assets** = the built storefront (`Frontend/dist`).
@@ -17,7 +25,8 @@
   hits the Worker, everything else falls through to the static assets.
 - **MongoDB** = inventory master; products are **baked at build time** (so product
   changes still need a "publish"/rebuild — that's the right trade-off).
-- **Cloudflare KV** = coupon data (Phase 2). **D1** = orders (later).
+- **Cloudflare D1** = coupons, subscribers, the welcome-offer settings (live now);
+  orders + payments later. One SQL DB for everything dynamic ("same tech").
 
 ## Phase 1 setup (how it's deployed — for reference)
 Cloudflare → Workers → connected to `github.com/nivsasi1/lev-hatahbiv`:
@@ -64,13 +73,22 @@ them manually (exactly like today).
    `npx wrangler secret put ADMIN_JWT_SECRET` → paste the **same value as the
    backend's JWT `SECRET`** (copy it from Render's env vars).
 6. `npx wrangler deploy`.
-7. Frontend wiring (next code step): checkout → `POST /api/validate-coupon`;
-   dashboard coupon editor → `/api/admin/coupons` (GET/POST/DELETE); then retire
-   the baked-Mongo coupon list.
+7. **After editing `worker/index.ts` or the schema, redeploy:** `npx wrangler deploy`.
+   When the schema changes (e.g. the `settings` table), first re-run
+   `npx wrangler d1 execute lev --remote --file=worker/schema.sql` (it's idempotent —
+   `CREATE TABLE IF NOT EXISTS` + `INSERT OR IGNORE`).
 
-**Implemented now:** `POST /api/validate-coupon`, `GET/POST/DELETE /api/admin/coupons`
-(JWT). Per-IP **rate limiting** is built in (D1 fixed window). Welcome-coupon
-generation (`POST /api/subscribe`) is stubbed pending the code-format decision.
+**API surface (all live):**
+- Public: `POST /api/validate-coupon`, `GET /api/welcome`, `POST /api/subscribe`.
+- Admin (JWT): `GET/POST /api/admin/coupons`, `DELETE /api/admin/coupons/:code`,
+  `GET /api/admin/subscribers`, `DELETE /api/admin/subscribers/:email`,
+  `GET/POST /api/admin/settings` (welcome toggle + percent).
+
+**Frontend wiring (done):** the storefront calls the Worker at `WORKER_API`
+(`/api`, same origin) — see `Frontend/src/data/api.ts`. Welcome codes are
+single-use per email, idempotent (same email → same code); manager coupons
+support a max-uses cap. The welcome offer percent/toggle is set in the dashboard
+(D1 `settings`), not baked.
 
 ## Phase 3 — payments (after a provider is chosen)
 Add Worker endpoints: `POST /api/checkout` (create the payment session with the

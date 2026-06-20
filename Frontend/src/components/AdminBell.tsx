@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE } from "../data/api";
+import { API_BASE, WORKER_API } from "../data/api";
 
 // Manager-only bell in the header: polls the dashboard API for new orders and
 // new newsletter subscribers, and shows a red count badge. Renders nothing for
@@ -48,7 +48,7 @@ export const AdminBell = () => {
         const headers = { Authorization: `Bearer ${token}` };
         const [ordersRes, subsRes] = await Promise.all([
           fetch(`${API_BASE}/admin/orders`, { headers }),
-          fetch(`${API_BASE}/admin/subscribers`, { headers }),
+          fetch(`${WORKER_API}/admin/subscribers`, { headers }),
         ]);
         if (!ordersRes.ok || !subsRes.ok) {
           if (!cancelled) {

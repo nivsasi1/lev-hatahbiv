@@ -5,12 +5,11 @@ import {
   shekel,
   FREE_SHIPPING_FROM,
   store,
-  findCoupon,
 } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
-import { API_BASE } from "../data/api";
+import { API_BASE, WORKER_API } from "../data/api";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
@@ -28,6 +27,7 @@ export const CartPage = () => {
     { code: string; percent: number } | null
   >(null);
   const [couponError, setCouponError] = useState("");
+  const [couponBusy, setCouponBusy] = useState(false);
 
   const freeShipping = total >= FREE_SHIPPING_FROM;
   const shippingCost = delivery.id === "pickup" || freeShipping ? 0 : delivery.price;
@@ -58,15 +58,37 @@ export const CartPage = () => {
     }
   };
 
-  const applyCoupon = () => {
-    const c = findCoupon(couponInput);
-    if (!c) {
-      setCouponError("קוד הקופון אינו תקין");
-      return;
-    }
-    setAppliedCoupon(c);
-    setCouponOpen(false);
+  // coupons are validated live by the Cloudflare Worker (D1) — the failure
+  // response is deliberately vague so it never reveals which codes exist.
+  const applyCoupon = async () => {
+    const code = couponInput.trim();
+    if (!code || couponBusy) return;
+    setCouponBusy(true);
     setCouponError("");
+    try {
+      const res = await fetch(`${WORKER_API}/validate-coupon`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+      const data = await res.json().catch(() => null);
+      // no JSON body => no Worker reachable (e.g. served without /api): show the
+      // retry copy, not "invalid code" — the code might be perfectly valid.
+      if (!data) {
+        setCouponError("לא הצלחנו לבדוק את הקוד כרגע, נסו שוב");
+        return;
+      }
+      if (!res.ok || !data.valid) {
+        setCouponError(data.error || "קוד הקופון אינו תקין");
+        return;
+      }
+      setAppliedCoupon({ code: data.code, percent: data.percent });
+      setCouponOpen(false);
+    } catch {
+      setCouponError("לא הצלחנו לבדוק את הקוד כרגע, נסו שוב");
+    } finally {
+      setCouponBusy(false);
+    }
   };
   const removeCoupon = () => {
     setAppliedCoupon(null);
@@ -177,8 +199,12 @@ export const CartPage = () => {
                   }}
                   autoFocus
                 />
-                <button type="submit" className="btn coupon-confirm">
-                  אישור
+                <button
+                  type="submit"
+                  className="btn coupon-confirm"
+                  disabled={couponBusy}
+                >
+                  {couponBusy ? "בודק…" : "אישור"}
                 </button>
               </form>
             )}

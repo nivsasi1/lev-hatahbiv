@@ -45,3 +45,13 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   count      INTEGER NOT NULL,
   reset_at   INTEGER NOT NULL                   -- unix seconds when the window resets
 );
+
+-- Key/value config the storefront + dashboard read live (no publish needed).
+-- Currently: the newsletter welcome-offer toggle + percent.
+CREATE TABLE IF NOT EXISTS settings (
+  key   TEXT PRIMARY KEY,
+  value TEXT
+);
+INSERT OR IGNORE INTO settings (key, value) VALUES
+  ('welcome_enabled', '1'),
+  ('welcome_percent', '10');

@@ -255,22 +255,8 @@ export const siteSettings = {
     }
     return out;
   })(),
-  // checkout discount coupons (manager-set). Codes matched case-insensitively.
-  coupons: (((settings as any).coupons as Array<{ code: string; percent: number }>) ?? []).filter(
-    (c) => c && c.code && c.percent > 0
-  ),
-  // code advertised to new newsletter subscribers (matches one of `coupons`).
-  welcomeCoupon:
-    typeof (settings as any).welcomeCoupon === "string" ? (settings as any).welcomeCoupon : "",
-};
-
-// Look up a coupon by its code (case-insensitive). Returns null if none match.
-export const findCoupon = (
-  code: string
-): { code: string; percent: number } | null => {
-  const c = String(code || "").trim().toUpperCase();
-  if (!c) return null;
-  return siteSettings.coupons.find((x) => x.code.toUpperCase() === c) ?? null;
+  // NOTE: coupons + the newsletter welcome offer no longer live here — they're
+  // served live by the Cloudflare Worker (D1) via /api. See worker/index.ts.
 };
 
 const productById = new Map(products.map((p) => [p.id, p]));

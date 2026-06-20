@@ -127,13 +127,8 @@ const settings = {
     rawSettings.shelfImages && typeof rawSettings.shelfImages === "object" && !Array.isArray(rawSettings.shelfImages)
       ? rawSettings.shelfImages
       : {},
-  coupons: Array.isArray(rawSettings.coupons)
-    ? rawSettings.coupons
-        .map((c) => ({ code: String((c && c.code) || "").trim(), percent: Number(c && c.percent) || 0 }))
-        .filter((c) => c.code && c.percent > 0)
-    : [],
-  welcomeCoupon:
-    typeof rawSettings.welcomeCoupon === "string" ? rawSettings.welcomeCoupon.trim().toUpperCase() : "",
+  // coupons + the welcome offer are no longer baked — served live by the
+  // Cloudflare Worker (D1). See worker/index.ts.
 };
 writeFileSync(settingsOutPath, JSON.stringify(settings));
 const saleCount = products.filter((p) => p.salePrice != null).length;
