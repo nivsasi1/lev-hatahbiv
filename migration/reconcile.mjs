@@ -10,8 +10,10 @@ import {
 } from "./lib.mjs";
 import { buildColToTax, buildTripleIndex, assignTaxonomy } from "./taxonomy.mjs";
 
-// agent/human-approved category overrides for brand-new collections (optional)
-const ovPath = join(OUT, "collection-overrides.json");
+// agent/human-approved category overrides for brand-new collections.
+// Committed file (migration/collection-overrides.json) so re-syncs categorize
+// new brand lines consistently without re-running the classifier.
+const ovPath = join(MIG, "collection-overrides.json");
 const overrides = existsSync(ovPath) ? readJson(ovPath) : {};
 
 const argUri = (() => {

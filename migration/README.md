@@ -39,8 +39,15 @@ cd Backend  && node dump-products.js           # 6. regenerate the static catalo
 cd Frontend && node scripts/generate-catalog.mjs
 
 # when local looks right, push the same plan to production:
+node migration/reconcile.mjs --target atlas    # atlas has its own _ids
 node migration/sync.mjs --target atlas --apply
+
+node migration/upload-s3.mjs            # upload new product images to S3 (skips existing)
 ```
+
+`collection-overrides.json` (committed) maps brand-new Wix collections (Golden, Daniel
+Smith, DecoArt Americana, FW INK, …) to category/sub/third so re-syncs file them
+consistently. Add a line there when a new line appears, or let the classifier re-run.
 
 Flags: `--apply` (commit; default is dry-run) · `--target atlas` · `--delete-removed`
 (hard-delete discontinued instead of hiding) · `--uri <mongo-uri>` (override target).
