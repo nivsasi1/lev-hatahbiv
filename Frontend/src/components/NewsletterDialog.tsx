@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { API_BASE } from "../data/api";
-import { store, siteSettings, findCoupon } from "../data/catalog";
+import { WORKER_API } from "../data/api";
+import { store } from "../data/catalog";
 import { Splat } from "./Splat";
 
 // Shows once per visitor (15s after first arriving), or whenever something
@@ -16,10 +16,25 @@ export const NewsletterDialog = () => {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const { pathname } = useLocation();
-  // the manager-set welcome code, only if a matching coupon actually exists
-  const welcome = siteSettings.welcomeCoupon
-    ? findCoupon(siteSettings.welcomeCoupon)
-    : null;
+  // the live welcome offer (percent) from the Worker, and the personal
+  // single-use code minted for this subscriber once they sign up.
+  const [welcome, setWelcome] = useState<{ percent: number } | null>(null);
+  const [coupon, setCoupon] = useState<{ code: string; percent: number } | null>(null);
+
+  // pull the current offer so the copy can show the right percent (or hide the
+  // offer entirely if the manager turned it off). Silent on failure.
+  useEffect(() => {
+    let alive = true;
+    fetch(`${WORKER_API}/welcome`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (alive && d && d.enabled) setWelcome({ percent: d.percent });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   useEffect(() => {
     const openNow = () => {
@@ -60,13 +75,18 @@ export const NewsletterDialog = () => {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch(`${API_BASE}/newsletter`, {
+      const res = await fetch(`${WORKER_API}/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || "שגיאה בהרשמה");
+      // a no-Worker host (static fallback) returns index.html with 200 — guard
+      // on the response SHAPE, not just res.ok, so we don't fake a signup.
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data || !data.subscribed)
+        throw new Error((data && data.error) || "שגיאה בהרשמה");
+      // the Worker mints a personal single-use code (when the offer is on)
+      if (data.code) setCoupon({ code: data.code, percent: data.percent });
       localStorage.setItem(SEEN_KEY, "subscribed");
       setStatus("done");
     } catch (err: any) {
@@ -91,13 +111,13 @@ export const NewsletterDialog = () => {
         {status === "done" ? (
           <div className="news-body">
             <h2 className="display">איזה כיף! נשמרתם אצלנו 🎨</h2>
-            {welcome ? (
+            {coupon ? (
               <>
                 <p>
-                  מתנת הצטרפות 🎁 — הזינו את הקוד בעמוד התשלום ל־{welcome.percent}%
-                  הנחה על ההזמנה הראשונה:
+                  מתנת הצטרפות 🎁 — הקוד האישי שלכם ל־{coupon.percent}% הנחה על
+                  ההזמנה הראשונה (חד-פעמי, רק בשבילכם):
                 </p>
-                <div className="news-coupon-code">{welcome.code}</div>
+                <div className="news-coupon-code">{coupon.code}</div>
               </>
             ) : (
               <p>מבטיחים לכתוב רק כשיש משהו ששווה את הצבע.</p>
@@ -118,14 +138,6 @@ export const NewsletterDialog = () => {
             >
               הצטרפות בוואטסאפ 💬
             </a>
-            {welcome && (
-              <>
-                <p className="news-coupon-note" style={{ marginTop: "0.9rem" }}>
-                  ובכל מקרה — הקוד שלכם ל־{welcome.percent}% הנחה:
-                </p>
-                <div className="news-coupon-code">{welcome.code}</div>
-              </>
-            )}
           </div>
         ) : (
           <div className="news-body">

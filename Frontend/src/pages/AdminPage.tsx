@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { categories } from "../data/catalog";
-import { API_BASE } from "../data/api";
+import { API_BASE, WORKER_API } from "../data/api";
 import "./admin-tools.css";
 import "./admin-clean.css";
 
 // ─── Manager dashboard (/manage) ────────────────────────────────────────────
-// Talks to the Express backend (local now, hosted later via VITE_API_URL).
-// After making changes, press "פרסום לאתר" to regenerate + rebuild the site.
+// Products / orders / publish talk to the Express backend (VITE_API_URL).
+// Coupons / subscribers / the welcome offer live on the Cloudflare Worker (D1)
+// at WORKER_API and take effect immediately (no publish).
 const API = `${API_BASE}/admin`;
+const WAPI = `${WORKER_API}/admin`;
 
 // ─── JWT storage strategy ───────────────────────────────────────────────────
 // The token lives in sessionStorage, NOT localStorage:
@@ -211,7 +213,9 @@ export const AdminPage = () => {
   const [form, setForm] = useState<any>(emptyForm);
   const [showAdd, setShowAdd] = useState(false);
   const [publishing, setPublishing] = useState(false);
-  const [subscribers, setSubscribers] = useState<{ _id: string; email: string }[]>([]);
+  const [subscribers, setSubscribers] = useState<
+    { email: string; coupon_code?: string | null; created_at?: string }[]
+  >([]);
   const [showSubs, setShowSubs] = useState(false);
   const [orders, setOrders] = useState<any[]>([]);
   const [view, setView] = useState<"products" | "orders" | "stats" | "home">("products");
@@ -226,8 +230,11 @@ export const AdminPage = () => {
   // home-page category-mosaic photos: { slug: url }. Only slugs the manager
   // explicitly set live here; the storefront falls back to DEFAULT_SHELF_IMAGES.
   const [shelfImages, setShelfImages] = useState<Record<string, string>>({});
-  const [coupons, setCoupons] = useState<Array<{ code: string; percent: number }>>([]);
-  const [welcomeCoupon, setWelcomeCoupon] = useState("");
+  const [coupons, setCoupons] = useState<
+    Array<{ code: string; percent: number; maxUses: number | null; usedCount?: number }>
+  >([]);
+  const [welcomeEnabled, setWelcomeEnabled] = useState(true);
+  const [welcomePercent, setWelcomePercent] = useState(10);
   const [shelfUploading, setShelfUploading] = useState<string | null>(null);
   const [shelfSaved, setShelfSaved] = useState(false);
   const [homeLoaded, setHomeLoaded] = useState(false);
@@ -320,12 +327,36 @@ export const AdminPage = () => {
     return data;
   };
 
+  // same JWT, but against the Cloudflare Worker (coupons / subscribers /
+  // welcome offer). A worker hiccup surfaces an error but never drops the
+  // Express session, so it doesn't log the manager out of the dashboard.
+  const workerCall = async (path: string, init: RequestInit = {}) => {
+    const res = await fetch(`${WAPI}${path}`, {
+      ...init,
+      headers: {
+        ...(init.body ? { "Content-Type": "application/json" } : {}),
+        Authorization: `Bearer ${token}`,
+        ...(init.headers || {}),
+      },
+    });
+    // a no-Worker host returns index.html (200) — treat a non-JSON body as a
+    // failure so loadHome/refresh fall back to defaults instead of garbage.
+    const data = await res.json().catch(() => null);
+    if (!res.ok || data === null)
+      throw new Error((data && data.error) || `שגיאה (${res.status})`);
+    return data;
+  };
+
   const refresh = () =>
-    Promise.all([call("/products"), call("/subscribers"), call("/orders")])
-      .then(([p, s, o]) => {
+    Promise.all([
+      call("/products"),
+      call("/orders"),
+      workerCall("/subscribers").catch(() => ({ subscribers: [] })),
+    ])
+      .then(([p, o, s]) => {
         setProducts(p.products);
-        setSubscribers(s.subscribers);
         setOrders(o.orders);
+        setSubscribers(s.subscribers || []);
       })
       .catch((e) => setError(e.message));
 
@@ -784,14 +815,21 @@ export const AdminPage = () => {
           ? d.settings.shelfImages
           : {}
       );
+      // coupons + the welcome offer come from the Worker (D1), not Mongo.
+      const [cz, wc] = await Promise.all([
+        workerCall("/coupons").catch(() => ({ coupons: [] })),
+        workerCall("/settings").catch(() => ({ welcomeEnabled: true, welcomePercent: 10 })),
+      ]);
       setCoupons(
-        Array.isArray(d.settings.coupons)
-          ? d.settings.coupons.filter((c: any) => c && c.code)
-          : []
+        (cz.coupons || []).map((c: any) => ({
+          code: c.code,
+          percent: c.percent,
+          maxUses: c.max_uses ?? null,
+          usedCount: c.used_count ?? 0,
+        }))
       );
-      setWelcomeCoupon(
-        typeof d.settings.welcomeCoupon === "string" ? d.settings.welcomeCoupon : ""
-      );
+      setWelcomeEnabled(!!wc.welcomeEnabled);
+      setWelcomePercent(wc.welcomePercent ?? 10);
       setHomeLoaded(true);
     });
 
@@ -803,8 +841,6 @@ export const AdminPage = () => {
     featuredIds,
     saleIds,
     shelfImages,
-    coupons,
-    welcomeCoupon,
   });
 
   const setRibbonSlot = (i: number, v: string) =>
@@ -818,26 +854,61 @@ export const AdminPage = () => {
       });
     }, "הטקסטים נשמרו! יופיעו באתר אחרי פרסום");
 
-  const addCoupon = () => setCoupons((cs) => [...cs, { code: "", percent: 10 }]);
-  const updateCoupon = (i: number, field: "code" | "percent", v: string) =>
+  const addCoupon = () =>
+    setCoupons((cs) => [...cs, { code: "", percent: 10, maxUses: null }]);
+  const updateCoupon = (
+    i: number,
+    field: "code" | "percent" | "maxUses",
+    v: string
+  ) =>
     setCoupons((cs) =>
       cs.map((c, j) =>
         j !== i
           ? c
           : field === "code"
             ? { ...c, code: v.toUpperCase() }
-            : { ...c, percent: Math.min(Math.max(Math.round(Number(v) || 0), 1), 100) }
+            : field === "percent"
+              ? { ...c, percent: Math.min(Math.max(Math.round(Number(v) || 0), 1), 100) }
+              : { ...c, maxUses: v === "" ? null : Math.max(1, Math.round(Number(v) || 1)) }
       )
     );
+  // delete on the Worker too when the row was already saved (has a code)
   const deleteCoupon = (i: number) =>
-    setCoupons((cs) => cs.filter((_, j) => j !== i));
+    act(async () => {
+      const c = coupons[i];
+      if (c.code)
+        await workerCall(`/coupons/${encodeURIComponent(c.code)}`, { method: "DELETE" });
+      setCoupons((cs) => cs.filter((_, j) => j !== i));
+    });
+  // upsert every row with a code, then reload from the Worker (live immediately)
   const saveCoupons = () =>
     act(async () => {
-      await call(`/settings`, {
-        method: "PUT",
-        body: JSON.stringify(settingsPayload()),
+      for (const c of coupons) {
+        if (!c.code) continue;
+        await workerCall("/coupons", {
+          method: "POST",
+          body: JSON.stringify({ code: c.code, percent: c.percent, maxUses: c.maxUses }),
+        });
+      }
+      const cz = await workerCall("/coupons");
+      setCoupons(
+        (cz.coupons || []).map((c: any) => ({
+          code: c.code,
+          percent: c.percent,
+          maxUses: c.max_uses ?? null,
+          usedCount: c.used_count ?? 0,
+        }))
+      );
+    }, "הקופונים נשמרו! פעילים מיד באתר");
+
+  // welcome offer (toggle + percent) — lives in the Worker (D1), live at once
+  const saveWelcome = () =>
+    act(async () => {
+      await workerCall("/settings", {
+        method: "POST",
+        body: JSON.stringify({ welcomeEnabled, welcomePercent }),
       });
-    }, "הקופונים נשמרו! יופיעו באתר אחרי פרסום");
+    }, "הצעת ההצטרפות נשמרה! פעילה מיד");
 
   const featuredMatches = useMemo(() => {
     const q = featuredSearch.trim();
@@ -1386,7 +1457,8 @@ export const AdminPage = () => {
             <h3 className="display">קופונים</h3>
             <p className="import-help">
               הוסיפו קודי קופון ואת אחוז ההנחה של כל אחד. הקונה מקליד את הקוד
-              בעמוד התשלום ומקבל את ההנחה. הקופונים מתעדכנים באתר אחרי פרסום.
+              בעמוד התשלום ומקבל את ההנחה. שינויים נכנסים לתוקף מיד (בלי פרסום).
+              "מספר שימושים" ריק = ללא הגבלה.
             </p>
             <div className="coupon-admin-list">
               {coupons.length === 0 && (
@@ -1411,6 +1483,19 @@ export const AdminPage = () => {
                     />
                     <span>%</span>
                   </div>
+                  <div className="coupon-admin-pct">
+                    <input
+                      type="number"
+                      min={1}
+                      placeholder="∞"
+                      value={c.maxUses ?? ""}
+                      onInput={(e: any) => updateCoupon(i, "maxUses", e.target.value)}
+                    />
+                    <span>שימושים</span>
+                  </div>
+                  {c.usedCount ? (
+                    <span className="import-help dim">נוצל {c.usedCount}</span>
+                  ) : null}
                   <button
                     type="button"
                     className="btn small ghost"
@@ -1421,25 +1506,56 @@ export const AdminPage = () => {
                 </div>
               ))}
             </div>
-            <label className="welcome-coupon-field">
-              <span>קוד למצטרפים חדשים (מופיע בפופאפ ההרשמה לניוזלטר):</span>
-              <input
-                type="text"
-                className="coupon-admin-code"
-                placeholder="לדוגמה LEV10"
-                value={welcomeCoupon}
-                onInput={(e: any) => setWelcomeCoupon(e.target.value.toUpperCase())}
-              />
-              <small className="import-help dim">
-                צריך להתאים לאחד הקופונים למעלה, אחרת לא יוצג בפופאפ.
-              </small>
-            </label>
             <div className="home-block-foot">
               <button type="button" className="btn small ghost" onClick={addCoupon}>
                 ➕ קופון חדש
               </button>
               <button className="btn" onClick={saveCoupons}>
                 שמירת הקופונים
+              </button>
+            </div>
+
+            <hr
+              style={{
+                margin: "1.4rem 0 1rem",
+                border: "none",
+                borderTop: "1px dashed rgba(43,36,64,0.25)",
+              }}
+            />
+            <h3 className="display">מתנת הצטרפות (ניוזלטר)</h3>
+            <p className="import-help">
+              מצטרפים חדשים מקבלים בפופאפ ההרשמה קוד אישי לשימוש חד-פעמי. כאן
+              קובעים אם ההצעה פעילה ומה אחוז ההנחה. תקף מיד, בלי פרסום.
+            </p>
+            <label
+              className="welcome-coupon-field"
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
+              <input
+                type="checkbox"
+                checked={welcomeEnabled}
+                onChange={(e: any) => setWelcomeEnabled(e.target.checked)}
+              />
+              <span>הצעת הצטרפות פעילה</span>
+            </label>
+            <div className="coupon-admin-pct" style={{ marginTop: "0.6rem" }}>
+              <input
+                type="number"
+                min={1}
+                max={100}
+                value={welcomePercent}
+                disabled={!welcomeEnabled}
+                onInput={(e: any) =>
+                  setWelcomePercent(
+                    Math.min(Math.max(Math.round(Number(e.target.value) || 0), 1), 100)
+                  )
+                }
+              />
+              <span>% הנחה למצטרפים</span>
+            </div>
+            <div className="home-block-foot">
+              <button className="btn" onClick={saveWelcome}>
+                שמירת ההצעה
               </button>
             </div>
           </section>
@@ -1617,14 +1733,16 @@ export const AdminPage = () => {
           ) : (
             <div className="subs-list">
               {subscribers.map((s) => (
-                <span key={s._id} className="subs-chip">
+                <span key={s.email} className="subs-chip">
                   {s.email}
                   <button
                     aria-label={`הסרת ${s.email}`}
                     onClick={() =>
                       act(async () => {
-                        await call(`/subscribers/${s._id}`, { method: "DELETE" });
-                        setSubscribers((prev) => prev.filter((x) => x._id !== s._id));
+                        await workerCall(`/subscribers/${encodeURIComponent(s.email)}`, {
+                          method: "DELETE",
+                        });
+                        setSubscribers((prev) => prev.filter((x) => x.email !== s.email));
                       })
                     }
                   >

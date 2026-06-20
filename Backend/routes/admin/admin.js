@@ -501,8 +501,6 @@ router.get(
         ...base,
         saleIds: base.saleIds || [],
         shelfImages: base.shelfImages || {},
-        coupons: base.coupons || [],
-        welcomeCoupon: base.welcomeCoupon || "",
       },
     });
   })
@@ -557,34 +555,11 @@ router.put(
       }
     }
 
-    // coupons is optional: [{ code, percent }]. Codes upper-cased + trimmed,
-    // percent clamped 1..100; blank codes dropped.
-    let coupons;
-    if (body.coupons !== undefined) {
-      if (!Array.isArray(body.coupons)) {
-        return res.status(400).json({ error: "מבנה הקופונים לא תקין" });
-      }
-      coupons = body.coupons
-        .map((c) => ({
-          code: String((c && c.code) || "").trim().toUpperCase().slice(0, 40),
-          percent: Math.min(Math.max(Math.round(Number(c && c.percent) || 0), 1), 100),
-        }))
-        .filter((c) => c.code);
-      if (coupons.length > 50) {
-        return res.status(400).json({ error: "עד 50 קופונים" });
-      }
-    }
-
-    // welcomeCoupon: optional code string shown to new newsletter subscribers.
-    let welcomeCoupon;
-    if (body.welcomeCoupon !== undefined) {
-      welcomeCoupon = String(body.welcomeCoupon || "").trim().toUpperCase().slice(0, 40);
-    }
+    // NOTE: coupons + the newsletter welcome offer moved to the Cloudflare
+    // Worker (D1) — they're no longer part of the Mongo settings singleton.
 
     const $set = { ribbonTexts, featuredIds, saleIds };
     if (shelfImages !== undefined) $set.shelfImages = shelfImages;
-    if (coupons !== undefined) $set.coupons = coupons;
-    if (welcomeCoupon !== undefined) $set.welcomeCoupon = welcomeCoupon;
 
     const settings = await SiteSettings.findOneAndUpdate(
       {},
