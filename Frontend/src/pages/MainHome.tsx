@@ -341,7 +341,7 @@ export default ({ cursorFx }: { cursorFx?: any }) => {
             </div>
             <div className="ph-sale-more">
               <Link to="/sale" className="btn ghost">
-                לעוד מוצרים ←
+                לעוד מבצעים ←
               </Link>
             </div>
           </div>
