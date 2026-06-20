@@ -2,11 +2,12 @@
   // Cloudflare Workers (Static Assets) config for the storefront.
   // Phase 1: assets-only — `npx wrangler deploy` serves the built SPA from
   // Frontend/dist, with client-side routing handled by the SPA fallback.
-  // Phase 2 will add "main" (a Worker entry) + KV/D1 bindings for the coupon /
-  // payment functions, e.g.:
-  //   "main": "worker/index.ts",
-  //   "kv_namespaces": [{ "binding": "COUPONS", "id": "..." }],
-  //   "d1_databases": [{ "binding": "DB", "database_name": "lev", "database_id": "..." }]
+  // Phase 2 (coupon API) — to ACTIVATE after `npx wrangler d1 create lev`:
+  //   1) "main": "worker/index.ts",
+  //   2) add  "binding": "ASSETS"  inside the "assets" block below,
+  //   3) "d1_databases": [{ "binding": "DB", "database_name": "lev", "database_id": "<id>" }],
+  //   4) npx wrangler secret put ADMIN_JWT_SECRET   (= the backend's JWT SECRET)
+  // Until then this stays assets-only so the static deploy keeps working.
   "name": "lev-hatahbiv",
   "compatibility_date": "2026-06-18",
   "assets": {

@@ -46,24 +46,31 @@ Storefront is still static → **product/price changes still need a rebuild
 ("publish")**. What's gone: the 30–60s cold start. What Phase 2 removes: publish
 **for coupons** (validated live by the Worker → instant, hidden, single-use-able).
 
-## Phase 2 — activating the coupon Worker (`worker/index.ts`)
-1. Install dev deps (once): `npm i -D wrangler @cloudflare/workers-types`.
-2. Create the KV namespace: `npx wrangler kv namespace create COUPONS`
-   (and copy the returned `id`).
-3. Add to `wrangler.jsonc`:
+## Phase 2 — activating the coupon Worker (`worker/index.ts` + `worker/schema.sql`)
+Coupons + orders live in **D1** (one SQL DB — the "same tech for easier fixes"
+choice). Single-use is consumed on **payment success** (Phase 3); until card
+payments exist, welcome codes validate but aren't auto-consumed, so you honor
+them manually (exactly like today).
+
+1. Dev deps (once): `npm i -D wrangler @cloudflare/workers-types`.
+2. Create the DB: `npx wrangler d1 create lev` → copy the `database_id`.
+3. Create the tables: `npx wrangler d1 execute lev --remote --file=worker/schema.sql`.
+4. In `wrangler.jsonc`: set `"main": "worker/index.ts"`, add `"binding": "ASSETS"`
+   inside `"assets"`, and add:
    ```jsonc
-   "main": "worker/index.ts",
-   "assets": { "directory": "./Frontend/dist", "binding": "ASSETS",
-               "not_found_handling": "single-page-application" },
-   "kv_namespaces": [{ "binding": "COUPONS", "id": "<the id from step 2>" }]
+   "d1_databases": [{ "binding": "DB", "database_name": "lev", "database_id": "<id>" }]
    ```
-   (optional rate-limit counters: a second namespace bound as `RL`).
-4. Seed a coupon: `npx wrangler kv key put --binding=COUPONS SUMMER '{"percent":10}'`.
-5. Deploy, then point the storefront's checkout at `POST /api/validate-coupon`
-   instead of the baked `findCoupon()` (so codes are hidden + server-validated).
-6. **Rate limiting** is built into the Worker (per-IP, KV-based). For *strict*
-   single-use coupons, move the "used" check to **D1** or a **Durable Object**
-   (KV is eventually consistent — fine for lookups, not for exactly-once).
+5. Share the admin token so the existing dashboard login works here:
+   `npx wrangler secret put ADMIN_JWT_SECRET` → paste the **same value as the
+   backend's JWT `SECRET`** (copy it from Render's env vars).
+6. `npx wrangler deploy`.
+7. Frontend wiring (next code step): checkout → `POST /api/validate-coupon`;
+   dashboard coupon editor → `/api/admin/coupons` (GET/POST/DELETE); then retire
+   the baked-Mongo coupon list.
+
+**Implemented now:** `POST /api/validate-coupon`, `GET/POST/DELETE /api/admin/coupons`
+(JWT). Per-IP **rate limiting** is built in (D1 fixed window). Welcome-coupon
+generation (`POST /api/subscribe`) is stubbed pending the code-format decision.
 
 ## Phase 3 — payments (after a provider is chosen)
 Add Worker endpoints: `POST /api/checkout` (create the payment session with the
