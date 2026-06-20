@@ -1,0 +1,9 @@
+# generated data / artifacts — keep only the scripts + README in git
+wix-products.json
+wix-collections.json
+mongo.json
+wix-raw/
+out/
+images/
+backups/
+*.tsv
