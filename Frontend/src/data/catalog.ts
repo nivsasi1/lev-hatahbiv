@@ -324,6 +324,8 @@ export const FREE_SHIPPING_FROM = 300;
 
 export const store = {
   name: "לב התחביב",
+  legalName: 'לב התחביב בע"מ',
+  companyId: "511183279", // ח.פ — shown in footer + legal pages (required for סליקה)
   since: "1985",
   address: "המנוף 6, רחובות",
   phone: "08-9315213",

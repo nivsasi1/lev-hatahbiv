@@ -19,6 +19,10 @@ import { CartPage } from "./pages/CartPage";
 import { SalePage } from "./pages/SalePage";
 import { AdminPage } from "./pages/adminpage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
+import { TermsPage } from "./pages/TermsPage";
+import { ReturnsPage } from "./pages/ReturnsPage";
+import { PrivacyPage } from "./pages/PrivacyPage";
+import { ContactPage } from "./pages/ContactPage";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -66,6 +70,10 @@ const router = createBrowserRouter(
         { path: "/sale", element: <SalePage /> },
         { path: "/manage", element: <AdminPage /> },
         { path: "/accessibility", element: <AccessibilityPage /> },
+        { path: "/terms", element: <TermsPage /> },
+        { path: "/returns", element: <ReturnsPage /> },
+        { path: "/privacy", element: <PrivacyPage /> },
+        { path: "/contact", element: <ContactPage /> },
         { path: "*", element: <HomePage /> },
       ],
     },

@@ -52,9 +52,18 @@ export const Footer = () => (
         </div>
       </div>
 
-      <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} לב התחביב בע"מ — נצבע באהבה ברחובות</span>
+      <nav className="footer-legal" aria-label="מידע ומדיניות">
+        <Link to="/terms">תקנון</Link>
+        <Link to="/returns">ביטולים והחזרות</Link>
+        <Link to="/privacy">מדיניות פרטיות</Link>
+        <Link to="/contact">צור קשר</Link>
         <Link to="/accessibility">הצהרת נגישות</Link>
+      </nav>
+
+      <div className="footer-bottom">
+        <span>
+          © {new Date().getFullYear()} {store.legalName} (ח.פ {store.companyId}) — נצבע באהבה ברחובות
+        </span>
         <span>משלוח חינם בקנייה מעל ₪300</span>
       </div>
     </div>
