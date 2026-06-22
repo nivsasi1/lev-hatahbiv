@@ -17,7 +17,7 @@ import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 import { SalePage } from "./pages/SalePage";
-import { AdminPage } from "./pages/AdminPage";
+import { AdminPage } from "./pages/adminpage";
 import { AccessibilityPage } from "./pages/AccessibilityPage";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
