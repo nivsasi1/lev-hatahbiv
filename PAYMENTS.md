@@ -1,135 +1,149 @@
-# Payments — Grow (Meshulam) integration plan
+# Payments — PayMe integration plan
 
-Status: **decided on Grow, percentage plan. Not built yet.** This is the research +
-plan to execute **after** you sign up and receive your Grow API credentials.
+Status: **decided on PayMe** (we already had a PayMe link from the Wix site). Not built
+yet. This is the research + plan to execute **after** the Sandbox account is ready.
+(Earlier we evaluated Grow/Meshulam; superseded by PayMe.)
 
-## Why Grow (recap)
+## Why PayMe fits us well
 
-- **Stripe is out** — Israel is not a supported country for opening a Stripe
-  merchant account / payouts to an Israeli bank ([stripe.com/global](https://stripe.com/global),
-  [Stripe: open account in another country](https://support.stripe.com/questions/requirements-to-open-a-stripe-account-in-another-country)). Workarounds (US entity via Atlas) add tax/legal/FX burden — not worth it for a small shop.
-- **Grow fits**: open to עוסק פטור/מורשה, supports cards + Apple Pay + Google Pay
-  (+ Bit/PayBox as free bonuses), hosted checkout, webhooks, auto VAT invoices, and
-  works with a serverless backend. ([grow.business/fees](https://grow.business/fees/), [Grow API/devs](https://grow.business/api-developers/))
+- **Already onboarded** — the business has a PayMe relationship from Wix, so no new KYC from scratch.
+- **Hosted payment page** (`generate-sale` → `sale_url`) → **no card data touches our site** (no PCI burden), works perfectly from a serverless Worker.
+- **Prices are in agורot (integer)** — matches our D1 `orders` table exactly, so **no float conversion** (a real plus vs Grow).
+- **Real webhook signature** (`payme_signature`) for verifying callbacks — stronger than a shared key.
+- Supports cards + Apple Pay + Google Pay + Bit + installments.
 
-## Pricing we're taking (pay-per-transaction)
+## What PayMe sent us
 
-- **1.4% + ₪1 per transaction**, tier 0–5,000 ₪/month, **no setup fee, no monthly fee**
-  ([grow.business/fees](https://grow.business/fees/), seen 2026-06). Digital wallets (Apple/Google Pay, Bit) are the **same** 1.4% + ₪1.
-- Worked cost at our scale:
-  - ₪100 order → 1.4% (₪1.40) + ₪1 = **₪2.40** (2.4%).
-  - ₪200 order → ₪2.80 + ₪1 = **₪3.80** (1.9%).
-  - ~₪10k/month (say ~60 orders avg ₪165) → ~₪140 (1.4%) + ₪60 (fixed) ≈ **₪200/mo (~2.0%)**.
-- There's also a promo **0.6% + ₪59/month** plan — ignore it for now (monthly fee; only
-  wins above ~₪7–8k/month). Revisit once volume is steady. ([pay-as-you-grow](https://grow.business/pay-as-you-grow/))
+- Full API docs: <https://docs.payme.io> (mirror <https://payme.stoplight.io>) — **JS-rendered; view in a browser**.
+- Sandbox signup: `https://www1.paid.co.il/system/kyc/signup/63badadbc55f75004a8eb326`
+- Test cards: <https://payme.stoplight.io/docs/payments/v781p5enpoq9x-test-cards-and-payment-methods>
+- Env switch: in the dashboard, click the name top-left → white bar = Test, green bar = Production.
+- Webhooks: set `sale_callback_url` in the `generate-sale` call to get real-time status; **PayMe recommends the callback as the primary confirmation mechanism.**
+- Tech questions: partners@payme.io
+- ⚠️ **Account site update:** moving Wix → standalone requires PayMe to update the site linked to the account (their tech team, 1–2 business days). **Give them our new site URL.**
 
-## How Grow's API works (the parts we use)
+## How the API works (the parts we use)
 
-### 1. Create payment (server-side) — Light API
-- Endpoint: `POST /api/light/server/1.0/createPaymentProcess/`
-  - Sandbox: `https://sandbox.meshulam.co.il`
-  - Production: `https://secure.meshulam.co.il` (some docs show `api.meshulam.co.il` — **confirm the exact prod host in your dashboard**)
-- **Form-encoded** body (NOT JSON), **server-side only** (uses secret creds).
-- Credentials (from Grow at setup): **`userId`**, **`pageCode`**, and **`apiKey`** (for multi-business).
-- Request (typical fields — **confirm exact names against the live ref/Postman**): `sum` (ILS, decimal), `description`, `successUrl`, `cancelUrl`, `pageField[fullName/phone/email]`, custom field(s) to carry **our order id**, optional installments.
-- Response: `{ status, data: { url, processId, processToken } }` → **redirect the customer to `data.url`** (Grow's hosted page). ([createPaymentProcess ref](https://grow-il.readme.io/reference/post_api-light-server-1-0-createpaymentprocess-8))
+### Environments (confirmed in the docs)
+- Sandbox/test: `https://sandbox.payme.io/api/`
+- Production: `https://live.payme.io/api/`
+- Requests are **JSON** (`Content-Type: application/json`). The returned hosted
+  `sale_url` lives on `*.paymeservice.com/sale/generate/...` — that's PayMe's page.
 
-### 2. Finalize / verify — `approveTransaction`
-- After payment, call `approveTransaction` (and/or `getPaymentProcessInfo`) server→Grow with `processId`/`processToken` to **confirm the transaction + amount**. Treat this as the source of truth, not the browser redirect. ([server response](https://grow-il.readme.io/reference/server-response-1))
+### 1. Create a sale (server-side) — `generate-sale`  (confirmed)
+- `POST {base}/generate-sale` (JSON), from the Worker with secret credentials.
+- Request fields: `seller_payme_id` (our private key/seller id), `sale_price`
+  (**agorot, integer; minimum 500 = ₪5**), `currency` `"ILS"`, `product_name`
+  (≤500 chars, shown on the invoice), `transaction_id` (**our D1 order id**, ≤50),
+  `sale_callback_url` (our webhook), `sale_return_url` (browser redirect),
+  `sale_payment_method` (**use `"multi"`** → one page with card + Bit + Apple Pay +
+  Google Pay, per enabled services; or `"credit-card"`), `installments` (`"1"`, or
+  `"103/106/109/112"` for an up-to range), `language` `"he"`, optional buyer fields
+  + `items[]`. (`market_fee` is a marketplace thing — omit for a single seller.)
+- Response: `status_code` (0 ok), `sale_url` (**hosted page → redirect the shopper**),
+  `payme_sale_id`, `payme_sale_code`, `price`, `transaction_id`.
 
-### 3. Webhook (server-to-server callback) → our DB
-- **Enabled via Grow support** (you ask them to turn on webhooks + set your callback URL). ([webhooks](https://grow-il.readme.io/docs/overview-7))
-- Payload includes: `webhookKey` (your shared secret — **verify it matches**), `transactionId`/`transactionCode`, `paymentSum`, `paymentDate`, `asmachta` (reference), payer name/phone/email, card suffix/brand, `status`, and our custom order id.
-- **Auth is a shared key, not an HMAC signature** → so we ALSO re-verify via `approveTransaction` before trusting it.
-- Separate **invoice webhook**: transaction code + **invoice number + invoice URL**.
+### 2. Webhook (server-to-server) → our DB  ← primary confirmation  (confirmed)
+- PayMe POSTs to our `sale_callback_url` as **`x-www-form-urlencoded`**.
+- `notify_type` values: `sale-complete` (paid), `sale-authorized`, `refund`,
+  `sale-failure`, `sale-chargeback`, `sale-chargeback-refund`.
+- Attributes we use: `notify_type`, `sale_status` (`completed`), `transaction_id`
+  (our order id), `price` (agorot), `currency`, `payme_sale_id`,
+  `payme_transaction_id` (→ our `payment_ref`), `payme_signature` (MD5),
+  `sale_invoice_url` (the PDF, if the invoices module is on), `buyer_key` (token,
+  only if `capture_buyer` was set), buyer name/email/phone.
+- **How we verify (the signature formula isn't published):** match `transaction_id`
+  to our order, confirm `price == order total` + `currency`, then **re-query PayMe
+  server-side** (List Sales / get sale by `payme_sale_id`) to confirm
+  `sale_status == completed` — that round-trip uses our seller key and can't be
+  spoofed. (Also verify `payme_signature` once we get the exact formula from
+  partners@payme.io.) Only then mark the order paid.
 
-### 4. Invoices (חשבונית)
-- Grow auto-issues a VAT invoice/receipt (חשבונית מס/קבלה) when the invoicing module is
-  enabled on the account, and pushes the **invoice number + PDF URL** via the invoice webhook.
-- **Action at signup:** make sure the **invoice/document module is enabled** on your plan
-  (confirm it's included or what it costs).
+### 3. Browser return — `sale_return_url`
+- PayMe redirects the shopper back to our `/thank-you` after payment. **Not authoritative** (can be lost/closed) — the webhook is the source of truth.
+
+### 4. Refunds
+- A refund endpoint exists (confirm exact name, e.g. `refund-sale` / via `get-sales`) — wire later for the dashboard.
 
 ## How it maps onto OUR architecture (Workers + D1 + static SPA)
 
-This is a near-perfect fit — no always-on server needed.
-
 ```
-Shopper (static SPA)                Cloudflare Worker (/api/*)            Grow
-  cart → "שלם בכרטיס"  ── POST /api/checkout ─▶ recompute totals (server),
-                                               re-validate coupon,
-                                               INSERT order (status 'new') in D1,
-                                               createPaymentProcess ───────────▶ returns hosted URL
-                       ◀── { url } ────────────  store processId on order
-  redirect to Grow hosted page ───────────────────────────────────────────────▶ customer pays
-                                                                                 │
-  ◀───────── redirect to /thank-you?order=ID (successUrl) ◀──────────────────────┘
-                                               Grow webhook ──▶ POST /api/payment-webhook:
-                                                 verify webhookKey,
-                                                 approveTransaction (confirm sum),
-                                                 mark order 'paid' + payment_ref + invoice URL,
-                                                 CONSUME single-use coupon (used_count++),
-                                                 return 200
-  /thank-you polls /api/order-status?id=ID until 'paid'
+Shopper (static SPA)              Cloudflare Worker (/api/*)                 PayMe
+ cart → "שלם בכרטיס" ─ POST /api/checkout ─▶ recompute totals (agorot),
+                                            re-validate coupon,
+                                            INSERT order 'new' in D1,
+                                            generate-sale (sale_callback_url=our hook,
+                                              sale_return_url=/thank-you,
+                                              transaction_id=order id) ──────▶ returns sale_url
+                     ◀── { url } ───────────  store payme_sale_id on order
+ redirect to PayMe hosted sale_url ───────────────────────────────────────▶ shopper pays
+                                                                            │
+ ◀──── redirect to /thank-you?order=ID (sale_return_url) ◀───────────────────┘
+                                            PayMe webhook ──▶ POST /api/payme-callback:
+                                              verify payme_signature,
+                                              confirm price == order total,
+                                              mark order 'paid' + payment_ref,
+                                              CONSUME single-use coupon (used_count++),
+                                              return 200
+ /thank-you polls /api/order-status?id=ID until 'paid'
 ```
 
-- The **webhook is authoritative** for "paid" (the browser redirect can be lost/closed).
-- Money stays in **agorot (int)** in D1; convert to ILS decimal only for the Grow `sum`.
+- **Webhook is authoritative** for "paid"; the browser redirect just shows a thank-you.
+- **No agorot↔shekel conversion** — PayMe and our D1 both use agorot.
 
-## What to get / enable at signup (checklist)
+## What to do / confirm at signup (checklist)
 
-- [ ] עוסק details + Israeli bank account for payouts.
-- [ ] **Light API access** → receive `userId`, `pageCode`, `apiKey`.
-- [ ] **Sandbox credentials** (test before live).
-- [ ] **Webhooks enabled** (ask support) + set our callback URL + a **`webhookKey`** (secret).
-- [ ] **Invoice/document module enabled** (so VAT invoices auto-issue).
-- [ ] Turn on **Apple Pay / Google Pay / Bit** on the payment page (bonus, same fee).
-- [ ] Confirm the exact **production base URL** + exact request/response field names (Postman collection: [grow documentation](https://www.postman.com/grey-resonance-944181/documantaion/collection/7afnyaz/grow-documentation)).
+- [ ] Finish **Sandbox** signup → get **`seller_payme_id`** (+ any API key/secret PayMe issues).
+- [ ] **Give PayMe our new site URL** so they move the account off Wix (1–2 days).
+- [ ] Note the **test cards** + how to simulate success/failure.
+- [ ] Confirm in docs.payme.io (in-browser): exact `generate-sale` field names, the **`payme_signature`** formula, and the refund endpoint.
 
-## Build plan (after you have credentials)
+## Build plan (after Sandbox credentials)
 
 **Phase 0 — config**
-- Add Worker secrets: `GROW_USER_ID`, `GROW_PAGE_CODE`, `GROW_API_KEY`, `GROW_WEBHOOK_KEY`, `GROW_BASE_URL` (sandbox first).
-- D1 migration (additive `ALTER TABLE orders ADD COLUMN ...`): `process_id`, `invoice_number`, `invoice_url`, `payer_email`, `payer_name`, `payer_phone`. (`orders` table + `payment_ref` already exist.)
+- Worker secrets: `PAYME_SELLER_ID` (+ API key if issued), `PAYME_BASE_URL` (preprod first).
+- D1 (additive `ALTER TABLE orders ADD COLUMN ...`): `payme_sale_id`, `payer_email`, `payer_name`, `payer_phone`. (`orders` + `payment_ref` already exist; `sale_price` already agorot.)
 
 **Phase 1 — `POST /api/checkout`** (worker)
-- Input: cart items + delivery + coupon code.
-- **Recompute** subtotal/discount/total server-side (never trust client amounts); re-validate the coupon via the existing D1 logic.
-- INSERT order (`status:'new'`, agorot), call `createPaymentProcess` (form-encoded, ILS), store `processId`, return `{ url }`.
+- Recompute subtotal/discount/total server-side (never trust the client); re-validate the coupon via existing D1 logic.
+- INSERT order ('new'), call `generate-sale` (agorot), store `payme_sale_id`, return `{ url }`.
 
-**Phase 2 — `POST /api/payment-webhook`** (worker)
-- Verify `webhookKey === GROW_WEBHOOK_KEY`; look up the order by our id.
-- `approveTransaction` to confirm the amount matches the order total.
-- **Idempotent**: if already `paid`, return 200 and stop. Else set `status:'paid'`, `payment_ref`, invoice fields; **consume the coupon** (`used_count++`) once.
+**Phase 2 — `POST /api/payme-callback`** (worker)
+- Verify `payme_signature`; load the order by `transaction_id`.
+- Confirm `price` == order total and `payme_status` == success.
+- **Idempotent**: if already `paid`, 200 and stop. Else set `status:'paid'`, `payment_ref=payme_transaction_id`; **consume the coupon** (`used_count++`) once.
 
 **Phase 3 — frontend** ([CartPage.tsx](Frontend/src/pages/CartPage.tsx))
-- Replace the disabled "💳 תשלום מאובטח באתר — בקרוב" button with a real **"שלם בכרטיס"** that POSTs `/api/checkout` then `window.location = url`.
-- Add `/thank-you` (success) + keep WhatsApp/phone as fallback; `/cart` stays the cancel target.
+- Replace the disabled "💳 תשלום מאובטח באתר — בקרוב" with a real **"שלם בכרטיס"** that POSTs `/api/checkout` then `window.location = url`.
+- Add `/thank-you` (success) + keep WhatsApp/phone as fallback; `/cart` is the cancel target.
 
-**Phase 4 — invoices**
-- Store invoice number/URL from the invoice webhook on the order; show/email it to the customer + surface it in the dashboard orders tab.
+**Phase 4 — invoices / dashboard**
+- Surface paid orders + reference in the dashboard orders tab; wire refunds later. (Invoices: confirm whether PayMe issues them or we add a חשבונית service.)
 
 **Phase 5 — test (sandbox) → go live**
-- Sandbox matrix: success, cancel, failed card, duplicate webhook (idempotency), coupon consumed once, invoice issued, amount-mismatch rejected.
-- Flip secrets to production creds, set the live webhook URL, do one small real transaction, then enable for shoppers.
+- Sandbox matrix with PayMe test cards: success, failure, duplicate callback (idempotency), coupon consumed once, signature-invalid rejected, amount-mismatch rejected.
+- Flip the dashboard to Production (green bar), switch secrets/base to `ng.paymeservice.com`, confirm the live `sale_callback_url` is set, do one small real transaction, then enable for shoppers.
 
 ## Security checklist
 
 - Credentials only as **wrangler secrets** (never in code/repo).
-- **createPaymentProcess is server-side only** (creds never reach the browser).
-- Verify the webhook `webhookKey` **and** re-confirm via `approveTransaction` (shared key ≠ signature).
-- **Idempotent** webhook handling (Grow may retry) — guard on order status.
-- Recompute amounts server-side; reject if Grow's confirmed sum ≠ our order total.
+- `generate-sale` is **server-side only** (creds never reach the browser).
+- **Verify `payme_signature`** on every callback **and** confirm the amount matches the order.
+- **Idempotent** callback handling (PayMe may retry) — guard on order status.
+- Recompute amounts server-side; reject if the callback's `price` ≠ our order total.
 - Consume single-use coupons exactly once, on payment success only.
 
-## Open items to confirm against the docs/Postman after signup
+## Open items (most now resolved via the live docs)
 
-- Exact production base host (`secure.` vs `api.meshulam.co.il`).
-- Exact `createPaymentProcess` request field names + the custom-field used to carry our order id.
-- Whether `approveTransaction` is required or `getPaymentProcessInfo` suffices.
-- Invoice module: included in the percentage plan or extra?
-- Webhook retry/idempotency behavior + exact invoice-webhook fields.
+- ✅ `generate-sale` fields + response, env URLs, callback attributes — confirmed.
+- ✅ Refunds exist ("Refund Sale", Post Sale Actions); invoices exist (`sale_invoice_url`
+  in the callback + a Create Document API) — just **enable the invoices module** on the account.
+- ⏳ Exact **`payme_signature`** formula — not published; ask partners@payme.io.
+  (We verify via server-side re-query meanwhile, so it isn't a blocker.)
+- ⏳ Confirm whether the account needs anything **beyond `seller_payme_id`** (the docs
+  call it "your private key", so likely that's the only credential).
 
 ## Sources
-- [grow.business/fees](https://grow.business/fees/) · [grow.business/api-developers](https://grow.business/api-developers/) · [pay-as-you-grow](https://grow.business/pay-as-you-grow/)
-- [Grow dev docs](https://grow-il.readme.io/) · [Webhooks](https://grow-il.readme.io/docs/overview-7) · [createPaymentProcess ref](https://grow-il.readme.io/reference/post_api-light-server-1-0-createpaymentprocess-8) · [server callback](https://grow-il.readme.io/reference/server-response)
-- [Stripe global](https://stripe.com/global) · [Stripe account-country reqs](https://support.stripe.com/questions/requirements-to-open-a-stripe-account-in-another-country)
+- PayMe docs: <https://docs.payme.io> · <https://payme.stoplight.io> · test cards: <https://payme.stoplight.io/docs/payments/v781p5enpoq9x-test-cards-and-payment-methods>
+- Endpoints seen: [Generate Payment](https://docs.payme.io/docs/payments/d7da26bb42da8-generate-payment) · [Generate Sale with Token](https://docs.payme.io/docs/payments/708014a14cc25-generate-sale-with-token) · [Payment Methods](https://docs.payme.io/docs/payments/zqjehf9tm2jnk-payment-methods)
+- SDK: [PayMeService/payme-jsapi](https://github.com/PayMeService/payme-jsapi) · base URLs (preprod/ng .paymeservice.com/api) per PayMe API references.
