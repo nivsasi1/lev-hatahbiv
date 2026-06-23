@@ -3,7 +3,7 @@
 // Re-run both whenever the inventory in MongoDB changes:
 //   cd Backend  && node dump-products.js
 //   cd Frontend && node scripts/generate-catalog.mjs
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -12,6 +12,9 @@ const dumpPath = join(here, "..", "..", "Backend", "products-dump.json");
 const settingsDumpPath = join(here, "..", "..", "Backend", "settings-dump.json");
 const outPath = join(here, "..", "src", "data", "products.json");
 const settingsOutPath = join(here, "..", "src", "data", "settings.json");
+// served as a static asset (dist root) so the payment Worker can read
+// authoritative prices and recompute order totals server-side.
+const pricingOutPath = join(here, "..", "public", "checkout-pricing.json");
 
 // "New" badge window — products created within this many days get isNew:true.
 const NEW_DAYS = 14;
@@ -109,6 +112,21 @@ const byCat = {};
 for (const p of products) byCat[p.cat] = (byCat[p.cat] || 0) + 1;
 console.log(`wrote ${products.length} products (${kb} KB) -> ${outPath}`);
 console.log(byCat);
+
+// Pricing asset for the payment Worker: authoritative final prices in AGOROT,
+// plus shipping config. The Worker recomputes order totals from this (never
+// trusting client-sent amounts). Keep the shipping values in sync with
+// catalog.ts FREE_SHIPPING_FROM (₪300) + CartPage deliveryOptions (₪35/₪28).
+const pricing = {
+  freeShippingFrom: 30000,
+  delivery: { pickup: 0, courier: 3500, mail: 2800 },
+  prices: Object.fromEntries(
+    products.map((p) => [p.id, Math.round((p.salePrice ?? p.price) * 100)])
+  ),
+};
+mkdirSync(dirname(pricingOutPath), { recursive: true });
+writeFileSync(pricingOutPath, JSON.stringify(pricing));
+console.log(`wrote checkout pricing (${products.length} prices) -> ${pricingOutPath}`);
 
 // Site settings — always write a file so catalog.ts imports never break.
 let rawSettings = {};
