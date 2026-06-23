@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS orders (
   discount      INTEGER NOT NULL DEFAULT 0,     -- agorot
   delivery      TEXT,
   total         INTEGER NOT NULL,               -- agorot
-  status        TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | cancelled
+  status        TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
+  channel       TEXT NOT NULL DEFAULT 'card',   -- card | whatsapp
   payment_ref   TEXT,                           -- PayMe payme_transaction_id
   payme_sale_id TEXT,                           -- PayMe payme_sale_id (from generate-sale)
   invoice_url   TEXT,                           -- PayMe sale_invoice_url (if invoices module on)
@@ -47,6 +48,7 @@ CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 -- Migration for an EXISTING orders table (the columns above are new). Run once
 -- on the live D1 if the table predates them — SQLite has no "ADD COLUMN IF NOT
 -- EXISTS", so run each line and ignore "duplicate column" errors:
+--   ALTER TABLE orders ADD COLUMN channel TEXT NOT NULL DEFAULT 'card';
 --   ALTER TABLE orders ADD COLUMN payme_sale_id TEXT;
 --   ALTER TABLE orders ADD COLUMN invoice_url TEXT;
 --   ALTER TABLE orders ADD COLUMN payer_name TEXT;

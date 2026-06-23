@@ -9,7 +9,7 @@ import {
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
-import { API_BASE, WORKER_API } from "../data/api";
+import { WORKER_API } from "../data/api";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
@@ -50,22 +50,17 @@ export const CartPage = () => {
   const discount = discountAg / 100;
   const grandTotal = grandTotalAg / 100;
 
-  // record the order in the store's system the moment it's sent —
-  // fire-and-forget so a missing backend never blocks the WhatsApp message
+  // log the WhatsApp order to D1 (the Worker recomputes the total). Fire-and-forget
+  // so a hiccup never blocks opening WhatsApp.
   const logOrder = () => {
     try {
-      fetch(`${API_BASE}/order`, {
+      fetch(`${WORKER_API}/order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map(({ product, qty }) => ({
-            productId: product.id,
-            name: product.name,
-            qty,
-            price: finalPrice(product),
-          })),
-          total: grandTotal,
-          delivery: delivery.title,
+          items: items.map(({ product, qty }) => ({ id: product.id, name: product.name, qty })),
+          delivery: delivery.id,
+          couponCode: appliedCoupon?.code,
         }),
         keepalive: true, // let the request finish even as WhatsApp opens
       }).catch(() => {});

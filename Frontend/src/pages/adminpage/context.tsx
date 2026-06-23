@@ -102,12 +102,12 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const refresh = () =>
     Promise.all([
       call("/products"),
-      call("/orders"),
+      workerCall("/orders").catch(() => ({ orders: [] })), // orders live in D1 now
       workerCall("/subscribers").catch(() => ({ subscribers: [] })),
     ])
       .then(([p, o, s]) => {
         setProducts(p.products);
-        setOrders(o.orders);
+        setOrders(o.orders || []);
         setSubscribers(s.subscribers || []);
       })
       .catch((e) => setError(e.message));

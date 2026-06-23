@@ -442,6 +442,59 @@ async function couponPercent(db: DB, rawCode: string): Promise<number | null> {
   return c.percent;
 }
 
+// shared cart math (used by card checkout AND the WhatsApp order log) so both
+// record identical, server-authoritative totals in agorot.
+type CartResult =
+  | {
+      ok: true;
+      lines: { id: string; name: string; qty: number; price: number }[];
+      subtotal: number;
+      discount: number;
+      shipping: number;
+      total: number;
+      couponCode: string | null;
+      deliveryKey: string;
+    }
+  | { ok: false; error: string };
+
+async function computeCart(
+  pricing: Pricing,
+  db: DB,
+  rawItems: { id?: string; name?: string; qty?: number }[],
+  rawDelivery: string | undefined,
+  rawCoupon: string | undefined
+): Promise<CartResult> {
+  let subtotal = 0;
+  const lines: { id: string; name: string; qty: number; price: number }[] = [];
+  for (const it of rawItems) {
+    const id = String(it.id ?? "");
+    const unit = pricing.prices[id];
+    const qty = Math.max(1, Math.floor(Number(it.qty) || 0));
+    if (!(unit > 0)) return { ok: false, error: "מוצר לא תקין בעגלה" };
+    subtotal += unit * qty;
+    lines.push({ id, name: String(it.name ?? "").slice(0, 120), qty, price: unit });
+  }
+  if (!lines.length) return { ok: false, error: "העגלה ריקה" };
+
+  let discount = 0;
+  let couponCode: string | null = null;
+  if (rawCoupon) {
+    const pct = await couponPercent(db, rawCoupon);
+    if (pct) {
+      discount = Math.round((subtotal * pct) / 100 / 10) * 10; // 10-agorot grid (matches cart)
+      couponCode = normCode(rawCoupon);
+    }
+  }
+
+  const deliveryKey = ["pickup", "courier", "mail"].includes(String(rawDelivery))
+    ? String(rawDelivery)
+    : "pickup";
+  const freeShip = subtotal >= pricing.freeShippingFrom;
+  const shipping = deliveryKey === "pickup" || freeShip ? 0 : pricing.delivery[deliveryKey] ?? 0;
+  const total = subtotal - discount + shipping;
+  return { ok: true, lines, subtotal, discount, shipping, total, couponCode, deliveryKey };
+}
+
 // POST /api/checkout { items:[{id,name?,qty}], delivery, couponCode?, payer? }
 // -> creates a D1 order + a PayMe sale, returns { url } to redirect the shopper.
 async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
@@ -462,45 +515,18 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
     return json({ error: "bad request" }, 400);
   }
 
-  const items = Array.isArray(body.items) ? body.items : [];
-  if (!items.length) return json({ error: "העגלה ריקה" }, 400);
-
   const pricing = await loadPricing(request, env);
   if (!pricing) return json({ error: "שגיאה זמנית, נסו שוב" }, 500);
 
-  // recompute subtotal from AUTHORITATIVE prices (agorot)
-  let subtotal = 0;
-  const lines: { id: string; name: string; qty: number; price: number }[] = [];
-  for (const it of items) {
-    const id = String(it.id ?? "");
-    const unit = pricing.prices[id];
-    const qty = Math.max(1, Math.floor(Number(it.qty) || 0));
-    if (!(unit > 0)) return json({ error: "מוצר לא תקין בעגלה" }, 400);
-    subtotal += unit * qty;
-    lines.push({ id, name: String(it.name ?? "").slice(0, 120), qty, price: unit });
-  }
-
-  // coupon (re-validated server-side)
-  let discount = 0;
-  let couponCode: string | null = null;
-  if (body.couponCode) {
-    const pct = await couponPercent(db, body.couponCode);
-    if (pct) {
-      // round to the 10-agorot (1-decimal) grid so it EXACTLY matches the cart
-      // display (prices are 1-decimal, so totals stay on that grid).
-      discount = Math.round((subtotal * pct) / 100 / 10) * 10;
-      couponCode = normCode(body.couponCode);
-    }
-  }
-
-  // shipping — free over the threshold (on subtotal), pickup is free; mirrors CartPage
-  const deliveryKey = ["pickup", "courier", "mail"].includes(String(body.delivery))
-    ? String(body.delivery)
-    : "pickup";
-  const freeShip = subtotal >= pricing.freeShippingFrom;
-  const shipping = deliveryKey === "pickup" || freeShip ? 0 : pricing.delivery[deliveryKey] ?? 0;
-
-  const total = subtotal - discount + shipping;
+  const c = await computeCart(
+    pricing,
+    db,
+    Array.isArray(body.items) ? body.items : [],
+    body.delivery,
+    body.couponCode
+  );
+  if (!c.ok) return json({ error: c.error }, 400);
+  const { lines, subtotal, discount, total, couponCode, deliveryKey } = c;
   if (total < 500) return json({ error: "סכום מינימלי לתשלום באתר הוא ₪5" }, 400);
 
   const id = crypto.randomUUID();
@@ -517,6 +543,7 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
       delivery: deliveryKey,
       total,
       status: "new",
+      channel: "card",
       payerName: body.payer?.name ?? null,
       payerEmail: body.payer?.email ?? null,
       payerPhone: body.payer?.phone ?? null,
@@ -598,7 +625,8 @@ async function paymeCallback(request: Request, env: Env, db: DB): Promise<Respon
     return new Response("OK");
   }
 
-  if (order.status === "paid") return new Response("OK"); // idempotent for duplicate sale-complete
+  // only a pending order can become paid — duplicates / post-paid notifications are acked + ignored
+  if (order.status !== "new" && order.status !== "failed") return new Response("OK");
 
   const saleStatus = form.get("sale_status");
   const price = Number(form.get("price") || 0);
@@ -651,6 +679,94 @@ async function orderStatus(request: Request, db: DB): Promise<Response> {
   return json({ status: o.status });
 }
 
+// POST /api/order — log a WhatsApp order to D1 (no payment). Fire-and-forget from
+// the cart; recomputed server-side so the recorded total is authoritative.
+async function orderLog(request: Request, env: Env, db: DB): Promise<Response> {
+  const ip = request.headers.get("CF-Connecting-IP") ?? "0.0.0.0";
+  if (await isRateLimited(db, ip, "order-log", 20, 60)) return json({ error: "rate" }, 429);
+  let body: { items?: any[]; delivery?: string; couponCode?: string };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: "bad request" }, 400);
+  }
+  const pricing = await loadPricing(request, env);
+  if (!pricing) return json({ error: "pricing" }, 500);
+  const c = await computeCart(
+    pricing,
+    db,
+    Array.isArray(body.items) ? body.items : [],
+    body.delivery,
+    body.couponCode
+  );
+  if (!c.ok) return json({ error: c.error }, 400);
+  const id = crypto.randomUUID();
+  await db
+    .insert(orders)
+    .values({
+      id,
+      createdAt: new Date().toISOString(),
+      items: JSON.stringify(c.lines),
+      subtotal: c.subtotal,
+      couponCode: c.couponCode,
+      discount: c.discount,
+      delivery: c.deliveryKey,
+      total: c.total,
+      status: "new",
+      channel: "whatsapp",
+    })
+    .run();
+  return json({ ok: true, orderId: id });
+}
+
+// ---------- admin orders (JWT) — dashboard reads orders from D1 ----------
+const safeJson = (s: string): any => {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return [];
+  }
+};
+function mapOrder(o: typeof orders.$inferSelect) {
+  return {
+    _id: o.id,
+    createdAt: o.createdAt,
+    status: o.status,
+    channel: o.channel,
+    total: o.total / 100, // agorot -> shekels for the dashboard
+    discount: o.discount / 100,
+    delivery: o.delivery,
+    couponCode: o.couponCode,
+    items: safeJson(o.items),
+    paymentRef: o.paymentRef,
+    invoiceUrl: o.invoiceUrl,
+    payerName: o.payerName,
+    payerEmail: o.payerEmail,
+    payerPhone: o.payerPhone,
+  };
+}
+
+async function listAdminOrders(db: DB): Promise<Response> {
+  const rows = await db.select().from(orders).orderBy(desc(orders.createdAt)).all();
+  return json({ orders: rows.map(mapOrder) });
+}
+
+async function updateOrderStatus(request: Request, db: DB, id: string): Promise<Response> {
+  let body: { status?: string };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: "bad request" }, 400);
+  }
+  const allowed = ["new", "paid", "failed", "refunded", "handled", "cancelled"];
+  const status = String(body.status || "");
+  if (!allowed.includes(status)) return json({ error: "bad status" }, 400);
+  await db.update(orders).set({ status }).where(eq(orders.id, id)).run();
+  const o = await db.select().from(orders).where(eq(orders.id, id)).get();
+  if (!o) return json({ error: "not found" }, 404);
+  return json({ order: mapOrder(o) });
+}
+
 export default {
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -677,6 +793,9 @@ export default {
       }
       if (pathname === "/api/order-status" && request.method === "GET") {
         return orderStatus(request, db);
+      }
+      if (pathname === "/api/order" && request.method === "POST") {
+        return orderLog(request, env, db);
       }
 
       // admin (JWT)
@@ -708,9 +827,16 @@ export default {
         if (pathname === "/api/admin/settings" && request.method === "POST") {
           return saveAdminSettings(request, db);
         }
+        if (pathname === "/api/admin/orders" && request.method === "GET") {
+          return listAdminOrders(db);
+        }
+        if (pathname.startsWith("/api/admin/orders/") && request.method === "PATCH") {
+          const oid = safeDecode(pathname.split("/").pop() || "");
+          if (oid === null) return json({ error: "bad request" }, 400);
+          return updateOrderStatus(request, db, oid);
+        }
       }
 
-      // TODO Phase 3: POST /api/checkout, POST /api/payment-webhook (consume single-use).
       return json({ error: "not found" }, 404);
     }
 
