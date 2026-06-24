@@ -543,7 +543,6 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
       delivery: deliveryKey,
       total,
       status: "new",
-      channel: "card",
       payerName: body.payer?.name ?? null,
       payerEmail: body.payer?.email ?? null,
       payerPhone: body.payer?.phone ?? null,
@@ -679,46 +678,6 @@ async function orderStatus(request: Request, db: DB): Promise<Response> {
   return json({ status: o.status });
 }
 
-// POST /api/order — log a WhatsApp order to D1 (no payment). Fire-and-forget from
-// the cart; recomputed server-side so the recorded total is authoritative.
-async function orderLog(request: Request, env: Env, db: DB): Promise<Response> {
-  const ip = request.headers.get("CF-Connecting-IP") ?? "0.0.0.0";
-  if (await isRateLimited(db, ip, "order-log", 20, 60)) return json({ error: "rate" }, 429);
-  let body: { items?: any[]; delivery?: string; couponCode?: string };
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return json({ error: "bad request" }, 400);
-  }
-  const pricing = await loadPricing(request, env);
-  if (!pricing) return json({ error: "pricing" }, 500);
-  const c = await computeCart(
-    pricing,
-    db,
-    Array.isArray(body.items) ? body.items : [],
-    body.delivery,
-    body.couponCode
-  );
-  if (!c.ok) return json({ error: c.error }, 400);
-  const id = crypto.randomUUID();
-  await db
-    .insert(orders)
-    .values({
-      id,
-      createdAt: new Date().toISOString(),
-      items: JSON.stringify(c.lines),
-      subtotal: c.subtotal,
-      couponCode: c.couponCode,
-      discount: c.discount,
-      delivery: c.deliveryKey,
-      total: c.total,
-      status: "new",
-      channel: "whatsapp",
-    })
-    .run();
-  return json({ ok: true, orderId: id });
-}
-
 // ---------- admin orders (JWT) — dashboard reads orders from D1 ----------
 const safeJson = (s: string): any => {
   try {
@@ -732,7 +691,6 @@ function mapOrder(o: typeof orders.$inferSelect) {
     _id: o.id,
     createdAt: o.createdAt,
     status: o.status,
-    channel: o.channel,
     total: o.total / 100, // agorot -> shekels for the dashboard
     discount: o.discount / 100,
     delivery: o.delivery,
@@ -793,9 +751,6 @@ export default {
       }
       if (pathname === "/api/order-status" && request.method === "GET") {
         return orderStatus(request, db);
-      }
-      if (pathname === "/api/order" && request.method === "POST") {
-        return orderLog(request, env, db);
       }
 
       // admin (JWT)

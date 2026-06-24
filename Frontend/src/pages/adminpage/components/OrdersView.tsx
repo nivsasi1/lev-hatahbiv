@@ -44,9 +44,6 @@ export function OrdersView() {
               })}
             </b>
             <span className={`order-status ${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>
-            <span className="order-channel">
-              {o.channel === "card" ? "💳 אשראי" : "💬 וואטסאפ"}
-            </span>
             <span className="order-total">₪{ils(o.total)}</span>
           </div>
           <div className="order-items">

@@ -36,7 +36,6 @@ export const orders = sqliteTable("orders", {
   delivery: text("delivery"),
   total: integer("total").notNull(),
   status: text("status").notNull().default("new"), // new|paid|failed|refunded|handled|cancelled
-  channel: text("channel").notNull().default("card"), // card | whatsapp
   paymentRef: text("payment_ref"), // PayMe payme_transaction_id
   paymeSaleId: text("payme_sale_id"),
   invoiceUrl: text("invoice_url"),

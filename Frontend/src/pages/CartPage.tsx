@@ -44,30 +44,11 @@ export const CartPage = () => {
     ? Math.round((subtotalAg * appliedCoupon.percent) / 100 / 10) * 10
     : 0;
   const grandTotalAg = subtotalAg - discountAg + shippingAg;
-  // shekel views for display + WhatsApp (exact — all on the 10-agorot grid)
+  // shekel views for display (exact — all on the 10-agorot grid)
   const subtotalNis = subtotalAg / 100;
   const shippingCost = shippingAg / 100;
   const discount = discountAg / 100;
   const grandTotal = grandTotalAg / 100;
-
-  // log the WhatsApp order to D1 (the Worker recomputes the total). Fire-and-forget
-  // so a hiccup never blocks opening WhatsApp.
-  const logOrder = () => {
-    try {
-      fetch(`${WORKER_API}/order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map(({ product, qty }) => ({ id: product.id, name: product.name, qty })),
-          delivery: delivery.id,
-          couponCode: appliedCoupon?.code,
-        }),
-        keepalive: true, // let the request finish even as WhatsApp opens
-      }).catch(() => {});
-    } catch {
-      /* never block the order */
-    }
-  };
 
   // coupons are validated live by the Cloudflare Worker (D1) — the failure
   // response is deliberately vague so it never reveals which codes exist.
@@ -125,7 +106,7 @@ export const CartPage = () => {
       });
       const data = await res.json().catch(() => null);
       if (!res.ok || !data?.url) {
-        setPayError(data?.error || "לא ניתן לפתוח עמוד תשלום כרגע — נסו שוב או הזמינו בוואטסאפ");
+        setPayError(data?.error || "לא ניתן לפתוח עמוד תשלום כרגע — נסו שוב מאוחר יותר");
         return;
       }
       window.location.href = data.url; // PayMe hosted payment page
@@ -135,22 +116,6 @@ export const CartPage = () => {
       setPayBusy(false);
     }
   };
-
-  const waText = encodeURIComponent(
-    [
-      `היי ${store.name}! אשמח להזמין:`,
-      ...items.map(
-        ({ product, qty }) =>
-          `• ${product.name} ×${qty} — ${shekel(finalPrice(product) * qty)}`
-      ),
-      ``,
-      `אספקה: ${delivery.title}${shippingCost ? ` (${shekel(shippingCost)})` : freeShipping && delivery.id !== "pickup" ? " (חינם 🎉)" : ""}`,
-      ...(appliedCoupon
-        ? [`קופון: ${appliedCoupon.code} (${appliedCoupon.percent}%- = -${shekel(discount)})`]
-        : []),
-      `סה"כ: ${shekel(grandTotal)}`,
-    ].join("\n")
-  );
 
   if (items.length === 0) {
     return (
@@ -304,23 +269,9 @@ export const CartPage = () => {
               {payError}
             </p>
           )}
-          <a
-            className="btn wa-btn"
-            style={{ width: "100%", marginTop: "0.7rem" }}
-            href={`https://wa.me/${store.phoneIntl}?text=${waText}`}
-            target="_blank"
-            rel="noreferrer"
-            onClick={logOrder}
-          >
-            או הזמנה בוואטסאפ 💬
-          </a>
-          <a className="btn ghost" style={{ width: "100%", marginTop: "0.7rem" }} href={`tel:${store.phone}`}>
-            או בטלפון: {store.phone}
-          </a>
 
           <p className="order-note">
-            ההזמנה נשלחת אלינו ישירות, ואנחנו חוזרים אליכם לאישור ותשלום.
-            אפשר גם פשוט לקפוץ לחנות — {store.address}.
+            התשלום מתבצע בעמוד סליקה מאובטח. אפשר גם לאסוף מהחנות — {store.address}.
           </p>
           <button
             className="add-btn"

@@ -64,10 +64,10 @@ export const AdminBell = () => {
         const seenOrders = localStorage.getItem(SEEN_ORDERS_KEY);
         // the API wraps its payloads: { orders: [...] } / { subscribers: [...] }
         const orderList: any[] = Array.isArray(orders?.orders) ? orders.orders : [];
-        // actionable = a paid card order or a new WhatsApp order (not abandoned/unpaid)
+        // actionable = a paid order awaiting fulfilment (since seen)
         const orderCount = orderList.filter(
           (o) =>
-            (o.status === "paid" || (o.channel === "whatsapp" && o.status === "new")) &&
+            o.status === "paid" &&
             (!seenOrders ||
               new Date(o.createdAt).getTime() > new Date(seenOrders).getTime())
         ).length;
