@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE, WORKER_API } from "../data/api";
+import { WORKER_API } from "../data/api";
 
 // Manager-only bell in the header: polls the dashboard API for new orders and
 // new newsletter subscribers, and shows a red count badge. Renders nothing for
@@ -47,7 +47,7 @@ export const AdminBell = () => {
       try {
         const headers = { Authorization: `Bearer ${token}` };
         const [ordersRes, subsRes] = await Promise.all([
-          fetch(`${API_BASE}/admin/orders`, { headers }),
+          fetch(`${WORKER_API}/admin/orders`, { headers }),
           fetch(`${WORKER_API}/admin/subscribers`, { headers }),
         ]);
         if (!ordersRes.ok || !subsRes.ok) {
@@ -64,9 +64,10 @@ export const AdminBell = () => {
         const seenOrders = localStorage.getItem(SEEN_ORDERS_KEY);
         // the API wraps its payloads: { orders: [...] } / { subscribers: [...] }
         const orderList: any[] = Array.isArray(orders?.orders) ? orders.orders : [];
+        // actionable = a paid order awaiting fulfilment (since seen)
         const orderCount = orderList.filter(
           (o) =>
-            o.status === "new" &&
+            o.status === "paid" &&
             (!seenOrders ||
               new Date(o.createdAt).getTime() > new Date(seenOrders).getTime())
         ).length;

@@ -26,18 +26,32 @@ CREATE TABLE IF NOT EXISTS subscribers (
 -- Orders (WhatsApp now; real card/Bit payments in Phase 3).
 -- NOTE: money is stored in AGOROT (integer) to avoid float rounding — 10.30 ILS = 1030.
 CREATE TABLE IF NOT EXISTS orders (
-  id           TEXT PRIMARY KEY,                -- uuid
-  created_at   TEXT NOT NULL,
-  items        TEXT NOT NULL,                   -- JSON array of {productId,name,qty,price}
-  subtotal     INTEGER NOT NULL,                -- agorot
-  coupon_code  TEXT,
-  discount     INTEGER NOT NULL DEFAULT 0,      -- agorot
-  delivery     TEXT,
-  total        INTEGER NOT NULL,                -- agorot
-  status       TEXT NOT NULL DEFAULT 'new',     -- new | paid | fulfilled | cancelled
-  payment_ref  TEXT                             -- provider transaction id (Phase 3)
+  id            TEXT PRIMARY KEY,               -- uuid
+  created_at    TEXT NOT NULL,
+  items         TEXT NOT NULL,                  -- JSON array of {id,name,qty,price}
+  subtotal      INTEGER NOT NULL,               -- agorot
+  coupon_code   TEXT,
+  discount      INTEGER NOT NULL DEFAULT 0,     -- agorot
+  delivery      TEXT,
+  total         INTEGER NOT NULL,               -- agorot
+  status        TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
+  payment_ref   TEXT,                           -- PayMe payme_transaction_id
+  payme_sale_id TEXT,                           -- PayMe payme_sale_id (from generate-sale)
+  invoice_url   TEXT,                           -- PayMe sale_invoice_url (if invoices module on)
+  payer_name    TEXT,
+  payer_email   TEXT,
+  payer_phone   TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
+
+-- Migration for an EXISTING orders table (the columns above are new). Run once
+-- on the live D1 if the table predates them — SQLite has no "ADD COLUMN IF NOT
+-- EXISTS", so run each line and ignore "duplicate column" errors:
+--   ALTER TABLE orders ADD COLUMN payme_sale_id TEXT;
+--   ALTER TABLE orders ADD COLUMN invoice_url TEXT;
+--   ALTER TABLE orders ADD COLUMN payer_name TEXT;
+--   ALTER TABLE orders ADD COLUMN payer_email TEXT;
+--   ALTER TABLE orders ADD COLUMN payer_phone TEXT;
 
 -- Best-effort per-IP rate limiting for public endpoints (fixed window).
 CREATE TABLE IF NOT EXISTS rate_limits (

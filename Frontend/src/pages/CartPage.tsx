@@ -9,7 +9,7 @@ import {
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
-import { API_BASE, WORKER_API } from "../data/api";
+import { WORKER_API } from "../data/api";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
@@ -18,7 +18,7 @@ const deliveryOptions = [
 ];
 
 export const CartPage = () => {
-  const { items, total, setQty, remove, clear } = useCart();
+  const { items, setQty, remove, clear } = useCart();
   const [delivery, setDelivery] = useState(deliveryOptions[0]);
   const [confirmClear, setConfirmClear] = useState(false);
   const [couponOpen, setCouponOpen] = useState(false);
@@ -28,35 +28,27 @@ export const CartPage = () => {
   >(null);
   const [couponError, setCouponError] = useState("");
   const [couponBusy, setCouponBusy] = useState(false);
+  const [payBusy, setPayBusy] = useState(false);
+  const [payError, setPayError] = useState("");
 
-  const freeShipping = total >= FREE_SHIPPING_FROM;
-  const shippingCost = delivery.id === "pickup" || freeShipping ? 0 : delivery.price;
-  const discount = appliedCoupon ? Math.round((total * appliedCoupon.percent) / 100) : 0;
-  const grandTotal = total - discount + shippingCost;
-
-  // record the order in the store's system the moment it's sent —
-  // fire-and-forget so a missing backend never blocks the WhatsApp message
-  const logOrder = () => {
-    try {
-      fetch(`${API_BASE}/order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map(({ product, qty }) => ({
-            productId: product.id,
-            name: product.name,
-            qty,
-            price: finalPrice(product),
-          })),
-          total: grandTotal,
-          delivery: delivery.title,
-        }),
-        keepalive: true, // let the request finish even as WhatsApp opens
-      }).catch(() => {});
-    } catch {
-      /* never block the order */
-    }
-  };
+  // All money in AGOROT, mirroring the Worker's checkout math EXACTLY (prices are
+  // 1-decimal; discount rounded to the 10-agorot grid) so the total shown here is
+  // identical to what PayMe charges.
+  const subtotalAg = items.reduce(
+    (s, { product, qty }) => s + Math.round(finalPrice(product) * 100) * qty,
+    0
+  );
+  const freeShipping = subtotalAg >= FREE_SHIPPING_FROM * 100;
+  const shippingAg = delivery.id === "pickup" || freeShipping ? 0 : Math.round(delivery.price * 100);
+  const discountAg = appliedCoupon
+    ? Math.round((subtotalAg * appliedCoupon.percent) / 100 / 10) * 10
+    : 0;
+  const grandTotalAg = subtotalAg - discountAg + shippingAg;
+  // shekel views for display (exact — all on the 10-agorot grid)
+  const subtotalNis = subtotalAg / 100;
+  const shippingCost = shippingAg / 100;
+  const discount = discountAg / 100;
+  const grandTotal = grandTotalAg / 100;
 
   // coupons are validated live by the Cloudflare Worker (D1) — the failure
   // response is deliberately vague so it never reveals which codes exist.
@@ -96,21 +88,34 @@ export const CartPage = () => {
     setCouponError("");
   };
 
-  const waText = encodeURIComponent(
-    [
-      `היי ${store.name}! אשמח להזמין:`,
-      ...items.map(
-        ({ product, qty }) =>
-          `• ${product.name} ×${qty} — ${shekel(finalPrice(product) * qty)}`
-      ),
-      ``,
-      `אספקה: ${delivery.title}${shippingCost ? ` (${shekel(shippingCost)})` : freeShipping && delivery.id !== "pickup" ? " (חינם 🎉)" : ""}`,
-      ...(appliedCoupon
-        ? [`קופון: ${appliedCoupon.code} (${appliedCoupon.percent}%- = -${shekel(discount)})`]
-        : []),
-      `סה"כ: ${shekel(grandTotal)}`,
-    ].join("\n")
-  );
+  // card checkout: the Worker creates the order + a PayMe sale, then we send the
+  // shopper to PayMe's hosted payment page. The order is confirmed by the webhook.
+  const payCard = async () => {
+    if (payBusy || items.length === 0) return;
+    setPayBusy(true);
+    setPayError("");
+    try {
+      const res = await fetch(`${WORKER_API}/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map(({ product, qty }) => ({ id: product.id, name: product.name, qty })),
+          delivery: delivery.id,
+          couponCode: appliedCoupon?.code,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.url) {
+        setPayError(data?.error || "לא ניתן לפתוח עמוד תשלום כרגע — נסו שוב מאוחר יותר");
+        return;
+      }
+      window.location.href = data.url; // PayMe hosted payment page
+    } catch {
+      setPayError("שגיאת רשת — נסו שוב");
+    } finally {
+      setPayBusy(false);
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -229,10 +234,10 @@ export const CartPage = () => {
 
         <aside className="summary-card">
           <h2 className="display">סיכום הזמנה</h2>
-          <ShipMeter total={total} />
+          <ShipMeter total={subtotalNis} />
           <div className="sum-row">
             <span>מוצרים ({items.length})</span>
-            <span>{shekel(total)}</span>
+            <span>{shekel(subtotalNis)}</span>
           </div>
           <div className="sum-row">
             <span>{delivery.title}</span>
@@ -251,26 +256,22 @@ export const CartPage = () => {
             <span>{shekel(grandTotal)}</span>
           </div>
 
-          <a
-            className="btn wa-btn"
-            href={`https://wa.me/${store.phoneIntl}?text=${waText}`}
-            target="_blank"
-            rel="noreferrer"
-            onClick={logOrder}
+          <button
+            className="btn pay-card-btn"
+            style={{ width: "100%" }}
+            onClick={payCard}
+            disabled={payBusy}
           >
-            שליחת ההזמנה בוואטסאפ 💬
-          </a>
-          <a className="btn ghost" style={{ width: "100%", marginTop: "0.7rem" }} href={`tel:${store.phone}`}>
-            או בטלפון: {store.phone}
-          </a>
-          {/* placeholder until a payment provider API is connected */}
-          <button className="btn pay-soon" disabled aria-disabled="true">
-            💳 תשלום מאובטח באתר — בקרוב
+            {payBusy ? "מעבירים לתשלום מאובטח…" : "💳 תשלום מאובטח בכרטיס"}
           </button>
+          {payError && (
+            <p className="coupon-err" style={{ textAlign: "center", marginTop: "0.4rem" }}>
+              {payError}
+            </p>
+          )}
 
           <p className="order-note">
-            ההזמנה נשלחת אלינו ישירות, ואנחנו חוזרים אליכם לאישור ותשלום.
-            אפשר גם פשוט לקפוץ לחנות — {store.address}.
+            התשלום מתבצע בעמוד סליקה מאובטח. אפשר גם לאסוף מהחנות — {store.address}.
           </p>
           <button
             className="add-btn"

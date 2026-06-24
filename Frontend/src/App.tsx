@@ -23,6 +23,7 @@ import { TermsPage } from "./pages/TermsPage";
 import { ReturnsPage } from "./pages/ReturnsPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { ContactPage } from "./pages/ContactPage";
+import { ThankYouPage } from "./pages/ThankYouPage";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -74,6 +75,7 @@ const router = createBrowserRouter(
         { path: "/returns", element: <ReturnsPage /> },
         { path: "/privacy", element: <PrivacyPage /> },
         { path: "/contact", element: <ContactPage /> },
+        { path: "/thank-you", element: <ThankYouPage /> },
         { path: "*", element: <HomePage /> },
       ],
     },

@@ -17,12 +17,16 @@
  */
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 import { and, desc, eq, sql } from "drizzle-orm";
-import { coupons, subscribers, settings, rateLimits } from "./db/schema";
+import { coupons, subscribers, settings, rateLimits, orders } from "./db/schema";
 
 export interface Env {
   ASSETS: Fetcher; // the static storefront (Frontend/dist)
   DB: D1Database; // coupons / orders / subscribers / rate_limits / settings
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
+  // ── PayMe (set via `wrangler secret put`) ──
+  PAYME_SELLER_ID: string; // "MPL..." — our private seller key
+  PAYME_WEBHOOK_KEY: string; // our secret, embedded in sale_callback_url to auth callbacks
+  PAYME_BASE_URL?: string; // default https://sandbox.payme.io/api ; prod https://live.payme.io/api
 }
 
 type DB = DrizzleD1Database<Record<string, never>>;
@@ -127,6 +131,14 @@ const safeDecode = (s: string): string | null => {
     return null;
   }
 };
+
+// constant-time string compare (for the webhook key) — avoids timing leaks
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
 
 // ---------- key/value settings (welcome-offer toggle + percent) ----------
 async function getSetting(db: DB, key: string, fallback: string): Promise<string> {
@@ -397,6 +409,322 @@ async function saveAdminSettings(request: Request, db: DB): Promise<Response> {
   return getAdminSettings(db);
 }
 
+// ---------- PayMe checkout (generate-sale) + callback ----------
+// Authoritative prices live in the generated /checkout-pricing.json asset, so we
+// recompute totals server-side and never trust client-sent amounts.
+type Pricing = {
+  freeShippingFrom: number;
+  delivery: Record<string, number>;
+  prices: Record<string, number>;
+};
+let pricingCache: Pricing | null = null;
+async function loadPricing(request: Request, env: Env): Promise<Pricing | null> {
+  if (pricingCache) return pricingCache;
+  try {
+    const url = new URL("/checkout-pricing.json", new URL(request.url).origin);
+    const res = await env.ASSETS.fetch(new Request(url.toString()));
+    if (!res.ok) return null;
+    pricingCache = (await res.json()) as Pricing;
+    return pricingCache;
+  } catch {
+    return null;
+  }
+}
+
+// server-side coupon check (mirrors validate-coupon); returns the percent or null
+async function couponPercent(db: DB, rawCode: string): Promise<number | null> {
+  const code = normCode(rawCode);
+  if (!code) return null;
+  const c = await db.select().from(coupons).where(eq(coupons.code, code)).get();
+  if (!c || !c.active) return null;
+  if (c.expiresAt && Date.now() > Date.parse(c.expiresAt)) return null;
+  if (c.maxUses != null && c.usedCount >= c.maxUses) return null;
+  return c.percent;
+}
+
+// shared cart math (used by card checkout AND the WhatsApp order log) so both
+// record identical, server-authoritative totals in agorot.
+type CartResult =
+  | {
+      ok: true;
+      lines: { id: string; name: string; qty: number; price: number }[];
+      subtotal: number;
+      discount: number;
+      shipping: number;
+      total: number;
+      couponCode: string | null;
+      deliveryKey: string;
+    }
+  | { ok: false; error: string };
+
+async function computeCart(
+  pricing: Pricing,
+  db: DB,
+  rawItems: { id?: string; name?: string; qty?: number }[],
+  rawDelivery: string | undefined,
+  rawCoupon: string | undefined
+): Promise<CartResult> {
+  let subtotal = 0;
+  const lines: { id: string; name: string; qty: number; price: number }[] = [];
+  for (const it of rawItems) {
+    const id = String(it.id ?? "");
+    const unit = pricing.prices[id];
+    const qty = Math.max(1, Math.floor(Number(it.qty) || 0));
+    if (!(unit > 0)) return { ok: false, error: "מוצר לא תקין בעגלה" };
+    subtotal += unit * qty;
+    lines.push({ id, name: String(it.name ?? "").slice(0, 120), qty, price: unit });
+  }
+  if (!lines.length) return { ok: false, error: "העגלה ריקה" };
+
+  let discount = 0;
+  let couponCode: string | null = null;
+  if (rawCoupon) {
+    const pct = await couponPercent(db, rawCoupon);
+    if (pct) {
+      discount = Math.round((subtotal * pct) / 100 / 10) * 10; // 10-agorot grid (matches cart)
+      couponCode = normCode(rawCoupon);
+    }
+  }
+
+  const deliveryKey = ["pickup", "courier", "mail"].includes(String(rawDelivery))
+    ? String(rawDelivery)
+    : "pickup";
+  const freeShip = subtotal >= pricing.freeShippingFrom;
+  const shipping = deliveryKey === "pickup" || freeShip ? 0 : pricing.delivery[deliveryKey] ?? 0;
+  const total = subtotal - discount + shipping;
+  return { ok: true, lines, subtotal, discount, shipping, total, couponCode, deliveryKey };
+}
+
+// POST /api/checkout { items:[{id,name?,qty}], delivery, couponCode?, payer? }
+// -> creates a D1 order + a PayMe sale, returns { url } to redirect the shopper.
+async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
+  const ip = request.headers.get("CF-Connecting-IP") ?? "0.0.0.0";
+  if (await isRateLimited(db, ip, "checkout", 20, 60)) {
+    return json({ error: "יותר מדי ניסיונות — נסו שוב בעוד דקה" }, 429);
+  }
+
+  let body: {
+    items?: { id?: string; name?: string; qty?: number }[];
+    delivery?: string;
+    couponCode?: string;
+    payer?: { name?: string; email?: string; phone?: string };
+  };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: "bad request" }, 400);
+  }
+
+  const pricing = await loadPricing(request, env);
+  if (!pricing) return json({ error: "שגיאה זמנית, נסו שוב" }, 500);
+
+  const c = await computeCart(
+    pricing,
+    db,
+    Array.isArray(body.items) ? body.items : [],
+    body.delivery,
+    body.couponCode
+  );
+  if (!c.ok) return json({ error: c.error }, 400);
+  const { lines, subtotal, discount, total, couponCode, deliveryKey } = c;
+  if (total < 500) return json({ error: "סכום מינימלי לתשלום באתר הוא ₪5" }, 400);
+
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
+  await db
+    .insert(orders)
+    .values({
+      id,
+      createdAt: now,
+      items: JSON.stringify(lines),
+      subtotal,
+      couponCode,
+      discount,
+      delivery: deliveryKey,
+      total,
+      status: "new",
+      payerName: body.payer?.name ?? null,
+      payerEmail: body.payer?.email ?? null,
+      payerPhone: body.payer?.phone ?? null,
+    })
+    .run();
+
+  // create the PayMe sale (server-side, with secret seller id)
+  const base = (env.PAYME_BASE_URL || "https://sandbox.payme.io/api").replace(/\/$/, "");
+  const origin = new URL(request.url).origin;
+  const payload: Record<string, unknown> = {
+    seller_payme_id: env.PAYME_SELLER_ID,
+    sale_price: total, // agorot
+    currency: "ILS",
+    product_name: `הזמנה מאתר לב התחביב (${lines.length} פריטים)`,
+    transaction_id: id,
+    sale_callback_url: `${origin}/api/payme-callback?key=${encodeURIComponent(env.PAYME_WEBHOOK_KEY)}`,
+    sale_return_url: `${origin}/thank-you?order=${id}`,
+    sale_payment_method: "multi", // card + Bit + Apple/Google Pay (per enabled services)
+    language: "he",
+    ...(body.payer?.email ? { sale_email: body.payer.email } : {}),
+    ...(body.payer?.name ? { sale_name: body.payer.name } : {}),
+    ...(body.payer?.phone ? { sale_mobile: body.payer.phone } : {}),
+  };
+
+  let sale: any = null;
+  try {
+    const res = await fetch(`${base}/generate-sale`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    });
+    sale = await res.json().catch(() => null);
+  } catch {
+    sale = null;
+  }
+
+  if (!sale || sale.status_code !== 0 || !sale.sale_url) {
+    await db.update(orders).set({ status: "failed" }).where(eq(orders.id, id)).run();
+    return json({ error: "לא ניתן לפתוח עמוד תשלום כרגע, נסו שוב" }, 502);
+  }
+
+  await db
+    .update(orders)
+    .set({ paymeSaleId: sale.payme_sale_id ?? null })
+    .where(eq(orders.id, id))
+    .run();
+
+  return json({ url: sale.sale_url, orderId: id });
+}
+
+// POST /api/payme-callback?key=...  (PayMe server-to-server, x-www-form-urlencoded)
+// Authenticated by the secret key in the URL (only our server + PayMe know it).
+async function paymeCallback(request: Request, env: Env, db: DB): Promise<Response> {
+  // authenticate via the secret key in the URL (only our server + PayMe know it).
+  // Deny-all when the secret isn't configured; compare in constant time.
+  const key = new URL(request.url).searchParams.get("key") || "";
+  if (!env.PAYME_WEBHOOK_KEY || !safeEqual(key, env.PAYME_WEBHOOK_KEY)) {
+    return new Response("forbidden", { status: 403 });
+  }
+
+  let form: URLSearchParams;
+  try {
+    form = new URLSearchParams(await request.text());
+  } catch {
+    return new Response("bad request", { status: 400 });
+  }
+
+  const orderId = form.get("transaction_id") || "";
+  if (!orderId) return new Response("OK");
+  const order = await db.select().from(orders).where(eq(orders.id, orderId)).get();
+  if (!order) return new Response("OK"); // unknown order — just ack
+
+  const notify = form.get("notify_type");
+
+  // refund / chargeback can arrive AFTER payment — handle BEFORE the idempotency
+  // short-circuit so a returned order doesn't stay "paid".
+  if (notify === "refund" || notify === "sale-chargeback") {
+    await db.update(orders).set({ status: "refunded" }).where(eq(orders.id, orderId)).run();
+    return new Response("OK");
+  }
+
+  // only a pending order can become paid — duplicates / post-paid notifications are acked + ignored
+  if (order.status !== "new" && order.status !== "failed") return new Response("OK");
+
+  const saleStatus = form.get("sale_status");
+  const price = Number(form.get("price") || 0);
+  const currency = form.get("currency") || "";
+  const paid = notify === "sale-complete" || saleStatus === "completed";
+  const currencyOk = !currency || currency === "ILS"; // PayMe sends ILS; tolerate omission
+
+  if (paid && price === order.total && currencyOk) {
+    await db
+      .update(orders)
+      .set({
+        status: "paid",
+        paymentRef: form.get("payme_transaction_id") || null,
+        invoiceUrl: form.get("sale_invoice_url") || null,
+        payerName: form.get("buyer_name") || order.payerName || null,
+        payerEmail: form.get("buyer_email") || order.payerEmail || null,
+        payerPhone: form.get("buyer_phone") || order.payerPhone || null,
+      })
+      .where(eq(orders.id, orderId))
+      .run();
+    // consume a single-use / capped coupon on payment success. The cap is also
+    // checked at checkout; a shopper could in theory open several un-paid checkouts
+    // with one single-use code — accepted for a small shop (each is still a real
+    // charged order) rather than burning a welcome code on an abandoned checkout.
+    if (order.couponCode) {
+      await db
+        .update(coupons)
+        .set({ usedCount: sql`${coupons.usedCount} + 1` })
+        .where(eq(coupons.code, order.couponCode))
+        .run();
+    }
+  } else if (notify === "sale-failure") {
+    await db.update(orders).set({ status: "failed" }).where(eq(orders.id, orderId)).run();
+  }
+
+  return new Response("OK");
+}
+
+// GET /api/order-status?id=...  (the /thank-you page polls this; id is an unguessable uuid)
+async function orderStatus(request: Request, db: DB): Promise<Response> {
+  const id = new URL(request.url).searchParams.get("id") || "";
+  if (!id) return json({ error: "missing id" }, 400);
+  // return ONLY status (the id travels in the return URL; don't leak the amount)
+  const o = await db
+    .select({ status: orders.status })
+    .from(orders)
+    .where(eq(orders.id, id))
+    .get();
+  if (!o) return json({ status: "unknown" });
+  return json({ status: o.status });
+}
+
+// ---------- admin orders (JWT) — dashboard reads orders from D1 ----------
+const safeJson = (s: string): any => {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return [];
+  }
+};
+function mapOrder(o: typeof orders.$inferSelect) {
+  return {
+    _id: o.id,
+    createdAt: o.createdAt,
+    status: o.status,
+    total: o.total / 100, // agorot -> shekels for the dashboard
+    discount: o.discount / 100,
+    delivery: o.delivery,
+    couponCode: o.couponCode,
+    items: safeJson(o.items),
+    paymentRef: o.paymentRef,
+    invoiceUrl: o.invoiceUrl,
+    payerName: o.payerName,
+    payerEmail: o.payerEmail,
+    payerPhone: o.payerPhone,
+  };
+}
+
+async function listAdminOrders(db: DB): Promise<Response> {
+  const rows = await db.select().from(orders).orderBy(desc(orders.createdAt)).all();
+  return json({ orders: rows.map(mapOrder) });
+}
+
+async function updateOrderStatus(request: Request, db: DB, id: string): Promise<Response> {
+  let body: { status?: string };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: "bad request" }, 400);
+  }
+  const allowed = ["new", "paid", "failed", "refunded", "handled", "cancelled"];
+  const status = String(body.status || "");
+  if (!allowed.includes(status)) return json({ error: "bad status" }, 400);
+  await db.update(orders).set({ status }).where(eq(orders.id, id)).run();
+  const o = await db.select().from(orders).where(eq(orders.id, id)).get();
+  if (!o) return json({ error: "not found" }, 404);
+  return json({ order: mapOrder(o) });
+}
+
 export default {
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -414,6 +742,15 @@ export default {
       }
       if (pathname === "/api/subscribe" && request.method === "POST") {
         return subscribe(request, db);
+      }
+      if (pathname === "/api/checkout" && request.method === "POST") {
+        return checkout(request, env, db);
+      }
+      if (pathname === "/api/payme-callback" && request.method === "POST") {
+        return paymeCallback(request, env, db);
+      }
+      if (pathname === "/api/order-status" && request.method === "GET") {
+        return orderStatus(request, db);
       }
 
       // admin (JWT)
@@ -445,9 +782,16 @@ export default {
         if (pathname === "/api/admin/settings" && request.method === "POST") {
           return saveAdminSettings(request, db);
         }
+        if (pathname === "/api/admin/orders" && request.method === "GET") {
+          return listAdminOrders(db);
+        }
+        if (pathname.startsWith("/api/admin/orders/") && request.method === "PATCH") {
+          const oid = safeDecode(pathname.split("/").pop() || "");
+          if (oid === null) return json({ error: "bad request" }, 400);
+          return updateOrderStatus(request, db, oid);
+        }
       }
 
-      // TODO Phase 3: POST /api/checkout, POST /api/payment-webhook (consume single-use).
       return json({ error: "not found" }, 404);
     }
 
