@@ -1,8 +1,68 @@
 # Payments — PayMe integration plan
 
-Status: **decided on PayMe** (we already had a PayMe link from the Wix site). Not built
-yet. This is the research + plan to execute **after** the Sandbox account is ready.
-(Earlier we evaluated Grow/Meshulam; superseded by PayMe.)
+Status: PayMe integration is **built** (worker `/api/checkout` + `/api/payme-callback`,
+D1 orders, thank-you page; card-only cart) and merged to `main`. **Blocked on go-live**:
+PayMe account not yet approved (no `seller_payme_id`), Worker secrets not set, and the
+prod D1 `orders` table needs the 5 PayMe columns migrated.
+**Cost question is open** (2026-06): comparing PayMe's real fees vs Grow — see the two
+fee sections below.
+
+## Fees — PayMe + CardCom (from the signed agreements, 2026-06)
+
+PayMe is the platform/aggregator; **CardCom (קארדקום סליקה בע"מ) is the licensed acquirer**
+behind it — you sign both. All amounts **exclude VAT** (added by law). Tax/invoicing is
+the merchant's responsibility.
+
+| Item | Cost |
+|---|---|
+| Clearing — Israeli cards (Isracard/MC/Visa) | **1.20%** |
+| Clearing — foreign-issued cards (MC/Visa) | 3.25% |
+| Premium surcharge (Amex/Diners) | +0.70% |
+| Fixed fee per ₪ transaction | **₪1.00** |
+| Apple Pay / Google Pay | ₪0.5 each / txn |
+| 3D-Secure (online txns) | "per currency" — *not legible in PDF; confirm* |
+| Bit surcharge | *not legible in PDF; confirm* |
+| Monthly fixed | ₪0 |
+| Monthly minimum (only if ≥₪500 activity; tops variable fees up to this) | **₪49** |
+| Setup (one-time) | **₪99** |
+| Withdrawal to bank (if monthly withdrawals < ₪5,000; else free) | ₪14.9 |
+| Chargeback / dispute | ₪35 (IL) / $22 (foreign) |
+| Refund | ₪3.9 |
+| Invoices module (iCount) | ₪15/mo + ₪0.3/invoice |
+| SMS confirmations | ₪0.2 each |
+| Installment advance (ניכיון) | 0.15%/txn, min ₪2.5 (per separate agreement) |
+| Platform fee | extra, "per your platform agreement" |
+
+Payout: funds withdrawable from ~**6th of the month after** the card company captures the
+sale (manual "Withdraw" button); faster tracks cost extra; a 20th-of-month track gives a
+**0.2%** commission discount. Online stores must publish terms+cancellation+privacy+legal
+name+contact (we already have these). 7 business days to provide proof on a chargeback.
+
+## Grow (משולם) — cost comparison (verified 2026-06)
+
+**The ₪59/mo + 0.6% deal is real** — it's a limited **special bid**
+(<https://grow.business/payment-special-bid/>, **new subscribers, expires 2026-06-30**),
+not Grow's standard rate.
+
+**Special bid (what you'd actually sign):**
+- **₪59/mo**, *includes* **100 transactions + 100 invoices/month** (no per-txn flat or invoice fee until you exceed 100; then ₪0.5 each).
+- **0.6%** per transaction (standard cards). Bit/PayBox +0.2%. Diners 1.5%. Tourist/foreign 3.5%.
+- No setup; withdrawals: first 5/mo free then ₪1.75; payout from the **1st of the month**; interest-free advance line (25% or ₪10k of turnover); auto-invoicing + app + support included.
+- **3DS +₪2.50/txn** (confirmed on the sale fee schedule, fees-sale — applies to online orders). Chargeback ₪55. Min ₪0.5/txn.
+
+**Standard Grow (after promo / fallback):** no monthly/setup/minimum, invoices included;
+volume-tiered % ≤5k 1.4% · 5–20k 1.2% · 20–150k 1.0% · 150–250k 0.95% · 250k+ 0.9%;
++₪1/txn (min ₪0.50); **3DS +₪2.50/txn**; chargeback ₪40; bank transfer ₪16.90 (waived >₪5k).
+
+**Net:** with the special bid Grow is **clearly cheaper than PayMe** at every realistic volume —
+0.6% is half PayMe's 1.2%, and transactions+invoices are bundled into ₪59 (vs PayMe's ₪49 min +
+₪99 setup + ₪15/mo invoices). Monthly all-in (ex-VAT, ≤100 orders): ₪1k → Grow ~₪65 vs PayMe ~₪82;
+₪3k → ~₪77 vs ~₪105; ₪10k → ~₪119 vs ~₪239 (excl. 3DS). **3DS is ₪2.50/online order on Grow and
+also applies on PayMe (amount TBD), so it inflates both ~equally and the gap holds** — but it's a
+real ~₪2.50/order cost either way, painful on small baskets (reinforces the free-shipping-from-₪300
+nudge). Open items: PayMe's exact 3DS fee; whether 0.6% is locked or you must **sign up by ~2026-06-30**.
+Switching cost ~½–1 day to re-point the worker checkout/callback at Grow's API (D1/worker scaffolding
+reusable). **PayMe isn't live yet, so now is the cheapest time to switch.**
 
 ## Why PayMe fits us well
 
