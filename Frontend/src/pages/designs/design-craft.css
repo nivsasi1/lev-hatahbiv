@@ -1,0 +1,607 @@
+/* ===========================================================================
+   DesignCraft — "Warm Craft / Sticker"
+   A refined, tidy version of the store's handcrafted Atelier look.
+   Everything is scoped under .dz-craft so nothing leaks into the live site.
+
+   Palette (named roles):
+     --dz-surface  #f7efe0  cream paper surface
+     --dz-ink      #2b2440  ink — borders, body text, hard shadows
+     --dz-gold     #d99a2b  warm mustard — brand accent (buttons, highlights)
+     --dz-terra    #c75b41  terracotta — secondary accent
+     --dz-red      #e23a3a  strong sale-red — sale prices + discount tags
+   =========================================================================== */
+
+.dz-craft {
+  --dz-surface: #f7efe0;
+  --dz-surface-2: #fbf5ea; /* card paper, a touch lighter */
+  --dz-surface-deep: #efe3cd; /* soft section band */
+  --dz-ink: #2b2440;
+  --dz-ink-soft: #6a6280;
+  --dz-gold: #d99a2b;
+  --dz-gold-deep: #b87d18;
+  --dz-terra: #c75b41;
+  --dz-red: #e23a3a;
+  --dz-red-deep: #c52b2b;
+
+  --dz-shadow: 5px 5px 0 var(--dz-ink);
+  --dz-shadow-sm: 3px 3px 0 var(--dz-ink);
+  --dz-radius: 16px;
+
+  background: var(--dz-surface);
+  color: var(--dz-ink);
+  font-family: "Assistant", system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+/* paper speckle — plain radial gradients only (no SVG filters) */
+.dz-craft {
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(43, 36, 64, 0.035) 0 1px, transparent 1px),
+    radial-gradient(circle at 72% 64%, rgba(43, 36, 64, 0.03) 0 1px, transparent 1px);
+  background-size: 26px 26px, 34px 34px;
+}
+
+.dz-craft .display {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.dz-craft a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.dz-shell {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+/* ---------- shared marker highlight ---------- */
+.dz-hl {
+  position: relative;
+  white-space: nowrap;
+  padding-inline: 0.12em;
+}
+.dz-hl::before {
+  content: "";
+  position: absolute;
+  inset-inline: -0.05em;
+  bottom: 0.08em;
+  height: 0.42em;
+  background: var(--dz-gold);
+  opacity: 0.55;
+  z-index: -1;
+  border-radius: 3px;
+  transform: rotate(-1deg);
+}
+.dz-hl-red::before {
+  background: var(--dz-red);
+  opacity: 0.85;
+  height: 0.5em;
+}
+
+/* ---------- eyebrow / section heads ---------- */
+.dz-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dz-terra);
+}
+.dz-eyebrow-sale {
+  color: var(--dz-red);
+}
+
+.dz-sec {
+  padding-block: clamp(40px, 6vw, 72px);
+}
+.dz-sec-soft {
+  background: var(--dz-surface-deep);
+  border-block: 2px solid var(--dz-ink);
+}
+.dz-sec-head {
+  text-align: center;
+  margin-bottom: clamp(24px, 4vw, 40px);
+}
+.dz-sec-head h2 {
+  margin: 6px 0 0;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  line-height: 1.05;
+}
+
+/* ---------- buttons (≥44px tap targets) ---------- */
+.dz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 2.5px solid var(--dz-ink);
+  border-radius: 12px;
+  font-family: "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--dz-surface-2);
+  box-shadow: var(--dz-shadow-sm);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.dz-btn-fill {
+  background: var(--dz-gold);
+  color: var(--dz-ink);
+}
+.dz-btn-line {
+  background: var(--dz-surface-2);
+}
+.dz-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--dz-ink);
+}
+.dz-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--dz-ink);
+}
+.dz-craft a:focus-visible,
+.dz-craft button:focus-visible {
+  outline: 3px solid var(--dz-terra);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ===========================================================================
+   HERO
+   =========================================================================== */
+.dz-hero {
+  position: relative;
+  text-align: center;
+  padding: clamp(36px, 6vw, 72px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 64px);
+  overflow: clip;
+}
+.dz-hero-inner {
+  max-width: 720px;
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+.dz-splat {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+.dz-hero-logo {
+  margin: 14px 0 10px;
+}
+.dz-hero-logo img {
+  width: min(280px, 64vw);
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}
+.dz-hero-title {
+  font-size: clamp(2.8rem, 8vw, 4.6rem);
+  line-height: 1;
+  margin: 4px 0 14px;
+}
+.dz-hero-sub {
+  max-width: 540px;
+  margin: 0 auto 24px;
+  font-size: 1.08rem;
+  color: var(--dz-ink-soft);
+}
+.dz-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* ===========================================================================
+   ON-SALE — headline, big red prices, popping tag
+   =========================================================================== */
+.dz-sale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: clamp(16px, 2.4vw, 26px);
+}
+.dz-sale-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--dz-surface-2);
+  border: 2.5px solid var(--dz-ink);
+  border-radius: var(--dz-radius);
+  box-shadow: var(--dz-shadow);
+  overflow: hidden;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.dz-sale-card:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 7px 7px 0 var(--dz-ink);
+}
+.dz-sale-media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  border-bottom: 2.5px solid var(--dz-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.dz-sale-media img,
+.dz-sale-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* solid high-contrast discount tag (starburst-feel, unmissable) */
+.dz-tag {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px;
+  z-index: 2;
+  background: var(--dz-red);
+  color: #fff;
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  border: 2.5px solid var(--dz-ink);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 var(--dz-ink);
+  transform: rotate(-8deg);
+}
+.dz-tag-num {
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0;
+  unicode-bidi: plaintext;
+}
+
+.dz-sale-info {
+  padding: 12px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.dz-sale-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--dz-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dz-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+/* BIG + BOLD red sale price with a marker swipe behind it */
+.dz-price-now {
+  position: relative;
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 2.1rem;
+  line-height: 1;
+  color: var(--dz-red-deep);
+  padding-inline: 4px;
+}
+.dz-price-now::before {
+  content: "";
+  position: absolute;
+  inset-inline: -2px;
+  bottom: 2px;
+  height: 0.45em;
+  background: var(--dz-red);
+  opacity: 0.22;
+  z-index: -1;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+}
+.dz-price-was {
+  font-size: 0.95rem;
+  color: var(--dz-ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: var(--dz-terra);
+}
+
+.dz-more {
+  text-align: center;
+  margin-top: clamp(24px, 4vw, 36px);
+}
+
+/* ===========================================================================
+   CATEGORIES — compact rotated sticker chips, colour-coded by category
+   =========================================================================== */
+.dz-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: clamp(14px, 2.2vw, 22px);
+}
+.dz-chip {
+  --cc: var(--dz-gold);
+  --soft: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 18px 12px 16px;
+  background: var(--soft);
+  border: 2.5px solid var(--dz-ink);
+  border-radius: 18px;
+  box-shadow: var(--dz-shadow-sm);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.dz-chip:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 5px 5px 0 var(--dz-ink);
+}
+.dz-chip-art {
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2.5px solid var(--dz-ink);
+  border-radius: 14px;
+}
+.dz-chip-art svg {
+  width: 76px;
+  height: 76px;
+}
+.dz-chip-name {
+  font-size: 1.6rem;
+  line-height: 1.05;
+  color: var(--dz-ink);
+}
+.dz-chip-count {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--cc);
+  filter: brightness(0.82);
+}
+
+/* ===========================================================================
+   FEATURED — restrained sticker row
+   =========================================================================== */
+.dz-feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: clamp(16px, 2.4vw, 26px);
+}
+.dz-feat-card {
+  background: var(--dz-surface-2);
+  border: 2.5px solid var(--dz-ink);
+  border-radius: var(--dz-radius);
+  box-shadow: var(--dz-shadow-sm);
+  overflow: hidden;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.dz-feat-card:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 5px 5px 0 var(--dz-ink);
+}
+.dz-feat-media {
+  aspect-ratio: 4 / 3;
+  background: #fff;
+  border-bottom: 2.5px solid var(--dz-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.dz-feat-media img,
+.dz-feat-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.dz-feat-info {
+  padding: 12px 14px 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.dz-feat-info h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.dz-feat-price {
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--dz-terra);
+  white-space: nowrap;
+}
+
+/* ===========================================================================
+   QUOTE / STORY BAND
+   =========================================================================== */
+.dz-quote {
+  background: var(--dz-ink);
+  color: var(--dz-surface);
+  border-block: 2.5px solid var(--dz-ink);
+  padding-block: clamp(48px, 7vw, 84px);
+  text-align: center;
+}
+.dz-quote-inner {
+  max-width: 720px;
+}
+.dz-quote-mark {
+  font-size: 5rem;
+  line-height: 0.4;
+  color: var(--dz-gold);
+  margin: 0;
+}
+.dz-quote h2 {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  margin: 8px 0 12px;
+  color: var(--dz-surface);
+}
+.dz-quote-body {
+  font-size: 1.12rem;
+  color: #e7ddcc;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+/* ===========================================================================
+   WORKSHOPS
+   =========================================================================== */
+.dz-shop {
+  background: var(--dz-surface-2);
+  border: 2.5px solid var(--dz-ink);
+  border-radius: var(--dz-radius);
+  box-shadow: var(--dz-shadow);
+  padding: clamp(24px, 4vw, 40px);
+  text-align: center;
+}
+.dz-shop-body h2 {
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  margin: 6px 0 12px;
+}
+.dz-shop-intro {
+  max-width: 560px;
+  margin: 0 auto 18px;
+  color: var(--dz-ink-soft);
+  font-size: 1.06rem;
+}
+.dz-shop-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+.dz-mini-chip {
+  background: var(--dz-surface-deep);
+  border: 2px solid var(--dz-ink);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.dz-shop-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+.dz-shop-when {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ===========================================================================
+   VISIT
+   =========================================================================== */
+.dz-visit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 3vw, 28px);
+}
+.dz-vcard {
+  background: var(--dz-surface-2);
+  border: 2.5px solid var(--dz-ink);
+  border-radius: var(--dz-radius);
+  box-shadow: var(--dz-shadow);
+  padding: clamp(20px, 3vw, 30px);
+}
+.dz-vcard h3 {
+  margin: 0 0 14px;
+  font-size: 2.1rem;
+}
+.dz-vcard table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dz-vcard td {
+  padding: 8px 0;
+  border-bottom: 1.5px dashed var(--dz-ink-soft);
+  font-size: 1rem;
+}
+.dz-v-time {
+  text-align: end;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.dz-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 1.04rem;
+  margin-bottom: 18px;
+}
+.dz-rows a {
+  color: var(--dz-terra);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(199, 91, 65, 0.4);
+}
+.dz-vactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ===========================================================================
+   MOTION — gentle reveal, gated behind prefers-reduced-motion
+   =========================================================================== */
+.dz-craft.is-reveal .dz-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.dz-craft.is-reveal .dz-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dz-craft *,
+  .dz-craft *::before,
+  .dz-craft *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .dz-craft .dz-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 520px) {
+  .dz-sale-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-chips {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-price-now {
+    font-size: 1.8rem;
+  }
+}

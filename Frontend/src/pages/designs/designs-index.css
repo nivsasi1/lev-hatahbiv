@@ -1,0 +1,106 @@
+/* /designs chooser — scoped under .dz-index */
+.dz-index {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) 1.2rem 4rem;
+}
+.dz-index-head {
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+.dz-index-eyebrow {
+  display: inline-block;
+  font-family: "Assistant", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8a8398;
+  margin-bottom: 0.5rem;
+}
+.dz-index-head h1 {
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  line-height: 1;
+  color: #2b2440;
+  margin: 0 0 0.6rem;
+}
+.dz-index-head p {
+  max-width: 34rem;
+  margin: 0 auto;
+  color: #5a5370;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+.dz-index-grid {
+  display: grid;
+  gap: 1.1rem;
+}
+.dz-index-card {
+  display: flex;
+  align-items: stretch;
+  gap: 1.1rem;
+  padding: 1.1rem 1.3rem;
+  background: #fffdf8;
+  border: 2px solid #2b2440;
+  border-radius: 1rem;
+  box-shadow: 0.3em 0.3em 0 var(--accent, #2b2440);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.dz-index-card:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0.5em 0.5em 0 var(--accent, #2b2440);
+}
+.dz-index-card:focus-visible {
+  outline: 3px solid var(--accent, #2b2440);
+  outline-offset: 3px;
+}
+.dz-index-letter {
+  flex: 0 0 3.4rem;
+  display: grid;
+  place-items: center;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 2.6rem;
+  color: #fff;
+  background: var(--accent, #2b2440);
+  border-radius: 0.7rem;
+}
+.dz-index-card-body h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.4rem;
+  color: #2b2440;
+}
+.dz-index-tag {
+  font-family: "Assistant", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent, #5a5370);
+  letter-spacing: 0.02em;
+}
+.dz-index-card-body p {
+  margin: 0 0 0.5rem;
+  color: #5a5370;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.dz-index-go {
+  font-weight: 700;
+  color: var(--accent, #2b2440);
+}
+.dz-index-foot {
+  text-align: center;
+  margin-top: 2.4rem;
+}
+.dz-index-current {
+  color: #5a5370;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .dz-index-letter {
+    flex-basis: 2.6rem;
+    font-size: 2rem;
+  }
+}

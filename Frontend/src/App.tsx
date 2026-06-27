@@ -24,6 +24,10 @@ import { ReturnsPage } from "./pages/ReturnsPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ThankYouPage } from "./pages/ThankYouPage";
+import DesignsIndex from "./pages/designs/DesignsIndex";
+import DesignGallery from "./pages/designs/DesignGallery";
+import DesignPop from "./pages/designs/DesignPop";
+import DesignCraft from "./pages/designs/DesignCraft";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -76,6 +80,10 @@ const router = createBrowserRouter(
         { path: "/privacy", element: <PrivacyPage /> },
         { path: "/contact", element: <ContactPage /> },
         { path: "/thank-you", element: <ThankYouPage /> },
+        { path: "/designs", element: <DesignsIndex /> },
+        { path: "/designs/a", element: <DesignGallery /> },
+        { path: "/designs/b", element: <DesignPop /> },
+        { path: "/designs/c", element: <DesignCraft /> },
         { path: "*", element: <HomePage /> },
       ],
     },
