@@ -28,6 +28,11 @@ import DesignsIndex from "./pages/designs/DesignsIndex";
 import DesignGallery from "./pages/designs/DesignGallery";
 import DesignPop from "./pages/designs/DesignPop";
 import DesignCraft from "./pages/designs/DesignCraft";
+import DesignDark from "./pages/designs/DesignDark";
+import DesignKinetic from "./pages/designs/DesignKinetic";
+import DesignBrutal from "./pages/designs/DesignBrutal";
+import DesignClay from "./pages/designs/DesignClay";
+import DesignBento from "./pages/designs/DesignBento";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -84,6 +89,11 @@ const router = createBrowserRouter(
         { path: "/designs/a", element: <DesignGallery /> },
         { path: "/designs/b", element: <DesignPop /> },
         { path: "/designs/c", element: <DesignCraft /> },
+        { path: "/designs/d", element: <DesignDark /> },
+        { path: "/designs/e", element: <DesignKinetic /> },
+        { path: "/designs/f", element: <DesignBrutal /> },
+        { path: "/designs/g", element: <DesignClay /> },
+        { path: "/designs/h", element: <DesignBento /> },
         { path: "*", element: <HomePage /> },
       ],
     },

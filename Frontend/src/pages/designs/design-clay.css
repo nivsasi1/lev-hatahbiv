@@ -1,0 +1,618 @@
+/* =============================================================================
+   DesignClay — "Soft Clay" homepage (claymorphism / pastel, calm-tactile).
+   All rules scoped under .dz-clay. Warm cream ground, pastel puffy panels with
+   soft double shadows (light top-left highlight + soft bottom-right shadow),
+   pillowy pill buttons that press inward on click.
+   ========================================================================== */
+
+.dz-clay {
+  /* ---- palette tokens (soft, warm, AA-safe text via plum ink) ---- */
+  --cl-cream: #fdf6ef;   /* warm cream ground */
+  --cl-rose: #f4b8b0;    /* dusty rose */
+  --cl-sky: #a7c7e7;     /* soft sky */
+  --cl-mint: #b8e0d2;    /* mint */
+  --cl-butter: #f7e3a1;  /* butter */
+  --cl-ink: #4a3f5e;     /* soft plum ink — body text (AA on cream/pastels) */
+  --cl-ink-soft: #6d6284;/* muted plum for secondary text */
+  --cl-sale: #f0574f;    /* soft-but-clear sale red */
+  --cl-white: #fffdfb;   /* near-white for the light highlight side */
+
+  /* ---- clay surface + shadow recipe (reused everywhere) ---- */
+  --cl-surface: #fbf1e8;
+  --cl-shadow: -6px -6px 12px #ffffff, 8px 8px 18px rgba(120, 100, 140, 0.18);
+  --cl-shadow-lg: -8px -8px 16px #ffffff, 12px 12px 28px rgba(120, 100, 140, 0.22);
+  --cl-shadow-sm: -3px -3px 7px #ffffff, 4px 4px 10px rgba(120, 100, 140, 0.16);
+  --cl-inset: inset 4px 4px 9px rgba(120, 100, 140, 0.22),
+              inset -4px -4px 9px #ffffff;
+
+  --cl-radius: 32px;
+
+  background: var(--cl-cream);
+  color: var(--cl-ink);
+  font-family: "Assistant", system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* soft pastel blobs floating behind everything — pure gradients, no filters */
+.dz-clay {
+  position: relative;
+}
+.dz-clay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(38rem 38rem at 88% -6%, rgba(167, 199, 231, 0.30), transparent 60%),
+    radial-gradient(30rem 30rem at 4% 22%, rgba(244, 184, 176, 0.28), transparent 62%),
+    radial-gradient(34rem 34rem at 96% 74%, rgba(184, 224, 210, 0.28), transparent 60%),
+    radial-gradient(26rem 26rem at 12% 96%, rgba(247, 227, 161, 0.26), transparent 62%);
+}
+.dz-clay > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dz-clay .cl-shell {
+  width: min(1160px, 92vw);
+  margin-inline: auto;
+}
+
+/* -------- shared type -------- */
+.dz-clay h1,
+.dz-clay h2,
+.dz-clay h3 {
+  margin: 0;
+  color: var(--cl-ink);
+  line-height: 1.02;
+}
+.dz-clay .cl-display {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+}
+.dz-clay .cl-eyebrow {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--cl-ink-soft);
+  background: var(--cl-surface);
+  border-radius: 999px;
+  padding: 0.35em 1.05em;
+  box-shadow: var(--cl-shadow-sm);
+}
+.dz-clay .cl-sec-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+.dz-clay .cl-sec-head h2 {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
+}
+.dz-clay .cl-sec-head p {
+  margin: 0;
+  max-width: 44ch;
+  color: var(--cl-ink-soft);
+  font-size: 1.05rem;
+}
+
+/* -------- puffy pill buttons -------- */
+.dz-clay .cl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 52px;
+  padding: 0.7em 1.8em;
+  border: 0;
+  border-radius: 999px;
+  font-family: "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--cl-ink);
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.dz-clay .cl-btn:hover {
+  transform: translateY(-2px);
+}
+/* press inward — inset shadow, the signature clay press */
+.dz-clay .cl-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--cl-inset);
+}
+.dz-clay .cl-btn.cl-btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #7d5ba6, #5b2d8e);
+  box-shadow: -6px -6px 12px rgba(255, 255, 255, 0.55),
+              8px 8px 18px rgba(91, 45, 142, 0.30);
+}
+.dz-clay .cl-btn.cl-btn-primary:active {
+  box-shadow: inset 4px 4px 10px rgba(46, 20, 74, 0.5),
+              inset -4px -4px 10px rgba(255, 255, 255, 0.20);
+}
+.dz-clay .cl-btn.cl-btn-rose {
+  background: linear-gradient(135deg, #f7cfc9, var(--cl-rose));
+}
+.dz-clay .cl-link {
+  color: #5b2d8e;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.dz-clay .cl-link:hover {
+  border-bottom-color: currentColor;
+}
+
+/* visible focus for keyboard users everywhere */
+.dz-clay a:focus-visible,
+.dz-clay button:focus-visible {
+  outline: 3px solid #5b2d8e;
+  outline-offset: 3px;
+  border-radius: 14px;
+}
+
+/* =========================================================================
+   HERO
+   ======================================================================= */
+.dz-clay .cl-hero {
+  padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3.5rem);
+}
+.dz-clay .cl-hero-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(2rem, 4vw, 3.4rem);
+  border-radius: 44px;
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow-lg);
+}
+.dz-clay .cl-hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+.dz-clay .cl-hero-since {
+  font-weight: 700;
+  color: var(--cl-ink-soft);
+  background: var(--cl-cream);
+  border-radius: 999px;
+  padding: 0.4em 1.1em;
+  box-shadow: var(--cl-shadow-sm);
+}
+.dz-clay .cl-hero-title {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.6rem, 9vw, 6.6rem);
+  line-height: 0.92;
+}
+.dz-clay .cl-hero-title .cl-accent {
+  color: #5b2d8e;
+}
+.dz-clay .cl-hero-sub {
+  margin: 0;
+  max-width: 42ch;
+  font-size: 1.14rem;
+  line-height: 1.6;
+  color: var(--cl-ink);
+}
+.dz-clay .cl-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: center;
+}
+/* logo cradled in a soft inset clay stage */
+.dz-clay .cl-hero-stage {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 4vw, 2.6rem);
+  border-radius: 40px;
+  background: var(--cl-cream);
+  box-shadow: var(--cl-inset);
+}
+.dz-clay .cl-hero-logo {
+  width: min(100%, 320px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(4px 6px 10px rgba(120, 100, 140, 0.22));
+}
+/* little pastel dabs around the stage */
+.dz-clay .cl-dab {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: var(--cl-shadow-sm);
+}
+.dz-clay .cl-dab-1 { width: 46px; height: 46px; background: var(--cl-rose);   top: -14px; inset-inline-start: 8%; }
+.dz-clay .cl-dab-2 { width: 34px; height: 34px; background: var(--cl-mint);   bottom: -10px; inset-inline-end: 12%; }
+.dz-clay .cl-dab-3 { width: 26px; height: 26px; background: var(--cl-butter); top: 40%; inset-inline-end: -10px; }
+
+/* =========================================================================
+   SALE — puffy clay cards, big sale-red price, clay blob badge
+   ======================================================================= */
+.dz-clay .cl-sec {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+.dz-clay .cl-sale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.6rem;
+}
+.dz-clay .cl-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--cl-radius);
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dz-clay .cl-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--cl-shadow-lg);
+}
+.dz-clay .cl-card-media {
+  position: relative;
+  margin: 14px 14px 0;
+  border-radius: 24px;
+  background: var(--cl-white);
+  box-shadow: var(--cl-inset);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 12px;
+}
+.dz-clay .cl-card-media img,
+.dz-clay .cl-card-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+}
+/* soft rounded clay tag/blob badge */
+.dz-clay .cl-badge {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px;
+  z-index: 2;
+  min-width: 46px;
+  padding: 0.5em 0.7em;
+  border-radius: 18px 18px 20px 6px;
+  background: linear-gradient(135deg, #f7857d, var(--cl-sale));
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-align: center;
+  line-height: 1;
+  box-shadow: -3px -3px 6px rgba(255, 255, 255, 0.35),
+              4px 4px 10px rgba(191, 60, 52, 0.35);
+}
+.dz-clay .cl-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1.15rem 1.2rem;
+}
+.dz-clay .cl-card-cat {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--cl-ink-soft);
+}
+.dz-clay .cl-card-name {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--cl-ink);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+.dz-clay .cl-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+  flex-wrap: wrap;
+}
+/* discounted price BIG in sale-red */
+.dz-clay .cl-price-now {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 0.9;
+  color: var(--cl-sale);
+}
+/* original price small + struck + secondary */
+.dz-clay .cl-price-was {
+  font-size: 0.95rem;
+  color: var(--cl-ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: var(--cl-ink-soft);
+}
+.dz-clay .cl-sale-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.4rem;
+}
+
+/* =========================================================================
+   CATEGORIES — pastel clay chips, each in its soft tint w/ ProductArt
+   ======================================================================= */
+.dz-clay .cl-cats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.6rem;
+}
+.dz-clay .cl-chip {
+  --chip-soft: var(--cl-surface);
+  --chip-color: #5b2d8e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.8rem 1.4rem 1.5rem;
+  border-radius: 36px;
+  background: var(--chip-soft);
+  box-shadow: var(--cl-shadow);
+  text-decoration: none;
+  color: var(--cl-ink);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dz-clay .cl-chip:hover {
+  transform: translateY(-5px) scale(1.015);
+  box-shadow: var(--cl-shadow-lg);
+}
+.dz-clay .cl-chip-art {
+  width: 108px;
+  height: 108px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cl-cream);
+  box-shadow: var(--cl-inset);
+  padding: 12px;
+}
+.dz-clay .cl-chip-art svg {
+  width: 100%;
+  height: 100%;
+}
+.dz-clay .cl-chip-name {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--cl-ink);
+}
+.dz-clay .cl-chip-blurb {
+  font-size: 0.9rem;
+  color: var(--cl-ink-soft);
+  line-height: 1.4;
+  max-width: 22ch;
+}
+.dz-clay .cl-chip-count {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--chip-color);
+  background: var(--cl-cream);
+  border-radius: 999px;
+  padding: 0.3em 0.9em;
+  box-shadow: var(--cl-shadow-sm);
+}
+
+/* =========================================================================
+   QUOTE / STORY band
+   ======================================================================= */
+.dz-clay .cl-quote {
+  padding: clamp(2rem, 5vw, 3.5rem) 0;
+}
+.dz-clay .cl-quote-panel {
+  padding: clamp(2.4rem, 5vw, 4rem);
+  border-radius: 44px;
+  background:
+    radial-gradient(28rem 20rem at 90% 0%, rgba(167, 199, 231, 0.4), transparent 65%),
+    radial-gradient(24rem 18rem at 6% 100%, rgba(244, 184, 176, 0.42), transparent 65%),
+    var(--cl-surface);
+  box-shadow: var(--cl-shadow-lg);
+  text-align: center;
+}
+.dz-clay .cl-quote-panel h2 {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
+  margin-bottom: 1rem;
+}
+.dz-clay .cl-quote-panel p {
+  margin: 0 auto;
+  max-width: 56ch;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--cl-ink);
+}
+
+/* =========================================================================
+   WORKSHOPS
+   ======================================================================= */
+.dz-clay .cl-shop {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.8rem;
+  align-items: stretch;
+}
+.dz-clay .cl-shop-body {
+  padding: clamp(1.8rem, 4vw, 2.8rem);
+  border-radius: 40px;
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.dz-clay .cl-shop-body h2 {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5vw, 3.8rem);
+}
+.dz-clay .cl-shop-body .cl-intro {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--cl-ink);
+}
+.dz-clay .cl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.dz-clay .cl-chips span {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--cl-ink);
+  background: var(--cl-cream);
+  border-radius: 999px;
+  padding: 0.45em 1.05em;
+  box-shadow: var(--cl-shadow-sm);
+}
+.dz-clay .cl-shop-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+.dz-clay .cl-shop-when {
+  font-weight: 700;
+  color: var(--cl-ink-soft);
+}
+/* decorative soft-tint aside with playful clay dots */
+.dz-clay .cl-shop-aside {
+  position: relative;
+  border-radius: 40px;
+  background:
+    radial-gradient(20rem 16rem at 20% 20%, rgba(247, 227, 161, 0.55), transparent 60%),
+    radial-gradient(18rem 14rem at 90% 90%, rgba(184, 224, 210, 0.6), transparent 60%),
+    var(--cl-cream);
+  box-shadow: var(--cl-inset);
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.dz-clay .cl-shop-aside .cl-aside-emoji {
+  font-size: clamp(4rem, 10vw, 7rem);
+  filter: drop-shadow(4px 6px 8px rgba(120, 100, 140, 0.22));
+}
+
+/* =========================================================================
+   VISIT — hours + contact clay cards
+   ======================================================================= */
+.dz-clay .cl-visit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.8rem;
+}
+.dz-clay .cl-vcard {
+  padding: clamp(1.8rem, 4vw, 2.6rem);
+  border-radius: 40px;
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow);
+}
+.dz-clay .cl-vcard h3 {
+  font-family: "Amatic SC", "Assistant", sans-serif;
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin-bottom: 1.1rem;
+}
+.dz-clay .cl-vcard table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dz-clay .cl-vcard td {
+  padding: 0.55rem 0;
+  font-size: 1.05rem;
+  color: var(--cl-ink);
+}
+.dz-clay .cl-vcard tr + tr td {
+  border-top: 2px dotted rgba(120, 100, 140, 0.25);
+}
+.dz-clay .cl-vcard td:last-child {
+  text-align: end;
+  font-weight: 700;
+  color: var(--cl-ink-soft);
+}
+.dz-clay .cl-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  font-size: 1.05rem;
+  margin-bottom: 1.3rem;
+}
+.dz-clay .cl-rows a {
+  color: #5b2d8e;
+  font-weight: 700;
+  text-decoration: none;
+}
+.dz-clay .cl-rows a:hover {
+  text-decoration: underline;
+}
+.dz-clay .cl-vactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+/* =========================================================================
+   Responsive
+   ======================================================================= */
+@media (max-width: 860px) {
+  .dz-clay .cl-hero-panel {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .dz-clay .cl-hero-copy {
+    align-items: center;
+  }
+  .dz-clay .cl-hero-stage {
+    order: -1;
+  }
+  .dz-clay .cl-shop {
+    grid-template-columns: 1fr;
+  }
+  .dz-clay .cl-visit {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   Gentle scroll-reveal — fail-open (only hides once JS adds .cl-anim), and
+   fully disabled under reduced-motion.
+   ======================================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .dz-clay.cl-anim .cl-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .dz-clay.cl-anim .cl-reveal.cl-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    transition-delay: var(--cl-delay, 0ms);
+  }
+}

@@ -1,0 +1,571 @@
+/* ===========================================================================
+   Design D — "Dark Studio"
+   A lit art studio at night: near-black canvas, off-white type, warm gold
+   accent, vivid sale-red. Calm & spacious, minimal motion. All selectors are
+   scoped under .dz-dark so nothing leaks into the shared theme.
+   =========================================================================== */
+
+.dz-dark {
+  /* --- named palette (scoped tokens) --- */
+  --dz-canvas: #14131a; /* near-black page */
+  --dz-panel: #1c1a24; /* deep raised panel */
+  --dz-panel-2: #232030; /* slightly lifted panel / hover */
+  --dz-line: #322e3f; /* hairline border on dark */
+  --dz-text: #f3efe6; /* off-white body/heading */
+  --dz-muted: #9a94a8; /* muted secondary text (AA on canvas) */
+  --dz-gold: #e0a53e; /* warm gold accent */
+  --dz-red: #ff5a4d; /* vivid sale-red that pops on dark */
+
+  background: var(--dz-canvas);
+  color: var(--dz-text);
+  font-family: "Assistant", system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.dz-dark .dz-shell {
+  width: min(1160px, 92vw);
+  margin-inline: auto;
+}
+
+.dz-dark section {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+/* --- display / body type --- */
+.dz-dark .display {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* --- shared eyebrow → H2 hierarchy --- */
+.dz-dark .dz-eyebrow,
+.dz-dark .dz-hero-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dz-gold);
+}
+
+.dz-dark .dz-sec-head {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.dz-dark .dz-h2 {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 0.95;
+  margin: 0.2rem 0 0;
+  color: var(--dz-text);
+}
+
+.dz-dark .dz-lead {
+  max-width: 46ch;
+  margin: 0.6rem 0 0;
+  color: var(--dz-muted);
+  font-size: 1.05rem;
+}
+
+/* --- buttons (≥44px targets) --- */
+.dz-dark .dz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.dz-dark .dz-btn.solid {
+  background: var(--dz-gold);
+  color: #1a140a;
+}
+.dz-dark .dz-btn.solid:hover {
+  background: #eeb85a;
+}
+.dz-dark .dz-btn.line {
+  background: transparent;
+  color: var(--dz-text);
+  border-color: var(--dz-line);
+}
+.dz-dark .dz-btn.line:hover {
+  border-color: var(--dz-gold);
+  color: var(--dz-gold);
+}
+.dz-dark .dz-btn:hover {
+  transform: translateY(-2px);
+}
+
+.dz-dark .dz-textlink {
+  color: var(--dz-gold);
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.dz-dark .dz-textlink:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* visible focus ring everywhere */
+.dz-dark a:focus-visible,
+.dz-dark .dz-btn:focus-visible,
+.dz-dark .dz-tile:focus-visible,
+.dz-dark .dz-sale-card:focus-visible {
+  outline: 2px solid var(--dz-gold);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.dz-dark .dz-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ===========================================================================
+   HERO — dark field with a softly-lit logo (subtle gold glow)
+   =========================================================================== */
+.dz-dark .dz-hero {
+  position: relative;
+  text-align: center;
+  padding-block: clamp(4rem, 10vw, 8rem);
+  border-bottom: 1px solid var(--dz-line);
+  overflow: hidden;
+}
+.dz-dark .dz-hero-glow {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: min(720px, 90vw);
+  height: 420px;
+  transform: translateX(-50%);
+  /* warm gold spotlight fading into the canvas — pure radial gradient, no filters */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(224, 165, 62, 0.22) 0%,
+    rgba(224, 165, 62, 0.08) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.dz-dark .dz-hero .dz-shell {
+  position: relative;
+}
+.dz-dark .dz-hero-logo {
+  margin: 1.4rem auto 0;
+  max-width: 340px;
+}
+.dz-dark .dz-hero-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* soft warm glow lifting the logo off the dark field */
+  filter: drop-shadow(0 0 34px rgba(224, 165, 62, 0.28));
+}
+.dz-dark .dz-hero-title {
+  font-size: clamp(3.2rem, 9vw, 6rem);
+  line-height: 0.9;
+  margin: 0.8rem 0 0;
+  color: var(--dz-text);
+}
+.dz-dark .dz-hero-sub {
+  max-width: 44ch;
+  margin: 1rem auto 0;
+  color: var(--dz-muted);
+  font-size: 1.1rem;
+}
+.dz-dark .dz-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
+/* ===========================================================================
+   HEAD ROW (sale) — title + "לעוד מבצעים" link
+   =========================================================================== */
+.dz-dark .dz-head-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  flex-wrap: wrap;
+}
+.dz-dark .dz-head-row .dz-sec-head {
+  margin-bottom: 0;
+}
+
+/* ===========================================================================
+   SALE — dark cards with soft inner glow, BIG red price, gold-outlined pill
+   =========================================================================== */
+.dz-dark .dz-sale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: clamp(1rem, 2.2vw, 1.6rem);
+}
+.dz-dark .dz-sale-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--dz-panel);
+  border: 1px solid var(--dz-line);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  /* soft inner glow + lift */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.dz-dark .dz-sale-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(224, 165, 62, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 16px 40px rgba(0, 0, 0, 0.5);
+}
+.dz-dark .dz-thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #100f16;
+  display: grid;
+  place-items: center;
+  padding: 1.1rem;
+}
+.dz-dark .dz-thumb img,
+.dz-dark .dz-thumb svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* on-image badge: solid gold-outlined red pill */
+.dz-dark .dz-badge {
+  position: absolute;
+  top: 0.7rem;
+  inset-inline-start: 0.7rem;
+  z-index: 2;
+  background: var(--dz-red);
+  color: #fff;
+  border: 2px solid var(--dz-gold);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(255, 90, 77, 0.45);
+  direction: ltr;
+}
+.dz-dark .dz-sale-body {
+  padding: 0.9rem 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+.dz-dark .dz-sale-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--dz-muted);
+}
+.dz-dark .dz-sale-cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+.dz-dark .dz-sale-name {
+  font-weight: 600;
+  color: var(--dz-text);
+  line-height: 1.3;
+  /* clamp to 2 lines so cards stay even */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dz-dark .dz-price-row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+.dz-dark .dz-price-now {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--dz-red);
+  line-height: 1;
+}
+.dz-dark .dz-price-was {
+  font-size: 0.95rem;
+  color: var(--dz-muted);
+  text-decoration: line-through;
+}
+
+/* ===========================================================================
+   COLLECTIONS — calm grid of dark tiles, each with tinted ProductArt + glow
+   =========================================================================== */
+.dz-dark .dz-cats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: clamp(1rem, 2.4vw, 1.8rem);
+}
+.dz-dark .dz-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.2rem 1.6rem;
+  background: var(--dz-panel);
+  border: 1px solid var(--dz-line);
+  border-radius: 18px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.dz-dark .dz-tile:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--cc) 55%, var(--dz-line));
+}
+/* soft radial glow of the category's own color, restrained */
+.dz-dark .dz-tile-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--cc) 42%, transparent) 0%,
+    transparent 68%
+  );
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.dz-dark .dz-tile:hover .dz-tile-glow {
+  opacity: 0.85;
+}
+.dz-dark .dz-tile-art {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  display: block;
+}
+.dz-dark .dz-tile-art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.dz-dark .dz-tile-name {
+  position: relative;
+  font-size: 1.9rem;
+  line-height: 1;
+  margin: 0.9rem 0 0.3rem;
+  color: var(--dz-text);
+}
+.dz-dark .dz-tile-count {
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--dz-muted);
+}
+.dz-dark .dz-tile:hover .dz-tile-count {
+  color: var(--dz-gold);
+}
+
+/* ===========================================================================
+   QUOTE / STORY band — glowing panel, centered
+   =========================================================================== */
+.dz-dark .dz-quote {
+  text-align: center;
+  border-block: 1px solid var(--dz-line);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(224, 165, 62, 0.07) 0%,
+    transparent 60%
+  );
+}
+.dz-dark .dz-quote .dz-shell {
+  max-width: 760px;
+}
+.dz-dark .dz-quote-mark {
+  display: block;
+  font-size: 6rem;
+  line-height: 0.4;
+  color: var(--dz-gold);
+  opacity: 0.7;
+}
+.dz-dark .dz-quote h2 {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 0.95;
+  margin: 0.6rem 0 0.8rem;
+  color: var(--dz-text);
+}
+.dz-dark .dz-quote p {
+  color: var(--dz-muted);
+  font-size: 1.12rem;
+  max-width: 54ch;
+  margin-inline: auto;
+}
+
+/* ===========================================================================
+   WORKSHOPS — two-column, no price
+   =========================================================================== */
+.dz-dark .dz-shop {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+.dz-dark .dz-shop-body .dz-h2 {
+  margin-top: 0.2rem;
+}
+.dz-dark .dz-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.2rem 0;
+}
+.dz-dark .dz-chips span {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--dz-line);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: var(--dz-text);
+  background: var(--dz-panel);
+}
+.dz-dark .dz-shop-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+.dz-dark .dz-shop-when {
+  color: var(--dz-muted);
+  font-size: 0.98rem;
+}
+.dz-dark .dz-shop-art {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.dz-dark .dz-mini {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  border-radius: 16px;
+  background: var(--dz-panel);
+  border: 1px solid var(--dz-line);
+  box-shadow: inset 0 0 40px
+    color-mix(in srgb, var(--cc) 16%, transparent);
+}
+.dz-dark .dz-mini svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===========================================================================
+   VISIT — hours + contact, dark cards
+   =========================================================================== */
+.dz-dark .dz-visit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+.dz-dark .dz-vcard {
+  background: var(--dz-panel);
+  border: 1px solid var(--dz-line);
+  border-radius: 18px;
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+}
+.dz-dark .dz-vcard h3 {
+  font-size: 2.1rem;
+  margin: 0 0 1rem;
+  color: var(--dz-gold);
+}
+.dz-dark .dz-vcard table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dz-dark .dz-vcard td {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--dz-line);
+  color: var(--dz-text);
+}
+.dz-dark .dz-vcard td:last-child {
+  text-align: start;
+  color: var(--dz-muted);
+  white-space: nowrap;
+}
+.dz-dark .dz-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  color: var(--dz-text);
+}
+.dz-dark .dz-rows a {
+  color: var(--dz-gold);
+  text-decoration: none;
+}
+.dz-dark .dz-rows a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.dz-dark .dz-vactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+/* ===========================================================================
+   Responsive
+   =========================================================================== */
+@media (max-width: 780px) {
+  .dz-dark .dz-shop {
+    grid-template-columns: 1fr;
+  }
+  .dz-dark .dz-shop-art {
+    order: -1;
+    max-width: 320px;
+  }
+  .dz-dark .dz-visit {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===========================================================================
+   Motion — minimal + reduced-motion-gated. Content is fully visible without
+   JS; this only softens hover transitions when motion is allowed.
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .dz-dark * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .dz-dark .dz-btn:hover,
+  .dz-dark .dz-sale-card:hover,
+  .dz-dark .dz-tile:hover {
+    transform: none;
+  }
+}

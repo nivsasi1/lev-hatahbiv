@@ -1,0 +1,779 @@
+/* =============================================================================
+   DesignKinetic — "Kinetic Pop" homepage variant.
+   Everything is scoped under .dz-kinetic. Motion is transform/opacity only,
+   rAF-throttled from the TSX, and fully disabled under prefers-reduced-motion.
+   Fail-open: reveal/headline hidden states only apply once .dz-anim is added by
+   JS (and reduced-motion is off), so content is visible without JS.
+   ============================================================================= */
+
+.dz-kinetic {
+  /* named palette */
+  --k-coral: #ff6b4a;
+  --k-violet: #7c3aed;
+  --k-teal: #14b8a6;
+  --k-cream: #fff7ee;
+  --k-ink: #201a2e;
+  --k-sale: #ff2d55;
+
+  --k-card: #ffffff;
+  --k-line: rgba(32, 26, 46, 0.12);
+  --k-muted: rgba(32, 26, 46, 0.62);
+
+  background: var(--k-cream);
+  color: var(--k-ink);
+  overflow-x: clip;
+}
+
+.dz-kinetic .dz-shell {
+  width: min(1160px, 92vw);
+  margin-inline: auto;
+}
+
+/* ---------- shared type ---------- */
+.dz-kinetic .dz-eyebrow {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--k-violet);
+  margin-block-end: 0.5rem;
+}
+.dz-kinetic .dz-eyebrow-red {
+  color: var(--k-sale);
+}
+.dz-kinetic .dz-eyebrow-light {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dz-kinetic .dz-h2 {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 0.95;
+  margin: 0;
+  color: var(--k-ink);
+}
+.dz-kinetic .dz-h2-red {
+  color: var(--k-sale);
+}
+.dz-kinetic .dz-h2-light {
+  color: #fff;
+}
+
+/* ---------- buttons (incl. magnetic) ---------- */
+.dz-kinetic .dz-btn {
+  --mag-x: 0px;
+  --mag-y: 0px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 48px;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transform: translate(var(--mag-x), var(--mag-y));
+  transition: box-shadow 180ms ease-out, background 180ms ease-out,
+    color 180ms ease-out, transform 120ms ease-out;
+  will-change: transform;
+}
+.dz-kinetic .dz-btn-pop {
+  background: linear-gradient(120deg, var(--k-coral), var(--k-violet));
+  color: #fff;
+  box-shadow: 0 10px 24px -10px rgba(124, 58, 237, 0.7);
+}
+.dz-kinetic .dz-btn-pop:hover {
+  box-shadow: 0 16px 34px -10px rgba(124, 58, 237, 0.85);
+}
+.dz-kinetic .dz-btn-ghost {
+  background: transparent;
+  color: var(--k-ink);
+  border-color: var(--k-ink);
+}
+.dz-kinetic .dz-btn-ghost:hover {
+  background: var(--k-ink);
+  color: var(--k-cream);
+}
+.dz-kinetic .dz-btn-light {
+  background: #fff;
+  color: var(--k-violet);
+}
+.dz-kinetic .dz-btn-light:hover {
+  box-shadow: 0 12px 26px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* visible focus everywhere */
+.dz-kinetic a:focus-visible,
+.dz-kinetic .dz-btn:focus-visible,
+.dz-kinetic .dz-cat-card:focus-visible,
+.dz-kinetic .dz-sale-card:focus-visible,
+.dz-kinetic .dz-feat-card:focus-visible {
+  outline: 3px solid var(--k-violet);
+  outline-offset: 3px;
+  border-radius: 14px;
+}
+
+/* =============================================================================
+   HERO — kinetic typography over an animated mesh gradient
+   ============================================================================= */
+.dz-kinetic .dz-hero {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(3rem, 8vw, 6rem) 5vw clamp(3.4rem, 7vw, 5.4rem);
+  text-align: center;
+  overflow: clip;
+}
+
+/* animated mesh: cream base + three big soft color blobs that drift/scale.
+   No feTurbulence — pure radial-gradient blobs on transform loops. */
+.dz-kinetic .dz-mesh {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background: var(--k-cream);
+}
+.dz-kinetic .dz-mesh span {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  max-width: 720px;
+  max-height: 720px;
+  border-radius: 50%;
+  filter: blur(46px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.dz-kinetic .dz-mesh-a {
+  top: -6%;
+  inset-inline-start: -4%;
+  background: radial-gradient(circle at 50% 50%, var(--k-coral), transparent 68%);
+  animation: dz-drift-a 22s ease-in-out infinite;
+}
+.dz-kinetic .dz-mesh-b {
+  bottom: -12%;
+  inset-inline-end: -6%;
+  background: radial-gradient(circle at 50% 50%, var(--k-violet), transparent 68%);
+  animation: dz-drift-b 26s ease-in-out infinite;
+}
+.dz-kinetic .dz-mesh-c {
+  top: 20%;
+  inset-inline-end: 24%;
+  background: radial-gradient(circle at 50% 50%, var(--k-teal), transparent 66%);
+  animation: dz-drift-c 30s ease-in-out infinite;
+}
+@keyframes dz-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(8%, 10%) scale(1.15); }
+}
+@keyframes dz-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-10%, -6%) scale(0.9); }
+}
+@keyframes dz-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(0.95); }
+  50% { transform: translate(6%, -8%) scale(1.2); }
+}
+
+.dz-kinetic .dz-hero-inner {
+  position: relative;
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+/* kinetic headline — each word is a flex item; springs in when .dz-play added */
+.dz-kinetic .dz-hero-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1em 0.28em;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(4rem, 14vw, 9rem);
+  line-height: 0.86;
+  margin: 0 0 0.4rem;
+  color: var(--k-ink);
+}
+.dz-kinetic .dz-word {
+  display: inline-block;
+}
+/* every other word gets a gradient-fill pop for extra energy */
+.dz-kinetic .dz-word:nth-child(even) {
+  background: linear-gradient(100deg, var(--k-coral), var(--k-violet) 60%, var(--k-teal));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dz-kinetic .dz-hero-logo {
+  margin: 1.2rem auto 0.4rem;
+  width: clamp(160px, 34vw, 240px);
+}
+.dz-kinetic .dz-hero-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 20px rgba(32, 26, 46, 0.18));
+}
+
+.dz-kinetic .dz-hero-sub {
+  max-width: 46ch;
+  margin: 0.6rem auto 1.6rem;
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: var(--k-ink);
+}
+.dz-kinetic .dz-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+/* =============================================================================
+   MARQUEE ribbon
+   ============================================================================= */
+.dz-kinetic .dz-marquee {
+  overflow: hidden;
+  background: var(--k-ink);
+  color: var(--k-cream);
+  padding-block: 0.75rem;
+  border-block: 2px solid rgba(255, 255, 255, 0.08);
+}
+.dz-kinetic .dz-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: dz-marquee 34s linear infinite;
+}
+/* RTL: content flows right→left, so scroll the track toward positive X */
+@keyframes dz-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+.dz-kinetic .dz-marquee-group {
+  display: flex;
+  flex-shrink: 0;
+}
+.dz-kinetic .dz-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding-inline: 1.4rem;
+  font-weight: 700;
+  font-size: 1.02rem;
+  white-space: nowrap;
+}
+.dz-kinetic .dz-marquee-dot {
+  color: var(--k-coral);
+}
+
+/* =============================================================================
+   sections
+   ============================================================================= */
+.dz-kinetic .dz-section {
+  padding-block: clamp(2.8rem, 6vw, 4.4rem);
+}
+.dz-kinetic .dz-section-tint {
+  background: linear-gradient(180deg, #fff 0%, #fff2ea 100%);
+}
+.dz-kinetic .dz-sec-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-block-end: 1.6rem;
+}
+.dz-kinetic .dz-more-link {
+  --mag-x: 0px;
+  --mag-y: 0px;
+  font-weight: 800;
+  color: var(--k-violet);
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.3rem;
+  transform: translate(var(--mag-x), var(--mag-y));
+  transition: color 160ms ease-out;
+  will-change: transform;
+}
+.dz-kinetic .dz-more-link:hover {
+  color: var(--k-coral);
+}
+
+/* =============================================================================
+   ON SALE band
+   ============================================================================= */
+.dz-kinetic .dz-sale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+.dz-kinetic .dz-sale-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--k-card);
+  border: 2px solid var(--k-ink);
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 6px 0 0 var(--k-ink);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  will-change: transform;
+}
+.dz-kinetic .dz-sale-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 14px 26px -12px rgba(32, 26, 46, 0.5),
+    0 6px 0 0 var(--k-ink);
+}
+.dz-kinetic .dz-sale-media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem;
+  border-block-end: 2px solid var(--k-ink);
+}
+.dz-kinetic .dz-sale-media img,
+.dz-kinetic .dz-sale-media svg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* pulsing starburst badge with a shimmer sweep */
+.dz-kinetic .dz-burst {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-start: 8px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--k-sale);
+  clip-path: polygon(
+    50% 0%, 61% 20%, 84% 15%, 79% 38%, 100% 50%, 79% 62%,
+    84% 85%, 61% 80%, 50% 100%, 39% 80%, 16% 85%, 21% 62%,
+    0% 50%, 21% 38%, 16% 15%, 39% 20%
+  );
+  overflow: hidden;
+  animation: dz-pulse 1.8s ease-in-out infinite;
+  will-change: transform;
+}
+.dz-kinetic .dz-burst::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.75) 50%,
+    transparent 65%
+  );
+  transform: translateX(-160%);
+  animation: dz-shimmer 2.6s ease-in-out infinite;
+}
+.dz-kinetic .dz-burst-txt {
+  position: relative;
+  z-index: 1;
+  font-weight: 900;
+  font-size: 0.82rem;
+  line-height: 1;
+  direction: ltr;
+}
+@keyframes dz-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+@keyframes dz-shimmer {
+  0%, 60% { transform: translateX(-160%); }
+  100% { transform: translateX(160%); }
+}
+
+.dz-kinetic .dz-sale-body {
+  padding: 0.8rem 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.dz-kinetic .dz-sale-name {
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dz-kinetic .dz-sale-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-block-start: auto;
+}
+.dz-kinetic .dz-sale-now {
+  font-weight: 900;
+  font-size: 1.7rem;
+  color: var(--k-sale);
+  line-height: 1;
+}
+.dz-kinetic .dz-sale-was {
+  font-size: 0.9rem;
+  color: var(--k-muted);
+  text-decoration: line-through;
+}
+
+/* =============================================================================
+   CATEGORIES — calm color chips that pop on hover
+   ============================================================================= */
+.dz-kinetic .dz-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+.dz-kinetic .dz-cat-card {
+  --cc: var(--k-violet);
+  --soft: #f0e7fa;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  background: var(--soft);
+  border: 2px solid transparent;
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--k-ink);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out,
+    border-color 200ms ease-out;
+  will-change: transform;
+}
+.dz-kinetic .dz-cat-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  border-color: var(--cc);
+  box-shadow: 0 14px 26px -14px var(--cc);
+}
+.dz-kinetic .dz-cat-art {
+  flex: 0 0 auto;
+  width: 62px;
+  height: 62px;
+  border-radius: 14px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  transition: transform 240ms ease-out;
+}
+.dz-kinetic .dz-cat-card:hover .dz-cat-art {
+  transform: rotate(-6deg) scale(1.08);
+}
+.dz-kinetic .dz-cat-art svg {
+  width: 100%;
+  height: 100%;
+}
+.dz-kinetic .dz-cat-name {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1;
+  margin: 0 0 0.15rem;
+  color: var(--cc);
+}
+.dz-kinetic .dz-cat-count {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+/* =============================================================================
+   FEATURED — restrained tiles with hover lift
+   ============================================================================= */
+.dz-kinetic .dz-feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
+}
+.dz-kinetic .dz-feat-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--k-card);
+  border: 2px solid var(--k-line);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out,
+    border-color 200ms ease-out;
+  will-change: transform;
+}
+.dz-kinetic .dz-feat-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--k-violet);
+  box-shadow: 0 16px 30px -16px rgba(124, 58, 237, 0.6);
+}
+.dz-kinetic .dz-feat-media {
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem;
+}
+.dz-kinetic .dz-feat-media img,
+.dz-kinetic .dz-feat-media svg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.dz-kinetic .dz-feat-body {
+  padding: 0.7rem 0.85rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.dz-kinetic .dz-feat-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dz-kinetic .dz-feat-price {
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--k-violet);
+}
+
+/* =============================================================================
+   QUOTE band — animated gradient
+   ============================================================================= */
+.dz-kinetic .dz-quote {
+  padding-block: clamp(3rem, 7vw, 5rem);
+  background: linear-gradient(
+    120deg,
+    var(--k-coral),
+    var(--k-violet) 45%,
+    var(--k-teal)
+  );
+  background-size: 220% 220%;
+  animation: dz-quote-shift 18s ease-in-out infinite;
+  color: #fff;
+  text-align: center;
+}
+@keyframes dz-quote-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.dz-kinetic .dz-quote-inner {
+  max-width: 720px;
+}
+.dz-kinetic .dz-quote-title {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(2.8rem, 7vw, 4.4rem);
+  line-height: 0.95;
+  margin: 0 0 0.6rem;
+}
+.dz-kinetic .dz-quote-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin: 0 auto;
+  max-width: 52ch;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* =============================================================================
+   WORKSHOPS
+   ============================================================================= */
+.dz-kinetic .dz-shop {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.6rem;
+  align-items: center;
+  padding: clamp(1.6rem, 4vw, 2.4rem);
+  border-radius: 26px;
+  background: linear-gradient(135deg, var(--k-violet), var(--k-coral));
+  color: #fff;
+}
+.dz-kinetic .dz-shop-art {
+  align-self: stretch;
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 1rem;
+}
+.dz-kinetic .dz-shop-art svg {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+}
+.dz-kinetic .dz-shop-intro {
+  font-size: 1.08rem;
+  line-height: 1.6;
+  margin: 0.4rem 0 1rem;
+  max-width: 60ch;
+}
+.dz-kinetic .dz-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-end: 1.2rem;
+}
+.dz-kinetic .dz-chip {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.dz-kinetic .dz-shop-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.2rem;
+}
+.dz-kinetic .dz-shop-when {
+  font-weight: 700;
+}
+
+/* =============================================================================
+   VISIT — hours + contact
+   ============================================================================= */
+.dz-kinetic .dz-visit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+.dz-kinetic .dz-vcard {
+  background: var(--k-card);
+  border: 2px solid var(--k-line);
+  border-radius: 20px;
+  padding: 1.4rem 1.5rem;
+}
+.dz-kinetic .dz-vcard-title {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1;
+  margin: 0 0 0.8rem;
+}
+.dz-kinetic .dz-hours {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dz-kinetic .dz-hours td {
+  padding: 0.4rem 0;
+  border-block-end: 1px solid var(--k-line);
+  font-size: 1rem;
+}
+.dz-kinetic .dz-hours td:last-child {
+  text-align: end;
+  font-weight: 700;
+}
+.dz-kinetic .dz-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 1rem;
+  margin-block-end: 1.1rem;
+}
+.dz-kinetic .dz-rows a {
+  color: var(--k-violet);
+  font-weight: 700;
+}
+.dz-kinetic .dz-vactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+/* =============================================================================
+   MOTION states — hidden only when JS runs & motion allowed (fail-open)
+   ============================================================================= */
+/* scroll reveal */
+.dz-kinetic.dz-anim .dz-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 460ms ease-out, transform 460ms ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.dz-kinetic.dz-anim .dz-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* kinetic headline: words start below + faded, spring in with stagger on .dz-play */
+.dz-kinetic.dz-anim .dz-word {
+  opacity: 0;
+  transform: translateY(0.5em) scale(0.8);
+}
+.dz-kinetic.dz-anim.dz-play .dz-word {
+  opacity: 1;
+  transform: none;
+  transition: opacity 460ms ease-out, transform 620ms cubic-bezier(0.2, 1.3, 0.4, 1);
+  /* per-word stagger driven by --w set inline */
+  transition-delay: calc(var(--w) * 110ms);
+}
+
+/* =============================================================================
+   REDUCED MOTION — everything static + fully visible
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .dz-kinetic .dz-mesh-a,
+  .dz-kinetic .dz-mesh-b,
+  .dz-kinetic .dz-mesh-c,
+  .dz-kinetic .dz-marquee-track,
+  .dz-kinetic .dz-burst,
+  .dz-kinetic .dz-burst::after,
+  .dz-kinetic .dz-quote {
+    animation: none !important;
+  }
+  .dz-kinetic .dz-burst::after {
+    display: none;
+  }
+  .dz-kinetic .dz-btn,
+  .dz-kinetic .dz-more-link {
+    transform: none !important;
+    transition: none;
+  }
+  .dz-kinetic .dz-reveal,
+  .dz-kinetic .dz-word {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .dz-kinetic .dz-sale-card,
+  .dz-kinetic .dz-cat-card,
+  .dz-kinetic .dz-feat-card,
+  .dz-kinetic .dz-cat-art {
+    transition: none;
+  }
+}
+
+/* =============================================================================
+   responsive
+   ============================================================================= */
+@media (max-width: 640px) {
+  .dz-kinetic .dz-shop {
+    grid-template-columns: 1fr;
+  }
+  .dz-kinetic .dz-shop-art {
+    min-height: 120px;
+  }
+  .dz-kinetic .dz-sale-now {
+    font-size: 1.5rem;
+  }
+}

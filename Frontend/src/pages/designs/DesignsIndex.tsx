@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./designs-index.css";
 
-// Internal preview gallery: three homepage directions the owner can pick from.
+// Internal preview gallery: eight homepage directions the owner can pick from.
 // Not linked anywhere public — reachable only by visiting /designs directly.
 const VARIANTS = [
   {
@@ -24,6 +24,41 @@ const VARIANTS = [
     tag: "חמים · מדבקתי",
     desc: "האופי המלאכותי של החנות, מסודר ונקי יותר. מדבקות קטגוריה קומפקטיות והדגשת מרקר על המחיר.",
     accent: "#d99a2b",
+  },
+  {
+    to: "d",
+    name: "סטודיו כהה",
+    tag: "מצב כהה · רגוע",
+    desc: "קנבס כמעט-שחור, לוגו מואר בזהב ומחיר מבצע אדום זוהר. פחות תנועה, יותר תחושת גלריה.",
+    accent: "#e0a53e",
+  },
+  {
+    to: "e",
+    name: "קינטי",
+    tag: "צבעוני · הרבה תנועה",
+    desc: "גרדיאנט נע ברקע, כותרת שקופצת פנימה, כפתור מגנטי ותגי מבצע פועמים. הכי חי מבין כולם.",
+    accent: "#ff2d55",
+  },
+  {
+    to: "f",
+    name: "ברוטליסטי",
+    tag: "גולמי · נועז",
+    desc: "מסגרות שחורות עבות, צללים קשים וצבעי יסוד. מחיר מבצע ענק ומדבקות הנחה מסובבות.",
+    accent: "#2b4cff",
+  },
+  {
+    to: "g",
+    name: "חמר רך",
+    tag: "פסטל · רך ותפוח",
+    desc: "צורות תפוחות ומעוגלות בפסטל, כפתורים שנלחצים פנימה. חמים, ידידותי ומזמין למשפחות.",
+    accent: "#f0574f",
+  },
+  {
+    to: "h",
+    name: "בנטו",
+    tag: "רשת אריחים · מודרני",
+    desc: "כל הדף כמוזאיקת אריחים מעוגלים בגדלים שונים, עם נגיעות זכוכית. מסודר וטק-אדיטוריאלי.",
+    accent: "#4f46e5",
   },
 ];
 
