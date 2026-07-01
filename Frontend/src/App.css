@@ -1033,6 +1033,49 @@ button {
   text-decoration: line-through;
 }
 
+/* on sale: the discounted price is big + red, original struck + small */
+.price-tag.on-sale .now {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+}
+
+/* bold red discount starburst on the sale image (replaces the watercolor wash) */
+.sale-burst {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-start: 0.5rem;
+  z-index: 3;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--red);
+  clip-path: polygon(
+    50% 0%, 61% 20%, 84% 15%, 79% 38%, 100% 50%, 79% 62%,
+    84% 85%, 61% 80%, 50% 100%, 39% 80%, 16% 85%, 21% 62%,
+    0% 50%, 21% 38%, 16% 15%, 39% 20%
+  );
+  font-weight: 900;
+  font-size: 0.8rem;
+  line-height: 1;
+  direction: ltr;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+@media (max-width: 560px) {
+  .sale-burst {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 0.72rem;
+  }
+  .price-tag.on-sale .now {
+    font-size: 1.25rem;
+  }
+}
+
 .add-btn {
   width: 100%;
   display: inline-flex;

@@ -93,24 +93,22 @@ export const ProductCard = ({ product }: { product: Product }) => {
       )}
       <div className={`frame ${product.img ? "photo" : ""}`}>
         <CardGallery product={product} />
-        {/* sale wash — drifting watercolor stain with hand-written discount */}
+        {/* bold red discount starburst (same look as the /designs kinetic card) */}
         {pct > 0 && !product.soldOut && (
-          <div className="sale-aqua" aria-hidden="true">
-            <span>
-              מבצע <b>{pct}%-</b>
-            </span>
-          </div>
+          <span className="sale-burst" aria-hidden="true">
+            {pct}%-
+          </span>
         )}
         {product.soldOut && <div className="oos-strip">אזל מהמלאי</div>}
       </div>
       <div className="body">
         <span className="name">{product.name}</span>
         <div className="foot">
-          <span className="price-tag">
-            {shekel(finalPrice(product))}
+          <span className={`price-tag ${product.salePrice ? "on-sale" : ""}`}>
             {product.salePrice && (
               <span className="was">{shekel(product.price)}</span>
             )}
+            <span className="now">{shekel(finalPrice(product))}</span>
           </span>
           <button
             className={`add-btn ${added ? "added" : ""}`}
