@@ -70,7 +70,9 @@ async function verifyJwt(
     );
     if (!valid) return null;
     const claims = JSON.parse(new TextDecoder().decode(b64urlToBytes(payload)));
-    if (claims.exp && Date.now() / 1000 > claims.exp) return null; // expired
+    // require an expiry AND enforce it — a validly-signed token with no `exp`
+    // must not live forever.
+    if (typeof claims.exp !== "number" || Date.now() / 1000 > claims.exp) return null;
     return claims;
   } catch {
     return null;

@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Cloudflare Worker local secrets + state (never commit)
+.dev.vars
+.dev.vars.*
+.wrangler/
+
+# TLS certificates / private keys (never commit)
+*.pem
+*.key

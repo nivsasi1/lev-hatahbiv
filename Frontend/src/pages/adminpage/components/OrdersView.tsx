@@ -59,7 +59,7 @@ export function OrdersView() {
               {o.payerName ? ` · ${o.payerName}` : ""}
               {o.payerPhone ? ` · ${o.payerPhone}` : ""}
               {o.couponCode ? ` · קופון ${o.couponCode}` : ""}
-              {o.invoiceUrl ? (
+              {o.invoiceUrl && /^https:\/\//i.test(o.invoiceUrl) ? (
                 <>
                   {" · "}
                   <a href={o.invoiceUrl} target="_blank" rel="noreferrer">
