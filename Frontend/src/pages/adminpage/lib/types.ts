@@ -51,5 +51,25 @@ export type Subscriber = { email: string; coupon_code?: string | null; created_a
 
 export type Coupon = { code: string; percent: number; maxUses: number | null; usedCount?: number };
 
+export type OrderItem = { id?: string; name?: string; qty?: number; price?: number };
+
+// A D1 order as returned by the Worker (amounts already in shekels for display).
+export type Order = {
+  _id: string;
+  createdAt: string;
+  status: string; // new | paid | failed | refunded | handled | cancelled
+  delivery: string;
+  total: number;
+  subtotal?: number;
+  discount?: number;
+  items?: OrderItem[];
+  couponCode?: string | null;
+  payerName?: string | null;
+  payerEmail?: string | null;
+  payerPhone?: string | null;
+  invoiceUrl?: string | null;
+  paymentRef?: string | null;
+};
+
 // a setState-compatible setter (accepts a value or an updater fn)
 export type Setter<T> = (value: T | ((prev: T) => T)) => void;

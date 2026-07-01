@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { products } from "../data/catalog";
+import { products, isOnSale } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import "./home-photographic.css"; // reuses the .ph-grid product layout
-
-// A product is "on sale" when it has a salePrice, is in stock, and has a photo —
-// same rule the homepage "במבצע עכשיו" strip uses, just without the cap of 5.
-const onSale = (p: { salePrice?: number; soldOut?: boolean; img?: string }) =>
-  Boolean(p.salePrice && !p.soldOut && p.img);
 
 const PAGE = 15; // how many to reveal at a time ("load more" adds another batch)
 
 export const SalePage = () => {
-  const sale = products.filter(onSale);
+  const sale = products.filter(isOnSale);
   const [shown, setShown] = useState(PAGE);
   const visible = sale.slice(0, shown);
 

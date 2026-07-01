@@ -314,6 +314,15 @@ export const searchProducts = (query: string) => {
 
 export const finalPrice = (p: Product) => p.salePrice ?? p.price;
 
+// A product is "on sale" (listed in sale sections) when it has a discounted
+// price, is in stock, and has a photo — the one rule the sale page + homepage share.
+export const isOnSale = (p: Product): boolean =>
+  Boolean(p.salePrice && !p.soldOut && p.img);
+
+// Discount percentage for the sale badge (0 when there's no real discount).
+export const salePct = (p: Product): number =>
+  p.salePrice && p.price > 0 ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
+
 // all prices display rounded to one decimal (4.333 -> ₪4.3, 4.0 -> ₪4)
 export const shekel = (n: number) => {
   const r = Math.round(n * 10) / 10;

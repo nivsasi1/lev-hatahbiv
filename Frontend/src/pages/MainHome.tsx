@@ -9,6 +9,7 @@ import {
   store,
   workshops,
   asset,
+  isOnSale,
   Category,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
@@ -60,16 +61,13 @@ const featured =
         .filter((p): p is NonNullable<typeof p> => Boolean(p))
     : heuristicFeatured;
 
-const onSale = (p: { salePrice?: number; soldOut?: boolean; img?: string }) =>
-  Boolean(p.salePrice && !p.soldOut && p.img);
-
 // Homepage shows at most 5 sale items (same as HomeContent).
 const fresh = (
   siteSettings.saleIds.length > 0
     ? siteSettings.saleIds
         .map((id) => getProduct(id))
-        .filter((p): p is NonNullable<typeof p> => Boolean(p) && onSale(p!))
-    : products.filter(onSale).slice(0, 5)
+        .filter((p): p is NonNullable<typeof p> => Boolean(p) && isOnSale(p!))
+    : products.filter(isOnSale).slice(0, 5)
 ).slice(0, 5);
 
 // shelf photo for a category tile — manager-editable map, never product photos

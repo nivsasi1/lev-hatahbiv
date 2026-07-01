@@ -20,8 +20,11 @@ export function useStats() {
     // top sellers by total qty across non-cancelled orders
     const qtyByName = new Map<string, number>();
     for (const o of live)
-      for (const i of o.items || [])
-        qtyByName.set(i.name, (qtyByName.get(i.name) || 0) + Number(i.qty || 0));
+      for (const i of o.items || []) {
+        const name = i.name;
+        if (!name) continue;
+        qtyByName.set(name, (qtyByName.get(name) || 0) + Number(i.qty || 0));
+      }
     const top = [...qtyByName.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
 
     return {

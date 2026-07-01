@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Product, getCategory, finalPrice, shekel } from "../data/catalog";
+import { Product, getCategory, finalPrice, shekel, salePct } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
 
@@ -69,10 +69,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
   // hidden products never render, even if one slips into the data
   if (product.isActive === false) return null;
 
-  const salePct =
-    product.salePrice && product.price > 0
-      ? Math.round((1 - product.salePrice / product.price) * 100)
-      : 0;
+  const pct = salePct(product);
 
   const onAdd = (e: any) => {
     e.preventDefault();
@@ -89,7 +86,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
       className={`p-card ${product.soldOut ? "soldout" : ""}`}
       style={{ "--pc": cat?.color, "--pc-soft": cat?.soft } as any}
     >
-      {product.badge && salePct === 0 && (
+      {product.badge && pct === 0 && (
         <span className={`p-badge ${badgeClass(product.badge)}`}>
           {product.badge}
         </span>
@@ -97,10 +94,10 @@ export const ProductCard = ({ product }: { product: Product }) => {
       <div className={`frame ${product.img ? "photo" : ""}`}>
         <CardGallery product={product} />
         {/* sale wash — drifting watercolor stain with hand-written discount */}
-        {salePct > 0 && !product.soldOut && (
+        {pct > 0 && !product.soldOut && (
           <div className="sale-aqua" aria-hidden="true">
             <span>
-              מבצע <b>{salePct}%-</b>
+              מבצע <b>{pct}%-</b>
             </span>
           </div>
         )}

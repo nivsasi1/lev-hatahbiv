@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { API, WAPI, TOKEN_KEY } from "./lib/constants";
-import type { AdminProduct, DialogState, Subscriber, Setter } from "./lib/types";
+import type { AdminProduct, DialogState, Subscriber, Setter, Order } from "./lib/types";
 
 // Cross-cutting dashboard infrastructure in one place: auth + the two API
 // wrappers, the error/notice banners, the promise-based dialog, and the core
@@ -27,8 +27,8 @@ interface AdminCtx {
   closeDialog: (result: any) => void;
   products: AdminProduct[];
   setProducts: Setter<AdminProduct[]>;
-  orders: any[];
-  setOrders: Setter<any[]>;
+  orders: Order[];
+  setOrders: Setter<Order[]>;
   subscribers: Subscriber[];
   setSubscribers: Setter<Subscriber[]>;
   refresh: () => Promise<void>;
@@ -47,7 +47,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [products, setProducts] = useState<AdminProduct[]>([]);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [dialog, setDialog] = useState<DialogState>(null);
   const [dialogValue, setDialogValue] = useState("");
