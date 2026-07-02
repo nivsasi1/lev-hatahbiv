@@ -1,0 +1,874 @@
+/* ---------------------------------------------------------------------------
+   DesignMagazine — "Art Magazine / קולאז'"
+   Printed art-journal front page: newsprint cream, masthead rules, polaroids
+   pinned with masking tape, price-gun sale stickers, pull-quotes, page-number
+   footers. Every selector is scoped under .dz-mag.
+   --------------------------------------------------------------------------- */
+
+.dz-mag {
+  /* palette — "דפוס" (print) tokens */
+  --mg-paper: #f4eee1; /* newsprint cream */
+  --mg-card: #fffdf8; /* polaroid white   */
+  --mg-ink: #26222f; /* print ink        */
+  --mg-terra: #c4552e; /* terracotta       */
+  --mg-terra-deep: #a53f1d; /* terracotta, AA for small text */
+  --mg-mustard: #d9a419; /* mustard          */
+  --mg-blue: #5b7fa6; /* dusty blue       */
+  --mg-blue-deep: #3d5f85; /* dusty blue, AA for small text */
+  --mg-sale: #e02f2f; /* sale red         */
+  --mg-rule: rgba(38, 34, 47, 0.24);
+  --mg-rule-soft: rgba(38, 34, 47, 0.12);
+
+  background: var(--mg-paper);
+  color: var(--mg-ink);
+  font-family: "Assistant", sans-serif;
+  overflow-x: clip;
+}
+
+.dz-mag .dz-mg-shell {
+  max-width: 1140px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+/* focus — a print-blue registration outline */
+.dz-mag a:focus-visible,
+.dz-mag button:focus-visible {
+  outline: 3px solid var(--mg-blue-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   masking tape — semi-transparent tinted strips with torn ends
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-tape {
+  position: absolute;
+  inset-block-start: -12px;
+  inset-inline-start: 50%;
+  width: 96px;
+  height: 26px;
+  margin-inline-start: -48px;
+  transform: rotate(-4deg);
+  background: rgba(217, 164, 25, 0.4);
+  box-shadow: 0 1px 3px rgba(38, 34, 47, 0.14);
+  clip-path: polygon(
+    0 18%, 3% 0, 97% 6%, 100% 26%, 98% 78%, 100% 92%, 96% 100%, 3% 96%, 0 80%, 2% 48%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.dz-mag .dz-mg-tape[data-tint="terra"] {
+  background: rgba(196, 85, 46, 0.34);
+  transform: rotate(3deg);
+}
+.dz-mag .dz-mg-tape[data-tint="blue"] {
+  background: rgba(91, 127, 166, 0.34);
+  transform: rotate(-2.5deg);
+}
+.dz-mag .dz-mg-tape.mini {
+  width: 64px;
+  height: 18px;
+  margin-inline-start: 0;
+  inset-inline-start: auto;
+  inset-inline-end: 14px;
+  inset-block-start: -9px;
+}
+.dz-mag .dz-mg-tape.big {
+  width: 140px;
+  height: 32px;
+  margin-inline-start: -70px;
+  inset-block-start: -16px;
+}
+
+/* ---------------------------------------------------------------------------
+   masthead issue line — thick rule over thin rule, like a newspaper folio
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-masthead {
+  border-block-start: 3px solid var(--mg-ink);
+  border-block-end: 1px solid var(--mg-ink);
+  box-shadow: 0 3px 0 -2px var(--mg-ink);
+  background: var(--mg-paper);
+}
+.dz-mag .dz-mg-masthead-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 22px;
+  padding-block: 9px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--mg-ink);
+}
+.dz-mag .dz-mg-mast-brand {
+  font-weight: 800;
+}
+.dz-mag .dz-mg-mast-price {
+  color: var(--mg-terra-deep);
+}
+
+/* ---------------------------------------------------------------------------
+   1) COVER — the framed magazine cover with print grid + crop-mark flavor
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-cover-wrap {
+  padding-block: 34px 46px;
+}
+.dz-mag .dz-mg-cover {
+  position: relative;
+  border: 2px solid var(--mg-ink);
+  background:
+    linear-gradient(var(--mg-rule-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mg-rule-soft) 1px, transparent 1px),
+    var(--mg-card);
+  background-size: 30px 30px, 30px 30px, auto;
+  box-shadow: 8px 8px 0 rgba(38, 34, 47, 0.16);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 28px;
+  padding: clamp(26px, 5vw, 54px);
+}
+.dz-mag .dz-mg-cover-kicker {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--mg-terra-deep);
+  border-block-end: 1px solid var(--mg-rule);
+  padding-block-end: 10px;
+}
+.dz-mag .dz-mg-cover-title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 8.5vw, 6.4rem);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+}
+.dz-mag .dz-mg-cover-title .terra {
+  color: var(--mg-terra);
+}
+.dz-mag .dz-mg-cover-title .hl {
+  background: linear-gradient(
+    transparent 42%,
+    rgba(217, 164, 25, 0.45) 42%,
+    rgba(217, 164, 25, 0.45) 92%,
+    transparent 92%
+  );
+  padding-inline: 6px;
+}
+.dz-mag .dz-mg-cover-lines {
+  margin: 20px 0 26px;
+  max-width: 46ch;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  border-block-start: 1px solid var(--mg-rule);
+  padding-block-start: 14px;
+}
+.dz-mag .dz-mg-cover-lines b {
+  color: var(--mg-terra-deep);
+}
+.dz-mag .dz-mg-cover-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* cover side — taped logo card + barcode */
+.dz-mag .dz-mg-cover-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.dz-mag .dz-mg-cover-logo {
+  position: relative;
+  background: var(--mg-card);
+  border: 1px solid var(--mg-rule);
+  box-shadow: 0 10px 22px rgba(38, 34, 47, 0.16);
+  padding: 16px 16px 12px;
+  transform: rotate(2deg);
+  max-width: 300px;
+  width: 100%;
+  text-align: center;
+}
+.dz-mag .dz-mg-cover-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.dz-mag .dz-mg-cover-logo-cap {
+  display: block;
+  margin-block-start: 10px;
+  padding-block-start: 8px;
+  border-block-start: 1px dashed var(--mg-rule);
+  font-size: 0.85rem;
+  color: #57515f;
+}
+.dz-mag .dz-mg-barcode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transform: rotate(-1.5deg);
+  background: var(--mg-card);
+  border: 1px solid var(--mg-rule);
+  padding: 8px 12px 6px;
+}
+.dz-mag .dz-mg-barcode-lines {
+  display: block;
+  width: 128px;
+  height: 40px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--mg-ink) 0 2px,
+    transparent 2px 5px,
+    var(--mg-ink) 5px 6px,
+    transparent 6px 10px,
+    var(--mg-ink) 10px 13px,
+    transparent 13px 16px
+  );
+}
+.dz-mag .dz-mg-barcode-num {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  direction: ltr;
+  color: var(--mg-ink);
+}
+
+/* ---------------------------------------------------------------------------
+   shared section chrome — heads, kickers, page-number footers, buttons
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-sec {
+  padding-block: 44px 0;
+}
+.dz-mag .dz-mg-head {
+  text-align: center;
+  margin-block-end: 34px;
+}
+.dz-mag .dz-mg-head.start {
+  text-align: start;
+}
+.dz-mag .dz-mg-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--mg-blue-deep);
+}
+.dz-mag .dz-mg-kicker::before,
+.dz-mag .dz-mg-kicker::after {
+  content: "";
+  width: 44px;
+  height: 1px;
+  background: var(--mg-rule);
+}
+.dz-mag .dz-mg-head.start .dz-mg-kicker::before {
+  display: none;
+}
+.dz-mag .dz-mg-kicker.sale {
+  color: var(--mg-sale);
+}
+.dz-mag .dz-mg-title {
+  margin: 8px 0 0;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 1.02;
+}
+.dz-mag .dz-mg-note {
+  margin: 10px auto 0;
+  max-width: 52ch;
+  color: #57515f;
+  font-size: 0.98rem;
+}
+.dz-mag .dz-mg-pagefoot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-block-start: 40px;
+  color: #57515f;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+}
+.dz-mag .dz-mg-pagefoot::before,
+.dz-mag .dz-mg-pagefoot::after {
+  content: "";
+  width: min(180px, 24vw);
+  height: 1px;
+  background: var(--mg-rule);
+}
+
+.dz-mag .dz-mg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 8px 22px;
+  border: 2px solid var(--mg-ink);
+  font-family: "Assistant", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--mg-ink);
+  background: transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.dz-mag .dz-mg-btn.solid {
+  background: var(--mg-ink);
+  color: var(--mg-paper);
+}
+.dz-mag .dz-mg-btn.wide {
+  width: 100%;
+}
+.dz-mag .dz-mg-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 rgba(38, 34, 47, 0.3);
+}
+.dz-mag .dz-mg-more {
+  display: flex;
+  justify-content: center;
+  margin-block-start: 30px;
+}
+
+/* ---------------------------------------------------------------------------
+   2) COVER STORY — sale polaroids pinned with tape
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-sale-grid {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px 26px;
+}
+.dz-mag .dz-mg-pola {
+  position: relative;
+  display: block;
+  background: var(--mg-card);
+  border: 1px solid var(--mg-rule-soft);
+  padding: 10px 10px 0;
+  box-shadow: 0 10px 22px rgba(38, 34, 47, 0.14);
+  text-decoration: none;
+  color: inherit;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.dz-mag .dz-mg-pola:hover,
+.dz-mag .dz-mg-pola:focus-visible {
+  transform: rotate(0deg) translateY(-6px);
+  box-shadow: 0 16px 30px rgba(38, 34, 47, 0.2);
+  z-index: 3;
+}
+
+/* the photo window (shared with featured cards via .dz-mg-shot) */
+.dz-mag .dz-mg-shot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  border: 1px solid var(--mg-rule-soft);
+  overflow: hidden;
+}
+.dz-mag .dz-mg-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.dz-mag .dz-mg-shot svg {
+  width: 72%;
+  height: 72%;
+}
+
+/* red price-gun sticker — the unmissable on-image discount badge */
+.dz-mag .dz-mg-sticker {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--mg-sale);
+  border: 2px dashed rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 0 3px var(--mg-card), 0 3px 8px rgba(38, 34, 47, 0.28);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.02rem;
+  direction: ltr;
+  transform: rotate(-8deg);
+}
+
+/* polaroid caption — the thick bottom edge */
+.dz-mag .dz-mg-pola-info {
+  display: block;
+  padding: 12px 6px 18px;
+}
+.dz-mag .dz-mg-pola-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.7em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.dz-mag .dz-mg-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-block-start: 8px;
+}
+.dz-mag .dz-mg-price-now {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--mg-sale);
+  background: linear-gradient(
+    transparent 34%,
+    rgba(217, 164, 25, 0.38) 34%,
+    rgba(217, 164, 25, 0.38) 90%,
+    transparent 90%
+  );
+  padding-inline: 5px;
+}
+.dz-mag .dz-mg-price-was {
+  font-size: 0.92rem;
+  color: #57515f;
+}
+
+/* ---------------------------------------------------------------------------
+   3) CONTENTS — categories as numbered מדורים, print columns with rules
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-block-start: 2px solid var(--mg-ink);
+}
+.dz-mag .dz-mg-toc li {
+  border-block-end: 1px solid var(--mg-rule);
+  border-inline-end: 1px solid var(--mg-rule);
+}
+.dz-mag .dz-mg-toc li:nth-child(3n) {
+  border-inline-end: none;
+}
+.dz-mag .dz-mg-toc-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px 20px 18px;
+  text-decoration: none;
+  color: inherit;
+  border-block-start: 3px solid var(--cc, var(--mg-terra));
+  transition: background-color 0.2s ease;
+}
+.dz-mag .dz-mg-toc-item:hover {
+  background: var(--csoft, #f7f1e4);
+}
+.dz-mag .dz-mg-toc-num {
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--mg-terra-deep);
+}
+.dz-mag .dz-mg-toc-art {
+  display: grid;
+  place-items: center;
+  height: 96px;
+  margin-block: 10px 12px;
+  background: var(--csoft, #f7f1e4);
+  border: 1px solid var(--mg-rule-soft);
+}
+.dz-mag .dz-mg-toc-art svg {
+  width: 78px;
+  height: 78px;
+}
+.dz-mag .dz-mg-toc-name {
+  font-size: 1.12rem;
+  font-weight: 700;
+}
+.dz-mag .dz-mg-toc-blurb {
+  margin-block-start: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #57515f;
+}
+.dz-mag .dz-mg-toc-foot {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-block-start: auto;
+  padding-block-start: 14px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--mg-blue-deep);
+}
+.dz-mag .dz-mg-dots {
+  flex: 1;
+  border-block-end: 2px dotted var(--mg-rule);
+  transform: translateY(-3px);
+}
+
+/* ---------------------------------------------------------------------------
+   4) EDITOR'S PICKS — one uniform row, equal heights
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-feat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.dz-mag .dz-mg-feat-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--mg-card);
+  border: 1px solid var(--mg-ink);
+  padding: 12px 12px 14px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 4px 4px 0 rgba(38, 34, 47, 0.14);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.dz-mag .dz-mg-feat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 5px 8px 0 rgba(38, 34, 47, 0.18);
+}
+.dz-mag .dz-mg-feat-flag {
+  align-self: flex-start;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--mg-terra-deep);
+  border-block-end: 2px solid var(--mg-mustard);
+  margin-block-end: 10px;
+}
+.dz-mag .dz-mg-shot.flat {
+  border: 1px solid var(--mg-rule-soft);
+}
+.dz-mag .dz-mg-feat-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.7em;
+  margin-block-start: 10px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.dz-mag .dz-mg-feat-price {
+  margin-block-start: auto;
+  padding-block-start: 8px;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+/* ---------------------------------------------------------------------------
+   5) PULL QUOTE — oversized quotation mark, dusty-blue tinted band
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-quote {
+  margin-block-start: 52px;
+  padding-block: 54px;
+  background: #e9eef4;
+  border-block: 2px solid var(--mg-ink);
+}
+.dz-mag .dz-mg-quote blockquote {
+  position: relative;
+  margin: 0 auto;
+  max-width: 760px;
+  text-align: center;
+  padding-block-start: 30px;
+}
+.dz-mag .dz-mg-quote blockquote::before {
+  content: "״";
+  position: absolute;
+  inset-block-start: -34px;
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  font-family: "Amatic SC", cursive;
+  font-size: 7rem;
+  line-height: 1;
+  color: var(--mg-terra);
+  pointer-events: none;
+}
+.dz-mag .dz-mg-quote p {
+  margin: 0;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  line-height: 1.2;
+}
+.dz-mag .dz-mg-quote footer {
+  margin-block-start: 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--mg-blue-deep);
+}
+
+/* ---------------------------------------------------------------------------
+   6) FEATURE ARTICLE — workshops (text column + taped info box)
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-article {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.dz-mag .dz-mg-lede {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  border-inline-start: 3px solid var(--mg-mustard);
+  padding-inline-start: 16px;
+}
+.dz-mag .dz-mg-topics {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.dz-mag .dz-mg-topics li {
+  padding: 8px 16px;
+  border: 1px solid var(--mg-ink);
+  background: var(--mg-card);
+  font-size: 0.92rem;
+  font-weight: 600;
+  transform: rotate(-1deg);
+}
+.dz-mag .dz-mg-topics li:nth-child(2n) {
+  transform: rotate(1.2deg);
+}
+.dz-mag .dz-mg-infobox {
+  position: relative;
+  background: var(--mg-card);
+  border: 2px solid var(--mg-ink);
+  box-shadow: 6px 6px 0 rgba(38, 34, 47, 0.16);
+  padding: 24px 22px;
+  transform: rotate(-0.6deg);
+}
+.dz-mag .dz-mg-infobox h3 {
+  margin: 0 0 10px;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 1.9rem;
+  border-block-end: 1px solid var(--mg-rule);
+  padding-block-end: 8px;
+}
+.dz-mag .dz-mg-sched {
+  margin: 0 0 18px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   7) READER INFO BOX — visit / hours, framed like a service column
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-visit {
+  border: 2px solid var(--mg-ink);
+  background: var(--mg-card);
+  box-shadow: 8px 8px 0 rgba(38, 34, 47, 0.16);
+}
+.dz-mag .dz-mg-visit-head {
+  text-align: center;
+  padding: 22px 20px 16px;
+  border-block-end: 1px solid var(--mg-rule);
+}
+.dz-mag .dz-mg-visit-head .dz-mg-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+.dz-mag .dz-mg-visit-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.dz-mag .dz-mg-visit-col {
+  padding: 24px 26px 28px;
+}
+.dz-mag .dz-mg-visit-col + .dz-mg-visit-col {
+  border-inline-start: 1px solid var(--mg-rule);
+}
+.dz-mag .dz-mg-visit-col h3 {
+  margin: 0 0 12px;
+  font-family: "Amatic SC", cursive;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+.dz-mag .dz-mg-visit-col table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.98rem;
+}
+.dz-mag .dz-mg-visit-col td {
+  padding-block: 10px;
+  border-block-end: 1px dotted var(--mg-rule);
+}
+.dz-mag .dz-mg-visit-col td:last-child {
+  text-align: end;
+  font-weight: 700;
+}
+.dz-mag .dz-mg-visit-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.98rem;
+}
+.dz-mag .dz-mg-visit-rows li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  border-block-end: 1px dotted var(--mg-rule);
+}
+.dz-mag .dz-mg-visit-rows a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--mg-blue-deep);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.dz-mag .dz-mg-visit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block-start: 20px;
+}
+
+/* ---------------------------------------------------------------------------
+   colophon — end of issue
+   --------------------------------------------------------------------------- */
+.dz-mag .dz-mg-colophon {
+  margin-block-start: 56px;
+  border-block-start: 1px solid var(--mg-ink);
+  border-block-end: 3px solid var(--mg-ink);
+  padding-block: 12px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #57515f;
+}
+
+/* ---------------------------------------------------------------------------
+   scroll reveals — exist ONLY under .is-reveal (JS ran + motion allowed),
+   so content is always visible without JS / with reduced motion (fail-open)
+   --------------------------------------------------------------------------- */
+.dz-mag.is-reveal .dz-mg-rev {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.dz-mag.is-reveal .dz-mg-rev.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.dz-mag.is-reveal .dz-mg-rev-item {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.dz-mag.is-reveal .dz-mg-rev-item.in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.55s ease var(--rev-delay, 0ms),
+    transform 0.55s ease var(--rev-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dz-mag *,
+  .dz-mag *::before,
+  .dz-mag *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   responsive
+   --------------------------------------------------------------------------- */
+@media (max-width: 1020px) {
+  .dz-mag .dz-mg-cover {
+    grid-template-columns: 1fr;
+  }
+  .dz-mag .dz-mg-cover-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  .dz-mag .dz-mg-sale-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-mag .dz-mg-toc {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-mag .dz-mg-toc li:nth-child(3n) {
+    border-inline-end: 1px solid var(--mg-rule);
+  }
+  .dz-mag .dz-mg-toc li:nth-child(2n) {
+    border-inline-end: none;
+  }
+  .dz-mag .dz-mg-feat-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-mag .dz-mg-article {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dz-mag .dz-mg-masthead-row {
+    justify-content: center;
+    text-align: center;
+  }
+  .dz-mag .dz-mg-cover-title {
+    font-size: clamp(3rem, 14vw, 4.4rem);
+  }
+  .dz-mag .dz-mg-sale-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .dz-mag .dz-mg-pola {
+    max-width: 400px;
+    margin-inline: auto;
+  }
+  .dz-mag .dz-mg-toc {
+    grid-template-columns: 1fr;
+  }
+  .dz-mag .dz-mg-toc li,
+  .dz-mag .dz-mg-toc li:nth-child(3n) {
+    border-inline-end: none;
+  }
+  .dz-mag .dz-mg-feat-row {
+    grid-template-columns: 1fr;
+  }
+  .dz-mag .dz-mg-visit-cols {
+    grid-template-columns: 1fr;
+  }
+  .dz-mag .dz-mg-visit-col + .dz-mg-visit-col {
+    border-inline-start: none;
+    border-block-start: 1px solid var(--mg-rule);
+  }
+}

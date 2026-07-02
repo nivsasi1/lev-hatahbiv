@@ -1,0 +1,786 @@
+/* =========================================================================
+   Design I — "Museum / תערוכה"
+   The shop as an exhibition: warm gallery-white walls, huge light Amatic
+   display type, numbered halls, hairline rules, peephole frames, framed
+   works with red gallery dot-labels. ALL selectors scoped under .dz-museum.
+   ========================================================================= */
+
+.dz-museum {
+  /* --- named palette ----------------------------------------------------- */
+  --mz-wall: #f8f6f1;   /* warm gallery-white walls          */
+  --mz-card: #fffefb;   /* the white of a mounted mat        */
+  --mz-ink: #1f1b2e;    /* label ink                         */
+  --mz-olive: #3f5a36;  /* ONE deep cultured accent          */
+  --mz-ochre: #c99a3a;  /* gilded details (decorative only)  */
+  --mz-red: #d63c35;    /* the red exhibition dot / sale     */
+  --mz-hair: rgba(31, 27, 46, 0.16); /* hairline rules       */
+  --mz-soft-ink: #57506b; /* secondary text, AA on the wall  */
+
+  background: var(--mz-wall);
+  color: var(--mz-ink);
+  font-family: "Assistant", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* content shell — wide museum gutters */
+.dz-museum .mz-shell {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 56px);
+}
+
+.dz-museum .mz-hall {
+  padding-block: clamp(56px, 9vw, 128px) 0;
+}
+.dz-museum .mz-hall.last {
+  padding-block-end: clamp(48px, 7vw, 96px);
+}
+
+/* hairline rules */
+.dz-museum .mz-rule {
+  border: 0;
+  border-block-start: 1px solid var(--mz-hair);
+  margin-block: 14px;
+}
+.dz-museum .mz-rule.ochre {
+  border-color: var(--mz-ochre);
+  inline-size: 56px;
+  margin-inline: auto;
+}
+
+/* screen-reader-only utility */
+.dz-museum .mz-sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- wayfinding: small Latin caps, always LTR -------------------------- */
+.dz-museum .mz-way {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mz-olive);
+}
+.dz-museum .mz-way.center {
+  display: block;
+  text-align: center;
+}
+.dz-museum .mz-way.onolive {
+  color: rgba(248, 246, 241, 0.85);
+}
+
+/* ---- numbered hall headers ---------------------------------------------- */
+.dz-museum .mz-hall-head {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(16px, 3vw, 34px);
+  padding-block-end: clamp(20px, 3vw, 34px);
+  margin-block-end: clamp(28px, 4vw, 48px);
+  border-block-end: 1px solid var(--mz-hair);
+}
+
+.dz-museum .mz-hall-num {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  font-size: clamp(72px, 10vw, 128px);
+  line-height: 0.78;
+  color: var(--mz-ochre);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.dz-museum .mz-hall-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dz-museum .mz-h2 {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  font-size: clamp(44px, 6.5vw, 78px);
+  line-height: 0.92;
+  margin: 0;
+  color: var(--mz-ink);
+}
+
+.dz-museum .mz-lead {
+  margin: 4px 0 0;
+  max-width: 52ch;
+  color: var(--mz-soft-ink);
+  font-size: 16px;
+}
+
+/* ---- buttons & links (all ≥44px targets) -------------------------------- */
+.dz-museum .mz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 46px;
+  padding: 10px 26px;
+  font: 700 16px/1 "Assistant", sans-serif;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.dz-museum .mz-btn.line {
+  color: var(--mz-ink);
+  border: 1px solid var(--mz-ink);
+  background: transparent;
+}
+.dz-museum .mz-btn.line:hover {
+  background: var(--mz-ink);
+  color: var(--mz-wall);
+}
+.dz-museum .mz-btn.solid {
+  background: var(--mz-olive);
+  color: #f8f6f1;
+  border: 1px solid var(--mz-olive);
+}
+.dz-museum .mz-btn.solid:hover {
+  background: #324a2b;
+}
+.dz-museum .mz-btn.ghost {
+  border: 1px solid rgba(248, 246, 241, 0.85);
+  color: #f8f6f1;
+  background: transparent;
+}
+.dz-museum .mz-btn.ghost:hover {
+  background: rgba(248, 246, 241, 0.14);
+}
+
+.dz-museum .mz-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 46px;
+  padding-inline: 8px;
+  color: var(--mz-olive);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.dz-museum a:focus-visible,
+.dz-museum button:focus-visible {
+  outline: 3px solid var(--mz-olive);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ========================= HERO — exhibition poster ====================== */
+.dz-museum .mz-hero {
+  padding-block: clamp(36px, 6vw, 72px) clamp(24px, 4vw, 48px);
+}
+
+.dz-museum .mz-hero-way {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dz-museum .mz-hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  gap: clamp(32px, 6vw, 84px);
+  align-items: center;
+  padding-block-start: clamp(28px, 5vw, 64px);
+}
+
+.dz-museum .mz-hero-title {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  font-size: clamp(72px, 11vw, 168px);
+  line-height: 0.88;
+  margin: 0 0 clamp(20px, 3vw, 34px);
+  color: var(--mz-ink);
+  letter-spacing: 0.01em;
+}
+.dz-museum .mz-hero-title span {
+  display: block;
+}
+.dz-museum .mz-hero-title .mz-hero-under {
+  display: inline-block;
+  color: var(--mz-olive);
+  border-block-end: 4px solid var(--mz-ochre);
+  padding-block-end: 0.04em;
+}
+
+.dz-museum .mz-hero-sub {
+  max-width: 46ch;
+  font-size: 18px;
+  color: var(--mz-soft-ink);
+  margin: 0 0 clamp(24px, 3vw, 36px);
+}
+
+.dz-museum .mz-hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* the logo as a plaque on a tinted wall panel */
+.dz-museum .mz-plaque-wall {
+  background: rgba(63, 90, 54, 0.07);
+  border: 1px solid var(--mz-hair);
+  padding: clamp(26px, 4vw, 52px);
+  display: grid;
+  place-items: center;
+}
+
+.dz-museum .mz-plaque {
+  position: relative;
+  background: var(--mz-card);
+  border: 1px solid var(--mz-ink);
+  padding: clamp(22px, 3vw, 38px) clamp(26px, 3.5vw, 46px);
+  text-align: center;
+  inline-size: 100%;
+  max-inline-size: 360px;
+  box-shadow: 0 14px 28px -20px rgba(31, 27, 46, 0.4);
+}
+/* inner engraved frame */
+.dz-museum .mz-plaque::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--mz-hair);
+  pointer-events: none;
+}
+
+.dz-museum .mz-plaque img {
+  inline-size: min(78%, 230px);
+  block-size: auto;
+  display: block;
+  margin-inline: auto;
+}
+
+.dz-museum .mz-plaque-line {
+  margin: 8px 0 2px;
+  font-weight: 700;
+  font-size: 17px;
+}
+.dz-museum .mz-plaque-latin {
+  margin: 0;
+  direction: ltr;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mz-soft-ink);
+}
+
+/* ================= HALL 01 — the gallery wall of sale works ============== */
+.dz-museum .mz-wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 3vw, 34px);
+}
+
+/* a framed work: outer frame → mat → the piece */
+.dz-museum .mz-work {
+  display: flex;
+  flex-direction: column;
+  background: var(--mz-card);
+  border: 1px solid var(--mz-ink);
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 10px 22px -18px rgba(31, 27, 46, 0.45);
+}
+
+.dz-museum .mz-work-mat {
+  position: relative;
+  border: 1px solid var(--mz-hair);
+  background: #fff;
+  padding: clamp(12px, 2vw, 20px);
+}
+
+.dz-museum .mz-work-thumb {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.dz-museum .mz-work-thumb img,
+.dz-museum .mz-work-thumb svg {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+/* the red exhibition dot-label ("sold" dot energy) */
+.dz-museum .mz-dot {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  inline-size: 48px;
+  block-size: 48px;
+  border-radius: 50%;
+  background: var(--mz-red);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 15px;
+  direction: ltr;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(31, 27, 46, 0.25);
+}
+
+/* museum label under the work */
+.dz-museum .mz-work-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 6px 6px;
+}
+
+.dz-museum .mz-work-cat {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--mz-olive);
+}
+
+.dz-museum .mz-work-name {
+  font-weight: 600;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-block-size: 2.7em; /* keeps every frame the same height */
+}
+
+.dz-museum .mz-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-block-start: 4px;
+}
+.dz-museum .mz-price-now {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--mz-red);
+}
+.dz-museum .mz-price-now.sm {
+  font-size: 24px;
+}
+.dz-museum .mz-price-was {
+  font-size: 14px;
+  color: var(--mz-soft-ink);
+  text-decoration: line-through;
+}
+.dz-museum .mz-price-ink {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--mz-ink);
+}
+
+.dz-museum .mz-more {
+  display: flex;
+  justify-content: center;
+  padding-block-start: clamp(28px, 4vw, 44px);
+}
+
+/* ================= HALL 02 — peephole collections ======================== */
+.dz-museum .mz-cats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(22px, 4vw, 44px) clamp(18px, 3vw, 34px);
+}
+
+.dz-museum .mz-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  padding-block: 8px;
+}
+
+/* the peephole: arch / circle / dome, tinted with the category's soft */
+.dz-museum .mz-peep {
+  position: relative;
+  inline-size: min(100%, 216px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--mz-ink);
+  overflow: hidden;
+}
+.dz-museum .mz-peep.arch {
+  border-radius: 999px 999px 4px 4px;
+}
+.dz-museum .mz-peep.round {
+  border-radius: 50%;
+}
+.dz-museum .mz-peep.dome {
+  border-radius: 4px 4px 999px 999px;
+}
+/* inner hairline ring — the double frame */
+.dz-museum .mz-peep::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(31, 27, 46, 0.22);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.dz-museum .mz-peep svg {
+  inline-size: 76%;
+  block-size: 76%;
+}
+
+/* exhibit label */
+.dz-museum .mz-cat-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.dz-museum .mz-cat-name {
+  font-weight: 700;
+  font-size: 18px;
+}
+.dz-museum .mz-cat-count {
+  font-size: 13px;
+  color: var(--mz-soft-ink);
+}
+.dz-museum .mz-cat:hover .mz-cat-name {
+  color: var(--mz-olive);
+}
+
+/* ================= HALL 03 — selected works (one tidy row) =============== */
+.dz-museum .mz-sel-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2.5vw, 28px);
+}
+
+.dz-museum .mz-sel {
+  display: flex;
+  flex-direction: column;
+  background: var(--mz-card);
+  border: 1px solid var(--mz-hair);
+  text-decoration: none;
+  color: inherit;
+}
+
+.dz-museum .mz-sel-thumb {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #fff;
+  border-block-end: 1px solid var(--mz-hair);
+  padding: 12px;
+}
+.dz-museum .mz-sel-thumb img,
+.dz-museum .mz-sel-thumb svg {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.dz-museum .mz-sel-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px 14px;
+  flex: 1;
+}
+.dz-museum .mz-sel-name {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-block-size: 2.7em;
+}
+.dz-museum .mz-sel .mz-price-row {
+  margin-block-start: auto;
+  padding-block-start: 6px;
+}
+
+/* ================= WALL TEXT — the quote ================================= */
+.dz-museum .mz-walltext-band {
+  padding-block: clamp(64px, 10vw, 140px) 0;
+}
+
+.dz-museum .mz-walltext {
+  margin: 0 auto;
+  max-width: 760px;
+  text-align: center;
+  padding-block: clamp(36px, 5vw, 56px);
+  border-block: 1px solid var(--mz-hair);
+}
+.dz-museum .mz-walltext blockquote {
+  margin: 0;
+}
+.dz-museum .mz-quote {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  font-size: clamp(48px, 7vw, 88px);
+  line-height: 0.95;
+  margin: 18px 0 16px;
+  color: var(--mz-ink);
+}
+.dz-museum .mz-quote-body {
+  margin: 0 auto;
+  max-width: 56ch;
+  color: var(--mz-soft-ink);
+  font-size: 17px;
+}
+.dz-museum .mz-quote-cap {
+  margin-block-start: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mz-olive);
+}
+
+/* ================= HALL 04 — workshops =================================== */
+.dz-museum .mz-ws {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+
+.dz-museum .mz-ws-intro {
+  margin: 0 0 18px;
+  max-width: 56ch;
+  color: var(--mz-soft-ink);
+  font-size: 17px;
+}
+
+.dz-museum .mz-ws-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dz-museum .mz-ws-list li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-block: 16px;
+  border-block-end: 1px solid var(--mz-hair);
+}
+.dz-museum .mz-ws-idx {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--mz-ochre);
+  direction: ltr;
+  min-inline-size: 40px;
+}
+.dz-museum .mz-ws-topic {
+  font-weight: 700;
+  font-size: 19px;
+}
+
+/* the olive visitor-services panel */
+.dz-museum .mz-ws-panel {
+  background: var(--mz-olive);
+  color: #f8f6f1;
+  padding: clamp(24px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dz-museum .mz-ws-when {
+  margin: 4px 0 0;
+  font-weight: 700;
+  font-size: 19px;
+}
+.dz-museum .mz-ws-host {
+  margin: 0 0 10px;
+  color: rgba(248, 246, 241, 0.88);
+}
+.dz-museum .mz-ws-panel a:focus-visible {
+  outline-color: #f8f6f1;
+}
+
+/* ================= HALL 05 — visitor information ========================= */
+.dz-museum .mz-visit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+
+.dz-museum .mz-vh {
+  font-family: "Amatic SC", "Assistant", cursive;
+  font-weight: 700;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1;
+  margin: 0 0 14px;
+}
+
+.dz-museum .mz-hours {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 17px;
+}
+.dz-museum .mz-hours td {
+  padding-block: 13px;
+  border-block-end: 1px solid var(--mz-hair);
+}
+.dz-museum .mz-hours td:last-child {
+  text-align: end;
+  font-weight: 700;
+  direction: ltr; /* keep "9:00 – 13:30" reading left-to-right */
+}
+
+.dz-museum .mz-vrows {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  font-size: 17px;
+}
+.dz-museum .mz-vrows li {
+  padding-block: 11px;
+  border-block-end: 1px solid var(--mz-hair);
+}
+.dz-museum .mz-vrows a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--mz-ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.dz-museum .mz-vrows a:hover {
+  color: var(--mz-olive);
+}
+
+.dz-museum .mz-vactions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.dz-museum .mz-colophon {
+  text-align: center;
+  padding-block-start: clamp(48px, 7vw, 80px);
+}
+.dz-museum .mz-colophon .mz-rule {
+  margin-block-end: 22px;
+}
+
+/* ================= motion — dignified reveals only ======================= */
+/* Hidden start-state exists ONLY under .mz-js (added by JS when IO exists
+   and reduced-motion is off) → fully fail-open without JS. */
+.dz-museum.mz-js .mz-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s ease var(--d, 0ms),
+    transform 0.7s ease var(--d, 0ms);
+}
+.dz-museum.mz-js .mz-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* stepping closer to a framed work */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dz-museum .mz-work,
+  .dz-museum .mz-sel {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .dz-museum .mz-work:hover,
+  .dz-museum .mz-sel:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 34px -20px rgba(31, 27, 46, 0.45);
+  }
+  .dz-museum .mz-peep svg {
+    transition: transform 0.4s ease;
+  }
+  .dz-museum .mz-cat:hover .mz-peep svg {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dz-museum .mz-reveal,
+  .dz-museum.mz-js .mz-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dz-museum .mz-btn,
+  .dz-museum .mz-work,
+  .dz-museum .mz-sel,
+  .dz-museum .mz-peep svg {
+    transition: none;
+  }
+}
+
+/* ================= responsive ============================================ */
+@media (max-width: 980px) {
+  .dz-museum .mz-hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .dz-museum .mz-plaque-wall {
+    max-inline-size: 520px;
+  }
+  .dz-museum .mz-wall {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-museum .mz-sel-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dz-museum .mz-ws {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .dz-museum .mz-cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* the 9th collection stretches so no orphan hole is left */
+  .dz-museum .mz-cat:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .dz-museum .mz-visit {
+    grid-template-columns: 1fr;
+  }
+  .dz-museum .mz-hall-num {
+    font-size: 64px;
+  }
+}
+
+@media (max-width: 520px) {
+  .dz-museum .mz-wall {
+    grid-template-columns: 1fr;
+  }
+  .dz-museum .mz-sel-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .dz-museum .mz-price-now {
+    font-size: 26px;
+  }
+  .dz-museum .mz-hero-way {
+    justify-content: center;
+  }
+}

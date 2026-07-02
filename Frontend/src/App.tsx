@@ -30,6 +30,8 @@ import DesignPop from "./pages/designs/DesignPop";
 import DesignCraft from "./pages/designs/DesignCraft";
 import DesignKinetic from "./pages/designs/DesignKinetic";
 import DesignClay from "./pages/designs/DesignClay";
+import DesignMuseum from "./pages/designs/DesignMuseum";
+import DesignMagazine from "./pages/designs/DesignMagazine";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
 
@@ -88,6 +90,8 @@ const router = createBrowserRouter(
         { path: "/designs/c", element: <DesignCraft /> },
         { path: "/designs/e", element: <DesignKinetic /> },
         { path: "/designs/g", element: <DesignClay /> },
+        { path: "/designs/i", element: <DesignMuseum /> },
+        { path: "/designs/j", element: <DesignMagazine /> },
         { path: "*", element: <HomePage /> },
       ],
     },
