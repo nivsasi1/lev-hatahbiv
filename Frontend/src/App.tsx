@@ -26,7 +26,6 @@ import { ContactPage } from "./pages/ContactPage";
 import { ThankYouPage } from "./pages/ThankYouPage";
 import DesignsIndex from "./pages/designs/DesignsIndex";
 import DesignGallery from "./pages/designs/DesignGallery";
-import DesignPop from "./pages/designs/DesignPop";
 import DesignCraft from "./pages/designs/DesignCraft";
 import DesignKinetic from "./pages/designs/DesignKinetic";
 import DesignClay from "./pages/designs/DesignClay";
@@ -86,7 +85,6 @@ const router = createBrowserRouter(
         { path: "/thank-you", element: <ThankYouPage /> },
         { path: "/designs", element: <DesignsIndex /> },
         { path: "/designs/a", element: <DesignGallery /> },
-        { path: "/designs/b", element: <DesignPop /> },
         { path: "/designs/c", element: <DesignCraft /> },
         { path: "/designs/e", element: <DesignKinetic /> },
         { path: "/designs/g", element: <DesignClay /> },

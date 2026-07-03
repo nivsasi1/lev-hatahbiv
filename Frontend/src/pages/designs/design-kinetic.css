@@ -334,18 +334,17 @@
 }
 .dz-kinetic .dz-sale-media {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1; /* locked box — absolute children can't stretch it */
   background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.7rem;
+  overflow: hidden;
   border-block-end: 2px solid var(--k-ink);
 }
 .dz-kinetic .dz-sale-media img,
 .dz-kinetic .dz-sale-media svg {
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute;
+  inset: 0.7rem;
+  width: calc(100% - 1.4rem);
+  height: calc(100% - 1.4rem);
   object-fit: contain;
 }
 
@@ -525,17 +524,17 @@
   box-shadow: 0 16px 30px -16px rgba(124, 58, 237, 0.6);
 }
 .dz-kinetic .dz-feat-media {
-  aspect-ratio: 1 / 1;
+  position: relative;
+  aspect-ratio: 1 / 1; /* locked box — absolute children can't stretch it */
   background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.7rem;
+  overflow: hidden;
 }
 .dz-kinetic .dz-feat-media img,
 .dz-kinetic .dz-feat-media svg {
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute;
+  inset: 0.7rem;
+  width: calc(100% - 1.4rem);
+  height: calc(100% - 1.4rem);
   object-fit: contain;
 }
 .dz-kinetic .dz-feat-body {
