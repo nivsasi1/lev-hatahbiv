@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Start with [ARCHITECTURE.md](ARCHITECTURE.md)** (how everything connects, env-var inventory, danger zone) **and [DEPLOY.md](DEPLOY.md)** (how to ship every kind of change, secrets tables, rollback) — they are the authoritative deep docs; this file is the short version.
+
 ## Project Overview
 
 "לב התחביב" (Lev Hatahbiv) — a Hebrew (RTL) art-supplies store site for a family shop in Rehovot, open since 1985. The site was rebuilt in 2026 as a **standalone static SPA**: Vite + Preact + TypeScript in `Frontend/`, with no server dependency.
@@ -33,7 +35,7 @@ Everything lives in `Frontend/src`:
 - **`data/catalog.ts` is the runtime source of truth** — it imports the generated `data/products.json` (do not hand-edit that file; re-run the generator), maps rows to `Product`s, and owns the category definitions, store info (address/phone/hours), free-shipping threshold, and search/lookup helpers. Each category has a `color`/`soft` pair that drives per-category theming via CSS custom properties (`--cc`, `--pc`, `--chip`, etc.) set inline on components, plus a fallback `art` kind.
 - **Product visuals**: `ProductThumb` renders the S3 photo when `img` exists and falls back to the category's parametric SVG illustration (`components/ProductArt.tsx`) when there's no photo **or the photo 404s** (`onError` state). Category pages paginate (24 at a time) — the paints shelf alone has ~900 products.
 - **`context/cart-context.tsx`** — `useReducer`-free simple cart (`items`, `add`, `setQty`, `remove`), persisted to localStorage under `"lh-cart-v2"`, plus the slide-over sheet open state. `add()` auto-opens the sheet.
-- **Checkout is intentionally serverless**: the cart page composes a WhatsApp message (`wa.me/<store.phoneIntl>`) with the order lines + delivery choice; phone/email are the fallbacks. There is no payment processing.
+- **Checkout is card payments via PayMe** (no WhatsApp flow): the cart POSTs `/api/checkout` to the Cloudflare Worker, which recomputes totals server-side from the baked `checkout-pricing.json` (never trusts client prices, integer agorot everywhere), creates a D1 order + a PayMe hosted-page sale, and redirects the shopper. The PayMe webhook (`/api/payme-callback`) is the authoritative "paid" — it also consumes single-use coupons. `/thank-you` just polls `/api/order-status`. Full flow: ARCHITECTURE.md §4.
 - **Routes** (`App.tsx`): `/`, `/category/:slug`, `/product/:id`, `/cart`, all under a single `Layout` (Header + Footer + CartSheet + scroll-to-top).
 
 ## Design system
