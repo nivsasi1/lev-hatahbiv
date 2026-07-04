@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { WORKER_API } from "../data/api";
 import { store } from "../data/catalog";
-import { Splat } from "./Splat";
 
 // Shows once per visitor (15s after first arriving), or whenever something
 // dispatches the "lh-open-news" event (e.g. the footer button).
@@ -103,7 +102,6 @@ export const NewsletterDialog = () => {
     <>
       <div className="sheet-veil open" />
       <div className="news-dialog" role="dialog" aria-label="הרשמה לעדכונים">
-        <Splat color="#e09f3e" size={90} style={{ top: "-2.2rem", left: "-2.2rem", opacity: 0.85 }} />
         <button className="x-btn" onClick={close} aria-label="סגירה">
           ✕
         </button>

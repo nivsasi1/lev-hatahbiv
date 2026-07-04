@@ -499,6 +499,7 @@
   display: flex;
   gap: 1rem;
   overflow-x: auto;
+  overflow-y: hidden; /* horizontal rail only — no stray vertical scrollbar */
   scroll-snap-type: x proximity;
   padding-block-end: 0.5rem;
   -webkit-overflow-scrolling: touch;
