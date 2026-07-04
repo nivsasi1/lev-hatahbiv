@@ -1,0 +1,47 @@
+# שומר-חנות — the morning deep check: real Chromium loads the live site,
+# verifies product cards render and no JS/console errors slipped through.
+# 05:00 UTC = 08:00 Israel (summer) / 07:00 (winter).
+name: watchdog-deep
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deep-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps + Chromium
+        working-directory: monitor
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+
+      - name: Deep check in Chromium
+        id: deep
+        working-directory: monitor
+        run: node deep-check.mjs
+        continue-on-error: true
+
+      - name: Send alert
+        if: steps.deep.outputs.notify == 'true'
+        working-directory: monitor
+        run: node notify.mjs .state
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          ALERT_EMAILS: ${{ secrets.ALERT_EMAILS }}
+
+      - name: Fail the run if problems were found
+        if: steps.deep.outcome == 'failure'
+        run: exit 1

@@ -1,0 +1,40 @@
+# שומר-חנות — Friday-morning weekly digest to the Telegram group + email:
+# availability %, incident count, and a warning if GitHub silently disabled
+# the cron (happens after 60 days of repo inactivity).
+name: watchdog-weekly
+
+on:
+  schedule:
+    - cron: "30 5 * * 5" # Friday 08:30 Israel (summer)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read # reads the week's watchdog run history
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install notifier deps
+        working-directory: monitor
+        run: npm install --no-audit --no-fund
+
+      - name: Build weekly digest
+        working-directory: monitor
+        run: node weekly.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send digest
+        working-directory: monitor
+        run: node notify.mjs .state
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          ALERT_EMAILS: ${{ secrets.ALERT_EMAILS }}

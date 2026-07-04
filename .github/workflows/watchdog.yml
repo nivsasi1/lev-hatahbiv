@@ -1,0 +1,69 @@
+# שומר-חנות — the 15-minute pulse. Alerts (Telegram + email) only on a state
+# change; previous state lives in the Actions cache. Manual run with
+# "test alert" checked verifies the notification channels end-to-end.
+name: watchdog
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      test-alert:
+        description: "שלח הודעת בדיקה לטלגרם+מייל גם אם הכל תקין"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: watchdog
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore previous state
+        uses: actions/cache/restore@v4
+        with:
+          path: monitor/.state
+          key: watchdog-state-${{ github.run_id }}
+          restore-keys: watchdog-state-
+
+      - name: Run checks
+        id: check
+        run: node monitor/check.mjs
+        continue-on-error: true # alert first, redden the run at the end
+        env:
+          FORCE_NOTIFY: ${{ inputs.test-alert == true && 'true' || 'false' }}
+
+      - name: Install notifier deps
+        if: steps.check.outputs.notify == 'true'
+        working-directory: monitor
+        run: npm install --no-audit --no-fund
+
+      - name: Send alert
+        if: steps.check.outputs.notify == 'true'
+        working-directory: monitor
+        run: node notify.mjs .state
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          ALERT_EMAILS: ${{ secrets.ALERT_EMAILS }}
+
+      - name: Save state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: monitor/.state
+          key: watchdog-state-${{ github.run_id }}
+
+      - name: Fail the run if the shop is down
+        if: steps.check.outcome == 'failure'
+        run: exit 1

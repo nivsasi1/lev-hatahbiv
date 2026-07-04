@@ -1,3 +1,9 @@
+# watchdog runtime state (lives in the Actions cache, never in git)
+monitor/.state/
+
+# playwright-mcp browser session artifacts
+.playwright-mcp/
+
 # Logs
 logs
 *.log

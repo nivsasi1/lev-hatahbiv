@@ -1,0 +1,9 @@
+{
+  "name": "lev-hatahbiv-monitor",
+  "private": true,
+  "type": "module",
+  "description": "שומר-חנות — site watchdog scripts (run by GitHub Actions)",
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  }
+}
