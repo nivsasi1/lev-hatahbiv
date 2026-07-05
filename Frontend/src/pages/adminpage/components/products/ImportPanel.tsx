@@ -22,7 +22,7 @@ export function ImportPanel({ csv }: { csv: CsvApi }) {
         </button>
       </p>
       <p className="import-help dim">
-        טיפ: אפשר לבקש מ-Claude לסרוק אתר של מותג ולהחזיר קובץ בדיוק בפורמט הזה —
+        טיפ: אפשר לבקש מ-AI לסרוק אתר של מותג ולהחזיר קובץ בדיוק בפורמט הזה —
         עמודות: name, price, category, sub_cat, third_level, description, images,
         salePercentage.
       </p>

@@ -217,8 +217,7 @@ worker/              Cloudflare Worker API + D1 schema + Drizzle schema
 Backend/             Render dashboard API + dump-products.js + notify helper
 monitor/             watchdog scripts (GitHub Actions runs them)
 migration/           Wix → Mongo sync toolchain (inventory import; WIX_API_KEY)
-docs/superpowers/    design specs (per-feature decision records)
+docs/specs/          design specs (per-feature decision records)
 wrangler.jsonc       the Cloudflare project (assets + worker + D1 binding)
 render.yaml          the Render blueprint (api + static site — legacy host)
-CLAUDE.md            instructions for AI sessions; keep in sync with this file
 ```

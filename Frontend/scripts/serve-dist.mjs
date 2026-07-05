@@ -1,5 +1,5 @@
 // Tiny zero-dependency static server for dist/ with SPA fallback.
-// Used to share the built site through a tunnel (see CLAUDE.md).
+// Used to share the built site through a tunnel.
 //   node scripts/serve-dist.mjs [port]
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
