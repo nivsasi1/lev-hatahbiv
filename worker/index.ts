@@ -734,7 +734,42 @@ async function settleOrderIfPaid(
   return true;
 }
 
-// POST /api/grow-callback?key=...  (Grow server-to-server, multipart FormData)
+// Grow nests every callback field under `data` (and cField1 under
+// data.customFields) — verified against the live docs' example payload. The wire
+// encoding is JSON or form-data depending on account config, so accept both and
+// expose a flat getter. Field names that matter: statusCode ("2" = paid / "שולם"),
+// sum, processId, processToken, transactionId, cField1 (our order id).
+const CALLBACK_ECHO_FIELDS = [
+  "transactionId", "transactionToken", "processId", "processToken", "statusCode",
+  "status", "sum", "asmachta", "paymentType", "transactionTypeId", "paymentsNum",
+  "allPaymentsNum", "paymentDate", "fullName", "payerPhone", "payerEmail",
+  "description", "cardSuffix",
+];
+async function readGrowCallback(request: Request): Promise<(k: string) => string> {
+  const ct = (request.headers.get("content-type") || "").toLowerCase();
+  if (ct.includes("json")) {
+    const j: any = await request.json();
+    const d = j && typeof j === "object" ? j.data ?? j : {};
+    return (k) =>
+      k === "cField1"
+        ? String(d?.customFields?.cField1 ?? d?.cField1 ?? "")
+        : String(d?.[k] ?? "");
+  }
+  const form = await request.formData();
+  const pick = (...keys: string[]) => {
+    for (const k of keys) {
+      const v = form.get(k);
+      if (v != null) return String(v);
+    }
+    return "";
+  };
+  return (k) =>
+    k === "cField1"
+      ? pick("data[customFields][cField1]", "customFields[cField1]", "data[cField1]", "cField1")
+      : pick(`data[${k}]`, k);
+}
+
+// POST /api/grow-callback?key=...  (Grow server-to-server; JSON or form-data)
 // Authenticated by the secret key in the URL (only our server + Grow know it),
 // then the callback must MATCH the stored processId+processToken and the sum.
 async function growCallback(request: Request, env: Env, db: DB): Promise<Response> {
@@ -744,15 +779,14 @@ async function growCallback(request: Request, env: Env, db: DB): Promise<Respons
     return new Response("forbidden", { status: 403 });
   }
 
-  let form: FormData;
+  let f: (k: string) => string;
   try {
-    form = await request.formData();
+    f = await readGrowCallback(request);
   } catch {
     return new Response("bad request", { status: 400 });
   }
-  const f = (k: string) => String(form.get(k) ?? "");
 
-  const orderId = f("cField1") || f("customFields[cField1]");
+  const orderId = f("cField1");
   if (!orderId) return new Response("OK");
   const order = await db.select().from(orders).where(eq(orders.id, orderId)).get();
   if (!order) return new Response("OK"); // unknown order — just ack
@@ -769,7 +803,6 @@ async function growCallback(request: Request, env: Env, db: DB): Promise<Respons
   // only a PAID notification settles an order — a decline callback carries the
   // same processId/token/sum (they identify the process, not its outcome), so
   // without this a declined payment would flip the order to paid. Grow: 2 = paid.
-  // TODO(sandbox): confirm statusCode "2" is the paid value on a real callback.
   if (f("statusCode") !== "2") return new Response("OK");
 
   // corroborate with a server-side re-query, then atomically flip. The callback
@@ -784,12 +817,15 @@ async function growCallback(request: Request, env: Env, db: DB): Promise<Respons
   });
   if (!settled) return new Response("OK"); // re-query says not paid — ack + ignore
 
-  // best-effort ACK back to Grow: echo every callback field + pageCode. It's an
+  // best-effort ACK back to Grow: pageCode + the data fields it sent. It's an
   // acknowledgement only — the transaction succeeds even if this fails.
   try {
     const ack = new FormData();
-    for (const [k, v] of form.entries()) ack.append(k, typeof v === "string" ? v : String(v));
-    ack.set("pageCode", env.GROW_PAGE_CODE);
+    ack.append("pageCode", env.GROW_PAGE_CODE);
+    for (const k of CALLBACK_ECHO_FIELDS) {
+      const v = f(k);
+      if (v) ack.append(k, v);
+    }
     await fetch(`${growBase(env)}/approveTransaction`, { method: "POST", body: ack });
   } catch {
     /* non-fatal */
@@ -798,40 +834,43 @@ async function growCallback(request: Request, env: Env, db: DB): Promise<Respons
   return new Response("OK");
 }
 
-// POST /api/grow-invoice?key=...  (Grow invoice module -> invoiceNumber + invoiceUrl)
+// POST /api/grow-invoice?key=...  (Grow invoice module)
+// The invoice callback is a JSON ARRAY of { transactionId, processId,
+// invoiceNumber, invoiceUrl } — no cField1 — so we locate the order by processId.
 async function growInvoice(request: Request, env: Env, db: DB): Promise<Response> {
   const key = new URL(request.url).searchParams.get("key") || "";
   if (!env.GROW_WEBHOOK_KEY || !safeEqual(key, env.GROW_WEBHOOK_KEY)) {
     return new Response("forbidden", { status: 403 });
   }
 
-  let form: FormData;
+  let rows: any[];
   try {
-    form = await request.formData();
+    const ct = (request.headers.get("content-type") || "").toLowerCase();
+    if (ct.includes("json")) {
+      const body: any = await request.json();
+      rows = Array.isArray(body) ? body : [body];
+    } else {
+      const form = await request.formData();
+      rows = [{
+        processId: form.get("processId"),
+        invoiceNumber: form.get("invoiceNumber"),
+        invoiceUrl: form.get("invoiceUrl"),
+      }];
+    }
   } catch {
     return new Response("bad request", { status: 400 });
   }
-  const f = (k: string) => String(form.get(k) ?? "");
 
-  // locate the order: by our cField1 when echoed, else by the Grow processId
-  const orderId = f("cField1");
-  const order = orderId
-    ? await db.select().from(orders).where(eq(orders.id, orderId)).get()
-    : await db.select().from(orders).where(eq(orders.processId, f("processId"))).get();
-  // bind the invoice to the SAME process that paid (processId must match) and
-  // write once — so a leaked webhook key can't repoint a real order's invoice
-  // link at a phishing URL. A real invoice arrives once, right after payment.
-  const invoiceUrl = f("invoiceUrl");
-  if (
-    order &&
-    f("processId") === order.processId &&
-    !order.invoiceUrl &&
-    /^https:\/\//i.test(invoiceUrl)
-  ) {
+  for (const r of rows) {
+    const processId = String(r?.processId ?? "");
+    const invoiceUrl = String(r?.invoiceUrl ?? "");
+    if (!processId || !/^https:\/\//i.test(invoiceUrl)) continue;
+    // bind to the process + write once (WHERE invoice_url IS NULL) so a leaked
+    // webhook key can't repoint a real order's invoice link at a phishing URL.
     await db
       .update(orders)
-      .set({ invoiceUrl, invoiceNumber: f("invoiceNumber") || null })
-      .where(and(eq(orders.id, order.id), isNull(orders.invoiceUrl)))
+      .set({ invoiceUrl, invoiceNumber: String(r?.invoiceNumber ?? "") || null })
+      .where(and(eq(orders.processId, processId), isNull(orders.invoiceUrl)))
       .run();
   }
   return new Response("OK"); // always ack

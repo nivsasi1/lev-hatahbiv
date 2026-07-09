@@ -186,7 +186,16 @@ export const CartPage = () => {
       if (data.url) {
         window.location.href = data.url; // Grow hosted payment page
       } else {
-        await openGrowWallet(data.authCode).catch(() =>
+        // Growin Wallet popup — success/failure arrive via the SDK's events.
+        // onSuccess is a UX signal; /thank-you polls the server callback for the
+        // real "paid". (TODO(sandbox): wire onPaymentCancel to keep the button
+        // busy while the sheet is open, once the real SDK events are verified.)
+        await openGrowWallet(data.authCode, {
+          onSuccess: () => {
+            window.location.href = `/thank-you?order=${data.orderId}`;
+          },
+          onFailure: (msg) => setPayError(msg),
+        }).catch(() =>
           setPayError("התשלום המהיר אינו זמין כרגע — נסו שוב בעוד רגע")
         );
       }

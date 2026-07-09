@@ -47,6 +47,15 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
   unified popup ON OUR SITE (cards + Apple Pay + Google Pay + Bit + PayBox) → `onSuccess`
   event + redirect to thank-you. Server callback + `approveTransaction` unchanged
   (**approveTransaction must echo ALL fields from the callback + `pageCode`**).
+- **Wallet SDK, verified from the live docs (2026-07-09):**
+  - Script: `https://cdn.meshulam.co.il/sdk/gs.min.js` (load async on the checkout page).
+  - `onload` → `growPayment.init({ environment: "DEV"|"PRODUCTION", version: 1, events: {…} })`
+    **then** `growPayment.renderPaymentOptions(authCode)`. **init() is required first** — skipping
+    it silently no-ops the wallet. (Coded in [grow-wallet.ts](Frontend/src/data/grow-wallet.ts);
+    flip `GROW_ENV` to `"PRODUCTION"` at go-live.)
+  - Events: `onSuccess` (→ /thank-you), `onFailure`/`onError`/`onTimeout` (→ error),
+    `onWalletChange`/`onPaymentStart`/`onPaymentCancel`. `onSuccess` payload:
+    `{ status:1, data:{ payment_sum, full_name, payment_method, number_of_payments, confirmation_number } }`.
 - Why Wallet: shopper never leaves the site, one-click Apple/Google Pay on mobile (most
   of our traffic), auto-matches site look. Cost: one external script + a JS call.
 - Fallback: standard pageCode → `data.url` → full-page redirect (zero client JS). The
@@ -94,10 +103,20 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
   code; `status` text = `"שולם"`) — the processId/token identify the *process*, not its
   outcome, so without the statusCode gate a **declined** callback would settle as paid.
   Then a server-side `getPaymentProcessInfo` re-query corroborates. Idempotent via
-  `WHERE status IN ('new','failed')`. (Verified from the Server Response docs 2026-07-09;
-  re-confirm the exact `statusCode` value + `getPaymentProcessInfo` shape on the first
-  sandbox run — code reads the paid amount from the transaction record, never the
-  *requested* `data.sum`.)
+  `WHERE status IN ('new','failed')`. Code reads the paid amount from the transaction
+  record, never the *requested* `data.sum`.
+- **Verified callback/response shapes (live docs, in-browser 2026-07-09):**
+  - **Callback** nests everything under `data`: `{ err, status:"1", data:{ statusCode:"2",
+    status:"שולם", sum:"269", processId, processToken, transactionId, fullName,
+    payerPhone, payerEmail, customFields:{ cField1 } } }`. Our reader accepts JSON *or*
+    form-data and reads `cField1` from `data.customFields`.
+  - **getPaymentProcessInfo** → `{ status:1, data:{ processId, processToken,
+    transactions:[ { statusCode:"2", sum, transactionId, … } ] } }` — re-query reads
+    `data.transactions[0]`.
+  - **Invoice callback** is a JSON **array** `[ { transactionId, processId, invoiceNumber,
+    invoiceUrl } ]` — **no cField1**, so we locate the order by `processId` (bound +
+    write-once).
+  - `getPaymentProcessInfo` error → `{ status:0, err:{ id, message }, data:"" }`.
 - **Known accepted tradeoff:** a single-use coupon can back at most one *extra* discounted
   order only if the shopper opens two checkouts before paying either and then actually pays
   both (real money, real orders). Consuming the coupon at checkout instead would burn codes
