@@ -25,7 +25,8 @@ export const subscribers = sqliteTable("subscribers", {
   createdAt: text("created_at").notNull(),
 });
 
-// Orders — paid via PayMe (generate-sale). Money in AGOROT (matches PayMe).
+// Orders — paid via Grow/Meshulam (createPaymentProcess). Money in AGOROT
+// (integer); Grow's `sum` is shekels decimal — convert only at the API boundary.
 export const orders = sqliteTable("orders", {
   id: text("id").primaryKey(),
   createdAt: text("created_at").notNull(),
@@ -36,9 +37,11 @@ export const orders = sqliteTable("orders", {
   delivery: text("delivery"),
   total: integer("total").notNull(),
   status: text("status").notNull().default("new"), // new|paid|failed|refunded|handled|cancelled
-  paymentRef: text("payment_ref"), // PayMe payme_transaction_id
-  paymeSaleId: text("payme_sale_id"),
+  paymentRef: text("payment_ref"), // Grow transactionId
+  processId: text("process_id"), // Grow processId (from createPaymentProcess)
+  processToken: text("process_token"), // Grow processToken — pairs with processId
   invoiceUrl: text("invoice_url"),
+  invoiceNumber: text("invoice_number"), // Grow invoice module (via /api/grow-invoice)
   payerName: text("payer_name"),
   payerEmail: text("payer_email"),
   payerPhone: text("payer_phone"),

@@ -1,8 +1,12 @@
 # Payments — provider research + integration plans
 
 Status (2026-07-09): **switched to Grow** — the special bid (₪59/mo + 0.6%) beats PayMe
-at all realistic volumes, and a Grow account is now open. The Grow plan is below; the
-older PayMe plan is kept further down as a fallback (nothing PayMe-specific was ever
+at all realistic volumes, and a Grow account is now open. **The integration is BUILT on
+branch `grow`** (worker `createPaymentProcess` + callback/invoice routes + re-query
+hardening, cart payer form, Wallet hook) — blocked ONLY on sandbox credentials from Grow
+support. The message to send them is ready:
+[docs/grow-support-questions.md](docs/grow-support-questions.md). The Grow plan is below;
+the older PayMe plan is kept further down as a fallback (nothing PayMe-specific was ever
 deployed, so there is nothing to unwind).
 
 ## Grow (Meshulam) — integration plan  ← CURRENT
@@ -86,14 +90,26 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 ### Security deltas vs the PayMe plan (important)
 - **No callback signature** (PayMe had `payme_signature`). So verification is on us:
   store `processId`+`processToken` on the order at creation; on callback accept only if
-  both match AND `sum` equals the order total; idempotent on order status. That's the
-  same "re-query" hardening we already planned — with Grow it's mandatory.
+  both match AND `sum` equals the order total AND **`statusCode === "2"`** (Grow's paid
+  code; `status` text = `"שולם"`) — the processId/token identify the *process*, not its
+  outcome, so without the statusCode gate a **declined** callback would settle as paid.
+  Then a server-side `getPaymentProcessInfo` re-query corroborates. Idempotent via
+  `WHERE status IN ('new','failed')`. (Verified from the Server Response docs 2026-07-09;
+  re-confirm the exact `statusCode` value + `getPaymentProcessInfo` shape on the first
+  sandbox run — code reads the paid amount from the transaction record, never the
+  *requested* `data.sum`.)
+- **Known accepted tradeoff:** a single-use coupon can back at most one *extra* discounted
+  order only if the shopper opens two checkouts before paying either and then actually pays
+  both (real money, real orders). Consuming the coupon at checkout instead would burn codes
+  on abandoned carts; for a neighbourhood shop the current "consume on payment" is the right
+  call. Revisit only if coupon abuse shows up.
 - **`sum` is in shekels (decimal)**, our D1 is agorot → convert only at the API
   boundary (`(agorot / 100).toFixed(2)` out, `Math.round(sum * 100)` in). PayMe was
   agorot-native; this is the most bug-prone difference.
 
-### Build plan (~½–1 day once sandbox creds arrive)
-- Secrets (user sets): `GROW_USER_ID`, `GROW_PAGE_CODE`, `GROW_BASE_URL` (sandbox first).
+### Build plan — ✅ built on branch `grow` (awaiting sandbox creds to test)
+- Secrets (user sets): `GROW_USER_ID`, `GROW_PAGE_CODE`, `GROW_WEBHOOK_KEY` (our
+  callback-auth secret). `GROW_BASE_URL` is a wrangler.jsonc **var** (sandbox default).
 - Worker `/api/checkout`: keep all existing logic (server-side totals, coupon check,
   D1 insert) — swap the PayMe `generate-sale` call for `createPaymentProcess`
   (FormData; `sum`, `description`, `successUrl=/thank-you`, `cancelUrl=/cart`,
@@ -106,13 +122,17 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 - Sandbox matrix: success, decline, duplicate callback, forged callback (wrong
   token/sum rejected), coupon consumed once. Then hand to Grow for the go-live review.
 
-### What the owner does next (code can't proceed without #1)
-1. Contact Grow support/integration: confirm the special-bid plan is attached to the
-   account, request **Light API sandbox credentials** — `userId` + **a Growin Wallet
-   `pageCode`** (and a standard redirect pageCode as fallback), give them the site URL.
-   Also ask whether the special bid requires a specific account track (Basic/Extra/Plus).
-2. When creds arrive: `wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` (+ `.dev.vars` for local).
-3. After sandbox tests pass: Grow reviews → issues production creds → swap secrets →
+### What the owner does next (code is done; sandbox testing can't start without #2)
+1. ✅ Code: worker (`createPaymentProcess`, `/api/grow-callback`, `/api/grow-invoice`,
+   `getPaymentProcessInfo` re-query, order-status self-heal), cart payer form + Wallet
+   hook — built on branch `grow`.
+2. ⏳ Contact Grow support/integration — the exact message (plan confirmation, sandbox
+   `userId` + Wallet/redirect pageCodes, account track, 3DS, invoices, Wallet SDK script
+   URL) is ready to paste: [docs/grow-support-questions.md](docs/grow-support-questions.md).
+3. ⏳ When creds arrive: `wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` /
+   `GROW_WEBHOOK_KEY` (+ `.dev.vars` for local), fill the Wallet SDK script URL in
+   `Frontend/src/data/grow-wallet.ts`, run the sandbox matrix, merge `grow`.
+4. ⏳ After sandbox tests pass: Grow reviews → issues production creds → swap secrets →
    one small real transaction → open to shoppers.
 
 ---

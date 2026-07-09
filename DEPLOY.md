@@ -73,9 +73,13 @@ npx wrangler tail                   # live logs while testing
 | Secret | What / where it comes from |
 |---|---|
 | `ADMIN_JWT_SECRET` | **must equal** Render's `SECRET` — login happens on Render, the JWT is verified here |
-| `PAYME_SELLER_ID` | PayMe seller private key ("MPL…") — PayMe dashboard |
-| `PAYME_WEBHOOK_KEY` | our own random secret, embedded in `sale_callback_url` to authenticate webhooks. Rotate = set new secret + redeploy (in-flight sales made with the old URL will fail the key check — rotate in a quiet hour) |
-| `PAYME_BASE_URL` | `https://sandbox.payme.io/api` (test) / `https://live.payme.io/api` (production). Unset = sandbox |
+| `GROW_USER_ID` | Grow (Meshulam) Light API user id — issued by Grow support/integration (not self-service), separate value per environment |
+| `GROW_PAGE_CODE` | Grow payment-page code (Wallet, or standard redirect as fallback) — issued alongside `GROW_USER_ID` |
+| `GROW_WEBHOOK_KEY` | our own secret (generate: any long random string), embedded in `notifyUrl`/`invoiceNotifyUrl` to authenticate Grow's callbacks. Rotate = set new secret + redeploy (in-flight payments created with the old URL will fail the key check — rotate in a quiet hour) |
+
+`GROW_BASE_URL` is a **var** in [wrangler.jsonc](wrangler.jsonc), not a secret —
+defaults to the sandbox (`https://sandbox.meshulam.co.il/api/light/server/1.0`);
+the production base arrives with the live credentials.
 
 ## 3. Render API
 
@@ -90,19 +94,23 @@ npx wrangler tail                   # live logs while testing
 - Changing `SECRET` invalidates dashboard logins **and** must be mirrored to the
   Worker's `ADMIN_JWT_SECRET`, or the coupons/orders tabs will 401.
 
-## 4. PayMe — go-live switch (sandbox → production)
+## 4. Grow — go-live switch (sandbox → production)
 
-1. PayMe dashboard: flip to Production (green bar); confirm the account is
-   linked to the current site URL (PayMe tech updates it, 1–2 business days).
-2. `npx wrangler secret put PAYME_SELLER_ID` — the **production** seller id.
-3. `npx wrangler secret put PAYME_BASE_URL` → `https://live.payme.io/api`.
-4. `npx wrangler deploy`, then one small real transaction end-to-end:
-   pay → `/thank-you` flips to "paid" → order shows in the dashboard with
-   `payment_ref` → coupon `used_count` bumped → refund it from PayMe's dashboard
-   and confirm the order flips to `refunded`.
-5. Sandbox test matrix (rerun after any checkout/webhook change, with PayMe
-   test cards): success, failure, duplicate callback (idempotency), wrong-amount
-   callback rejected, bad `?key=` rejected (403), coupon consumed exactly once.
+1. Sandbox test matrix (rerun after any checkout/callback change; test cards in
+   PAYMENTS.md — ⚠️ Bit / Apple Pay / Google Pay have no sandbox): success,
+   decline, duplicate callback (idempotency), forged callback (wrong
+   processToken/sum rejected), bad `?key=` rejected (403), coupon consumed
+   exactly once.
+2. Hand the working sandbox integration to Grow for review — **production
+   credentials are only issued after it**.
+3. `npx wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` — the
+   **production** values.
+4. Set the production `GROW_BASE_URL` in wrangler.jsonc (arrives with the live
+   creds — `secure.meshulam.co.il`), then `npx wrangler deploy`.
+5. One small real transaction end-to-end: pay → `/thank-you` flips to "paid" →
+   order shows in the dashboard with `payment_ref` (+ `invoiceNumber` once the
+   invoice callback lands) → coupon `used_count` bumped → refund from Grow's
+   dashboard and mark the order `refunded` in ours.
 
 ## 5. Watchdog
 
@@ -117,8 +125,8 @@ If the site URL ever changes (e.g. DNS cut-over), update `SITE_URL` defaults in
 
 1. Load the site → homepage renders, category → subcategory → product cards show.
 2. `/api/welcome` returns JSON (Worker alive), coupon field accepts a known code.
-3. Cart → "💳 תשלום מאובטח בכרטיס" opens a PayMe page (sandbox: pay with a test
-   card and watch `/thank-you` flip to paid).
+3. Cart → fill payer details → "💳 תשלום מאובטח בכרטיס" opens Grow's payment
+   page/wallet (sandbox: pay with a test card and watch `/thank-you` flip to paid).
 4. Dashboard `/manage`: products load (Render), orders/coupons load (Worker).
 5. Or just wait ≤15 min — the watchdog checks 1–2 automatically.
 

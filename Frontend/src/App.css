@@ -4106,6 +4106,54 @@ html.a11y-underline a {
   padding: 0 0.2em;
 }
 
+/* ---------- checkout payer details (Grow invoice + payment page) ---------- */
+.cart-page .payer-fields {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: 0.25em 0.25em 0 var(--shadow);
+  padding: 0.9rem 1rem 1rem;
+  margin-block: 1.1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.cart-page .payer-fields h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.cart-page .payer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.cart-page .payer-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.cart-page .payer-field input {
+  min-height: 44px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 0.45em 0.8em;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper);
+}
+.cart-page .payer-field input:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+.cart-page .payer-err {
+  color: var(--red);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
 /* ---------- dashboard coupons editor ---------- */
 .coupon-admin-list {
   display: flex;

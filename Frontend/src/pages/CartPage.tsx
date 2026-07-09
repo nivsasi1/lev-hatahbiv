@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   finalPrice,
@@ -10,12 +10,56 @@ import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
 import { WORKER_API } from "../data/api";
+import { openGrowWallet } from "../data/grow-wallet";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
   { id: "courier", title: "משלוח עד הבית", note: "1–5 ימי עבודה", price: 35 },
   { id: "mail", title: "דואר רשום", note: "7–14 ימי עסקים", price: 28 },
 ];
+
+// payer details for the invoice + payment page — remembered between visits
+const PAYER_KEY = "lh-payer-v1";
+type Payer = { name: string; phone: string; email: string };
+type PayerErrors = { name?: string; phone?: string; email?: string };
+
+const loadPayer = (): Payer => {
+  try {
+    const raw = localStorage.getItem(PAYER_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      return {
+        name: typeof p?.name === "string" ? p.name : "",
+        phone: typeof p?.phone === "string" ? p.phone : "",
+        email: typeof p?.email === "string" ? p.email : "",
+      };
+    }
+  } catch {
+    /* corrupt storage — start blank */
+  }
+  return { name: "", phone: "", email: "" };
+};
+
+// validation mirrors the Worker's /api/checkout rules EXACTLY (same regexes,
+// same Hebrew errors) so nothing passes here and then bounces server-side
+const isEmail = (s: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s);
+const validatePayer = (p: Payer): { errors: PayerErrors; clean: Payer } => {
+  const errors: PayerErrors = {};
+  const name = p.name.trim().replace(/\s+/g, " ");
+  const words = name.split(" ").filter(Boolean);
+  if (words.length < 2 || words.some((w) => w.length < 2)) {
+    errors.name = "נא למלא שם מלא (פרטי ומשפחה)";
+  }
+  const phone = p.phone.replace(/[\s-]/g, "");
+  if (!/^05\d{8}$/.test(phone)) {
+    errors.phone = "מספר נייד לא תקין (05XXXXXXXX)";
+  }
+  const email = p.email.trim();
+  if (email && !isEmail(email)) {
+    errors.email = "אימייל לא תקין";
+  }
+  return { errors, clean: { name, phone, email } };
+};
 
 export const CartPage = () => {
   const { items, setQty, remove, clear } = useCart();
@@ -30,10 +74,30 @@ export const CartPage = () => {
   const [couponBusy, setCouponBusy] = useState(false);
   const [payBusy, setPayBusy] = useState(false);
   const [payError, setPayError] = useState("");
+  const [payer, setPayer] = useState<Payer>(loadPayer);
+  const [payerErrors, setPayerErrors] = useState<PayerErrors>({});
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  // functional update: browser autofill fires input on all three fields in the
+  // same tick — spreading a stale `payer` closure here would drop two of them
+  const updatePayer = (field: keyof Payer, value: string) => {
+    setPayer((prev) => {
+      const next = { ...prev, [field]: value };
+      try {
+        localStorage.setItem(PAYER_KEY, JSON.stringify(next));
+      } catch {
+        /* storage full/blocked — form still works, just not remembered */
+      }
+      return next;
+    });
+    setPayerErrors((e) => ({ ...e, [field]: undefined }));
+  };
 
   // All money in AGOROT, mirroring the Worker's checkout math EXACTLY (prices are
   // 1-decimal; discount rounded to the 10-agorot grid) so the total shown here is
-  // identical to what PayMe charges.
+  // identical to what Grow charges.
   const subtotalAg = items.reduce(
     (s, { product, qty }) => s + Math.round(finalPrice(product) * 100) * qty,
     0
@@ -88,10 +152,19 @@ export const CartPage = () => {
     setCouponError("");
   };
 
-  // card checkout: the Worker creates the order + a PayMe sale, then we send the
-  // shopper to PayMe's hosted payment page. The order is confirmed by the webhook.
+  // card checkout: the Worker creates the order + a Grow payment process, then
+  // either redirects to Grow's hosted page (url) or opens the Growin Wallet
+  // sheet (authCode). The order is confirmed by the Grow callback, not here.
   const payCard = async () => {
     if (payBusy || items.length === 0) return;
+    const { errors, clean } = validatePayer(payer);
+    if (errors.name || errors.phone || errors.email) {
+      setPayerErrors(errors);
+      const first = errors.name ? nameRef : errors.phone ? phoneRef : emailRef;
+      first.current?.focus();
+      return;
+    }
+    setPayerErrors({});
     setPayBusy(true);
     setPayError("");
     try {
@@ -102,14 +175,21 @@ export const CartPage = () => {
           items: items.map(({ product, qty }) => ({ id: product.id, name: product.name, qty })),
           delivery: delivery.id,
           couponCode: appliedCoupon?.code,
+          payer: clean,
         }),
       });
       const data = await res.json().catch(() => null);
-      if (!res.ok || !data?.url) {
+      if (!res.ok || (!data?.url && !data?.authCode)) {
         setPayError(data?.error || "לא ניתן לפתוח עמוד תשלום כרגע — נסו שוב מאוחר יותר");
         return;
       }
-      window.location.href = data.url; // PayMe hosted payment page
+      if (data.url) {
+        window.location.href = data.url; // Grow hosted payment page
+      } else {
+        await openGrowWallet(data.authCode).catch(() =>
+          setPayError("התשלום המהיר אינו זמין כרגע — נסו שוב בעוד רגע")
+        );
+      }
     } catch {
       setPayError("שגיאת רשת — נסו שוב");
     } finally {
@@ -254,6 +334,50 @@ export const CartPage = () => {
           <div className="sum-row total">
             <span>סה"כ לתשלום</span>
             <span>{shekel(grandTotal)}</span>
+          </div>
+
+          <div className="payer-fields">
+            <h3>פרטים לחשבונית ולעדכונים</h3>
+            <div className="payer-field">
+              <label htmlFor="payer-name">שם מלא</label>
+              <input
+                id="payer-name"
+                ref={nameRef}
+                type="text"
+                autoComplete="name"
+                value={payer.name}
+                onInput={(e) => updatePayer("name", (e.target as HTMLInputElement).value)}
+              />
+              {payerErrors.name && <span className="payer-err">{payerErrors.name}</span>}
+            </div>
+            <div className="payer-field">
+              <label htmlFor="payer-phone">נייד</label>
+              <input
+                id="payer-phone"
+                ref={phoneRef}
+                type="tel"
+                autoComplete="tel"
+                inputMode="tel"
+                dir="ltr"
+                placeholder="0501234567"
+                value={payer.phone}
+                onInput={(e) => updatePayer("phone", (e.target as HTMLInputElement).value)}
+              />
+              {payerErrors.phone && <span className="payer-err">{payerErrors.phone}</span>}
+            </div>
+            <div className="payer-field">
+              <label htmlFor="payer-email">אימייל — לא חובה</label>
+              <input
+                id="payer-email"
+                ref={emailRef}
+                type="email"
+                autoComplete="email"
+                dir="ltr"
+                value={payer.email}
+                onInput={(e) => updatePayer("email", (e.target as HTMLInputElement).value)}
+              />
+              {payerErrors.email && <span className="payer-err">{payerErrors.email}</span>}
+            </div>
           </div>
 
           <button

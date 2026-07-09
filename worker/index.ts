@@ -12,21 +12,24 @@
  * Admin (JWT): GET/POST /api/admin/coupons, DELETE /api/admin/coupons/:code,
  *              GET /api/admin/subscribers, DELETE /api/admin/subscribers/:email,
  *              GET/POST /api/admin/settings
- * Phase 3 (payments): /api/checkout + /api/payment-webhook -> record the order
- *              in D1 and CONSUME the single-use coupon (bump used_count).
+ * Payments (Grow/Meshulam Light API): POST /api/checkout -> createPaymentProcess,
+ *              POST /api/grow-callback -> verify + mark the order paid in D1 and
+ *              CONSUME the single-use coupon (bump used_count),
+ *              POST /api/grow-invoice -> store the invoice number/link.
  */
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import { coupons, subscribers, settings, rateLimits, orders } from "./db/schema";
 
 export interface Env {
   ASSETS: Fetcher; // the static storefront (Frontend/dist)
   DB: D1Database; // coupons / orders / subscribers / rate_limits / settings
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
-  // ── PayMe (set via `wrangler secret put`) ──
-  PAYME_SELLER_ID: string; // "MPL..." — our private seller key
-  PAYME_WEBHOOK_KEY: string; // our secret, embedded in sale_callback_url to auth callbacks
-  PAYME_BASE_URL?: string; // default https://sandbox.payme.io/api ; prod https://live.payme.io/api
+  // ── Grow / Meshulam (set via `wrangler secret put`) ──
+  GROW_USER_ID: string; // our Grow account user id (from Grow support)
+  GROW_PAGE_CODE: string; // the payment page we charge through (from Grow support)
+  GROW_WEBHOOK_KEY: string; // our secret, embedded in notifyUrl to auth callbacks
+  GROW_BASE_URL?: string; // sandbox default in wrangler.jsonc vars; prod URL arrives with live creds
 }
 
 type DB = DrizzleD1Database<Record<string, never>>;
@@ -411,9 +414,13 @@ async function saveAdminSettings(request: Request, db: DB): Promise<Response> {
   return getAdminSettings(db);
 }
 
-// ---------- PayMe checkout (generate-sale) + callback ----------
+// ---------- Grow checkout (createPaymentProcess) + callbacks ----------
 // Authoritative prices live in the generated /checkout-pricing.json asset, so we
 // recompute totals server-side and never trust client-sent amounts.
+// Money rule: D1 keeps AGOROT (integer); Grow's `sum` is shekels decimal —
+// convert ONLY at the API boundary. Every Grow request is multipart FormData.
+const growBase = (env: Env) =>
+  (env.GROW_BASE_URL || "https://sandbox.meshulam.co.il/api/light/server/1.0").replace(/\/$/, "");
 type Pricing = {
   freeShippingFrom: number;
   delivery: Record<string, number>;
@@ -431,6 +438,26 @@ async function loadPricing(request: Request, env: Env): Promise<Pricing | null> 
   } catch {
     return null;
   }
+}
+
+// payer validation — MUST stay identical to the cart form's client-side rules
+// (Grow requires fullName with 2+ names and an Israeli mobile on the page fields).
+type Payer = { name: string; phone: string; email: string };
+function validatePayer(
+  raw: { name?: string; phone?: string; email?: string } | undefined
+): { ok: true; payer: Payer } | { ok: false; error: string } {
+  const name = String(raw?.name ?? "").trim().replace(/\s+/g, " ");
+  const words = name ? name.split(" ") : [];
+  if (words.length < 2 || words.some((w) => w.length < 2)) {
+    return { ok: false, error: "נא למלא שם מלא (פרטי ומשפחה)" };
+  }
+  const phone = String(raw?.phone ?? "").replace(/[\s-]/g, "");
+  if (!/^05\d{8}$/.test(phone)) {
+    return { ok: false, error: "מספר נייד לא תקין (05XXXXXXXX)" };
+  }
+  const email = String(raw?.email ?? "").trim();
+  if (email && !isEmail(email)) return { ok: false, error: "אימייל לא תקין" };
+  return { ok: true, payer: { name, phone, email } };
 }
 
 // server-side coupon check (mirrors validate-coupon); returns the percent or null
@@ -497,8 +524,9 @@ async function computeCart(
   return { ok: true, lines, subtotal, discount, shipping, total, couponCode, deliveryKey };
 }
 
-// POST /api/checkout { items:[{id,name?,qty}], delivery, couponCode?, payer? }
-// -> creates a D1 order + a PayMe sale, returns { url } to redirect the shopper.
+// POST /api/checkout { items:[{id,name?,qty}], delivery, couponCode?, payer }
+// -> creates a D1 order + a Grow payment process, returns { url } (hosted page)
+//    or { authCode } (Growin Wallet popup) — exactly one of the two.
 async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
   const ip = request.headers.get("CF-Connecting-IP") ?? "0.0.0.0";
   if (await isRateLimited(db, ip, "checkout", 20, 60)) {
@@ -516,6 +544,10 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
   } catch {
     return json({ error: "bad request" }, 400);
   }
+
+  const p = validatePayer(body.payer);
+  if (!p.ok) return json({ error: p.error }, 400);
+  const payer = p.payer;
 
   const pricing = await loadPricing(request, env);
   if (!pricing) return json({ error: "שגיאה זמנית, נסו שוב" }, 500);
@@ -545,138 +577,284 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
       delivery: deliveryKey,
       total,
       status: "new",
-      payerName: body.payer?.name ?? null,
-      payerEmail: body.payer?.email ?? null,
-      payerPhone: body.payer?.phone ?? null,
+      payerName: payer.name,
+      payerEmail: payer.email || null,
+      payerPhone: payer.phone,
     })
     .run();
 
-  // create the PayMe sale (server-side, with secret seller id)
-  const base = (env.PAYME_BASE_URL || "https://sandbox.payme.io/api").replace(/\/$/, "");
+  // create the Grow payment process (server-side, with secret userId/pageCode)
   const origin = new URL(request.url).origin;
-  const payload: Record<string, unknown> = {
-    seller_payme_id: env.PAYME_SELLER_ID,
-    sale_price: total, // agorot
-    currency: "ILS",
-    product_name: `הזמנה מאתר לב התחביב (${lines.length} פריטים)`,
-    transaction_id: id,
-    sale_callback_url: `${origin}/api/payme-callback?key=${encodeURIComponent(env.PAYME_WEBHOOK_KEY)}`,
-    sale_return_url: `${origin}/thank-you?order=${id}`,
-    sale_payment_method: "multi", // card + Bit + Apple/Google Pay (per enabled services)
-    language: "he",
-    ...(body.payer?.email ? { sale_email: body.payer.email } : {}),
-    ...(body.payer?.name ? { sale_name: body.payer.name } : {}),
-    ...(body.payer?.phone ? { sale_mobile: body.payer.phone } : {}),
-  };
+  const fd = new FormData();
+  fd.append("pageCode", env.GROW_PAGE_CODE);
+  fd.append("userId", env.GROW_USER_ID);
+  fd.append("sum", (total / 100).toFixed(2)); // agorot -> shekels, boundary only
+  fd.append("paymentNum", "1"); // single payment, no installments
+  // Grow forbids special characters in params — keep the description plain (no parentheses)
+  fd.append("description", `הזמנה מאתר לב התחביב - ${lines.length} פריטים`);
+  fd.append("successUrl", `${origin}/thank-you?order=${id}`);
+  fd.append("cancelUrl", `${origin}/cart`);
+  fd.append("notifyUrl", `${origin}/api/grow-callback?key=${encodeURIComponent(env.GROW_WEBHOOK_KEY)}`);
+  fd.append("invoiceNotifyUrl", `${origin}/api/grow-invoice?key=${encodeURIComponent(env.GROW_WEBHOOK_KEY)}`);
+  fd.append("cField1", id); // echoed in the callback -> locates the order
+  fd.append("pageField[fullName]", payer.name);
+  fd.append("pageField[phone]", payer.phone);
+  if (payer.email) fd.append("pageField[email]", payer.email);
+  fd.append("pageField[invoiceName]", payer.name);
 
-  let sale: any = null;
+  let proc: any = null;
   try {
-    const res = await fetch(`${base}/generate-sale`, {
+    // no Content-Type header — fetch sets the multipart boundary itself
+    const res = await fetch(`${growBase(env)}/createPaymentProcess`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
+      body: fd,
     });
-    sale = await res.json().catch(() => null);
+    proc = await res.json().catch(() => null);
   } catch {
-    sale = null;
+    proc = null;
   }
 
-  if (!sale || sale.status_code !== 0 || !sale.sale_url) {
+  const data = proc?.status === 1 ? proc.data : null;
+  if (!data || (!data.url && !data.authCode)) {
     await db.update(orders).set({ status: "failed" }).where(eq(orders.id, id)).run();
     return json({ error: "לא ניתן לפתוח עמוד תשלום כרגע, נסו שוב" }, 502);
   }
 
+  // remember the process pair — the callback must present BOTH to be believed
   await db
     .update(orders)
-    .set({ paymeSaleId: sale.payme_sale_id ?? null })
+    .set({ processId: String(data.processId), processToken: String(data.processToken) })
     .where(eq(orders.id, id))
     .run();
 
-  return json({ url: sale.sale_url, orderId: id });
+  // url -> redirect pageCode (hosted payment page); authCode -> Growin Wallet popup
+  return json(
+    data.url ? { url: data.url, orderId: id } : { authCode: data.authCode, orderId: id }
+  );
 }
 
-// POST /api/payme-callback?key=...  (PayMe server-to-server, x-www-form-urlencoded)
-// Authenticated by the secret key in the URL (only our server + PayMe know it).
-async function paymeCallback(request: Request, env: Env, db: DB): Promise<Response> {
-  // authenticate via the secret key in the URL (only our server + PayMe know it).
-  // Deny-all when the secret isn't configured; compare in constant time.
+// Re-query Grow for the authoritative transaction state. Returns a TRI-STATE so
+// callers can tell "Grow says paid" from "Grow says NOT paid" from "couldn't tell"
+// (endpoint unreachable / a response shape we don't recognise). Grow marks a paid
+// transaction with statusCode 2 (status text "שולם"); the actual charged amount
+// lives on the transaction record — NOT data.sum, which is the *requested* amount
+// that exists the moment a process is created, before any money moves.
+// TODO(sandbox): confirm getPaymentProcessInfo's exact response shape + where the
+// paid transaction's statusCode/sum live; today we read a few plausible paths and
+// fall back to "unknown" (never a false "paid") when we don't recognise the shape.
+type PaidCheck = "paid" | "unpaid" | "unknown";
+async function confirmPaidWithGrow(
+  order: typeof orders.$inferSelect,
+  env: Env
+): Promise<PaidCheck> {
+  if (!order.processId || !order.processToken) return "unknown";
+  try {
+    const fd = new FormData();
+    fd.append("pageCode", env.GROW_PAGE_CODE);
+    fd.append("processId", order.processId);
+    fd.append("processToken", order.processToken);
+    const res = await fetch(`${growBase(env)}/getPaymentProcessInfo`, {
+      method: "POST",
+      body: fd,
+    });
+    const j: any = await res.json().catch(() => null);
+    if (j?.status !== 1) return "unknown"; // envelope failed — can't tell
+    // the charged transaction (a paid process has one; an abandoned/declined one
+    // does not). Read status + sum from HERE, never from data.sum.
+    const tx =
+      j.data?.transaction ??
+      (Array.isArray(j.data?.transactions) ? j.data.transactions[0] : null);
+    const code = tx ? String(tx.statusCode ?? tx.status ?? "") : "";
+    if (!code) return "unknown"; // shape not recognised — let the caller decide
+    if (code !== "2") return "unpaid"; // Grow positively says not-paid
+    const sum = tx.sum;
+    if (sum === undefined || sum === null) return "unknown";
+    // amount must match to the agora, else treat as tampering, not payment
+    return Math.round(parseFloat(String(sum)) * 100) === order.total ? "paid" : "unpaid";
+  } catch {
+    return "unknown";
+  }
+}
+
+// shared by the callback AND the order-status self-heal: re-query Grow, and only
+// if the money really moved, atomically flip the order to paid + consume the
+// coupon. The WHERE status IN ('new','failed') makes the flip idempotent —
+// duplicate callbacks can't double-consume.
+//   trustedCallback: the caller already verified a paid callback (statusCode "2"
+//   + matching processToken, un-forgeable without our secret key) — so the
+//   re-query only VETOES a positively-unpaid result and an "unknown" re-query
+//   still settles. Without it (self-heal, no callback) an affirmative "paid" is
+//   REQUIRED, so a lost callback never invents a payment.
+async function settleOrderIfPaid(
+  order: typeof orders.$inferSelect,
+  env: Env,
+  db: DB,
+  opts: {
+    trustedCallback?: boolean;
+    paymentRef?: string;
+    payerName?: string;
+    payerEmail?: string;
+    payerPhone?: string;
+  } = {}
+): Promise<boolean> {
+  const check = await confirmPaidWithGrow(order, env);
+  const ok = opts.trustedCallback ? check !== "unpaid" : check === "paid";
+  if (!ok) return false;
+  const extra = opts;
+
+  const res = await db
+    .update(orders)
+    .set({
+      status: "paid",
+      paymentRef: extra?.paymentRef || order.paymentRef || null,
+      payerName: extra?.payerName || order.payerName || null,
+      payerEmail: extra?.payerEmail || order.payerEmail || null,
+      payerPhone: extra?.payerPhone || order.payerPhone || null,
+    })
+    .where(and(eq(orders.id, order.id), inArray(orders.status, ["new", "failed"])))
+    .run();
+
+  // consume a single-use / capped coupon on payment success — atomically, only
+  // when WE did the flip (changes > 0) and only while under the cap. A shopper
+  // could in theory open several un-paid checkouts with one single-use code —
+  // accepted for a small shop (each is still a real charged order) rather than
+  // burning a welcome code on an abandoned checkout.
+  if ((res.meta?.changes ?? 0) > 0 && order.couponCode) {
+    await db
+      .update(coupons)
+      .set({ usedCount: sql`${coupons.usedCount} + 1` })
+      .where(
+        and(
+          eq(coupons.code, order.couponCode),
+          or(isNull(coupons.maxUses), lt(coupons.usedCount, coupons.maxUses))
+        )
+      )
+      .run();
+  }
+  return true;
+}
+
+// POST /api/grow-callback?key=...  (Grow server-to-server, multipart FormData)
+// Authenticated by the secret key in the URL (only our server + Grow know it),
+// then the callback must MATCH the stored processId+processToken and the sum.
+async function growCallback(request: Request, env: Env, db: DB): Promise<Response> {
+  // deny-all when the secret isn't configured; compare in constant time.
   const key = new URL(request.url).searchParams.get("key") || "";
-  if (!env.PAYME_WEBHOOK_KEY || !safeEqual(key, env.PAYME_WEBHOOK_KEY)) {
+  if (!env.GROW_WEBHOOK_KEY || !safeEqual(key, env.GROW_WEBHOOK_KEY)) {
     return new Response("forbidden", { status: 403 });
   }
 
-  let form: URLSearchParams;
+  let form: FormData;
   try {
-    form = new URLSearchParams(await request.text());
+    form = await request.formData();
   } catch {
     return new Response("bad request", { status: 400 });
   }
+  const f = (k: string) => String(form.get(k) ?? "");
 
-  const orderId = form.get("transaction_id") || "";
+  const orderId = f("cField1") || f("customFields[cField1]");
   if (!orderId) return new Response("OK");
   const order = await db.select().from(orders).where(eq(orders.id, orderId)).get();
   if (!order) return new Response("OK"); // unknown order — just ack
 
-  const notify = form.get("notify_type");
-
-  // refund / chargeback can arrive AFTER payment — handle BEFORE the idempotency
-  // short-circuit so a returned order doesn't stay "paid".
-  if (notify === "refund" || notify === "sale-chargeback") {
-    await db.update(orders).set({ status: "refunded" }).where(eq(orders.id, orderId)).run();
+  // the callback must prove it belongs to OUR process — a mismatch is acked and
+  // ignored (never explain why; don't hand a probe an oracle).
+  if (
+    !safeEqual(f("processToken"), order.processToken ?? "") ||
+    f("processId") !== order.processId
+  ) {
     return new Response("OK");
   }
+  if (Math.round(parseFloat(f("sum")) * 100) !== order.total) return new Response("OK");
+  // only a PAID notification settles an order — a decline callback carries the
+  // same processId/token/sum (they identify the process, not its outcome), so
+  // without this a declined payment would flip the order to paid. Grow: 2 = paid.
+  // TODO(sandbox): confirm statusCode "2" is the paid value on a real callback.
+  if (f("statusCode") !== "2") return new Response("OK");
 
-  // only a pending order can become paid — duplicates / post-paid notifications are acked + ignored
-  if (order.status !== "new" && order.status !== "failed") return new Response("OK");
+  // corroborate with a server-side re-query, then atomically flip. The callback
+  // is trusted (statusCode + un-forgeable processToken), so an "unknown" re-query
+  // still settles; only a positively-unpaid re-query vetoes it.
+  const settled = await settleOrderIfPaid(order, env, db, {
+    trustedCallback: true,
+    paymentRef: f("transactionId"),
+    payerName: f("fullName"),
+    payerEmail: f("payerEmail"),
+    payerPhone: f("payerPhone"),
+  });
+  if (!settled) return new Response("OK"); // re-query says not paid — ack + ignore
 
-  const saleStatus = form.get("sale_status");
-  const price = Number(form.get("price") || 0);
-  const currency = form.get("currency") || "";
-  const paid = notify === "sale-complete" || saleStatus === "completed";
-  const currencyOk = !currency || currency === "ILS"; // PayMe sends ILS; tolerate omission
-
-  if (paid && price === order.total && currencyOk) {
-    await db
-      .update(orders)
-      .set({
-        status: "paid",
-        paymentRef: form.get("payme_transaction_id") || null,
-        invoiceUrl: form.get("sale_invoice_url") || null,
-        payerName: form.get("buyer_name") || order.payerName || null,
-        payerEmail: form.get("buyer_email") || order.payerEmail || null,
-        payerPhone: form.get("buyer_phone") || order.payerPhone || null,
-      })
-      .where(eq(orders.id, orderId))
-      .run();
-    // consume a single-use / capped coupon on payment success. The cap is also
-    // checked at checkout; a shopper could in theory open several un-paid checkouts
-    // with one single-use code — accepted for a small shop (each is still a real
-    // charged order) rather than burning a welcome code on an abandoned checkout.
-    if (order.couponCode) {
-      await db
-        .update(coupons)
-        .set({ usedCount: sql`${coupons.usedCount} + 1` })
-        .where(eq(coupons.code, order.couponCode))
-        .run();
-    }
-  } else if (notify === "sale-failure") {
-    await db.update(orders).set({ status: "failed" }).where(eq(orders.id, orderId)).run();
+  // best-effort ACK back to Grow: echo every callback field + pageCode. It's an
+  // acknowledgement only — the transaction succeeds even if this fails.
+  try {
+    const ack = new FormData();
+    for (const [k, v] of form.entries()) ack.append(k, typeof v === "string" ? v : String(v));
+    ack.set("pageCode", env.GROW_PAGE_CODE);
+    await fetch(`${growBase(env)}/approveTransaction`, { method: "POST", body: ack });
+  } catch {
+    /* non-fatal */
   }
 
   return new Response("OK");
 }
 
+// POST /api/grow-invoice?key=...  (Grow invoice module -> invoiceNumber + invoiceUrl)
+async function growInvoice(request: Request, env: Env, db: DB): Promise<Response> {
+  const key = new URL(request.url).searchParams.get("key") || "";
+  if (!env.GROW_WEBHOOK_KEY || !safeEqual(key, env.GROW_WEBHOOK_KEY)) {
+    return new Response("forbidden", { status: 403 });
+  }
+
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return new Response("bad request", { status: 400 });
+  }
+  const f = (k: string) => String(form.get(k) ?? "");
+
+  // locate the order: by our cField1 when echoed, else by the Grow processId
+  const orderId = f("cField1");
+  const order = orderId
+    ? await db.select().from(orders).where(eq(orders.id, orderId)).get()
+    : await db.select().from(orders).where(eq(orders.processId, f("processId"))).get();
+  // bind the invoice to the SAME process that paid (processId must match) and
+  // write once — so a leaked webhook key can't repoint a real order's invoice
+  // link at a phishing URL. A real invoice arrives once, right after payment.
+  const invoiceUrl = f("invoiceUrl");
+  if (
+    order &&
+    f("processId") === order.processId &&
+    !order.invoiceUrl &&
+    /^https:\/\//i.test(invoiceUrl)
+  ) {
+    await db
+      .update(orders)
+      .set({ invoiceUrl, invoiceNumber: f("invoiceNumber") || null })
+      .where(and(eq(orders.id, order.id), isNull(orders.invoiceUrl)))
+      .run();
+  }
+  return new Response("OK"); // always ack
+}
+
 // GET /api/order-status?id=...  (the /thank-you page polls this; id is an unguessable uuid)
-async function orderStatus(request: Request, db: DB): Promise<Response> {
+async function orderStatus(request: Request, env: Env, db: DB): Promise<Response> {
   const id = new URL(request.url).searchParams.get("id") || "";
   if (!id) return json({ error: "missing id" }, 400);
-  // return ONLY status (the id travels in the return URL; don't leak the amount)
-  const o = await db
-    .select({ status: orders.status })
-    .from(orders)
-    .where(eq(orders.id, id))
-    .get();
+  const o = await db.select().from(orders).where(eq(orders.id, id)).get();
   if (!o) return json({ status: "unknown" });
+
+  // self-heal: if the callback got lost, ask Grow ourselves — but only for a
+  // fresh pending order that actually started a payment process.
+  if (
+    o.status === "new" &&
+    o.processToken &&
+    Date.now() - Date.parse(o.createdAt) < 24 * 3600 * 1000
+  ) {
+    if (await settleOrderIfPaid(o, env, db)) return json({ status: "paid" });
+  }
+
+  // return ONLY status (the id travels in the return URL; don't leak the amount)
   return json({ status: o.status });
 }
 
@@ -700,6 +878,7 @@ function mapOrder(o: typeof orders.$inferSelect) {
     items: safeJson(o.items),
     paymentRef: o.paymentRef,
     invoiceUrl: o.invoiceUrl,
+    invoiceNumber: o.invoiceNumber,
     payerName: o.payerName,
     payerEmail: o.payerEmail,
     payerPhone: o.payerPhone,
@@ -748,11 +927,14 @@ export default {
       if (pathname === "/api/checkout" && request.method === "POST") {
         return checkout(request, env, db);
       }
-      if (pathname === "/api/payme-callback" && request.method === "POST") {
-        return paymeCallback(request, env, db);
+      if (pathname === "/api/grow-callback" && request.method === "POST") {
+        return growCallback(request, env, db);
+      }
+      if (pathname === "/api/grow-invoice" && request.method === "POST") {
+        return growInvoice(request, env, db);
       }
       if (pathname === "/api/order-status" && request.method === "GET") {
-        return orderStatus(request, db);
+        return orderStatus(request, env, db);
       }
 
       // admin (JWT)
