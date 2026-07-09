@@ -1,8 +1,78 @@
-# Payments — PayMe integration plan
+# Payments — provider research + integration plans
 
-Status: **decided on PayMe** (we already had a PayMe link from the Wix site). Not built
-yet. This is the research + plan to execute **after** the Sandbox account is ready.
-(Earlier we evaluated Grow/Meshulam; superseded by PayMe.)
+Status (2026-07-09): **switched to Grow** — the special bid (₪59/mo + 0.6%) beats PayMe
+at all realistic volumes, and a Grow account is now open. The Grow plan is below; the
+older PayMe plan is kept further down as a fallback (nothing PayMe-specific was ever
+deployed, so there is nothing to unwind).
+
+## Grow (Meshulam) — integration plan  ← CURRENT
+
+Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
+
+### How their flow works (Light API, hosted page)
+1. Worker POSTs `createPaymentProcess` (server-side only — browser calls are blocked;
+   body is **FormData, not JSON**; no special characters in any param).
+2. Response returns a hosted payment-page URL (+ `processId`/`processToken`) → redirect
+   the shopper (redirect, not iframe — same UX as the PayMe plan).
+3. Shopper pays → Grow POSTs a **server-to-server callback** to the `notifyUrl` we
+   passed in step 1. Fields include `transactionId`, `transactionToken`, `processId`,
+   `processToken`, `asmachta`, `sum`, `status`/`statusCode`, card info
+   (`cardSuffix`/`cardBrand`/...), payer (`fullName`/`payerPhone`/`payerEmail`),
+   `customFields` (`cField1` — we put our D1 order id there).
+4. We must reply by calling **`approveTransaction`** (an ack; the transaction goes
+   through even if it fails — so it is NOT the paid/unpaid gate).
+5. Shopper is redirected to our `successUrl` with `&response=success` (cancel/decline →
+   `cancelUrl`). Browser redirect is not authoritative — the callback is.
+
+### Environments + credentials
+- Sandbox base: `https://sandbox.meshulam.co.il/api/light/server/1.0/`
+  (prod base is issued with the live credentials — `secure.meshulam.co.il`).
+- Credentials = **`userId` + `pageCode`** (pageCode per payment method — card, Bit...).
+  Separate values per environment. **Not self-service: Grow support/integration must
+  issue them** — having a dashboard user is not enough.
+- **Production is gated**: Grow grants live credentials only after reviewing a working
+  sandbox integration.
+- Test cards: `4580458045804580`, `4580000000000000`, `4580111111111121`.
+  ⚠️ Bit / Apple Pay / Google Pay have **no sandbox** — they hit production.
+- Callback debugging helper: `sandbox.../updateMyUrl/?url=...` re-fires the callback.
+
+### Security deltas vs the PayMe plan (important)
+- **No callback signature** (PayMe had `payme_signature`). So verification is on us:
+  store `processId`+`processToken` on the order at creation; on callback accept only if
+  both match AND `sum` equals the order total; idempotent on order status. That's the
+  same "re-query" hardening we already planned — with Grow it's mandatory.
+- **`sum` is in shekels (decimal)**, our D1 is agorot → convert only at the API
+  boundary (`(agorot / 100).toFixed(2)` out, `Math.round(sum * 100)` in). PayMe was
+  agorot-native; this is the most bug-prone difference.
+
+### Build plan (~½–1 day once sandbox creds arrive)
+- Secrets (user sets): `GROW_USER_ID`, `GROW_PAGE_CODE`, `GROW_BASE_URL` (sandbox first).
+- Worker `/api/checkout`: keep all existing logic (server-side totals, coupon check,
+  D1 insert) — swap the PayMe `generate-sale` call for `createPaymentProcess`
+  (FormData; `sum`, `description`, `successUrl=/thank-you`, `cancelUrl=/cart`,
+  `notifyUrl=/api/grow-callback`, `cField1=<order id>`); store
+  `processId`/`processToken` on the order; return the page URL.
+- New `/api/grow-callback`: parse FormData → load order by `cField1` → verify
+  `processId`/`processToken`/`sum` → mark `paid` + `payment_ref=transactionId` →
+  consume coupon once → call `approveTransaction` → 200. Idempotent.
+- `/thank-you` polling + frontend stay exactly as-is.
+- Sandbox matrix: success, decline, duplicate callback, forged callback (wrong
+  token/sum rejected), coupon consumed once. Then hand to Grow for the go-live review.
+
+### What the owner does next (code can't proceed without #1)
+1. Contact Grow support/integration: confirm the special-bid plan is attached to the
+   account, request **Light API sandbox credentials** (`userId` + `pageCode` for
+   credit card; ask about Bit too), give them the site URL.
+2. When creds arrive: `wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` (+ `.dev.vars` for local).
+3. After sandbox tests pass: Grow reviews → issues production creds → swap secrets →
+   one small real transaction → open to shoppers.
+
+---
+
+# PayMe integration plan (fallback — superseded by Grow above)
+
+Earlier status: decided on PayMe (we already had a PayMe link from the Wix site). Never
+built. Kept as the fallback plan in case Grow falls through.
 
 ## Why PayMe fits us well
 
