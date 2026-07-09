@@ -50,6 +50,27 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 - Dev note: `successUrl`/`cancelUrl` can't be localhost → test the full loop against a
   deployed preview, or point success/cancel at the live domain even in sandbox.
 
+### Other API areas that matter to us (from the full sidebar, verified 2026-07-09)
+- **Invoice Server Response** — pass `invoiceNotifyUrl` in `createPaymentProcess` and Grow
+  POSTs `{ transactionId, processId, invoiceNumber, invoiceUrl }` when the invoice is
+  auto-generated → store `invoiceUrl` on the D1 order (dashboard + customer email).
+  This is the special bid's "100 documents/month" — **no separate invoicing service needed**
+  (PayMe wanted ₪15/mo for this).
+- **Payment & Transaction Info** — a query endpoint for transaction status
+  (grow-il.readme.io/reference/payment-transaction-info; page is JS-rendered, read in
+  browser when building). Use it for **server-side re-query on callback** — the strongest
+  verification given there's no callback signature (belt: processToken match + sum match;
+  suspenders: re-query status).
+- **3DS** — optional, toggled via the API per business needs; applies **only to manual card
+  entry** (Apple Pay / Google Pay / Bit buttons are excluded). Ask Grow: the +₪2.50/txn
+  fee from the bid, and whether they recommend/require it for e-commerce.
+- **Refund** — exists in the API → wire into the manager dashboard later (not launch-blocking).
+- Not relevant for us: POS/Android SDKs, Bit iOS/Android SDKs, Work with Token, recurring
+  payments (maybe someday for חוגים subscriptions), Delayed Payment J4/J5 (auth-then-capture
+  for variable amounts — needs special Grow approval; we charge immediately).
+- **Payment Request** — Grow sends a payment link by SMS/email; nice future dashboard
+  feature for phone orders (owner types an amount → customer gets a link).
+
 ### Environments + credentials
 - Sandbox base: `https://sandbox.meshulam.co.il/api/light/server/1.0/`
   (prod base is issued with the live credentials — `secure.meshulam.co.il`).
