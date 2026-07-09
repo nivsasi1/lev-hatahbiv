@@ -35,6 +35,7 @@ export const orders = sqliteTable("orders", {
   couponCode: text("coupon_code"),
   discount: integer("discount").notNull().default(0),
   delivery: text("delivery"),
+  shipping: text("shipping"), // JSON {street,city,apt,zip,notes} — set for courier/mail
   total: integer("total").notNull(),
   status: text("status").notNull().default("new"), // new|paid|failed|refunded|handled|cancelled
   paymentRef: text("payment_ref"), // Grow transactionId

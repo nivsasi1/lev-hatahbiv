@@ -460,6 +460,31 @@ function validatePayer(
   return { ok: true, payer: { name, phone, email } };
 }
 
+// shipping address — required only when the order ships (courier/mail), never for
+// pickup. MUST stay identical to the cart form's client-side rules.
+type Shipping = { street: string; city: string; apt: string; zip: string; notes: string };
+function validateShipping(
+  deliveryKey: string,
+  raw: { street?: string; city?: string; apt?: string; zip?: string; notes?: string } | undefined
+): { ok: true; shipping: Shipping | null } | { ok: false; error: string } {
+  if (deliveryKey === "pickup") return { ok: true, shipping: null };
+  const street = String(raw?.street ?? "").trim();
+  const city = String(raw?.city ?? "").trim();
+  if (street.length < 2 || city.length < 2) {
+    return { ok: false, error: "נא למלא כתובת למשלוח (רחוב ומספר, ועיר)" };
+  }
+  return {
+    ok: true,
+    shipping: {
+      street: street.slice(0, 120),
+      city: city.slice(0, 60),
+      apt: String(raw?.apt ?? "").trim().slice(0, 60),
+      zip: String(raw?.zip ?? "").trim().slice(0, 12),
+      notes: String(raw?.notes ?? "").trim().slice(0, 200),
+    },
+  };
+}
+
 // server-side coupon check (mirrors validate-coupon); returns the percent or null
 async function couponPercent(db: DB, rawCode: string): Promise<number | null> {
   const code = normCode(rawCode);
@@ -538,6 +563,7 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
     delivery?: string;
     couponCode?: string;
     payer?: { name?: string; email?: string; phone?: string };
+    shipping?: { street?: string; city?: string; apt?: string; zip?: string; notes?: string };
   };
   try {
     body = (await request.json()) as typeof body;
@@ -563,6 +589,10 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
   const { lines, subtotal, discount, total, couponCode, deliveryKey } = c;
   if (total < 500) return json({ error: "סכום מינימלי לתשלום באתר הוא ₪5" }, 400);
 
+  // a shipping address is required once the order actually ships (courier/mail)
+  const ship = validateShipping(deliveryKey, body.shipping);
+  if (!ship.ok) return json({ error: ship.error }, 400);
+
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
   await db
@@ -575,6 +605,7 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
       couponCode,
       discount,
       delivery: deliveryKey,
+      shipping: ship.shipping ? JSON.stringify(ship.shipping) : null,
       total,
       status: "new",
       payerName: payer.name,
@@ -913,6 +944,7 @@ function mapOrder(o: typeof orders.$inferSelect) {
     total: o.total / 100, // agorot -> shekels for the dashboard
     discount: o.discount / 100,
     delivery: o.delivery,
+    shipping: o.shipping ? safeJson(o.shipping) : null,
     couponCode: o.couponCode,
     items: safeJson(o.items),
     paymentRef: o.paymentRef,

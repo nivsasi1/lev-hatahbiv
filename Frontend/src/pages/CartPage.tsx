@@ -20,24 +20,25 @@ const deliveryOptions = [
 
 // payer details for the invoice + payment page — remembered between visits
 const PAYER_KEY = "lh-payer-v1";
+const SHIP_KEY = "lh-ship-v1";
 type Payer = { name: string; phone: string; email: string };
 type PayerErrors = { name?: string; phone?: string; email?: string };
+type Ship = { street: string; city: string; apt: string; zip: string; notes: string };
+type ShipErrors = { street?: string; city?: string };
 
-const loadPayer = (): Payer => {
+const loadStored = <T,>(key: string, blank: T): T => {
   try {
-    const raw = localStorage.getItem(PAYER_KEY);
+    const raw = localStorage.getItem(key);
     if (raw) {
       const p = JSON.parse(raw);
-      return {
-        name: typeof p?.name === "string" ? p.name : "",
-        phone: typeof p?.phone === "string" ? p.phone : "",
-        email: typeof p?.email === "string" ? p.email : "",
-      };
+      const out = { ...blank } as Record<string, string>;
+      for (const k of Object.keys(out)) if (typeof p?.[k] === "string") out[k] = p[k];
+      return out as T;
     }
   } catch {
     /* corrupt storage — start blank */
   }
-  return { name: "", phone: "", email: "" };
+  return blank;
 };
 
 // validation mirrors the Worker's /api/checkout rules EXACTLY (same regexes,
@@ -61,6 +62,23 @@ const validatePayer = (p: Payer): { errors: PayerErrors; clean: Payer } => {
   return { errors, clean: { name, phone, email } };
 };
 
+// address is required only when the order ships (courier/mail) — not for pickup
+const validateShip = (s: Ship, needed: boolean): { errors: ShipErrors; clean: Ship } => {
+  const clean: Ship = {
+    street: s.street.trim(),
+    city: s.city.trim(),
+    apt: s.apt.trim(),
+    zip: s.zip.trim(),
+    notes: s.notes.trim(),
+  };
+  const errors: ShipErrors = {};
+  if (needed) {
+    if (clean.street.length < 2) errors.street = "נא למלא רחוב ומספר בית";
+    if (clean.city.length < 2) errors.city = "נא למלא עיר";
+  }
+  return { errors, clean };
+};
+
 export const CartPage = () => {
   const { items, setQty, remove, clear } = useCart();
   const [delivery, setDelivery] = useState(deliveryOptions[0]);
@@ -74,14 +92,24 @@ export const CartPage = () => {
   const [couponBusy, setCouponBusy] = useState(false);
   const [payBusy, setPayBusy] = useState(false);
   const [payError, setPayError] = useState("");
-  const [payer, setPayer] = useState<Payer>(loadPayer);
+  const [payer, setPayer] = useState<Payer>(() =>
+    loadStored<Payer>(PAYER_KEY, { name: "", phone: "", email: "" })
+  );
   const [payerErrors, setPayerErrors] = useState<PayerErrors>({});
+  const [ship, setShip] = useState<Ship>(() =>
+    loadStored<Ship>(SHIP_KEY, { street: "", city: "", apt: "", zip: "", notes: "" })
+  );
+  const [shipErrors, setShipErrors] = useState<ShipErrors>({});
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const streetRef = useRef<HTMLInputElement>(null);
+  const cityRef = useRef<HTMLInputElement>(null);
 
-  // functional update: browser autofill fires input on all three fields in the
-  // same tick — spreading a stale `payer` closure here would drop two of them
+  const needsAddress = delivery.id !== "pickup";
+
+  // functional update: browser autofill fires input on all fields in the same
+  // tick — spreading a stale closure here would drop the others
   const updatePayer = (field: keyof Payer, value: string) => {
     setPayer((prev) => {
       const next = { ...prev, [field]: value };
@@ -93,6 +121,21 @@ export const CartPage = () => {
       return next;
     });
     setPayerErrors((e) => ({ ...e, [field]: undefined }));
+  };
+
+  const updateShip = (field: keyof Ship, value: string) => {
+    setShip((prev) => {
+      const next = { ...prev, [field]: value };
+      try {
+        localStorage.setItem(SHIP_KEY, JSON.stringify(next));
+      } catch {
+        /* storage full/blocked — form still works, just not remembered */
+      }
+      return next;
+    });
+    if (field === "street" || field === "city") {
+      setShipErrors((e) => ({ ...e, [field]: undefined }));
+    }
   };
 
   // All money in AGOROT, mirroring the Worker's checkout math EXACTLY (prices are
@@ -158,13 +201,25 @@ export const CartPage = () => {
   const payCard = async () => {
     if (payBusy || items.length === 0) return;
     const { errors, clean } = validatePayer(payer);
-    if (errors.name || errors.phone || errors.email) {
+    const { errors: sErrors, clean: sClean } = validateShip(ship, needsAddress);
+    if (errors.name || errors.phone || errors.email || sErrors.street || sErrors.city) {
       setPayerErrors(errors);
-      const first = errors.name ? nameRef : errors.phone ? phoneRef : emailRef;
+      setShipErrors(sErrors);
+      // focus the first invalid field, top to bottom (payer then address)
+      const first = errors.name
+        ? nameRef
+        : errors.phone
+        ? phoneRef
+        : errors.email
+        ? emailRef
+        : sErrors.street
+        ? streetRef
+        : cityRef;
       first.current?.focus();
       return;
     }
     setPayerErrors({});
+    setShipErrors({});
     setPayBusy(true);
     setPayError("");
     try {
@@ -176,6 +231,7 @@ export const CartPage = () => {
           delivery: delivery.id,
           couponCode: appliedCoupon?.code,
           payer: clean,
+          ...(needsAddress ? { shipping: sClean } : {}),
         }),
       });
       const data = await res.json().catch(() => null);
@@ -388,6 +444,66 @@ export const CartPage = () => {
               {payerErrors.email && <span className="payer-err">{payerErrors.email}</span>}
             </div>
           </div>
+
+          {needsAddress && (
+            <div className="payer-fields">
+              <h3>כתובת למשלוח</h3>
+              <div className="payer-field">
+                <label htmlFor="ship-street">רחוב ומספר בית</label>
+                <input
+                  id="ship-street"
+                  ref={streetRef}
+                  type="text"
+                  autoComplete="address-line1"
+                  value={ship.street}
+                  onInput={(e) => updateShip("street", (e.target as HTMLInputElement).value)}
+                />
+                {shipErrors.street && <span className="payer-err">{shipErrors.street}</span>}
+              </div>
+              <div className="payer-field">
+                <label htmlFor="ship-city">עיר</label>
+                <input
+                  id="ship-city"
+                  ref={cityRef}
+                  type="text"
+                  autoComplete="address-level2"
+                  value={ship.city}
+                  onInput={(e) => updateShip("city", (e.target as HTMLInputElement).value)}
+                />
+                {shipErrors.city && <span className="payer-err">{shipErrors.city}</span>}
+              </div>
+              <div className="payer-field">
+                <label htmlFor="ship-apt">דירה / כניסה / קומה — לא חובה</label>
+                <input
+                  id="ship-apt"
+                  type="text"
+                  value={ship.apt}
+                  onInput={(e) => updateShip("apt", (e.target as HTMLInputElement).value)}
+                />
+              </div>
+              <div className="payer-field">
+                <label htmlFor="ship-zip">מיקוד — לא חובה</label>
+                <input
+                  id="ship-zip"
+                  type="text"
+                  inputMode="numeric"
+                  dir="ltr"
+                  autoComplete="postal-code"
+                  value={ship.zip}
+                  onInput={(e) => updateShip("zip", (e.target as HTMLInputElement).value)}
+                />
+              </div>
+              <div className="payer-field">
+                <label htmlFor="ship-notes">הערות לשליח — לא חובה</label>
+                <input
+                  id="ship-notes"
+                  type="text"
+                  value={ship.notes}
+                  onInput={(e) => updateShip("notes", (e.target as HTMLInputElement).value)}
+                />
+              </div>
+            </div>
+          )}
 
           <button
             className="btn pay-card-btn"

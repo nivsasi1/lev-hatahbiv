@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS orders (
   coupon_code    TEXT,
   discount       INTEGER NOT NULL DEFAULT 0,     -- agorot
   delivery       TEXT,
+  shipping       TEXT,                           -- JSON {street,city,apt,zip,notes} for courier/mail
   total          INTEGER NOT NULL,               -- agorot
   status         TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
   payment_ref    TEXT,                           -- Grow transactionId
@@ -53,6 +54,7 @@ CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 --   ALTER TABLE orders ADD COLUMN process_id TEXT;
 --   ALTER TABLE orders ADD COLUMN process_token TEXT;
 --   ALTER TABLE orders ADD COLUMN invoice_number TEXT;
+--   ALTER TABLE orders ADD COLUMN shipping TEXT;
 --   ALTER TABLE orders ADD COLUMN invoice_url TEXT;
 --   ALTER TABLE orders ADD COLUMN payer_name TEXT;
 --   ALTER TABLE orders ADD COLUMN payer_email TEXT;

@@ -53,12 +53,21 @@ export type Coupon = { code: string; percent: number; maxUses: number | null; us
 
 export type OrderItem = { id?: string; name?: string; qty?: number; price?: number };
 
+export type ShipAddress = {
+  street?: string;
+  city?: string;
+  apt?: string;
+  zip?: string;
+  notes?: string;
+};
+
 // A D1 order as returned by the Worker (amounts already in shekels for display).
 export type Order = {
   _id: string;
   createdAt: string;
   status: string; // new | paid | failed | refunded | handled | cancelled
   delivery: string;
+  shipping?: ShipAddress | null; // set for courier/mail orders
   total: number;
   subtotal?: number;
   discount?: number;
