@@ -24,6 +24,32 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 5. Shopper is redirected to our `successUrl` with `&response=success` (cancel/decline →
    `cancelUrl`). Browser redirect is not authoritative — the callback is.
 
+### createPaymentProcess — confirmed request/response (from the docs' Postman example)
+- `POST https://sandbox.meshulam.co.il/api/light/server/1.0/createPaymentProcess`, body **form-data**.
+- Request fields: `pageCode` (req), `userId` (req), `sum` (req — **shekels decimal**, e.g. `10.99`),
+  `successUrl` (req, HTTPS; **localhost not supported**), `cancelUrl` (req), `description` (req),
+  `pageField[fullName]` (req — min two names), `pageField[phone]` (req — valid Israeli mobile),
+  `pageField[email]` (opt), `pageField[invoiceName]` (opt), `paymentNum`/`maxPaymentNum` (opt, 1–12),
+  `chargeType` (opt), `notifyUrl`, `cField1...` (opt, must be URL-encoded-safe).
+- Response: `{ status: 1, err: "", data: { processId, processToken, authCode | url } }` —
+  `data.url` on a redirect pageCode, `data.authCode` on a **Wallet** pageCode.
+- ⚠️ `pageField[fullName]` + `pageField[phone]` are **required** → the cart needs a tiny
+  details step (name + phone + optional email) before "שלם" — we don't collect these today.
+
+### Growin Wallet SDK (embedded form) vs redirect — DECISION: Wallet, redirect as fallback
+- **Wallet flow**: same server-side `createPaymentProcess` but with a **wallet-specific
+  `pageCode`** → returns `authCode` (valid **4 min**; opened form lives 9 more min) →
+  frontend loads Grow's SDK and calls `growPayment.renderPaymentOptions(authCode)` →
+  unified popup ON OUR SITE (cards + Apple Pay + Google Pay + Bit + PayBox) → `onSuccess`
+  event + redirect to thank-you. Server callback + `approveTransaction` unchanged
+  (**approveTransaction must echo ALL fields from the callback + `pageCode`**).
+- Why Wallet: shopper never leaves the site, one-click Apple/Google Pay on mobile (most
+  of our traffic), auto-matches site look. Cost: one external script + a JS call.
+- Fallback: standard pageCode → `data.url` → full-page redirect (zero client JS). The
+  worker returns whichever of `url`/`authCode` Grow sends, so both work with one endpoint.
+- Dev note: `successUrl`/`cancelUrl` can't be localhost → test the full loop against a
+  deployed preview, or point success/cancel at the live domain even in sandbox.
+
 ### Environments + credentials
 - Sandbox base: `https://sandbox.meshulam.co.il/api/light/server/1.0/`
   (prod base is issued with the live credentials — `secure.meshulam.co.il`).
@@ -61,8 +87,9 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 
 ### What the owner does next (code can't proceed without #1)
 1. Contact Grow support/integration: confirm the special-bid plan is attached to the
-   account, request **Light API sandbox credentials** (`userId` + `pageCode` for
-   credit card; ask about Bit too), give them the site URL.
+   account, request **Light API sandbox credentials** — `userId` + **a Growin Wallet
+   `pageCode`** (and a standard redirect pageCode as fallback), give them the site URL.
+   Also ask whether the special bid requires a specific account track (Basic/Extra/Plus).
 2. When creds arrive: `wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` (+ `.dev.vars` for local).
 3. After sandbox tests pass: Grow reviews → issues production creds → swap secrets →
    one small real transaction → open to shoppers.
