@@ -1,13 +1,26 @@
 # Payments — provider research + integration plans
 
-Status (2026-07-09): **switched to Grow** — the special bid (₪59/mo + 0.6%) beats PayMe
+Status (2026-07-10): **switched to Grow** — the special bid (₪59/mo + 0.6%) beats PayMe
 at all realistic volumes, and a Grow account is now open. **The integration is BUILT on
 branch `grow`** (worker `createPaymentProcess` + callback/invoice routes + re-query
-hardening, cart payer form, Wallet hook) — blocked ONLY on sandbox credentials from Grow
-support. The message to send them is ready:
+hardening, cart payer form + shipping address, Wallet SDK) — blocked ONLY on **sandbox
+`userId` + `pageCode`** from Grow support.
+
+**Grow support answers (Darya, 2026-07-10):** ✅ ₪59+0.6% plan confirmed on the account ·
+✅ account track is **Basic** and the bid works on Basic (no upgrade needed) · ✅ 3DS = **₪2.50
+per 3DS-checked transaction** · ✅ invoices are self-configured in Grow's document settings
+(guides: <https://grow.business/business-settings/> · <http://grow.business/transaction-document-definition>).
+❌ **Still missing: the sandbox API credentials** (`userId` + Wallet/redirect `pageCode`) —
+her webhook instructions were for the no-code **Payment Links** product, not our **Light API**
+code integration (we set `notifyUrl` in code, nothing to configure in their dashboard). The
+focused follow-up asking for the Light-API sandbox creds is ready:
 [docs/grow-support-questions.md](docs/grow-support-questions.md). The Grow plan is below;
 the older PayMe plan is kept further down as a fallback (nothing PayMe-specific was ever
 deployed, so there is nothing to unwind).
+
+**Owner setup task (independent of code):** enable automatic invoice/document generation in
+Grow's dashboard using the two guides above, so an invoice is issued per paid transaction and
+our `invoiceNotifyUrl` gets called.
 
 ## Grow (Meshulam) — integration plan  ← CURRENT
 
@@ -75,8 +88,11 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
   verification given there's no callback signature (belt: processToken match + sum match;
   suspenders: re-query status).
 - **3DS** — optional, toggled via the API per business needs; applies **only to manual card
-  entry** (Apple Pay / Google Pay / Bit buttons are excluded). Ask Grow: the +₪2.50/txn
-  fee from the bid, and whether they recommend/require it for e-commerce.
+  entry** (Apple Pay / Google Pay / Bit buttons are excluded). **Confirmed by Grow support
+  (Darya, 2026-07-10): ₪2.50 per transaction that passes the 3DS check.** Trade-off for a
+  small shop: on a ₪50 order that's 5%, but 3DS shifts card-fraud/chargeback liability to
+  the issuer. Owner decision — lean OFF at launch (low-value orders), revisit if chargebacks
+  appear. We keep the code flag ready either way.
 - **Refund** — exists in the API → wire into the manager dashboard later (not launch-blocking).
 - Not relevant for us: POS/Android SDKs, Bit iOS/Android SDKs, Work with Token, recurring
   payments (maybe someday for חוגים subscriptions), Delayed Payment J4/J5 (auth-then-capture
