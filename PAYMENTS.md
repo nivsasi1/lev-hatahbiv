@@ -1,28 +1,37 @@
 # Payments — provider research + integration plans
 
-Status (2026-07-10): **switched to Grow** — the special bid (₪59/mo + 0.6%) beats PayMe
-at all realistic volumes, and a Grow account is now open. **The integration is BUILT on
-branch `grow`** (worker `createPaymentProcess` + callback/invoice routes + re-query
-hardening, cart payer form + shipping address, Wallet SDK) — blocked ONLY on **sandbox
-`userId` + `pageCode`** from Grow support.
+Status (2026-07-12): **Grow is DEAD.** The API team revealed that code/API integration
+(Light API + Wallet SDK — the only way to power an automated site checkout) costs
+**₪500/month + VAT (≈₪585)** on top of the plan — a fee that appears nowhere on the
+special-bid page. The ₪59 + 0.6% bid only covers their no-code products (dashboard
+payment links etc.). Owner cancelled the account the same day and requested a refund
+of the ₪59 charge.
 
-**Grow support answers (Darya, 2026-07-10):** ✅ ₪59+0.6% plan confirmed on the account ·
-✅ account track is **Basic** and the bid works on Basic (no upgrade needed) · ✅ 3DS = **₪2.50
-per 3DS-checked transaction** · ✅ invoices are self-configured in Grow's document settings
-(guides: <https://grow.business/business-settings/> · <http://grow.business/transaction-document-definition>).
-❌ **Still missing: the sandbox API credentials** (`userId` + Wallet/redirect `pageCode`) —
-her webhook instructions were for the no-code **Payment Links** product, not our **Light API**
-code integration (we set `notifyUrl` in code, nothing to configure in their dashboard). The
-focused follow-up asking for the Light-API sandbox creds is ready:
-[docs/grow-support-questions.md](docs/grow-support-questions.md). The Grow plan is below;
-the older PayMe plan is kept further down as a fallback (nothing PayMe-specific was ever
-deployed, so there is nothing to unwind).
+**Why cancelling was right:** Grow-with-API ≈ ₪644/mo fixed (₪59 + ₪585) + 0.6%.
+PayMe ≈ ₪64/mo fixed (₪49 fee-minimum + ₪15 invoices) + 1.2% + ₪1/txn. The ~₪580/mo
+fixed gap needs ~₪30–35k/month of ONLINE sales (~400 orders) before Grow's cheaper
+percentage catches up — far beyond a neighborhood shop's online channel at launch.
 
-**Owner setup task (independent of code):** enable automatic invoice/document generation in
-Grow's dashboard using the two guides above, so an invoice is issued per paid transaction and
-our `invoiceNotifyUrl` gets called.
+**Current direction: back to PayMe** (plan below, still fully valid; the business
+already has a PayMe relationship from Wix). **The `grow` branch work is NOT wasted** —
+most of it is provider-agnostic and carries over:
+- cart payer form (name/phone/email) + **shipping address** collection ✅ keep as-is
+- server-side payer/shipping validation, orders schema (+ `shipping` column) ✅ keep
+- the hardened settle architecture (server re-query gate, tri-state paid check, atomic
+  `WHERE status IN ('new','failed')` flip, once-only coupon consume, order-status
+  self-heal) ✅ port to PayMe (re-query = get sale by `payme_sale_id`)
+- swap needed: `createPaymentProcess`→`generate-sale`, `/api/grow-callback`→
+  `/api/payme-callback`, drop the Wallet SDK module. (~half a day.)
 
-## Grow (Meshulam) — integration plan  ← CURRENT
+---
+
+## Grow (Meshulam) — ARCHIVED plan (dead 2026-07-12 — ₪500/mo+VAT API fee)
+
+Kept for reference only: if Grow ever offers API access at a sane price, branch `grow`
+(commits d86d3a1..b573a80) holds a complete, docs-verified integration.
+
+Support answers we did get (Darya, 2026-07-10): ₪59+0.6% plan confirmed · Basic track
+suffices · 3DS = ₪2.50/checked txn · invoices self-configured in document settings.
 
 Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 
@@ -172,10 +181,13 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 
 ---
 
-# PayMe integration plan (fallback — superseded by Grow above)
+# PayMe integration plan  ← CURRENT AGAIN (Grow died on the API fee)
 
-Earlier status: decided on PayMe (we already had a PayMe link from the Wix site). Never
-built. Kept as the fallback plan in case Grow falls through.
+Status: back to being the plan of record (2026-07-12). The business already had a PayMe
+relationship from Wix. Note: the old PayMe worker code still exists on `main`
+(`generate-sale` + `/api/payme-callback`), but the REBUILD should start from the `grow`
+branch and swap the provider adapter — that branch has the payer form, shipping address,
+and the hardened settle architecture that `main`'s PayMe code lacks.
 
 ## Why PayMe fits us well
 
