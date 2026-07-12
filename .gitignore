@@ -4,6 +4,9 @@ monitor/.state/
 # playwright-mcp browser session artifacts
 .playwright-mcp/
 
+# macOS junk
+.DS_Store
+
 # Logs
 logs
 *.log
