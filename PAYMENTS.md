@@ -25,6 +25,64 @@ most of it is provider-agnostic and carries over:
 
 ---
 
+## Rate check — Israeli processors (researched 2026-07-12, 6 providers, sourced)
+
+Criteria: clearing % + fixed/txn + monthly + setup + **API-access fee (the Grow trap)** +
+3DS + **invoice generation** + wallets + callback security. Model: avg order ₪80, invoices
+on every order, 3DS off, all amounts **excl. VAT**. Quote-based providers (most of them
+publish no price list) use best third-party data — marked ⚠️ where unconfirmed.
+
+| Monthly cost (excl VAT) | ₪5k / 63 orders | ₪10k / 125 orders | ₪30k / 375 orders | API fee | Invoices | Callback auth |
+|---|---|---|---|---|---|---|
+| **Sumit** (clearing via Upay) | ~₪100–180 | **~₪235** | **~₪545** | ₪0 (all plans) | **included** (it IS an invoicing platform) | no signature → re-query |
+| **CardCom direct** | ~₪140 ⚠️ | ~₪200 ⚠️ | ~₪440 ⚠️ | **"Low Profile module" must be PURCHASED — price unpublished (Grow-pattern risk!)** | +₪29/mo module ⚠️ | no signature → re-query (their documented pattern) |
+| **PayMe** (signed rates ✓) | ~₪155 | ~₪260 | ~₪800 | **₪0 — confirmed** (plan feature + absent from T&C tariff) | ₪0.3/doc or ₪15/mo flat — confirm which | MD5 signature (formula unpublished) + re-query |
+| Tranzila | ~₪230 | ~₪310 | ~₪650 | likely ₪0 ⚠️ | bundled in doc-quota tiers | unsigned → re-query |
+| Hyp (Yaad Sarig) | ~₪150–250 ⚠️ | ~₪220–310 ⚠️ | ? (% unpublished!) | gateway fee IS the API; webhooks need support enablement | +₪49/mo (Mata, 300 docs) | signed redirect + VERIFY endpoint |
+| PayPlus | ~₪295 | ~₪385 | ~₪745 | ₪0 evidence, quote-based ⚠️ | **Invoice+ ~₪145/mo** (auto-invoice needs Professional tier) ⚠️ | **HMAC-SHA256 — best in class** |
+| Morning (Green Invoice) | — | ~₪344 | — | plan-gated (Best+) | included in plan | **clearing is GROW underneath — avoid** |
+| iCount Pay | — | ~₪310 + ₪249 setup | — | ₪0 | included (doc tiers) | **it's PayMe underneath + 0.85% default fast-payout trap — pointless vs direct PayMe** |
+
+Key per-provider facts (full sources in the research run):
+- **PayMe** — HIGH confidence (signed agreement + paid.co.il + T&C all agree): 1.2% + ₪1/txn,
+  ₪99 setup, ₪49/mo fee-floor (only >₪500 volume). **3DS = 0.15% min ₪2.5 but auto-triggers
+  only on orders >₪499 / >3 installments / foreign cards → at our ₪80 avg it basically never
+  fires.** Apple/Google Pay +₪0.5/txn, Bit +0.5%. Withdrawal ₪14.9 in months with <₪5k
+  withdrawn. **The ₪1/txn is the killer at ₪80 orders: it's +1.25% → ~2.6% effective all-in.**
+- **Sumit** — 1.1% (0.9% clearing + 0.2% no-doc fee, via Upay), **no fixed/txn, no setup**.
+  Platform ₪125/mo (Growth, 400 actions; a sale burns 2 — charge + auto-invoice; ₪0.25/extra).
+  3DS ₪1/attempt opt-in. Bit 1.6%. Foreign/Amex 4.2%. API included in every plan (quota = 5×
+  actions). Ask: payout timing (same-day costs 1.4% total), Apple/Google Pay surcharge,
+  callback signature. **~1.8–2.4% effective all-in, invoices included.**
+- **CardCom direct** — potentially cheapest (1.2%, maybe 0.9% with monthly payout; percent-only,
+  no fixed/txn) + real invoice module (+₪29/mo ⚠️2023 price) + good API (LowProfile/Create,
+  WebHookUrl, GetLpResult re-query — exactly our architecture). **BUT: their own docs say the
+  API "Low Profile module" must be purchased and its price appears NOWHERE** — demand it in
+  writing (one-time + monthly) before believing any total. Bit 1.6% cap ₪5k. Callback IPs to
+  allowlist: 82.80.227.17/29, 82.80.222.124/29.
+- **Tranzila** — quota-model gotchas (transaction "banks" that auto-open at extra cost, 3DS
+  billed per ATTEMPT incl. failures, CPI+3% yearly increases, ₪220 freeze fee, 24-mo lock-in
+  on promos). Not worth it at this size.
+- **Hyp (Yaad Sarig)** — nothing published, historically gateway-ON-TOP-of-acquirer (two fee
+  stacks); webhooks gated behind support. Too murky.
+- **PayPlus** — best developer experience (public docs, HMAC-signed callbacks, sandbox), but
+  auto-invoicing needs the Professional Invoice+ tier (~₪145/mo ⚠️) → priciest total.
+
+### Verdict
+1. **Launch on PayMe** — the only provider with signed, verified rates; API confirmed free;
+   3DS structurally ~free at our order size; the code exists (main) + hardened architecture
+   ready to port (grow branch, ~½ day). At launch volume the premium vs Sumit is only
+   ~₪30–100/mo — certainty and speed are worth more right now.
+2. **In parallel, get TWO written quotes** — the swap later costs half a day thanks to the
+   adapter architecture:
+   - **Sumit**: confirm Upay payout timing, Apple/Google Pay surcharge, callback verification,
+     and that 1.1% + ₪125/mo Growth is the whole story → if yes, it wins from ~₪15k/mo volume
+     (₪250+/mo cheaper at ₪30k).
+   - **CardCom**: itemized quote — Low Profile module (one-time + monthly), documents module +
+     per-doc overage, clearing % at monthly payout, 3DS, minimums, lock-in → if the module is
+     ≤~₪50/mo it beats everyone.
+3. Skip: Tranzila, Hyp, PayPlus, Morning (Grow inside), iCount Pay (PayMe inside, marked up).
+
 ## Grow (Meshulam) — ARCHIVED plan (dead 2026-07-12 — ₪500/mo+VAT API fee)
 
 Kept for reference only: if Grow ever offers API access at a sane price, branch `grow`
