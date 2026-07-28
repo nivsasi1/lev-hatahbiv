@@ -376,15 +376,29 @@ Shopper (static SPA)              Cloudflare Worker (/api/*)                 Pay
 - Recompute amounts server-side; reject if the callback's `price` ≠ our order total.
 - Consume single-use coupons exactly once, on payment success only.
 
-## Open items (most now resolved via the live docs)
+## Support answers (Daniel @ PayMe support, tickets 515583/515584, 2026-07-28)
 
-- ✅ `generate-sale` fields + response, env URLs, callback attributes — confirmed.
-- ✅ Refunds exist ("Refund Sale", Post Sale Actions); invoices exist (`sale_invoice_url`
-  in the callback + a Create Document API) — just **enable the invoices module** on the account.
-- ⏳ Exact **`payme_signature`** formula — not published; ask partners@payme.io.
-  (We verify via server-side re-query meanwhile, so it isn't a blocker.)
-- ⏳ Confirm whether the account needs anything **beyond `seller_payme_id`** (the docs
-  call it "your private key", so likely that's the only credential).
+Email authenticity verified (sender support@payme.io, real Zendesk ticket threads, hrefs
+match visible links on the real payme.io domain; the two "verify" links are simply the two
+ticket numbers — we accidentally opened duplicate tickets; continue in 515584, close 515583).
+
+- ✅ **`payme_signature` formula**: `md5(merchant_key + merchant_password + payme_transaction_id + payme_sale_id)`
+  — concatenated in that exact order, no separators. `merchant_key`/`merchant_password` are
+  the API credentials in the dashboard under Settings → Integration/API; there is NO separate
+  signing key. **Validate against a real sandbox callback before trusting** (support-provided,
+  not in public docs). Note: subscription callbacks carry NO signature at all (irrelevant for
+  us — no subscriptions).
+- ✅ **`generate-sale` needs only `seller_payme_id`** — no additional key (confirmed).
+- ✅ **API access included in PAID accounts, no extra cost** — in writing. The Grow trap
+  formally cleared.
+- ✅ **Recommended callback pattern** (their words): return HTTP 200 immediately, then run
+  `get-transactions` to confirm status before any business action — PayMe retries the
+  callback until acknowledged. Our adapter: verify synchronously (signature + amount +
+  `get-transactions` re-query) and return 200 on settled / non-200 on transient re-query
+  failure so PayMe's retry loop covers us. **`get-transactions` is the re-query endpoint.**
+- ⏳ Invoice pricing (₪0.3/doc vs ₪15/mo flat) — Daniel checking, will reply separately.
+- ⏳ Sandbox verification + `seller_payme_id` + site-URL update — blocked on the owner
+  completing identity verification at payme.io/verify/515584 (ח.פ + SMS to registered phone).
 
 ## Sources
 - PayMe docs: <https://docs.payme.io> · <https://payme.stoplight.io> · test cards: <https://payme.stoplight.io/docs/payments/v781p5enpoq9x-test-cards-and-payment-methods>
