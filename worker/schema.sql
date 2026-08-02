@@ -46,11 +46,19 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 
--- Migration for the LIVE D1. It already has payme_sale_id, invoice_url and the
--- payer_* columns (2026-07 migration), so the ONLY statement to run is:
---   ALTER TABLE orders ADD COLUMN shipping TEXT;
+-- Migration for an EXISTING orders table. VERIFIED against the live D1 on
+-- 2026-08-02 (PRAGMA table_info): it had only id/created_at/items/subtotal/
+-- coupon_code/discount/delivery/total/status/payment_ref/shipping, so ALL of
+-- these were still required:
+--   ALTER TABLE orders ADD COLUMN payme_sale_id TEXT;
+--   ALTER TABLE orders ADD COLUMN invoice_url TEXT;
+--   ALTER TABLE orders ADD COLUMN payer_name TEXT;
+--   ALTER TABLE orders ADD COLUMN payer_email TEXT;
+--   ALTER TABLE orders ADD COLUMN payer_phone TEXT;
+--   ALTER TABLE orders ADD COLUMN shipping TEXT;   -- applied 2026-08-02
 -- SQLite has no "ADD COLUMN IF NOT EXISTS" — a "duplicate column" error just
--- means it is already there, ignore it.
+-- means it is already there, ignore it. ALWAYS confirm with:
+--   npx wrangler d1 execute lev --remote --command "PRAGMA table_info(orders);"
 -- (A dev DB created from the grow branch may also carry unused process_id /
 --  process_token / invoice_number columns — harmless, leave them.)
 -- (a legacy payme_sale_id column may exist on the live D1 — harmless, ignore it.)
