@@ -239,13 +239,15 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 
 ---
 
-# PayMe integration plan  ← CURRENT AGAIN (Grow died on the API fee)
+# PayMe integration plan  ← CURRENT (built on branch `payme`, 2026-08-02)
 
-Status: back to being the plan of record (2026-07-12). The business already had a PayMe
-relationship from Wix. Note: the old PayMe worker code still exists on `main`
-(`generate-sale` + `/api/payme-callback`), but the REBUILD should start from the `grow`
-branch and swap the provider adapter — that branch has the payer form, shipping address,
-and the hardened settle architecture that `main`'s PayMe code lacks.
+Status: **the adapter swap is DONE on branch `payme`** (forked from `grow`, keeping the
+payer form + shipping address + hardened settle architecture): `generate-sale` (JSON,
+agorot-native — zero unit conversion), `/api/payme-callback` (key-auth + amount/currency/
+sale-id gates + **mandatory `get-transactions` re-query** — merchant accounts get no
+signature), refund/chargeback handling, invoice URL captured from the callback,
+order-status self-heal. Sandbox `seller_payme_id` received and verified. Remaining to
+launch: set the 2 secrets, deploy, run the sandbox test matrix, then swap to live creds.
 
 ## Why PayMe fits us well
 
@@ -382,12 +384,15 @@ Email authenticity verified (sender support@payme.io, real Zendesk ticket thread
 match visible links on the real payme.io domain; the two "verify" links are simply the two
 ticket numbers — we accidentally opened duplicate tickets; continue in 515584, close 515583).
 
-- ✅ **`payme_signature` formula**: `md5(merchant_key + merchant_password + payme_transaction_id + payme_sale_id)`
-  — concatenated in that exact order, no separators. `merchant_key`/`merchant_password` are
-  the API credentials in the dashboard under Settings → Integration/API; there is NO separate
-  signing key. **Validate against a real sandbox callback before trusting** (support-provided,
-  not in public docs). Note: subscription callbacks carry NO signature at all (irrelevant for
-  us — no subscriptions).
+- ⚠️ **`payme_signature` — SUPERSEDED (2026-08-02):** support later clarified the signature
+  applies **only to partner/marketplace accounts — NOT merchant accounts like ours**. Our
+  callbacks carry no usable signature; the `get-transactions` re-query (authenticated by our
+  seller key, unspoofable) is the authoritative paid-gate, exactly as implemented. (The
+  earlier formula `md5(merchant_key + merchant_password + payme_transaction_id + payme_sale_id)`
+  is kept here only in case we ever become a partner account.)
+- ✅ **Sandbox VERIFIED + `seller_payme_id` received (2026-08-02)** — the MPL key from the
+  support email (never in the repo; `wrangler secret put PAYME_SELLER_ID` + `.dev.vars` only).
+  Dashboard note: the ₪-117.06 balance is the ₪99+VAT setup fee ("תשלום חוב").
 - ✅ **`generate-sale` needs only `seller_payme_id`** — no additional key (confirmed).
 - ✅ **API access included in PAID accounts, no extra cost** — in writing. The Grow trap
   formally cleared.

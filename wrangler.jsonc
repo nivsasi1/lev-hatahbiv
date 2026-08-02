@@ -4,16 +4,15 @@
   //   - runs the dynamic API (worker/index.ts) for /api/* — coupons now, payments later
   // Last activation step (do it yourself, they're secrets):
   //   npx wrangler secret put ADMIN_JWT_SECRET   (= the backend's JWT SECRET)
-  //   npx wrangler secret put GROW_USER_ID       (from Grow support)
-  //   npx wrangler secret put GROW_PAGE_CODE     (from Grow support)
-  //   npx wrangler secret put GROW_WEBHOOK_KEY   (any long random string — auths the callbacks)
+  //   npx wrangler secret put PAYME_SELLER_ID    (the "MPL..." key from PayMe; sandbox first)
+  //   npx wrangler secret put PAYME_WEBHOOK_KEY  (any long random string — auths the callbacks)
   // then:  npx wrangler deploy
   "name": "lev-hatahbiv",
   "compatibility_date": "2026-06-18",
   "main": "worker/index.ts",
   "vars": {
-    // Grow Light API base — sandbox by default; the prod URL arrives with live creds
-    "GROW_BASE_URL": "https://sandbox.meshulam.co.il/api/light/server/1.0"
+    // PayMe API base — sandbox by default; flip to https://live.payme.io/api at go-live
+    "PAYME_BASE_URL": "https://sandbox.payme.io/api"
   },
   "assets": {
     "directory": "./Frontend/dist",

@@ -4114,7 +4114,7 @@ html.a11y-underline a {
   padding: 0 0.2em;
 }
 
-/* ---------- checkout payer details (Grow invoice + payment page) ---------- */
+/* ---------- checkout payer details (PayMe invoice + payment page) ---------- */
 .cart-page .payer-fields {
   background: var(--card);
   border: 2px solid var(--ink);

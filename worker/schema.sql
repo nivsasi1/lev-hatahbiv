@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS subscribers (
   created_at   TEXT NOT NULL
 );
 
--- Orders — paid via Grow/Meshulam (createPaymentProcess).
+-- Orders — paid via PayMe (generate-sale).
 -- NOTE: money is stored in AGOROT (integer) to avoid float rounding — 10.30 ILS = 1030.
--- Grow's `sum` is shekels decimal; the worker converts only at the API boundary.
+-- PayMe is agorot-native too, so there is no unit conversion anywhere.
 CREATE TABLE IF NOT EXISTS orders (
   id             TEXT PRIMARY KEY,               -- uuid
   created_at     TEXT NOT NULL,
@@ -37,28 +37,22 @@ CREATE TABLE IF NOT EXISTS orders (
   shipping       TEXT,                           -- JSON {street,city,apt,zip,notes} for courier/mail
   total          INTEGER NOT NULL,               -- agorot
   status         TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
-  payment_ref    TEXT,                           -- Grow transactionId
-  process_id     TEXT,                           -- Grow processId (from createPaymentProcess)
-  process_token  TEXT,                           -- Grow processToken — pairs with process_id
-  invoice_url    TEXT,                           -- Grow invoice link (via invoiceNotifyUrl)
-  invoice_number TEXT,                           -- Grow invoice number
+  payment_ref    TEXT,                           -- PayMe payme_transaction_id
+  payme_sale_id  TEXT,                           -- from generate-sale; keys the re-query
+  invoice_url    TEXT,                           -- sale_invoice_url from the callback
   payer_name     TEXT,
   payer_email    TEXT,
   payer_phone    TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 
--- Migration for an EXISTING orders table (the columns above are new). Run once
--- on the live D1 if the table predates them — SQLite has no "ADD COLUMN IF NOT
--- EXISTS", so run each line and ignore "duplicate column" errors:
---   ALTER TABLE orders ADD COLUMN process_id TEXT;
---   ALTER TABLE orders ADD COLUMN process_token TEXT;
---   ALTER TABLE orders ADD COLUMN invoice_number TEXT;
+-- Migration for the LIVE D1. It already has payme_sale_id, invoice_url and the
+-- payer_* columns (2026-07 migration), so the ONLY statement to run is:
 --   ALTER TABLE orders ADD COLUMN shipping TEXT;
---   ALTER TABLE orders ADD COLUMN invoice_url TEXT;
---   ALTER TABLE orders ADD COLUMN payer_name TEXT;
---   ALTER TABLE orders ADD COLUMN payer_email TEXT;
---   ALTER TABLE orders ADD COLUMN payer_phone TEXT;
+-- SQLite has no "ADD COLUMN IF NOT EXISTS" — a "duplicate column" error just
+-- means it is already there, ignore it.
+-- (A dev DB created from the grow branch may also carry unused process_id /
+--  process_token / invoice_number columns — harmless, leave them.)
 -- (a legacy payme_sale_id column may exist on the live D1 — harmless, ignore it.)
 
 -- Best-effort per-IP rate limiting for public endpoints (fixed window).

@@ -10,7 +10,6 @@ import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
 import { WORKER_API } from "../data/api";
-import { openGrowWallet } from "../data/grow-wallet";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
@@ -140,7 +139,7 @@ export const CartPage = () => {
 
   // All money in AGOROT, mirroring the Worker's checkout math EXACTLY (prices are
   // 1-decimal; discount rounded to the 10-agorot grid) so the total shown here is
-  // identical to what Grow charges.
+  // identical to what PayMe charges.
   const subtotalAg = items.reduce(
     (s, { product, qty }) => s + Math.round(finalPrice(product) * 100) * qty,
     0
@@ -195,9 +194,9 @@ export const CartPage = () => {
     setCouponError("");
   };
 
-  // card checkout: the Worker creates the order + a Grow payment process, then
-  // either redirects to Grow's hosted page (url) or opens the Growin Wallet
-  // sheet (authCode). The order is confirmed by the Grow callback, not here.
+  // card checkout: the Worker creates the order + a PayMe sale, then we send the
+  // shopper to PayMe's hosted payment page. The order is confirmed by the
+  // PayMe callback + server-side re-query, not here.
   const payCard = async () => {
     if (payBusy || items.length === 0) return;
     const { errors, clean } = validatePayer(payer);
@@ -235,26 +234,11 @@ export const CartPage = () => {
         }),
       });
       const data = await res.json().catch(() => null);
-      if (!res.ok || (!data?.url && !data?.authCode)) {
+      if (!res.ok || !data?.url) {
         setPayError(data?.error || "לא ניתן לפתוח עמוד תשלום כרגע — נסו שוב מאוחר יותר");
         return;
       }
-      if (data.url) {
-        window.location.href = data.url; // Grow hosted payment page
-      } else {
-        // Growin Wallet popup — success/failure arrive via the SDK's events.
-        // onSuccess is a UX signal; /thank-you polls the server callback for the
-        // real "paid". (TODO(sandbox): wire onPaymentCancel to keep the button
-        // busy while the sheet is open, once the real SDK events are verified.)
-        await openGrowWallet(data.authCode, {
-          onSuccess: () => {
-            window.location.href = `/thank-you?order=${data.orderId}`;
-          },
-          onFailure: (msg) => setPayError(msg),
-        }).catch(() =>
-          setPayError("התשלום המהיר אינו זמין כרגע — נסו שוב בעוד רגע")
-        );
-      }
+      window.location.href = data.url; // PayMe hosted payment page
     } catch {
       setPayError("שגיאת רשת — נסו שוב");
     } finally {
