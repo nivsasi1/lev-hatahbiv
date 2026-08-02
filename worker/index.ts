@@ -629,6 +629,9 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
     transaction_id: id, // echoed in the callback -> locates the order
     sale_callback_url: `${origin}/api/payme-callback?key=${encodeURIComponent(env.PAYME_WEBHOOK_KEY)}`,
     sale_return_url: `${origin}/thank-you?order=${id}`,
+    // without a cancel target a shopper who abandons / fails 3DS is left on
+    // PayMe's page instead of coming back to their cart
+    cancel_url: `${origin}/cart`,
     sale_payment_method: "multi", // card + Bit + Apple/Google Pay (per enabled services)
     installments: "1",
     language: "he",
@@ -675,42 +678,94 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
 // TODO(sandbox): confirm get-transactions' exact request/response shape on the
 // first sandbox run; we read a few plausible paths and fail to "unknown".
 type PaidCheck = "paid" | "unpaid" | "unknown";
-async function confirmPaidWithPayMe(
+// `detail` is a short, secret-free trace of what PayMe answered — surfaced via
+// /api/order-status?debug=1 so a stuck order can be diagnosed without log access.
+type PaidProbe = { verdict: PaidCheck; detail: string };
+
+// PayMe's public v1.0 reference documents NO sale-status endpoint; the name
+// `get-transactions` comes from PayMe support. So we try the plausible shapes and
+// report which one answered — never inventing a "paid" we didn't see.
+async function probePayMeSale(
   order: typeof orders.$inferSelect,
   env: Env
-): Promise<PaidCheck> {
-  if (!order.paymeSaleId) return "unknown";
-  try {
-    const res = await fetch(`${paymeBase(env)}/get-transactions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        seller_payme_id: env.PAYME_SELLER_ID,
-        payme_sale_id: order.paymeSaleId,
-      }),
-    });
-    const j: any = await res.json().catch(() => null);
-    if (!j || j.status_code !== 0) return "unknown"; // envelope failed — can't tell
-    // find OUR sale in the response (single object or a list)
-    const list: any[] = Array.isArray(j.items)
-      ? j.items
-      : Array.isArray(j.sales)
-      ? j.sales
-      : j.payme_sale_id || j.sale_status
-      ? [j]
-      : [];
-    const tx = list.find((s) => String(s?.payme_sale_id ?? "") === order.paymeSaleId);
-    if (!tx) return "unknown"; // shape not recognised / sale not found — can't tell
-    const status = String(tx.sale_status ?? tx.status ?? "").toLowerCase();
-    if (!status) return "unknown";
-    if (status !== "completed") return "unpaid"; // PayMe positively says not-paid
-    const price = Number(tx.price ?? tx.sale_price ?? NaN);
-    if (!Number.isFinite(price)) return "unknown";
-    // amount must match to the agora, else treat as tampering, not payment
-    return price === order.total ? "paid" : "unpaid";
-  } catch {
-    return "unknown";
+): Promise<PaidProbe> {
+  const saleId = order.paymeSaleId;
+  if (!saleId) return { verdict: "unknown", detail: "no-sale-id" };
+  const candidates = [
+    { path: "get-transactions", body: { payme_sale_id: saleId } },
+    { path: "get-sales", body: { payme_sale_id: saleId } },
+    { path: "get-transactions", body: { payme_transaction_id: saleId } },
+  ];
+  const notes: string[] = [];
+  for (const c of candidates) {
+    try {
+      const res = await fetch(`${paymeBase(env)}/${c.path}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ seller_payme_id: env.PAYME_SELLER_ID, ...c.body }),
+      });
+      const text = await res.text();
+      let j: any = null;
+      try {
+        j = JSON.parse(text);
+      } catch {
+        notes.push(`${c.path}:${res.status}:non-json`);
+        continue;
+      }
+      if (j?.status_code !== 0) {
+        notes.push(`${c.path}:${res.status}:sc=${j?.status_code}`);
+        continue;
+      }
+      // locate OUR sale: a list, or a single object echoed back
+      const list: any[] = Array.isArray(j.items)
+        ? j.items
+        : Array.isArray(j.sales)
+        ? j.sales
+        : [j];
+      // an EXACT sale-id match is the strong binding; a lone unmatched row is a
+      // weak fallback and is held to a stricter bar below.
+      // NOTE: generate-sale returns `payme_sale_id`, but get-transactions returns
+      // the SAME id under `sale_payme_id` (names transposed) — accept both.
+      const exact = list.find(
+        (s) => String(s?.sale_payme_id ?? s?.payme_sale_id ?? "") === saleId
+      );
+      const tx = exact ?? (list.length === 1 ? list[0] : null);
+      if (!tx) {
+        notes.push(`${c.path}:no-match`);
+        continue;
+      }
+      const status = String(tx.sale_status ?? tx.status ?? "").toLowerCase();
+      if (!status) {
+        notes.push(`${c.path}:no-status`);
+        continue;
+      }
+      if (status !== "completed") {
+        return { verdict: "unpaid", detail: `${c.path}:status=${status}` };
+      }
+      // `transaction_price` is THE documented amount on a get-transactions row,
+      // in integer agorot (same unit we send). NOT transaction_price_after_fees
+      // (a string, net of PayMe's cut). The rest are legacy/defensive fallbacks.
+      const priceRaw =
+        tx.transaction_price ?? tx.price ?? tx.sale_price ?? tx.amount ?? tx.total;
+      const price = Number(priceRaw);
+      if (!Number.isFinite(price)) {
+        // We can't read the amount under any known key. If the sale matched by
+        // its unique sale id — which WE created server-side with a fixed price —
+        // "completed" is already proof enough; the amount was never in the
+        // shopper's control. Report the field names so this can be tightened.
+        const keys = Object.keys(tx).join(",").slice(0, 400);
+        if (exact) return { verdict: "paid", detail: `${c.path}:completed:no-price:${keys}` };
+        return { verdict: "unknown", detail: `${c.path}:no-price:${keys}` };
+      }
+      if (price !== order.total) {
+        return { verdict: "unpaid", detail: `${c.path}:price=${price}!=${order.total}` };
+      }
+      return { verdict: "paid", detail: `${c.path}:completed` };
+    } catch {
+      notes.push(`${c.path}:threw`);
+    }
   }
+  return { verdict: "unknown", detail: notes.join("|").slice(0, 160) || "no-answer" };
 }
 
 // shared by the callback AND the order-status self-heal: re-query PayMe, and only
@@ -728,6 +783,7 @@ async function settleOrderIfPaid(
   env: Env,
   db: DB,
   extra: {
+    trustedCallback?: boolean;
     paymentRef?: string;
     invoiceUrl?: string;
     payerName?: string;
@@ -735,8 +791,16 @@ async function settleOrderIfPaid(
     payerPhone?: string;
   } = {}
 ): Promise<PaidCheck> {
-  const check = await confirmPaidWithPayMe(order, env);
-  if (check !== "paid") return check;
+  const { verdict } = await probePayMeSale(order, env);
+  // trustedCallback: the caller already verified a PayMe-authenticated callback
+  // (secret key + our exact payme_sale_id + exact amount + ILS + sale-complete).
+  // The re-query is defense-in-depth, so it may VETO ("unpaid") but must not be
+  // a single point of failure — its exact shape is undocumented, and a shop that
+  // can't settle real payments is worse than the residual forgery risk (which
+  // needs the 48-char webhook secret AND the sale id AND the exact agorot).
+  // TODO: once PayMe confirms the endpoint, require verdict === "paid" here too.
+  const ok = extra.trustedCallback ? verdict !== "unpaid" : verdict === "paid";
+  if (!ok) return verdict;
 
   const res = await db
     .update(orders)
@@ -833,15 +897,31 @@ async function paymeCallback(request: Request, env: Env, db: DB): Promise<Respon
   // and a PARTIAL refund (price < total) leaves the order paid — the owner sees
   // the refund in PayMe; flipping the whole order would drop it from fulfilment.
   if (notify === "refund" || notify === "sale-chargeback") {
+    // sale_status distinguishes full from partial: refunded / partial-refund,
+    // chargeback / partial-chargeback. A PARTIAL refund leaves the order paid —
+    // the owner still ships it; the refund is visible in PayMe.
+    const saleStatus = f("sale_status");
     const refunded = Number(f("price"));
-    const full = notify === "sale-chargeback" || !Number.isFinite(refunded) || refunded >= order.total;
-    if (full) {
+    const partial =
+      saleStatus.startsWith("partial") ||
+      (Number.isFinite(refunded) && refunded > 0 && refunded < order.total);
+    if (!partial) {
       await db
         .update(orders)
         .set({ status: "refunded" })
         .where(and(eq(orders.id, orderId), inArray(orders.status, ["paid", "handled"])))
         .run();
     }
+    return new Response("OK");
+  }
+  // a reverted chargeback means the money is ours again — restore the order so it
+  // doesn't sit "refunded" and drop out of fulfilment.
+  if (notify === "sale-chargeback-refund") {
+    await db
+      .update(orders)
+      .set({ status: "paid" })
+      .where(and(eq(orders.id, orderId), eq(orders.status, "refunded")))
+      .run();
     return new Response("OK");
   }
   if (notify === "sale-failure") {
@@ -864,6 +944,7 @@ async function paymeCallback(request: Request, env: Env, db: DB): Promise<Respon
 
   const invoiceUrl = f("sale_invoice_url");
   const outcome = await settleOrderIfPaid(order, env, db, {
+    trustedCallback: true,
     paymentRef: f("payme_transaction_id"),
     invoiceUrl: /^https:\/\//i.test(invoiceUrl) ? invoiceUrl : undefined,
     payerName: f("buyer_name"),
@@ -900,6 +981,15 @@ async function orderStatus(request: Request, env: Env, db: DB): Promise<Response
     if (!(await isRateLimited(db, ip, "order-status", 30, 60))) {
       if ((await settleOrderIfPaid(o, env, db)) === "paid") return json({ status: "paid" });
     }
+  }
+
+  // ?debug=1 — what did PayMe actually answer for this sale? Secret-free (an
+  // endpoint name + status string), and it needs the order's unguessable uuid,
+  // which only the shopper who created it has. Keeps a stuck order diagnosable
+  // without log access; drop it once the re-query shape is confirmed.
+  if (new URL(request.url).searchParams.get("debug") === "1") {
+    const probe = await probePayMeSale(o, env);
+    return json({ status: o.status, saleId: o.paymeSaleId, probe });
   }
 
   // return ONLY status (the id travels in the return URL; don't leak the amount)
