@@ -86,7 +86,7 @@ function Dashboard({
         view={view}
         setView={setView}
         productCount={products.length}
-        newOrders={orders.filter((o) => o.status === "new").length}
+        newOrders={orders.filter((o) => o.status === "paid").length}
       />
 
       {error && <p className="admin-error">{error}</p>}

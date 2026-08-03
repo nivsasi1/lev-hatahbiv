@@ -28,7 +28,10 @@ export function useStats() {
     const top = [...qtyByName.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
 
     return {
-      newOrders: orders.filter((o) => o.status === "new").length,
+      // "new" for the OWNER = paid and waiting to be handled. The DB's 'new'
+      // status means the opposite — checkout started but never paid (abandoned) —
+      // so counting that showed 0 while a real paid order sat in the list.
+      newOrders: orders.filter((o) => o.status === "paid").length,
       totalOrders: orders.length,
       revenue,
       recentCount: recent.length,
