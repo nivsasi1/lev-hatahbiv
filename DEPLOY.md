@@ -46,6 +46,15 @@ cd ../Frontend && npm ci && node scripts/generate-catalog.mjs && npm run build
   (deploy command: `npx wrangler deploy` — upload **and** activate) and on Render.
 - Build-time env: `DB_URL` (Atlas — the build bakes the catalog from it),
   `VITE_API_URL` = `https://lev-hatahbiv-api.onrender.com`, optional `VITE_GA_ID`.
+
+> ⚠️ **Manual-deploy trap (hit 2026-08-03).** Those Cloudflare build variables only
+> apply when **Cloudflare's CI** builds. A `vite build` run on a local machine does
+> NOT see them, so `API_BASE` fell back to `http://localhost:5001` and the deployed
+> `/manage` login failed with `ERR_CONNECTION_REFUSED`. Since the GitHub auto-build
+> stopped firing, every `npx wrangler deploy` is a LOCAL build — so `VITE_API_URL`
+> now also lives in committed [Frontend/.env.production](Frontend/.env.production).
+> After any manual build, sanity-check before deploying:
+> `grep -ro "localhost:5001" Frontend/dist/assets/ | wc -l` must print `0`.
 - The build also emits **`checkout-pricing.json`** into `dist` — the Worker
   reads it for authoritative checkout prices. A stale storefront = stale
   prices at checkout, which is exactly why price changes require a publish.
