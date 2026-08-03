@@ -783,7 +783,6 @@ async function settleOrderIfPaid(
   env: Env,
   db: DB,
   extra: {
-    trustedCallback?: boolean;
     paymentRef?: string;
     invoiceUrl?: string;
     payerName?: string;
@@ -791,16 +790,15 @@ async function settleOrderIfPaid(
     payerPhone?: string;
   } = {}
 ): Promise<PaidCheck> {
-  const { verdict } = await probePayMeSale(order, env);
-  // trustedCallback: the caller already verified a PayMe-authenticated callback
-  // (secret key + our exact payme_sale_id + exact amount + ILS + sale-complete).
-  // The re-query is defense-in-depth, so it may VETO ("unpaid") but must not be
-  // a single point of failure — its exact shape is undocumented, and a shop that
-  // can't settle real payments is worse than the residual forgery risk (which
-  // needs the 48-char webhook secret AND the sale id AND the exact agorot).
-  // TODO: once PayMe confirms the endpoint, require verdict === "paid" here too.
-  const ok = extra.trustedCallback ? verdict !== "unpaid" : verdict === "paid";
-  if (!ok) return verdict;
+  // An affirmative "paid" from the server-side re-query is ALWAYS required — the
+  // callback is only a trigger, never proof (merchant accounts get no usable
+  // signature). Verified against a real production sale 2026-08-03:
+  // get-transactions returns sale_status "completed" + transaction_price, so an
+  // "unknown" here is a genuine anomaly, not our unproven parsing. A transient
+  // failure is safe: the callback answers 500 → PayMe retries, and the 15-min
+  // cron sweeps anything still unsettled.
+  const verdict = (await probePayMeSale(order, env)).verdict;
+  if (verdict !== "paid") return verdict;
 
   const res = await db
     .update(orders)
@@ -944,7 +942,6 @@ async function paymeCallback(request: Request, env: Env, db: DB): Promise<Respon
 
   const invoiceUrl = f("sale_invoice_url");
   const outcome = await settleOrderIfPaid(order, env, db, {
-    trustedCallback: true,
     paymentRef: f("payme_transaction_id"),
     invoiceUrl: /^https:\/\//i.test(invoiceUrl) ? invoiceUrl : undefined,
     payerName: f("buyer_name"),

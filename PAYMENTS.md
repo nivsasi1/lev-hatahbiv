@@ -400,9 +400,16 @@ ticket numbers — we accidentally opened duplicate tickets; continue in 515584,
 - ✅ **3DS cost (confirmed at signup 2026-08-03): ₪100 one-time setup** + ~₪2.50/txn
   (0.15%, min ₪2.50). Only fires above ₪499 / foreign cards / >3 installments, so at an
   ~₪80 average order it is effectively dormant.
-- ✅ **Live end-to-end test passed (2026-08-03):** sandbox card payment → order settled
-  `paid`. NOTE it settled via the /thank-you poll, NOT the callback (`payment_ref` empty)
-  — the callback has never arrived; a 15-min cron reconciliation now backstops it.
+- ✅ **PRODUCTION go-live passed (2026-08-03):** real ₪6.00 card purchase → order settled
+  `paid` with `payment_ref` = `TRAN...`, and the probe returns
+  `get-transactions:completed`. **Both paths work in production.**
+- ⚠️ **Sandbox does NOT send server-to-server callbacks; production DOES.** In sandbox
+  `payment_ref` stayed empty (settled only by the /thank-you poll); the first live sale
+  populated it immediately. So the "callback never arrives" symptom was a sandbox
+  limitation, not an integration bug — worth knowing before chasing it again.
+- ✅ Because the re-query is now proven against a real sale, `settleOrderIfPaid` requires an
+  affirmative `verdict === "paid"` on EVERY path (the earlier fail-open compromise for
+  unrecognised responses is gone).
 - ✅ **`generate-sale` needs only `seller_payme_id`** — no additional key (confirmed).
 - ✅ **API access included in PAID accounts, no extra cost** — in writing. The Grow trap
   formally cleared.
