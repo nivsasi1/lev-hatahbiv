@@ -117,12 +117,15 @@ console.log(byCat);
 // plus shipping config. The Worker recomputes order totals from this (never
 // trusting client-sent amounts). Keep the shipping values in sync with
 // catalog.ts FREE_SHIPPING_FROM (₪300) + CartPage deliveryOptions (₪35/₪28).
+// `names` is authoritative too — the order the owner ships from must show the
+// product that was actually PRICED, not a name the client sent.
 const pricing = {
   freeShippingFrom: 30000,
   delivery: { pickup: 0, courier: 3500, mail: 2800 },
   prices: Object.fromEntries(
     products.map((p) => [p.id, Math.round((p.salePrice ?? p.price) * 100)])
   ),
+  names: Object.fromEntries(products.map((p) => [p.id, p.name])),
 };
 mkdirSync(dirname(pricingOutPath), { recursive: true });
 writeFileSync(pricingOutPath, JSON.stringify(pricing));

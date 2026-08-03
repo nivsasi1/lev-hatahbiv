@@ -3,17 +3,19 @@
 How the whole system fits together. Read this before touching anything.
 Companion doc: [DEPLOY.md](DEPLOY.md) (how to ship changes, env vars, secrets).
 Deep-dives that predate this doc and remain useful: [CLOUDFLARE.md](CLOUDFLARE.md)
-(migration history + lessons), [PAYMENTS.md](PAYMENTS.md) (PayMe research + API details).
+(migration history + lessons), [PAYMENTS.md](PAYMENTS.md) (payment-provider research —
+Grow is current, PayMe kept as fallback).
 
 ## The one-paragraph version
 
 A Hebrew (RTL) art-supplies storefront for a family shop in Rehovot. The public
 site is a **static SPA** (Vite + Preact + TS) with the entire product catalog
 **baked in at build time** from MongoDB. Everything dynamic — coupons, newsletter,
-**card payments (PayMe)**, orders — runs on a **Cloudflare Worker + D1** at
+**card payments (Grow/Meshulam)**, orders — runs on a **Cloudflare Worker + D1** at
 `/api/*` on the same origin. A separate Express API on Render serves only the
 **manager dashboard** (product CRUD, image upload, publish). Shoppers pay by card
-on PayMe's hosted page; there is no WhatsApp checkout.
+via Grow — a Growin Wallet popup on our site, or Grow's hosted page as fallback;
+there is no WhatsApp checkout.
 
 ## System map
 
@@ -24,11 +26,11 @@ on PayMe's hosted page; there is no WhatsApp checkout.
                         │   └─ SPA fallback, catalog baked in        │
                         │  Worker (worker/index.ts)  /api/*          │
                         │   └─ D1 "lev": coupons, orders,            │
-                        │      subscribers, settings, rate_limits    │──▶ PayMe
-                        └────────────────────────────────────────────┘   (hosted
-                                                                          payment
-  Manager ──▶ /manage (same SPA) ──┬──▶ Worker /api/admin/* (coupons,     page +
-                                   │    orders, subscribers, settings)    webhook)
+                        │      subscribers, settings, rate_limits    │──▶ Grow
+                        └────────────────────────────────────────────┘   (wallet /
+                                                                          hosted page
+  Manager ──▶ /manage (same SPA) ──┬──▶ Worker /api/admin/* (coupons,     + server
+                                   │    orders, subscribers, settings)    callback)
                                    └──▶ Render API (products CRUD,
                                         images→S3, CSV import, publish)
                                               │
@@ -100,43 +102,56 @@ Per-IP fixed-window rate limiting (D1 `rate_limits`) on all public endpoints.
 | `GET /api/welcome` | welcome-offer toggle+percent for the signup dialog |
 | `POST /api/subscribe` | newsletter signup; mints ONE single-use welcome coupon per email (atomic claim on the PK, idempotent, 500/day global mint cap) |
 | `POST /api/checkout` | **card checkout** — see §4 |
-| `POST /api/payme-callback?key=…` | PayMe webhook (authoritative "paid") |
-| `GET /api/order-status?id=…` | `/thank-you` polls this; returns status only |
+| `POST /api/grow-callback?key=…` | Grow server-to-server callback (authoritative "paid") |
+| `POST /api/grow-invoice?key=…` | Grow invoice callback — stores `invoiceUrl`/`invoiceNumber` on the order |
+| `GET /api/order-status?id=…` | `/thank-you` polls this; returns status only (self-heals a lost callback — see §4) |
 | `/api/admin/*` (JWT) | coupons CRUD, subscribers, settings, **orders list + status PATCH** |
 
 Admin JWT: HS256 verified with Web Crypto; **`ADMIN_JWT_SECRET` must equal the
 Render backend's `SECRET`** — login happens on Render, the token works on both.
 Tokens must carry `exp` (enforced).
 
-### 4. Payments — PayMe (the checkout)
+### 4. Payments — Grow (Meshulam) Light API (the checkout)
 
-Money is **integer agorot everywhere** (D1, PayMe, cart math) — no floats.
-The cart page mirrors the Worker's math exactly (discount rounded to the
-10-agorot grid) so the shown total equals the charged total.
+Money is **integer agorot** in D1 and all cart math; Grow's `sum` is shekels
+decimal — converted ONLY at the API boundary (`(agorot/100).toFixed(2)` out,
+`Math.round(parseFloat(s)*100)` in). The cart page mirrors the Worker's math
+exactly (discount rounded to the 10-agorot grid) so the shown total equals the
+charged total. Payer name+phone are required by Grow (email optional) — the cart
+collects them and both sides validate identically.
 
 ```
-Cart "💳 תשלום מאובטח בכרטיס"
-  → POST /api/checkout {items:[{id,qty}], delivery, couponCode?}
-      Worker: recompute totals from /checkout-pricing.json (NEVER trusts client
-      prices), re-validate coupon in D1, INSERT order status:'new',
-      PayMe generate-sale (sale_price in agorot, transaction_id = order uuid,
-      sale_payment_method:"multi" → card+Bit+Apple/Google Pay,
-      sale_callback_url = /api/payme-callback?key=WEBHOOK_KEY,
-      sale_return_url = /thank-you?order=ID)
-  ← { url } → browser redirects to PayMe's hosted page (no card data on our site)
-PayMe webhook → /api/payme-callback: constant-time key check, load order by
-      transaction_id, verify price == order.total, then mark 'paid'
-      + store payment_ref/invoice_url/payer fields + CONSUME the coupon
-      (used_count++, exactly once — idempotent via status guard).
-      refund/chargeback notifications flip status to 'refunded' even after paid.
+Cart: payer form (שם מלא + נייד + אימייל) → "💳 תשלום מאובטח בכרטיס"
+  → POST /api/checkout {items:[{id,qty}], delivery, couponCode?, payer}
+      Worker: validate payer, recompute totals from /checkout-pricing.json
+      (NEVER trusts client prices), re-validate coupon in D1, INSERT order
+      status:'new', Grow createPaymentProcess (FormData, not JSON; sum in
+      shekels, cField1 = order uuid, pageField[fullName|phone|email],
+      notifyUrl = /api/grow-callback?key=WEBHOOK_KEY,
+      invoiceNotifyUrl = /api/grow-invoice?key=…,
+      successUrl = /thank-you?order=ID, cancelUrl = /cart);
+      store processId + processToken on the order
+  ← { url }      → full-page redirect to Grow's hosted page (redirect pageCode)
+  ← { authCode } → Growin Wallet SDK popup on our site (wallet pageCode) —
+      cards + Apple/Google Pay + Bit; no card data touches our site either way
+Grow callback (FormData, NO signature) → /api/grow-callback: constant-time key
+      check, load order by cField1, verify processId + processToken match AND
+      sum == order.total, then RE-QUERY Grow (getPaymentProcessInfo) as the
+      authoritative gate → atomic flip 'new/failed'→'paid' + payment_ref
+      (transactionId) + payer fields + CONSUME the coupon (used_count++,
+      exactly once) → best-effort approveTransaction ack (non-fatal).
+Invoice callback → /api/grow-invoice: stores invoiceUrl + invoiceNumber.
 Browser lands on /thank-you?order=ID → polls /api/order-status until 'paid'.
-      The webhook is authoritative; the redirect is just UX.
+      The callback is authoritative; the redirect is just UX. order-status
+      self-heals: a 'new' order <24h old with a processToken re-runs the same
+      confirm+flip, so a lost callback still settles.
 ```
 
 Order lifecycle: `new → paid | failed`, then `refunded / handled / cancelled`
-(manager can PATCH via the dashboard orders tab). Minimum charge ₪5 (PayMe rule).
-Env switch: `PAYME_BASE_URL` sandbox `https://sandbox.payme.io/api` ↔ production
-`https://live.payme.io/api` (see DEPLOY.md → PayMe go-live).
+(manager can PATCH via the dashboard orders tab). Minimum charge ₪5.
+Env switch: `GROW_BASE_URL` **var** in wrangler.jsonc — sandbox
+`https://sandbox.meshulam.co.il/api/light/server/1.0` ↔ production base issued
+with the live credentials (see DEPLOY.md → Grow go-live).
 
 ### 5. Render API (manager dashboard only) — `Backend/`
 
@@ -174,8 +189,9 @@ digest. Alerts to a Telegram group + email on state change only. Setup + details
 
 Values live in [DEPLOY.md](DEPLOY.md) tables (where to set each). Names only here:
 
-- **Cloudflare Worker secrets**: `ADMIN_JWT_SECRET`, `PAYME_SELLER_ID`,
-  `PAYME_WEBHOOK_KEY`, `PAYME_BASE_URL` (optional; defaults to sandbox).
+- **Cloudflare Worker secrets**: `ADMIN_JWT_SECRET`, `GROW_USER_ID`,
+  `GROW_PAGE_CODE`, `GROW_WEBHOOK_KEY`. Plus the wrangler.jsonc **var**
+  `GROW_BASE_URL` (defaults to Grow's sandbox).
 - **Cloudflare build vars**: `DB_URL` (Atlas, encrypted), `VITE_API_URL`,
   `VITE_GA_ID` (optional).
 - **Render (lev-hatahbiv-api)**: `DB_URL`, `SECRET` (JWT — must match
@@ -200,8 +216,9 @@ Values live in [DEPLOY.md](DEPLOY.md) tables (where to set each). Names only her
    only.** `assets.directory` must point at the *built* `Frontend/dist`.
 5. **Every push to `main` triggers production builds** (Cloudflare, Render).
    Don't commit state files or experiments to main casually.
-6. **The webhook must stay idempotent** (PayMe retries): status guard before
-   marking paid, coupon consumed exactly once, refund handled before the guard.
+6. **The payment callback must stay idempotent** (Grow may retry, and the
+   order-status self-heal re-runs the same flip): atomic status guard before
+   marking paid, coupon consumed exactly once.
 7. **Port 5001** for the local backend, not 5000.
 8. **`vite build` does not type-check** — run `npx tsc --noEmit` yourself.
 9. Coupons: never reveal whether a code exists; welcome mint is atomic on the

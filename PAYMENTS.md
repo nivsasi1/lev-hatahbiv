@@ -1,11 +1,95 @@
 # Payments — provider research + integration plans
 
-Status (2026-07-09): **switched to Grow** — the special bid (₪59/mo + 0.6%) beats PayMe
-at all realistic volumes, and a Grow account is now open. The Grow plan is below; the
-older PayMe plan is kept further down as a fallback (nothing PayMe-specific was ever
-deployed, so there is nothing to unwind).
+Status (2026-07-12): **Grow is DEAD.** The API team revealed that code/API integration
+(Light API + Wallet SDK — the only way to power an automated site checkout) costs
+**₪500/month + VAT (≈₪585)** on top of the plan — a fee that appears nowhere on the
+special-bid page. The ₪59 + 0.6% bid only covers their no-code products (dashboard
+payment links etc.). Owner cancelled the account the same day and requested a refund
+of the ₪59 charge.
 
-## Grow (Meshulam) — integration plan  ← CURRENT
+**Why cancelling was right:** Grow-with-API ≈ ₪644/mo fixed (₪59 + ₪585) + 0.6%.
+PayMe ≈ ₪64/mo fixed (₪49 fee-minimum + ₪15 invoices) + 1.2% + ₪1/txn. The ~₪580/mo
+fixed gap needs ~₪30–35k/month of ONLINE sales (~400 orders) before Grow's cheaper
+percentage catches up — far beyond a neighborhood shop's online channel at launch.
+
+**Current direction: back to PayMe** (plan below, still fully valid; the business
+already has a PayMe relationship from Wix). **The `grow` branch work is NOT wasted** —
+most of it is provider-agnostic and carries over:
+- cart payer form (name/phone/email) + **shipping address** collection ✅ keep as-is
+- server-side payer/shipping validation, orders schema (+ `shipping` column) ✅ keep
+- the hardened settle architecture (server re-query gate, tri-state paid check, atomic
+  `WHERE status IN ('new','failed')` flip, once-only coupon consume, order-status
+  self-heal) ✅ port to PayMe (re-query = get sale by `payme_sale_id`)
+- swap needed: `createPaymentProcess`→`generate-sale`, `/api/grow-callback`→
+  `/api/payme-callback`, drop the Wallet SDK module. (~half a day.)
+
+---
+
+## Rate check — Israeli processors (researched 2026-07-12, 6 providers, sourced)
+
+Criteria: clearing % + fixed/txn + monthly + setup + **API-access fee (the Grow trap)** +
+3DS + **invoice generation** + wallets + callback security. Model: avg order ₪80, invoices
+on every order, 3DS off, all amounts **excl. VAT**. Quote-based providers (most of them
+publish no price list) use best third-party data — marked ⚠️ where unconfirmed.
+
+| Monthly cost (excl VAT) | ₪5k / 63 orders | ₪10k / 125 orders | ₪30k / 375 orders | API fee | Invoices | Callback auth |
+|---|---|---|---|---|---|---|
+| **Sumit** (clearing via Upay) | ~₪100–180 | **~₪235** | **~₪545** | ₪0 (all plans) | **included** (it IS an invoicing platform) | no signature → re-query |
+| **CardCom direct** | ~₪140 ⚠️ | ~₪200 ⚠️ | ~₪440 ⚠️ | **"Low Profile module" must be PURCHASED — price unpublished (Grow-pattern risk!)** | +₪29/mo module ⚠️ | no signature → re-query (their documented pattern) |
+| **PayMe** (signed rates ✓) | ~₪155 | ~₪260 | ~₪800 | **₪0 — confirmed** (plan feature + absent from T&C tariff) | ₪0.3/doc or ₪15/mo flat — confirm which | MD5 signature (formula unpublished) + re-query |
+| Tranzila | ~₪230 | ~₪310 | ~₪650 | likely ₪0 ⚠️ | bundled in doc-quota tiers | unsigned → re-query |
+| Hyp (Yaad Sarig) | ~₪150–250 ⚠️ | ~₪220–310 ⚠️ | ? (% unpublished!) | gateway fee IS the API; webhooks need support enablement | +₪49/mo (Mata, 300 docs) | signed redirect + VERIFY endpoint |
+| PayPlus | ~₪295 | ~₪385 | ~₪745 | ₪0 evidence, quote-based ⚠️ | **Invoice+ ~₪145/mo** (auto-invoice needs Professional tier) ⚠️ | **HMAC-SHA256 — best in class** |
+| Morning (Green Invoice) | — | ~₪344 | — | plan-gated (Best+) | included in plan | **clearing is GROW underneath — avoid** |
+| iCount Pay | — | ~₪310 + ₪249 setup | — | ₪0 | included (doc tiers) | **it's PayMe underneath + 0.85% default fast-payout trap — pointless vs direct PayMe** |
+
+Key per-provider facts (full sources in the research run):
+- **PayMe** — HIGH confidence (signed agreement + paid.co.il + T&C all agree): 1.2% + ₪1/txn,
+  ₪99 setup, ₪49/mo fee-floor (only >₪500 volume). **3DS = 0.15% min ₪2.5 but auto-triggers
+  only on orders >₪499 / >3 installments / foreign cards → at our ₪80 avg it basically never
+  fires.** Apple/Google Pay +₪0.5/txn, Bit +0.5%. Withdrawal ₪14.9 in months with <₪5k
+  withdrawn. **The ₪1/txn is the killer at ₪80 orders: it's +1.25% → ~2.6% effective all-in.**
+- **Sumit** — 1.1% (0.9% clearing + 0.2% no-doc fee, via Upay), **no fixed/txn, no setup**.
+  Platform ₪125/mo (Growth, 400 actions; a sale burns 2 — charge + auto-invoice; ₪0.25/extra).
+  3DS ₪1/attempt opt-in. Bit 1.6%. Foreign/Amex 4.2%. API included in every plan (quota = 5×
+  actions). Ask: payout timing (same-day costs 1.4% total), Apple/Google Pay surcharge,
+  callback signature. **~1.8–2.4% effective all-in, invoices included.**
+- **CardCom direct** — potentially cheapest (1.2%, maybe 0.9% with monthly payout; percent-only,
+  no fixed/txn) + real invoice module (+₪29/mo ⚠️2023 price) + good API (LowProfile/Create,
+  WebHookUrl, GetLpResult re-query — exactly our architecture). **BUT: their own docs say the
+  API "Low Profile module" must be purchased and its price appears NOWHERE** — demand it in
+  writing (one-time + monthly) before believing any total. Bit 1.6% cap ₪5k. Callback IPs to
+  allowlist: 82.80.227.17/29, 82.80.222.124/29.
+- **Tranzila** — quota-model gotchas (transaction "banks" that auto-open at extra cost, 3DS
+  billed per ATTEMPT incl. failures, CPI+3% yearly increases, ₪220 freeze fee, 24-mo lock-in
+  on promos). Not worth it at this size.
+- **Hyp (Yaad Sarig)** — nothing published, historically gateway-ON-TOP-of-acquirer (two fee
+  stacks); webhooks gated behind support. Too murky.
+- **PayPlus** — best developer experience (public docs, HMAC-signed callbacks, sandbox), but
+  auto-invoicing needs the Professional Invoice+ tier (~₪145/mo ⚠️) → priciest total.
+
+### Verdict
+1. **Launch on PayMe** — the only provider with signed, verified rates; API confirmed free;
+   3DS structurally ~free at our order size; the code exists (main) + hardened architecture
+   ready to port (grow branch, ~½ day). At launch volume the premium vs Sumit is only
+   ~₪30–100/mo — certainty and speed are worth more right now.
+2. **In parallel, get TWO written quotes** — the swap later costs half a day thanks to the
+   adapter architecture:
+   - **Sumit**: confirm Upay payout timing, Apple/Google Pay surcharge, callback verification,
+     and that 1.1% + ₪125/mo Growth is the whole story → if yes, it wins from ~₪15k/mo volume
+     (₪250+/mo cheaper at ₪30k).
+   - **CardCom**: itemized quote — Low Profile module (one-time + monthly), documents module +
+     per-doc overage, clearing % at monthly payout, 3DS, minimums, lock-in → if the module is
+     ≤~₪50/mo it beats everyone.
+3. Skip: Tranzila, Hyp, PayPlus, Morning (Grow inside), iCount Pay (PayMe inside, marked up).
+
+## Grow (Meshulam) — ARCHIVED plan (dead 2026-07-12 — ₪500/mo+VAT API fee)
+
+Kept for reference only: if Grow ever offers API access at a sane price, branch `grow`
+(commits d86d3a1..b573a80) holds a complete, docs-verified integration.
+
+Support answers we did get (Darya, 2026-07-10): ₪59+0.6% plan confirmed · Basic track
+suffices · 3DS = ₪2.50/checked txn · invoices self-configured in document settings.
 
 Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 
@@ -43,6 +127,15 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
   unified popup ON OUR SITE (cards + Apple Pay + Google Pay + Bit + PayBox) → `onSuccess`
   event + redirect to thank-you. Server callback + `approveTransaction` unchanged
   (**approveTransaction must echo ALL fields from the callback + `pageCode`**).
+- **Wallet SDK, verified from the live docs (2026-07-09):**
+  - Script: `https://cdn.meshulam.co.il/sdk/gs.min.js` (load async on the checkout page).
+  - `onload` → `growPayment.init({ environment: "DEV"|"PRODUCTION", version: 1, events: {…} })`
+    **then** `growPayment.renderPaymentOptions(authCode)`. **init() is required first** — skipping
+    it silently no-ops the wallet. (Coded in [grow-wallet.ts](Frontend/src/data/grow-wallet.ts);
+    flip `GROW_ENV` to `"PRODUCTION"` at go-live.)
+  - Events: `onSuccess` (→ /thank-you), `onFailure`/`onError`/`onTimeout` (→ error),
+    `onWalletChange`/`onPaymentStart`/`onPaymentCancel`. `onSuccess` payload:
+    `{ status:1, data:{ payment_sum, full_name, payment_method, number_of_payments, confirmation_number } }`.
 - Why Wallet: shopper never leaves the site, one-click Apple/Google Pay on mobile (most
   of our traffic), auto-matches site look. Cost: one external script + a JS call.
 - Fallback: standard pageCode → `data.url` → full-page redirect (zero client JS). The
@@ -62,8 +155,11 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
   verification given there's no callback signature (belt: processToken match + sum match;
   suspenders: re-query status).
 - **3DS** — optional, toggled via the API per business needs; applies **only to manual card
-  entry** (Apple Pay / Google Pay / Bit buttons are excluded). Ask Grow: the +₪2.50/txn
-  fee from the bid, and whether they recommend/require it for e-commerce.
+  entry** (Apple Pay / Google Pay / Bit buttons are excluded). **Confirmed by Grow support
+  (Darya, 2026-07-10): ₪2.50 per transaction that passes the 3DS check.** Trade-off for a
+  small shop: on a ₪50 order that's 5%, but 3DS shifts card-fraud/chargeback liability to
+  the issuer. Owner decision — lean OFF at launch (low-value orders), revisit if chargebacks
+  appear. We keep the code flag ready either way.
 - **Refund** — exists in the API → wire into the manager dashboard later (not launch-blocking).
 - Not relevant for us: POS/Android SDKs, Bit iOS/Android SDKs, Work with Token, recurring
   payments (maybe someday for חוגים subscriptions), Delayed Payment J4/J5 (auth-then-capture
@@ -86,14 +182,36 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 ### Security deltas vs the PayMe plan (important)
 - **No callback signature** (PayMe had `payme_signature`). So verification is on us:
   store `processId`+`processToken` on the order at creation; on callback accept only if
-  both match AND `sum` equals the order total; idempotent on order status. That's the
-  same "re-query" hardening we already planned — with Grow it's mandatory.
+  both match AND `sum` equals the order total AND **`statusCode === "2"`** (Grow's paid
+  code; `status` text = `"שולם"`) — the processId/token identify the *process*, not its
+  outcome, so without the statusCode gate a **declined** callback would settle as paid.
+  Then a server-side `getPaymentProcessInfo` re-query corroborates. Idempotent via
+  `WHERE status IN ('new','failed')`. Code reads the paid amount from the transaction
+  record, never the *requested* `data.sum`.
+- **Verified callback/response shapes (live docs, in-browser 2026-07-09):**
+  - **Callback** nests everything under `data`: `{ err, status:"1", data:{ statusCode:"2",
+    status:"שולם", sum:"269", processId, processToken, transactionId, fullName,
+    payerPhone, payerEmail, customFields:{ cField1 } } }`. Our reader accepts JSON *or*
+    form-data and reads `cField1` from `data.customFields`.
+  - **getPaymentProcessInfo** → `{ status:1, data:{ processId, processToken,
+    transactions:[ { statusCode:"2", sum, transactionId, … } ] } }` — re-query reads
+    `data.transactions[0]`.
+  - **Invoice callback** is a JSON **array** `[ { transactionId, processId, invoiceNumber,
+    invoiceUrl } ]` — **no cField1**, so we locate the order by `processId` (bound +
+    write-once).
+  - `getPaymentProcessInfo` error → `{ status:0, err:{ id, message }, data:"" }`.
+- **Known accepted tradeoff:** a single-use coupon can back at most one *extra* discounted
+  order only if the shopper opens two checkouts before paying either and then actually pays
+  both (real money, real orders). Consuming the coupon at checkout instead would burn codes
+  on abandoned carts; for a neighbourhood shop the current "consume on payment" is the right
+  call. Revisit only if coupon abuse shows up.
 - **`sum` is in shekels (decimal)**, our D1 is agorot → convert only at the API
   boundary (`(agorot / 100).toFixed(2)` out, `Math.round(sum * 100)` in). PayMe was
   agorot-native; this is the most bug-prone difference.
 
-### Build plan (~½–1 day once sandbox creds arrive)
-- Secrets (user sets): `GROW_USER_ID`, `GROW_PAGE_CODE`, `GROW_BASE_URL` (sandbox first).
+### Build plan — ✅ built on branch `grow` (awaiting sandbox creds to test)
+- Secrets (user sets): `GROW_USER_ID`, `GROW_PAGE_CODE`, `GROW_WEBHOOK_KEY` (our
+  callback-auth secret). `GROW_BASE_URL` is a wrangler.jsonc **var** (sandbox default).
 - Worker `/api/checkout`: keep all existing logic (server-side totals, coupon check,
   D1 insert) — swap the PayMe `generate-sale` call for `createPaymentProcess`
   (FormData; `sum`, `description`, `successUrl=/thank-you`, `cancelUrl=/cart`,
@@ -106,21 +224,30 @@ Docs: <https://grow-il.readme.io/> (Light API). Verified 2026-07-09.
 - Sandbox matrix: success, decline, duplicate callback, forged callback (wrong
   token/sum rejected), coupon consumed once. Then hand to Grow for the go-live review.
 
-### What the owner does next (code can't proceed without #1)
-1. Contact Grow support/integration: confirm the special-bid plan is attached to the
-   account, request **Light API sandbox credentials** — `userId` + **a Growin Wallet
-   `pageCode`** (and a standard redirect pageCode as fallback), give them the site URL.
-   Also ask whether the special bid requires a specific account track (Basic/Extra/Plus).
-2. When creds arrive: `wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` (+ `.dev.vars` for local).
-3. After sandbox tests pass: Grow reviews → issues production creds → swap secrets →
+### What the owner does next (code is done; sandbox testing can't start without #2)
+1. ✅ Code: worker (`createPaymentProcess`, `/api/grow-callback`, `/api/grow-invoice`,
+   `getPaymentProcessInfo` re-query, order-status self-heal), cart payer form + Wallet
+   hook — built on branch `grow`.
+2. ⏳ Contact Grow support/integration — the exact message (plan confirmation, sandbox
+   `userId` + Wallet/redirect pageCodes, account track, 3DS, invoices, Wallet SDK script
+   URL) is ready to paste: [docs/grow-support-questions.md](docs/grow-support-questions.md).
+3. ⏳ When creds arrive: `wrangler secret put GROW_USER_ID` / `GROW_PAGE_CODE` /
+   `GROW_WEBHOOK_KEY` (+ `.dev.vars` for local), fill the Wallet SDK script URL in
+   `Frontend/src/data/grow-wallet.ts`, run the sandbox matrix, merge `grow`.
+4. ⏳ After sandbox tests pass: Grow reviews → issues production creds → swap secrets →
    one small real transaction → open to shoppers.
 
 ---
 
-# PayMe integration plan (fallback — superseded by Grow above)
+# PayMe integration plan  ← CURRENT (built on branch `payme`, 2026-08-02)
 
-Earlier status: decided on PayMe (we already had a PayMe link from the Wix site). Never
-built. Kept as the fallback plan in case Grow falls through.
+Status: **the adapter swap is DONE on branch `payme`** (forked from `grow`, keeping the
+payer form + shipping address + hardened settle architecture): `generate-sale` (JSON,
+agorot-native — zero unit conversion), `/api/payme-callback` (key-auth + amount/currency/
+sale-id gates + **mandatory `get-transactions` re-query** — merchant accounts get no
+signature), refund/chargeback handling, invoice URL captured from the callback,
+order-status self-heal. Sandbox `seller_payme_id` received and verified. Remaining to
+launch: set the 2 secrets, deploy, run the sandbox test matrix, then swap to live creds.
 
 ## Why PayMe fits us well
 
@@ -251,15 +378,49 @@ Shopper (static SPA)              Cloudflare Worker (/api/*)                 Pay
 - Recompute amounts server-side; reject if the callback's `price` ≠ our order total.
 - Consume single-use coupons exactly once, on payment success only.
 
-## Open items (most now resolved via the live docs)
+## Support answers (Daniel @ PayMe support, tickets 515583/515584, 2026-07-28)
 
-- ✅ `generate-sale` fields + response, env URLs, callback attributes — confirmed.
-- ✅ Refunds exist ("Refund Sale", Post Sale Actions); invoices exist (`sale_invoice_url`
-  in the callback + a Create Document API) — just **enable the invoices module** on the account.
-- ⏳ Exact **`payme_signature`** formula — not published; ask partners@payme.io.
-  (We verify via server-side re-query meanwhile, so it isn't a blocker.)
-- ⏳ Confirm whether the account needs anything **beyond `seller_payme_id`** (the docs
-  call it "your private key", so likely that's the only credential).
+Email authenticity verified (sender support@payme.io, real Zendesk ticket threads, hrefs
+match visible links on the real payme.io domain; the two "verify" links are simply the two
+ticket numbers — we accidentally opened duplicate tickets; continue in 515584, close 515583).
+
+- ⚠️ **`payme_signature` — SUPERSEDED (2026-08-02):** support later clarified the signature
+  applies **only to partner/marketplace accounts — NOT merchant accounts like ours**. Our
+  callbacks carry no usable signature; the `get-transactions` re-query (authenticated by our
+  seller key, unspoofable) is the authoritative paid-gate, exactly as implemented. (The
+  earlier formula `md5(merchant_key + merchant_password + payme_transaction_id + payme_sale_id)`
+  is kept here only in case we ever become a partner account.)
+- ✅ **Sandbox VERIFIED + `seller_payme_id` received (2026-08-02)** — the MPL key from the
+  support email (never in the repo; `wrangler secret put PAYME_SELLER_ID` + `.dev.vars` only).
+  Dashboard note: the ₪-117.06 balance is the ₪99+VAT setup fee ("תשלום חוב").
+  ⚠️ **That MPL is SANDBOX-ONLY.** Sandbox and production are separate accounts with
+  separate keys (Daniel, 2026-07-28). The production key lives in the LIVE dashboard under
+  **אדמין → API ואינטגרציה** — no support request needed. See
+  [docs/LAUNCH-CHECKLIST.md](docs/LAUNCH-CHECKLIST.md).
+- ✅ **3DS cost (confirmed at signup 2026-08-03): ₪100 one-time setup** + ~₪2.50/txn
+  (0.15%, min ₪2.50). Only fires above ₪499 / foreign cards / >3 installments, so at an
+  ~₪80 average order it is effectively dormant.
+- ✅ **Live end-to-end test passed (2026-08-03):** sandbox card payment → order settled
+  `paid`. NOTE it settled via the /thank-you poll, NOT the callback (`payment_ref` empty)
+  — the callback has never arrived; a 15-min cron reconciliation now backstops it.
+- ✅ **`generate-sale` needs only `seller_payme_id`** — no additional key (confirmed).
+- ✅ **API access included in PAID accounts, no extra cost** — in writing. The Grow trap
+  formally cleared.
+- ✅ **Recommended callback pattern** (their words): return HTTP 200 immediately, then run
+  `get-transactions` to confirm status before any business action — PayMe retries the
+  callback until acknowledged. Our adapter: verify synchronously (signature + amount +
+  `get-transactions` re-query) and return 200 on settled / non-200 on transient re-query
+  failure so PayMe's retry loop covers us. **`get-transactions` is the re-query endpoint.**
+- ✅ **Invoice pricing RESOLVED (2026-08-03, from the iCount signup form itself): it is BOTH —
+  ₪15/month + ₪0.30 per document** (not either/or as support implied). At ~125 orders/mo that
+  is ~₪52/mo, so the all-in PayMe estimate at ₪10k/125 orders rises to ~₪297 + VAT (not ~₪260).
+  Setup: PayMe admin → Apps Marketplace → Automation → Automatic Invoices (iCount-backed).
+  Document type to pick: **חשבונית מס קבלה** (paid-at-sale retail). Two cautions: the
+  "תחילת ספרור מסמכים" start number must not collide with the shop's existing invoice
+  numbering, and leave the tourist-card VAT-exemption box UNCHECKED (VAT applies to orders
+  shipped within Israel regardless of card origin).
+- ⏳ Sandbox verification + `seller_payme_id` + site-URL update — blocked on the owner
+  completing identity verification at payme.io/verify/515584 (ח.פ + SMS to registered phone).
 
 ## Sources
 - PayMe docs: <https://docs.payme.io> · <https://payme.stoplight.io> · test cards: <https://payme.stoplight.io/docs/payments/v781p5enpoq9x-test-cards-and-payment-methods>

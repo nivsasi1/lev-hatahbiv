@@ -2,12 +2,25 @@
   // Cloudflare Workers + Static Assets for lev-hatahbiv.
   //   - serves the built SPA (Frontend/dist) via the ASSETS binding
   //   - runs the dynamic API (worker/index.ts) for /api/* — coupons now, payments later
-  // Last activation step (do it yourself, it's a secret):
+  // Last activation step (do it yourself, they're secrets):
   //   npx wrangler secret put ADMIN_JWT_SECRET   (= the backend's JWT SECRET)
+  //   npx wrangler secret put PAYME_SELLER_ID    (the "MPL..." key from PayMe; sandbox first)
+  //   npx wrangler secret put PAYME_WEBHOOK_KEY  (any long random string — auths the callbacks)
   // then:  npx wrangler deploy
   "name": "lev-hatahbiv",
   "compatibility_date": "2026-06-18",
   "main": "worker/index.ts",
+  "vars": {
+    // PayMe API base. LIVE — real money. Sandbox was https://sandbox.payme.io/api;
+    // switching back also requires putting the sandbox MPL back in PAYME_SELLER_ID
+    // (the two environments are separate accounts with separate keys).
+    "PAYME_BASE_URL": "https://live.payme.io/api"
+  },
+  // safety net: re-query PayMe for orders that were paid but never settled
+  // (shopper closed the tab AND the callback didn't arrive). See scheduled().
+  "triggers": {
+    "crons": ["*/15 * * * *"]
+  },
   "assets": {
     "directory": "./Frontend/dist",
     "binding": "ASSETS",

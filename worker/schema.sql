@@ -23,35 +23,45 @@ CREATE TABLE IF NOT EXISTS subscribers (
   created_at   TEXT NOT NULL
 );
 
--- Orders (WhatsApp now; real card/Bit payments in Phase 3).
+-- Orders — paid via PayMe (generate-sale).
 -- NOTE: money is stored in AGOROT (integer) to avoid float rounding — 10.30 ILS = 1030.
+-- PayMe is agorot-native too, so there is no unit conversion anywhere.
 CREATE TABLE IF NOT EXISTS orders (
-  id            TEXT PRIMARY KEY,               -- uuid
-  created_at    TEXT NOT NULL,
-  items         TEXT NOT NULL,                  -- JSON array of {id,name,qty,price}
-  subtotal      INTEGER NOT NULL,               -- agorot
-  coupon_code   TEXT,
-  discount      INTEGER NOT NULL DEFAULT 0,     -- agorot
-  delivery      TEXT,
-  total         INTEGER NOT NULL,               -- agorot
-  status        TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
-  payment_ref   TEXT,                           -- PayMe payme_transaction_id
-  payme_sale_id TEXT,                           -- PayMe payme_sale_id (from generate-sale)
-  invoice_url   TEXT,                           -- PayMe sale_invoice_url (if invoices module on)
-  payer_name    TEXT,
-  payer_email   TEXT,
-  payer_phone   TEXT
+  id             TEXT PRIMARY KEY,               -- uuid
+  created_at     TEXT NOT NULL,
+  items          TEXT NOT NULL,                  -- JSON array of {id,name,qty,price}
+  subtotal       INTEGER NOT NULL,               -- agorot
+  coupon_code    TEXT,
+  discount       INTEGER NOT NULL DEFAULT 0,     -- agorot
+  delivery       TEXT,
+  shipping       TEXT,                           -- JSON {street,city,apt,zip,notes} for courier/mail
+  total          INTEGER NOT NULL,               -- agorot
+  status         TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
+  payment_ref    TEXT,                           -- PayMe payme_transaction_id
+  payme_sale_id  TEXT,                           -- from generate-sale; keys the re-query
+  invoice_url    TEXT,                           -- sale_invoice_url from the callback
+  payer_name     TEXT,
+  payer_email    TEXT,
+  payer_phone    TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 
--- Migration for an EXISTING orders table (the columns above are new). Run once
--- on the live D1 if the table predates them — SQLite has no "ADD COLUMN IF NOT
--- EXISTS", so run each line and ignore "duplicate column" errors:
+-- Migration for an EXISTING orders table. VERIFIED against the live D1 on
+-- 2026-08-02 (PRAGMA table_info): it had only id/created_at/items/subtotal/
+-- coupon_code/discount/delivery/total/status/payment_ref/shipping, so ALL of
+-- these were still required:
 --   ALTER TABLE orders ADD COLUMN payme_sale_id TEXT;
 --   ALTER TABLE orders ADD COLUMN invoice_url TEXT;
 --   ALTER TABLE orders ADD COLUMN payer_name TEXT;
 --   ALTER TABLE orders ADD COLUMN payer_email TEXT;
 --   ALTER TABLE orders ADD COLUMN payer_phone TEXT;
+--   ALTER TABLE orders ADD COLUMN shipping TEXT;   -- applied 2026-08-02
+-- SQLite has no "ADD COLUMN IF NOT EXISTS" — a "duplicate column" error just
+-- means it is already there, ignore it. ALWAYS confirm with:
+--   npx wrangler d1 execute lev --remote --command "PRAGMA table_info(orders);"
+-- (A dev DB created from the grow branch may also carry unused process_id /
+--  process_token / invoice_number columns — harmless, leave them.)
+-- (a legacy payme_sale_id column may exist on the live D1 — harmless, ignore it.)
 
 -- Best-effort per-IP rate limiting for public endpoints (fixed window).
 CREATE TABLE IF NOT EXISTS rate_limits (

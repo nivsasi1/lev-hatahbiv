@@ -25,7 +25,8 @@ export const subscribers = sqliteTable("subscribers", {
   createdAt: text("created_at").notNull(),
 });
 
-// Orders — paid via PayMe (generate-sale). Money in AGOROT (matches PayMe).
+// Orders — paid via PayMe (generate-sale). Money in AGOROT (integer) — PayMe is
+// agorot-native too, so there is NO unit conversion anywhere.
 export const orders = sqliteTable("orders", {
   id: text("id").primaryKey(),
   createdAt: text("created_at").notNull(),
@@ -34,11 +35,12 @@ export const orders = sqliteTable("orders", {
   couponCode: text("coupon_code"),
   discount: integer("discount").notNull().default(0),
   delivery: text("delivery"),
+  shipping: text("shipping"), // JSON {street,city,apt,zip,notes} — set for courier/mail
   total: integer("total").notNull(),
   status: text("status").notNull().default("new"), // new|paid|failed|refunded|handled|cancelled
   paymentRef: text("payment_ref"), // PayMe payme_transaction_id
-  paymeSaleId: text("payme_sale_id"),
-  invoiceUrl: text("invoice_url"),
+  paymeSaleId: text("payme_sale_id"), // from generate-sale; keys the get-transactions re-query
+  invoiceUrl: text("invoice_url"), // sale_invoice_url from the callback (invoices module)
   payerName: text("payer_name"),
   payerEmail: text("payer_email"),
   payerPhone: text("payer_phone"),

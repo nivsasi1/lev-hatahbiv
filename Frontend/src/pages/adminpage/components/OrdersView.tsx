@@ -53,6 +53,14 @@ export function OrdersView() {
               </span>
             ))}
           </div>
+          {o.shipping && (o.shipping.street || o.shipping.city) && (
+            <div className="order-address">
+              📦 {[o.shipping.street, o.shipping.apt, o.shipping.city, o.shipping.zip]
+                .filter(Boolean)
+                .join(", ")}
+              {o.shipping.notes ? ` — ${o.shipping.notes}` : ""}
+            </div>
+          )}
           <div className="order-foot">
             <span className="meta">
               {DELIVERY_LABEL[o.delivery] || o.delivery}
