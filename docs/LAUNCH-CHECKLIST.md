@@ -19,6 +19,17 @@ to taking real money.
       still settle, but no tax document is issued automatically.
 - [ ] Merge `payme` → `main` so main is the source of truth.
 
+## 1b. Custom domain (lev-hatahbiv.com) — planned after launch
+
+**No code change needed.** `sale_callback_url` / `sale_return_url` / `cancel_url` are all
+built from `new URL(request.url).origin`, so they follow whatever domain serves the Worker.
+Attach the domain in Cloudflare (Workers & Pages → lev-hatahbiv → Settings → Domains &
+Routes) and the payment URLs adapt automatically. Both domains can serve the Worker at once.
+
+The ONLY external dependency: PayMe links a site URL to the account (moving off the Wix
+site took their tech team 1–2 business days), so **tell PayMe BEFORE the switch** and ask
+whether prior approval is required — it is asked in the support message.
+
 ## 2. The switch (in this order)
 
 ```bash
