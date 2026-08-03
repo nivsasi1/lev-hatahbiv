@@ -393,6 +393,16 @@ ticket numbers — we accidentally opened duplicate tickets; continue in 515584,
 - ✅ **Sandbox VERIFIED + `seller_payme_id` received (2026-08-02)** — the MPL key from the
   support email (never in the repo; `wrangler secret put PAYME_SELLER_ID` + `.dev.vars` only).
   Dashboard note: the ₪-117.06 balance is the ₪99+VAT setup fee ("תשלום חוב").
+  ⚠️ **That MPL is SANDBOX-ONLY.** Sandbox and production are separate accounts with
+  separate keys (Daniel, 2026-07-28). The production key lives in the LIVE dashboard under
+  **אדמין → API ואינטגרציה** — no support request needed. See
+  [docs/LAUNCH-CHECKLIST.md](docs/LAUNCH-CHECKLIST.md).
+- ✅ **3DS cost (confirmed at signup 2026-08-03): ₪100 one-time setup** + ~₪2.50/txn
+  (0.15%, min ₪2.50). Only fires above ₪499 / foreign cards / >3 installments, so at an
+  ~₪80 average order it is effectively dormant.
+- ✅ **Live end-to-end test passed (2026-08-03):** sandbox card payment → order settled
+  `paid`. NOTE it settled via the /thank-you poll, NOT the callback (`payment_ref` empty)
+  — the callback has never arrived; a 15-min cron reconciliation now backstops it.
 - ✅ **`generate-sale` needs only `seller_payme_id`** — no additional key (confirmed).
 - ✅ **API access included in PAID accounts, no extra cost** — in writing. The Grow trap
   formally cleared.
