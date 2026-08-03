@@ -102,13 +102,17 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const refresh = () =>
     Promise.all([
       call("/products"),
-      workerCall("/orders").catch(() => ({ orders: [] })), // orders live in D1 now
+      // orders live in D1 (Worker). Don't swallow the failure: a rejected token
+      // used to render as "no orders", which is indistinguishable from an empty
+      // shop and hid a real 401 for a while.
+      workerCall("/orders").catch((e) => ({ orders: [], _err: e.message })),
       workerCall("/subscribers").catch(() => ({ subscribers: [] })),
     ])
       .then(([p, o, s]) => {
         setProducts(p.products);
         setOrders(o.orders || []);
         setSubscribers(s.subscribers || []);
+        if (o._err) setError(`לא ניתן לטעון הזמנות — ${o._err}`);
       })
       .catch((e) => setError(e.message));
 
