@@ -18,7 +18,7 @@
  *              coupon (bump used_count). Invoice URL arrives IN the callback.
  */
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
-import { and, desc, eq, inArray, isNull, lt, or, sql } from "drizzle-orm";
+import { and, desc, eq, gt, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import { coupons, subscribers, settings, rateLimits, orders } from "./db/schema";
 
 export interface Env {
@@ -1028,6 +1028,31 @@ async function listAdminOrders(db: DB): Promise<Response> {
   return json({ orders: rows.map(mapOrder) });
 }
 
+// ---------- scheduled reconciliation (cron) ----------
+// Safety net for the money path. A shopper who pays and immediately closes the
+// tab never triggers the /thank-you poll, and PayMe's callback delivery is not
+// something we control — so without this an order could stay 'new' forever
+// despite being paid, and the owner would simply never see it. Every run asks
+// PayMe about each unsettled sale and settles the ones that really paid.
+async function reconcilePendingOrders(env: Env, db: DB): Promise<number> {
+  const cutoff = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const pending = await db
+    .select()
+    .from(orders)
+    .where(and(inArray(orders.status, ["new", "failed"]), gt(orders.createdAt, cutoff)))
+    .limit(50)
+    .all();
+
+  let settled = 0;
+  for (const o of pending) {
+    if (!o.paymeSaleId) continue;
+    // a sale created seconds ago is still mid-checkout — leave it alone
+    if (Date.now() - Date.parse(o.createdAt) < 120_000) continue;
+    if ((await settleOrderIfPaid(o, env, db)) === "paid") settled++;
+  }
+  return settled;
+}
+
 async function updateOrderStatus(request: Request, db: DB, id: string): Promise<Response> {
   let body: { status?: string };
   try {
@@ -1045,6 +1070,12 @@ async function updateOrderStatus(request: Request, db: DB, id: string): Promise<
 }
 
 export default {
+  // cron (see wrangler.jsonc "triggers"): catch paid-but-unsettled orders that
+  // neither the callback nor the /thank-you poll managed to settle.
+  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    ctx.waitUntil(reconcilePendingOrders(env, drizzle(env.DB)));
+  },
+
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const { pathname } = url;
