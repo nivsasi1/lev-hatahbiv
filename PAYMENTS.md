@@ -401,7 +401,14 @@ ticket numbers — we accidentally opened duplicate tickets; continue in 515584,
   callback until acknowledged. Our adapter: verify synchronously (signature + amount +
   `get-transactions` re-query) and return 200 on settled / non-200 on transient re-query
   failure so PayMe's retry loop covers us. **`get-transactions` is the re-query endpoint.**
-- ⏳ Invoice pricing (₪0.3/doc vs ₪15/mo flat) — Daniel checking, will reply separately.
+- ✅ **Invoice pricing RESOLVED (2026-08-03, from the iCount signup form itself): it is BOTH —
+  ₪15/month + ₪0.30 per document** (not either/or as support implied). At ~125 orders/mo that
+  is ~₪52/mo, so the all-in PayMe estimate at ₪10k/125 orders rises to ~₪297 + VAT (not ~₪260).
+  Setup: PayMe admin → Apps Marketplace → Automation → Automatic Invoices (iCount-backed).
+  Document type to pick: **חשבונית מס קבלה** (paid-at-sale retail). Two cautions: the
+  "תחילת ספרור מסמכים" start number must not collide with the shop's existing invoice
+  numbering, and leave the tourist-card VAT-exemption box UNCHECKED (VAT applies to orders
+  shipped within Israel regardless of card origin).
 - ⏳ Sandbox verification + `seller_payme_id` + site-URL update — blocked on the owner
   completing identity verification at payme.io/verify/515584 (ח.פ + SMS to registered phone).
 
