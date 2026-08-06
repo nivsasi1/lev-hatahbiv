@@ -21,16 +21,38 @@ PayMe is integrated, in **production**, and proven with a real purchase.
 - Every settle path requires an affirmative `get-transactions` "paid" verdict from
   PayMe. The callback is a trigger, never proof.
 
-## 🔴 Blocking public launch (waiting on PayMe support — Daniel)
+## 🔴 Blocking — the merchant account is registered to the WRONG ENTITY
 
-1. **Automatic invoices — iCount says ח.פ 511183279 "already in use".**
-   Real sales currently produce **no tax document**. Until this is resolved an invoice
-   must be issued manually for every order, so the site should not be promoted yet.
-   Cost once enabled: ₪15/month + ₪0.30 per document.
-2. **`payme_client_key`** — needed for API-driven refunds. *Not urgent*: refunds work
-   today from PayMe's dashboard ("בטל מכירה והחזר כסף" on the transaction).
+PayMe (2026-08-03) revealed the clearing account was opened under **עוסק מורשה
+213070220 — Niv's personal ID — not the company ח.פ 511183279 (לב התחביב בע"מ).**
+
+Why it matters: every shekel customers pay, and every tax document, is currently
+attributed to a private individual rather than the business. That is an
+accounting/tax problem, not a code problem — **involve the bookkeeper/accountant.**
+Nothing in this repo changes because of it, but it should be fixed before real
+volume accumulates under the wrong entity.
+
+Open questions with PayMe: can the existing account be re-registered to the ח.פ or
+must a new one be opened; **does the MPL key change** (if so we re-run
+`wrangler secret put PAYME_SELLER_ID`); what happens to transactions already made;
+does clearing keep working during the switch.
+
+Also noted by PayMe: ח.פ 511183279 is already linked to three of their accounts
+(one closed, two active **Wix** ones) — leftovers from the old site, worth closing.
+
+⚠️ **Rotate the MPL.** The production seller key was sent by email and pasted into a
+chat transcript. It can create sales on the account and read transaction history
+(customer names, emails, phones, card masks). Ask PayMe to reissue it — ideally
+folded into the entity change above — then `npx wrangler secret put PAYME_SELLER_ID`.
 
 ## 🟡 Answered — no longer open
+
+- ~~Automatic invoices~~ → **dropped on purpose (2026-08-03).** The shop already issues
+  an invoice by hand per order and encloses it with the shipment, so the iCount module
+  is not needed. Saves ₪15/month + ₪0.30/document. Revisit only if order volume makes
+  manual invoicing painful.
+- ~~`payme_client_key` for refunds~~ → **not required.** PayMe confirmed the API accepts
+  the MPL alone, so `refund-sale` can be wired whenever we want it.
 
 - ~~Callback never arrives~~ → **sandbox doesn't send callbacks; production does.**
 - ~~3DS not activating~~ → **active**; the live Apple Pay sale carried a 3DS badge.
