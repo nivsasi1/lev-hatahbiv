@@ -2615,6 +2615,33 @@ button {
   border-style: dashed;
 }
 
+/* payment never completed — a placeholder row, not an order */
+.order-card.unpaid {
+  opacity: 0.6;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.order-status.new,
+.order-status.failed {
+  background: #9a8f86;
+}
+
+.orders-unpaid {
+  margin-block-start: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.orders-unpaid > summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  padding: 0.5rem 0.2rem;
+}
+
 .order-head {
   display: flex;
   align-items: center;

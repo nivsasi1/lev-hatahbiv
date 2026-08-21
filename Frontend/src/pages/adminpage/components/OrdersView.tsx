@@ -2,9 +2,9 @@ import { useAdmin } from "../context";
 import { ils } from "../lib/helpers";
 
 const STATUS_LABEL: Record<string, string> = {
-  new: "חדשה",
+  new: "ממתין לתשלום",
   paid: "שולם 💳",
-  failed: "נכשל",
+  failed: "תשלום נכשל",
   refunded: "זוכה",
   handled: "טופלה",
   cancelled: "בוטלה",
@@ -28,13 +28,15 @@ export function OrdersView() {
       setOrders((prev) => prev.map((x) => (x._id === id ? d.order : x)));
     });
 
-  return (
-    <div className="orders-list">
-      {orders.length === 0 && (
-        <p className="empty-note">עוד אין הזמנות — הן יופיעו כאן ברגע שלקוח ישלם או ישלח עגלה</p>
-      )}
-      {orders.map((o) => (
-        <div key={o._id} className={`order-card ${o.status}`}>
+  // 'new' = placeholder row created before the shopper reached PayMe, 'failed' =
+  // PayMe refused to open a sale. Neither is an order until the callback flips it
+  // to 'paid', so they live in a collapsed section instead of the main list.
+  const isUnpaid = (o: (typeof orders)[number]) => o.status === "new" || o.status === "failed";
+  const real = orders.filter((o) => !isUnpaid(o));
+  const unpaid = orders.filter(isUnpaid);
+
+  const renderOrder = (o: (typeof orders)[number]) => (
+        <div key={o._id} className={`order-card ${o.status}${isUnpaid(o) ? " unpaid" : ""}`}>
           <div className="order-head">
             <b>
               {new Date(o.createdAt).toLocaleDateString("he-IL")}{" "}
@@ -77,7 +79,7 @@ export function OrdersView() {
               ) : null}
             </span>
             <span className="order-actions">
-              {o.status !== "handled" && (
+              {o.status !== "handled" && !isUnpaid(o) && (
                 <button className="btn small" onClick={() => setStatus(o._id, "handled")}>
                   ✓ סימון טופלה
                 </button>
@@ -90,7 +92,22 @@ export function OrdersView() {
             </span>
           </div>
         </div>
-      ))}
+  );
+
+  return (
+    <div className="orders-list">
+      {real.length === 0 && (
+        <p className="empty-note">עוד אין הזמנות — הן יופיעו כאן ברגע שלקוח ישלם</p>
+      )}
+      {real.map(renderOrder)}
+      {unpaid.length > 0 && (
+        <details className="orders-unpaid">
+          <summary>
+            ניסיונות תשלום שלא הושלמו ({unpaid.length}) — לקוח התחיל לשלם ויצא לפני סיום
+          </summary>
+          {unpaid.map(renderOrder)}
+        </details>
+      )}
     </div>
   );
 }
