@@ -23,12 +23,40 @@ to taking real money.
 
 **No code change needed.** `sale_callback_url` / `sale_return_url` / `cancel_url` are all
 built from `new URL(request.url).origin`, so they follow whatever domain serves the Worker.
-Attach the domain in Cloudflare (Workers & Pages → lev-hatahbiv → Settings → Domains &
-Routes) and the payment URLs adapt automatically. Both domains can serve the Worker at once.
 
-The ONLY external dependency: PayMe links a site URL to the account (moving off the Wix
-site took their tech team 1–2 business days), so **tell PayMe BEFORE the switch** and ask
-whether prior approval is required — it is asked in the support message.
+### DNS as measured 2026-08-06 (BEFORE the switch)
+
+| Record | Value |
+|---|---|
+| Nameservers | `ns12.wixdns.net`, `ns13.wixdns.net` (Wix runs DNS) |
+| A (apex) | `185.230.63.107`, `.186`, `.171` (Wix hosting) |
+| **MX** | `mail.lev-hatahbiv.com` → `66.147.244.98` (mail hosted OUTSIDE Wix) |
+| Live site | `https://www.lev-hatahbiv.com` = the OLD Wix site |
+
+### ⚠️ The email trap
+A Worker custom domain REQUIRES the zone to live on Cloudflare, so the nameservers must
+move off Wix. **If the MX / mail A / SPF-TXT records are not recreated in Cloudflare
+BEFORE the nameserver change, the shop stops receiving email.** Copy every record out of
+Wix's DNS panel first, verify them in Cloudflare, and only then switch nameservers.
+
+### Order of operations
+1. Wix → Domains → lev-hatahbiv.com → DNS records: screenshot / copy EVERY record
+   (MX, the `mail` A record, TXT/SPF, any subdomain).
+2. Cloudflare → Add a site → `lev-hatahbiv.com` → Free. It auto-scans; **manually verify
+   MX + mail + TXT survived**, add anything missing.
+3. Wix → domain → Advanced → nameservers → point to the two Cloudflare nameservers.
+4. Wait for Cloudflare to report the zone Active (usually <1h).
+5. Cloudflare → Workers & Pages → lev-hatahbiv → Settings → Domains & Routes → Add Custom
+   Domain for BOTH `lev-hatahbiv.com` and `www.lev-hatahbiv.com` (SSL is automatic).
+6. Verify the new site loads on both, and **send a test email to the shop address**.
+7. Tell PayMe to update the account's registered site URL (they asked which one to use).
+
+### Money notes (not technical)
+- The **Wix Premium plan is $481.44/yr** and the site no longer runs on Wix — cancel it
+  once the domain is served from Cloudflare. Confirm with Wix that cancelling Premium does
+  NOT cancel the domain registration ($25.19/yr, renewed Jan 3 2026).
+- Optional later: transfer the registration to Cloudflare Registrar (at-cost, ~$10/yr).
+  Not urgent, and do it only after everything is stable.
 
 ## 2. The switch (in this order)
 
