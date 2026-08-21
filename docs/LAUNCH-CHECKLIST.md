@@ -85,8 +85,15 @@ deliverability of mail sent from `mail.lev-hatahbiv.com`.
 - The **Wix Premium plan is $481.44/yr** and the site no longer runs on Wix — cancel it
   once the domain is served from Cloudflare. Confirm with Wix that cancelling Premium does
   NOT cancel the domain registration ($25.19/yr, renewed Jan 3 2026).
-- Optional later: transfer the registration to Cloudflare Registrar (at-cost, ~$10/yr).
-  Not urgent, and do it only after everything is stable.
+- Optional later: **transfer the registration to Cloudflare Registrar** — renewal drops
+  $25.19 → ~$10.46/yr. Details: only possible AFTER the zone is active on Cloudflare
+  nameservers; the transfer fee buys +1 year of registration (ICANN rule, Feb 2027 →
+  Feb 2028) so it's an early renewal, not an extra cost; the EPP/auth code comes from
+  Wix → domain → "Transfer away from Wix". Do it after everything is stable — renewal
+  deadline is Feb 2, 2027, no rush.
+- Decision 2026-08: do NOT switch identity to unhyphenated `levhatahbiv.com` — email,
+  SEO history and PayMe registration all live on `lev-hatahbiv.com`. Optionally buy the
+  unhyphenated one (~$10/yr) as a typo-catcher redirect; nice-to-have only.
 
 ## 2. The switch (in this order)
 
