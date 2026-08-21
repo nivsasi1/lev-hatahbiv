@@ -39,6 +39,36 @@ move off Wix. **If the MX / mail A / SPF-TXT records are not recreated in Cloudf
 BEFORE the nameserver change, the shop stops receiving email.** Copy every record out of
 Wix's DNS panel first, verify them in Cloudflare, and only then switch nameservers.
 
+### Exact record plan (captured from Wix 2026-08-06)
+
+**RECREATE in Cloudflare — all mail records must be `DNS only` (grey cloud), never
+proxied. Cloudflare does not proxy SMTP/IMAP/POP; an orange cloud here kills email.**
+
+| Type | Name | Value | Proxy |
+|---|---|---|---|
+| A | `mail` | `66.147.244.98` | **DNS only** |
+| CNAME | `imap` | `mail.lev-hatahbiv.com` | **DNS only** |
+| CNAME | `pop` | `mail.lev-hatahbiv.com` | **DNS only** |
+| CNAME | `smtp` | `mail.lev-hatahbiv.com` | **DNS only** |
+| MX | `@` | `mail.lev-hatahbiv.com` (priority 0) | n/a |
+| TXT | `@` | `google-site-verification=YYwEMYK045w2iw1lS71DdktvEKyt1UzVK5oxNlSYIYQ` | n/a |
+
+**DELETE / do not recreate** (Wix-only; the Worker custom domain replaces them):
+
+| Type | Name | Old value | Why |
+|---|---|---|---|
+| A | `@` ×3 | `185.230.63.171 / .186 / .107` | Wix hosting |
+| CNAME | `www` | `cdn1.wixdns.net` | Wix CDN |
+| CNAME | `m` | `www134.wixdns.net` | Wix mobile site |
+| NS | `@` | `ns12/ns13.wixdns.net` | replaced by Cloudflare's |
+
+Cloudflare's import scan will pull the Wix apex/www records in automatically — delete them
+after import, or they fight the Worker custom domain.
+
+**Note:** there is NO SPF/DKIM/DMARC record on this domain today (the only TXT is a Google
+verification). That is pre-existing, not caused by the move; adding SPF later would improve
+deliverability of mail sent from `mail.lev-hatahbiv.com`.
+
 ### Order of operations
 1. Wix → Domains → lev-hatahbiv.com → DNS records: screenshot / copy EVERY record
    (MX, the `mail` A record, TXT/SPF, any subdomain).
