@@ -69,6 +69,41 @@ after import, or they fight the Worker custom domain.
 verification). That is pre-existing, not caused by the move; adding SPF later would improve
 deliverability of mail sent from `mail.lev-hatahbiv.com`.
 
+### 🛑 PLAN CORRECTION (2026-08-22) — Wix blocks the nameserver switch
+
+Discovered mid-migration, verified against both vendors' docs:
+- **Wix does not allow changing nameservers on a Wix-registered domain** at all
+  (support.wix.com "Request: Changing Name Server (NS) Records for a Wix Domain").
+- **Cloudflare Registrar refuses inbound transfers until the zone is Active on
+  Cloudflare nameservers** — which Wix prevents. Deadlock by design.
+
+**The escape: transfer the registration to an INTERMEDIATE registrar first**
+(Namecheap / Porkbun — any registrar that permits arbitrary nameservers):
+
+1. Wix → Domains → ⋯ → **Transfer away from Wix** → get the EPP/auth code.
+   ⚠️ Do NOT "Edit contact info" beforehand — registrant changes trigger a 60-day
+   transfer lock.
+2. At the new registrar: Transfer domain → enter EPP code → pay (~$10–12, which by
+   ICANN rules ADDS +1 year: Feb 2027 → Feb 2028).
+3. Wait for the transfer (typically up to 5–7 days; Wix may release early).
+   **DNS keeps serving from wixdns throughout — site + email unaffected.**
+4. At the new registrar: set nameservers → `quentin.ns.cloudflare.com` +
+   `rita.ns.cloudflare.com` → the prepared CF zone goes Active.
+5. Proceed with the original cutover (delete Wix records, attach Worker domain,
+   test site + email).
+6. Optional, ≥60 days later (ICANN inter-transfer lock): transfer once more to
+   Cloudflare Registrar for at-cost renewals — or simply stay at the intermediate.
+
+Keep **Wix Premium** until the cutover is DONE — the old site must keep serving on
+the domain during the transfer window. Cancel it only after step 5 is verified.
+
+The Cloudflare zone we already prepared (all records imported, mail records grey)
+stays exactly as-is — it simply waits for the nameservers to arrive.
+
+Why not Wix's "point to external site" option instead: Wix DNS can only point
+A/CNAME records, and a Cloudflare Worker cannot be served through external DNS —
+Workers custom domains require the zone on Cloudflare. Not viable.
+
 ### Order of operations
 1. Wix → Domains → lev-hatahbiv.com → DNS records: screenshot / copy EVERY record
    (MX, the `mail` A record, TXT/SPF, any subdomain).
