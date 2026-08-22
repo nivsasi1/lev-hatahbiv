@@ -157,7 +157,7 @@ export const asset = (p: string) =>
   import.meta.env.BASE_URL + p.replace(/^\//, "");
 
 // img can be an S3 filename, a full URL, or a local "/uploads/..." path
-const resolveImg = (img: string) =>
+export const resolveImg = (img: string) =>
   !img
     ? undefined
     : img.startsWith("http")
@@ -271,6 +271,26 @@ export const productsByCategory = (slug: string) =>
 export const productsBySub = (slug: string, sub: string) =>
   products.filter((p) => p.category === slug && p.sub === sub);
 
+// URL slug for sub/third names: lowercase, any run of non-letter/digit → "-", Hebrew kept.
+// Same rule as scripts/seo/slug.mjs and worker/seo.ts (keep the three identical) — the
+// sitemap and the old-Wix redirects are generated with it. Sub names like "צבעי בד/טקסטיל"
+// used to break direct loads because the raw "/" split the route into three segments.
+export const slugOf = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9֐-׿]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+export const subPath = (catSlug: string, sub: string) =>
+  `/category/${catSlug}/${slugOf(sub)}`;
+
+// resolve a :sub route param — new slugged form first, the old raw-name form still works
+export const subFromParam = (catSlug: string, param: string): string | undefined => {
+  const subs = new Set(productsByCategory(catSlug).map((p) => p.sub));
+  if (subs.has(param)) return param;
+  return [...subs].find((s) => slugOf(s) === param || slugOf(s) === slugOf(param));
+};
+
 export type SubSummary = {
   sub: string;
   count: number;
@@ -299,17 +319,14 @@ export const subsOfCategory = (slug: string): SubSummary[] => {
   return [...map.values()].sort((a, b) => b.count - a.count);
 };
 
+// case-insensitive AND over words, matching name / sub / third / category name
 export const searchProducts = (query: string) => {
-  const words = query.trim().split(/\s+/).filter(Boolean);
+  const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (words.length === 0) return [];
-  return products.filter((p) =>
-    words.every(
-      (w) =>
-        p.name.includes(w) ||
-        p.sub.includes(w) ||
-        (categoryBySlug.get(p.category)?.name ?? "").includes(w)
-    )
-  );
+  return products.filter((p) => {
+    const hay = `${p.name} ${p.sub} ${p.third} ${categoryBySlug.get(p.category)?.name ?? ""}`.toLowerCase();
+    return words.every((w) => hay.includes(w));
+  });
 };
 
 export const finalPrice = (p: Product) => p.salePrice ?? p.price;

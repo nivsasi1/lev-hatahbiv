@@ -62,6 +62,11 @@ export function resolveLegacyPath(pathname: string, map: SeoMap): LegacyHit | nu
     return { status: 301, location: map.collections[slug] || searchFor(slug) };
   }
 
+  // pre-slug sub-category links whose name had a "/" (e.g. /category/hobby/צבעי בד/טקסטיל) —
+  // the asset layer decodes %2F, so they arrive as 4 segments; send them to the slugged form
+  m = path.match(/^\/category\/([a-z]+)\/([^/]+)\/([^/]+)$/);
+  if (m) return { status: 301, location: `/category/${m[1]}/${slugifyWix(safeDecode(m[2] + " " + m[3]))}` };
+
   const decoded = safeDecode(path);
   const target = map.paths[decoded] ?? map.paths[decoded.toLowerCase()];
   if (target === "410") return { status: 410 };

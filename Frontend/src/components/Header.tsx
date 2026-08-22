@@ -13,6 +13,7 @@ import {
   finalPrice,
   shekel,
   asset,
+  subPath,
 } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
@@ -390,9 +391,10 @@ export const Header = () => {
               onFocus={() => setFocused(true)}
               onBlur={() => setTimeout(() => setFocused(false), 200)}
               onKeyDown={(e: any) => {
-                if (e.key === "Enter" && results.length > 0) {
-                  navigate(`/product/${results[0].id}`);
+                if (e.key === "Enter" && query.trim()) {
+                  navigate(`/search?q=${encodeURIComponent(query.trim())}`);
                   setQuery("");
+                  setFocused(false);
                 }
               }}
             />
@@ -539,9 +541,7 @@ export const Header = () => {
                       {subs.map((s) => (
                         <Link
                           key={s.sub}
-                          to={`/category/${c.slug}/${encodeURIComponent(
-                            s.sub
-                          )}`}
+                          to={subPath(c.slug, s.sub)}
                           role="menuitem"
                           className="cat-subitem"
                           onClick={closeMenu}

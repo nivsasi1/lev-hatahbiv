@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
   getCategory,
   productsByCategory,
   subsOfCategory,
   shekel,
   finalPrice,
+  slugOf,
+  subPath,
+  subFromParam,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
 import { ProductArt } from "../components/ProductArt";
 import { Splat } from "../components/Splat";
+import { usePageMeta, categoryTitle, titleFor, breadcrumbLd } from "../lib/seo";
 import "./price-range.css";
 
 // Category hub: sub-category tiles instead of an 800-item wall.
@@ -18,6 +22,19 @@ export const CategoryPage = () => {
   const { slug } = useParams();
   const category = getCategory(slug ?? "");
   const all = productsByCategory(slug ?? "");
+
+  usePageMeta({
+    title: category ? categoryTitle(category.name) : titleFor("מדף לא נמצא"),
+    description: category ? `${category.blurb} · ${all.length} מוצרים בלב התחביב, חנות ציוד אמנות ברחובות.` : undefined,
+    path: `/category/${slug ?? ""}`,
+    noindex: !category,
+    jsonLd: category
+      ? breadcrumbLd([
+          { name: "ראשי", path: "/" },
+          { name: category.name, path: `/category/${category.slug}` },
+        ])
+      : undefined,
+  });
 
   if (!category) {
     return (
@@ -60,7 +77,7 @@ export const CategoryPage = () => {
           {subs.map(({ sub, count, cover }) => (
             <Link
               key={sub}
-              to={`/category/${slug}/${encodeURIComponent(sub)}`}
+              to={subPath(slug!, sub)}
               className="sub-card"
               style={{ "--pc": category.color, "--pc-soft": category.soft } as any}
             >
@@ -110,8 +127,9 @@ const sorters: Record<SortKey, (a: any, b: any) => number> = {
 // One sub-category: third-level (series/brand) chips + sort + pagination.
 export const SubCategoryPage = () => {
   const { slug, sub: subParam } = useParams();
-  const sub = decodeURIComponent(subParam ?? "");
-  const [third, setThird] = useState<string | null>(null);
+  // :sub is a slug ("צבעי-בד-טקסטיל"); the old raw-name links still resolve
+  const sub = subFromParam(slug ?? "", subParam ?? "") ?? subParam ?? "";
+  const [searchParams, setSearchParams] = useSearchParams();
   const [sort, setSort] = useState<SortKey>("default");
   const [limit, setLimit] = useState(PAGE_SIZE);
   // subtle price-range filter (₪). null upper bound = "up to the max".
@@ -119,7 +137,6 @@ export const SubCategoryPage = () => {
   const [priceMax, setPriceMax] = useState<number | null>(null);
 
   useEffect(() => {
-    setThird(null);
     setSort("default");
     setLimit(PAGE_SIZE);
     setPriceMin(0);
@@ -128,6 +145,33 @@ export const SubCategoryPage = () => {
 
   const category = getCategory(slug ?? "");
   const all = productsByCategory(slug ?? "").filter((p) => p.sub === sub);
+  const thirds = [...new Set(all.map((p) => p.third))];
+  // the series/brand chip lives in the URL (?third=<slug>) so shelves are linkable
+  const thirdParam = searchParams.get("third");
+  const third = thirdParam ? thirds.find((t) => slugOf(t) === thirdParam) ?? null : null;
+  const setThird = (t: string | null) => {
+    const next = new URLSearchParams(searchParams);
+    if (t) next.set("third", slugOf(t));
+    else next.delete("third");
+    setSearchParams(next, { replace: true });
+    setLimit(PAGE_SIZE);
+  };
+
+  usePageMeta({
+    title: category ? titleFor(`${third ?? sub} — ${category.name}`) : titleFor("מדף לא נמצא"),
+    description: category
+      ? `${sub} במדף ${category.name} — ${all.length} מוצרים בלב התחביב, חנות ציוד אמנות ברחובות מאז 1985.`
+      : undefined,
+    path: subPath(slug ?? "", sub) + (third ? `?third=${slugOf(third)}` : ""),
+    noindex: !category || all.length === 0,
+    jsonLd: category
+      ? breadcrumbLd([
+          { name: "ראשי", path: "/" },
+          { name: category.name, path: `/category/${category.slug}` },
+          { name: sub, path: subPath(category.slug, sub) },
+        ])
+      : undefined,
+  });
 
   if (!category || all.length === 0) {
     return (
@@ -139,7 +183,6 @@ export const SubCategoryPage = () => {
     );
   }
 
-  const thirds = [...new Set(all.map((p) => p.third))];
   const showThirds = thirds.length > 1 || (thirds.length === 1 && thirds[0] !== "כללי");
   const byThird = third ? all.filter((p) => p.third === third) : all;
   // price slider bounds: max product price in this sub, rounded up to ₪10

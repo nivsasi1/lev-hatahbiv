@@ -24,6 +24,9 @@ import { ReturnsPage } from "./pages/ReturnsPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ThankYouPage } from "./pages/ThankYouPage";
+import { SearchPage } from "./pages/SearchPage";
+import { WorkshopsPage } from "./pages/WorkshopsPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import DesignsIndex from "./pages/designs/DesignsIndex";
 import DesignGallery from "./pages/designs/DesignGallery";
 import DesignCraft from "./pages/designs/DesignCraft";
@@ -83,6 +86,8 @@ const router = createBrowserRouter(
         { path: "/privacy", element: <PrivacyPage /> },
         { path: "/contact", element: <ContactPage /> },
         { path: "/thank-you", element: <ThankYouPage /> },
+        { path: "/search", element: <SearchPage /> },
+        { path: "/workshops", element: <WorkshopsPage /> },
         { path: "/designs", element: <DesignsIndex /> },
         { path: "/designs/a", element: <DesignGallery /> },
         { path: "/designs/c", element: <DesignCraft /> },
@@ -90,7 +95,8 @@ const router = createBrowserRouter(
         { path: "/designs/g", element: <DesignClay /> },
         { path: "/designs/i", element: <DesignMuseum /> },
         { path: "/designs/j", element: <DesignMagazine /> },
-        { path: "*", element: <HomePage /> },
+        // the Worker already answers unknown paths with HTTP 404 (worker/seo.ts); this is the body
+        { path: "*", element: <NotFoundPage /> },
       ],
     },
   ],

@@ -4332,3 +4332,142 @@ html.a11y-underline a {
     font-size: 1.4rem;
   }
 }
+
+/* ---------- 404 / search / workshops pages (nf-, srch-, ws-) ---------- */
+.nf-hero,
+.srch-hero,
+.ws-hero {
+  text-align: start;
+}
+.nf-hero h1 {
+  font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+}
+.nf-hero p,
+.ws-hero p {
+  max-width: 38em;
+}
+.nf-shelves {
+  padding-bottom: 4rem;
+}
+
+/* shared search form (404 page + /search) — same pill as the header input */
+.srch-form {
+  display: flex;
+  gap: 0.6rem;
+  max-width: 32rem;
+  margin-top: 1.5rem;
+}
+.srch-form input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 2em;
+  padding: 0.5em 1.1em;
+  outline: none;
+  box-shadow: 0.18em 0.18em 0 var(--shadow);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.srch-form input:focus {
+  box-shadow: 0.22em 0.22em 0 var(--purple);
+  transform: translate(-0.04em, -0.04em);
+}
+.srch-form input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+.srch-form .btn {
+  flex: none;
+  --btn-pop: var(--purple);
+}
+.srch-count {
+  margin: 1.1rem 0 0;
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+.srch-q {
+  color: var(--purple);
+  font-weight: 800;
+}
+.srch-results {
+  padding-top: 1.8rem;
+}
+.srch-results .product-grid + .load-more-row {
+  margin-bottom: 1rem;
+}
+.srch-empty {
+  padding-bottom: 0.5rem;
+}
+@media (max-width: 560px) {
+  .srch-form {
+    flex-direction: column;
+  }
+  .srch-form .btn {
+    align-self: flex-start;
+  }
+}
+
+/* workshops — the homepage .ph-shop card, re-inked for the Atelier theme.
+   (.ph-shop reads --ph-ink, which only .ph-home defines — set it here) */
+.ws-page {
+  --ph-ink: var(--ink);
+}
+.ws-body {
+  padding: 2.4rem 0 4rem;
+}
+.ws-shop {
+  border: 2.5px solid var(--ink);
+  border-radius: 1.2rem;
+  box-shadow: 0.4em 0.4em 0 var(--shadow);
+}
+.ws-shop .ph-shop-body p.intro {
+  color: #e7dff3;
+}
+.ws-shop .ph-chips span {
+  color: #f3e8ff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.ws-shop .ph-btn.fill {
+  border-radius: 2em;
+  background: var(--gold);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 0.18em 0.18em 0 rgba(255, 255, 255, 0.35);
+}
+.ws-shop .ph-btn.fill:hover {
+  background: #f0c46a;
+}
+.ws-steps {
+  margin: 0;
+  padding-inline-start: 1.4rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 44em;
+}
+.ws-steps li {
+  margin-bottom: 0.5rem;
+}
+.ws-steps li::marker {
+  color: var(--purple);
+  font-weight: 800;
+}
+.ws-steps a {
+  color: var(--purple);
+  font-weight: 800;
+}
+.ws-steps a:hover {
+  text-decoration: underline wavy;
+  text-underline-offset: 0.25em;
+}
+.ws-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2.2rem;
+}

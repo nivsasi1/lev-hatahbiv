@@ -8,10 +8,12 @@ import {
   shekel,
   FREE_SHIPPING_FROM,
   store,
+  subPath,
 } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
+import { usePageMeta, titleFor, breadcrumbLd, productLd } from "../lib/seo";
 import "./product-lightbox.css";
 
 export const ProductPage = () => {
@@ -69,6 +71,36 @@ export const ProductPage = () => {
   }, [lightbox]);
 
   const product = getProduct(id ?? "");
+  const productCategory = product ? getCategory(product.category) : undefined;
+  usePageMeta({
+    title: titleFor(product ? product.name : "המוצר לא נמצא"),
+    description: product
+      ? (product.description || "").replace(/\s+/g, " ").trim().slice(0, 155) ||
+        `${product.name} — ${shekel(finalPrice(product))} בלב התחביב, חנות ציוד אמנות ברחובות מאז 1985. משלוח או איסוף מהחנות.`
+      : undefined,
+    path: `/product/${id ?? ""}`,
+    image: product?.img,
+    type: product ? "product" : undefined,
+    noindex: !product,
+    jsonLd: product
+      ? [
+          productLd({
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: finalPrice(product),
+            img: product.img,
+            soldOut: product.soldOut,
+          }),
+          breadcrumbLd([
+            { name: "ראשי", path: "/" },
+            ...(productCategory ? [{ name: productCategory.name, path: `/category/${productCategory.slug}` }] : []),
+            { name: product.sub, path: subPath(product.category, product.sub) },
+            { name: product.name, path: `/product/${product.id}` },
+          ]),
+        ]
+      : undefined,
+  });
   if (!product) {
     return (
       <main className="page-main shell">
@@ -188,11 +220,7 @@ export const ProductPage = () => {
               <Link to="/">ראשי</Link> ‹{" "}
               <Link to={`/category/${product.category}`}>{category?.name}</Link>{" "}
               ‹{" "}
-              <Link
-                to={`/category/${product.category}/${encodeURIComponent(product.sub)}`}
-              >
-                {product.sub}
-              </Link>
+              <Link to={subPath(product.category, product.sub)}>{product.sub}</Link>
             </div>
             <h1 className="display">{product.name}</h1>
             {product.description && (
