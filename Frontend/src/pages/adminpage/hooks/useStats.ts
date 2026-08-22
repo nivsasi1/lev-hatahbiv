@@ -11,13 +11,16 @@ export function useStats() {
     const oosCount = products.filter((p) => p.isAvailable === false).length;
     const hiddenCount = products.filter((p) => p.isActive === false).length;
 
-    const live = orders.filter((o) => o.status !== "cancelled");
+    // Only money that actually arrived counts: 'paid' (+ 'handled' = paid and shipped).
+    // 'new'/'failed' are abandoned checkout attempts (a shopper clicked "pay" and left),
+    // 'cancelled'/'refunded' brought nothing in — none of them are orders or revenue.
+    const live = orders.filter((o) => o.status === "paid" || o.status === "handled");
     const revenue = live.reduce((s, o) => s + Number(o.total || 0), 0);
     const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
     const recent = live.filter((o) => new Date(o.createdAt).getTime() >= cutoff);
     const recentRevenue = recent.reduce((s, o) => s + Number(o.total || 0), 0);
 
-    // top sellers by total qty across non-cancelled orders
+    // top sellers by total qty across paid orders
     const qtyByName = new Map<string, number>();
     for (const o of live)
       for (const i of o.items || []) {
@@ -32,7 +35,7 @@ export function useStats() {
       // status means the opposite — checkout started but never paid (abandoned) —
       // so counting that showed 0 while a real paid order sat in the list.
       newOrders: orders.filter((o) => o.status === "paid").length,
-      totalOrders: orders.length,
+      totalOrders: live.length,
       revenue,
       recentCount: recent.length,
       recentRevenue,
