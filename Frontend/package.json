@@ -7,7 +7,9 @@
     "dev": "vite --port 3000",
     "start": "vite --port 3000",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate": "node scripts/generate-catalog.mjs && node scripts/generate-seo.mjs",
+    "check:redirects": "node scripts/seo/check-redirects.mjs"
   },
   "dependencies": {
     "preact": "^10.19.3",

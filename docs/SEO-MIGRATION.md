@@ -20,7 +20,33 @@ Wix site had (per-page titles, sitemap, structured data), (3) tell Search Consol
 - `wix-dynamic-collections-{1,2}…` — **216 × 2** `/collections-1|2/<slug>` URLs
 - Wix `robots.txt` captured too (nothing special).
 
-## Phase 1 — MUST ship together with the domain cutover (code, ~1 day)
+## Phase 1 — IMPLEMENTED 2026-08-22 (ships on workers.dev now, waits for the domain)
+
+What exists now (details in the sections below, which were the spec):
+- **Maps** — `Frontend/scripts/seo/pull-wix-maps.mjs` pulled the Wix Stores API (the
+  `WIX_API_KEY` in `Backend/.env` still works) and joined every Wix product to ours by SKU /
+  exact name / slug: **2,463 of 2,548 product URLs → exact product**, 85 leftovers → 410
+  (Wix demo rows) / the paint-by-number shelf / `/search?q=<name>`; **216 collections →
+  shelf** by their member products (14 hand-picked); **84 topic pages** hand-mapped.
+  The tables are committed in `Frontend/scripts/seo/*.json`; re-run the script only if the
+  Wix catalog ever changes (it is frozen).
+- **Build** — `npm run generate` (Frontend) = `generate-catalog.mjs` + `generate-seo.mjs` →
+  `public/seo-redirects.json`, `public/sitemap.xml` (2,5xx URLs, canonical host
+  `https://www.lev-hatahbiv.com`), `public/robots.txt`.
+- **Worker** — `worker/seo.ts`, called from `fetch` before the asset fallthrough: 301 for
+  every mapped URL, 410 for junk, a real **404** status for any non-route path, and host
+  canonicalisation once `CANONICAL_HOST` (wrangler.jsonc) is set — leave it `""` until the
+  nameservers point at Cloudflare.
+- **Frontend** — `usePageMeta` (`src/lib/seo.ts`) on every route: per-page title /
+  description / canonical / OG / JSON-LD (Store, BreadcrumbList, Product+Offer); static
+  WebSite + Store + SiteNavigationElement JSON-LD in `index.html`; slugged sub-category URLs
+  (`/category/hobby/צבעי-בד-טקסטיל`, `?third=` for the series chip); new `/search`,
+  `/workshops` and a real not-found page.
+- **Check** — `npm run check:redirects -- <origin>` requests all ~3,000 captured Wix URLs
+  and fails on any 200/404 leak. Run against `npx wrangler dev` before deploying and against
+  the live origin after.
+
+### Original spec (kept for reference)
 
 ### 1. 301 redirect layer in the Worker (the big one)
 Old Wix path → new route, before the static-asset fallthrough in `worker/index.ts`:

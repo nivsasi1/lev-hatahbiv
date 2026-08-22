@@ -20,6 +20,7 @@
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 import { and, desc, eq, gt, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import { coupons, subscribers, settings, rateLimits, orders } from "./db/schema";
+import { seoResponse } from "./seo";
 
 export interface Env {
   ASSETS: Fetcher; // the static storefront (Frontend/dist)
@@ -29,6 +30,7 @@ export interface Env {
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
   PAYME_WEBHOOK_KEY: string; // our secret, embedded in sale_callback_url to auth callbacks
   PAYME_BASE_URL?: string; // sandbox default in wrangler.jsonc vars; prod = https://live.payme.io/api
+  CANONICAL_HOST?: string; // e.g. "www.lev-hatahbiv.com" — empty until the domain cutover (see worker/seo.ts)
 }
 
 type DB = DrizzleD1Database<Record<string, never>>;
@@ -1141,6 +1143,10 @@ export default {
 
       return json({ error: "not found" }, 404);
     }
+
+    // Old Wix URLs -> 301, junk -> 410, non-routes -> 404, canonical host (worker/seo.ts)
+    const seo = await seoResponse(request, env);
+    if (seo) return seo;
 
     // Not an API route -> static storefront (SPA fallback included).
     return env.ASSETS.fetch(request);

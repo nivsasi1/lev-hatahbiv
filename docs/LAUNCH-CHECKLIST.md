@@ -142,6 +142,12 @@ Workers custom domains require the zone on Cloudflare. Not viable.
    Domain for BOTH `lev-hatahbiv.com` and `www.lev-hatahbiv.com` (SSL is automatic).
 6. Verify the new site loads on both, and **send a test email to the shop address**.
 7. Tell PayMe to update the account's registered site URL (they asked which one to use).
+8. **SEO switch-on (same day):** set `"CANONICAL_HOST": "www.lev-hatahbiv.com"` in
+   `wrangler.jsonc` → `npx wrangler deploy` (apex + workers.dev now 301 to www, `/api/*`
+   exempt). Then `cd Frontend && npm run check:redirects -- https://www.lev-hatahbiv.com`
+   must print PASS. Then Search Console → Sitemaps → submit
+   `https://www.lev-hatahbiv.com/sitemap.xml`, and URL-inspect the home + 2 category pages.
+   Details: [SEO-MIGRATION.md](SEO-MIGRATION.md).
 
 ### Money notes (not technical)
 - The **Wix Premium plan is $481.44/yr** and the site no longer runs on Wix — cancel it

@@ -37,7 +37,9 @@ The build is identical everywhere:
 ```
 cd Backend  && npm ci --omit=dev && node dump-products.js
 # (if Atlas SRV lookup fails locally: node -r ./scripts/dns-public.js dump-products.js)
-cd ../Frontend && npm ci && node scripts/generate-catalog.mjs && npm run build
+cd ../Frontend && npm ci && npm run generate && npm run build
+# (npm run generate = generate-catalog.mjs + generate-seo.mjs: catalog JSON, checkout pricing,
+#  and the SEO assets — seo-redirects.json / sitemap.xml / robots.txt — see docs/SEO-MIGRATION.md)
 ```
 
 - **From the dashboard**: the "פרסום" button calls `POST /admin/publish` on the

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /manage
+Disallow: /cart
+Disallow: /thank-you
+Disallow: /designs/
+Disallow: /api/
+
+Sitemap: https://www.lev-hatahbiv.com/sitemap.xml
