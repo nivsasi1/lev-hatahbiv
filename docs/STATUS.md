@@ -64,6 +64,12 @@ folded into the entity change above — then `npx wrangler secret put PAYME_SELL
 
 ## ⚪ Deferred on purpose (post-launch)
 
+- **SEO migration — keep the #1 ranking + sitelinks after the domain cutover.** Full plan in
+  [SEO-MIGRATION.md](SEO-MIGRATION.md). Phase 0 done (3,000 Wix URLs captured in
+  `docs/seo/`). Phase 1 (301 redirect layer, sitemap/robots, per-route titles, JSON-LD)
+  must be DEPLOYED BEFORE nameservers reach Cloudflare — build it during the ~1-week
+  registrar transfer window. Phase 2 = Search Console + GBP checks after cutover.
+
 - **Remove the payer form from the cart** and read buyer details from
   `get-transactions` (`sale_buyer_details`). Keep the SHIPPING ADDRESS form — PayMe
   never collects it. Now unblocked (the callback works), but do it after invoices are
