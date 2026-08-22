@@ -17,6 +17,7 @@ import {
 } from "../../data/catalog";
 import { ProductThumb } from "../../components/ProductThumb";
 import { ProductArt } from "../../components/ProductArt";
+import { usePageMeta, titleFor } from "../../lib/seo";
 
 /* ---------------------------------------------------------------------------
    Design A — "Gallery / Editorial Minimal"
@@ -81,6 +82,7 @@ const SaleCard = ({ p }: { p: Product }) => {
 };
 
 export default function DesignGallery() {
+  usePageMeta({ title: titleFor("עיצוב · גלריה"), path: "/designs/a", noindex: true });
   return (
     <main className="dz-gallery page-main">
       {/* ---------- HERO — logo forward, calm ---------- */}

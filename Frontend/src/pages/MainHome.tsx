@@ -15,6 +15,7 @@ import {
 import { ProductCard } from "../components/ProductCard";
 import { Splat } from "../components/Splat";
 import { FeaturedRail } from "../components/HomeContent";
+import { usePageMeta, HOME_TITLE, DEFAULT_DESCRIPTION } from "../lib/seo";
 import "./home-photographic.css"; // design-7 body (.ph-*)
 import "./main-home.css"; // hero tweak + micro-interactions + overrides (scoped under .main-home)
 
@@ -81,6 +82,7 @@ const tileClass = (i: number) => (i === 0 ? "big" : i <= 2 ? "wide" : "std");
 // `cursorFx` is an optional cursor-effect element rendered as an overlay — used
 // only by the /designs preview variants. The live homepage passes nothing.
 export default ({ cursorFx }: { cursorFx?: any }) => {
+  usePageMeta({ title: HOME_TITLE, description: DEFAULT_DESCRIPTION, path: "/" });
   const ref = useRef<HTMLElement>(null);
 
   /* ---------------------------------------------------------------------------

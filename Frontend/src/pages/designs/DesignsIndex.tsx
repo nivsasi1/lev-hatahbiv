@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { usePageMeta, titleFor } from "../../lib/seo";
 import "./designs-index.css";
 
 // Internal preview gallery: eight homepage directions the owner can pick from.
@@ -49,6 +50,7 @@ const VARIANTS = [
 ];
 
 export default function DesignsIndex() {
+  usePageMeta({ title: titleFor("גרסאות לדף הבית"), path: "/designs", noindex: true });
   return (
     <main className="dz-index page-main">
       <header className="dz-index-head">

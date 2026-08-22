@@ -20,6 +20,7 @@ import {
 } from "../../data/catalog";
 import { ProductThumb } from "../../components/ProductThumb";
 import { ProductArt } from "../../components/ProductArt";
+import { usePageMeta, titleFor } from "../../lib/seo";
 
 /* ---------------------------------------------------------------------------
    Design I — "Museum / תערוכה"
@@ -157,6 +158,7 @@ const SelectedWork = ({ p, i }: { p: Product; i: number }) => {
 };
 
 export default function DesignMuseum() {
+  usePageMeta({ title: titleFor("עיצוב · מוזיאון"), path: "/designs/i", noindex: true });
   const ref = useRef<HTMLElement>(null);
 
   /* Soft scroll reveals only — dignified museum pacing.

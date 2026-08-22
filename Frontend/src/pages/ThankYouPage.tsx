@@ -3,12 +3,14 @@ import { Link, useSearchParams } from "react-router-dom";
 import { WORKER_API } from "../data/api";
 import { store } from "../data/catalog";
 import { useCart } from "../context/cart-context";
+import { usePageMeta, titleFor } from "../lib/seo";
 
 type Status = "pending" | "paid" | "failed" | "unknown";
 
 // Landing after PayMe redirects back. The webhook is the source of truth for
 // "paid", so we poll order-status until it flips (the redirect may arrive first).
 export const ThankYouPage = () => {
+  usePageMeta({ title: titleFor("תודה על ההזמנה"), path: "/thank-you", noindex: true });
   const [params] = useSearchParams();
   const orderId = params.get("order") || "";
   const { clear } = useCart();

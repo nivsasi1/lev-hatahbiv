@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { store } from "../data/catalog";
+import { usePageMeta, titleFor } from "../lib/seo";
 
-export const PrivacyPage = () => (
+export const PrivacyPage = () => {
+  usePageMeta({
+    title: titleFor("מדיניות פרטיות"),
+    description: "מדיניות הפרטיות של אתר לב התחביב — איזה מידע נאסף, למה הוא משמש ואיך שומרים עליו.",
+    path: "/privacy",
+  });
+  return (
   <main className="page-main shell a11y-page legal-page">
     <h1 className="display">מדיניות פרטיות</h1>
     <p>
@@ -59,4 +66,5 @@ export const PrivacyPage = () => (
 
     <p className="a11y-updated">עודכן לאחרונה: יוני 2026</p>
   </main>
-);
+  );
+};

@@ -10,6 +10,7 @@ import { useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
 import { WORKER_API } from "../data/api";
+import { usePageMeta, titleFor } from "../lib/seo";
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
@@ -79,6 +80,7 @@ const validateShip = (s: Ship, needed: boolean): { errors: ShipErrors; clean: Sh
 };
 
 export const CartPage = () => {
+  usePageMeta({ title: titleFor("העגלה שלי"), path: "/cart", noindex: true });
   const { items, setQty, remove, clear } = useCart();
   const [delivery, setDelivery] = useState(deliveryOptions[0]);
   const [confirmClear, setConfirmClear] = useState(false);

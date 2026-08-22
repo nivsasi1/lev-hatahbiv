@@ -20,6 +20,7 @@ import {
 } from "../../data/catalog";
 import { ProductThumb } from "../../components/ProductThumb";
 import { ProductArt } from "../../components/ProductArt";
+import { usePageMeta, titleFor } from "../../lib/seo";
 import "./design-clay.css";
 
 /* ---------------------------------------------------------------------------
@@ -64,6 +65,7 @@ const SaleCard = ({ p }: { p: Product }) => {
 };
 
 export default function DesignClay() {
+  usePageMeta({ title: titleFor("עיצוב · חמר רך"), path: "/designs/g", noindex: true });
   const ref = useRef<HTMLElement>(null);
 
   /* Gentle staggered scroll-reveal. FAIL-OPEN: content is fully visible

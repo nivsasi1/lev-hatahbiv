@@ -17,6 +17,7 @@ import {
 } from "../../data/catalog";
 import { ProductThumb } from "../../components/ProductThumb";
 import { ProductArt } from "../../components/ProductArt";
+import { usePageMeta, titleFor } from "../../lib/seo";
 import "./design-magazine.css";
 
 /* ---------------------------------------------------------------------------
@@ -98,6 +99,7 @@ function SalePolaroid({ p, i }: { p: Product; i: number }) {
 }
 
 export default function DesignMagazine() {
+  usePageMeta({ title: titleFor("עיצוב · מגזין"), path: "/designs/j", noindex: true });
   const ref = useRef<HTMLElement>(null);
 
   /* Gentle scroll reveals. FAIL-OPEN: the hidden start state only exists under

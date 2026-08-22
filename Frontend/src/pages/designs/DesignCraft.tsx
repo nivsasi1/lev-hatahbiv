@@ -17,6 +17,7 @@ import {
 import { ProductThumb } from "../../components/ProductThumb";
 import { ProductArt } from "../../components/ProductArt";
 import { Splat } from "../../components/Splat";
+import { usePageMeta, titleFor } from "../../lib/seo";
 import "./design-craft.css";
 
 /* ---------------------------------------------------------------------------
@@ -100,6 +101,7 @@ function SaleCard({ p, i }: { p: Product; i: number }) {
 }
 
 export default function DesignCraft() {
+  usePageMeta({ title: titleFor("עיצוב · מלאכה"), path: "/designs/c", noindex: true });
   const ref = useRef<HTMLElement>(null);
 
   /* Gentle scroll-reveal, fully gated behind reduced-motion and fail-open:

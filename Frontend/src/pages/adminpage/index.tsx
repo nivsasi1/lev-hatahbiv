@@ -16,17 +16,21 @@ import { ProductsView } from "./components/products/ProductsView";
 import { DialogOverlay } from "./components/DialogOverlay";
 import "../admin-tools.css";
 import "../admin-clean.css";
+import { usePageMeta, titleFor } from "../../lib/seo";
 
 // ─── Manager dashboard (/manage) ────────────────────────────────────────────
 // Products / orders / publish talk to the Express backend; coupons / subscribers
 // / the welcome offer go to the Cloudflare Worker (D1). The shared infra (auth,
 // the two API wrappers, banners, dialogs, core data) lives in AdminContext;
 // each tab's logic lives in its own hook, each section in its own component.
-export const AdminPage = () => (
-  <AdminProvider>
-    <AdminShell />
-  </AdminProvider>
-);
+export const AdminPage = () => {
+  usePageMeta({ title: titleFor("ניהול"), path: "/manage", noindex: true });
+  return (
+    <AdminProvider>
+      <AdminShell />
+    </AdminProvider>
+  );
+};
 
 function AdminShell() {
   const { token } = useAdmin();

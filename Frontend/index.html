@@ -4,14 +4,94 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/images/LevHatahbivLogo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="לב התחביב — חנות ציוד אמנות ויצירה ברחובות, מאז 1985. צבעים, מכחולים, נייר, כני ציור וכל מה שאמן צריך." />
-    <title>לב התחביב — ציוד אמנות ויצירה</title>
+    <meta name="description" content="בלב התחביב ניתן למצוא בחנות מבחר רחב של מוצרים בתחומי האומנות כגון צבעים, מכחולים, בדי ציור - קנווס, כני ציור ועוד, בתחומי היצירה וההובי חימר, פימו, חרוזים, מדבקות ועוד. החנות ברחובות מאז 1985." />
+    <title>לב התחביב בע"מ | ציוד לאמנות | המנוף 6, רחובות</title>
+    <meta name="theme-color" content="#5b2d8e" />
+    <meta property="og:site_name" content="לב התחביב" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.lev-hatahbiv.com/images/LevHatahbivLogo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Assistant:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!-- Site-wide structured data. The Store object is a copy of
+         localBusinessLd() in src/lib/seo.ts — keep the two in sync. -->
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "https://www.lev-hatahbiv.com/#website",
+          "url": "https://www.lev-hatahbiv.com",
+          "name": "לב התחביב",
+          "inLanguage": "he",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://www.lev-hatahbiv.com/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Store",
+          "@id": "https://www.lev-hatahbiv.com/#store",
+          "name": "לב התחביב בע\"מ",
+          "alternateName": "לב התחביב",
+          "url": "https://www.lev-hatahbiv.com",
+          "image": "https://www.lev-hatahbiv.com/images/LevHatahbivLogo.png",
+          "telephone": "+97289315213",
+          "email": "levhatahbiv@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "המנוף 6",
+            "addressLocality": "רחובות",
+            "addressCountry": "IL"
+          },
+          "geo": { "@type": "GeoCoordinates", "latitude": 31.8977, "longitude": 34.7984889 },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "09:00",
+              "closes": "13:30"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Sunday", "Monday", "Wednesday", "Thursday"],
+              "opens": "16:00",
+              "closes": "19:00"
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/%D7%9C%D7%91-%D7%94%D7%AA%D7%97%D7%91%D7%99%D7%91-971570949543339/",
+            "https://www.instagram.com/levhatahbiv/"
+          ],
+          "priceRange": "₪",
+          "foundingDate": "1985"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "itemListElement": [
+            { "@type": "SiteNavigationElement", "position": 1, "name": "צבעים לאמנות", "url": "https://www.lev-hatahbiv.com/category/paints" },
+            { "@type": "SiteNavigationElement", "position": 2, "name": "צבעים להובי", "url": "https://www.lev-hatahbiv.com/category/hobby" },
+            { "@type": "SiteNavigationElement", "position": 3, "name": "רישום ועפרונות", "url": "https://www.lev-hatahbiv.com/category/drawing" },
+            { "@type": "SiteNavigationElement", "position": 4, "name": "מכחולים ואביזרים", "url": "https://www.lev-hatahbiv.com/category/brushes" },
+            { "@type": "SiteNavigationElement", "position": 5, "name": "נייר לאמנות", "url": "https://www.lev-hatahbiv.com/category/paper" },
+            { "@type": "SiteNavigationElement", "position": 6, "name": "כני ציור", "url": "https://www.lev-hatahbiv.com/category/easels" },
+            { "@type": "SiteNavigationElement", "position": 7, "name": "חומרי יצירה", "url": "https://www.lev-hatahbiv.com/category/craft" },
+            { "@type": "SiteNavigationElement", "position": 8, "name": "מקרמה וטריקו", "url": "https://www.lev-hatahbiv.com/category/fiber" },
+            { "@type": "SiteNavigationElement", "position": 9, "name": "תכשיטנות", "url": "https://www.lev-hatahbiv.com/category/jewelry" }
+          ]
+        }
+      ]
+    </script>
   </head>
   <body>
     <div id="root"></div>

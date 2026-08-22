@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import { store } from "../data/catalog";
+import { usePageMeta, titleFor } from "../lib/seo";
 
-export const ReturnsPage = () => (
+export const ReturnsPage = () => {
+  usePageMeta({
+    title: titleFor("מדיניות ביטולים והחזרות"),
+    description:
+      "משלוחים, החזרות וביטולים בלב התחביב — ביטול עסקה והחזרת מוצרים בהתאם לחוק הגנת הצרכן, זמני אספקה ועלויות משלוח.",
+    path: "/returns",
+  });
+  return (
   <main className="page-main shell a11y-page legal-page">
     <h1 className="display">מדיניות ביטולים והחזרות</h1>
     <p>
@@ -56,4 +64,5 @@ export const ReturnsPage = () => (
 
     <p className="a11y-updated">עודכן לאחרונה: יוני 2026</p>
   </main>
-);
+  );
+};

@@ -1,6 +1,13 @@
 import { store } from "../data/catalog";
+import { usePageMeta, titleFor } from "../lib/seo";
 
-export const AccessibilityPage = () => (
+export const AccessibilityPage = () => {
+  usePageMeta({
+    title: titleFor("הצהרת נגישות"),
+    description: "הצהרת הנגישות של אתר לב התחביב — התאמות הנגישות באתר ובחנות ודרכי פנייה לרכז הנגישות.",
+    path: "/accessibility",
+  });
+  return (
   <main className="page-main shell a11y-page">
     <h1 className="display">הצהרת נגישות</h1>
     <p>
@@ -38,4 +45,5 @@ export const AccessibilityPage = () => (
 
     <p className="a11y-updated">ההצהרה עודכנה לאחרונה: יוני 2026</p>
   </main>
-);
+  );
+};

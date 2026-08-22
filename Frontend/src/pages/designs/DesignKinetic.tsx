@@ -18,6 +18,7 @@ import {
 } from "../../data/catalog";
 import { ProductThumb } from "../../components/ProductThumb";
 import { ProductArt } from "../../components/ProductArt";
+import { usePageMeta, titleFor } from "../../lib/seo";
 import "./design-kinetic.css";
 
 /* ---------------------------------------------------------------------------
@@ -94,6 +95,7 @@ const SaleCard = ({ p }: { p: Product }) => {
 };
 
 export const DesignKinetic = () => {
+  usePageMeta({ title: titleFor("עיצוב · קינטי"), path: "/designs/e", noindex: true });
   const ref = useRef<HTMLElement>(null);
 
   /* ---------------------------------------------------------------------------

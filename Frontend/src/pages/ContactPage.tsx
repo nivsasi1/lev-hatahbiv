@@ -1,6 +1,14 @@
 import { store } from "../data/catalog";
+import { usePageMeta, titleFor, localBusinessLd } from "../lib/seo";
 
-export const ContactPage = () => (
+export const ContactPage = () => {
+  usePageMeta({
+    title: titleFor("צור קשר"),
+    description: `צור קשר עם לב התחביב — חנות ציוד אמנות ויצירה ברחוב ${store.address}. טלפון ${store.phone}, פתוחים א'–ו' בבוקר ובימים א', ב', ד', ה' גם אחה"צ.`,
+    path: "/contact",
+    jsonLd: localBusinessLd(),
+  });
+  return (
   <main className="page-main shell a11y-page legal-page">
     <h1 className="display">צור קשר</h1>
     <p>
@@ -62,4 +70,5 @@ export const ContactPage = () => (
 
     <p className="a11y-updated">פותחים דלת מאז {store.since}</p>
   </main>
-);
+  );
+};

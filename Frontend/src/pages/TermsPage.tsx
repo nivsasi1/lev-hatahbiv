@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { store } from "../data/catalog";
+import { usePageMeta, titleFor } from "../lib/seo";
 
-export const TermsPage = () => (
+export const TermsPage = () => {
+  usePageMeta({
+    title: titleFor("תקנון האתר ותנאי שימוש"),
+    description: "תקנון האתר ותנאי השימוש בחנות האונליין של לב התחביב — הזמנות, תשלום, משלוחים ושירות.",
+    path: "/terms",
+  });
+  return (
   <main className="page-main shell a11y-page legal-page">
     <h1 className="display">תקנון האתר ותנאי שימוש</h1>
     <p>
@@ -62,4 +69,5 @@ export const TermsPage = () => (
 
     <p className="a11y-updated">עודכן לאחרונה: יוני 2026</p>
   </main>
-);
+  );
+};

@@ -2,11 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { products, isOnSale } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
+import { usePageMeta, titleFor } from "../lib/seo";
 import "./home-photographic.css"; // reuses the .ph-grid product layout
 
 const PAGE = 15; // how many to reveal at a time ("load more" adds another batch)
 
 export const SalePage = () => {
+  usePageMeta({
+    title: titleFor("מבצעים"),
+    description:
+      "מבצעים והנחות על ציוד אמנות ויצירה בלב התחביב — צבעים, מכחולים, נייר וחומרי יצירה במחירים מיוחדים.",
+    path: "/sale",
+  });
   const sale = products.filter(isOnSale);
   const [shown, setShown] = useState(PAGE);
   const visible = sale.slice(0, shown);
