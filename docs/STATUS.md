@@ -73,10 +73,11 @@ frozen; all product edits go through /manage. Details + the placeholder-price od
 ## ⚪ Deferred on purpose (post-launch)
 
 - **SEO migration — keep the #1 ranking + sitelinks after the domain cutover.** Full plan in
-  [SEO-MIGRATION.md](SEO-MIGRATION.md). Phase 0 done (3,000 Wix URLs captured in
-  `docs/seo/`). Phase 1 (301 redirect layer, sitemap/robots, per-route titles, JSON-LD)
-  must be DEPLOYED BEFORE nameservers reach Cloudflare — build it during the ~1-week
-  registrar transfer window. Phase 2 = Search Console + GBP checks after cutover.
+  [SEO-MIGRATION.md](SEO-MIGRATION.md). Phase 0 + **Phase 1 DONE and LIVE on workers.dev
+  (2026-08-22)**: 301 layer for all ~3,000 Wix URLs (sweep: 3,037 redirected, 27 gone,
+  0 leaks), sitemap/robots, per-route titles + JSON-LD, slugged shelf URLs, real 404s.
+  Cutover day: set `CANONICAL_HOST`, re-run `npm run check:redirects -- https://www.lev-hatahbiv.com`,
+  submit the sitemap in Search Console (Phase 2 = Search Console + GBP checks).
 
 - **Remove the payer form from the cart** and read buyer details from
   `get-transactions` (`sale_buyer_details`). Keep the SHIPPING ADDRESS form — PayMe
