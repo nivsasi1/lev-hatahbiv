@@ -104,6 +104,19 @@ Why not Wix's "point to external site" option instead: Wix DNS can only point
 A/CNAME records, and a Cloudflare Worker cannot be served through external DNS —
 Workers custom domains require the zone on Cloudflare. Not viable.
 
+### Final product sync — the "freeze" (decided 2026-08-22)
+- Wix keeps the store catalog in its dashboard after the site is unpublished / domain
+  moves / Premium lapses — export (CSV or API) stays possible. Only DELETING the Wix site
+  loses it, so: cancel Premium whenever, **never delete the Wix site until the final
+  export is verified in /manage.**
+- Images need nothing from Wix: all 2,465 product images are already on our S3.
+- Our dump is from 2026-06-20; Wix sitemaps show product edits up to 2026-07-27 and
+  collection changes on 2026-08-22 → **changes exist and must be synced.**
+- Sequence: agree a freeze date → no more edits on Wix → export CSV from Wix → diff
+  against Mongo (pull via the Wix API key first to SEE what changed) → import via
+  `/manage` CSV import (dedup by name) → publish → cut over → from then on all product
+  edits happen in `/manage` only.
+
 ### Order of operations
 1. Wix → Domains → lev-hatahbiv.com → DNS records: screenshot / copy EVERY record
    (MX, the `mail` A record, TXT/SPF, any subdomain).
