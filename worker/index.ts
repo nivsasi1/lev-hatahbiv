@@ -1145,7 +1145,10 @@ export default {
     }
 
     // Old Wix URLs -> 301, junk -> 410, non-routes -> 404, canonical host (worker/seo.ts)
-    const seo = await seoResponse(request, env);
+    const seo = await seoResponse(request, env, async (id) => {
+      const pricing = await loadPricing(request, env);
+      return !pricing || id in pricing.prices; // fail open if the pricing asset is unreadable
+    });
     if (seo) return seo;
 
     // Not an API route -> static storefront (SPA fallback included).

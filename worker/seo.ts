@@ -2,8 +2,9 @@
 //   * 301s from every old Wix URL (product pages, topic pages, collections) to its new home,
 //     driven by the baked /seo-redirects.json (built by Frontend/scripts/generate-seo.mjs)
 //   * 410 for Wix's demo leftovers, a real 404 status for paths that are not SPA routes
-//     (instead of the soft-404 "200 + home page" the SPA fallback gives)
-//   * host canonicalisation once CANONICAL_HOST is set (cutover day)
+//     (or are SPA routes pointing at a product/shelf that doesn't exist)
+//   * host canonicalisation once CANONICAL_HOST is set (cutover day) — folded into the same
+//     hop as the legacy redirect, so apex/legacy → www/new is ONE 301, never a chain
 // Pure helpers are exported so scripts/seo/check-redirects.mjs can exercise the same logic.
 
 export type SeoMap = {
@@ -11,6 +12,7 @@ export type SeoMap = {
   fallback: Record<string, string>; // wix product slug -> "410" | "/category/..." | "/search?q=..."
   collections: Record<string, string>; // wix collection slug -> "/category/<cat>/<sub>[?third=]"
   paths: Record<string, string>; // "/<wix page path>" -> "/..." | "410"
+  routes?: { categories: string[]; subs: string[] }; // what the SPA can render ("<cat>/<sub-slug>")
 };
 
 type SeoEnv = { ASSETS: Fetcher; CANONICAL_HOST?: string };
@@ -70,7 +72,7 @@ export function resolveLegacyPath(pathname: string, map: SeoMap): LegacyHit | nu
   const decoded = safeDecode(path);
   const target = map.paths[decoded] ?? map.paths[decoded.toLowerCase()];
   if (target === "410") return { status: 410 };
-  if (target) return { status: 301, location: target };
+  if (target && target !== decoded) return { status: 301, location: target };
   return null;
 }
 
@@ -85,10 +87,33 @@ const SPA_ROUTES: RegExp[] = [
 ];
 export const isSpaRoute = (pathname: string): boolean => SPA_ROUTES.some((r) => r.test(pathname));
 
-export function canonicalLocation(url: URL, canonicalHost: string | undefined): string | null {
+// built assets, images, uploads, robots/sitemap/json… — anything with a file extension.
+// SPA routes and the old Wix URLs never have one (Wix slugs strip the dots).
+export const isFileRequest = (pathname: string): boolean =>
+  pathname.startsWith("/assets/") || /\/[^/]+\.[a-z0-9]{2,5}$/i.test(pathname);
+
+// A route the SPA would render as "not found" must still answer 404 to crawlers:
+// unknown category slug, unknown sub shelf, unknown product id.
+export function isDeadSpaRoute(pathname: string, map: SeoMap | null, knownProduct: (id: string) => boolean): boolean {
+  const path = pathname.replace(/\/+$/, "");
+  let m = path.match(/^\/product\/([^/]+)$/);
+  if (m) return !knownProduct(safeDecode(m[1]));
+  m = path.match(/^\/category\/([^/]+)(?:\/([^/]+))?$/);
+  if (m && map?.routes) {
+    const cat = m[1];
+    if (!map.routes.categories.includes(cat)) return true;
+    if (m[2]) {
+      const sub = slugifyWix(safeDecode(m[2]));
+      return !map.routes.subs.includes(`${cat}/${sub}`);
+    }
+  }
+  return false;
+}
+
+export function canonicalOrigin(url: URL, canonicalHost: string | undefined): string | null {
   if (!canonicalHost || url.hostname === canonicalHost) return null;
   if (url.pathname.startsWith("/api/")) return null; // PayMe callbacks etc. must not bounce
-  return `https://${canonicalHost}${url.pathname}${url.search}`;
+  return `https://${canonicalHost}`;
 }
 
 let mapCache: SeoMap | null = null;
@@ -109,26 +134,49 @@ const redirect = (location: string, status = 301): Response =>
 
 // Returns a Response when the request is handled by the SEO layer, null to fall through
 // to the static assets. GET/HEAD only; everything fails open.
-export async function seoResponse(request: Request, env: SeoEnv): Promise<Response | null> {
+export async function seoResponse(
+  request: Request,
+  env: SeoEnv,
+  knownProduct: (id: string) => Promise<boolean> | boolean = () => true
+): Promise<Response | null> {
   if (request.method !== "GET" && request.method !== "HEAD") return null;
   const url = new URL(request.url);
 
-  const canon = canonicalLocation(url, env.CANONICAL_HOST);
-  if (canon) return redirect(canon);
+  // run_worker_first is on, so files come through here too: serve them straight from the
+  // asset store. A missing file must not get the SPA shell with 200 (the asset layer's
+  // not_found_handling would) — give it a real 404.
+  if (isFileRequest(url.pathname)) {
+    const res = await env.ASSETS.fetch(request);
+    const html = (res.headers.get("content-type") ?? "").includes("text/html");
+    if (html && !/\.html?$/i.test(url.pathname)) return new Response("Not found", { status: 404, headers: { "cache-control": "no-store" } });
+    return res;
+  }
+
+  const canon = canonicalOrigin(url, env.CANONICAL_HOST);
+  const origin = canon ?? url.origin;
 
   const map = await loadSeoMap(url.origin, env);
   if (map) {
     const hit = resolveLegacyPath(url.pathname, map);
     if (hit?.status === 410) return new Response("Gone", { status: 410, headers: { "cache-control": "public, max-age=86400" } });
-    if (hit?.location) return redirect(new URL(hit.location, url.origin).toString());
+    if (hit?.location) return redirect(new URL(hit.location, origin).toString());
   }
 
-  if (!isSpaRoute(url.pathname)) {
-    // unknown path: serve the SPA shell (which renders the not-found page) with a real 404
-    const shell = await env.ASSETS.fetch(new Request(new URL("/", url.origin).toString()));
-    const headers = new Headers(shell.headers);
-    headers.set("cache-control", "no-store");
-    return new Response(shell.body, { status: 404, headers });
-  }
+  // wrong host (apex / workers.dev once the domain is live) → same path on the canonical host
+  if (canon) return redirect(`${canon}${url.pathname}${url.search}`);
+
+  if (!isSpaRoute(url.pathname)) return notFound(url.origin, env);
+
+  if (map && isDeadSpaRoute(url.pathname, map, () => true)) return notFound(url.origin, env);
+  const pm = url.pathname.match(/^\/product\/([^/]+)\/?$/);
+  if (pm && !(await knownProduct(safeDecode(pm[1])))) return notFound(url.origin, env);
   return null;
+}
+
+// unknown path: serve the SPA shell (which renders the not-found page) with a real 404
+async function notFound(origin: string, env: SeoEnv): Promise<Response> {
+  const shell = await env.ASSETS.fetch(new Request(new URL("/", origin).toString()));
+  const headers = new Headers(shell.headers);
+  headers.set("cache-control", "no-store");
+  return new Response(shell.body, { status: 404, headers });
 }

@@ -10,6 +10,8 @@ export const SITE = "https://www.lev-hatahbiv.com";
 export const absUrl = (path: string) => SITE + path;
 
 export const LOGO = absUrl("/images/LevHatahbivLogo.png");
+// social preview: 1200×630 JPEG ~50 KB (WhatsApp drops previews above ~300 KB; the logo PNG is 747 KB)
+export const OG_DEFAULT = absUrl("/images/og-default.jpg");
 
 // the description that ranks today (carried over from the old Wix site)
 export const DEFAULT_DESCRIPTION =
@@ -79,7 +81,7 @@ export function usePageMeta(opts: PageMeta) {
     const { title, path, noindex, jsonLd } = opts;
     const description = opts.description ?? DEFAULT_DESCRIPTION;
     const url = absUrl(path);
-    const image = opts.image ? absImg(opts.image) : LOGO;
+    const image = opts.image ? absImg(opts.image) : OG_DEFAULT;
     const type = opts.type ?? "website";
 
     document.title = title;
@@ -89,6 +91,13 @@ export function usePageMeta(opts: PageMeta) {
     upsertMeta("property", "og:description", description);
     upsertMeta("property", "og:url", url);
     upsertMeta("property", "og:image", image);
+    if (image === OG_DEFAULT) {
+      upsertMeta("property", "og:image:width", "1200");
+      upsertMeta("property", "og:image:height", "630");
+    } else {
+      removeMeta("property", "og:image:width");
+      removeMeta("property", "og:image:height");
+    }
     upsertMeta("property", "og:type", type);
     if (noindex) upsertMeta("name", "robots", "noindex,nofollow");
     else removeMeta("name", "robots");

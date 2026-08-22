@@ -129,7 +129,7 @@ export const SubCategoryPage = () => {
   const { slug, sub: subParam } = useParams();
   // :sub is a slug ("צבעי-בד-טקסטיל"); the old raw-name links still resolve
   const sub = subFromParam(slug ?? "", subParam ?? "") ?? subParam ?? "";
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [sort, setSort] = useState<SortKey>("default");
   const [limit, setLimit] = useState(PAGE_SIZE);
   // subtle price-range filter (₪). null upper bound = "up to the max".
@@ -149,18 +149,16 @@ export const SubCategoryPage = () => {
   // the series/brand chip lives in the URL (?third=<slug>) so shelves are linkable
   const thirdParam = searchParams.get("third");
   const third = thirdParam ? thirds.find((t) => slugOf(t) === thirdParam) ?? null : null;
-  const setThird = (t: string | null) => {
-    const next = new URLSearchParams(searchParams);
-    if (t) next.set("third", slugOf(t));
-    else next.delete("third");
-    setSearchParams(next, { replace: true });
-    setLimit(PAGE_SIZE);
-  };
 
+  // a series shelf (?third=) is its own indexable page: own title/description/breadcrumb,
+  // listed in the sitemap, and the target of the old Wix collection redirects
+  const thirdCount = third ? all.filter((p) => p.third === third).length : 0;
   usePageMeta({
     title: category ? titleFor(`${third ?? sub} — ${category.name}`) : titleFor("מדף לא נמצא"),
     description: category
-      ? `${sub} במדף ${category.name} — ${all.length} מוצרים בלב התחביב, חנות ציוד אמנות ברחובות מאז 1985.`
+      ? third
+        ? `${third} — ${sub} במדף ${category.name}: ${thirdCount} מוצרים בלב התחביב, חנות ציוד אמנות ברחובות מאז 1985.`
+        : `${sub} במדף ${category.name} — ${all.length} מוצרים בלב התחביב, חנות ציוד אמנות ברחובות מאז 1985.`
       : undefined,
     path: subPath(slug ?? "", sub) + (third ? `?third=${slugOf(third)}` : ""),
     noindex: !category || all.length === 0,
@@ -169,6 +167,7 @@ export const SubCategoryPage = () => {
           { name: "ראשי", path: "/" },
           { name: category.name, path: `/category/${category.slug}` },
           { name: sub, path: subPath(category.slug, sub) },
+          ...(third ? [{ name: third, path: `${subPath(category.slug, sub)}?third=${slugOf(third)}` }] : []),
         ])
       : undefined,
   });
@@ -223,28 +222,27 @@ export const SubCategoryPage = () => {
         <div className="filter-bar">
           {showThirds && (
             <div className="sub-chips">
-              <button
+              {/* real links (not buttons) so crawlers can discover every series shelf */}
+              <Link
+                to={{ search: "" }}
+                replace
                 className={`sub-chip ${third === null ? "active" : ""}`}
                 style={{ "--sc": category.color } as any}
-                onClick={() => {
-                  setThird(null);
-                  setLimit(PAGE_SIZE);
-                }}
+                onClick={() => setLimit(PAGE_SIZE)}
               >
                 הכל ({all.length})
-              </button>
+              </Link>
               {thirds.map((t) => (
-                <button
+                <Link
                   key={t}
+                  to={{ search: `?third=${slugOf(t)}` }}
+                  replace
                   className={`sub-chip ${third === t ? "active" : ""}`}
                   style={{ "--sc": category.color } as any}
-                  onClick={() => {
-                    setThird(t);
-                    setLimit(PAGE_SIZE);
-                  }}
+                  onClick={() => setLimit(PAGE_SIZE)}
                 >
                   {t}
-                </button>
+                </Link>
               ))}
             </div>
           )}

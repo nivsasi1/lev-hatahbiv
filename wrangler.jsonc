@@ -28,7 +28,13 @@
   "assets": {
     "directory": "./Frontend/dist",
     "binding": "ASSETS",
-    "not_found_handling": "single-page-application"
+    "not_found_handling": "single-page-application",
+    // The Worker runs for EVERY request and serves files itself via env.ASSETS (worker/seo.ts).
+    // Needed because "/" is a real asset (index.html): with asset-first routing the Worker
+    // would never see the home page, which is exactly where the CANONICAL_HOST redirect
+    // (apex → www) matters most. An array form (["/"]) is NOT an option — it bypasses the
+    // Worker for every non-listed path, killing /api/* and the legacy redirects.
+    "run_worker_first": true
   },
   "d1_databases": [
     {

@@ -23,22 +23,53 @@ const topics = read(join(here, "seo", "topic-map.json"));
 // A product that was hidden/deleted after the map was built must not 301 into a 404 —
 // degrade it to the search fallback instead.
 const ids = new Set(products.map((p) => p.id));
-const liveProducts = {}, liveFallback = { ...fallback };
+const CATEGORY_SLUGS = ["paints", "hobby", "drawing", "brushes", "paper", "easels", "craft", "fiber", "jewelry"];
+// shelves that exist right now — a manager rename in /manage must not leave a 301 pointing
+// at an empty shelf, so every /category/... target is re-validated and degraded if needed
+const shelves = new Set(), series = new Set();
+for (const p of products) {
+  shelves.add(`${p.cat}/${slugify(p.sub)}`);
+  series.add(`${p.cat}/${slugify(p.sub)}/${slugify(p.third)}`);
+}
+let degraded = 0;
+const liveTarget = (t) => {
+  const m = /^\/category\/([a-z]+)\/([^?]+)(?:\?third=(.+))?$/.exec(t);
+  if (!m) return t;
+  const [, cat, sub, third] = m;
+  if (!CATEGORY_SLUGS.includes(cat)) return (degraded++, "/");
+  if (!shelves.has(`${cat}/${sub}`)) return (degraded++, `/category/${cat}`);
+  if (third && !series.has(`${cat}/${sub}/${third}`)) return (degraded++, `/category/${cat}/${sub}`);
+  return t;
+};
+const liveProducts = {}, liveFallback = {};
 let dropped = 0;
 for (const [slug, id] of Object.entries(productMap)) {
   if (ids.has(id)) liveProducts[slug] = id;
   else (liveFallback[slug] = `/search?q=${encodeURIComponent(slug.replace(/-+/g, " "))}`), dropped++;
 }
-const redirects = { products: liveProducts, fallback: liveFallback, collections, paths: topics };
+for (const [slug, t] of Object.entries(fallback)) liveFallback[slug] = liveTarget(t);
+const liveCollections = Object.fromEntries(Object.entries(collections).map(([k, v]) => [k, liveTarget(v)]));
+const livePaths = Object.fromEntries(
+  Object.entries(topics)
+    .filter(([path, t]) => t !== path) // a page that maps to itself is not a redirect (and would loop)
+    .map(([k, v]) => [k, liveTarget(v)])
+);
+const redirects = {
+  products: liveProducts,
+  fallback: liveFallback,
+  collections: liveCollections,
+  paths: livePaths,
+  // what the SPA can actually render — the Worker answers 404 for anything else under these prefixes
+  routes: { categories: CATEGORY_SLUGS, subs: [...shelves].sort() },
+};
 const redirectsPath = join(here, "..", "public", "seo-redirects.json");
 writeFileSync(redirectsPath, JSON.stringify(redirects));
 console.log(
   `wrote redirects: ${Object.keys(liveProducts).length} products (+${Object.keys(liveFallback).length} fallback, ${dropped} dropped), ` +
-    `${Object.keys(collections).length} collections, ${Object.keys(topics).length} pages -> ${redirectsPath}`
+    `${Object.keys(liveCollections).length} collections, ${Object.keys(livePaths).length} pages, ${degraded} targets degraded -> ${redirectsPath}`
 );
 
 // ---- sitemap ---------------------------------------------------------------
-const CATEGORY_SLUGS = ["paints", "hobby", "drawing", "brushes", "paper", "easels", "craft", "fiber", "jewelry"];
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const url = (path, { lastmod, priority, changefreq } = {}) =>
   `  <url><loc>${esc(SITE + encodeURI(path))}</loc>` +
@@ -48,9 +79,14 @@ const url = (path, { lastmod, priority, changefreq } = {}) =>
   `</url>`;
 
 const subs = new Map(); // "cat|sub" -> latest updated
+const thirds = new Map(); // "cat|sub|third" -> latest updated (the ?third= series shelves)
 for (const p of products) {
   const k = `${p.cat}|${p.sub}`;
   if (!subs.has(k) || (p.updated ?? "") > (subs.get(k) ?? "")) subs.set(k, p.updated ?? "");
+  if (p.third && p.third !== "כללי") {
+    const t = `${k}|${p.third}`;
+    if (!thirds.has(t) || (p.updated ?? "") > (thirds.get(t) ?? "")) thirds.set(t, p.updated ?? "");
+  }
 }
 const latest = products.map((p) => p.updated ?? "").sort().at(-1) || new Date().toISOString();
 const lines = [
@@ -62,6 +98,12 @@ const lines = [
     .map(([k, lm]) => {
       const [cat, sub] = k.split("|");
       return url(`/category/${cat}/${slugify(sub)}`, { lastmod: lm || latest, priority: "0.7", changefreq: "weekly" });
+    }),
+  ...[...thirds.entries()]
+    .sort()
+    .map(([k, lm]) => {
+      const [cat, sub, third] = k.split("|");
+      return url(`/category/${cat}/${slugify(sub)}?third=${slugify(third)}`, { lastmod: lm || latest, priority: "0.6", changefreq: "weekly" });
     }),
   ...["/workshops", "/contact", "/returns", "/terms", "/privacy", "/accessibility"].map((p) =>
     url(p, { priority: "0.4", changefreq: "yearly" })

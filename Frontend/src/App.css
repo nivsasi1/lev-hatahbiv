@@ -1812,6 +1812,14 @@ button {
   transition: all 0.15s ease;
 }
 
+/* chips are <Link>s now (crawlable series shelves) — keep the button look */
+a.sub-chip {
+  display: inline-block;
+  color: var(--ink);
+  text-decoration: none;
+  line-height: 1.4;
+}
+
 .sub-chip.active,
 .sub-chip:hover {
   background: var(--sc, var(--ink));

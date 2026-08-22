@@ -34,9 +34,12 @@ What exists now (details in the sections below, which were the spec):
   `public/seo-redirects.json`, `public/sitemap.xml` (2,5xx URLs, canonical host
   `https://www.lev-hatahbiv.com`), `public/robots.txt`.
 - **Worker** — `worker/seo.ts`, called from `fetch` before the asset fallthrough: 301 for
-  every mapped URL, 410 for junk, a real **404** status for any non-route path, and host
-  canonicalisation once `CANONICAL_HOST` (wrangler.jsonc) is set — leave it `""` until the
-  nameservers point at Cloudflare.
+  every mapped URL, 410 for junk, a real **404** status for any non-route path (and for
+  unknown product ids / category / sub slugs), and host canonicalisation once
+  `CANONICAL_HOST` (wrangler.jsonc) is set — leave it `""` until the nameservers point at
+  Cloudflare. Legacy + canonical fold into ONE hop (apex/old → www/new). `run_worker_first:
+  true` is required so the Worker also sees `/` (otherwise the home page is served by the
+  asset layer and could never redirect apex → www); files are served through `env.ASSETS`.
 - **Frontend** — `usePageMeta` (`src/lib/seo.ts`) on every route: per-page title /
   description / canonical / OG / JSON-LD (Store, BreadcrumbList, Product+Offer); static
   WebSite + Store + SiteNavigationElement JSON-LD in `index.html`; slugged sub-category URLs
