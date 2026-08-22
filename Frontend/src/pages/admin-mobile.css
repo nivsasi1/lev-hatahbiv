@@ -1,0 +1,163 @@
+/* ===========================================================================
+   Manager dashboard — phone layout (≤ 640px).
+   The desktop dashboard is a wall of pills and icon buttons; on a phone that
+   reads as noise. Here: one-column header, native <select> instead of the tab
+   pills and the status chips, full-width search, and product rows that wrap
+   their action buttons onto their own line with finger-sized targets.
+   Imported by pages/adminpage/index.tsx. Desktop rules are untouched.
+   =========================================================================== */
+
+/* the selects exist in the DOM always; only the phone shows them */
+.admin-tabs-select,
+.admin-filters-select {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .admin-page {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+
+  /* ---- header: title on its own line, two actions side by side ---- */
+  .admin-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .admin-page h1 {
+    font-size: 2.2rem;
+    margin: 0;
+  }
+  .admin-head-actions {
+    width: 100%;
+  }
+  .admin-head-actions .btn {
+    flex: 1;
+    text-align: center;
+  }
+  .admin-head-actions .adm-theme-switch {
+    display: none; /* a desktop nicety; the phone keeps the default look */
+  }
+
+  /* ---- tabs → one dropdown ---- */
+  .admin-tabs {
+    margin: 0.6rem 0 0.9rem;
+  }
+  .admin-tabs button {
+    display: none;
+  }
+  .admin-tabs-select,
+  .admin-filters-select {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 0.8em;
+    padding: 0.6em 0.9em;
+    box-shadow: 0.18em 0.18em 0 var(--shadow);
+  }
+  .admin-filters-select {
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    box-shadow: none;
+  }
+
+  /* ---- status chips → dropdown + the newsletter toggle beside it ---- */
+  .admin-filters {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+  .admin-filters .sub-chip {
+    display: none;
+  }
+  .admin-filters .subs-toggle {
+    flex: none;
+    font-size: 0.85rem;
+  }
+
+  .price-filter {
+    gap: 0.5rem 0.7rem;
+    padding: 0.45rem 0.7rem;
+  }
+  .price-filter .pf-vals {
+    min-width: 0;
+  }
+
+  /* ---- search full width, the three actions share one row under it ---- */
+  .admin-toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .admin-toolbar input {
+    flex: 1 1 100%;
+  }
+  .admin-toolbar .btn {
+    flex: 1;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .select-all-row {
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+  }
+  .bulk-bar {
+    top: 0.5rem;
+  }
+
+  /* ---- product rows: photo + text, then the actions on their own line ---- */
+  .admin-row {
+    flex-wrap: wrap;
+    gap: 0.6rem 0.7rem;
+    padding: 0.6rem 0.7rem;
+  }
+  .admin-row-mid .nm {
+    white-space: normal; /* let long Hebrew names wrap instead of clipping */
+    line-height: 1.25;
+  }
+  .admin-row-actions {
+    flex-basis: 100%;
+    justify-content: space-between;
+    gap: 0.35rem;
+  }
+  .admin-row-actions button {
+    width: auto;
+    flex: 1;
+    height: 2.5rem; /* ≥ 40px touch target */
+    font-size: 1.05rem;
+  }
+  /* hover tooltips make no sense with a finger and overflow the viewport */
+  .admin-row-actions button::before,
+  .admin-row-actions button::after {
+    display: none;
+  }
+
+  /* ---- stats: two tidy columns ---- */
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+  .stat-card {
+    padding: 0.8rem 0.6rem;
+  }
+  .stat-num {
+    font-size: 2rem;
+  }
+
+  /* ---- orders: let the footer actions wrap ---- */
+  .order-head,
+  .order-foot {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.8rem;
+  }
+}

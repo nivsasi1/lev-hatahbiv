@@ -31,28 +31,43 @@ export function ProductFilters({
     resetLimit,
   } = products;
 
+  const statusOptions = [
+    ["all", `הכל (${total})`],
+    ["sale", `% במבצע (${saleCount})`],
+    ["oos", `📦 אזלו (${oosCount})`],
+    ["hidden", `🚫 מוסתרים (${hiddenCount})`],
+  ] as const;
+  type StatusKey = (typeof statusOptions)[number][0];
+  const pick = (key: StatusKey) => {
+    setStatusFilter(key);
+    resetLimit();
+  };
+
   return (
     <>
       <div className="admin-filters">
-        {(
-          [
-            ["all", `הכל (${total})`],
-            ["sale", `% במבצע (${saleCount})`],
-            ["oos", `📦 אזלו (${oosCount})`],
-            ["hidden", `🚫 מוסתרים (${hiddenCount})`],
-          ] as const
-        ).map(([key, label]) => (
+        {/* chips on desktop, a <select> on phones — admin-mobile.css swaps them */}
+        {statusOptions.map(([key, label]) => (
           <button
             key={key}
             className={`sub-chip ${statusFilter === key ? "active" : ""}`}
-            onClick={() => {
-              setStatusFilter(key);
-              resetLimit();
-            }}
+            onClick={() => pick(key)}
           >
             {label}
           </button>
         ))}
+        <select
+          className="admin-filters-select"
+          value={statusFilter}
+          onChange={(e: any) => pick(e.target.value as StatusKey)}
+          aria-label="סינון מוצרים לפי מצב"
+        >
+          {statusOptions.map(([key, label]) => (
+            <option key={key} value={key}>
+              {label}
+            </option>
+          ))}
+        </select>
         <button className="subs-toggle" onClick={onToggleSubs}>
           💌 רשימת תפוצה ({subscriberCount})
         </button>

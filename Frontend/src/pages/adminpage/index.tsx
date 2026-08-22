@@ -16,6 +16,7 @@ import { ProductsView } from "./components/products/ProductsView";
 import { DialogOverlay } from "./components/DialogOverlay";
 import "../admin-tools.css";
 import "../admin-clean.css";
+import "../admin-mobile.css";
 import { usePageMeta, titleFor } from "../../lib/seo";
 
 // ─── Manager dashboard (/manage) ────────────────────────────────────────────
