@@ -105,6 +105,20 @@ A/CNAME records, and a Cloudflare Worker cannot be served through external DNS �
 Workers custom domains require the zone on Cloudflare. Not viable.
 
 ### Final product sync — the "freeze" (decided 2026-08-22)
+- ✅ **DONE 2026-08-22 — Atlas now matches Wix.** Applied directly on Atlas (backup first:
+  collection `products_backup_2026_08_22`, 2,489 rows — drop it once the live site is
+  confirmed): 15 price fixes (12 Magnani blocks were live at a ₪500 placeholder; real
+  ₪33.9–₪199), `A70 Burned Umber` → `A70 Burnt Umber` + sold out, Kolinsky series 7 size
+  00 sold out, Portofino 31/41 640g sold out (Wix out_of_stock), 4 new products (3 Magnani
+  Portofino blocks + RIT natural-fabric dye under new third level `RIT טבעי`; images still
+  point at Wix URLs — move to S3 before the Wix site is ever deleted). White Nights
+  tube/cube renames were skipped on purpose. **From here on the Wix catalog is frozen —
+  every product edit happens in /manage only.**
+- Known oddity, NOT a sync bug: ~12 "price on request" products carry placeholder prices
+  on BOTH sites (Signet bristle brushes / FW marker sets / graduate pencil set at ₪2,000,
+  linen roll ₪2,500, 5 canvas-by-size items ₪1,000) and the 20 P3750 "parent" brushes at
+  ₪1,000 (per-size P3750 rows exist separately). Owner decision needed: hide them, or
+  give them real prices / split into sizes.
 - Wix keeps the store catalog in its dashboard after the site is unpublished / domain
   moves / Premium lapses — export (CSV or API) stays possible. Only DELETING the Wix site
   loses it, so: cancel Premium whenever, **never delete the Wix site until the final

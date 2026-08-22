@@ -1,6 +1,6 @@
 # Project status — where things stand
 
-Last updated: **2026-08-03**. Single source of truth for what is done, what is
+Last updated: **2026-08-22**. Single source of truth for what is done, what is
 waiting, and what is deliberately deferred. Deep detail lives in
 [PAYMENTS.md](../PAYMENTS.md), [ARCHITECTURE.md](../ARCHITECTURE.md),
 [DEPLOY.md](../DEPLOY.md) and [LAUNCH-CHECKLIST.md](LAUNCH-CHECKLIST.md).
@@ -61,6 +61,14 @@ folded into the entity change above — then `npx wrangler secret put PAYME_SELL
 - ~~Invoice pricing ₪0.3 vs ₪15~~ → **both** (₪15/mo + ₪0.30/doc).
 - ~~Where is the production MPL~~ → live dashboard → **אדמין → API ואינטגרציה**
   (separate account from sandbox, separate key).
+
+## 🟢 Catalog — final Wix sync done (2026-08-22)
+
+Atlas (the inventory master — the local Mongo is an empty dev instance) now matches the
+Wix catalog: 15 price fixes, 3 sold-out flags, 1 rename, 4 new products. Backup
+collection `products_backup_2026_08_22` stays until the live site is confirmed. Wix is
+frozen; all product edits go through /manage. Details + the placeholder-price oddity:
+[LAUNCH-CHECKLIST.md](LAUNCH-CHECKLIST.md#final-product-sync--the-freeze-decided-2026-08-22).
 
 ## ⚪ Deferred on purpose (post-launch)
 

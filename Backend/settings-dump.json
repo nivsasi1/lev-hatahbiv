@@ -1,8 +1,21 @@
 {
-  "_id": "6a2cb0154ac0169a1cb4f30b",
+  "_id": "6a2d2741582d8c56b75d28d7",
   "__v": 0,
-  "createdAt": "2026-06-13T01:19:17.059Z",
-  "featuredIds": [],
+  "createdAt": "2026-06-13T09:47:45.610Z",
+  "featuredIds": [
+    "66844bfdf2e4e8f5727705dd",
+    "66844bfdf2e4e8f5727705dc",
+    "66844bfdf2e4e8f5727705db",
+    "66844bfdf2e4e8f5727705da",
+    "66844bfdf2e4e8f572770403",
+    "66844bfdf2e4e8f572770404",
+    "66844bfdf2e4e8f572770584",
+    "66844bfdf2e4e8f57277057a",
+    "66844bfdf2e4e8f572770401",
+    "66844bfdf2e4e8f572770947",
+    "66844bfdf2e4e8f57277057f",
+    "66844bfdf2e4e8f572770408"
+  ],
   "ribbonTexts": [
     "משלוח חינם מעל ₪300",
     "ייעוץ אישי בחנות",
@@ -13,7 +26,26 @@
     "סדנאות ואמנות לכל המשפחה",
     "איסוף מהיר מהחנות ברחובות"
   ],
-  "updatedAt": "2026-06-19T18:22:03.441Z",
-  "saleIds": [],
-  "shelfImages": {}
+  "saleIds": [
+    "66844bfdf2e4e8f572770553",
+    "66844bfdf2e4e8f572770564",
+    "66844bfdf2e4e8f57277056e",
+    "66844bfdf2e4e8f572770566",
+    "66844bfdf2e4e8f57277055f"
+  ],
+  "updatedAt": "2026-06-20T11:46:34.717Z",
+  "shelfImages": {
+    "drawing": "1781370471412-5a3cb409.jpg",
+    "craft": "1781370599520-a561fad0.jpeg",
+    "easels": "1781370604836-e8663993.jpeg",
+    "paper": "1781370609735-e32c1190.jpeg",
+    "hobby": "1781370622062-0e7b9438.jpeg"
+  },
+  "coupons": [
+    {
+      "code": "SUMMERVIBE",
+      "percent": 10
+    }
+  ],
+  "welcomeCoupon": "LEV10"
 }

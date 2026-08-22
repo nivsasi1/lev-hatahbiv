@@ -36,6 +36,7 @@ The build is identical everywhere:
 
 ```
 cd Backend  && npm ci --omit=dev && node dump-products.js
+# (if Atlas SRV lookup fails locally: node -r ./scripts/dns-public.js dump-products.js)
 cd ../Frontend && npm ci && node scripts/generate-catalog.mjs && npm run build
 ```
 
