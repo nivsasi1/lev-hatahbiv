@@ -87,6 +87,11 @@ Discovered mid-migration, verified against both vendors' docs:
    ICANN rules ADDS +1 year: Feb 2027 → Feb 2028).
 3. Wait for the transfer (typically up to 5–7 days; Wix may release early).
    **DNS keeps serving from wixdns throughout — site + email unaffected.**
+   **Status 2026-08-23:** Wix/OpenSRS confirmed the transfer-away request
+   (received 2026-08-22 18:32 UTC, sent to the registrant contact gilkahan@gmail.com).
+   Objection window ends **2026-08-27 18:32 UTC (21:32 Israel)** — then it completes on
+   its own. Do NOT click "cancel"; wait for Namecheap's "transfer complete" email (check
+   both inboxes), then run steps 4–5 and the "Order of operations" below.
 4. At the new registrar: set nameservers → `quentin.ns.cloudflare.com` +
    `rita.ns.cloudflare.com` → the prepared CF zone goes Active.
 5. Proceed with the original cutover (delete Wix records, attach Worker domain,
