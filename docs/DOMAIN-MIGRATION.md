@@ -41,6 +41,30 @@ Either way, **write down every record before changing anything**:
 - **`TXT`** — SPF / DKIM / DMARC, Google / Meta site verification
 - any other subdomain records
 
+
+### Captured zone — Wix DNS, Aug 29 2026 (rollback reference)
+
+Nameservers at Namecheap were `ns12.wixdns.net` / `ns13.wixdns.net` (Custom DNS).
+Records as shown in Wix → Manage DNS Records:
+
+| Type | Host | Value | TTL | Carry to Cloudflare? |
+|---|---|---|---|---|
+| A | @ | 185.230.63.171 | 1h | temporary — until the Worker custom domain replaces it |
+| A | @ | 185.230.63.186 | 1h | temporary — same |
+| A | @ | 185.230.63.107 | 1h | temporary — same |
+| A | mail | 66.147.244.98 | 1h | **yes — DNS only** (external mail host, Bluehost-range IP) |
+| CNAME | www | cdn3.wixdns.net | 1h | temporary — until the Worker custom domain replaces it |
+| CNAME | m | www134.wixdns.net | 1h | no — legacy Wix mobile subdomain |
+| CNAME | imap | mail.lev-hatahbiv.com | 1h | **yes — DNS only** |
+| CNAME | pop | mail.lev-hatahbiv.com | 1h | **yes — DNS only** |
+| CNAME | smtp | mail.lev-hatahbiv.com | 1h | **yes — DNS only** |
+| MX | @ | mail.lev-hatahbiv.com (prio 0) | 1h | **yes** |
+| TXT | @ | google-site-verification=Y… (copy the full value from Wix) | 1h | **yes** |
+| NS | @ | ns12/ns13.wixdns.net | 1d | no — replaced by Cloudflare NS |
+
+No SRV records. Note: there is **no SPF/DKIM TXT** — pre-existing gap, worth
+fixing with the mail provider later, separate from this migration.
+
 ## Step 1 — add the zone to Cloudflare (no downtime yet)
 
 1. Cloudflare dashboard → **Add a site** → `lev-hatahbiv.com` → **Free** plan.
