@@ -4,6 +4,21 @@ Goal: `lev-hatahbiv.com` should serve the **new** storefront (Cloudflare Worker
 `lev-hatahbiv`), and we should stop paying Wix — without ever losing the domain
 or the business email.
 
+## Status — Aug 29 2026, evening
+
+- ✅ Registrar verification confirmed; NS switched to Cloudflare (delegation
+  verified at the .com registry); zone Active.
+- ✅ Old Wix A/CNAME records deleted (they had broken anyway — Cloudflare
+  error 1034 "Edge IP Restricted": Wix serves www through its own Cloudflare
+  SaaS setup, which refuses hostnames whose DNS lives in another Cloudflare
+  account, so the "transparent bridge to the old site" phase was cut short).
+- ✅ Worker custom domains added for the apex **and** `www` — both resolve to
+  the Worker; `mail` + MX verified intact. **The new site is live on the domain.**
+- ✅ Worker now 301s `www` → apex (in code, `worker/index.ts`).
+- ⬜ Merge this branch to main + publish (ships sitemap/robots/OG + the redirect).
+- ⬜ Email PayMe the new URL; final Wix catalog pull; test order end to end.
+- ⬜ Turn off auto-renew on the Wix site plan. Submit the sitemap in GSC.
+
 ## The situation
 
 | | Where it is | What to do |
