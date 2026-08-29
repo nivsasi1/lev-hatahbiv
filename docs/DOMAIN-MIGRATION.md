@@ -8,14 +8,17 @@ or the business email.
 
 | | Where it is | What to do |
 |---|---|---|
-| **Domain registration** | **Namecheap** — `lev-hatahbiv.com`, ACTIVE, auto-renew ON, expires **Feb 2 2028**, privacy ON | **Nothing.** Leave it exactly as it is |
+| **Domain registration** | **Namecheap** — `lev-hatahbiv.com`, ACTIVE, auto-renew ON, expires **Feb 2 2028**, privacy ON (transferred from Wix, Aug 2026) | **Confirm the verification email**, then leave it alone |
 | **DNS / nameservers** | Namecheap BasicDNS *or* Wix nameservers — check before touching anything | Move to **Cloudflare** nameservers |
 | **The site the domain shows** | old Wix store (or Render) | the Worker, via a Workers Custom Domain |
 | **Wix site plan** | the expensive subscription | turn off auto-renew **after** the cut-over |
 
-The domain was **never** tied to Wix — it's registered at Namecheap, so there is
-**no domain transfer, no EPP code, no 60-day ICANN lock** to worry about. The only
-thing Wix has is the site plan, and cancelling it does not touch the domain.
+The domain **was** registered through Wix; the transfer to Namecheap completed in
+late August 2026. Two consequences: the **registrant-verification email** from
+Namecheap must be confirmed (an unverified domain gets suspended after ~15 days),
+and a fresh **60-day ICANN transfer lock** is running (no registrar move until
+~end of October 2026). The only thing left at Wix is the site plan; cancelling it
+does not touch the domain.
 
 Why Cloudflare nameservers: a Workers **Custom Domain** requires the zone to be
 **Active in the same Cloudflare account** — Cloudflare then creates the DNS
@@ -111,11 +114,11 @@ DNS is now ours in Cloudflare: restore the original A/CNAME values from the Step
 screenshots and the old site is back — as long as the Wix plan hasn't lapsed yet.
 That's the reason for turning off auto-renew rather than cancelling immediately.
 
-## Things that are NOT needed (previously assumed)
+## Things already done / not needed
 
-- ~~Transferring the domain away from Wix~~ — it was never at Wix.
-- ~~EPP/authorization code, unlocking, disabling privacy, the ICANN 60-day lock~~ —
-  all transfer-only concerns.
+- ~~Transferring the domain away from Wix~~ — **done**, completed Aug 2026.
+- ~~EPP/authorization code, unlocking~~ — behind us; only the registrant
+  verification email remains.
 - ~~Deleting and re-buying the domain~~ — never an option: once released, anyone
   can register it.
 
@@ -123,6 +126,7 @@ That's the reason for turning off auto-renew rather than cancelling immediately.
 
 Namecheap renews at roughly $15/yr; Cloudflare Registrar sells at cost (~$10–12
 for `.com`). Once the zone is Active on Cloudflare, moving the *registration*
-there is a normal transfer (needs an auth code from Namecheap and no contact
-changes in the previous 60 days). Worth a few dollars a year, not urgent —
-and there is nothing wrong with staying at Namecheap.
+there is a normal transfer (needs an auth code from Namecheap) — but the 60-day
+ICANN lock from the Wix transfer blocks it until ~end of October 2026. Worth a
+few dollars a year, not urgent — and there is nothing wrong with staying at
+Namecheap.
