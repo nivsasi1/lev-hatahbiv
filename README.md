@@ -39,7 +39,7 @@ Admin dashboard (/manage) ──► Node/Express API (Render) ──► MongoDB 
 | [DEPLOY.md](DEPLOY.md) | Shipping every kind of change, secrets, rollback |
 | [CLOUDFLARE.md](CLOUDFLARE.md) | Workers, D1, build pipeline |
 | [PAYMENTS.md](PAYMENTS.md) | PayMe integration, webhook flow, test matrix |
-| [docs/DOMAIN-MIGRATION.md](docs/DOMAIN-MIGRATION.md) | Moving levhatahbiv.com off Wix onto the new site, and dropping the Wix plan |
+| [docs/DOMAIN-MIGRATION.md](docs/DOMAIN-MIGRATION.md) | Pointing lev-hatahbiv.com at the Worker (Namecheap → Cloudflare NS) and dropping the Wix plan |
 
 ## Stack
 
