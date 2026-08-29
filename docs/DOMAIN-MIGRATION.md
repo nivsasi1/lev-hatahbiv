@@ -15,9 +15,12 @@ or the business email.
 - ✅ Worker custom domains added for the apex **and** `www` — both resolve to
   the Worker; `mail` + MX verified intact. **The new site is live on the domain.**
 - ✅ Worker now 301s `www` → apex (in code, `worker/index.ts`).
-- ⬜ Merge this branch to main + publish (ships sitemap/robots/OG + the redirect).
-- ⬜ Email PayMe the new URL; final Wix catalog pull; test order end to end.
-- ⬜ Turn off auto-renew on the Wix site plan. Submit the sitemap in GSC.
+- ✅ Merged to main; CANONICAL_HOST=www.lev-hatahbiv.com enabled (conflicts
+  resolved in favor of main's SEO layer — www is canonical, legacy Wix 301 map).
+- ✅ 75 newsletter subscribers exported from Wix contacts (77 SUBSCRIBED minus
+  2 internal accounts) and imported into the D1 `subscribers` table.
+- ⬜ Email PayMe the new URL; test order end to end.
+- ⬜ Turn off auto-renew on the Wix site plan (owner). Submit the sitemap in GSC.
 
 ## The situation
 
