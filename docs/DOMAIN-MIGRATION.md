@@ -59,11 +59,19 @@ Records as shown in Wix → Manage DNS Records:
 | CNAME | pop | mail.lev-hatahbiv.com | 1h | **yes — DNS only** |
 | CNAME | smtp | mail.lev-hatahbiv.com | 1h | **yes — DNS only** |
 | MX | @ | mail.lev-hatahbiv.com (prio 0) | 1h | **yes** |
-| TXT | @ | google-site-verification=Y… (copy the full value from Wix) | 1h | **yes** |
+| TXT | @ | google-site-verification=YYwEMYK045w2iw1lS71DdktvEKyt1UzVK5oxNlSYIYQ | 1h | **yes** |
 | NS | @ | ns12/ns13.wixdns.net | 1d | no — replaced by Cloudflare NS |
 
 No SRV records. Note: there is **no SPF/DKIM TXT** — pre-existing gap, worth
 fixing with the mail provider later, separate from this migration.
+
+**Verified Aug 29 2026, by querying `quentin.ns.cloudflare.com` directly:** the
+Cloudflare zone (added ~Aug 18) already carries every record above, values
+matching Wix exactly, all DNS-only (the NS returns the real origin IPs, not
+Cloudflare proxy IPs). Assigned NS: `quentin.ns.cloudflare.com` /
+`rita.ns.cloudflare.com`. Zone ID `51bb24d0b21659144e4a690f391fd008`.
+The email really is in use (the manager's personal address) — MX/mail records
+are the do-not-break items.
 
 ## Step 1 — add the zone to Cloudflare (no downtime yet)
 
