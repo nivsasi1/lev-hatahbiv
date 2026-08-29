@@ -131,6 +131,7 @@ mkdirSync(dirname(pricingOutPath), { recursive: true });
 writeFileSync(pricingOutPath, JSON.stringify(pricing));
 console.log(`wrote checkout pricing (${products.length} prices) -> ${pricingOutPath}`);
 
+
 // Site settings — always write a file so catalog.ts imports never break.
 let rawSettings = {};
 if (existsSync(settingsDumpPath)) {

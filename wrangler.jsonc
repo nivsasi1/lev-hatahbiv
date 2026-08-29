@@ -15,10 +15,10 @@
     // switching back also requires putting the sandbox MPL back in PAYME_SELLER_ID
     // (the two environments are separate accounts with separate keys).
     "PAYME_BASE_URL": "https://live.payme.io/api",
-    // SEO: when set, every other host (apex, workers.dev) 301s to it. MUST stay "" until
-    // the nameservers point at Cloudflare — otherwise workers.dev would bounce shoppers into
-    // the old Wix site. Cutover day: set to "www.lev-hatahbiv.com" and deploy.
-    "CANONICAL_HOST": ""
+    // SEO: every other host (apex, workers.dev) 301s to it. Set on cutover day
+    // (Aug 29 2026) — the nameservers point at Cloudflare and both the apex and
+    // www are Worker custom domains.
+    "CANONICAL_HOST": "www.lev-hatahbiv.com"
   },
   // safety net: re-query PayMe for orders that were paid but never settled
   // (shopper closed the tab AND the callback didn't arrive). See scheduled().

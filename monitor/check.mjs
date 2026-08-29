@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync, appendFileSync } from "node:fs"
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SITE = process.env.SITE_URL || "https://lev-hatahbiv.onrender.com";
+const SITE = process.env.SITE_URL || "https://www.lev-hatahbiv.com";
 const API_URL = process.env.API_URL || "https://lev-hatahbiv-api.onrender.com";
 const CF_URL = process.env.CF_URL || "https://lev-hatahbiv.nivsasi.workers.dev";
 
