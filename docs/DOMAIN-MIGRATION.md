@@ -19,8 +19,19 @@ or the business email.
   resolved in favor of main's SEO layer — www is canonical, legacy Wix 301 map).
 - ✅ 75 newsletter subscribers exported from Wix contacts (77 SUBSCRIBED minus
   2 internal accounts) and imported into the D1 `subscribers` table.
-- ⬜ Email PayMe the new URL; test order end to end.
+- ✅ PayMe already has lev-hatahbiv.com as the account's site URL (confirmed by
+  their support, Aug 20) — no email needed.
+- ⬜ Test order end to end on the live domain.
 - ⬜ Turn off auto-renew on the Wix site plan (owner). Submit the sitemap in GSC.
+- ⬜ **PayMe entity change (business decision, no deadline):** the existing
+  account is bound to the sole-proprietor entity and cannot be converted to the
+  Ltd (their support, Aug 20). Clearing under the Ltd requires a NEW PayMe
+  account + KYC, which gets its own MPL. On our side the whole switch is
+  `npx wrangler secret put PAYME_SELLER_ID` — do it at a quiet moment with no
+  pending orders (a pending order created under the old MPL can't be re-queried
+  with the new one). Past transactions stay on the old account. Separately:
+  withdraw the remaining balance from the old Wix-linked PayMe account
+  (login: levhatahbiv@gmail.com), then ask support to close it.
 
 ## The situation
 
