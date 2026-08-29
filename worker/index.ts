@@ -1077,6 +1077,12 @@ export default {
     const url = new URL(request.url);
     const { pathname } = url;
 
+    // canonical host: www serves nothing itself, everything 301s to the apex
+    if (url.hostname === "www.lev-hatahbiv.com") {
+      url.hostname = "lev-hatahbiv.com";
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (pathname.startsWith("/api/")) {
       const db = drizzle(env.DB);
 
