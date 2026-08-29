@@ -131,6 +131,33 @@ mkdirSync(dirname(pricingOutPath), { recursive: true });
 writeFileSync(pricingOutPath, JSON.stringify(pricing));
 console.log(`wrote checkout pricing (${products.length} prices) -> ${pricingOutPath}`);
 
+// Sitemap for the production domain — static pages, category landings and every
+// product page. Slugs are read out of catalog.ts so there is one source of truth.
+const SITE_ORIGIN = "https://lev-hatahbiv.com";
+const catalogTs = readFileSync(join(here, "..", "src", "data", "catalog.ts"), "utf8");
+const categorySlugs = [...catalogTs.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
+const urls = [
+  "/", "/sale", "/contact", "/terms", "/returns", "/privacy", "/accessibility",
+  ...categorySlugs.map((slug) => `/category/${slug}`),
+  ...products.map((p) => `/product/${encodeURIComponent(p.id)}`),
+];
+const lastmodById = new Map(products.map((p) => [p.id, p.updated]));
+const sitemap =
+  `<?xml version="1.0" encoding="UTF-8"?>\n` +
+  `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+  urls
+    .map((u) => {
+      const id = u.startsWith("/product/") ? decodeURIComponent(u.slice("/product/".length)) : null;
+      const lastmod = id && lastmodById.get(id) ? `<lastmod>${lastmodById.get(id).slice(0, 10)}</lastmod>` : "";
+      return `  <url><loc>${SITE_ORIGIN}${u}</loc>${lastmod}</url>`;
+    })
+    .join("\n") +
+  `\n</urlset>\n`;
+const sitemapOutPath = join(here, "..", "public", "sitemap.xml");
+writeFileSync(sitemapOutPath, sitemap);
+console.log(`wrote sitemap (${urls.length} urls) -> ${sitemapOutPath}`);
+
+
 // Site settings — always write a file so catalog.ts imports never break.
 let rawSettings = {};
 if (existsSync(settingsDumpPath)) {

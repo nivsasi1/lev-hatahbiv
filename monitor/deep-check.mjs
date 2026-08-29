@@ -7,7 +7,7 @@ import { writeFileSync, mkdirSync, appendFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SITE = process.env.SITE_URL || "https://lev-hatahbiv.onrender.com";
+const SITE = process.env.SITE_URL || "https://lev-hatahbiv.com";
 const STATE_DIR = join(dirname(fileURLToPath(import.meta.url)), ".state");
 
 // noise we deliberately tolerate:
