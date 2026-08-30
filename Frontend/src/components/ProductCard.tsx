@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Product, getCategory, finalPrice, shekel, salePct } from "../data/catalog";
+import { Product, getCategory, finalPrice, shekel, salePct, variantPricesVary } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
 
@@ -70,11 +70,21 @@ export const ProductCard = ({ product }: { product: Product }) => {
   if (product.isActive === false) return null;
 
   const pct = salePct(product);
+  // products with options need a choice first — the button rides the card's
+  // Link to the product page instead of adding blind; price shows "מ־" when
+  // the options differ in price
+  const needsChoice = !!product.variants?.length;
+  const fromPrice = variantPricesVary(product);
 
   const onAdd = (e: any) => {
+    if (product.soldOut) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    if (needsChoice) return; // let the Link navigate to the product page
     e.preventDefault();
     e.stopPropagation();
-    if (product.soldOut) return;
     add(product);
     setAdded(true);
     setTimeout(() => setAdded(false), 1200);
@@ -108,17 +118,24 @@ export const ProductCard = ({ product }: { product: Product }) => {
             {product.salePrice && (
               <span className="was">{shekel(product.price)}</span>
             )}
-            <span className="now">{shekel(finalPrice(product))}</span>
+            <span className="now">
+              {fromPrice && <small className="from">מ־</small>}
+              {shekel(finalPrice(product))}
+            </span>
           </span>
           <button
             className={`add-btn ${added ? "added" : ""}`}
             onClick={onAdd}
             disabled={product.soldOut}
             aria-label={
-              product.soldOut ? "אזל מהמלאי" : `הוספת ${product.name} לעגלה`
+              product.soldOut
+                ? "אזל מהמלאי"
+                : needsChoice
+                  ? `לבחירת ${product.variantLabel || "אפשרות"} — ${product.name}`
+                  : `הוספת ${product.name} לעגלה`
             }
           >
-            {product.soldOut ? "אזל" : added ? "✓ נוסף" : "+ לעגלה"}
+            {product.soldOut ? "אזל" : needsChoice ? "לבחירה ←" : added ? "✓ נוסף" : "+ לעגלה"}
           </button>
         </div>
       </div>

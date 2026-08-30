@@ -1,7 +1,32 @@
 import { useMemo, useState } from "react";
 import { useAdmin } from "../context";
 import { categories } from "../../../data/catalog";
-import { emptyForm, type AdminProduct, type ProductForm } from "../lib/types";
+import {
+  emptyForm,
+  type AdminProduct,
+  type AdminVariant,
+  type FormVariant,
+  type ProductForm,
+} from "../lib/types";
+
+// Mongo variants <-> editable rows (inputs hold strings)
+const toFormVariants = (v?: AdminVariant[]): FormVariant[] =>
+  (v ?? []).map((x) => ({
+    key: x.key,
+    price: x.price != null ? String(x.price) : "",
+    soldOut: !!x.soldOut,
+    swatch: x.swatch ?? "",
+  }));
+
+const toApiVariants = (rows: FormVariant[]): AdminVariant[] =>
+  rows
+    .filter((r) => r.key.trim())
+    .map((r) => ({
+      key: r.key.trim(),
+      ...(r.price.trim() !== "" ? { price: Number(r.price) } : {}),
+      ...(r.soldOut ? { soldOut: true } : {}),
+      ...(r.swatch.trim() ? { swatch: r.swatch.trim() } : {}),
+    }));
 
 // The product add/edit form: its state, the cascading category fields with
 // data-driven autocomplete, image handling, and create/update submit.
@@ -26,6 +51,8 @@ export function useProductForm() {
       sub_cat: p.sub_cat || "",
       third_level: p.third_level || "",
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
+      variantLabel: p.variantLabel || "",
+      variants: toFormVariants(p.variants),
     });
   };
 
@@ -40,6 +67,8 @@ export function useProductForm() {
       sub_cat: p.sub_cat || "",
       third_level: p.third_level || "",
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
+      variantLabel: p.variantLabel || "",
+      variants: toFormVariants(p.variants),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -76,8 +105,18 @@ export function useProductForm() {
       );
       if (!ok) return;
     }
-    const { imgs, ...rest } = form;
-    const payload = { ...rest, img: imgs.join(";"), price: Number(form.price) };
+    const { imgs, variants, imgInput, ...rest } = form;
+    const apiVariants = toApiVariants(variants);
+    if (new Set(apiVariants.map((v) => v.key)).size !== apiVariants.length) {
+      setError("יש שתי אפשרויות בחירה עם אותו שם — כל אפשרות צריכה שם ייחודי");
+      return;
+    }
+    const payload = {
+      ...rest,
+      img: imgs.join(";"),
+      price: Number(form.price),
+      variants: apiVariants,
+    };
     act(async () => {
       if (editingId) {
         const d = await call(`/products/${editingId}`, {

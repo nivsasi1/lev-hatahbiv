@@ -1384,6 +1384,106 @@ button {
   padding: 0.7em 1.2em;
 }
 
+/* ---------- variant picker (size / color choices on the product page) ---------- */
+.variant-picker {
+  margin: 0 0 1.4rem;
+}
+
+.variant-picker .v-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.5rem;
+}
+
+.variant-picker .v-label b {
+  color: var(--ink);
+}
+
+.v-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.v-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.35em 0.95em;
+  border-radius: 2em;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  transition: all 0.15s ease;
+}
+
+.v-chip small {
+  font-weight: 800;
+  font-size: 0.82em;
+  color: var(--purple);
+  opacity: 0.85;
+}
+
+.v-chip:hover {
+  transform: rotate(-1deg) translateY(-1px);
+}
+
+.v-chip.on {
+  background: var(--vc, var(--purple));
+  color: #fff;
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  transform: rotate(-1deg);
+}
+
+.v-chip.on small {
+  color: #fff;
+  opacity: 0.95;
+}
+
+.v-chip.oos {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.v-chip.oos span {
+  text-decoration: line-through;
+}
+
+.v-swatch {
+  width: 0.95em;
+  height: 0.95em;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  flex: none;
+  background: #fff;
+}
+
+/* the chosen option under a cart line's name */
+.cart-line .variant-tag {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  background: var(--paper-deep);
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 2em;
+  padding: 0.05em 0.7em;
+  margin: 0.15rem 0;
+}
+
+/* "מ־" prefix on cards whose options differ in price */
+.price-tag .from {
+  font-weight: 700;
+  font-size: 0.72em;
+  opacity: 0.75;
+  margin-inline-end: 0.15em;
+}
+
 /* ---------- ribbon banner ---------- */
 .ribbon {
   margin: 4rem 0;
@@ -3397,6 +3497,83 @@ a.sub-chip {
 
 .hidden-tag {
   color: #555;
+}
+
+.variants-tag {
+  color: var(--purple);
+}
+
+/* dashboard: variant rows editor inside the product form */
+.variant-editor {
+  border: 2px dashed var(--ink-soft);
+  border-radius: 0.8em;
+  padding: 0.8rem 1rem;
+  margin: 0.8rem 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.variant-editor-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.variant-editor-head span {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.variant-editor .variant-label-input {
+  max-width: 22rem;
+}
+
+.variant-editor .variant-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.variant-editor .variant-row input:first-of-type {
+  flex: 2;
+  min-width: 0;
+}
+
+.variant-editor .variant-row input[type="number"] {
+  flex: 1;
+  max-width: 7rem;
+}
+
+.variant-editor .variant-oos {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.variant-editor .variant-row > button {
+  font-weight: 800;
+  opacity: 0.6;
+}
+
+.variant-editor .variant-row > button:hover {
+  opacity: 1;
+  color: var(--red);
+}
+
+.variant-editor .variant-swatch {
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  flex: none;
+}
+
+.variant-editor > .btn {
+  justify-self: start;
 }
 
 .admin-row-actions {

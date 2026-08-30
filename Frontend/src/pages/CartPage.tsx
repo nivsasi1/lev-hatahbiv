@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  finalPrice,
+  linePrice,
   shekel,
   FREE_SHIPPING_FROM,
   store,
 } from "../data/catalog";
-import { useCart } from "../context/cart-context";
+import { lineKey, useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
 import { ShipMeter } from "../components/CartSheet";
 import { WORKER_API } from "../data/api";
@@ -172,7 +172,8 @@ export const CartPage = () => {
   // 1-decimal; discount rounded to the 10-agorot grid) so the total shown here is
   // identical to what PayMe charges.
   const subtotalAg = items.reduce(
-    (s, { product, qty }) => s + Math.round(finalPrice(product) * 100) * qty,
+    (s, { product, qty, variant }) =>
+      s + Math.round(linePrice(product, variant) * 100) * qty,
     0
   );
   const freeShipping = subtotalAg >= FREE_SHIPPING_FROM * 100;
@@ -274,10 +275,10 @@ export const CartPage = () => {
     setPayError("");
 
     // ecommerce items for analytics (money in agorot, mirroring the server total)
-    const trackItems: TrackItem[] = items.map(({ product, qty }) => ({
+    const trackItems: TrackItem[] = items.map(({ product, qty, variant }) => ({
       id: product.id,
-      name: product.name,
-      priceAgorot: Math.round(finalPrice(product) * 100),
+      name: variant ? `${product.name} — ${variant}` : product.name,
+      priceAgorot: Math.round(linePrice(product, variant) * 100),
       qty,
       category: product.category,
     }));
@@ -288,7 +289,12 @@ export const CartPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map(({ product, qty }) => ({ id: product.id, name: product.name, qty })),
+          items: items.map(({ product, qty, variant }) => ({
+            id: product.id,
+            name: product.name,
+            qty,
+            ...(variant ? { variant } : {}),
+          })),
           delivery: delivery.id,
           couponCode: appliedCoupon?.code,
           payer: clean,
@@ -366,33 +372,38 @@ export const CartPage = () => {
 
       <div className="cart-layout">
         <div className="cart-list">
-          {items.map(({ product, qty }) => (
-            <div className="cart-line" key={product.id}>
-              <Link to={`/product/${product.id}`} className="thumb">
-                <ProductThumb product={product} />
-              </Link>
-              <div className="mid">
-                <Link to={`/product/${product.id}`} className="nm">
-                  {product.name}
+          {items.map((item) => {
+            const { product, qty, variant } = item;
+            const unit = linePrice(product, variant);
+            return (
+              <div className="cart-line" key={lineKey(item)}>
+                <Link to={`/product/${product.id}`} className="thumb">
+                  <ProductThumb product={product} />
                 </Link>
-                <span className="pr">
-                  {shekel(finalPrice(product))} ליח' · {shekel(finalPrice(product) * qty)}
-                </span>
-              </div>
-              <div className="qty">
-                <button onClick={() => setQty(product.id, qty + 1)} aria-label="הוספה">
-                  +
+                <div className="mid">
+                  <Link to={`/product/${product.id}`} className="nm">
+                    {product.name}
+                  </Link>
+                  {variant && <span className="variant-tag">{variant}</span>}
+                  <span className="pr">
+                    {shekel(unit)} ליח' · {shekel(unit * qty)}
+                  </span>
+                </div>
+                <div className="qty">
+                  <button onClick={() => setQty(product.id, qty + 1, variant)} aria-label="הוספה">
+                    +
+                  </button>
+                  <span>{qty}</span>
+                  <button onClick={() => setQty(product.id, qty - 1, variant)} aria-label="הפחתה">
+                    −
+                  </button>
+                </div>
+                <button className="rm" onClick={() => remove(product.id, variant)} aria-label="הסרה">
+                  ✕
                 </button>
-                <span>{qty}</span>
-                <button onClick={() => setQty(product.id, qty - 1)} aria-label="הפחתה">
-                  −
-                </button>
               </div>
-              <button className="rm" onClick={() => remove(product.id)} aria-label="הסרה">
-                ✕
-              </button>
-            </div>
-          ))}
+            );
+          })}
 
           <div className="sub-chips" style={{ margin: "0.5rem 0 0" }}>
             {deliveryOptions.map((d) => (

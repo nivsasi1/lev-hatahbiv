@@ -30,6 +30,9 @@ export function ProductTable({ products, form }: { products: ProductsApi; form: 
             <span className="nm">{p.name}</span>
             <span className="meta">
               {p.category} › {p.sub_cat || "—"} · ₪{ils(p.price)}
+              {(p.variants?.length || 0) > 0 && (
+                <b className="variants-tag"> ⚙ {p.variants!.length} אפשרויות</b>
+              )}
               {(p.salePercentage || 0) > 0 && (
                 <b className="sale-tag"> מבצע {p.salePercentage}%-</b>
               )}

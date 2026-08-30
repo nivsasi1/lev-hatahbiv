@@ -3,9 +3,12 @@ import { Link, useParams } from "react-router-dom";
 import {
   getProduct,
   getCategory,
+  getVariant,
+  linePrice,
   productsByCategory,
   finalPrice,
   shekel,
+  variantPricesVary,
   FREE_SHIPPING_FROM,
   store,
   subPath,
@@ -25,6 +28,7 @@ export const ProductPage = () => {
   const [lightbox, setLightbox] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
   const [descOverflows, setDescOverflows] = useState(false);
+  const [variantKey, setVariantKey] = useState<string | undefined>(undefined);
   const stageRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -34,6 +38,10 @@ export const ProductPage = () => {
     setImgIdx(0);
     setLightbox(false);
     setDescExpanded(false);
+    // default option = the first in-stock variant (first at all if none is)
+    const p = getProduct(id ?? "");
+    const first = p?.variants?.find((v) => !v.soldOut) ?? p?.variants?.[0];
+    setVariantKey(first?.key);
   }, [id]);
 
   // Show "read more" only when the description ACTUALLY exceeds ~5 lines.
@@ -133,7 +141,13 @@ export const ProductPage = () => {
     ...inCategory.filter((p) => p.sub === product.sub),
     ...inCategory.filter((p) => p.sub !== product.sub),
   ].slice(0, 4);
-  const saved = product.salePrice ? product.price - product.salePrice : 0;
+  // price of what's actually selected (variant-aware; regular products = base)
+  const selVariant = getVariant(product, variantKey);
+  const unitFull = selVariant ? selVariant.price : product.price;
+  const unitNow = linePrice(product, variantKey);
+  const saved = unitFull - unitNow;
+  const selSoldOut = product.soldOut || selVariant?.soldOut;
+  const showChipPrices = variantPricesVary(product);
   const gallery = product.imgs ?? (product.img ? [product.img] : []);
   const hasGallery = gallery.length > 1;
   const canZoom = gallery.length > 0;
@@ -203,7 +217,7 @@ export const ProductPage = () => {
               {saved > 0 && !product.soldOut && (
                 <div className="sale-aqua" aria-hidden="true">
                   <span>
-                    מבצע <b>{Math.round((saved / product.price) * 100)}%-</b>
+                    מבצע <b>{Math.round((saved / unitFull) * 100)}%-</b>
                   </span>
                 </div>
               )}
@@ -259,18 +273,63 @@ export const ProductPage = () => {
             )}
 
             <div className="product-price">
-              <span className="now">{shekel(finalPrice(product))}</span>
-              {product.salePrice && (
+              <span className="now">{shekel(unitNow)}</span>
+              {saved > 0 && (
                 <>
-                  <span className="was">{shekel(product.price)}</span>
+                  <span className="was">{shekel(unitFull)}</span>
                   <span className="save">חוסכים {shekel(saved)}</span>
                 </>
               )}
             </div>
 
+            {product.variants && (
+              <div className="variant-picker">
+                <span className="v-label">
+                  {product.variantLabel || "אפשרות"}:{" "}
+                  <b>{selVariant?.key ?? "בחרו"}</b>
+                </span>
+                <div
+                  className="v-chips"
+                  role="radiogroup"
+                  aria-label={product.variantLabel || "אפשרות"}
+                >
+                  {product.variants.map((v) => (
+                    <button
+                      key={v.key}
+                      type="button"
+                      role="radio"
+                      aria-checked={v.key === variantKey}
+                      className={`v-chip ${v.key === variantKey ? "on" : ""} ${v.soldOut ? "oos" : ""}`}
+                      style={{ "--vc": category?.color } as any}
+                      onClick={() => setVariantKey(v.key)}
+                    >
+                      {v.swatch && (
+                        <i
+                          className="v-swatch"
+                          style={{ background: v.swatch }}
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span>{v.key}</span>
+                      {showChipPrices && !v.soldOut && (
+                        <small>{shekel(v.salePrice ?? v.price)}</small>
+                      )}
+                      {v.soldOut && <small>אזל</small>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {product.soldOut ? (
               <div className="qty-row">
                 <span className="oos-note">אזל מהמלאי — מוזמנים להתקשר ולבדוק מתי יחזור ☎</span>
+              </div>
+            ) : selSoldOut ? (
+              <div className="qty-row">
+                <span className="oos-note">
+                  האפשרות הזו אזלה מהמלאי — אפשר לבחור אפשרות אחרת ☝
+                </span>
               </div>
             ) : (
               <div className="qty-row">
@@ -289,7 +348,8 @@ export const ProductPage = () => {
                 <button
                   className="btn"
                   style={{ "--btn-pop": category?.color } as any}
-                  onClick={() => add(product, qty)}
+                  disabled={!!product.variants && !variantKey}
+                  onClick={() => add(product, qty, variantKey)}
                 >
                   הוספה לעגלה 🛒
                 </button>

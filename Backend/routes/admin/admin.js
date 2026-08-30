@@ -115,7 +115,37 @@ const EDITABLE_FIELDS = [
   "third_level",
   "img",
   "quantity",
+  "variantLabel",
+  "variants",
 ];
+
+const badInput = (msg) => Object.assign(new Error(msg), { name: "ValidationError" });
+
+// variants: [{key, price?, soldOut?, swatch?}] — key required+unique, price
+// optional (empty = the product's base price)
+const cleanVariants = (raw) => {
+  if (!Array.isArray(raw)) throw badInput("מבנה וריאנטים לא תקין");
+  if (raw.length > 120) throw badInput("עד 120 וריאנטים למוצר");
+  const seen = new Set();
+  const out = [];
+  for (const r of raw) {
+    const key = String((r && r.key) || "").trim().slice(0, 80);
+    if (!key) throw badInput("לכל וריאנט חייב להיות שם");
+    if (seen.has(key)) throw badInput(`וריאנט כפול: ${key}`);
+    seen.add(key);
+    const row = { key };
+    const priceRaw = r.price;
+    if (priceRaw !== undefined && priceRaw !== null && String(priceRaw).trim() !== "") {
+      const p = Number(priceRaw);
+      if (!(p > 0) || p > 100000) throw badInput(`מחיר וריאנט לא תקין (${key})`);
+      row.price = Math.round(p * 10) / 10;
+    }
+    if (r.soldOut) row.soldOut = true;
+    if (r.swatch) row.swatch = String(r.swatch).trim().slice(0, 40);
+    out.push(row);
+  }
+  return out;
+};
 
 const pickEditable = (body) => {
   const out = {};
@@ -124,7 +154,11 @@ const pickEditable = (body) => {
   }
   if (out.price !== undefined) {
     out.price = Number(out.price);
-    if (!(out.price > 0)) throw Object.assign(new Error("מחיר חייב להיות גדול מ־0"), { name: "ValidationError" });
+    if (!(out.price > 0)) throw badInput("מחיר חייב להיות גדול מ־0");
+  }
+  if (out.variants !== undefined) out.variants = cleanVariants(out.variants);
+  if (out.variantLabel !== undefined) {
+    out.variantLabel = String(out.variantLabel || "").trim().slice(0, 40);
   }
   return out;
 };
@@ -133,7 +167,7 @@ router.get(
   "/products",
   asyncRoute(async (_req, res) => {
     const products = await Product.find({})
-      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img createdAt updatedAt")
+      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img variantLabel variants createdAt updatedAt")
       .sort({ category: 1, name: 1 })
       .lean();
     res.json({ products });
@@ -207,9 +241,38 @@ router.post(
           return res.status(400).json({ error: "שינוי מחיר חייב להיות באחוזים בין -90 ל־500" });
         }
         const k = 1 + pct / 100;
-        // aggregation-pipeline update so each product is multiplied & rounded
+        // aggregation-pipeline update so each product is multiplied & rounded;
+        // per-variant prices scale with the same factor (keys/stock untouched)
         result = await Product.updateMany(filter, [
-          { $set: { price: { $round: [{ $multiply: ["$price", k] }, 1] } } },
+          {
+            $set: {
+              price: { $round: [{ $multiply: ["$price", k] }, 1] },
+              variants: {
+                $cond: [
+                  { $isArray: "$variants" },
+                  {
+                    $map: {
+                      input: "$variants",
+                      as: "v",
+                      in: {
+                        $mergeObjects: [
+                          "$$v",
+                          {
+                            $cond: [
+                              { $gt: ["$$v.price", 0] },
+                              { price: { $round: [{ $multiply: ["$$v.price", k] }, 1] } },
+                              {},
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  "$$REMOVE",
+                ],
+              },
+            },
+          },
         ]);
         break;
       }

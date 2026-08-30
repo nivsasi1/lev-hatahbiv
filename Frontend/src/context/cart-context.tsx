@@ -1,10 +1,13 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { Product, finalPrice } from "../data/catalog";
+import { Product, linePrice } from "../data/catalog";
 import { trackAddToCart } from "../data/analytics";
 
 export type CartItem = {
   product: Product;
   qty: number;
+  // selected variant key (e.g. '500 מ"ל') — absent on regular products and on
+  // lines saved before variants existed
+  variant?: string;
 };
 
 type CartContextValue = {
@@ -14,15 +17,21 @@ type CartContextValue = {
   isSheetOpen: boolean;
   openSheet: () => void;
   closeSheet: () => void;
-  add: (product: Product, qty?: number) => void;
-  setQty: (productId: string, qty: number) => void;
-  remove: (productId: string) => void;
+  add: (product: Product, qty?: number, variant?: string) => void;
+  setQty: (productId: string, qty: number, variant?: string) => void;
+  remove: (productId: string, variant?: string) => void;
   clear: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY = "lh-cart-v2";
+
+// a line is identified by product id + variant (two sizes = two lines)
+const sameLine = (i: CartItem, productId: string, variant?: string) =>
+  i.product.id === productId && (i.variant ?? "") === (variant ?? "");
+
+export const lineKey = (i: CartItem) => `${i.product.id}::${i.variant ?? ""}`;
 
 const loadItems = (): CartItem[] => {
   try {
@@ -41,36 +50,36 @@ export const CartProvider = ({ children }: { children?: any }) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-  const add = (product: Product, qty = 1) => {
+  const add = (product: Product, qty = 1, variant?: string) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id);
+      const existing = prev.find((i) => sameLine(i, product.id, variant));
       if (existing) {
         return prev.map((i) =>
-          i.product.id === product.id ? { ...i, qty: i.qty + qty } : i
+          sameLine(i, product.id, variant) ? { ...i, qty: i.qty + qty } : i
         );
       }
-      return [{ product, qty }, ...prev];
+      return [{ product, qty, ...(variant ? { variant } : {}) }, ...prev];
     });
     setSheetOpen(true);
     trackAddToCart({
       id: product.id,
-      name: product.name,
-      priceAgorot: Math.round(finalPrice(product) * 100),
+      name: variant ? `${product.name} — ${variant}` : product.name,
+      priceAgorot: Math.round(linePrice(product, variant) * 100),
       qty,
       category: product.category,
     });
   };
 
-  const setQty = (productId: string, qty: number) => {
+  const setQty = (productId: string, qty: number, variant?: string) => {
     setItems((prev) =>
       qty <= 0
-        ? prev.filter((i) => i.product.id !== productId)
-        : prev.map((i) => (i.product.id === productId ? { ...i, qty } : i))
+        ? prev.filter((i) => !sameLine(i, productId, variant))
+        : prev.map((i) => (sameLine(i, productId, variant) ? { ...i, qty } : i))
     );
   };
 
-  const remove = (productId: string) =>
-    setItems((prev) => prev.filter((i) => i.product.id !== productId));
+  const remove = (productId: string, variant?: string) =>
+    setItems((prev) => prev.filter((i) => !sameLine(i, productId, variant)));
 
   const clear = () => setItems([]);
 
@@ -79,7 +88,7 @@ export const CartProvider = ({ children }: { children?: any }) => {
     let total = 0;
     for (const i of items) {
       count += i.qty;
-      total += finalPrice(i.product) * i.qty;
+      total += linePrice(i.product, i.variant) * i.qty;
     }
     return { count, total };
   }, [items]);

@@ -599,6 +599,8 @@ type Pricing = {
   names?: Record<string, string>; // server-authoritative product names
   soldOut?: string[]; // ids out of stock — rejected at checkout (server-authoritative)
   pickupOnly?: string[]; // ids that can't ship — courier/mail rejected, pickup only
+  variants?: Record<string, Record<string, number>>; // id -> variant key -> unit agorot
+  variantSoldOut?: Record<string, string[]>; // id -> sold-out variant keys
 };
 let pricingCache: Pricing | null = null;
 async function loadPricing(request: Request, env: Env): Promise<Pricing | null> {
@@ -675,7 +677,7 @@ async function couponPercent(db: DB, rawCode: string): Promise<number | null> {
 type CartResult =
   | {
       ok: true;
-      lines: { id: string; name: string; qty: number; price: number }[];
+      lines: { id: string; name: string; qty: number; price: number; variant?: string }[];
       subtotal: number;
       discount: number;
       shipping: number;
@@ -688,7 +690,7 @@ type CartResult =
 async function computeCart(
   pricing: Pricing,
   db: DB,
-  rawItems: { id?: string; name?: string; qty?: number }[],
+  rawItems: { id?: string; name?: string; qty?: number; variant?: string }[],
   rawDelivery: string | undefined,
   rawCoupon: string | undefined
 ): Promise<CartResult> {
@@ -699,10 +701,10 @@ async function computeCart(
 
   let subtotal = 0;
   let hasPickupOnly = false;
-  const lines: { id: string; name: string; qty: number; price: number }[] = [];
+  const lines: { id: string; name: string; qty: number; price: number; variant?: string }[] = [];
   for (const it of rawItems) {
     const id = String(it.id ?? "");
-    const unit = pricing.prices[id];
+    let unit = pricing.prices[id];
     const qty = Math.max(1, Math.floor(Number(it.qty) || 0));
     if (!(unit > 0)) return { ok: false, error: "מוצר לא תקין בעגלה" };
     if (soldOut.has(id)) {
@@ -710,12 +712,30 @@ async function computeCart(
       return { ok: false, error: `${n} אזל מהמלאי — הסירו אותו מהעגלה כדי להמשיך` };
     }
     if (pickupOnly.has(id)) hasPickupOnly = true;
-    subtotal += unit * qty;
     // the name is resolved SERVER-side from the same asset as the price — the
     // owner must ship the product we actually charged for, so a client-sent
     // name can never decide what appears on the order.
-    const name = pricing.names?.[id] ?? String(it.name ?? "").slice(0, 120);
-    lines.push({ id, name, qty, price: unit });
+    let name = pricing.names?.[id] ?? String(it.name ?? "").slice(0, 120);
+    // variant-aware pricing: a line that names a variant is priced by it (and
+    // its stock checked); a line without one keeps the base price — that base
+    // is the CHEAPEST variant, so a stale client can never be overcharged.
+    const variantKey = typeof it.variant === "string" ? it.variant.slice(0, 120) : "";
+    const productVariants = pricing.variants?.[id];
+    let variant: string | undefined;
+    if (productVariants && variantKey) {
+      const vUnit = productVariants[variantKey];
+      if (!(vUnit > 0)) {
+        return { ok: false, error: `${name}: האפשרות שנבחרה כבר לא קיימת — הסירו והוסיפו מחדש` };
+      }
+      if ((pricing.variantSoldOut?.[id] ?? []).includes(variantKey)) {
+        return { ok: false, error: `${name} (${variantKey}) אזל מהמלאי — הסירו אותו מהעגלה כדי להמשיך` };
+      }
+      unit = vUnit;
+      variant = variantKey;
+      name = `${name} — ${variantKey}`.slice(0, 160);
+    }
+    subtotal += unit * qty;
+    lines.push({ id, name, qty, price: unit, ...(variant ? { variant } : {}) });
   }
   if (!lines.length) return { ok: false, error: "העגלה ריקה" };
 
@@ -751,7 +771,7 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
   }
 
   let body: {
-    items?: { id?: string; name?: string; qty?: number }[];
+    items?: { id?: string; name?: string; qty?: number; variant?: string }[];
     delivery?: string;
     couponCode?: string;
     payer?: { name?: string; email?: string; phone?: string };

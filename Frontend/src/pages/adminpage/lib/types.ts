@@ -1,5 +1,13 @@
 // Shared types for the manager dashboard.
 
+// a selectable option (size/color); price empty = the product's base price
+export type AdminVariant = {
+  key: string;
+  price?: number;
+  soldOut?: boolean;
+  swatch?: string; // CSS color, synced from Wix color choices
+};
+
 export type AdminProduct = {
   _id: string;
   name: string;
@@ -12,6 +20,8 @@ export type AdminProduct = {
   sub_cat?: string;
   third_level?: string;
   img: string;
+  variantLabel?: string;
+  variants?: AdminVariant[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -25,6 +35,9 @@ export type DialogState = {
   resolve: (value: any) => void;
 } | null;
 
+// a variant row while being edited (inputs hold strings)
+export type FormVariant = { key: string; price: string; soldOut: boolean; swatch: string };
+
 // the product add/edit form. imgs is stored in Mongo as one ";"-joined string.
 export type ProductForm = {
   name: string;
@@ -35,6 +48,8 @@ export type ProductForm = {
   third_level: string;
   imgs: string[];
   imgInput?: string;
+  variantLabel: string;
+  variants: FormVariant[];
 };
 
 export const emptyForm: ProductForm = {
@@ -45,6 +60,8 @@ export const emptyForm: ProductForm = {
   sub_cat: "",
   third_level: "",
   imgs: [],
+  variantLabel: "",
+  variants: [],
 };
 
 export type Subscriber = {
@@ -56,7 +73,7 @@ export type Subscriber = {
 
 export type Coupon = { code: string; percent: number; maxUses: number | null; usedCount?: number };
 
-export type OrderItem = { id?: string; name?: string; qty?: number; price?: number };
+export type OrderItem = { id?: string; name?: string; qty?: number; price?: number; variant?: string };
 
 export type ShipAddress = {
   street?: string;

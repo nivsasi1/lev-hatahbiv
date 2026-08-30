@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useCart } from "../context/cart-context";
+import { lineKey, useCart } from "../context/cart-context";
 import {
-  finalPrice,
+  linePrice,
   shekel,
   FREE_SHIPPING_FROM,
 } from "../data/catalog";
@@ -54,37 +54,41 @@ export const CartSheet = () => {
         ) : (
           <>
             <div className="cart-lines">
-              {items.map(({ product, qty }) => (
-                <div className="cart-line" key={product.id}>
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="thumb"
-                    onClick={closeSheet}
-                  >
-                    <ProductThumb product={product} />
-                  </Link>
-                  <div className="mid">
-                    <span className="nm">{product.name}</span>
-                    <span className="pr">{shekel(finalPrice(product) * qty)}</span>
-                  </div>
-                  <div className="qty">
-                    <button onClick={() => setQty(product.id, qty + 1)} aria-label="הוספה">
-                      +
+              {items.map((item) => {
+                const { product, qty, variant } = item;
+                return (
+                  <div className="cart-line" key={lineKey(item)}>
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="thumb"
+                      onClick={closeSheet}
+                    >
+                      <ProductThumb product={product} />
+                    </Link>
+                    <div className="mid">
+                      <span className="nm">{product.name}</span>
+                      {variant && <span className="variant-tag">{variant}</span>}
+                      <span className="pr">{shekel(linePrice(product, variant) * qty)}</span>
+                    </div>
+                    <div className="qty">
+                      <button onClick={() => setQty(product.id, qty + 1, variant)} aria-label="הוספה">
+                        +
+                      </button>
+                      <span>{qty}</span>
+                      <button onClick={() => setQty(product.id, qty - 1, variant)} aria-label="הפחתה">
+                        −
+                      </button>
+                    </div>
+                    <button
+                      className="rm"
+                      onClick={() => remove(product.id, variant)}
+                      aria-label="הסרה מהעגלה"
+                    >
+                      ✕
                     </button>
-                    <span>{qty}</span>
-                    <button onClick={() => setQty(product.id, qty - 1)} aria-label="הפחתה">
-                      −
-                    </button>
                   </div>
-                  <button
-                    className="rm"
-                    onClick={() => remove(product.id)}
-                    aria-label="הסרה מהעגלה"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className="foot">
               <ShipMeter total={total} />

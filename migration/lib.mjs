@@ -123,7 +123,26 @@ export function projectProduct(p) {
     description: p.description || "",
     lastUpdated: p.lastUpdated || "",
     createdDate: p.createdDate || "",
+    // variants: options live on the product; per-variant prices need a second
+    // call (fetchProductVariants) — see pull-variants.mjs
+    manageVariants: !!p.manageVariants,
+    productOptions: p.productOptions || [],
   };
+}
+
+// All variants of one product (paged, ≤100/page).
+// POST /stores/v1/products/{id}/variants/query — empty filter = all variants.
+export async function fetchProductVariants(wixProductId) {
+  const variants = [];
+  for (let offset = 0; ; offset += 100) {
+    const r = await wixPost(`/stores/v1/products/${wixProductId}/variants/query`, {
+      paging: { limit: 100, offset },
+    });
+    const items = r.variants || [];
+    variants.push(...items);
+    if (items.length < 100) break;
+  }
+  return variants;
 }
 
 // Pull the FULL catalog. Stable sort by numericId makes offset paging safe;

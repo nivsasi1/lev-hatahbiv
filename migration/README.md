@@ -32,6 +32,12 @@ node migration/pull-wix.mjs            # 1. Wix catalog -> migration/wix-product
 node migration/reconcile.mjs           # 2. diff vs LOCAL Mongo -> reports + CSVs + plan (read-only)
 node migration/download-images.mjs     # 3. fetch needed images -> migration/images/
 
+# variants (size/color choices): pull per-variant prices, then stamp them on
+# the matching Mongo products (dry-run first; backs up file + Mongo collection)
+node migration/pull-variants.mjs
+node migration/sync-variants.mjs           # dry-run -> out/report-variants.csv
+node migration/sync-variants.mjs --apply
+
 node migration/sync.mjs                # 4. DRY-RUN on local (shows what would change, makes a backup)
 node migration/sync.mjs --apply        # 5. apply to LOCAL Mongo (backup first)
 

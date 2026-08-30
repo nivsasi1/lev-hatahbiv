@@ -114,6 +114,101 @@ export function ProductForm({ form }: { form: FormApi }) {
         value={data.description}
         onInput={(e: any) => setForm({ ...data, description: e.target.value })}
       />
+
+      {/* selectable options (size/color) — each row is one choice the shopper
+          can pick; a row without a price costs the product's base price */}
+      <div className="variant-editor">
+        <div className="variant-editor-head">
+          <b>אפשרויות בחירה (גודל / צבע / כמות)</b>
+          <span>
+            מחיר ריק = המחיר הרגיל של המוצר. מוצר בלי שורות כאן נמכר כרגיל, בלי
+            בחירה.
+          </span>
+        </div>
+        {data.variants.length > 0 && (
+          <input
+            className="variant-label-input"
+            placeholder='כותרת הבחירה — למשל "גודל", "צבע" או "כמות"'
+            value={data.variantLabel}
+            onInput={(e: any) => setForm({ ...data, variantLabel: e.target.value })}
+          />
+        )}
+        {data.variants.map((v, i) => (
+          <div className="variant-row" key={i}>
+            {v.swatch && (
+              <i
+                className="variant-swatch"
+                style={{ background: v.swatch }}
+                title={v.swatch}
+              />
+            )}
+            <input
+              placeholder='שם האפשרות — למשל 500 מ"ל'
+              value={v.key}
+              onInput={(e: any) =>
+                setForm({
+                  ...data,
+                  variants: data.variants.map((x, j) =>
+                    j === i ? { ...x, key: e.target.value } : x
+                  ),
+                })
+              }
+            />
+            <input
+              placeholder="מחיר"
+              type="number"
+              min="0.1"
+              step="0.1"
+              value={v.price}
+              onInput={(e: any) =>
+                setForm({
+                  ...data,
+                  variants: data.variants.map((x, j) =>
+                    j === i ? { ...x, price: e.target.value } : x
+                  ),
+                })
+              }
+            />
+            <label className="variant-oos">
+              <input
+                type="checkbox"
+                checked={v.soldOut}
+                onChange={(e: any) =>
+                  setForm({
+                    ...data,
+                    variants: data.variants.map((x, j) =>
+                      j === i ? { ...x, soldOut: e.target.checked } : x
+                    ),
+                  })
+                }
+              />
+              אזל
+            </label>
+            <button
+              type="button"
+              aria-label="הסרת אפשרות"
+              onClick={() =>
+                setForm({ ...data, variants: data.variants.filter((_, j) => j !== i) })
+              }
+            >
+              ✕
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          className="btn small ghost"
+          onClick={() =>
+            setForm({
+              ...data,
+              variants: [...data.variants, { key: "", price: "", soldOut: false, swatch: "" }],
+            })
+          }
+        >
+          + הוספת אפשרות
+        </button>
+      </div>
+
       <div className="admin-form-foot">
         <label className="btn small ghost">
           📷 העלאת תמונה מהמחשב

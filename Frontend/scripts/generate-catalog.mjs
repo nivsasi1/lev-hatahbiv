@@ -68,7 +68,42 @@ for (const p of dump) {
   if (!(salePrice > 0 && salePrice < p.price)) salePrice = undefined;
 
   const pickupOnly = /איסוף/.test(p.ribbon || "");
-  const soldOut = p.isAvailable === false; // shown greyed-out, not hidden
+
+  // Selectable variants (size/color/quantity). A variant without its own price
+  // costs the base price; manager salePercentage applies to every variant. The
+  // product's card price becomes the CHEAPEST variant (final), so "מ־" pricing
+  // and checkout's stale-cart fallback can never overcharge. Rows in the legacy
+  // Wix shape (no `key`) are ignored.
+  const pct = p.salePercentage > 0 ? p.salePercentage : 0;
+  let variants;
+  if (Array.isArray(p.variants) && p.variants.length && p.variants.every((v) => v && v.key)) {
+    variants = p.variants.map((v) => {
+      const full = round(v.price > 0 ? v.price : p.price);
+      const row = { key: String(v.key), price: full };
+      if (pct) {
+        const sp = round(full * (1 - pct / 100));
+        if (sp > 0 && sp < full) row.salePrice = sp;
+      }
+      if (v.soldOut) row.soldOut = true;
+      if (v.swatch) row.swatch = String(v.swatch);
+      return row;
+    });
+  }
+
+  const soldOut =
+    p.isAvailable === false || // manager's kill-switch
+    (variants ? variants.every((v) => v.soldOut) : false); // every option gone
+
+  // card/base price = the cheapest variant (by final price) when variants exist
+  let cardPrice = round(p.price);
+  let cardSale = salePrice;
+  if (variants) {
+    const cheapest = variants.reduce((a, b) =>
+      (b.salePrice ?? b.price) < (a.salePrice ?? a.price) ? b : a
+    );
+    cardPrice = cheapest.price;
+    cardSale = cheapest.salePrice;
+  }
 
   // "חדש" badge data: created within the last NEW_DAYS days. Older docs (and
   // any pre-timestamps rows) simply lack createdAt and are never "new".
@@ -86,8 +121,11 @@ for (const p of dump) {
   products.push({
     id: String(p._id),
     name: p.name.trim(),
-    price: round(p.price),
-    ...(salePrice ? { salePrice } : {}),
+    price: cardPrice,
+    ...(cardSale ? { salePrice: cardSale } : {}),
+    ...(variants
+      ? { vLabel: String(p.variantLabel || "אפשרות").trim(), variants }
+      : {}),
     desc: stripHtml(p.description),
     cat,
     sub: (p.sub_cat || "").trim() || "כללי",
@@ -130,6 +168,24 @@ const pricing = {
   // for a sold-out item, or ship a pickup-only one, even from a stale saved cart.
   soldOut: products.filter((p) => p.soldOut).map((p) => p.id),
   pickupOnly: products.filter((p) => p.pickupOnly).map((p) => p.id),
+  // per-variant final prices (agorot) + sold-out variant keys. A cart line that
+  // names a variant is priced from here; without one it falls back to `prices`
+  // (= the cheapest variant, so a stale client can never be overcharged).
+  variants: Object.fromEntries(
+    products
+      .filter((p) => p.variants)
+      .map((p) => [
+        p.id,
+        Object.fromEntries(
+          p.variants.map((v) => [v.key, Math.round((v.salePrice ?? v.price) * 100)])
+        ),
+      ])
+  ),
+  variantSoldOut: Object.fromEntries(
+    products
+      .filter((p) => p.variants && p.variants.some((v) => v.soldOut))
+      .map((p) => [p.id, p.variants.filter((v) => v.soldOut).map((v) => v.key)])
+  ),
 };
 mkdirSync(dirname(pricingOutPath), { recursive: true });
 writeFileSync(pricingOutPath, JSON.stringify(pricing));

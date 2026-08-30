@@ -81,7 +81,11 @@ Frontend/scripts/generate-catalog.mjs →
    src/data/products.json      (the baked catalog; skips visible:false /
                                 isActive:false, keeps sold-out w/ soldOut:true,
                                 manager salePercentage wins over legacy Wix
-                                discountValue, isNew within 14 days)
+                                discountValue, isNew within 14 days.
+                                Mongo variantLabel+variants[{key,price?,soldOut?,
+                                swatch?}] bake as vLabel+variants — variant w/o
+                                price costs base, card price = cheapest variant,
+                                salePercentage applies per-variant)
    src/data/settings.json      (site settings, e.g. shelf images)
    public/checkout-pricing.json  ← CRITICAL: authoritative prices for the
                                 payment Worker (see §4). Ships as a static asset.
@@ -123,7 +127,10 @@ collects them and both sides validate identically.
 
 ```
 Cart: payer form (שם מלא + נייד + אימייל) → "💳 תשלום מאובטח בכרטיס"
-  → POST /api/checkout {items:[{id,qty}], delivery, couponCode?, payer}
+  → POST /api/checkout {items:[{id,qty,variant?}], delivery, couponCode?, payer}
+      (variant = the chosen option key; priced from pricing.variants[id][key],
+      soldOut via variantSoldOut; a line without one pays the base price =
+      the CHEAPEST variant, so stale clients are never overcharged)
       Worker: validate payer, recompute totals from /checkout-pricing.json
       (NEVER trusts client prices), re-validate coupon in D1, INSERT order
       status:'new', Grow createPaymentProcess (FormData, not JSON; sum in

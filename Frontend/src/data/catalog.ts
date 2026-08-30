@@ -26,10 +26,20 @@ export type ArtKind =
   | "beads"
   | "pendant";
 
+// A selectable option of a product (size/color/quantity). price is the
+// variant's own final-full price; salePrice mirrors the product-level sale.
+export type ProductVariant = {
+  key: string;
+  price: number;
+  salePrice?: number;
+  soldOut?: boolean;
+  swatch?: string; // CSS color — renders a dot on color choices
+};
+
 export type Product = {
   id: string;
   name: string;
-  price: number;
+  price: number; // cheapest variant when variants exist ("מ־" pricing)
   salePrice?: number;
   description: string;
   category: string; // category slug
@@ -44,6 +54,8 @@ export type Product = {
   soldOut?: boolean; // shown greyed-out ("אזל מהמלאי"), can't be added to cart
   isActive?: boolean; // hidden items never reach the build; guard anyway
   isNew?: boolean; // created within the last 14 days — drives the "חדש" badge
+  variantLabel?: string; // e.g. "גודל" / "צבע" — present iff variants is
+  variants?: ProductVariant[];
 };
 
 export type Category = {
@@ -149,6 +161,8 @@ type RawProduct = {
   soldOut?: boolean;
   isNew?: boolean;
   updated?: string;
+  vLabel?: string;
+  variants?: ProductVariant[];
 };
 
 // Prefix a public-folder path (e.g. "/images/logo.png") with the deploy base,
@@ -194,6 +208,8 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
     soldOut: r.soldOut,
     isNew: r.isNew,
     isActive: true,
+    variantLabel: r.vLabel,
+    variants: r.variants,
   };
 });
 
@@ -330,6 +346,21 @@ export const searchProducts = (query: string) => {
 };
 
 export const finalPrice = (p: Product) => p.salePrice ?? p.price;
+
+// ---- variants ----
+export const getVariant = (p: Product, key?: string) =>
+  key ? p.variants?.find((v) => v.key === key) : undefined;
+
+// unit price of a cart line / selected option; no variant → the base price
+export const linePrice = (p: Product, variantKey?: string) => {
+  const v = getVariant(p, variantKey);
+  return v ? (v.salePrice ?? v.price) : finalPrice(p);
+};
+
+// do the options actually differ in price? (uniform-price choices show no
+// per-chip price and no "מ־" prefix)
+export const variantPricesVary = (p: Product) =>
+  !!p.variants?.some((v) => (v.salePrice ?? v.price) !== finalPrice(p));
 
 // A product is "on sale" (listed in sale sections) when it has a discounted
 // price, is in stock, and has a photo — the one rule the sale page + homepage share.
