@@ -18,12 +18,12 @@
     // SEO: every other host (apex, workers.dev) 301s to it. Set on cutover day
     // (Aug 29 2026) — the nameservers point at Cloudflare and both the apex and
     // www are Worker custom domains.
-    // ⚠️ TEMPORARILY EMPTY (2026-08-30): www.lev-hatahbiv.com intermittently
+    // ⚠️ TEMPORARILY the APEX (2026-08-30): www.lev-hatahbiv.com intermittently
     // returns Cloudflare Error 1034 (edge hostname-binding stuck on some POPs —
-    // ticket open with Cloudflare). An empty value disables the apex→www bounce
-    // so the healthy apex serves everyone. RESTORE to "www.lev-hatahbiv.com"
-    // once www is confirmed stable again.
-    "CANONICAL_HOST": ""
+    // ticket open with Cloudflare). Canonicalizing to the healthy apex stops
+    // bouncing visitors into the broken www, and www (when it responds) sends
+    // people to the apex. RESTORE to "www.lev-hatahbiv.com" once www is stable.
+    "CANONICAL_HOST": "lev-hatahbiv.com"
   },
   // safety net: re-query PayMe for orders that were paid but never settled
   // (shopper closed the tab AND the callback didn't arrive). See scheduled().
