@@ -31,6 +31,17 @@ const firePurchase = (orderId: string) => {
   }
 };
 
+// Same key CartPage writes before the PayMe redirect ("lh-pay-pending") — once
+// the order reaches a terminal status here, the cart's double-charge warning is
+// moot and must not scare the next purchase.
+const clearPendingFlag = () => {
+  try {
+    sessionStorage.removeItem("lh-pay-pending");
+  } catch {
+    /* ignore */
+  }
+};
+
 type Status = "pending" | "paid" | "failed" | "unknown";
 
 // Landing after PayMe redirects back. The webhook is the source of truth for
@@ -60,11 +71,13 @@ export const ThankYouPage = () => {
             cleared.current = true;
             firePurchase(orderId); // conversion — before clear(), de-duped by order id
             clear();
+            clearPendingFlag();
           }
           return;
         }
         if (s === "failed" || s === "cancelled") {
           setStatus("failed");
+          clearPendingFlag(); // nothing was charged — no double-charge risk to warn about
           return;
         }
         if (s === "unknown") {
