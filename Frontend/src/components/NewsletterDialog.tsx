@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { WORKER_API } from "../data/api";
 import { store } from "../data/catalog";
@@ -52,14 +52,54 @@ export const NewsletterDialog = () => {
     };
   }, []);
 
-  // lock background scroll while the modal is open
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const lastFocused = useRef<Element | null>(null);
+
+  // lock background scroll + accessibility while the modal is open: remember the
+  // trigger, move focus in, close on Escape, and trap Tab inside the dialog so a
+  // keyboard user can't wander onto the (inert) page behind the veil.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    lastFocused.current = document.activeElement;
+    // focus the first focusable control in the dialog
+    const focusables = () =>
+      Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      ).filter((el) => !el.hasAttribute("disabled"));
+    focusables()[0]?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+        return;
+      }
+      if (e.key === "Tab") {
+        const f = focusables();
+        if (f.length === 0) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+      // restore focus to whatever opened the dialog
+      (lastFocused.current as HTMLElement | null)?.focus?.();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // never interrupt the manager screens
@@ -100,8 +140,14 @@ export const NewsletterDialog = () => {
 
   return (
     <>
-      <div className="sheet-veil open" />
-      <div className="news-dialog" role="dialog" aria-label="הרשמה לעדכונים">
+      <div className="sheet-veil open" aria-hidden="true" onClick={close} />
+      <div
+        className="news-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="הרשמה לעדכונים"
+        ref={dialogRef}
+      >
         <button className="x-btn" onClick={close} aria-label="סגירה">
           ✕
         </button>

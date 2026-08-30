@@ -3,8 +3,9 @@
 How the whole system fits together. Read this before touching anything.
 Companion doc: [DEPLOY.md](DEPLOY.md) (how to ship changes, env vars, secrets).
 Deep-dives that predate this doc and remain useful: [CLOUDFLARE.md](CLOUDFLARE.md)
-(migration history + lessons), [PAYMENTS.md](PAYMENTS.md) (payment-provider research —
-Grow is current, PayMe kept as fallback).
+(migration history + lessons), [PAYMENTS.md](PAYMENTS.md) (the PayMe integration —
+authoritative). **Payments run through PayMe (live), not Grow/Meshulam** — any
+Grow reference below is historical; the archived Grow plan lives in PAYMENTS.md.
 
 ## The one-paragraph version
 

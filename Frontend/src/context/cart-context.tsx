@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { Product, finalPrice } from "../data/catalog";
+import { trackAddToCart } from "../data/analytics";
 
 export type CartItem = {
   product: Product;
@@ -51,6 +52,13 @@ export const CartProvider = ({ children }: { children?: any }) => {
       return [{ product, qty }, ...prev];
     });
     setSheetOpen(true);
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      priceAgorot: Math.round(finalPrice(product) * 100),
+      qty,
+      category: product.category,
+    });
   };
 
   const setQty = (productId: string, qty: number) => {

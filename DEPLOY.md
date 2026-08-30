@@ -3,16 +3,22 @@
 How to ship every kind of change, where every secret lives, and what breaks if
 you get it wrong. Architecture context: [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## Current hosting state (the honest paragraph)
+> **⚠️ This doc has drifted — read STATUS.md + PAYMENTS.md as authoritative.**
+> Two things below are out of date: (1) the payment provider is **PayMe (live)**,
+> not Grow/Meshulam — ignore every `GROW_*` secret and the "Grow — go-live switch"
+> section; the real secrets are `PAYME_SELLER_ID` / `PAYME_WEBHOOK_KEY` /
+> `PAYME_BASE_URL=https://live.payme.io/api`. (2) The **domain cut-over is DONE** —
+> `www.lev-hatahbiv.com` is served by the Worker (`CANONICAL_HOST` set); Render's
+> static front is retired. The Render **API** stays as the dashboard backend.
+
+## Current hosting state
 
 The Cloudflare project (`lev-hatahbiv`) serves the full production stack —
-static storefront + `/api/*` Worker + D1 — at
-`https://lev-hatahbiv.nivsasi.workers.dev`. The **shop's real domain still
-points at Render's static site** (`lev-hatahbiv.onrender.com`); the cut-over
-(DNS → Cloudflare, retire the Render static front) is the remaining hosting
-step. The Render **API** (`lev-hatahbiv-api.onrender.com`) stays either way —
-it's the manager dashboard's product/publish backend, not a shopper service.
-Payments run through the Worker, so card checkout works wherever the Worker
+static storefront + `/api/*` Worker + D1 — and the shop's real domain
+`www.lev-hatahbiv.com` now points at it (cut-over complete; the apex + workers.dev
+301 to www). The Render **API** (`lev-hatahbiv-api.onrender.com`) stays — it's the
+manager dashboard's product/publish backend, not a shopper service. Payments run
+through the Worker via **PayMe**, so card checkout works wherever the Worker
 origin serves the site.
 
 ## What changed → what to deploy

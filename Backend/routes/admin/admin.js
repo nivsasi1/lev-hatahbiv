@@ -39,18 +39,62 @@ const safeEqual = (a, b) => {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// ---------- login brute-force brake (in-memory, per-IP) ----------
+// Best-effort: resets on restart and is per-dyno, but it turns unlimited
+// guessing into a hard wall after a handful of misses. Successful logins clear
+// the counter so a legitimate manager is never locked out by their own typos.
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_FAILS = 8;
+const loginFails = new Map(); // ip -> { count, since }
+const loginBlocked = (ip) => {
+  const rec = loginFails.get(ip);
+  if (!rec || Date.now() - rec.since > LOGIN_WINDOW_MS) return false;
+  return rec.count >= LOGIN_MAX_FAILS;
+};
+const noteLoginFail = (ip) => {
+  const rec = loginFails.get(ip);
+  if (!rec || Date.now() - rec.since > LOGIN_WINDOW_MS) {
+    loginFails.set(ip, { count: 1, since: Date.now() });
+  } else {
+    rec.count++;
+  }
+};
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, rec] of loginFails) {
+    if (now - rec.since > LOGIN_WINDOW_MS) loginFails.delete(ip);
+  }
+}, LOGIN_WINDOW_MS).unref();
+
 // ---------- auth ----------
 
 router.post(
   "/login",
   asyncRoute(async (req, res) => {
+    // FAIL CLOSED: if the credentials aren't configured, no one can log in —
+    // never fall through to comparing "" against "" (which would match).
+    if (!process.env.ADMIN_USER || !process.env.ADMIN_PASS || !process.env.SECRET) {
+      console.error("[admin] login refused — ADMIN_USER/ADMIN_PASS/SECRET not configured");
+      await sleep(800);
+      return res.status(503).json({ error: "המערכת אינה מוגדרת כראוי — פנו למנהל" });
+    }
+
+    const ip = req.ip || req.headers["x-forwarded-for"] || "0.0.0.0";
+    if (loginBlocked(ip)) {
+      await sleep(800);
+      return res.status(429).json({ error: "יותר מדי ניסיונות — נסו שוב בעוד רבע שעה" });
+    }
+
     const { username, password } = req.body || {};
-    const okUser = safeEqual(username || "", process.env.ADMIN_USER || "");
-    const okPass = safeEqual(password || "", process.env.ADMIN_PASS || "");
+    // reject empty input outright — defence in depth on top of the guard above
+    const okUser = Boolean(username) && safeEqual(username, process.env.ADMIN_USER);
+    const okPass = Boolean(password) && safeEqual(password, process.env.ADMIN_PASS);
     if (!okUser || !okPass) {
+      noteLoginFail(ip);
       await sleep(800); // slow down brute-force attempts
       return res.status(401).json({ error: "שם משתמש או סיסמה שגויים" });
     }
+    loginFails.delete(ip); // clear the counter on success
     const token = jwt.sign({ role: "manager", sub: username }, process.env.SECRET, {
       expiresIn: "12h",
     });

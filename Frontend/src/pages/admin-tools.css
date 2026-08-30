@@ -228,3 +228,77 @@
   color: var(--purple, #5b2d8e);
   font-size: 0.9rem;
 }
+
+/* ── unpublished-changes banner — deliberately large & attention-grabbing ───── */
+.publish-banner {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: linear-gradient(90deg, #ffb703, #fb8500);
+  border-bottom: 4px solid #b45309;
+  box-shadow: 0 6px 22px rgba(180, 83, 9, 0.4);
+  animation: publish-pulse 1.6s ease-in-out infinite;
+}
+@keyframes publish-pulse {
+  0%, 100% { box-shadow: 0 6px 22px rgba(180, 83, 9, 0.35); }
+  50% { box-shadow: 0 6px 34px rgba(251, 133, 0, 0.75); }
+}
+.publish-banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.2rem;
+  padding: 1rem 1.3rem;
+}
+.publish-banner-icon {
+  font-size: 2.1rem;
+  line-height: 1;
+  flex: none;
+}
+.publish-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1 1 320px;
+  color: #3b2500;
+}
+.publish-banner-text strong {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.publish-banner-text span {
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+.publish-banner-btn {
+  flex: none;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #000;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.publish-banner-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 #000;
+}
+.publish-banner-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #000;
+}
+.publish-banner-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+@media (prefers-reduced-motion: reduce) {
+  .publish-banner {
+    animation: none;
+  }
+}

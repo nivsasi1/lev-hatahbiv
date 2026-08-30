@@ -39,10 +39,13 @@ export function OrdersView() {
         <div key={o._id} className={`order-card ${o.status}${isUnpaid(o) ? " unpaid" : ""}`}>
           <div className="order-head">
             <b>
-              {new Date(o.createdAt).toLocaleDateString("he-IL")}{" "}
+              {new Date(o.createdAt).toLocaleDateString("he-IL", {
+                timeZone: "Asia/Jerusalem",
+              })}{" "}
               {new Date(o.createdAt).toLocaleTimeString("he-IL", {
                 hour: "2-digit",
                 minute: "2-digit",
+                timeZone: "Asia/Jerusalem",
               })}
             </b>
             <span className={`order-status ${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>

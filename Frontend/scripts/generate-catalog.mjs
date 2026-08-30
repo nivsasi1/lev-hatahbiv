@@ -126,6 +126,10 @@ const pricing = {
     products.map((p) => [p.id, Math.round((p.salePrice ?? p.price) * 100)])
   ),
   names: Object.fromEntries(products.map((p) => [p.id, p.name])),
+  // server-authoritative availability so the payment Worker can refuse to charge
+  // for a sold-out item, or ship a pickup-only one, even from a stale saved cart.
+  soldOut: products.filter((p) => p.soldOut).map((p) => p.id),
+  pickupOnly: products.filter((p) => p.pickupOnly).map((p) => p.id),
 };
 mkdirSync(dirname(pricingOutPath), { recursive: true });
 writeFileSync(pricingOutPath, JSON.stringify(pricing));

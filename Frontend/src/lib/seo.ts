@@ -133,15 +133,26 @@ export const productLd = (p: {
   ...(p.description ? { description: p.description } : {}),
   image: [p.img ? absImg(p.img) : LOGO],
   ...(p.sku ? { sku: p.sku } : {}),
+  brand: { "@type": "Brand", name: store.name },
   offers: {
     "@type": "Offer",
     url: absUrl(`/product/${p.id}`),
     priceCurrency: "ILS",
     price: String(p.price),
+    // rich-result eligibility likes a validity date + return terms
+    priceValidUntil: `${new Date().getUTCFullYear() + 1}-12-31`,
     availability: p.soldOut
       ? "https://schema.org/OutOfStock"
       : "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: "IL",
+      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: 14,
+      returnMethod: "https://schema.org/ReturnByMail",
+      returnFees: "https://schema.org/ReturnShippingFees",
+    },
   },
 });
 

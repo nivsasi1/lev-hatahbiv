@@ -4,6 +4,32 @@ import { WORKER_API } from "../data/api";
 import { store } from "../data/catalog";
 import { useCart } from "../context/cart-context";
 import { usePageMeta, titleFor } from "../lib/seo";
+import { trackPurchase, type TrackItem } from "../data/analytics";
+
+// The exact charged order, snapshotted by CartPage right before the PayMe
+// redirect (keyed by the order id the checkout API returned). Read here so the
+// purchase conversion carries the real total/items even though the cart is
+// cleared. trackPurchase de-dupes by transaction id, so a refresh is safe.
+const firePurchase = (orderId: string) => {
+  try {
+    const raw = sessionStorage.getItem(`lh-order-${orderId}`);
+    if (!raw) return;
+    const snap = JSON.parse(raw) as {
+      valueAgorot: number;
+      coupon?: string;
+      items: TrackItem[];
+    };
+    if (!snap || !Array.isArray(snap.items)) return;
+    trackPurchase({
+      transactionId: orderId,
+      valueAgorot: Number(snap.valueAgorot) || 0,
+      coupon: snap.coupon,
+      items: snap.items,
+    });
+  } catch {
+    /* no usable snapshot — skip tracking rather than send bad data */
+  }
+};
 
 type Status = "pending" | "paid" | "failed" | "unknown";
 
@@ -32,6 +58,7 @@ export const ThankYouPage = () => {
           setStatus("paid");
           if (!cleared.current) {
             cleared.current = true;
+            firePurchase(orderId); // conversion — before clear(), de-duped by order id
             clear();
           }
           return;
