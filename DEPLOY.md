@@ -15,8 +15,10 @@ you get it wrong. Architecture context: [ARCHITECTURE.md](ARCHITECTURE.md).
 
 The Cloudflare project (`lev-hatahbiv`) serves the full production stack —
 static storefront + `/api/*` Worker + D1 — and the shop's real domain
-`www.lev-hatahbiv.com` now points at it (cut-over complete; the apex + workers.dev
-301 to www). The Render **API** (`lev-hatahbiv-api.onrender.com`) stays — it's the
+`lev-hatahbiv.com` now points at it (cut-over complete). ⚠️ Canonical host is
+TEMPORARILY the **apex** — www intermittently serves Cloudflare Error 1034, so
+www + workers.dev currently 301 to the apex; see `CANONICAL_HOST` in
+wrangler.jsonc for the restore-to-www checklist. The Render **API** (`lev-hatahbiv-api.onrender.com`) stays — it's the
 manager dashboard's product/publish backend, not a shopper service. Payments run
 through the Worker via **PayMe**, so card checkout works wherever the Worker
 origin serves the site.

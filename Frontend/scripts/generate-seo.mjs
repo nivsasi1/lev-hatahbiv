@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import { slugify } from "./seo/slug.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SITE = "https://www.lev-hatahbiv.com"; // canonical host (what Google has indexed)
+const SITE = "https://lev-hatahbiv.com"; // canonical host — keep in sync with CANONICAL_HOST (wrangler.jsonc) + src/lib/seo.ts
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 
 const products = read(join(here, "..", "src", "data", "products.json"));

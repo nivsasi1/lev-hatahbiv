@@ -5,8 +5,12 @@
 import { useEffect } from "react";
 import { store } from "../data/catalog";
 
-// canonical host — the www form is what Google has indexed
-export const SITE = "https://www.lev-hatahbiv.com";
+// canonical host — MUST match CANONICAL_HOST in wrangler.jsonc, or every page
+// declares a canonical the Worker itself redirects away from. Temporarily the
+// APEX during the www Error-1034 incident (2026-08-30); when www is stable,
+// restore www here, in scripts/generate-seo.mjs and in wrangler.jsonc together,
+// then re-run `npm run generate`.
+export const SITE = "https://lev-hatahbiv.com";
 export const absUrl = (path: string) => SITE + path;
 
 export const LOGO = absUrl("/images/LevHatahbivLogo.png");
