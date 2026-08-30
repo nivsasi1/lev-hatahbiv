@@ -28,6 +28,13 @@ export function OrdersView() {
       setOrders((prev) => prev.map((x) => (x._id === id ? d.order : x)));
     });
 
+  // the "delete my data" path — wipes the customer details with the order row
+  const removeOrder = (id: string) =>
+    act(async () => {
+      await workerCall(`/orders/${encodeURIComponent(id)}`, { method: "DELETE" });
+      setOrders((prev) => prev.filter((x) => x._id !== id));
+    });
+
   // 'new' = placeholder row created before the shopper reached PayMe, 'failed' =
   // PayMe refused to open a sale. Neither is an order until the callback flips it
   // to 'paid', so they live in a collapsed section instead of the main list.
@@ -88,10 +95,32 @@ export function OrdersView() {
                 </button>
               )}
               {o.status !== "cancelled" && (
-                <button className="btn small ghost" onClick={() => setStatus(o._id, "cancelled")}>
+                <button
+                  className="btn small ghost"
+                  onClick={() => {
+                    // one-way for a paid order: money states can't be set by hand,
+                    // so a mis-click here would lose the order from fulfilment
+                    if (!window.confirm('לבטל את ההזמנה? הזמנה ששולמה לא תוכל לחזור לסטטוס "שולמה".')) return;
+                    setStatus(o._id, "cancelled");
+                  }}
+                >
                   ביטול
                 </button>
               )}
+              <button
+                className="btn small ghost"
+                onClick={() => {
+                  if (
+                    !window.confirm(
+                      "למחוק את ההזמנה לצמיתות? כל פרטי ההזמנה והלקוח יימחקו ללא אפשרות שחזור (משמש לבקשות מחיקת מידע)."
+                    )
+                  )
+                    return;
+                  removeOrder(o._id);
+                }}
+              >
+                🗑 מחיקה
+              </button>
             </span>
           </div>
         </div>

@@ -15,7 +15,11 @@ export function PublishBanner() {
     act(async () => {
       const d = await call(`/publish`, { method: "POST" });
       clearDirty();
-      setNotice(`האתר עודכן ופורסם! ${d.summary ?? ""}`);
+      // a 200 here only means the deploy started (cloud: the build hook accepted) —
+      // the ~3-minute build can still fail, so don't claim the site IS updated
+      setNotice(
+        `הפרסום יצא לדרך! ${d.summary ?? ""} האתר מתעדכן תוך כ־3 דקות — כדאי לרענן את החנות ולוודא שהשינוי עלה.`
+      );
     }).finally(() => setPublishing(false));
   };
 
