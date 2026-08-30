@@ -109,10 +109,12 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || `שגיאה (${res.status})`);
     // track unpublished changes: any successful mutating call to the Express API
-    // marks the site dirty; a successful publish clears it.
+    // marks the site dirty; a successful publish clears it. Image uploads (/upload,
+    // /upload-batch) don't change published content on their own — only attaching
+    // one to a product (a separate save) does — so they don't flip the flag.
     const method = (init.method || "GET").toUpperCase();
     if (path.startsWith("/publish")) clearDirty();
-    else if (method !== "GET") markDirty();
+    else if (method !== "GET" && !path.startsWith("/upload")) markDirty();
     return data;
   };
 

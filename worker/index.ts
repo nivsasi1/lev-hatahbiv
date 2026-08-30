@@ -65,7 +65,11 @@ const CSP = [
   "img-src 'self' data: https:",
   // connect-src MUST include the Render Express API — the /manage dashboard fetches
   // it cross-origin (login, products, publish, uploads). Omitting it breaks /manage.
-  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com",
+  // The google.com/doubleclick hosts are for Google Ads conversion/remarketing
+  // beacons (only fire once VITE_GADS_ID is set) — allowlisted now so enabling ads
+  // later is config-only, no CSP edit.
+  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://stats.g.doubleclick.net",
+  "frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://www.facebook.com",
 ].join("; ");
 
 function secureHeaders(resp: Response): Response {

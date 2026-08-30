@@ -51,10 +51,11 @@ app.use(
   })
 );
 
-// 2 MB is ample for product JSON / CSV import / bulk-id payloads; images go
-// through multer (5 MB) separately. The old 100 MB limit was a memory-DoS.
-app.use(bodyParser.json({ limit: "2mb" }));
-app.use(express.json({ limit: "2mb" }));
+// 5 MB covers the whole-catalog CSV import (~1 MB today, with headroom to grow)
+// and bulk-id payloads; images go through multer (5 MB) separately. Far below the
+// old 100 MB memory-DoS surface, and the heavy import route is admin-only anyway.
+app.use(bodyParser.json({ limit: "5mb" }));
+app.use(express.json({ limit: "5mb" }));
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads")); // local image fallback (S3 in prod)
 
