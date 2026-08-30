@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   finalPrice,
@@ -125,6 +125,17 @@ export const CartPage = () => {
   const streetRef = useRef<HTMLInputElement>(null);
   const cityRef = useRef<HTMLInputElement>(null);
 
+  // Back from PayMe usually restores this page from bfcache with the old JS heap
+  // (payPending still false) — re-read the flag on pageshow so the "don't pay
+  // twice" warning actually shows in its primary scenario.
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setPayPending(recentPendingPayment());
+    };
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, []);
+
   const needsAddress = delivery.id !== "pickup";
 
   // functional update: browser autofill fires input on all fields in the same
@@ -219,10 +230,15 @@ export const CartPage = () => {
   // PayMe callback + server-side re-query, not here.
   // only PayMe's own hosted page is a valid redirect target — never follow a
   // non-https / off-provider URL even if the API somehow returned one.
+  // PayMe's API lives on payme.io but the hosted sale pages are served from
+  // *.paymeservice.com (PAYMENTS.md) — both are theirs, accept both.
   const isPayMeUrl = (u: string): boolean => {
     try {
       const parsed = new URL(u);
-      return parsed.protocol === "https:" && /(^|\.)payme\.io$/.test(parsed.hostname);
+      return (
+        parsed.protocol === "https:" &&
+        /(^|\.)(payme\.io|paymeservice\.com)$/.test(parsed.hostname)
+      );
     } catch {
       return false;
     }
