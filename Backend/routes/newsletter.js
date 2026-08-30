@@ -15,7 +15,11 @@ const router = express.Router();
 const LEGACY_ENABLED = process.env.ENABLE_LEGACY_PUBLIC_WRITES === "1";
 router.use((req, res, next) => {
   if (LEGACY_ENABLED) return next();
-  if (req.path === "/newsletter" || req.path === "/order") {
+  // Express matches routes case-insensitively and ignores trailing slashes, so
+  // the guard must normalize the same way — "/Order/" would otherwise slip past
+  // an exact-equality check and still hit the handler.
+  const p = req.path.toLowerCase().replace(/\/+$/, "");
+  if (p === "/newsletter" || p === "/order") {
     return res.status(410).json({ error: "endpoint retired" });
   }
   return next();
