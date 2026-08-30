@@ -27,10 +27,11 @@
     // in the SAME deploy (then `npm run generate`), so canonicals/sitemap always
     // point at the host this var enforces.
     "CANONICAL_HOST": "lev-hatahbiv.com",
-    // Where "new paid order" emails go. MUST be a VERIFIED destination address in
-    // this Cloudflare account (Email → Destination addresses) — sends to verified
-    // destinations are free on every plan and don't need Workers Paid.
-    "ORDER_NOTIFY_EMAIL": "nivsasi@gmail.com"
+    // Where "new paid order" emails go — comma-separated. EACH address must be a
+    // VERIFIED destination address in this Cloudflare account (Email → Destination
+    // addresses) — sends to verified destinations are free on every plan and don't
+    // need Workers Paid. An unverified address just logs; the rest still get mail.
+    "ORDER_NOTIFY_EMAIL": "nivsasi@gmail.com,levhatahbiv@gmail.com,rosikahan75@gmail.com"
   },
   // Order notifications via Cloudflare Email Sending. The domain must be onboarded
   // (Dashboard → Compute & AI → Email Service → Email Sending → Onboard lev-hatahbiv.com;

@@ -39,7 +39,7 @@ export interface Env {
   ASSETS: Fetcher; // the static storefront (Frontend/dist)
   DB: D1Database; // coupons / orders / subscribers / rate_limits / settings
   EMAIL?: EmailSender; // send_email binding — "new paid order" emails (wrangler.jsonc)
-  ORDER_NOTIFY_EMAIL?: string; // manager address; must be a verified destination address
+  ORDER_NOTIFY_EMAIL?: string; // comma-separated manager addresses; each must be a verified destination address
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
   // ── PayMe (set via `wrangler secret put`) ──
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
@@ -966,7 +966,11 @@ const agorotIls = (agorot: number): string => {
 };
 
 async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Promise<void> {
-  if (!env.EMAIL || !env.ORDER_NOTIFY_EMAIL) return; // not configured — skip silently
+  const recipients = (env.ORDER_NOTIFY_EMAIL || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!env.EMAIL || recipients.length === 0) return; // not configured — skip silently
   let items: { name?: string; qty?: number; price?: number }[] = [];
   try {
     items = JSON.parse(order.items) ?? [];
@@ -1004,13 +1008,21 @@ async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Pro
   ]
     .filter((l): l is string => l !== null)
     .join("\n");
-  await env.EMAIL.send({
-    to: env.ORDER_NOTIFY_EMAIL,
-    from: { email: "orders@lev-hatahbiv.com", name: "לב התחביב — אתר" },
-    ...(order.payerEmail ? { replyTo: order.payerEmail } : {}), // reply goes straight to the shopper
-    subject: `🎨 הזמנה חדשה — ₪${agorotIls(order.total)}${order.payerName ? ` (${order.payerName})` : ""}`,
-    text,
-  });
+  // one send per recipient — an address that is still unverified (or bounced)
+  // must never block the others from getting the order
+  for (const to of recipients) {
+    try {
+      await env.EMAIL.send({
+        to,
+        from: { email: "orders@lev-hatahbiv.com", name: "לב התחביב — אתר" },
+        ...(order.payerEmail ? { replyTo: order.payerEmail } : {}), // reply goes straight to the shopper
+        subject: `🎨 הזמנה חדשה — ₪${agorotIls(order.total)}${order.payerName ? ` (${order.payerName})` : ""}`,
+        text,
+      });
+    } catch (err) {
+      console.error(`[notify] paid-order email to ${to} failed:`, err);
+    }
+  }
 }
 
 // shared by the callback AND the order-status self-heal: re-query PayMe, and only
