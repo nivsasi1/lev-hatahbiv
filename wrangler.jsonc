@@ -31,7 +31,7 @@
     // VERIFIED destination address in this Cloudflare account (Email → Destination
     // addresses) — sends to verified destinations are free on every plan and don't
     // need Workers Paid. An unverified address just logs; the rest still get mail.
-    "ORDER_NOTIFY_EMAIL": "nivsasi@gmail.com,levhatahbiv@gmail.com,rosikahan75@gmail.com"
+    "ORDER_NOTIFY_EMAIL": "levhatahbiv@gmail.com,rosikahan75@gmail.com"
   },
   // Order notifications via Cloudflare Email Sending. The domain must be onboarded
   // (Dashboard → Compute & AI → Email Service → Email Sending → Onboard lev-hatahbiv.com;
