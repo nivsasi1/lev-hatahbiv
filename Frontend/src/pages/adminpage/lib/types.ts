@@ -47,7 +47,12 @@ export const emptyForm: ProductForm = {
   imgs: [],
 };
 
-export type Subscriber = { email: string; coupon_code?: string | null; created_at?: string };
+export type Subscriber = {
+  email: string;
+  coupon_code?: string | null;
+  created_at?: string;
+  unsubscribed_at?: string | null; // set by /api/unsubscribe — exclude from mailings
+};
 
 export type Coupon = { code: string; percent: number; maxUses: number | null; usedCount?: number };
 

@@ -59,7 +59,7 @@ const CSP = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.googleadservices.com https://connect.facebook.net",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https:",
@@ -68,8 +68,8 @@ const CSP = [
   // The google.com/doubleclick hosts are for Google Ads conversion/remarketing
   // beacons (only fire once VITE_GADS_ID is set) — allowlisted now so enabling ads
   // later is config-only, no CSP edit.
-  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://stats.g.doubleclick.net",
-  "frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://www.facebook.com",
+  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://stats.g.doubleclick.net",
+  "frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://bid.g.doubleclick.net https://www.facebook.com",
 ].join("; ");
 
 function secureHeaders(resp: Response): Response {
@@ -370,11 +370,14 @@ async function unsubToken(email: string, secret: string): Promise<string> {
   return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+const escapeHtml = (s: string): string =>
+  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+
 async function unsubscribe(request: Request, env: Env, db: DB): Promise<Response> {
   const url = new URL(request.url);
   const email = String(url.searchParams.get("e") || "").trim().toLowerCase();
   const token = String(url.searchParams.get("t") || "");
-  const page = (msg: string, status = 200) =>
+  const page = (inner: string, status = 200) =>
     new Response(
       `<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">` +
         `<meta name="viewport" content="width=device-width, initial-scale=1">` +
@@ -382,26 +385,54 @@ async function unsubscribe(request: Request, env: Env, db: DB): Promise<Response
         `<style>body{font-family:system-ui,Arial,sans-serif;background:#faf5ec;color:#2b2440;` +
         `display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:24px}` +
         `.card{background:#fff;border:2.5px solid #2b2440;border-radius:16px;padding:32px;max-width:460px;text-align:center}` +
-        `a{color:#5b2d8e;font-weight:600}h1{margin:.2em 0}</style></head>` +
-        `<body><div class="card"><h1>לב התחביב</h1><p>${msg}</p>` +
-        `<p><a href="https://www.lev-hatahbiv.com/">חזרה לחנות ←</a></p></div></body></html>`,
-      { status, headers: { "content-type": "text/html; charset=utf-8" } }
+        `a{color:#5b2d8e;font-weight:600}h1{margin:.2em 0}` +
+        `button{background:#5b2d8e;color:#fff;border:none;border-radius:10px;padding:.7em 1.4em;` +
+        `font-size:1rem;font-weight:700;cursor:pointer}</style></head>` +
+        `<body><div class="card"><h1>לב התחביב</h1>${inner}` +
+        `<p><a href="https://lev-hatahbiv.com/">חזרה לחנות ←</a></p></div></body></html>`,
+      {
+        status,
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "DENY",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "cache-control": "no-store",
+        },
+      }
     );
 
-  if (!email || !token || !env.ADMIN_JWT_SECRET) return page("הקישור אינו תקין.", 400);
+  if (!email || !token || !env.ADMIN_JWT_SECRET) return page("<p>הקישור אינו תקין.</p>", 400);
   const expected = await unsubToken(email, env.ADMIN_JWT_SECRET);
-  if (!safeEqual(token, expected)) return page("הקישור אינו תקין או שפג תוקפו.", 400);
+  if (!safeEqual(token, expected)) return page("<p>הקישור אינו תקין או שפג תוקפו.</p>", 400);
+
+  // GET only shows a confirmation — mail scanners (Outlook SafeLinks, Proofpoint
+  // and friends) prefetch every campaign link with the valid token, so the
+  // actual opt-out must require the human's POST. The form posts back to this
+  // same URL, query string included.
+  if (request.method === "GET") {
+    return page(
+      `<p>להסרת <b>${escapeHtml(email)}</b> מרשימת התפוצה שלנו, לחצו על הכפתור:</p>` +
+        `<form method="post"><button type="submit">הסירו אותי מהרשימה</button></form>`
+    );
+  }
+
   try {
-    // raw SQL (not the Drizzle schema) so this is the ONLY query that references
+    // raw SQL (not the Drizzle schema) so this is the ONLY write that references
     // unsubscribed_at — see the note in worker/db/schema.ts.
     await db.run(
       sql`UPDATE subscribers SET unsubscribed_at = ${new Date().toISOString()} WHERE email = ${email}`
     );
-  } catch {
-    // the unsubscribed_at column may not be migrated yet — don't 500 the shopper
-    return page("בקשת ההסרה התקבלה ותטופל. תודה.");
+  } catch (err) {
+    // Most likely the unsubscribed_at migration hasn't run — don't 500 the
+    // shopper, but LOUDLY log it: a silently dropped opt-out is a spam-law
+    // violation waiting for the next campaign.
+    console.error("[unsubscribe] UPDATE failed — is the unsubscribed_at column migrated?", err);
+    return page("<p>בקשת ההסרה התקבלה ותטופל. תודה.</p>");
   }
-  return page("הוסרתם מרשימת התפוצה שלנו. לא יישלח אליכם עוד דיוור פרסומי. אפשר תמיד להצטרף מחדש מהאתר.");
+  return page(
+    "<p>הוסרתם מרשימת התפוצה שלנו. לא יישלח אליכם עוד דיוור פרסומי. אפשר תמיד להצטרף מחדש מהאתר.</p>"
+  );
 }
 
 // ---------- admin coupon CRUD (manager dashboard, JWT-protected) ----------
@@ -473,18 +504,37 @@ async function deleteCoupon(db: DB, code: string): Promise<Response> {
 
 // ---------- admin subscribers (JWT) ----------
 async function listSubscribers(db: DB): Promise<Response> {
-  const rows = await db
-    .select()
-    .from(subscribers)
-    .orderBy(desc(subscribers.createdAt))
-    .all();
-  return json({
-    subscribers: rows.map((r) => ({
-      email: r.email,
-      coupon_code: r.couponCode,
-      created_at: r.createdAt,
-    })),
-  });
+  // unsubscribed_at is deliberately absent from the Drizzle schema (see the note
+  // in worker/db/schema.ts), so read it with raw SQL — the dashboard MUST see
+  // opt-outs or the next campaign mails people who unsubscribed. On a D1 that
+  // predates the migration the raw query fails; fall back to the schema query.
+  try {
+    const rows = (await db.all(
+      sql`SELECT email, coupon_code, created_at, unsubscribed_at FROM subscribers ORDER BY created_at DESC`
+    )) as { email: string; coupon_code: string | null; created_at: string; unsubscribed_at: string | null }[];
+    return json({
+      subscribers: rows.map((r) => ({
+        email: r.email,
+        coupon_code: r.coupon_code,
+        created_at: r.created_at,
+        unsubscribed_at: r.unsubscribed_at ?? null,
+      })),
+    });
+  } catch {
+    const rows = await db
+      .select()
+      .from(subscribers)
+      .orderBy(desc(subscribers.createdAt))
+      .all();
+    return json({
+      subscribers: rows.map((r) => ({
+        email: r.email,
+        coupon_code: r.couponCode,
+        created_at: r.createdAt,
+        unsubscribed_at: null,
+      })),
+    });
+  }
 }
 
 async function deleteSubscriber(db: DB, email: string): Promise<Response> {
@@ -1225,7 +1275,10 @@ export default {
       if (pathname === "/api/order-status" && request.method === "GET") {
         return orderStatus(request, env, db);
       }
-      if (pathname === "/api/unsubscribe" && request.method === "GET") {
+      if (
+        pathname === "/api/unsubscribe" &&
+        (request.method === "GET" || request.method === "POST")
+      ) {
         return unsubscribe(request, env, db);
       }
 
