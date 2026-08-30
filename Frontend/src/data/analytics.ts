@@ -29,6 +29,10 @@ const GADS_ID = import.meta.env.VITE_GADS_ID as string | undefined;
 const GADS_PURCHASE_LABEL = import.meta.env.VITE_GADS_PURCHASE_LABEL as string | undefined;
 
 export const AD_PIXELS_CONFIGURED = Boolean(META_ID || GADS_ID);
+// gtag routes every event to ALL configured destinations (GA4 and/or Ads), so
+// events must fire when EITHER exists — guarding on GA_ID alone starved Google
+// Ads remarketing of all SPA activity in an Ads-only setup.
+const HAS_GTAG = Boolean(GA_ID || GADS_ID);
 const CONSENT_KEY = "lh-consent-v1"; // "granted" | "denied"
 
 const nis = (agorot: number) => Math.round(agorot) / 100;
@@ -99,7 +103,7 @@ export const initAnalytics = () => {
 
 // ── Meta pixel loader (called on consent) ─────────────────────────────────────
 let metaLoaded = false;
-export const loadMetaPixel = () => {
+export const loadMetaPixel = (fireInitialPageView = false) => {
   if (!ready() || !META_ID || metaLoaded) return;
   metaLoaded = true;
   /* eslint-disable */
@@ -121,7 +125,10 @@ export const loadMetaPixel = () => {
   })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
   /* eslint-enable */
   window.fbq("init", META_ID);
-  window.fbq("track", "PageView");
+  // On page load the Layout route effect fires the first PageView via
+  // trackPageView — firing here too double-counted every landing view. Only a
+  // mid-session consent grant (no route change coming) needs its own PageView.
+  if (fireInitialPageView) window.fbq("track", "PageView");
 };
 
 // ── consent actions (called by the banner) ───────────────────────────────────
@@ -138,7 +145,7 @@ export const grantConsent = () => {
       ad_personalization: "granted",
     });
   }
-  if (META_ID) loadMetaPixel();
+  if (META_ID) loadMetaPixel(true);
 };
 export const denyConsent = () => {
   try {
@@ -157,14 +164,14 @@ export const denyConsent = () => {
 
 // ── events ────────────────────────────────────────────────────────────────────
 export const trackPageView = (path: string) => {
-  if (window.gtag && GA_ID) {
+  if (window.gtag && HAS_GTAG) {
     window.gtag("event", "page_view", { page_path: path, page_location: location.href });
   }
   if (window.fbq) window.fbq("track", "PageView");
 };
 
 export const trackViewItem = (item: TrackItem) => {
-  if (window.gtag && GA_ID) {
+  if (window.gtag && HAS_GTAG) {
     window.gtag("event", "view_item", {
       currency: "ILS",
       value: nis(item.priceAgorot),
@@ -184,7 +191,7 @@ export const trackViewItem = (item: TrackItem) => {
 
 export const trackAddToCart = (item: TrackItem) => {
   const value = nis(item.priceAgorot) * (item.qty ?? 1);
-  if (window.gtag && GA_ID) {
+  if (window.gtag && HAS_GTAG) {
     window.gtag("event", "add_to_cart", { currency: "ILS", value, items: ga4Items([item]) });
   }
   if (window.fbq) {
@@ -199,7 +206,7 @@ export const trackAddToCart = (item: TrackItem) => {
 };
 
 export const trackBeginCheckout = (items: TrackItem[], valueAgorot: number, coupon?: string) => {
-  if (window.gtag && GA_ID) {
+  if (window.gtag && HAS_GTAG) {
     window.gtag("event", "begin_checkout", {
       currency: "ILS",
       value: nis(valueAgorot),
@@ -235,7 +242,7 @@ export const trackPurchase = (o: {
     /* storage blocked — still fire once for this view */
   }
   const value = nis(o.valueAgorot);
-  if (window.gtag && GA_ID) {
+  if (window.gtag && HAS_GTAG) {
     window.gtag("event", "purchase", {
       transaction_id: o.transactionId,
       value,
