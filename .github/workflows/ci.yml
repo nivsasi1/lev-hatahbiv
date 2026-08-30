@@ -1,0 +1,69 @@
+# CI — typecheck + build on every push / PR so a regression in the storefront,
+# the payment Worker, or the backend is caught BEFORE a manual deploy ships it.
+# (Deploys stay manual: `npm --prefix Frontend run build` + `npx wrangler deploy`.)
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Frontend — typecheck + build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        working-directory: Frontend
+        run: npm ci --no-audit --no-fund
+      - name: Type-check
+        working-directory: Frontend
+        run: npx tsc --noEmit
+      - name: Build (uses the committed catalog snapshot)
+        working-directory: Frontend
+        run: npm run build
+
+  worker:
+    name: Worker — typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install (root — drizzle + workers-types)
+        run: npm ci --no-audit --no-fund
+      - name: Type-check the Worker
+        run: npx tsc --noEmit -p worker/tsconfig.json
+
+  backend:
+    name: Backend — syntax + audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        working-directory: Backend
+        run: npm ci --omit=dev --no-audit --no-fund
+      - name: Syntax-check the server entrypoints
+        working-directory: Backend
+        run: |
+          node --check server.js
+          node --check routes/admin/admin.js
+          node --check routes/newsletter.js
+      - name: Dependency audit (informational — never blocks)
+        working-directory: Backend
+        run: npm audit --omit=dev || true

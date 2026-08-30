@@ -4479,3 +4479,101 @@ html.a11y-underline a {
   gap: 0.8rem;
   margin-top: 2.2rem;
 }
+
+/* ── skip-to-content link (a11y — WCAG 2.4.1 Bypass Blocks) ─────────────────── */
+.skip-link {
+  position: absolute;
+  right: -9999px;
+  top: 0;
+  z-index: 2000;
+  background: var(--purple);
+  color: #fff;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0 0 10px 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.skip-link:focus {
+  right: 1rem;
+  top: 0;
+  outline: 3px solid var(--gold);
+}
+/* programmatic focus target on route change — no visible outline needed */
+.route-region:focus {
+  outline: none;
+}
+
+/* ── terms acceptance at checkout ───────────────────────────────────────────── */
+.terms-accept {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.9rem 0 0.7rem;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  cursor: pointer;
+}
+.terms-accept input[type="checkbox"] {
+  margin-top: 0.2rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  accent-color: var(--purple);
+  cursor: pointer;
+}
+.terms-accept a {
+  color: var(--purple);
+  font-weight: 600;
+}
+
+/* ── "you already started a payment" warning (double-charge guard) ──────────── */
+.pay-pending-warn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.4rem;
+  padding: 0.95rem 1.15rem;
+  background: color-mix(in srgb, var(--gold) 20%, var(--paper));
+  border: 2.5px solid var(--gold);
+  border-radius: 14px;
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+.pay-pending-warn span {
+  flex: 1 1 260px;
+}
+
+/* ── marketing-cookie consent bar (only when an ad pixel is configured) ─────── */
+.consent-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 1800;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.4rem;
+  padding: 0.85rem 1.2rem;
+  background: var(--card);
+  border-top: 2.5px solid var(--ink);
+  box-shadow: 0 -6px 24px var(--shadow);
+}
+.consent-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+.consent-text a {
+  color: var(--purple);
+  font-weight: 600;
+}
+.consent-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex: none;
+}

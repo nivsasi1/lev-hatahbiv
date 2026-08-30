@@ -28,6 +28,13 @@ export function OrdersView() {
       setOrders((prev) => prev.map((x) => (x._id === id ? d.order : x)));
     });
 
+  // the "delete my data" path — wipes the customer details with the order row
+  const removeOrder = (id: string) =>
+    act(async () => {
+      await workerCall(`/orders/${encodeURIComponent(id)}`, { method: "DELETE" });
+      setOrders((prev) => prev.filter((x) => x._id !== id));
+    });
+
   // 'new' = placeholder row created before the shopper reached PayMe, 'failed' =
   // PayMe refused to open a sale. Neither is an order until the callback flips it
   // to 'paid', so they live in a collapsed section instead of the main list.
@@ -39,10 +46,13 @@ export function OrdersView() {
         <div key={o._id} className={`order-card ${o.status}${isUnpaid(o) ? " unpaid" : ""}`}>
           <div className="order-head">
             <b>
-              {new Date(o.createdAt).toLocaleDateString("he-IL")}{" "}
+              {new Date(o.createdAt).toLocaleDateString("he-IL", {
+                timeZone: "Asia/Jerusalem",
+              })}{" "}
               {new Date(o.createdAt).toLocaleTimeString("he-IL", {
                 hour: "2-digit",
                 minute: "2-digit",
+                timeZone: "Asia/Jerusalem",
               })}
             </b>
             <span className={`order-status ${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>
@@ -85,10 +95,32 @@ export function OrdersView() {
                 </button>
               )}
               {o.status !== "cancelled" && (
-                <button className="btn small ghost" onClick={() => setStatus(o._id, "cancelled")}>
+                <button
+                  className="btn small ghost"
+                  onClick={() => {
+                    // one-way for a paid order: money states can't be set by hand,
+                    // so a mis-click here would lose the order from fulfilment
+                    if (!window.confirm('לבטל את ההזמנה? הזמנה ששולמה לא תוכל לחזור לסטטוס "שולמה".')) return;
+                    setStatus(o._id, "cancelled");
+                  }}
+                >
                   ביטול
                 </button>
               )}
+              <button
+                className="btn small ghost"
+                onClick={() => {
+                  if (
+                    !window.confirm(
+                      "למחוק את ההזמנה לצמיתות? כל פרטי ההזמנה והלקוח יימחקו ללא אפשרות שחזור (משמש לבקשות מחיקת מידע)."
+                    )
+                  )
+                    return;
+                  removeOrder(o._id);
+                }}
+              >
+                🗑 מחיקה
+              </button>
             </span>
           </div>
         </div>

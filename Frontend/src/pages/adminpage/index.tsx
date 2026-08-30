@@ -8,6 +8,7 @@ import { useHomeSettings } from "./hooks/useHomeSettings";
 import { useCoupons } from "./hooks/useCoupons";
 import { LoginScreen } from "./components/LoginScreen";
 import { DashboardHeader } from "./components/DashboardHeader";
+import { PublishBanner } from "./components/PublishBanner";
 import { TabNav, type View } from "./components/TabNav";
 import { StatsView } from "./components/StatsView";
 import { OrdersView } from "./components/OrdersView";
@@ -86,6 +87,7 @@ function Dashboard({
   return (
     <main className={rootClass}>
       <DialogOverlay />
+      <PublishBanner />
       <DashboardHeader adminTheme={adminTheme} setAdminTheme={setAdminTheme} />
       <TabNav
         view={view}

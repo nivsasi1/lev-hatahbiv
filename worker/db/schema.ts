@@ -19,6 +19,11 @@ export const coupons = sqliteTable("coupons", {
 });
 
 // Newsletter subscribers (one welcome coupon per email).
+// NOTE: the live D1 also gains an `unsubscribed_at` column (see worker/schema.sql)
+// used by /api/unsubscribe — deliberately NOT declared here, because a bare
+// db.select().from(subscribers) would then emit that column name and 500 on any
+// D1 that hasn't run the migration yet. The unsubscribe path touches it via raw
+// SQL instead, so existing subscriber queries are unaffected until/after migration.
 export const subscribers = sqliteTable("subscribers", {
   email: text("email").primaryKey(),
   couponCode: text("coupon_code"), // their welcome code -> coupons.code

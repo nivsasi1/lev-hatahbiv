@@ -14,6 +14,7 @@ import { useCart } from "../context/cart-context";
 import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
 import { usePageMeta, titleFor, breadcrumbLd, productLd } from "../lib/seo";
+import { trackViewItem } from "../data/analytics";
 import "./product-lightbox.css";
 
 export const ProductPage = () => {
@@ -101,6 +102,17 @@ export const ProductPage = () => {
         ]
       : undefined,
   });
+  // ecommerce: view_item once per product view (guarded — the hook always runs)
+  useEffect(() => {
+    if (!product) return;
+    trackViewItem({
+      id: product.id,
+      name: product.name,
+      priceAgorot: Math.round(finalPrice(product) * 100),
+      category: product.category,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.id]);
   if (!product) {
     return (
       <main className="page-main shell">

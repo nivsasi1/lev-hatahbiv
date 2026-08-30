@@ -32,6 +32,9 @@ interface AdminCtx {
   subscribers: Subscriber[];
   setSubscribers: Setter<Subscriber[]>;
   refresh: () => Promise<void>;
+  dirty: boolean;
+  markDirty: () => void;
+  clearDirty: () => void;
 }
 
 const AdminContext = createContext<AdminCtx | null>(null);
@@ -51,6 +54,34 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [dialog, setDialog] = useState<DialogState>(null);
   const [dialogValue, setDialogValue] = useState("");
+  // "there are edits that haven't been published to the live site yet". Product
+  // and home-settings changes write to Mongo but only reach shoppers after a
+  // rebuild ("publish"), so a manager can silently keep selling at old prices.
+  // Persisted so the warning survives a reload/tab-close until they publish.
+  const DIRTY_KEY = "lh-admin-unpublished";
+  const [dirty, setDirty] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(DIRTY_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const markDirty = () => {
+    try {
+      localStorage.setItem(DIRTY_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+    setDirty(true);
+  };
+  const clearDirty = () => {
+    try {
+      localStorage.removeItem(DIRTY_KEY);
+    } catch {
+      /* ignore */
+    }
+    setDirty(false);
+  };
 
   const logout = () => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -77,6 +108,13 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     }
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || `שגיאה (${res.status})`);
+    // track unpublished changes: any successful mutating call to the Express API
+    // marks the site dirty; a successful publish clears it. Image uploads (/upload,
+    // /upload-batch) don't change published content on their own — only attaching
+    // one to a product (a separate save) does — so they don't flip the flag.
+    const method = (init.method || "GET").toUpperCase();
+    if (path.startsWith("/publish")) clearDirty();
+    else if (method !== "GET" && !path.startsWith("/upload")) markDirty();
     return data;
   };
 
@@ -173,6 +211,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     subscribers,
     setSubscribers,
     refresh,
+    dirty,
+    markDirty,
+    clearDirty,
   };
 
   return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;

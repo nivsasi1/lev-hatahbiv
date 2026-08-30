@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,6 +12,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { CartSheet } from "./components/CartSheet";
 import { NewsletterDialog } from "./components/NewsletterDialog";
+import { ConsentBanner } from "./components/ConsentBanner";
 import { HomePage } from "./pages/HomePage";
 import { CategoryPage, SubCategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
@@ -41,9 +42,19 @@ initAnalytics(); // no-op unless VITE_GA_ID is configured
 
 const Layout = () => {
   const { pathname } = useLocation();
+  const mainRef = useRef<HTMLDivElement>(null);
+  const firstRun = useRef(true);
   useEffect(() => {
     window.scrollTo(0, 0);
     trackPageView(pathname);
+    // a11y: on SPA navigation, move focus to the main region so keyboard and
+    // screen-reader users land on the new page (not the stale, unmounted link).
+    // Skip the initial load so we don't steal focus on arrival.
+    if (firstRun.current) {
+      firstRun.current = false;
+    } else {
+      mainRef.current?.focus({ preventScroll: true });
+    }
   }, [pathname]);
 
   const isAdmin =
@@ -53,11 +64,17 @@ const Layout = () => {
 
   return (
     <div className="page">
+      <a href="#main" className="skip-link">
+        דלג לתוכן
+      </a>
       <Header />
-      <Outlet />
+      <div id="main" ref={mainRef} tabIndex={-1} className="route-region">
+        <Outlet />
+      </div>
       <Footer />
       <CartSheet />
       <NewsletterDialog />
+      <ConsentBanner />
       <A11yWidget />
       {isAdmin && (
         <Link to="/manage" className="admin-return">

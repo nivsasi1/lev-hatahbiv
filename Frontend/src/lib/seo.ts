@@ -5,8 +5,12 @@
 import { useEffect } from "react";
 import { store } from "../data/catalog";
 
-// canonical host — the www form is what Google has indexed
-export const SITE = "https://www.lev-hatahbiv.com";
+// canonical host — MUST match CANONICAL_HOST in wrangler.jsonc, or every page
+// declares a canonical the Worker itself redirects away from. Temporarily the
+// APEX during the www Error-1034 incident (2026-08-30); when www is stable,
+// restore www here, in scripts/generate-seo.mjs and in wrangler.jsonc together,
+// then re-run `npm run generate`.
+export const SITE = "https://lev-hatahbiv.com";
 export const absUrl = (path: string) => SITE + path;
 
 export const LOGO = absUrl("/images/LevHatahbivLogo.png");
@@ -133,15 +137,26 @@ export const productLd = (p: {
   ...(p.description ? { description: p.description } : {}),
   image: [p.img ? absImg(p.img) : LOGO],
   ...(p.sku ? { sku: p.sku } : {}),
+  brand: { "@type": "Brand", name: store.name },
   offers: {
     "@type": "Offer",
     url: absUrl(`/product/${p.id}`),
     priceCurrency: "ILS",
     price: String(p.price),
+    // rich-result eligibility likes a validity date + return terms
+    priceValidUntil: `${new Date().getUTCFullYear() + 1}-12-31`,
     availability: p.soldOut
       ? "https://schema.org/OutOfStock"
       : "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: "IL",
+      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: 14,
+      returnMethod: "https://schema.org/ReturnByMail",
+      returnFees: "https://schema.org/ReturnShippingFees",
+    },
   },
 });
 

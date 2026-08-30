@@ -38,8 +38,53 @@ type DB = DrizzleD1Database<Record<string, never>>;
 const json = (data: unknown, status = 200): Response =>
   new Response(JSON.stringify(data), {
     status,
-    headers: { "content-type": "application/json; charset=utf-8" },
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "strict-origin-when-cross-origin",
+    },
   });
+
+// ---------- security headers for the storefront (HTML + assets) ----------
+// Added to every non-API response. The CSP is deliberately compatible with what
+// the site already loads (Google Fonts, GA4/gtag, an optional Meta pixel, and
+// product images from S3 or arbitrary manager-supplied https URLs) so it hardens
+// without breaking the live shop. frame-ancestors 'none' stops clickjacking of
+// /cart and /manage; 'unsafe-inline' is kept for script/style so the bundled app
+// and inline styles keep working — the win here is the external-origin allowlist,
+// object-src 'none', base-uri and form-action locks.
+const CSP = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.googleadservices.com https://connect.facebook.net",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data: https:",
+  // connect-src MUST include the Render Express API — the /manage dashboard fetches
+  // it cross-origin (login, products, publish, uploads). Omitting it breaks /manage.
+  // The google.com/doubleclick hosts are for Google Ads conversion/remarketing
+  // beacons (only fire once VITE_GADS_ID is set) — allowlisted now so enabling ads
+  // later is config-only, no CSP edit.
+  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://stats.g.doubleclick.net",
+  "frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://bid.g.doubleclick.net https://www.facebook.com",
+].join("; ");
+
+function secureHeaders(resp: Response): Response {
+  const h = new Headers(resp.headers);
+  h.set("content-security-policy", CSP);
+  h.set("x-frame-options", "DENY");
+  h.set("x-content-type-options", "nosniff");
+  h.set("referrer-policy", "strict-origin-when-cross-origin");
+  // HSTS on the shop domain only — deliberately NO includeSubDomains/preload so
+  // the mail subdomain (mail.lev-hatahbiv.com) is never force-upgraded, and the
+  // commitment stays reversible.
+  h.set("strict-transport-security", "max-age=15552000");
+  h.set("permissions-policy", "geolocation=(), microphone=(), camera=(), payment=()");
+  return new Response(resp.body, { status: resp.status, statusText: resp.statusText, headers: h });
+}
 
 // ---------- admin auth: verify an HS256 JWT with Web Crypto (no libs) ----------
 function b64urlToBytes(s: string): Uint8Array {
@@ -84,9 +129,14 @@ async function verifyJwt(
 }
 
 async function requireAdmin(request: Request, env: Env): Promise<boolean> {
+  // Deny-all if the shared secret isn't configured — never accept a token
+  // verified against an empty/undefined key.
+  if (!env.ADMIN_JWT_SECRET) return false;
   const auth = request.headers.get("Authorization") || "";
   if (!auth.startsWith("Bearer ")) return false;
-  return (await verifyJwt(auth.slice(7), env.ADMIN_JWT_SECRET)) !== null;
+  const claims = await verifyJwt(auth.slice(7), env.ADMIN_JWT_SECRET);
+  // require the manager role explicitly, not merely a valid signature.
+  return claims !== null && claims.role === "manager";
 }
 
 // ---------- best-effort per-IP rate limit (D1 fixed window) ----------
@@ -300,6 +350,91 @@ async function subscribe(request: Request, db: DB): Promise<Response> {
   return json({ subscribed: true, code, percent });
 }
 
+// ---------- newsletter unsubscribe (public, token-authenticated) ----------
+// One-click opt-out for marketing email (חוק הספאם / תיקון 40). The link a
+// future campaign email must carry is /api/unsubscribe?e=<email>&t=<token>,
+// where token = HMAC-SHA256(email, ADMIN_JWT_SECRET) — unguessable and
+// non-enumerable, so one subscriber can't remove another. Generate the matching
+// token with unsubToken() when the campaign is built. NOTE: needs the
+// `unsubscribed_at` column (see worker/schema.sql migration) — until that's run
+// the update no-ops gracefully.
+async function unsubToken(email: string, secret: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(email.toLowerCase()));
+  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+const escapeHtml = (s: string): string =>
+  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+
+async function unsubscribe(request: Request, env: Env, db: DB): Promise<Response> {
+  const url = new URL(request.url);
+  const email = String(url.searchParams.get("e") || "").trim().toLowerCase();
+  const token = String(url.searchParams.get("t") || "");
+  const page = (inner: string, status = 200) =>
+    new Response(
+      `<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">` +
+        `<meta name="viewport" content="width=device-width, initial-scale=1">` +
+        `<title>הסרה מרשימת התפוצה — לב התחביב</title>` +
+        `<style>body{font-family:system-ui,Arial,sans-serif;background:#faf5ec;color:#2b2440;` +
+        `display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:24px}` +
+        `.card{background:#fff;border:2.5px solid #2b2440;border-radius:16px;padding:32px;max-width:460px;text-align:center}` +
+        `a{color:#5b2d8e;font-weight:600}h1{margin:.2em 0}` +
+        `button{background:#5b2d8e;color:#fff;border:none;border-radius:10px;padding:.7em 1.4em;` +
+        `font-size:1rem;font-weight:700;cursor:pointer}</style></head>` +
+        `<body><div class="card"><h1>לב התחביב</h1>${inner}` +
+        `<p><a href="https://lev-hatahbiv.com/">חזרה לחנות ←</a></p></div></body></html>`,
+      {
+        status,
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "DENY",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "cache-control": "no-store",
+        },
+      }
+    );
+
+  if (!email || !token || !env.ADMIN_JWT_SECRET) return page("<p>הקישור אינו תקין.</p>", 400);
+  const expected = await unsubToken(email, env.ADMIN_JWT_SECRET);
+  if (!safeEqual(token, expected)) return page("<p>הקישור אינו תקין או שפג תוקפו.</p>", 400);
+
+  // GET only shows a confirmation — mail scanners (Outlook SafeLinks, Proofpoint
+  // and friends) prefetch every campaign link with the valid token, so the
+  // actual opt-out must require the human's POST. The form posts back to this
+  // same URL, query string included.
+  if (request.method === "GET") {
+    return page(
+      `<p>להסרת <b>${escapeHtml(email)}</b> מרשימת התפוצה שלנו, לחצו על הכפתור:</p>` +
+        `<form method="post"><button type="submit">הסירו אותי מהרשימה</button></form>`
+    );
+  }
+
+  try {
+    // raw SQL (not the Drizzle schema) so this is the ONLY write that references
+    // unsubscribed_at — see the note in worker/db/schema.ts.
+    await db.run(
+      sql`UPDATE subscribers SET unsubscribed_at = ${new Date().toISOString()} WHERE email = ${email}`
+    );
+  } catch (err) {
+    // Most likely the unsubscribed_at migration hasn't run — don't 500 the
+    // shopper, but LOUDLY log it: a silently dropped opt-out is a spam-law
+    // violation waiting for the next campaign.
+    console.error("[unsubscribe] UPDATE failed — is the unsubscribed_at column migrated?", err);
+    return page("<p>בקשת ההסרה התקבלה ותטופל. תודה.</p>");
+  }
+  return page(
+    "<p>הוסרתם מרשימת התפוצה שלנו. לא יישלח אליכם עוד דיוור פרסומי. אפשר תמיד להצטרף מחדש מהאתר.</p>"
+  );
+}
+
 // ---------- admin coupon CRUD (manager dashboard, JWT-protected) ----------
 // Only manager coupons here — per-subscriber welcome codes are managed via the
 // subscribers list, so they don't flood the editor. Output keeps the snake_case
@@ -369,18 +504,37 @@ async function deleteCoupon(db: DB, code: string): Promise<Response> {
 
 // ---------- admin subscribers (JWT) ----------
 async function listSubscribers(db: DB): Promise<Response> {
-  const rows = await db
-    .select()
-    .from(subscribers)
-    .orderBy(desc(subscribers.createdAt))
-    .all();
-  return json({
-    subscribers: rows.map((r) => ({
-      email: r.email,
-      coupon_code: r.couponCode,
-      created_at: r.createdAt,
-    })),
-  });
+  // unsubscribed_at is deliberately absent from the Drizzle schema (see the note
+  // in worker/db/schema.ts), so read it with raw SQL — the dashboard MUST see
+  // opt-outs or the next campaign mails people who unsubscribed. On a D1 that
+  // predates the migration the raw query fails; fall back to the schema query.
+  try {
+    const rows = (await db.all(
+      sql`SELECT email, coupon_code, created_at, unsubscribed_at FROM subscribers ORDER BY created_at DESC`
+    )) as { email: string; coupon_code: string | null; created_at: string; unsubscribed_at: string | null }[];
+    return json({
+      subscribers: rows.map((r) => ({
+        email: r.email,
+        coupon_code: r.coupon_code,
+        created_at: r.created_at,
+        unsubscribed_at: r.unsubscribed_at ?? null,
+      })),
+    });
+  } catch {
+    const rows = await db
+      .select()
+      .from(subscribers)
+      .orderBy(desc(subscribers.createdAt))
+      .all();
+    return json({
+      subscribers: rows.map((r) => ({
+        email: r.email,
+        coupon_code: r.couponCode,
+        created_at: r.createdAt,
+        unsubscribed_at: null,
+      })),
+    });
+  }
 }
 
 async function deleteSubscriber(db: DB, email: string): Promise<Response> {
@@ -428,6 +582,8 @@ type Pricing = {
   delivery: Record<string, number>;
   prices: Record<string, number>;
   names?: Record<string, string>; // server-authoritative product names
+  soldOut?: string[]; // ids out of stock — rejected at checkout (server-authoritative)
+  pickupOnly?: string[]; // ids that can't ship — courier/mail rejected, pickup only
 };
 let pricingCache: Pricing | null = null;
 async function loadPricing(request: Request, env: Env): Promise<Pricing | null> {
@@ -521,13 +677,24 @@ async function computeCart(
   rawDelivery: string | undefined,
   rawCoupon: string | undefined
 ): Promise<CartResult> {
+  // server-authoritative availability — a sold-out or pickup-only id can never
+  // be charged/shipped just because it lingered in a client's saved cart.
+  const soldOut = new Set(pricing.soldOut ?? []);
+  const pickupOnly = new Set(pricing.pickupOnly ?? []);
+
   let subtotal = 0;
+  let hasPickupOnly = false;
   const lines: { id: string; name: string; qty: number; price: number }[] = [];
   for (const it of rawItems) {
     const id = String(it.id ?? "");
     const unit = pricing.prices[id];
     const qty = Math.max(1, Math.floor(Number(it.qty) || 0));
     if (!(unit > 0)) return { ok: false, error: "מוצר לא תקין בעגלה" };
+    if (soldOut.has(id)) {
+      const n = pricing.names?.[id] ?? "אחד המוצרים";
+      return { ok: false, error: `${n} אזל מהמלאי — הסירו אותו מהעגלה כדי להמשיך` };
+    }
+    if (pickupOnly.has(id)) hasPickupOnly = true;
     subtotal += unit * qty;
     // the name is resolved SERVER-side from the same asset as the price — the
     // owner must ship the product we actually charged for, so a client-sent
@@ -550,6 +717,10 @@ async function computeCart(
   const deliveryKey = ["pickup", "courier", "mail"].includes(String(rawDelivery))
     ? String(rawDelivery)
     : "pickup";
+  // a pickup-only item can't be shipped — force the shopper to choose pickup
+  if (hasPickupOnly && deliveryKey !== "pickup") {
+    return { ok: false, error: "אחד המוצרים בעגלה זמין לאיסוף עצמי בלבד — בחרו איסוף מהחנות" };
+  }
   const freeShip = subtotal >= pricing.freeShippingFrom;
   const shipping = deliveryKey === "pickup" || freeShip ? 0 : pricing.delivery[deliveryKey] ?? 0;
   const total = subtotal - discount + shipping;
@@ -982,16 +1153,9 @@ async function orderStatus(request: Request, env: Env, db: DB): Promise<Response
     }
   }
 
-  // ?debug=1 — what did PayMe actually answer for this sale? Secret-free (an
-  // endpoint name + status string), and it needs the order's unguessable uuid,
-  // which only the shopper who created it has. Keeps a stuck order diagnosable
-  // without log access; drop it once the re-query shape is confirmed.
-  if (new URL(request.url).searchParams.get("debug") === "1") {
-    const probe = await probePayMeSale(o, env);
-    return json({ status: o.status, saleId: o.paymeSaleId, probe });
-  }
-
-  // return ONLY status (the id travels in the return URL; don't leak the amount)
+  // return ONLY status (the id travels in the return URL; don't leak the amount).
+  // NOTE: the ?debug=1 probe (which echoed payme_sale_id — the callback-binding
+  // value) was removed for launch; diagnose stuck orders from the dashboard/logs.
   return json({ status: o.status });
 }
 
@@ -1027,6 +1191,13 @@ async function listAdminOrders(db: DB): Promise<Response> {
   return json({ orders: rows.map(mapOrder) });
 }
 
+// Permanently delete an order row — the data-subject "delete my data" path (the
+// order carries name/phone/email/address). Manager-only (JWT). Irreversible.
+async function deleteAdminOrder(db: DB, id: string): Promise<Response> {
+  await db.delete(orders).where(eq(orders.id, id)).run();
+  return json({ ok: true, deleted: id });
+}
+
 // ---------- scheduled reconciliation (cron) ----------
 // Safety net for the money path. A shopper who pays and immediately closes the
 // tab never triggers the /thank-you poll, and PayMe's callback delivery is not
@@ -1059,7 +1230,10 @@ async function updateOrderStatus(request: Request, db: DB, id: string): Promise<
   } catch {
     return json({ error: "bad request" }, 400);
   }
-  const allowed = ["new", "paid", "failed", "refunded", "handled", "cancelled"];
+  // A manager may only set FULFILMENT states by hand. Money states
+  // (paid/refunded/failed) come exclusively from the verified PayMe path — never
+  // from a dashboard click — so they can't be forged into the ledger here.
+  const allowed = ["handled", "cancelled"];
   const status = String(body.status || "");
   if (!allowed.includes(status)) return json({ error: "bad status" }, 400);
   await db.update(orders).set({ status }).where(eq(orders.id, id)).run();
@@ -1101,6 +1275,12 @@ export default {
       if (pathname === "/api/order-status" && request.method === "GET") {
         return orderStatus(request, env, db);
       }
+      if (
+        pathname === "/api/unsubscribe" &&
+        (request.method === "GET" || request.method === "POST")
+      ) {
+        return unsubscribe(request, env, db);
+      }
 
       // admin (JWT)
       if (pathname.startsWith("/api/admin/")) {
@@ -1139,6 +1319,11 @@ export default {
           if (oid === null) return json({ error: "bad request" }, 400);
           return updateOrderStatus(request, db, oid);
         }
+        if (pathname.startsWith("/api/admin/orders/") && request.method === "DELETE") {
+          const oid = safeDecode(pathname.split("/").pop() || "");
+          if (oid === null) return json({ error: "bad request" }, 400);
+          return deleteAdminOrder(db, oid);
+        }
       }
 
       return json({ error: "not found" }, 404);
@@ -1149,9 +1334,9 @@ export default {
       const pricing = await loadPricing(request, env);
       return !pricing || id in pricing.prices; // fail open if the pricing asset is unreadable
     });
-    if (seo) return seo;
+    if (seo) return secureHeaders(seo);
 
     // Not an API route -> static storefront (SPA fallback included).
-    return env.ASSETS.fetch(request);
+    return secureHeaders(await env.ASSETS.fetch(request));
   },
 };

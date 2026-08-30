@@ -6,6 +6,25 @@ const { notifyNewOrder } = require("../helpers/notify");
 
 const router = express.Router();
 
+// These two PUBLIC write routes (/newsletter, /order) are the legacy path from
+// the old WhatsApp-order + Mongo-newsletter flow. The live storefront no longer
+// calls them — newsletter signup and card checkout both go to the Cloudflare
+// Worker (D1). Left in place (not deleted) but DISABLED by default so they can't
+// be abused as an unauthenticated spam vector into the manager's WhatsApp/email.
+// Flip ENABLE_LEGACY_PUBLIC_WRITES=1 on Render to re-enable if ever needed.
+const LEGACY_ENABLED = process.env.ENABLE_LEGACY_PUBLIC_WRITES === "1";
+router.use((req, res, next) => {
+  if (LEGACY_ENABLED) return next();
+  // Express matches routes case-insensitively and ignores trailing slashes, so
+  // the guard must normalize the same way — "/Order/" would otherwise slip past
+  // an exact-equality check and still hit the handler.
+  const p = req.path.toLowerCase().replace(/\/+$/, "");
+  if (p === "/newsletter" || p === "/order") {
+    return res.status(410).json({ error: "endpoint retired" });
+  }
+  return next();
+});
+
 // crude in-memory rate limit: 5 attempts per IP per 10 minutes
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;

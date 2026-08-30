@@ -18,10 +18,15 @@ CREATE INDEX IF NOT EXISTS idx_coupons_kind ON coupons(kind);
 
 -- Newsletter subscribers (one welcome coupon per email).
 CREATE TABLE IF NOT EXISTS subscribers (
-  email        TEXT PRIMARY KEY,
-  coupon_code  TEXT,                            -- their welcome code -> coupons.code
-  created_at   TEXT NOT NULL
+  email           TEXT PRIMARY KEY,
+  coupon_code     TEXT,                         -- their welcome code -> coupons.code
+  created_at      TEXT NOT NULL,
+  unsubscribed_at TEXT                          -- ISO; set by /api/unsubscribe. NULL = subscribed
 );
+-- Migration for an EXISTING subscribers table (the live D1 predates this column).
+-- Run once before sending any marketing campaign (SQLite has no IF NOT EXISTS on
+-- ADD COLUMN — a "duplicate column" error just means it's already applied):
+--   npx wrangler d1 execute lev --remote --command "ALTER TABLE subscribers ADD COLUMN unsubscribed_at TEXT;"
 
 -- Orders — paid via PayMe (generate-sale).
 -- NOTE: money is stored in AGOROT (integer) to avoid float rounding — 10.30 ILS = 1030.
