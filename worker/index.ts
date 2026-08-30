@@ -22,9 +22,24 @@ import { and, desc, eq, gt, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import { coupons, subscribers, settings, rateLimits, orders } from "./db/schema";
 import { seoResponse } from "./seo";
 
+// Minimal structural shape of the send_email binding's object API — the repo
+// declares Env by hand (no generated worker-configuration.d.ts), so keep this
+// narrow: exactly the fields notifyPaidOrder() uses.
+type EmailSender = {
+  send(msg: {
+    to: string;
+    from: { email: string; name?: string };
+    replyTo?: string;
+    subject: string;
+    text: string;
+  }): Promise<unknown>;
+};
+
 export interface Env {
   ASSETS: Fetcher; // the static storefront (Frontend/dist)
   DB: D1Database; // coupons / orders / subscribers / rate_limits / settings
+  EMAIL?: EmailSender; // send_email binding — "new paid order" emails (wrangler.jsonc)
+  ORDER_NOTIFY_EMAIL?: string; // manager address; must be a verified destination address
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
   // ── PayMe (set via `wrangler secret put`) ──
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
@@ -941,6 +956,63 @@ async function probePayMeSale(
   return { verdict: "unknown", detail: notes.join("|").slice(0, 160) || "no-answer" };
 }
 
+// ---------- "new paid order" email to the manager ----------
+// Cloudflare Email Sending to a VERIFIED destination address — free on every
+// plan. Best-effort by design: the order is already paid when this runs, so the
+// caller wraps it in try/catch and a failure only leaves a log line.
+const agorotIls = (agorot: number): string => {
+  const n = Math.round(agorot / 10) / 10; // integer agorot -> ₪ with one decimal
+  return Number.isInteger(n) ? String(n) : n.toFixed(1);
+};
+
+async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Promise<void> {
+  if (!env.EMAIL || !env.ORDER_NOTIFY_EMAIL) return; // not configured — skip silently
+  let items: { name?: string; qty?: number; price?: number }[] = [];
+  try {
+    items = JSON.parse(order.items) ?? [];
+  } catch {
+    /* malformed items JSON — still send the totals */
+  }
+  const lines = items.map(
+    (i) => `• ${i.name ?? "?"} ×${i.qty ?? 1} — ₪${agorotIls((i.price ?? 0) * (i.qty ?? 1))}`
+  );
+  let shipLine = "";
+  if (order.shipping) {
+    try {
+      const s = JSON.parse(order.shipping) as Record<string, string>;
+      shipLine = [s.street, s.apt, s.city, s.zip].filter(Boolean).join(", ");
+      if (s.notes) shipLine += ` (${s.notes})`;
+    } catch {
+      /* ignore */
+    }
+  }
+  const deliveryLabel =
+    order.delivery === "courier" ? "משלוח שליח" : order.delivery === "mail" ? "דואר רשום" : "איסוף עצמי";
+  const text = [
+    `הזמנה חדשה שולמה באתר לב התחביב! 🎨`,
+    ``,
+    ...lines,
+    ``,
+    `אספקה: ${deliveryLabel}`,
+    shipLine ? `כתובת: ${shipLine}` : null,
+    order.couponCode ? `קופון: ${order.couponCode} (הנחה ₪${agorotIls(order.discount)})` : null,
+    `סה"כ ששולם: ₪${agorotIls(order.total)}`,
+    ``,
+    `לקוח: ${[order.payerName, order.payerPhone, order.payerEmail].filter(Boolean).join(" · ")}`,
+    `מזהה הזמנה: ${order.id}`,
+    `ניהול הזמנות: https://lev-hatahbiv.com/manage`,
+  ]
+    .filter((l): l is string => l !== null)
+    .join("\n");
+  await env.EMAIL.send({
+    to: env.ORDER_NOTIFY_EMAIL,
+    from: { email: "orders@lev-hatahbiv.com", name: "לב התחביב — אתר" },
+    ...(order.payerEmail ? { replyTo: order.payerEmail } : {}), // reply goes straight to the shopper
+    subject: `🎨 הזמנה חדשה — ₪${agorotIls(order.total)}${order.payerName ? ` (${order.payerName})` : ""}`,
+    text,
+  });
+}
+
 // shared by the callback AND the order-status self-heal: re-query PayMe, and only
 // if the money really moved, atomically flip the order to paid + consume the
 // coupon. The WHERE status IN ('new','failed') makes the flip idempotent —
@@ -1003,6 +1075,23 @@ async function settleOrderIfPaid(
           )
         )
         .run();
+    }
+    // email the manager exactly once — only the path that actually flipped the
+    // row gets here. The in-memory row predates the flip, so merge the payer
+    // fields the callback carried (same precedence as the UPDATE above).
+    try {
+      await notifyPaidOrder(
+        {
+          ...order,
+          status: "paid",
+          payerName: extra?.payerName || order.payerName || null,
+          payerEmail: extra?.payerEmail || order.payerEmail || null,
+          payerPhone: extra?.payerPhone || order.payerPhone || null,
+        },
+        env
+      );
+    } catch (err) {
+      console.error("[notify] paid-order email failed (order still settled):", err);
     }
   } else {
     // We lost the race — the /thank-you self-heal already flipped this order,

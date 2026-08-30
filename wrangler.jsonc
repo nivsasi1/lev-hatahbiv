@@ -26,8 +26,20 @@
     // and flip SITE in Frontend/src/lib/seo.ts + Frontend/scripts/generate-seo.mjs
     // in the SAME deploy (then `npm run generate`), so canonicals/sitemap always
     // point at the host this var enforces.
-    "CANONICAL_HOST": "lev-hatahbiv.com"
+    "CANONICAL_HOST": "lev-hatahbiv.com",
+    // Where "new paid order" emails go. MUST be a VERIFIED destination address in
+    // this Cloudflare account (Email → Destination addresses) — sends to verified
+    // destinations are free on every plan and don't need Workers Paid.
+    "ORDER_NOTIFY_EMAIL": "nivsasi@gmail.com"
   },
+  // Order notifications via Cloudflare Email Sending. The domain must be onboarded
+  // (Dashboard → Compute & AI → Email Service → Email Sending → Onboard lev-hatahbiv.com;
+  // MX-safe — it only adds records on a cf-bounce subdomain). Until then send()
+  // fails, is caught, and the payment flow is untouched. The sender allowlist stops
+  // the binding from ever being used to mail from any other identity.
+  "send_email": [
+    { "name": "EMAIL", "allowed_sender_addresses": ["orders@lev-hatahbiv.com"] }
+  ],
   // safety net: re-query PayMe for orders that were paid but never settled
   // (shopper closed the tab AND the callback didn't arrive). See scheduled().
   "triggers": {
