@@ -129,8 +129,14 @@ async function loadSeoMap(origin: string, env: SeoEnv): Promise<SeoMap | null> {
   }
 }
 
+// Short cache on 301s: browsers cache redirects aggressively, and a 24h TTL
+// turned out to be a footgun — when the canonical host had to flip during the
+// www Error-1034 incident (2026-08-30), phones kept replaying the stale
+// apex→www hop from local cache for a full day. 5 minutes keeps redirect
+// changes responsive; the 301 status itself still signals permanence to
+// crawlers, so SEO is unaffected.
 const redirect = (location: string, status = 301): Response =>
-  new Response(null, { status, headers: { location, "cache-control": "public, max-age=86400" } });
+  new Response(null, { status, headers: { location, "cache-control": "public, max-age=300" } });
 
 // Returns a Response when the request is handled by the SEO layer, null to fall through
 // to the static assets. GET/HEAD only; everything fails open.
