@@ -51,6 +51,7 @@ export type Product = {
   artColor?: string;
   badge?: "חדש" | "מבצע" | "רב מכר";
   pickupOnly?: boolean;
+  noCoupon?: boolean; // excluded from coupon discounts ("לא משתתף בהנחות קופון")
   soldOut?: boolean; // shown greyed-out ("אזל מהמלאי"), can't be added to cart
   isActive?: boolean; // hidden items never reach the build; guard anyway
   isNew?: boolean; // created within the last 14 days — drives the "חדש" badge
@@ -158,6 +159,7 @@ type RawProduct = {
   img: string;
   gallery?: string[];
   pickupOnly?: boolean;
+  noCoupon?: boolean;
   soldOut?: boolean;
   isNew?: boolean;
   updated?: string;
@@ -205,6 +207,7 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
           ? "חדש"
           : undefined,
     pickupOnly: r.pickupOnly,
+    noCoupon: r.noCoupon,
     soldOut: r.soldOut,
     isNew: r.isNew,
     isActive: true,

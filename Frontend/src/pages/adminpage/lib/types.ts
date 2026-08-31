@@ -22,6 +22,7 @@ export type AdminProduct = {
   img: string;
   variantLabel?: string;
   variants?: AdminVariant[];
+  noCoupon?: boolean; // excluded from coupon discounts
   createdAt?: string;
   updatedAt?: string;
 };
@@ -50,6 +51,7 @@ export type ProductForm = {
   imgInput?: string;
   variantLabel: string;
   variants: FormVariant[];
+  noCoupon: boolean;
 };
 
 export const emptyForm: ProductForm = {
@@ -62,6 +64,7 @@ export const emptyForm: ProductForm = {
   imgs: [],
   variantLabel: "",
   variants: [],
+  noCoupon: false,
 };
 
 export type Subscriber = {

@@ -130,7 +130,9 @@ Cart: payer form (שם מלא + נייד + אימייל) → "💳 תשלום מ
   → POST /api/checkout {items:[{id,qty,variant?}], delivery, couponCode?, payer}
       (variant = the chosen option key; priced from pricing.variants[id][key],
       soldOut via variantSoldOut; a line without one pays the base price =
-      the CHEAPEST variant, so stale clients are never overcharged)
+      the CHEAPEST variant, so stale clients are never overcharged.
+      Products flagged noCoupon bake into pricing.couponExcluded — the coupon
+      discount is computed on the OTHER lines only, mirrored in CartPage)
       Worker: validate payer, recompute totals from /checkout-pricing.json
       (NEVER trusts client prices), re-validate coupon in D1, INSERT order
       status:'new', Grow createPaymentProcess (FormData, not JSON; sum in

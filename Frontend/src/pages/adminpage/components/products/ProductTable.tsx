@@ -33,6 +33,7 @@ export function ProductTable({ products, form }: { products: ProductsApi; form: 
               {(p.variants?.length || 0) > 0 && (
                 <b className="variants-tag"> ⚙ {p.variants!.length} אפשרויות</b>
               )}
+              {p.noCoupon && <b className="nocoupon-tag"> 🎟️ בלי קופונים</b>}
               {(p.salePercentage || 0) > 0 && (
                 <b className="sale-tag"> מבצע {p.salePercentage}%-</b>
               )}

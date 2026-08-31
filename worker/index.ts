@@ -601,6 +601,7 @@ type Pricing = {
   pickupOnly?: string[]; // ids that can't ship — courier/mail rejected, pickup only
   variants?: Record<string, Record<string, number>>; // id -> variant key -> unit agorot
   variantSoldOut?: Record<string, string[]>; // id -> sold-out variant keys
+  couponExcluded?: string[]; // ids that never get coupon discounts
 };
 let pricingCache: Pricing | null = null;
 async function loadPricing(request: Request, env: Env): Promise<Pricing | null> {
@@ -698,8 +699,10 @@ async function computeCart(
   // be charged/shipped just because it lingered in a client's saved cart.
   const soldOut = new Set(pricing.soldOut ?? []);
   const pickupOnly = new Set(pricing.pickupOnly ?? []);
+  const couponExcluded = new Set(pricing.couponExcluded ?? []);
 
   let subtotal = 0;
+  let discountable = 0; // coupon base: subtotal minus coupon-excluded lines
   let hasPickupOnly = false;
   const lines: { id: string; name: string; qty: number; price: number; variant?: string }[] = [];
   for (const it of rawItems) {
@@ -735,6 +738,7 @@ async function computeCart(
       name = `${name} — ${variantKey}`.slice(0, 160);
     }
     subtotal += unit * qty;
+    if (!couponExcluded.has(id)) discountable += unit * qty;
     lines.push({ id, name, qty, price: unit, ...(variant ? { variant } : {}) });
   }
   if (!lines.length) return { ok: false, error: "העגלה ריקה" };
@@ -744,7 +748,8 @@ async function computeCart(
   if (rawCoupon) {
     const pct = await couponPercent(db, rawCoupon);
     if (pct) {
-      discount = Math.round((subtotal * pct) / 100 / 10) * 10; // 10-agorot grid (matches cart)
+      // coupon applies only to non-excluded lines; 10-agorot grid (matches cart)
+      discount = Math.round((discountable * pct) / 100 / 10) * 10;
       couponCode = normCode(rawCoupon);
     }
   }

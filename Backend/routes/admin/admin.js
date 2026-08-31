@@ -117,6 +117,7 @@ const EDITABLE_FIELDS = [
   "quantity",
   "variantLabel",
   "variants",
+  "noCoupon",
 ];
 
 const badInput = (msg) => Object.assign(new Error(msg), { name: "ValidationError" });
@@ -160,6 +161,7 @@ const pickEditable = (body) => {
   if (out.variantLabel !== undefined) {
     out.variantLabel = String(out.variantLabel || "").trim().slice(0, 40);
   }
+  if (out.noCoupon !== undefined) out.noCoupon = Boolean(out.noCoupon);
   return out;
 };
 
@@ -167,7 +169,7 @@ router.get(
   "/products",
   asyncRoute(async (_req, res) => {
     const products = await Product.find({})
-      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img variantLabel variants createdAt updatedAt")
+      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img variantLabel variants noCoupon createdAt updatedAt")
       .sort({ category: 1, name: 1 })
       .lean();
     res.json({ products });
@@ -232,6 +234,13 @@ router.post(
       case "stock": {
         result = await Product.updateMany(filter, {
           $set: { isAvailable: Boolean(action.value) },
+        });
+        break;
+      }
+      case "noCoupon": {
+        // value=true → excluded from coupon discounts; value=false → participates
+        result = await Product.updateMany(filter, {
+          $set: { noCoupon: Boolean(action.value) },
         });
         break;
       }

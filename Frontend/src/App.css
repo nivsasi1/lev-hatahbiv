@@ -1473,7 +1473,15 @@ button {
   border: 1.5px solid var(--ink-soft);
   border-radius: 2em;
   padding: 0.05em 0.7em;
-  margin: 0.15rem 0;
+  margin: 0.15rem 0.15rem 0.15rem 0;
+}
+
+/* coupon-excluded note on a cart line (shown only while a coupon is applied) */
+.cart-line .variant-tag.no-coupon {
+  color: #946200;
+  border-color: #946200;
+  border-style: dashed;
+  background: transparent;
 }
 
 /* "מ־" prefix on cards whose options differ in price */
@@ -3501,6 +3509,22 @@ a.sub-chip {
 
 .variants-tag {
   color: var(--purple);
+}
+
+.nocoupon-tag {
+  color: #946200;
+}
+
+/* dashboard: standalone checkbox row in the product form */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: 0.2rem 0 0.6rem;
+  cursor: pointer;
 }
 
 /* dashboard: variant rows editor inside the product form */

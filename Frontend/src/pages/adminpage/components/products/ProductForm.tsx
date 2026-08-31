@@ -209,6 +209,16 @@ export function ProductForm({ form }: { form: FormApi }) {
         </button>
       </div>
 
+      <label className="form-check">
+        <input
+          type="checkbox"
+          checked={data.noCoupon}
+          onChange={(e: any) => setForm({ ...data, noCoupon: e.target.checked })}
+        />
+        🎟️ לא משתתף בהנחות קופון — קוד קופון (כולל קופון ההרשמה) לא יוזיל את
+        המוצר הזה, והאתר יציג זאת לקונים
+      </label>
+
       <div className="admin-form-foot">
         <label className="btn small ghost">
           📷 העלאת תמונה מהמחשב

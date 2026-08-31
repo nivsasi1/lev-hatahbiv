@@ -133,6 +133,7 @@ for (const p of dump) {
     img: allImgs[0] || "",
     ...(allImgs.length > 1 ? { gallery: allImgs.slice(1) } : {}),
     ...(pickupOnly ? { pickupOnly: true } : {}),
+    ...(p.noCoupon ? { noCoupon: true } : {}),
     ...(soldOut ? { soldOut: true } : {}),
     ...(isNew ? { isNew: true } : {}),
     ...(updated ? { updated } : {}),
@@ -168,6 +169,9 @@ const pricing = {
   // for a sold-out item, or ship a pickup-only one, even from a stale saved cart.
   soldOut: products.filter((p) => p.soldOut).map((p) => p.id),
   pickupOnly: products.filter((p) => p.pickupOnly).map((p) => p.id),
+  // ids excluded from coupon discounts — the Worker computes the coupon on the
+  // remaining lines only (CartPage mirrors the same rule)
+  couponExcluded: products.filter((p) => p.noCoupon).map((p) => p.id),
   // per-variant final prices (agorot) + sold-out variant keys. A cart line that
   // names a variant is priced from here; without one it falls back to `prices`
   // (= the cheapest variant, so a stale client can never be overcharged).

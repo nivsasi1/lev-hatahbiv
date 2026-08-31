@@ -53,6 +53,7 @@ export function useProductForm() {
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
       variantLabel: p.variantLabel || "",
       variants: toFormVariants(p.variants),
+      noCoupon: !!p.noCoupon,
     });
   };
 
@@ -69,6 +70,7 @@ export function useProductForm() {
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
       variantLabel: p.variantLabel || "",
       variants: toFormVariants(p.variants),
+      noCoupon: !!p.noCoupon,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

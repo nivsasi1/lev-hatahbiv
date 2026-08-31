@@ -10,6 +10,9 @@ const ProductSchema = new mongoose.Schema({
   quantity: { type: Number },
   // in stock? false = shown greyed-out as "אזל מהמלאי"
   isAvailable: { type: Boolean, default: true },
+  // excluded from coupon discounts (welcome coupon included) — the shopper sees
+  // "לא משתתף בהנחות קופון" and the checkout skips it in the discount math
+  noCoupon: { type: Boolean },
   // visible to the public at all? false = soft-deleted (hidden everywhere)
   isActive: { type: Boolean, default: true },
   description: { type: String, trim: true, default: "" },

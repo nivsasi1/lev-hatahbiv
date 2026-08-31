@@ -62,6 +62,20 @@ export function BulkBar({ products }: { products: ProductsApi }) {
       >
         ✅ חזרה למלאי
       </button>
+      <button
+        className="btn small ghost"
+        title="קופונים לא יחולו על המוצרים שנבחרו"
+        onClick={() => bulk({ type: "noCoupon", value: true }, `${n} מוצרים הוחרגו מהנחות קופון`)}
+      >
+        🎟️ בלי קופונים
+      </button>
+      <button
+        className="btn small ghost"
+        title="החזרת השתתפות בהנחות קופון"
+        onClick={() => bulk({ type: "noCoupon", value: false }, `${n} מוצרים חזרו להשתתף בקופונים`)}
+      >
+        🎟️ עם קופונים
+      </button>
       <button className="btn small bulk-danger" onClick={bulkDelete}>
         🗑 מחיקה
       </button>

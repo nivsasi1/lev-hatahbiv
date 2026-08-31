@@ -169,17 +169,22 @@ export const CartPage = () => {
   };
 
   // All money in AGOROT, mirroring the Worker's checkout math EXACTLY (prices are
-  // 1-decimal; discount rounded to the 10-agorot grid) so the total shown here is
-  // identical to what PayMe charges.
+  // 1-decimal; discount rounded to the 10-agorot grid; noCoupon lines are outside
+  // the discount base) so the total shown here is identical to what PayMe charges.
   const subtotalAg = items.reduce(
     (s, { product, qty, variant }) =>
       s + Math.round(linePrice(product, variant) * 100) * qty,
     0
   );
+  const discountableAg = items.reduce(
+    (s, { product, qty, variant }) =>
+      product.noCoupon ? s : s + Math.round(linePrice(product, variant) * 100) * qty,
+    0
+  );
   const freeShipping = subtotalAg >= FREE_SHIPPING_FROM * 100;
   const shippingAg = delivery.id === "pickup" || freeShipping ? 0 : Math.round(delivery.price * 100);
   const discountAg = appliedCoupon
-    ? Math.round((subtotalAg * appliedCoupon.percent) / 100 / 10) * 10
+    ? Math.round((discountableAg * appliedCoupon.percent) / 100 / 10) * 10
     : 0;
   const grandTotalAg = subtotalAg - discountAg + shippingAg;
   // shekel views for display (exact — all on the 10-agorot grid)
@@ -385,6 +390,9 @@ export const CartPage = () => {
                     {product.name}
                   </Link>
                   {variant && <span className="variant-tag">{variant}</span>}
+                  {appliedCoupon && product.noCoupon && (
+                    <span className="variant-tag no-coupon">לא משתתף בהנחת הקופון</span>
+                  )}
                   <span className="pr">
                     {shekel(unit)} ליח' · {shekel(unit * qty)}
                   </span>

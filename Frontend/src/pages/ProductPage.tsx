@@ -362,6 +362,11 @@ export const ProductPage = () => {
                   🏷️ <b>שימו לב:</b> המוצר זמין באיסוף עצמי מהחנות בלבד
                 </span>
               )}
+              {product.noCoupon && (
+                <span>
+                  🎟️ <b>שימו לב:</b> המוצר אינו משתתף בהנחות קופון
+                </span>
+              )}
               <span>
                 🚚 משלוח חינם בקנייה מעל <b>{shekel(FREE_SHIPPING_FROM)}</b>
               </span>
