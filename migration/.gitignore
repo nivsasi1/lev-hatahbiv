@@ -2,6 +2,7 @@
 wix-products.json
 wix-collections.json
 wix-variants.json
+pos*.csv
 mongo.json
 wix-raw/
 out/
