@@ -315,13 +315,16 @@ launch: set the 2 secrets, deploy, run the sandbox test matrix, then swap to liv
   PayMe balance can't cover it they charge the seller's card —
   `refunded_from_creditcard`). A successful refund also fires the regular
   `refund` callback (handled — see below).
-- ⚠️ The docs mark `payme_client_key` ("Partner Key") as **required**, but
-  merchant accounts have no partner key and the docs over-marked `generate-sale`
-  requirements the same way. We send it only when the optional
-  `PAYME_CLIENT_KEY` secret is set; if PayMe ever rejects a refund demanding it,
-  ask partners@payme.io and `wrangler secret put PAYME_CLIENT_KEY` — no code
-  change. (Unverifiable in sandbox here: sandbox creds live only in the owner's
-  mail.)
+- ✅ **`payme_client_key` NOT needed for merchant accounts — verified in
+  PRODUCTION 2026-08-31**: a real ₪5.00 partial refund (on an ₪8.50 G Pay test
+  order) succeeded with only `seller_payme_id` + `payme_sale_id`. The docs mark
+  the partner key "required" the same way they over-marked `generate-sale`. The
+  optional `PAYME_CLIENT_KEY` secret hook stays in the code as a just-in-case.
+- Refund fees (help.payme.io "זיכוי עסקה"): the ORIGINAL transaction fee
+  (1.2% + ₪1 +VAT) is never returned; a per-refund fee "may" apply —
+  account-specific, confirm with support. Refunds go only to the original card,
+  take up to 7 business days to show, and are irreversible. (The ₪59+VAT figure
+  is the CHARGEBACK handling fee — unrelated to merchant-initiated refunds.)
 - Our side: `POST /api/admin/orders/:id/refund` (JWT) — dashboard dialog with
   full / item-picked partial + optional דמי-ביטול deduction (5% or ₪100 cap per
   the takanot, owner-editable, refund = base − fee). `orders.refunded_total` is
