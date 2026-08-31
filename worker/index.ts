@@ -42,6 +42,10 @@ export interface Env {
   ORDER_NOTIFY_EMAIL?: string; // comma-separated manager addresses; each must be a verified destination address
   ORDER_NOTIFY_WHATSAPP?: string; // secret: comma-separated "9725XXXXXXXX:callmebot-apikey" pairs
   ORDER_NOTIFY_TELEGRAM?: string; // secret: comma-separated "<botToken>@<chatId>" pairs (one group is enough)
+  // secret: JSON for Meta's official WhatsApp Cloud API (dev-mode test number,
+  // free for ≤5 verified recipients):
+  // {"token":"...","phoneId":"...","to":["9725XXXXXXXX",...],"template":"order_notification","lang":"he","v":"v22.0"}
+  ORDER_NOTIFY_METAWA?: string;
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
   // ── PayMe (set via `wrangler secret put`) ──
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
@@ -1132,6 +1136,122 @@ async function notifyPaidOrderTelegram(
   }
 }
 
+// ---------- "new paid order" WhatsApp via Meta's Cloud API (official) ----------
+// Business-initiated messages outside a 24h session MUST be an approved
+// template, and template parameters may not contain newlines/tabs — so the
+// order is flattened into 5 single-line params matching the
+// "order_notification" template (body text documented in DEPLOY.md).
+// Free on a dev-mode app: the Meta test number + up to 5 verified recipients.
+
+// a Cloud-API-safe template parameter: single line, bounded, never empty
+const waParam = (s: string, max = 900): string =>
+  s.replace(/[\n\t]+/g, " ").replace(/ {4,}/g, "   ").trim().slice(0, max) || "-";
+
+async function notifyPaidOrderMetaWA(
+  order: typeof orders.$inferSelect,
+  env: Env
+): Promise<void> {
+  if (!env.ORDER_NOTIFY_METAWA) return; // not configured — skip silently
+  let cfg: {
+    token?: string;
+    phoneId?: string;
+    to?: string[];
+    template?: string;
+    lang?: string;
+    v?: string;
+  };
+  try {
+    cfg = JSON.parse(env.ORDER_NOTIFY_METAWA);
+  } catch {
+    console.error("[notify] ORDER_NOTIFY_METAWA is not valid JSON — skipping");
+    return;
+  }
+  const recipients = (cfg.to ?? []).map((s) => String(s).trim()).filter(Boolean);
+  if (!cfg.token || !cfg.phoneId || recipients.length === 0) return;
+
+  let items: { name?: string; qty?: number; price?: number }[] = [];
+  try {
+    items = JSON.parse(order.items) ?? [];
+  } catch {
+    /* malformed items JSON — still send the totals */
+  }
+  // items as one bounded line: "name ×qty (₪total) | ..." — stop before the cap
+  // rather than cutting a product name in half
+  const itemParts = items.map(
+    (i) => `${i.name ?? "?"} ×${i.qty ?? 1} (₪${agorotIls((i.price ?? 0) * (i.qty ?? 1))})`
+  );
+  const kept: string[] = [];
+  let used = 0;
+  for (let i = 0; i < itemParts.length; i++) {
+    if (used + itemParts[i].length > 800) {
+      kept.push(`… ועוד ${itemParts.length - i} פריטים`);
+      break;
+    }
+    kept.push(itemParts[i]);
+    used += itemParts[i].length + 3;
+  }
+  let shipLine = "";
+  if (order.shipping) {
+    try {
+      const s = JSON.parse(order.shipping) as Record<string, string>;
+      shipLine = [s.street, s.apt, s.city, s.zip].filter(Boolean).join(", ");
+    } catch {
+      /* ignore */
+    }
+  }
+  const deliveryLabel =
+    order.delivery === "courier" ? "משלוח שליח" : order.delivery === "mail" ? "דואר רשום" : "איסוף עצמי";
+  const params = [
+    waParam(kept.join(" | ")),
+    waParam(
+      `₪${agorotIls(order.total)}` +
+        (order.couponCode ? ` (קופון ${order.couponCode}, הנחה ₪${agorotIls(order.discount)})` : "")
+    ),
+    waParam(deliveryLabel + (shipLine ? ` — ${shipLine}` : "")),
+    waParam([order.payerName, order.payerPhone, order.payerEmail].filter(Boolean).join(" · ")),
+    waParam(order.id),
+  ];
+
+  const api = `https://graph.facebook.com/${cfg.v || "v22.0"}/${cfg.phoneId}/messages`;
+  for (const to of recipients) {
+    try {
+      const res = await fetch(api, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${cfg.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to,
+          type: "template",
+          template: {
+            name: cfg.template || "order_notification",
+            language: { code: cfg.lang || "he" },
+            components: [
+              {
+                type: "body",
+                parameters: params.map((text) => ({ type: "text", text })),
+              },
+            ],
+          },
+        }),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!res.ok) {
+        // Meta's error JSON is the only way to debug template/window issues —
+        // log a bounded slice (it never echoes the token)
+        const body = await res.text().catch(() => "");
+        console.error(
+          `[notify] meta-wa to …${to.slice(-3)} failed: ${res.status} ${body.slice(0, 300)}`
+        );
+      }
+    } catch (err) {
+      console.error(`[notify] meta-wa to …${to.slice(-3)} failed:`, err);
+    }
+  }
+}
+
 // shared by the callback AND the order-status self-heal: re-query PayMe, and only
 // if the money really moved, atomically flip the order to paid + consume the
 // coupon. The WHERE status IN ('new','failed') makes the flip idempotent —
@@ -1220,6 +1340,11 @@ async function settleOrderIfPaid(
       await notifyPaidOrderTelegram(paidOrder, env);
     } catch (err) {
       console.error("[notify] paid-order telegram failed (order still settled):", err);
+    }
+    try {
+      await notifyPaidOrderMetaWA(paidOrder, env);
+    } catch (err) {
+      console.error("[notify] paid-order meta-wa failed (order still settled):", err);
     }
   } else {
     // We lost the race — the /thank-you self-heal already flipped this order,

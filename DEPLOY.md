@@ -98,6 +98,23 @@ npx wrangler tail                   # live logs while testing
 | `GROW_WEBHOOK_KEY` | our own secret (generate: any long random string), embedded in `notifyUrl`/`invoiceNotifyUrl` to authenticate Grow's callbacks. Rotate = set new secret + redeploy (in-flight payments created with the old URL will fail the key check — rotate in a quiet hour) |
 | `ORDER_NOTIFY_WHATSAPP` | "new paid order" WhatsApp (CallMeBot, free): comma-separated `9725XXXXXXXX:apikey` pairs. Each manager self-activates once — save the CURRENT bot number from callmebot.com (was +34 623 78 64 49 in 2026), WhatsApp it "I allow callmebot to send me messages" (a previously-activated phone can send "Recover APIKey" instead). ⚠️ activation is flaky — Telegram below is the reliable channel |
 | `ORDER_NOTIFY_TELEGRAM` | "new paid order" Telegram: `<botToken>@<chatId>` (comma-separated for several chats). Reuse the watchdog bot: add it to a managers' group, grab the group id from getUpdates |
+| `ORDER_NOTIFY_METAWA` | "new paid order" WhatsApp via Meta's official Cloud API (dev-mode test number, free ≤5 verified recipients). JSON: `{"token","phoneId","to":["9725…"],"template":"order_notification","lang":"he","v":"v22.0"}`. Requires an approved 5-param template (below) |
+
+**The `order_notification` WhatsApp template** (create once in WhatsApp Manager →
+Message templates; category **Utility**, language **עברית**; params must stay 5
+positional `{{n}}` — the Worker fills: 1 items, 2 total, 3 delivery, 4 customer, 5 order id):
+
+```
+הזמנה חדשה שולמה באתר לב התחביב! 🎨
+
+פריטים: {{1}}
+סה"כ ששולם: {{2}}
+אספקה: {{3}}
+לקוח: {{4}}
+מזהה הזמנה: {{5}}
+
+ניהול הזמנות: https://lev-hatahbiv.com/manage
+```
 
 `GROW_BASE_URL` is a **var** in [wrangler.jsonc](wrangler.jsonc), not a secret —
 defaults to the sandbox (`https://sandbox.meshulam.co.il/api/light/server/1.0`);

@@ -202,8 +202,10 @@ Values live in [DEPLOY.md](DEPLOY.md) tables (where to set each). Names only her
 - **Cloudflare Worker secrets**: `ADMIN_JWT_SECRET`, `GROW_USER_ID`,
   `GROW_PAGE_CODE`, `GROW_WEBHOOK_KEY`, `ORDER_NOTIFY_WHATSAPP` (CallMeBot
   `phone:apikey` pairs — paid-order WhatsApp pings), `ORDER_NOTIFY_TELEGRAM`
-  (`botToken@chatId` — paid-order Telegram pings). Plus the wrangler.jsonc
-  **var** `GROW_BASE_URL` (defaults to Grow's sandbox).
+  (`botToken@chatId` — paid-order Telegram pings), `ORDER_NOTIFY_METAWA`
+  (JSON — official WhatsApp Cloud API template pings; template text in
+  DEPLOY.md). Plus the wrangler.jsonc **var** `GROW_BASE_URL` (defaults to
+  Grow's sandbox).
 - **Cloudflare build vars**: `DB_URL` (Atlas, encrypted), `VITE_API_URL`,
   `VITE_GA_ID` (optional).
 - **Render (lev-hatahbiv-api)**: `DB_URL`, `SECRET` (JWT — must match
