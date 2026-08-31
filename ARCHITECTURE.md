@@ -200,8 +200,9 @@ digest. Alerts to a Telegram group + email on state change only. Setup + details
 Values live in [DEPLOY.md](DEPLOY.md) tables (where to set each). Names only here:
 
 - **Cloudflare Worker secrets**: `ADMIN_JWT_SECRET`, `GROW_USER_ID`,
-  `GROW_PAGE_CODE`, `GROW_WEBHOOK_KEY`. Plus the wrangler.jsonc **var**
-  `GROW_BASE_URL` (defaults to Grow's sandbox).
+  `GROW_PAGE_CODE`, `GROW_WEBHOOK_KEY`, `ORDER_NOTIFY_WHATSAPP` (CallMeBot
+  `phone:apikey` pairs — paid-order WhatsApp pings). Plus the wrangler.jsonc
+  **var** `GROW_BASE_URL` (defaults to Grow's sandbox).
 - **Cloudflare build vars**: `DB_URL` (Atlas, encrypted), `VITE_API_URL`,
   `VITE_GA_ID` (optional).
 - **Render (lev-hatahbiv-api)**: `DB_URL`, `SECRET` (JWT — must match

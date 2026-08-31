@@ -40,6 +40,7 @@ export interface Env {
   DB: D1Database; // coupons / orders / subscribers / rate_limits / settings
   EMAIL?: EmailSender; // send_email binding — "new paid order" emails (wrangler.jsonc)
   ORDER_NOTIFY_EMAIL?: string; // comma-separated manager addresses; each must be a verified destination address
+  ORDER_NOTIFY_WHATSAPP?: string; // secret: comma-separated "9725XXXXXXXX:callmebot-apikey" pairs
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
   // ── PayMe (set via `wrangler secret put`) ──
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
@@ -990,21 +991,21 @@ const agorotIls = (agorot: number): string => {
   return Number.isInteger(n) ? String(n) : n.toFixed(1);
 };
 
-async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Promise<void> {
-  const recipients = (env.ORDER_NOTIFY_EMAIL || "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (!env.EMAIL || recipients.length === 0) return; // not configured — skip silently
+// The human-readable order summary both notification channels send (email +
+// WhatsApp). Item lines are capped so a giant cart can't blow WhatsApp's
+// GET-URL length; the email loses nothing that matters either.
+function paidOrderText(order: typeof orders.$inferSelect): string {
   let items: { name?: string; qty?: number; price?: number }[] = [];
   try {
     items = JSON.parse(order.items) ?? [];
   } catch {
     /* malformed items JSON — still send the totals */
   }
-  const lines = items.map(
-    (i) => `• ${i.name ?? "?"} ×${i.qty ?? 1} — ₪${agorotIls((i.price ?? 0) * (i.qty ?? 1))}`
-  );
+  const MAX_LINES = 25;
+  const lines = items
+    .slice(0, MAX_LINES)
+    .map((i) => `• ${i.name ?? "?"} ×${i.qty ?? 1} — ₪${agorotIls((i.price ?? 0) * (i.qty ?? 1))}`);
+  if (items.length > MAX_LINES) lines.push(`… ועוד ${items.length - MAX_LINES} פריטים`);
   let shipLine = "";
   if (order.shipping) {
     try {
@@ -1017,7 +1018,7 @@ async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Pro
   }
   const deliveryLabel =
     order.delivery === "courier" ? "משלוח שליח" : order.delivery === "mail" ? "דואר רשום" : "איסוף עצמי";
-  const text = [
+  return [
     `הזמנה חדשה שולמה באתר לב התחביב! 🎨`,
     ``,
     ...lines,
@@ -1033,6 +1034,15 @@ async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Pro
   ]
     .filter((l): l is string => l !== null)
     .join("\n");
+}
+
+async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Promise<void> {
+  const recipients = (env.ORDER_NOTIFY_EMAIL || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!env.EMAIL || recipients.length === 0) return; // not configured — skip silently
+  const text = paidOrderText(order);
   // one send per recipient — an address that is still unverified (or bounced)
   // must never block the others from getting the order
   for (const to of recipients) {
@@ -1046,6 +1056,41 @@ async function notifyPaidOrder(order: typeof orders.$inferSelect, env: Env): Pro
       });
     } catch (err) {
       console.error(`[notify] paid-order email to ${to} failed:`, err);
+    }
+  }
+}
+
+// ---------- "new paid order" WhatsApp via CallMeBot (free) ----------
+// One-time setup PER MANAGER, on their own phone: save +34 644 51 95 23 as a
+// contact, WhatsApp it the message "I allow callmebot to send me messages",
+// and it replies with a personal apikey. The ORDER_NOTIFY_WHATSAPP secret is
+// comma-separated "9725XXXXXXXX:apikey" pairs. Best-effort like the email —
+// a dead key or a CallMeBot hiccup never blocks the order or other recipients.
+async function notifyPaidOrderWhatsApp(
+  order: typeof orders.$inferSelect,
+  env: Env
+): Promise<void> {
+  const pairs = (env.ORDER_NOTIFY_WHATSAPP || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (pairs.length === 0) return; // not configured — skip silently
+  const text = paidOrderText(order);
+  for (const pair of pairs) {
+    const sep = pair.indexOf(":");
+    if (sep < 1) continue; // malformed entry — skip, don't block the rest
+    const phone = pair.slice(0, sep).trim();
+    const key = pair.slice(sep + 1).trim();
+    try {
+      const url =
+        `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}` +
+        `&apikey=${encodeURIComponent(key)}&text=${encodeURIComponent(text)}`;
+      const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+      if (!res.ok) {
+        console.error(`[notify] whatsapp to …${phone.slice(-3)} failed: ${res.status}`);
+      }
+    } catch (err) {
+      console.error(`[notify] whatsapp to …${phone.slice(-3)} failed:`, err);
     }
   }
 }
@@ -1113,22 +1158,26 @@ async function settleOrderIfPaid(
         )
         .run();
     }
-    // email the manager exactly once — only the path that actually flipped the
-    // row gets here. The in-memory row predates the flip, so merge the payer
-    // fields the callback carried (same precedence as the UPDATE above).
+    // notify the managers exactly once — only the path that actually flipped
+    // the row gets here. The in-memory row predates the flip, so merge the
+    // payer fields the callback carried (same precedence as the UPDATE above).
+    // Email and WhatsApp are independent: one channel failing never mutes the other.
+    const paidOrder = {
+      ...order,
+      status: "paid",
+      payerName: extra?.payerName || order.payerName || null,
+      payerEmail: extra?.payerEmail || order.payerEmail || null,
+      payerPhone: extra?.payerPhone || order.payerPhone || null,
+    };
     try {
-      await notifyPaidOrder(
-        {
-          ...order,
-          status: "paid",
-          payerName: extra?.payerName || order.payerName || null,
-          payerEmail: extra?.payerEmail || order.payerEmail || null,
-          payerPhone: extra?.payerPhone || order.payerPhone || null,
-        },
-        env
-      );
+      await notifyPaidOrder(paidOrder, env);
     } catch (err) {
       console.error("[notify] paid-order email failed (order still settled):", err);
+    }
+    try {
+      await notifyPaidOrderWhatsApp(paidOrder, env);
+    } catch (err) {
+      console.error("[notify] paid-order whatsapp failed (order still settled):", err);
     }
   } else {
     // We lost the race — the /thank-you self-heal already flipped this order,
