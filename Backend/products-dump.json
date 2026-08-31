@@ -7208,8 +7208,9 @@
     "category": "חומרי יצירה",
     "sub_cat": "פיסול",
     "third_level": "Sculpey III - חימר פולימרי",
-    "salePercentage": 15,
-    "isActive": true
+    "salePercentage": 0,
+    "isActive": true,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770552",
@@ -7241,8 +7242,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770554",
@@ -7259,8 +7260,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770555",
@@ -7277,8 +7278,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770556",
@@ -7295,8 +7296,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770557",
@@ -7313,8 +7314,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770558",
@@ -7331,8 +7332,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770559",
@@ -7349,8 +7350,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277055a",
@@ -7367,8 +7368,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277055b",
@@ -7385,8 +7386,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277055c",
@@ -7403,8 +7404,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277055d",
@@ -7421,8 +7422,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277055e",
@@ -7439,8 +7440,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277055f",
@@ -7457,8 +7458,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770560",
@@ -7475,8 +7476,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770561",
@@ -7493,8 +7494,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770562",
@@ -7511,8 +7512,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770563",
@@ -7529,8 +7530,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770564",
@@ -7547,8 +7548,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770565",
@@ -7565,8 +7566,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770566",
@@ -7583,8 +7584,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770567",
@@ -7601,8 +7602,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770568",
@@ -7619,8 +7620,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770569",
@@ -7637,8 +7638,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277056a",
@@ -7655,8 +7656,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277056b",
@@ -7673,8 +7674,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277056c",
@@ -7708,8 +7709,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277056e",
@@ -7726,8 +7727,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277056f",
@@ -7744,8 +7745,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770570",
@@ -7762,8 +7763,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770571",
@@ -7780,8 +7781,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770572",
@@ -7798,8 +7799,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770573",
@@ -7816,8 +7817,8 @@
     "sub_cat": "פיסול",
     "third_level": "Sculpey Premo - חימר פולימרי",
     "isActive": true,
-    "salePercentage": 20,
-    "updatedAt": "2026-06-13T09:46:39.339Z"
+    "salePercentage": 0,
+    "updatedAt": "2026-08-31T02:26:04.905Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770574",
@@ -12014,11 +12015,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לרישום",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-08-31T02:22:01.180Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770680",
@@ -14177,7 +14178,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:19:24.767Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14204,7 +14205,8 @@
         "key": "12",
         "price": 1000
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770719",
@@ -14252,7 +14254,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול פרינסטון כללי - PRINCETON",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:19:08.887Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14267,7 +14269,8 @@
         "key": "4",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277071c",
@@ -14347,7 +14350,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "פרינסטון מיני - PRINCETON - Mini",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:17:58.318Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14358,7 +14361,8 @@
         "key": "10/0",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770721",
@@ -14401,7 +14405,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול פרינסטון ליינר - PRINCETON",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:17:26.476Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14416,7 +14420,8 @@
         "key": "2/0",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770723",
@@ -14432,7 +14437,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול פרינסטון ליינר - PRINCETON",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:17:35.525Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14451,7 +14456,8 @@
         "key": "2",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770724",
@@ -14467,7 +14473,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:18:49.872Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14510,7 +14516,8 @@
         "key": "12",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770725",
@@ -14542,7 +14549,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "פרינסטון מיני - PRINCETON - Mini",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:18:11.904Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14557,7 +14564,8 @@
         "key": "5/0",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770727",
@@ -14573,7 +14581,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול פרינסטון כללי - PRINCETON",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:19:17.490Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14584,7 +14592,8 @@
         "key": "4",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770728",
@@ -14600,7 +14609,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:19:47.545Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14619,7 +14628,8 @@
         "key": "1\"",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770729",
@@ -14635,7 +14645,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PRINCETON - מכחול פרינסטון מופ ובלנדר",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:19:32.522Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14646,7 +14656,8 @@
         "key": "1\"",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277072a",
@@ -14678,7 +14689,8 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "פרינסטון מיני - PRINCETON - Mini",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-08-31T02:17:12.576Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277072c",
@@ -14710,7 +14722,7 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול פרינסטון ליינר - PRINCETON",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:17:38.814Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -14729,7 +14741,8 @@
         "key": "2",
         "soldOut": true
       }
-    ]
+    ],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277072f",
@@ -18288,17 +18301,17 @@
     "_id": "66844bfdf2e4e8f57277083f",
     "id": "product_02054ce5-b717-3b44-36e8-b8107d969ffa",
     "name": "קרטון ביצוע",
-    "description": "<p dir=\"rtl\">קרטון ביצוע בגוון שמנת</p>\n<p dir=\"rtl\">קיים בגדלים שונים: 100/70, 70/50, 50/35, A4</p>",
+    "description": "<p dir=\"rtl\">קרטון ביצוע בגוון שמנת</p>\n<p dir=\"rtl\">קיים בגדלים שונים: 100/70, 70/50, 50/35, A4</p>\n\n(קרטון בודד)",
     "img": "733145_0ac31c8739224df687498d34debd6443~mv2.jpg",
     "price": 5,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות קרטון",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:23:28.791Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -28801,27 +28814,24 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לרישום",
-    "updatedAt": "2026-08-30T20:05:26.491Z",
+    "updatedAt": "2026-08-31T02:22:00.486Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "14'8x21cm-A5",
-        "price": 35,
-        "soldOut": true
+        "price": 35
       },
       {
         "key": "21x29'7cm-A4",
-        "price": 30,
-        "soldOut": true
+        "price": 30
       },
       {
         "key": "29'7x42cm-A3",
-        "price": 25,
-        "soldOut": true
+        "price": 25
       }
     ]
   },
@@ -30588,11 +30598,11 @@
     "description": "מכחול בריסטל סיגנט~Fan",
     "img": "733145_5e41766d8f4f4f359aa50df9b9aa47fa~mv2.jpg;733145_40761e12dabf4af1a76b5f23ffdd20d5~mv2.jpg",
     "sku": null,
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:20:18.260Z",
     "variantLabel": "גודל",
     "variants": [
       {
@@ -32306,11 +32316,11 @@
     "description": "מכחול משער בריסטול קשה לצבעי שמן ואקריליק. שיער בריסטל קשה ~round.",
     "img": "733145_ed0d9615654a406889cb5e96e460da80~mv2.jpg;733145_9c0ba769cc6545949a50620720c5dc8b~mv2.jpg",
     "sku": null,
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:20:04.631Z",
     "variantLabel": "גודל",
     "variants": [
       {
@@ -32367,11 +32377,11 @@
     "description": "מכחול בריסטל סיגנט ~ Filbert",
     "img": "733145_be8dfc252ef3464ca94951be022b6db6~mv2.jpg;733145_faef51261cb341cca9d0a5e17c295950~mv2.jpg",
     "sku": null,
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:20:25.784Z",
     "variantLabel": "גודל",
     "variants": [
       {
@@ -34187,11 +34197,11 @@
     "description": "מכחול משער בריסטל קשה לצבעי שמן ואקריליק. שיער בריסטל קשה~ Flat.",
     "img": "733145_217a5954804b46d59e61a4b6538bc84d~mv2.jpg;733145_f15dd3c46fe242d3a5554568637f8d81~mv2.jpg",
     "sku": null,
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:20:11.990Z",
     "variantLabel": "גודל",
     "variants": [
       {
@@ -35918,11 +35928,11 @@
     "description": "מרקרים שניתן למלא בגיו ובצבעים נוספים על מנת ךהשיג תוצאות מדויקות על גבי משטחים שונים. מושלם לעבודה עם צבע אקריליק FW. הטוש הריק מאפשר ליצור צבעים שונים ללא הגבלה בעזרת עירבוב ודילול הצבע.",
     "img": "733145_dfbc70c5d18041709b2ecddd1b66e0fd~mv2.jpg",
     "sku": null,
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.492Z",
+    "updatedAt": "2026-08-31T02:20:44.687Z",
     "variantLabel": "סוג",
     "variants": [
       {
@@ -38641,11 +38651,11 @@
     "description": "Graduate Aquarell- עפרונות גרדיואט אקוורל צבעוניים עם מכחול בקופסת פח. מגיע בכמות של 12,24,36 עפרונות בסט.",
     "img": "733145_22837823aa41401aae8285c6ebc5b73b~mv2.jpg;733145_3134bb266cf24d0fb8668e0d0ab5fdca~mv2.jpg;733145_b7382ac6d671402c8673e94399e85f45~mv2.jpg",
     "sku": null,
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.491Z",
+    "updatedAt": "2026-08-31T02:20:33.530Z",
     "variantLabel": "כמות",
     "variants": [
       {
