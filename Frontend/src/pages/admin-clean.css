@@ -202,6 +202,22 @@ body.lh-admin-clean { background: #eef1f6; }
 /* status pills keep their colour but lose the loud weight */
 .adm-clean .order-status { font-weight: 600; }
 .adm-clean .order-channel { background: var(--paper-deep); }
+.adm-clean .order-refund-chip { border-width: 1px; font-weight: 600; }
+
+/* refund dialog — crisp 1px frames like the rest of the clean theme */
+.adm-clean .refund-items { border: 1px solid var(--line); border-radius: 10px; }
+.adm-clean .refund-item select,
+.adm-clean .refund-dialog input:not([type="checkbox"]):not([type="radio"]) {
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: none;
+}
+.adm-clean .refund-summary {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f7f9ff;
+}
 
 /* =====================================================================
    Theme switch — segmented control (styled for BOTH themes so the user

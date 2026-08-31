@@ -159,6 +159,14 @@ Browser lands on /thank-you?order=ID → polls /api/order-status until 'paid'.
 
 Order lifecycle: `new → paid | failed`, then `refunded / handled / cancelled`
 (manager can PATCH via the dashboard orders tab). Minimum charge ₪5.
+Refunds: `POST /api/admin/orders/:id/refund` (JWT) calls PayMe `refund-sale` —
+full or partial (item-picked in the dashboard dialog, optional דמי-ביטול
+deduction). `orders.refunded_total` is the no-double-refund ledger (reserved
+via compare-and-swap BEFORE the PayMe call, released on failure); each success
+writes a `refunds` audit row. A partial refund leaves the order `paid` (chip
+"זוכה חלקית"); when the ledger reaches the total the order flips `refunded`.
+PayMe-dashboard full refunds sync back via the `refund` callback; partials made
+there are NOT ledgered — issue partials from our dashboard.
 Env switch: `GROW_BASE_URL` **var** in wrangler.jsonc — sandbox
 `https://sandbox.meshulam.co.il/api/light/server/1.0` ↔ production base issued
 with the live credentials (see DEPLOY.md → Grow go-live).

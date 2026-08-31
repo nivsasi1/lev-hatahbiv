@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useAdmin } from "../context";
 import { ils } from "../lib/helpers";
+import { RefundDialog } from "./RefundDialog";
+import type { Order } from "../lib/types";
 
 const STATUS_LABEL: Record<string, string> = {
   new: "ממתין לתשלום",
@@ -17,6 +20,14 @@ const DELIVERY_LABEL: Record<string, string> = {
 
 export function OrdersView() {
   const { orders, workerCall, act, setOrders } = useAdmin();
+  const [refundTarget, setRefundTarget] = useState<Order | null>(null);
+
+  // a refund makes sense only after money moved: paid / handled, or a paid
+  // order the owner cancelled (a never-paid one gets rejected by PayMe).
+  // Hidden once less than the ₪5 PayMe-minimum remains refundable.
+  const canRefund = (o: Order) =>
+    ["paid", "handled", "cancelled"].includes(o.status) &&
+    o.total - (o.refundedTotal || 0) >= 5;
 
   // orders live in D1 (PayMe card + WhatsApp), updated via the Worker
   const setStatus = (id: string, status: "handled" | "cancelled") =>
@@ -56,6 +67,9 @@ export function OrdersView() {
               })}
             </b>
             <span className={`order-status ${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>
+            {(o.refundedTotal || 0) > 0 && o.status !== "refunded" && (
+              <span className="order-refund-chip">זוכה חלקית ₪{ils(o.refundedTotal!)}</span>
+            )}
             <span className="order-total">₪{ils(o.total)}</span>
           </div>
           <div className="order-items">
@@ -92,6 +106,11 @@ export function OrdersView() {
               {o.status !== "handled" && !isUnpaid(o) && (
                 <button className="btn small" onClick={() => setStatus(o._id, "handled")}>
                   ✓ סימון טופלה
+                </button>
+              )}
+              {canRefund(o) && (
+                <button className="btn small ghost" onClick={() => setRefundTarget(o)}>
+                  ↩ זיכוי
                 </button>
               )}
               {o.status !== "cancelled" && (
@@ -139,6 +158,9 @@ export function OrdersView() {
           </summary>
           {unpaid.map(renderOrder)}
         </details>
+      )}
+      {refundTarget && (
+        <RefundDialog order={refundTarget} onClose={() => setRefundTarget(null)} />
       )}
     </div>
   );

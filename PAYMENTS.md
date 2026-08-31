@@ -307,8 +307,26 @@ launch: set the 2 secrets, deploy, run the sandbox test matrix, then swap to liv
 ### 3. Browser return — `sale_return_url`
 - PayMe redirects the shopper back to our `/thank-you` after payment. **Not authoritative** (can be lost/closed) — the webhook is the source of truth.
 
-### 4. Refunds
-- A refund endpoint exists (confirm exact name, e.g. `refund-sale` / via `get-sales`) — wire later for the dashboard.
+### 4. Refunds — ✅ WIRED (2026-08-31)
+- `POST {base}/refund-sale` (JSON): `seller_payme_id`, `payme_sale_id`, optional
+  `sale_refund_amount` (agorot; omit = full refund; **min 500**; multiple partial
+  refunds allowed up to the sale total), `language`. Success = `status_code: 0` +
+  `payme_transaction_id`; money returns to the original payment method (if the
+  PayMe balance can't cover it they charge the seller's card —
+  `refunded_from_creditcard`). A successful refund also fires the regular
+  `refund` callback (handled — see below).
+- ⚠️ The docs mark `payme_client_key` ("Partner Key") as **required**, but
+  merchant accounts have no partner key and the docs over-marked `generate-sale`
+  requirements the same way. We send it only when the optional
+  `PAYME_CLIENT_KEY` secret is set; if PayMe ever rejects a refund demanding it,
+  ask partners@payme.io and `wrangler secret put PAYME_CLIENT_KEY` — no code
+  change. (Unverifiable in sandbox here: sandbox creds live only in the owner's
+  mail.)
+- Our side: `POST /api/admin/orders/:id/refund` (JWT) — dashboard dialog with
+  full / item-picked partial + optional דמי-ביטול deduction (5% or ₪100 cap per
+  the takanot, owner-editable, refund = base − fee). `orders.refunded_total` is
+  the double-refund guard (CAS-reserved before the PayMe call, released on
+  failure); `refunds` table is the audit ledger.
 
 ## How it maps onto OUR architecture (Workers + D1 + static SPA)
 
@@ -363,7 +381,8 @@ Shopper (static SPA)              Cloudflare Worker (/api/*)                 Pay
 - Add `/thank-you` (success) + keep WhatsApp/phone as fallback; `/cart` is the cancel target.
 
 **Phase 4 — invoices / dashboard**
-- Surface paid orders + reference in the dashboard orders tab; wire refunds later. (Invoices: confirm whether PayMe issues them or we add a חשבונית service.)
+- Surface paid orders + reference in the dashboard orders tab; ✅ refunds wired
+  2026-08-31 (full/partial via `refund-sale`, §4 above). (Invoices: confirm whether PayMe issues them or we add a חשבונית service.)
 
 **Phase 5 — test (sandbox) → go live**
 - Sandbox matrix with PayMe test cards: success, failure, duplicate callback (idempotency), coupon consumed once, signature-invalid rejected, amount-mismatch rejected.

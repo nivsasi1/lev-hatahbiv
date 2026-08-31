@@ -16,10 +16,12 @@
  *              POST /api/payme-callback -> verify (amount + get-transactions
  *              re-query) + mark the order paid in D1 and CONSUME the single-use
  *              coupon (bump used_count). Invoice URL arrives IN the callback.
+ *              POST /api/admin/orders/:id/refund -> refund-sale (full/partial,
+ *              refunded_total ledger blocks double refunds).
  */
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 import { and, desc, eq, gt, inArray, isNull, lt, or, sql } from "drizzle-orm";
-import { coupons, subscribers, settings, rateLimits, orders } from "./db/schema";
+import { coupons, subscribers, settings, rateLimits, orders, refunds } from "./db/schema";
 import { seoResponse } from "./seo";
 
 // Minimal structural shape of the send_email binding's object API — the repo
@@ -51,6 +53,11 @@ export interface Env {
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
   PAYME_WEBHOOK_KEY: string; // our secret, embedded in sale_callback_url to auth callbacks
   PAYME_BASE_URL?: string; // sandbox default in wrangler.jsonc vars; prod = https://live.payme.io/api
+  // OPTIONAL — refund-sale's docs mark a "payme_client_key" (partner key) as
+  // required, but merchant accounts don't have one and generate-sale's docs
+  // over-marked requirements the same way. If PayMe ever insists, set this
+  // secret and it rides along on refund calls — no code change needed.
+  PAYME_CLIENT_KEY?: string;
   CANONICAL_HOST?: string; // e.g. "www.lev-hatahbiv.com" — empty until the domain cutover (see worker/seo.ts)
 }
 
@@ -1418,7 +1425,23 @@ async function paymeCallback(request: Request, env: Env, db: DB): Promise<Respon
     const partial =
       saleStatus.startsWith("partial") ||
       (Number.isFinite(refunded) && refunded > 0 && refunded < order.total);
-    if (!partial) {
+    if (!partial && notify === "refund") {
+      // full refund (possibly issued straight from PayMe's own dashboard) —
+      // sync the ledger too, so our dashboard agrees. 'cancelled' is included:
+      // a paid order the owner cancelled is exactly the one that gets refunded.
+      // Partial refunds made in PayMe's dashboard are NOT ledgered (their
+      // callback doesn't carry a trustworthy amount) — issue partials from OUR
+      // dashboard, which records them from the API response.
+      await db
+        .update(orders)
+        .set({ status: "refunded", refundedTotal: sql`${orders.total}` })
+        .where(
+          and(eq(orders.id, orderId), inArray(orders.status, ["paid", "handled", "cancelled"]))
+        )
+        .run();
+    } else if (!partial) {
+      // chargeback: the money was pulled by the bank, not returned by us — flip
+      // the status so fulfilment stops, but don't touch the refund ledger.
       await db
         .update(orders)
         .set({ status: "refunded" })
@@ -1510,16 +1533,26 @@ const safeJson = (s: string): any => {
   }
 };
 function mapOrder(o: typeof orders.$inferSelect) {
+  const items = safeJson(o.items);
   return {
     _id: o.id,
     createdAt: o.createdAt,
     status: o.status,
     total: o.total / 100, // agorot -> shekels for the dashboard
+    subtotal: o.subtotal / 100,
     discount: o.discount / 100,
+    refundedTotal: o.refundedTotal / 100,
     delivery: o.delivery,
     shipping: o.shipping ? safeJson(o.shipping) : null,
     couponCode: o.couponCode,
-    items: safeJson(o.items),
+    // item unit prices are stored in agorot like every other money column —
+    // convert so the whole payload speaks shekels (the refund dialog does math
+    // on these).
+    items: Array.isArray(items)
+      ? items.map((i: any) =>
+          typeof i?.price === "number" ? { ...i, price: i.price / 100 } : i
+        )
+      : items,
     paymentRef: o.paymentRef,
     invoiceUrl: o.invoiceUrl,
     payerName: o.payerName,
@@ -1582,6 +1615,111 @@ async function updateOrderStatus(request: Request, db: DB, id: string): Promise<
   const o = await db.select().from(orders).where(eq(orders.id, id)).get();
   if (!o) return json({ error: "not found" }, 404);
   return json({ order: mapOrder(o) });
+}
+
+// POST /api/admin/orders/:id/refund  { amount, fee?, items? }  (amounts in agorot)
+// The dashboard never SETS money state by hand — it asks PayMe to move the money
+// (refund-sale) and D1 records what PayMe confirmed. `amount` is what the buyer
+// gets back, already net of any cancellation fee; `fee`/`items` are bookkeeping
+// for the refund ledger only.
+//
+// No-double-refund: orders.refunded_total is reserved with a compare-and-swap
+// BEFORE calling PayMe, so two racing clicks can't both pass the cap, and a
+// PayMe failure releases the reservation. (A crash between reserve and the
+// PayMe call leaves the ledger over-reserved — conservative: it blocks further
+// refunds, never doubles one. PayMe's own refund buffer is the second net.)
+async function refundOrder(request: Request, env: Env, db: DB, id: string): Promise<Response> {
+  let body: { amount?: number; fee?: number; items?: unknown };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: "bad request" }, 400);
+  }
+
+  const order = await db.select().from(orders).where(eq(orders.id, id)).get();
+  if (!order) return json({ error: "הזמנה לא נמצאה" }, 404);
+  if (!order.paymeSaleId) return json({ error: "להזמנה הזו אין עסקת אשראי לזכות" }, 400);
+  // post-payment states only. 'cancelled' is allowed because a paid order the
+  // owner cancelled is exactly the one that needs a refund — if it was never
+  // actually paid, PayMe rejects the refund and we release the reservation.
+  if (!["paid", "handled", "cancelled"].includes(order.status)) {
+    return json({ error: "אפשר לזכות רק הזמנה ששולמה" }, 400);
+  }
+
+  const amount = Number(body.amount);
+  const fee = Math.min(Math.max(0, Math.floor(Number(body.fee) || 0)), order.total);
+  const remaining = order.total - order.refundedTotal;
+  if (!Number.isInteger(amount) || amount < 500) {
+    // PayMe's refund minimum equals the sale minimum — 500 agorot
+    return json({ error: "סכום זיכוי מינימלי הוא ₪5" }, 400);
+  }
+  if (amount > remaining) {
+    const left = Math.round(remaining / 10) / 10; // agorot -> shekels, one decimal
+    return json({ error: `נותרו רק ₪${left} לזיכוי בהזמנה הזו` }, 409);
+  }
+
+  // reserve the amount on the ledger (CAS on the value we just read)
+  const cas = await db
+    .update(orders)
+    .set({ refundedTotal: order.refundedTotal + amount })
+    .where(and(eq(orders.id, id), eq(orders.refundedTotal, order.refundedTotal)))
+    .run();
+  if ((cas.meta?.changes ?? 0) === 0) {
+    return json({ error: "ההזמנה השתנתה בינתיים — רעננו ונסו שוב" }, 409);
+  }
+
+  // ask PayMe to move the money. Always an explicit sale_refund_amount — one
+  // code path; PayMe treats amount == the sale total as a full refund.
+  let res: any = null;
+  try {
+    const r = await fetch(`${paymeBase(env)}/refund-sale`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        seller_payme_id: env.PAYME_SELLER_ID,
+        payme_sale_id: order.paymeSaleId,
+        sale_refund_amount: amount,
+        language: "he",
+        ...(env.PAYME_CLIENT_KEY ? { payme_client_key: env.PAYME_CLIENT_KEY } : {}),
+      }),
+    });
+    res = await r.json().catch(() => null);
+  } catch {
+    res = null;
+  }
+
+  if (!res || res.status_code !== 0) {
+    // the money did not move — release the reservation
+    await db
+      .update(orders)
+      .set({ refundedTotal: sql`${orders.refundedTotal} - ${amount}` })
+      .where(eq(orders.id, id))
+      .run();
+    const detail = res?.status_error_details ?? res?.payme_status ?? "אין תשובה מ-PayMe";
+    return json({ error: `PayMe דחה את הזיכוי: ${String(detail).slice(0, 200)}` }, 502);
+  }
+
+  // the money moved — write the ledger row; a fully-refunded order leaves
+  // fulfilment. (PayMe also fires a `refund` callback for this — by then the
+  // ledger already agrees, so it no-ops.)
+  await db
+    .insert(refunds)
+    .values({
+      id: crypto.randomUUID(),
+      orderId: id,
+      createdAt: new Date().toISOString(),
+      amount,
+      fee,
+      items: body.items ? JSON.stringify(body.items).slice(0, 4000) : null,
+      paymentRef: res.payme_transaction_id ? String(res.payme_transaction_id) : null,
+      source: "dashboard",
+    })
+    .run();
+  if (order.refundedTotal + amount >= order.total) {
+    await db.update(orders).set({ status: "refunded" }).where(eq(orders.id, id)).run();
+  }
+  const fresh = await db.select().from(orders).where(eq(orders.id, id)).get();
+  return json({ order: fresh ? mapOrder(fresh) : null });
 }
 
 export default {
@@ -1655,6 +1793,17 @@ export default {
         }
         if (pathname === "/api/admin/orders" && request.method === "GET") {
           return listAdminOrders(db);
+        }
+        if (
+          pathname.startsWith("/api/admin/orders/") &&
+          pathname.endsWith("/refund") &&
+          request.method === "POST"
+        ) {
+          const oid = safeDecode(
+            pathname.slice("/api/admin/orders/".length, -"/refund".length)
+          );
+          if (!oid) return json({ error: "bad request" }, 400);
+          return refundOrder(request, env, db, oid);
         }
         if (pathname.startsWith("/api/admin/orders/") && request.method === "PATCH") {
           const oid = safeDecode(pathname.split("/").pop() || "");

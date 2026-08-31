@@ -2788,6 +2788,17 @@ a.sub-chip {
   background: #777;
 }
 
+/* a partial refund leaves the order paid — the chip says how much went back */
+.order-refund-chip {
+  font-size: 0.78rem;
+  font-weight: 800;
+  border-radius: 2em;
+  padding: 0.15em 0.8em;
+  color: var(--purple);
+  border: 1.5px dashed var(--purple);
+  background: transparent;
+}
+
 .order-items {
   display: flex;
   flex-wrap: wrap;
@@ -3081,6 +3092,92 @@ a.sub-chip {
   display: flex;
   gap: 0.7rem;
   margin-top: 0.2rem;
+}
+
+/* refund dialog (dashboard orders tab) */
+.refund-dialog {
+  width: min(30rem, 94vw);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.refund-modes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+
+.refund-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border: 1.5px dashed var(--ink);
+  border-radius: 0.7em;
+  padding: 0.6em 0.8em;
+}
+
+.refund-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.refund-item .refund-item-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.refund-item select {
+  font-family: inherit;
+  font-weight: 600;
+  border: 1.5px solid var(--ink);
+  border-radius: 0.5em;
+  padding: 0.1em 0.3em;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.refund-fee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+
+.refund-fee-input {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.refund-fee-input input {
+  width: 6em;
+}
+
+.refund-fee-input small,
+.refund-summary small {
+  display: block;
+  flex-basis: 100%;
+  font-weight: 500;
+  opacity: 0.75;
+  line-height: 1.45;
+}
+
+.refund-summary {
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.6em 0.9em;
+  background: var(--chip, rgba(91, 45, 142, 0.08));
+  font-weight: 700;
+}
+
+.refund-error {
+  margin: 0;
+  font-weight: 700;
+  color: var(--red);
 }
 
 /* stats tab */

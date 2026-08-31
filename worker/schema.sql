@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS orders (
   delivery       TEXT,
   shipping       TEXT,                           -- JSON {street,city,apt,zip,notes} for courier/mail
   total          INTEGER NOT NULL,               -- agorot
+  refunded_total INTEGER NOT NULL DEFAULT 0,     -- agorot refunded so far (ledger; caps at total)
   status         TEXT NOT NULL DEFAULT 'new',    -- new | paid | failed | refunded | handled | cancelled
   payment_ref    TEXT,                           -- PayMe payme_transaction_id
   payme_sale_id  TEXT,                           -- from generate-sale; keys the re-query
@@ -67,6 +68,24 @@ CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 -- (A dev DB created from the grow branch may also carry unused process_id /
 --  process_token / invoice_number columns — harmless, leave them.)
 -- (a legacy payme_sale_id column may exist on the live D1 — harmless, ignore it.)
+-- Refunds migration (applied to the live D1 2026-08-31, BEFORE deploying the
+-- worker that declares the column — a worker that SELECTs refunded_total against
+-- an unmigrated D1 500s on every order read):
+--   ALTER TABLE orders ADD COLUMN refunded_total INTEGER NOT NULL DEFAULT 0;
+
+-- Refund ledger — one row per successful PayMe refund-sale call (audit trail;
+-- the no-double-refund gate is orders.refunded_total, not this table).
+CREATE TABLE IF NOT EXISTS refunds (
+  id          TEXT PRIMARY KEY,                  -- uuid
+  order_id    TEXT NOT NULL,                     -- -> orders.id
+  created_at  TEXT NOT NULL,                     -- ISO timestamp
+  amount      INTEGER NOT NULL,                  -- agorot actually returned to the buyer
+  fee         INTEGER NOT NULL DEFAULT 0,        -- agorot withheld as cancellation fee (דמי ביטול)
+  items       TEXT,                              -- JSON of what the owner picked; NULL = full refund
+  payment_ref TEXT,                              -- PayMe payme_transaction_id of the refund
+  source      TEXT NOT NULL DEFAULT 'dashboard'  -- 'dashboard' (our UI); callbacks don't write here
+);
+CREATE INDEX IF NOT EXISTS idx_refunds_order ON refunds(order_id);
 
 -- Best-effort per-IP rate limiting for public endpoints (fixed window).
 CREATE TABLE IF NOT EXISTS rate_limits (

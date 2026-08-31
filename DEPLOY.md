@@ -7,7 +7,9 @@ you get it wrong. Architecture context: [ARCHITECTURE.md](ARCHITECTURE.md).
 > Two things below are out of date: (1) the payment provider is **PayMe (live)**,
 > not Grow/Meshulam — ignore every `GROW_*` secret and the "Grow — go-live switch"
 > section; the real secrets are `PAYME_SELLER_ID` / `PAYME_WEBHOOK_KEY` /
-> `PAYME_BASE_URL=https://live.payme.io/api`. (2) The **domain cut-over is DONE** —
+> `PAYME_BASE_URL=https://live.payme.io/api`, + optional `PAYME_CLIENT_KEY` (only
+> if PayMe ever rejects `refund-sale` demanding a partner key — PAYMENTS.md §4).
+> (2) The **domain cut-over is DONE** —
 > `www.lev-hatahbiv.com` is served by the Worker (`CANONICAL_HOST` set); Render's
 > static front is retired. The Render **API** stays as the dashboard backend.
 

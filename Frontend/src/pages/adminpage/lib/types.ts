@@ -96,6 +96,7 @@ export type Order = {
   total: number;
   subtotal?: number;
   discount?: number;
+  refundedTotal?: number; // shekels refunded so far (partial refunds leave status "paid")
   items?: OrderItem[];
   couponCode?: string | null;
   payerName?: string | null;

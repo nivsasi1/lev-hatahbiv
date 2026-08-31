@@ -42,6 +42,10 @@ export const orders = sqliteTable("orders", {
   delivery: text("delivery"),
   shipping: text("shipping"), // JSON {street,city,apt,zip,notes} — set for courier/mail
   total: integer("total").notNull(),
+  // agorot refunded so far — the no-double-refund ledger (never exceeds total).
+  // ⚠️ declared here => every orders SELECT emits it: the D1 migration
+  // (ALTER TABLE orders ADD COLUMN refunded_total ...) must run BEFORE deploy.
+  refundedTotal: integer("refunded_total").notNull().default(0),
   status: text("status").notNull().default("new"), // new|paid|failed|refunded|handled|cancelled
   paymentRef: text("payment_ref"), // PayMe payme_transaction_id
   paymeSaleId: text("payme_sale_id"), // from generate-sale; keys the get-transactions re-query
@@ -49,6 +53,19 @@ export const orders = sqliteTable("orders", {
   payerName: text("payer_name"),
   payerEmail: text("payer_email"),
   payerPhone: text("payer_phone"),
+});
+
+// Refund ledger — one row per successful PayMe refund-sale call (audit trail;
+// the no-double-refund gate is orders.refundedTotal, not this table).
+export const refunds = sqliteTable("refunds", {
+  id: text("id").primaryKey(), // uuid
+  orderId: text("order_id").notNull(), // -> orders.id
+  createdAt: text("created_at").notNull(), // ISO timestamp
+  amount: integer("amount").notNull(), // agorot returned to the buyer
+  fee: integer("fee").notNull().default(0), // agorot withheld as cancellation fee
+  items: text("items"), // JSON of what the owner picked; NULL = full refund
+  paymentRef: text("payment_ref"), // PayMe payme_transaction_id of the refund
+  source: text("source").notNull().default("dashboard"),
 });
 
 // Best-effort per-IP rate limiting for public endpoints (fixed window).
