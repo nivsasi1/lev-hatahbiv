@@ -70,6 +70,9 @@ function paletteAt(t: number): { r: number; g: number; b: number } {
 
 const LIFE = 1000; // ms a point stays visible before it is fully gone
 const MAX_POINTS = 110; // hard cap on tracked points
+// Fresh-stroke opacity. Translucent like a watercolor wash — the page stays
+// readable through the ribbon (owner request: "שיהיה אפשר לראות דרכו").
+const PEAK_ALPHA = 0.42;
 const MAX_WIDTH = 19.2; // slow-cursor stroke thickness (px) — another 20% thinner
 const MIN_WIDTH = 2.56; // fast-cursor stroke thickness (px) — another 20% thinner
 const SPEED_FOR_MIN = 26; // px/frame at which the stroke is fully thin
@@ -211,7 +214,7 @@ export default function CursorBrush() {
 
           // Alpha fades with age (1 - age/life), eased and softened so the
           // ribbon dissolves like drying paint rather than snapping off.
-          const alpha = (1 - lifeT) * (1 - lifeT) * 0.9;
+          const alpha = (1 - lifeT) * (1 - lifeT) * PEAK_ALPHA;
 
           // Midpoints of the (i-2,i-1) and (i-1,i) edges. For the first
           // segment fall back to the point itself.
