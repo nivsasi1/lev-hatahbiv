@@ -96,7 +96,8 @@ npx wrangler tail                   # live logs while testing
 | `GROW_USER_ID` | Grow (Meshulam) Light API user id — issued by Grow support/integration (not self-service), separate value per environment |
 | `GROW_PAGE_CODE` | Grow payment-page code (Wallet, or standard redirect as fallback) — issued alongside `GROW_USER_ID` |
 | `GROW_WEBHOOK_KEY` | our own secret (generate: any long random string), embedded in `notifyUrl`/`invoiceNotifyUrl` to authenticate Grow's callbacks. Rotate = set new secret + redeploy (in-flight payments created with the old URL will fail the key check — rotate in a quiet hour) |
-| `ORDER_NOTIFY_WHATSAPP` | "new paid order" WhatsApp (CallMeBot, free): comma-separated `9725XXXXXXXX:apikey` pairs. Each manager self-activates once — save +34 644 51 95 23, WhatsApp it "I allow callmebot to send me messages", get a personal apikey back |
+| `ORDER_NOTIFY_WHATSAPP` | "new paid order" WhatsApp (CallMeBot, free): comma-separated `9725XXXXXXXX:apikey` pairs. Each manager self-activates once — save the CURRENT bot number from callmebot.com (was +34 623 78 64 49 in 2026), WhatsApp it "I allow callmebot to send me messages" (a previously-activated phone can send "Recover APIKey" instead). ⚠️ activation is flaky — Telegram below is the reliable channel |
+| `ORDER_NOTIFY_TELEGRAM` | "new paid order" Telegram: `<botToken>@<chatId>` (comma-separated for several chats). Reuse the watchdog bot: add it to a managers' group, grab the group id from getUpdates |
 
 `GROW_BASE_URL` is a **var** in [wrangler.jsonc](wrangler.jsonc), not a secret —
 defaults to the sandbox (`https://sandbox.meshulam.co.il/api/light/server/1.0`);

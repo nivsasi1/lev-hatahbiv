@@ -41,6 +41,7 @@ export interface Env {
   EMAIL?: EmailSender; // send_email binding — "new paid order" emails (wrangler.jsonc)
   ORDER_NOTIFY_EMAIL?: string; // comma-separated manager addresses; each must be a verified destination address
   ORDER_NOTIFY_WHATSAPP?: string; // secret: comma-separated "9725XXXXXXXX:callmebot-apikey" pairs
+  ORDER_NOTIFY_TELEGRAM?: string; // secret: comma-separated "<botToken>@<chatId>" pairs (one group is enough)
   ADMIN_JWT_SECRET: string; // must equal the backend's JWT SECRET (HS256)
   // ── PayMe (set via `wrangler secret put`) ──
   PAYME_SELLER_ID: string; // "MPL..." — the seller private key (sandbox/prod differ)
@@ -1095,6 +1096,42 @@ async function notifyPaidOrderWhatsApp(
   }
 }
 
+// ---------- "new paid order" Telegram ----------
+// Uses the same bot the watchdog alerts through (or any bot): add the bot to a
+// managers' group, and the secret is "<botToken>@<chatId>" (comma-separated for
+// several chats — a token contains ":" so "@" is the separator; group ids are
+// negative numbers). Best-effort like the other channels.
+async function notifyPaidOrderTelegram(
+  order: typeof orders.$inferSelect,
+  env: Env
+): Promise<void> {
+  const pairs = (env.ORDER_NOTIFY_TELEGRAM || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (pairs.length === 0) return; // not configured — skip silently
+  const text = paidOrderText(order);
+  for (const pair of pairs) {
+    const at = pair.lastIndexOf("@");
+    if (at < 1) continue; // malformed entry — skip, don't block the rest
+    const token = pair.slice(0, at).trim();
+    const chatId = pair.slice(at + 1).trim();
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text }),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!res.ok) {
+        console.error(`[notify] telegram to chat ${chatId} failed: ${res.status}`);
+      }
+    } catch (err) {
+      console.error(`[notify] telegram to chat ${chatId} failed:`, err);
+    }
+  }
+}
+
 // shared by the callback AND the order-status self-heal: re-query PayMe, and only
 // if the money really moved, atomically flip the order to paid + consume the
 // coupon. The WHERE status IN ('new','failed') makes the flip idempotent —
@@ -1178,6 +1215,11 @@ async function settleOrderIfPaid(
       await notifyPaidOrderWhatsApp(paidOrder, env);
     } catch (err) {
       console.error("[notify] paid-order whatsapp failed (order still settled):", err);
+    }
+    try {
+      await notifyPaidOrderTelegram(paidOrder, env);
+    } catch (err) {
+      console.error("[notify] paid-order telegram failed (order still settled):", err);
     }
   } else {
     // We lost the race — the /thank-you self-heal already flipped this order,
