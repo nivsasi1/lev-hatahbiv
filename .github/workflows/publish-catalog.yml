@@ -1,0 +1,60 @@
+# "פרסום" — the /manage publish button dispatches this workflow (via the Express
+# backend's /admin/publish). It pulls the fresh catalog from MongoDB Atlas,
+# regenerates the baked storefront data (products, pricing, SEO assets), and
+# commits the result to main — Cloudflare Workers Builds then auto-deploys the
+# live site. Requires the DB_URL repository secret (Settings → Secrets → Actions).
+name: publish-catalog
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-catalog
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend deps (mongoose for the dump)
+        working-directory: Backend
+        run: npm ci --omit=dev --no-audit --no-fund
+
+      - name: Dump catalog + settings from Atlas
+        working-directory: Backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+        run: node dump-products.js
+
+      - name: Regenerate baked storefront data (catalog + pricing + SEO)
+        working-directory: Frontend
+        run: |
+          node scripts/generate-catalog.mjs
+          node scripts/generate-seo.mjs
+
+      - name: Commit & push (triggers the Cloudflare auto-deploy)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Backend/products-dump.json Backend/settings-dump.json \
+                  Frontend/src/data/products.json Frontend/src/data/settings.json \
+                  Frontend/public/checkout-pricing.json Frontend/public/seo-redirects.json \
+                  Frontend/public/sitemap.xml Frontend/public/robots.txt
+          if git diff --cached --quiet; then
+            echo "No catalog changes — the live site is already up to date."
+          else
+            git commit -m "publish: refresh baked catalog from /manage"
+            git push origin main
+          fi
