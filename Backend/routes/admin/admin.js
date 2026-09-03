@@ -711,8 +711,35 @@ router.post(
     if (publishing) return res.status(409).json({ error: "פרסום כבר רץ, חכו רגע" });
     publishing = true;
     try {
-      // Cloud mode: the storefront is a separate static site whose build
-      // reads straight from Atlas — publishing = triggering its deploy hook.
+      // Git mode (current): the live site is built by Cloudflare Workers Builds
+      // from the repo. Publishing = dispatching the publish-catalog workflow,
+      // which pulls fresh data from Atlas, commits the regenerated catalog to
+      // main, and Cloudflare auto-deploys. Needs GH_PUBLISH_TOKEN (fine-grained
+      // PAT, Actions: read&write on this repo) in the Render env.
+      if (process.env.GH_PUBLISH_TOKEN) {
+        const ghRes = await fetch(
+          "https://api.github.com/repos/nivsasi1/lev-hatahbiv/actions/workflows/publish-catalog.yml/dispatches",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${process.env.GH_PUBLISH_TOKEN}`,
+              Accept: "application/vnd.github+json",
+              "User-Agent": "lev-hatahbiv-publish",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ref: "main" }),
+          }
+        );
+        if (ghRes.status !== 204) {
+          throw new Error(`publish dispatch failed (${ghRes.status})`);
+        }
+        return res.json({
+          ok: true,
+          summary: "האתר נבנה מחדש — השינויים יעלו לאוויר תוך כ-5 דקות",
+        });
+      }
+      // Legacy cloud mode: the retired Render static site's deploy hook. Kept as
+      // a fallback until the git flow is verified; delete DEPLOY_HOOK_URL after.
       if (process.env.DEPLOY_HOOK_URL) {
         const hookRes = await fetch(process.env.DEPLOY_HOOK_URL, { method: "POST" });
         if (!hookRes.ok) throw new Error(`deploy hook failed (${hookRes.status})`);
