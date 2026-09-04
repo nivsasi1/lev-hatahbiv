@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install wrangler (root deps)
         run: npm ci --no-audit --no-fund
@@ -40,6 +40,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 7e3908ec50c0d81a964afd3cb7f90a4f
         run: |
+          set -o pipefail  # a wrangler failure must not be masked by the tee pipe
           [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "::error::CLOUDFLARE_API_TOKEN secret not set (repo Settings → Secrets → Actions)"; exit 1; }
           case "${{ inputs.operation }}" in
             inspect-schema)
