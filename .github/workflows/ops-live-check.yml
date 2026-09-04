@@ -25,9 +25,10 @@ jobs:
         run: |
           echo "## www probes (https://www.lev-hatahbiv.com/)" | tee -a "$GITHUB_STEP_SUMMARY"
           for i in 1 2 3 4 5 6; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://www.lev-hatahbiv.com/ || echo ERR)
-            echo "probe $i: $code" | tee -a "$GITHUB_STEP_SUMMARY"
+            out=$(curl -s -o /dev/null -w '%{http_code} -> %{redirect_url}' --max-time 20 https://www.lev-hatahbiv.com/ || echo ERR)
+            echo "probe $i: $out" | tee -a "$GITHUB_STEP_SUMMARY"
           done
+          echo "www followed to final: $(curl -sL -o /dev/null -w '%{http_code} %{url_effective}' --max-time 20 https://www.lev-hatahbiv.com/ || echo ERR)" | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: API + baked assets sanity
         run: |
