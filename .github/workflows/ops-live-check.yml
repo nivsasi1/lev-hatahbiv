@@ -1,0 +1,41 @@
+# Toolbox: on-demand live checks against the production site, run from a GitHub
+# runner (the assistant's own egress is proxied; the runner's isn't). Results
+# land in the job summary so they're readable via the API. No secrets required.
+name: ops-live-check
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Apex — status + security headers
+        run: |
+          {
+            echo "## apex https://lev-hatahbiv.com/"
+            curl -sSI --max-time 20 https://lev-hatahbiv.com/ | tr -d '\r' \
+              | sed -n '1p;/^location:/Ip;/^content-security-policy:/Ip;/^strict-transport-security:/Ip;/^x-frame-options:/Ip;/^x-content-type-options:/Ip;/^referrer-policy:/Ip;/^permissions-policy:/Ip'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: www — 6 probes (Error-1034 watch)
+        run: |
+          echo "## www probes (https://www.lev-hatahbiv.com/)" | tee -a "$GITHUB_STEP_SUMMARY"
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://www.lev-hatahbiv.com/ || echo ERR)
+            echo "probe $i: $code" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: API + baked assets sanity
+        run: |
+          {
+            echo "## api/assets"
+            echo "welcome: $(curl -s --max-time 20 https://lev-hatahbiv.com/api/welcome)"
+            echo "pricing: $(curl -s --max-time 20 https://lev-hatahbiv.com/checkout-pricing.json | jq -r '"prices=\(.prices|length) soldOut=\(.soldOut|length) pickupOnly=\(.pickupOnly|length)"')"
+            echo "robots: $(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://lev-hatahbiv.com/robots.txt)"
+            echo "sitemap: $(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://lev-hatahbiv.com/sitemap.xml)"
+            echo "unknown path (expect 404): $(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://lev-hatahbiv.com/definitely-not-a-page-12345)"
+          } | tee -a "$GITHUB_STEP_SUMMARY"

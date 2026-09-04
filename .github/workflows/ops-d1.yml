@@ -1,0 +1,57 @@
+# Toolbox: allowlisted operations against the production D1 database. Free-form
+# SQL is deliberately NOT accepted — only the fixed, reviewed operations below.
+# Requires the CLOUDFLARE_API_TOKEN repository secret (D1: Edit on the account).
+name: ops-d1
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "Allowlisted D1 operation"
+        type: choice
+        required: true
+        options:
+          - inspect-schema
+          - orders-summary
+          - migrate-unsubscribed-at
+
+permissions: {}
+
+concurrency:
+  group: d1-ops
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install wrangler (root deps)
+        run: npm ci --no-audit --no-fund
+
+      - name: Execute
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 7e3908ec50c0d81a964afd3cb7f90a4f
+        run: |
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "::error::CLOUDFLARE_API_TOKEN secret not set (repo Settings → Secrets → Actions)"; exit 1; }
+          case "${{ inputs.operation }}" in
+            inspect-schema)
+              npx wrangler d1 execute lev --remote --command "PRAGMA table_info(orders);" | tee -a "$GITHUB_STEP_SUMMARY"
+              npx wrangler d1 execute lev --remote --command "PRAGMA table_info(subscribers);" | tee -a "$GITHUB_STEP_SUMMARY"
+              ;;
+            orders-summary)
+              # counts only — no PII leaves the database
+              npx wrangler d1 execute lev --remote --command "SELECT status, COUNT(*) AS n FROM orders GROUP BY status ORDER BY n DESC;" | tee -a "$GITHUB_STEP_SUMMARY"
+              ;;
+            migrate-unsubscribed-at)
+              npx wrangler d1 execute lev --remote --command "ALTER TABLE subscribers ADD COLUMN unsubscribed_at TEXT;" | tee -a "$GITHUB_STEP_SUMMARY" \
+                || echo "duplicate column = migration already applied, OK" | tee -a "$GITHUB_STEP_SUMMARY"
+              ;;
+          esac
