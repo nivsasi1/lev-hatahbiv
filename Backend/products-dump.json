@@ -40676,10 +40676,10 @@
     "img": "733145_56ff1ab7a90d4b7a8ea32bae8cd9a105~mv2.jpg;733145_89b8db25745841eab91fcc293ff52372~mv2.jpg",
     "sku": null,
     "isActive": true,
-    "isAvailable": true,
+    "isAvailable": false,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-04T09:40:55.292Z"
   },
   {
     "_id": "6a3689487d164beaf03f0d1d",
