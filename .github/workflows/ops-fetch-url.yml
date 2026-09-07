@@ -21,6 +21,10 @@ on:
         description: "Optional jq filter applied to the response (text mode only)"
         required: false
         default: ""
+      grep:
+        description: "Optional extended-regex; HTML tags are stripped, then only matches are printed (text mode only)"
+        required: false
+        default: ""
 
 permissions: {}
 
@@ -34,6 +38,7 @@ jobs:
           URL: ${{ inputs.url }}
           MODE: ${{ inputs.mode }}
           JQ_FILTER: ${{ inputs.jq }}
+          GREP_PATTERN: ${{ inputs.grep }}
         run: |
           set -o pipefail
           case "$MODE" in
@@ -47,6 +52,10 @@ jobs:
               # cap output so a huge page can't blow up the log
               if [ -n "$JQ_FILTER" ]; then
                 curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | jq -r "$JQ_FILTER" | head -c 300000
+              elif [ -n "$GREP_PATTERN" ]; then
+                curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" \
+                  | sed -e 's/<[^>]*>/ /g' | tr -s ' \t' ' ' \
+                  | { grep -oE "$GREP_PATTERN" || echo "NO MATCHES"; } | head -c 100000
               else
                 curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | head -c 300000
               fi ;;
