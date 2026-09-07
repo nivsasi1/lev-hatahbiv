@@ -137,6 +137,9 @@ export const productLd = (p: {
   ...(p.description ? { description: p.description } : {}),
   image: [p.img ? absImg(p.img) : LOGO],
   ...(p.sku ? { sku: p.sku } : {}),
+  // a numeric barcode is a GTIN — the property Google matches products by
+  ...(p.sku && /^\d{13}$/.test(p.sku) ? { gtin13: p.sku } : {}),
+  ...(p.sku && /^\d{8}$/.test(p.sku) ? { gtin8: p.sku } : {}),
   brand: { "@type": "Brand", name: store.name },
   offers: {
     "@type": "Offer",

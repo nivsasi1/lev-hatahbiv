@@ -34,6 +34,7 @@ export function ProductTable({ products, form }: { products: ProductsApi; form: 
                 <b className="variants-tag"> ⚙ {p.variants!.length} אפשרויות</b>
               )}
               {p.noCoupon && <b className="nocoupon-tag"> 🎟️ בלי קופונים</b>}
+              {p.sku && <span className="row-sku"> · ברקוד {p.sku}</span>}
               {(p.salePercentage || 0) > 0 && (
                 <b className="sale-tag"> מבצע {p.salePercentage}%-</b>
               )}

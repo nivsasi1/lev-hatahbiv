@@ -196,13 +196,16 @@ export function useProducts() {
         return price >= priceMin && price <= priceHi;
       });
     if (!q) return list;
-    return list.filter(
-      (p) =>
-        p.name.includes(q) ||
-        p.category.includes(q) ||
-        (p.sub_cat || "").includes(q) ||
-        (p.third_level || "").includes(q)
-    );
+    // case-insensitive AND over words, like the storefront search — also matches
+    // the barcode (a scanner types it into the box) and the hidden keywords
+    const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+    return list.filter((p) => {
+      const hay = [p.name, p.category, p.sub_cat, p.third_level, p.sku, p.searchKeywords]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return words.every((w) => hay.includes(w));
+    });
   }, [sortedProducts, query, statusFilter, priceActive, priceMin, priceHi]);
 
   const shown = filtered.slice(0, limit);

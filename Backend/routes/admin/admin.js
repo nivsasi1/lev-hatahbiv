@@ -118,6 +118,8 @@ const EDITABLE_FIELDS = [
   "variantLabel",
   "variants",
   "noCoupon",
+  "sku",
+  "searchKeywords",
 ];
 
 const badInput = (msg) => Object.assign(new Error(msg), { name: "ValidationError" });
@@ -162,6 +164,9 @@ const pickEditable = (body) => {
     out.variantLabel = String(out.variantLabel || "").trim().slice(0, 40);
   }
   if (out.noCoupon !== undefined) out.noCoupon = Boolean(out.noCoupon);
+  for (const f of ["sku", "searchKeywords"]) {
+    if (out[f] !== undefined) out[f] = String(out[f]).trim().slice(0, 500);
+  }
   return out;
 };
 
@@ -169,7 +174,7 @@ router.get(
   "/products",
   asyncRoute(async (_req, res) => {
     const products = await Product.find({})
-      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img variantLabel variants noCoupon createdAt updatedAt")
+      .select("name price salePercentage isAvailable isActive description category sub_cat third_level img variantLabel variants noCoupon sku searchKeywords createdAt updatedAt")
       .sort({ category: 1, name: 1 })
       .lean();
     res.json({ products });

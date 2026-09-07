@@ -118,6 +118,11 @@ for (const p of dump) {
   // semicolon-separated list — first is the primary, the rest feed the gallery
   const allImgs = (p.img || "").split(";").map((s) => s.trim()).filter(Boolean);
 
+  // search-only extras: barcode/SKU (EAN from the Wix import or typed in the
+  // dashboard) and hidden keywords. Emitted only when set, to keep the JSON lean.
+  const sku = String(p.sku || "").trim();
+  const keywords = String(p.searchKeywords || "").trim();
+
   products.push({
     id: String(p._id),
     name: p.name.trim(),
@@ -137,6 +142,8 @@ for (const p of dump) {
     ...(soldOut ? { soldOut: true } : {}),
     ...(isNew ? { isNew: true } : {}),
     ...(updated ? { updated } : {}),
+    ...(sku ? { sku } : {}),
+    ...(keywords ? { keywords } : {}),
   });
 }
 

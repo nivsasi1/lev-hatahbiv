@@ -41,7 +41,7 @@ export function ProductsView({
       <div className="admin-toolbar">
         <input
           type="search"
-          placeholder="חיפוש לפי שם / קטגוריה / סדרה..."
+          placeholder="חיפוש לפי שם / קטגוריה / סדרה / ברקוד..."
           value={products.query}
           onInput={(e: any) => {
             products.setQuery(e.target.value);

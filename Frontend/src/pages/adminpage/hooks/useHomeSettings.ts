@@ -58,9 +58,11 @@ export function useHomeSettings() {
 
   // ── featured ──
   const featuredMatches = useMemo(() => {
-    const q = featuredSearch.trim();
+    const q = featuredSearch.trim().toLowerCase();
     if (!q) return [];
-    return products.filter((p) => p.name.includes(q) && !featuredIds.includes(p._id)).slice(0, 8);
+    return products
+      .filter((p) => p.name.toLowerCase().includes(q) && !featuredIds.includes(p._id))
+      .slice(0, 8);
   }, [featuredSearch, products, featuredIds]);
   const addFeatured = (id: string) =>
     setFeaturedIds((ids) => (ids.includes(id) || ids.length >= 12 ? ids : [...ids, id]));
@@ -69,10 +71,12 @@ export function useHomeSettings() {
 
   // ── sale picker (candidates are only on-sale products) ──
   const saleMatches = useMemo(() => {
-    const q = saleSearch.trim();
+    const q = saleSearch.trim().toLowerCase();
     if (!q) return [];
     return products
-      .filter((p) => (p.salePercentage || 0) > 0 && p.name.includes(q) && !saleIds.includes(p._id))
+      .filter(
+        (p) => (p.salePercentage || 0) > 0 && p.name.toLowerCase().includes(q) && !saleIds.includes(p._id)
+      )
       .slice(0, 8);
   }, [saleSearch, products, saleIds]);
   const addSale = (id: string) =>

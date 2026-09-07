@@ -23,6 +23,8 @@ export type AdminProduct = {
   variantLabel?: string;
   variants?: AdminVariant[];
   noCoupon?: boolean; // excluded from coupon discounts
+  sku?: string; // barcode (EAN) / SKU
+  searchKeywords?: string; // hidden search terms, never shown to shoppers
   createdAt?: string;
   updatedAt?: string;
 };
@@ -47,6 +49,8 @@ export type ProductForm = {
   category: string;
   sub_cat: string;
   third_level: string;
+  sku: string;
+  searchKeywords: string;
   imgs: string[];
   imgInput?: string;
   variantLabel: string;
@@ -61,6 +65,8 @@ export const emptyForm: ProductForm = {
   category: "",
   sub_cat: "",
   third_level: "",
+  sku: "",
+  searchKeywords: "",
   imgs: [],
   variantLabel: "",
   variants: [],

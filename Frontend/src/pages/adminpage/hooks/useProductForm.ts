@@ -50,6 +50,8 @@ export function useProductForm() {
       category: p.category,
       sub_cat: p.sub_cat || "",
       third_level: p.third_level || "",
+      sku: p.sku || "",
+      searchKeywords: p.searchKeywords || "",
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
       variantLabel: p.variantLabel || "",
       variants: toFormVariants(p.variants),
@@ -67,6 +69,8 @@ export function useProductForm() {
       category: p.category,
       sub_cat: p.sub_cat || "",
       third_level: p.third_level || "",
+      sku: "", // a copy is a different physical item — it gets its own barcode
+      searchKeywords: p.searchKeywords || "",
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
       variantLabel: p.variantLabel || "",
       variants: toFormVariants(p.variants),

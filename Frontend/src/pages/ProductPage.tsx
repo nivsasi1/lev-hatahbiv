@@ -102,6 +102,7 @@ export const ProductPage = () => {
             price: finalPrice(product),
             img: product.img,
             soldOut: product.soldOut,
+            sku: product.sku,
           }),
           breadcrumbLd([
             { name: "ראשי", path: "/" },

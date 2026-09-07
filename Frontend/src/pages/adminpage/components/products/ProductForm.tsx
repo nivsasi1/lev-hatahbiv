@@ -219,6 +219,23 @@ export function ProductForm({ form }: { form: FormApi }) {
         המוצר הזה, והאתר יציג זאת לקונים
       </label>
 
+      <div className="admin-form-grid">
+        <input
+          placeholder="ברקוד / מק״ט (אפשר לסרוק לכאן)"
+          autoComplete="off"
+          value={data.sku}
+          onInput={(e: any) => setForm({ ...data, sku: e.target.value })}
+        />
+        <input
+          placeholder="מילות חיפוש נסתרות — למשל: גולדן, אקריליק מקצועי"
+          value={data.searchKeywords}
+          onInput={(e: any) => setForm({ ...data, searchKeywords: e.target.value })}
+        />
+      </div>
+      <p className="import-help">
+        מילות החיפוש לא מוצגות ללקוחות — הן רק עוזרות למצוא את המוצר בחיפוש (בחנות ובניהול),
+        למשל שם המותג בעברית. מפרידים בפסיק או ברווח. ברקוד: סורק ברקוד ״מקליד״ את הספרות בעצמו.
+      </p>
       <div className="admin-form-foot">
         <label className="btn small ghost">
           📷 העלאת תמונה מהמחשב

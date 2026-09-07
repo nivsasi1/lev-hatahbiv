@@ -38,12 +38,17 @@ const ProductSchema = new mongoose.Schema({
     ],
     default: undefined,
   },
+  // barcode (EAN-13 from the Wix import) / SKU — searchable in the dashboard
+  // and on the storefront, so a scanner typing digits into the search box works
+  sku: { type: String, trim: true, default: "" },
+  // hidden search terms (e.g. "גולדן" for a GOLDEN product): never displayed,
+  // only matched by the dashboard + storefront search
+  searchKeywords: { type: String, trim: true, default: "" },
   // legacy Wix-import fields we still read (not written by the dashboard)
   visible: { type: Boolean },
   discountMode: { type: String },
   discountValue: { type: Number },
   ribbon: { type: String },
-  sku: { type: String },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Product", ProductSchema);

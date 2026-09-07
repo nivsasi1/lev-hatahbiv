@@ -57,6 +57,8 @@ export type Product = {
   isNew?: boolean; // created within the last 14 days — drives the "חדש" badge
   variantLabel?: string; // e.g. "גודל" / "צבע" — present iff variants is
   variants?: ProductVariant[];
+  sku?: string; // barcode / SKU — searchable, and exposed in the product JSON-LD
+  keywords?: string; // hidden search terms set by the manager — never displayed
 };
 
 export type Category = {
@@ -165,6 +167,8 @@ type RawProduct = {
   updated?: string;
   vLabel?: string;
   variants?: ProductVariant[];
+  sku?: string;
+  keywords?: string;
 };
 
 // Prefix a public-folder path (e.g. "/images/logo.png") with the deploy base,
@@ -213,6 +217,8 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
     isActive: true,
     variantLabel: r.vLabel,
     variants: r.variants,
+    sku: r.sku,
+    keywords: r.keywords,
   };
 });
 
@@ -338,12 +344,16 @@ export const subsOfCategory = (slug: string): SubSummary[] => {
   return [...map.values()].sort((a, b) => b.count - a.count);
 };
 
-// case-insensitive AND over words, matching name / sub / third / category name
+// case-insensitive AND over words, matching name / sub / third / category name,
+// plus the barcode and the manager's hidden keywords (neither is displayed)
 export const searchProducts = (query: string) => {
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (words.length === 0) return [];
   return products.filter((p) => {
-    const hay = `${p.name} ${p.sub} ${p.third} ${categoryBySlug.get(p.category)?.name ?? ""}`.toLowerCase();
+    const hay = [p.name, p.sub, p.third, categoryBySlug.get(p.category)?.name, p.sku, p.keywords]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
     return words.every((w) => hay.includes(w));
   });
 };
