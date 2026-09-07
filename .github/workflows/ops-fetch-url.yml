@@ -35,6 +35,7 @@ jobs:
             headers)
               curl -sSI --max-time 30 "$URL" ;;
             pdf-text)
+              sudo apt-get -qq update >/dev/null && sudo apt-get -qq install -y poppler-utils >/dev/null
               curl -sSL --max-time 60 -A "Mozilla/5.0" -o /tmp/fetched.pdf "$URL"
               pdftotext -layout /tmp/fetched.pdf - ;;
             text)
