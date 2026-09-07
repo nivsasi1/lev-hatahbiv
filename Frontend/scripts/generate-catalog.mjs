@@ -155,11 +155,12 @@ console.log(byCat);
 // Pricing asset for the payment Worker: authoritative final prices in AGOROT,
 // plus shipping config. The Worker recomputes order totals from this (never
 // trusting client-sent amounts). Keep the shipping values in sync with
-// catalog.ts FREE_SHIPPING_FROM (₪300) + CartPage deliveryOptions (₪35/₪28).
-// `names` is authoritative too — the order the owner ships from must show the
-// product that was actually PRICED, not a name the client sent.
+// catalog.ts (free ≥ ₪500, flat ₪20 ≥ ₪300) + CartPage deliveryOptions
+// (₪35/₪28 below). `names` is authoritative too — the order the owner ships
+// from must show the product that was actually PRICED, not a client-sent name.
 const pricing = {
-  freeShippingFrom: 30000,
+  freeShippingFrom: 50000,
+  reducedShipping: { from: 30000, price: 2000 },
   delivery: { pickup: 0, courier: 3500, mail: 2800 },
   prices: Object.fromEntries(
     products.map((p) => [p.id, Math.round((p.salePrice ?? p.price) * 100)])

@@ -4,17 +4,25 @@ import {
   linePrice,
   shekel,
   FREE_SHIPPING_FROM,
+  REDUCED_SHIPPING_FROM,
+  REDUCED_SHIPPING_PRICE,
 } from "../data/catalog";
 import { ProductThumb } from "./ProductThumb";
 
+// two milestones: reduced-price shipping at ₪300, free shipping at ₪500
 export const ShipMeter = ({ total }: { total: number }) => {
-  const left = FREE_SHIPPING_FROM - total;
+  const toReduced = REDUCED_SHIPPING_FROM - total;
+  const toFree = FREE_SHIPPING_FROM - total;
   const pct = Math.min(100, (total / FREE_SHIPPING_FROM) * 100);
   return (
     <div className="ship-meter">
-      {left > 0 ? (
+      {toReduced > 0 ? (
         <span>
-          עוד {shekel(left)} למשלוח חינם! 🚚
+          עוד {shekel(toReduced)} למשלוח ב־{shekel(REDUCED_SHIPPING_PRICE)} בלבד! 🚚
+        </span>
+      ) : toFree > 0 ? (
+        <span>
+          משלוח ב־{shekel(REDUCED_SHIPPING_PRICE)} הושג! עוד {shekel(toFree)} למשלוח חינם 🚚
         </span>
       ) : (
         <span>יש! הרווחתם משלוח חינם 🎉</span>

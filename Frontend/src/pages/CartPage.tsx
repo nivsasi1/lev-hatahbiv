@@ -4,6 +4,8 @@ import {
   linePrice,
   shekel,
   FREE_SHIPPING_FROM,
+  REDUCED_SHIPPING_FROM,
+  REDUCED_SHIPPING_PRICE,
   store,
 } from "../data/catalog";
 import { lineKey, useCart } from "../context/cart-context";
@@ -181,8 +183,14 @@ export const CartPage = () => {
       product.noCoupon ? s : s + Math.round(linePrice(product, variant) * 100) * qty,
     0
   );
+  // shipping tiers (mirrored in the Worker): free ≥ ₪500, flat ₪20 ≥ ₪300,
+  // full method price below
   const freeShipping = subtotalAg >= FREE_SHIPPING_FROM * 100;
-  const shippingAg = delivery.id === "pickup" || freeShipping ? 0 : Math.round(delivery.price * 100);
+  const reducedShipping = !freeShipping && subtotalAg >= REDUCED_SHIPPING_FROM * 100;
+  const effectiveShipPrice = (base: number) =>
+    freeShipping ? 0 : reducedShipping ? Math.min(REDUCED_SHIPPING_PRICE, base) : base;
+  const shippingAg =
+    delivery.id === "pickup" ? 0 : Math.round(effectiveShipPrice(delivery.price) * 100);
   const discountAg = appliedCoupon
     ? Math.round((discountableAg * appliedCoupon.percent) / 100 / 10) * 10
     : 0;
@@ -421,7 +429,9 @@ export const CartPage = () => {
                 onClick={() => setDelivery(d)}
               >
                 {d.title}
-                {d.price > 0 && !freeShipping ? ` · ${shekel(d.price)}` : " · חינם"}
+                {d.price > 0 && effectiveShipPrice(d.price) > 0
+                  ? ` · ${shekel(effectiveShipPrice(d.price))}`
+                  : " · חינם"}
               </button>
             ))}
           </div>

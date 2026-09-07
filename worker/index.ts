@@ -607,6 +607,8 @@ const paymeBase = (env: Env) =>
   (env.PAYME_BASE_URL || "https://sandbox.payme.io/api").replace(/\/$/, "");
 type Pricing = {
   freeShippingFrom: number;
+  // between `from` and freeShippingFrom every method costs `price` (agorot)
+  reducedShipping?: { from: number; price: number };
   delivery: Record<string, number>;
   prices: Record<string, number>;
   names?: Record<string, string>; // server-authoritative product names
@@ -774,8 +776,15 @@ async function computeCart(
   if (hasPickupOnly && deliveryKey !== "pickup") {
     return { ok: false, error: "אחד המוצרים בעגלה זמין לאיסוף עצמי בלבד — בחרו איסוף מהחנות" };
   }
+  // shipping tiers (mirrored in CartPage): free above freeShippingFrom, the
+  // reduced flat price above reducedShipping.from, full method price below
   const freeShip = subtotal >= pricing.freeShippingFrom;
-  const shipping = deliveryKey === "pickup" || freeShip ? 0 : pricing.delivery[deliveryKey] ?? 0;
+  let shipping = 0;
+  if (deliveryKey !== "pickup" && !freeShip) {
+    const base = pricing.delivery[deliveryKey] ?? 0;
+    const red = pricing.reducedShipping;
+    shipping = red && subtotal >= red.from ? Math.min(red.price, base) : base;
+  }
   const total = subtotal - discount + shipping;
   return { ok: true, lines, subtotal, discount, shipping, total, couponCode, deliveryKey };
 }

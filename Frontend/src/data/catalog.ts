@@ -222,7 +222,7 @@ export const products: Product[] = (rawProducts as RawProduct[]).map((r) => {
 // keep in sync with DEFAULT_RIBBONS in pages/AdminPage.tsx (what the manager
 // sees pre-filled in the 8 ribbon inputs)
 const DEFAULT_RIBBON = [
-  "משלוח חינם מעל ₪300",
+  "משלוח חינם מעל ₪500",
   "ייעוץ אישי בחנות",
   "חדש: חימר פולימרי ב־24 צבעים",
   "מבצעי סוף עונה על צבעי שמן",
@@ -380,7 +380,11 @@ export const shekel = (n: number) => {
   return `₪${Number.isInteger(r) ? r : r.toFixed(1)}`;
 };
 
-export const FREE_SHIPPING_FROM = 300;
+export const FREE_SHIPPING_FROM = 500;
+// between the two thresholds every delivery method costs the reduced flat
+// price; below REDUCED_SHIPPING_FROM each method charges its full price
+export const REDUCED_SHIPPING_FROM = 300;
+export const REDUCED_SHIPPING_PRICE = 20;
 
 export const store = {
   name: "לב התחביב",

@@ -10,6 +10,8 @@ import {
   shekel,
   variantPricesVary,
   FREE_SHIPPING_FROM,
+  REDUCED_SHIPPING_FROM,
+  REDUCED_SHIPPING_PRICE,
   store,
   subPath,
 } from "../data/catalog";
@@ -368,7 +370,8 @@ export const ProductPage = () => {
                 </span>
               )}
               <span>
-                🚚 משלוח חינם בקנייה מעל <b>{shekel(FREE_SHIPPING_FROM)}</b>
+                🚚 משלוח חינם מעל <b>{shekel(FREE_SHIPPING_FROM)}</b> · משלוח ב־
+                <b>{shekel(REDUCED_SHIPPING_PRICE)}</b> בלבד מעל <b>{shekel(REDUCED_SHIPPING_FROM)}</b>
               </span>
               <span>
                 🏠 איסוף עצמי חינם מהחנות — <b>{store.address}</b>

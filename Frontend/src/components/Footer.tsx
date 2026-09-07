@@ -64,7 +64,7 @@ export const Footer = () => (
         <span>
           © {new Date().getFullYear()} {store.legalName} (ח.פ {store.companyId}) — נצבע באהבה ברחובות
         </span>
-        <span>משלוח חינם בקנייה מעל ₪300</span>
+        <span>משלוח חינם בקנייה מעל ₪500</span>
       </div>
     </div>
   </footer>

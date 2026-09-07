@@ -37,7 +37,7 @@ export const CSV_TEMPLATE =
 // The home marquee shows up to 8 lines. When saved settings are empty we
 // pre-fill the inputs with these examples so the manager sees the format.
 export const DEFAULT_RIBBONS = [
-  "משלוח חינם מעל ₪300",
+  "משלוח חינם מעל ₪500",
   "ייעוץ אישי בחנות",
   "חדש: חימר פולימרי ב־24 צבעים",
   "מבצעי סוף עונה על צבעי שמן",
