@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "URL to fetch (GET)"
+        description: "URL(s) to fetch (GET); text mode accepts several, whitespace-separated"
         required: true
       mode:
         description: "How to render the response"
@@ -49,14 +49,18 @@ jobs:
               curl -sSL --max-time 60 -A "Mozilla/5.0" -o /tmp/fetched.pdf "$URL"
               pdftotext -layout /tmp/fetched.pdf - ;;
             text)
-              # cap output so a huge page can't blow up the log
-              if [ -n "$JQ_FILTER" ]; then
-                curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | jq -r "$JQ_FILTER" | head -c 300000
-              elif [ -n "$GREP_PATTERN" ]; then
-                curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" \
-                  | sed -e 's/<[^>]*>/ /g' | tr -s ' \t' ' ' \
-                  | { grep -oE "$GREP_PATTERN" || echo "NO MATCHES"; } | head -c 100000
-              else
-                curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | head -c 300000
-              fi ;;
+              # caps keep a huge page (or many pages) from blowing up the log
+              for u in $URL; do
+                echo "== $u"
+                if [ -n "$JQ_FILTER" ]; then
+                  { curl -sSL --max-time 60 -A "Mozilla/5.0" "$u" | jq -r "$JQ_FILTER" || echo "FETCH/JQ ERROR"; } | head -c 300000
+                elif [ -n "$GREP_PATTERN" ]; then
+                  { curl -sL --max-time 60 -A "Mozilla/5.0" "$u" \
+                      | sed -e 's/<[^>]*>/ /g' | tr -s ' \t' ' ' \
+                      | grep -oE "$GREP_PATTERN" || echo "NO MATCHES"; } | head -c 100000
+                  echo
+                else
+                  { curl -sSL --max-time 60 -A "Mozilla/5.0" "$u" || echo "FETCH ERROR"; } | head -c 300000
+                fi
+              done ;;
           esac
