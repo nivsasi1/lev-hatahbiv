@@ -3321,21 +3321,6 @@
     "third_level": "נייר אוריגמי"
   },
   {
-    "_id": "66844bfdf2e4e8f572770402",
-    "id": "product_e94bdc87-f38a-7b9f-f23f-fe14aad20220",
-    "name": "אוריגמי חיות מחמד",
-    "description": "<p dir=\"rtl\">ערכת יצירת חיות מחמד על ידי קיפולי נייר. באמצעות תוכלו ליצור כ 40 חיות מחמד על ידי קיפוליי נייר. מיועד לגילאי 5 +</p>",
-    "img": "733145_1ed1f7d5bb784a04b3b36b87267b90ef~mv2.jpg;733145_dc2135c8a3324c13beae915fcbd74589~mv2.jpg",
-    "price": 65,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "חומרי יצירה",
-    "sub_cat": "נייר ליצירה",
-    "third_level": "נייר אוריגמי"
-  },
-  {
     "_id": "66844bfdf2e4e8f572770403",
     "id": "product_3623fcca-b669-7ec3-588f-952678a0278c",
     "name": "אוריגמי גן חיות",
