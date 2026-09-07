@@ -17,6 +17,10 @@ on:
           - text
           - pdf-text
           - headers
+      jq:
+        description: "Optional jq filter applied to the response (text mode only)"
+        required: false
+        default: ""
 
 permissions: {}
 
@@ -29,6 +33,7 @@ jobs:
         env:
           URL: ${{ inputs.url }}
           MODE: ${{ inputs.mode }}
+          JQ_FILTER: ${{ inputs.jq }}
         run: |
           set -o pipefail
           case "$MODE" in
@@ -40,5 +45,9 @@ jobs:
               pdftotext -layout /tmp/fetched.pdf - ;;
             text)
               # cap output so a huge page can't blow up the log
-              curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | head -c 300000 ;;
+              if [ -n "$JQ_FILTER" ]; then
+                curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | jq -r "$JQ_FILTER" | head -c 300000
+              else
+                curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | head -c 300000
+              fi ;;
           esac
