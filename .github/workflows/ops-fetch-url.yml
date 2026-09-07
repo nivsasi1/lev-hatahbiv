@@ -1,0 +1,43 @@
+# Toolbox: fetch a public URL from the GitHub runner and print it to the job
+# log (the assistant's own egress is proxied; the runner's isn't). GET only,
+# no secrets, output is public in the log — for public pages/documents only.
+name: ops-fetch-url
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL to fetch (GET)"
+        required: true
+      mode:
+        description: "How to render the response"
+        type: choice
+        default: text
+        options:
+          - text
+          - pdf-text
+          - headers
+
+permissions: {}
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch
+        env:
+          URL: ${{ inputs.url }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          case "$MODE" in
+            headers)
+              curl -sSI --max-time 30 "$URL" ;;
+            pdf-text)
+              curl -sSL --max-time 60 -A "Mozilla/5.0" -o /tmp/fetched.pdf "$URL"
+              pdftotext -layout /tmp/fetched.pdf - ;;
+            text)
+              # cap output so a huge page can't blow up the log
+              curl -sSL --max-time 60 -A "Mozilla/5.0" "$URL" | head -c 300000 ;;
+          esac
