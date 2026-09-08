@@ -15,6 +15,7 @@ on:
         default: text
         options:
           - text
+          - grep-raw
           - pdf-text
           - headers
       jq:
@@ -48,6 +49,14 @@ jobs:
               sudo apt-get -qq update >/dev/null && sudo apt-get -qq install -y poppler-utils >/dev/null
               curl -sSL --max-time 60 -A "Mozilla/5.0" -o /tmp/fetched.pdf "$URL"
               pdftotext -layout /tmp/fetched.pdf - ;;
+            grep-raw)
+              # like text+grep but without stripping HTML tags — for JS/JSON bodies
+              # and for attribute values such as <script src="...">
+              for u in $URL; do
+                echo "== $u"
+                { curl -sL --max-time 60 -A "Mozilla/5.0" "$u" | grep -oE "$GREP_PATTERN" || echo "NO MATCHES"; } | head -c 100000
+                echo
+              done ;;
             text)
               # caps keep a huge page (or many pages) from blowing up the log
               for u in $URL; do
