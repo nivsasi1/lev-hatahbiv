@@ -29298,35 +29298,6 @@
     ]
   },
   {
-    "_id": "6a3689487d164beaf03f0b3d",
-    "id": "product_62c1f86e-d0f1-9f53-7018-2e95a884c540",
-    "name": "פסטל פולי-קריון",
-    "price": 39.9,
-    "salePercentage": 0,
-    "category": "צבעים לאמנות",
-    "sub_cat": "צבעי פסטל",
-    "third_level": "פסטל יבש - Lyra",
-    "description": "Polycrayons Soft- גירי פסטל צבעוניים בקופסת קרטון. מגיע ב12,24 בסט.",
-    "img": "733145_ebe9c6770f4d465685ba58214bc7430b~mv2.jpg;733145_e5548db87f7a447baaac772b764be60f~mv2.jpg",
-    "sku": null,
-    "isActive": true,
-    "isAvailable": true,
-    "visible": true,
-    "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-08-30T20:05:26.491Z",
-    "variantLabel": "כמות",
-    "variants": [
-      {
-        "key": "12",
-        "price": 39.9
-      },
-      {
-        "key": "24",
-        "price": 79.9
-      }
-    ]
-  },
-  {
     "_id": "6a3689487d164beaf03f0b3e",
     "id": "product_4546352a-ac44-c1ff-fd5e-ec14f3606aea",
     "name": "בלוק נייר אקוורל מונוול קנסון 32/24 ס\"מ",
