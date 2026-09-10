@@ -111,6 +111,15 @@ export function useProductForm() {
       );
       if (!ok) return;
     }
+    // one barcode per product — the server enforces it too, this just answers
+    // before the round-trip with the name of the product that has it
+    const sku = form.sku.trim();
+    const skuClash =
+      sku && products.find((p) => p._id !== editingId && (p.sku || "").trim() === sku);
+    if (skuClash) {
+      setError(`הברקוד ${sku} כבר משויך למוצר "${skuClash.name}"`);
+      return;
+    }
     const { imgs, variants, imgInput, ...rest } = form;
     const apiVariants = toApiVariants(variants);
     if (new Set(apiVariants.map((v) => v.key)).size !== apiVariants.length) {

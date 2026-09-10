@@ -51,4 +51,11 @@ const ProductSchema = new mongoose.Schema({
   ribbon: { type: String },
 }, { timestamps: true });
 
+// one product per barcode — a duplicate would make a scan ambiguous. Partial so
+// the many products without a barcode ("" or null) don't collide with each other.
+ProductSchema.index(
+  { sku: 1 },
+  { unique: true, partialFilterExpression: { sku: { $type: "string", $gt: "" } } }
+);
+
 module.exports = mongoose.model("Product", ProductSchema);

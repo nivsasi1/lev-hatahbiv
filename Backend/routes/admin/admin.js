@@ -26,6 +26,10 @@ const asyncRoute = (fn) => (req, res) =>
     if (err.name === "ValidationError") {
       return res.status(400).json({ error: err.message });
     }
+    // the unique barcode index caught a race the pre-check missed
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.sku) {
+      return res.status(409).json({ error: "הברקוד כבר משויך למוצר אחר" });
+    }
     console.error("[admin]", err);
     res.status(500).json({ error: "שגיאת שרת" });
   });
@@ -170,6 +174,17 @@ const pickEditable = (body) => {
   return out;
 };
 
+// one barcode ↔ one product (a duplicate would make a scan ambiguous). The
+// partial unique index on sku is the real guard; this turns it into a message
+// that names the other product.
+const skuTakenBy = async (sku, exceptId) => {
+  if (!sku) return null;
+  const q = { sku };
+  if (exceptId) q._id = { $ne: exceptId };
+  return Product.findOne(q).select("name").lean();
+};
+const skuTakenMsg = (sku, other) => `הברקוד ${sku} כבר משויך למוצר "${other.name}"`;
+
 router.get(
   "/products",
   asyncRoute(async (_req, res) => {
@@ -194,6 +209,8 @@ router.post(
     if (duplicate) {
       return res.status(409).json({ error: "התמונה כבר משויכת למוצר אחר" });
     }
+    const skuClash = await skuTakenBy(fields.sku);
+    if (skuClash) return res.status(409).json({ error: skuTakenMsg(fields.sku, skuClash) });
     const product = await Product.create({ ...fields, isActive: true, isAvailable: true });
     res.status(201).json({ product });
   })
@@ -315,9 +332,10 @@ router.post(
 
 // ---------- CSV import: create many products in one shot ----------
 // body: { products: [{ name, price, category, sub_cat, third_level,
-//                      description, img, salePercentage }] }
-// Rows are validated individually; duplicates (by exact name) are skipped so
-// re-importing the same file is safe.
+//                      description, img, salePercentage, sku, searchKeywords }] }
+// Rows are validated individually; duplicates (by exact name, or a barcode
+// another product already carries) are skipped so re-importing the same file
+// is safe.
 router.post(
   "/products/import",
   asyncRoute(async (req, res) => {
@@ -329,6 +347,7 @@ router.post(
     const skipped = [];
     const valid = [];
     const seenNames = new Set();
+    const seenSkus = new Set();
 
     for (let i = 0; i < rows.length; i++) {
       const r = rows[i] || {};
@@ -344,6 +363,9 @@ router.post(
       if (!img) { skipped.push({ row: i + 1, name: rowLabel, reason: "חסרה תמונה" }); continue; }
       if (seenNames.has(name)) { skipped.push({ row: i + 1, name: rowLabel, reason: "כפול בתוך הקובץ" }); continue; }
       seenNames.add(name);
+      const sku = String(r.sku || "").trim().slice(0, 500);
+      if (sku && seenSkus.has(sku)) { skipped.push({ row: i + 1, name: rowLabel, reason: "ברקוד כפול בתוך הקובץ" }); continue; }
+      if (sku) seenSkus.add(sku);
 
       let pct = Number(r.salePercentage) || 0;
       if (pct < 0 || pct > 95) pct = 0;
@@ -357,6 +379,8 @@ router.post(
         description: String(r.description || "").trim(),
         img,
         salePercentage: pct,
+        sku,
+        searchKeywords: String(r.searchKeywords || "").trim().slice(0, 500),
         isActive: true,
         isAvailable: true,
       });
@@ -367,9 +391,19 @@ router.post(
       .select("name")
       .lean();
     const existingNames = new Set(existing.map((e) => e.name));
+    // ...and rows whose barcode is already on a product in the store
+    const skus = valid.map((v) => v.sku).filter(Boolean);
+    const skuOwners = skus.length
+      ? await Product.find({ sku: { $in: skus } }).select("sku name").lean()
+      : [];
+    const skuOwner = new Map(skuOwners.map((e) => [e.sku, e.name]));
     const toCreate = valid.filter((v) => {
       if (existingNames.has(v.name)) {
         skipped.push({ name: v.name, reason: "כבר קיים בחנות" });
+        return false;
+      }
+      if (v.sku && skuOwner.has(v.sku)) {
+        skipped.push({ name: v.name, reason: skuTakenMsg(v.sku, { name: skuOwner.get(v.sku) }) });
         return false;
       }
       return true;
@@ -391,6 +425,8 @@ router.put(
   "/products/:id",
   asyncRoute(async (req, res) => {
     const fields = pickEditable(req.body || {});
+    const skuClash = await skuTakenBy(fields.sku, req.params.id);
+    if (skuClash) return res.status(409).json({ error: skuTakenMsg(fields.sku, skuClash) });
     const before = await Product.findById(req.params.id).select("img").lean();
     const product = await Product.findByIdAndUpdate(
       req.params.id,
