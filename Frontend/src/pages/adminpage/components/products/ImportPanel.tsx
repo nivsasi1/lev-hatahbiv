@@ -24,7 +24,8 @@ export function ImportPanel({ csv }: { csv: CsvApi }) {
       <p className="import-help dim">
         טיפ: אפשר לבקש מ-AI לסרוק אתר של מותג ולהחזיר קובץ בדיוק בפורמט הזה —
         עמודות: name, price, category, sub_cat, third_level, description, images,
-        salePercentage.
+        salePercentage, sku (ברקוד), searchKeywords (מילות חיפוש נסתרות). שורה עם
+        ברקוד שכבר קיים בחנות תדולג.
       </p>
       <div className="import-inputs">
         <label className="btn small ghost">

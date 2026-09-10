@@ -154,6 +154,8 @@ export function useProducts() {
           csvEscape(p.description || ""),
           csvEscape(p.img || ""),
           p.salePercentage || 0,
+          csvEscape(p.sku || ""),
+          csvEscape(p.searchKeywords || ""),
         ].join(",")
       );
     }

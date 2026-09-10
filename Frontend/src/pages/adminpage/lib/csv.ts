@@ -55,6 +55,8 @@ export const rowsToProducts = (rows: string[][], imageMap: Map<string, string>) 
     desc: idx(["description", "תיאור"]),
     images: idx(["images", "image", "img", "תמונות"]),
     sale: idx(["salepercentage", "sale", "מבצע"]),
+    sku: idx(["sku", "barcode", "ברקוד", "מק\"ט", "מקט"]),
+    keywords: idx(["searchkeywords", "keywords", "מילות חיפוש"]),
   };
   const errors: string[] = [];
   if (col.name < 0 || col.price < 0 || col.images < 0) {
@@ -80,6 +82,8 @@ export const rowsToProducts = (rows: string[][], imageMap: Map<string, string>) 
       description: get(col.desc),
       img: images.join(";"),
       salePercentage: get(col.sale) || 0,
+      sku: get(col.sku),
+      searchKeywords: get(col.keywords),
     };
     products.push(p);
     prev = p;
