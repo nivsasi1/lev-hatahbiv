@@ -13279,7 +13279,8 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "כללי",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-10T07:53:38.405Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277070e",
@@ -13294,7 +13295,9 @@
     "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
-    "third_level": "כללי"
+    "third_level": "כללי",
+    "isActive": false,
+    "updatedAt": "2026-09-10T07:53:53.133Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277070d",
