@@ -14415,7 +14415,7 @@
     "description": "<p dir=\"rtl\">מכחול משער בריסטל קשה לצבעי שמן ואקריליק. מכחולים מקצועיים&nbsp; בעלי יכולת דיוק וספיגה גבוהים.</p><p dir=\"rtl\">ידית ארוכה</p><p dir=\"rtl\">סדרה: עגול 40R</p><p dir=\"rtl\">מספר 0</p>",
     "img": "733145_d0e1a13e9cf249ea8da5051b32c44c4d~mv2.jpg",
     "sku": "38372281277",
-    "price": 23.9,
+    "price": 28.8,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -14423,7 +14423,11 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול עגול סיגנט - SIGNET",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-10T07:59:34.854Z",
+    "noCoupon": false,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770752",
