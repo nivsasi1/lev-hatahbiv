@@ -12,6 +12,7 @@
     "check:redirects": "node scripts/seo/check-redirects.mjs"
   },
   "dependencies": {
+    "@zxing/library": "^0.21.3",
     "preact": "^10.19.3",
     "react-router-dom": "^6.21.3"
   },

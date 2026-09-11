@@ -302,3 +302,105 @@
     animation: none;
   }
 }
+
+/* ===========================================================================
+   Barcode scanner (products tab) — camera viewfinder + manual fallback.
+   Lives in the shared .ui-veil overlay, so it inherits the active admin theme.
+   =========================================================================== */
+.scan-dialog {
+  width: min(30rem, 94vw);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1.1rem;
+  box-shadow: 0.35em 0.35em 0 var(--shadow);
+  padding: 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.scan-dialog h3 {
+  margin: 0;
+  font-size: 2.1rem;
+  color: var(--purple);
+}
+
+.scan-stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #14121c;
+  border-radius: 0.9rem;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.scan-stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* no camera → the element would just be a black box; the message takes over,
+   and the stage shrinks to the text instead of leaving a tall empty void */
+.scan-stage.blocked video {
+  display: none;
+}
+.scan-stage.blocked {
+  aspect-ratio: auto;
+  min-height: 8rem;
+  padding: 1.5rem 0;
+}
+
+/* target rectangle; the huge spread dims everything outside it (clipped by the
+   stage's overflow), which is what makes the frame read as "aim here" */
+.scan-frame {
+  position: absolute;
+  inset: 24% 8%;
+  /* amber, not white: a product barcode is always printed on a white label,
+     and a white frame would disappear into it */
+  border: 3px solid #ffb703;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+}
+
+.scan-over {
+  position: absolute;
+  margin: 0;
+  padding: 0 1.4rem;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.scan-manual {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.scan-manual .btn:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+  transform: none;
+  cursor: default;
+}
+
+.scan-manual input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.5em 0.9em;
+  outline: none;
+}

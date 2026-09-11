@@ -79,6 +79,24 @@ export function useProductForm() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // a scanned (or typed) barcode: open the product that carries it for editing,
+  // otherwise start a new product with the barcode already filled in. Returns the
+  // matched product so the caller can report which of the two happened.
+  const openByBarcode = (raw: string) => {
+    const code = raw.trim();
+    if (!code) return null;
+    const hit = products.find((p) => (p.sku || "").trim() === code) || null;
+    if (hit) {
+      startEdit(hit);
+    } else {
+      setEditingId(null);
+      setShowAdd(true);
+      setForm({ ...emptyForm, sku: code });
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return hit;
+  };
+
   const toggleAdd = () => {
     setShowAdd((v) => !v);
     setEditingId(null);
@@ -212,6 +230,7 @@ export function useProductForm() {
     visible: showAdd || editingId !== null,
     startEdit,
     duplicate,
+    openByBarcode,
     toggleAdd,
     cancelEdit,
     submitForm,
