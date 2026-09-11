@@ -110,7 +110,13 @@ function secureHeaders(resp: Response): Response {
   // the mail subdomain (mail.lev-hatahbiv.com) is never force-upgraded, and the
   // commitment stays reversible.
   h.set("strict-transport-security", "max-age=15552000");
-  h.set("permissions-policy", "geolocation=(), microphone=(), camera=(), payment=()");
+  // camera=(self): the /manage barcode scanner needs getUserMedia, and the policy
+  // is per-document — a manager who reaches /manage by clicking through the SPA
+  // carries the home page's document with them, so scoping this to the /manage
+  // path would silently break the scanner. "self" still means first-party code
+  // only (no iframe is delegated the camera) and the browser's own permission
+  // prompt is unchanged. Mic and geolocation stay fully off.
+  h.set("permissions-policy", "geolocation=(), microphone=(), camera=(self), payment=()");
   return new Response(resp.body, { status: resp.status, statusText: resp.statusText, headers: h });
 }
 
