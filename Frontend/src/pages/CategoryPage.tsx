@@ -9,6 +9,8 @@ import {
   slugOf,
   subPath,
   subFromParam,
+  orderSeries,
+  shelfPicksOf,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
@@ -143,9 +145,28 @@ export const SubCategoryPage = () => {
     setPriceMax(null);
   }, [slug, sub]);
 
+  // Infinite scroll. The sentinel node is kept in state, not a ref, so the
+  // observer is rebuilt both when the node remounts (a filter changed) and after
+  // every batch — a target that stays continuously intersecting never fires a
+  // second time, which is what stalls the naive version half-way down a shelf.
+  const [sentinel, setSentinel] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!sentinel || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) setLimit((l) => l + PAGE_SIZE * 2);
+      },
+      { rootMargin: "600px 0px" } // start fetching a screenful early
+    );
+    io.observe(sentinel);
+    return () => io.disconnect();
+  }, [sentinel, limit]);
+
   const category = getCategory(slug ?? "");
   const all = productsByCategory(slug ?? "").filter((p) => p.sub === sub);
-  const thirds = [...new Set(all.map((p) => p.third))];
+  // series chips in the order the manager set in /manage (unranked ones keep
+  // their place after the ranked ones)
+  const thirds = orderSeries([...new Set(all.map((p) => p.third))], slug ?? "", sub);
   // the series/brand chip lives in the URL (?third=<slug>) so shelves are linkable
   const thirdParam = searchParams.get("third");
   const third = thirdParam ? thirds.find((t) => slugOf(t) === thirdParam) ?? null : null;
@@ -195,8 +216,19 @@ export const SubCategoryPage = () => {
       })
     : byThird;
   const sorted = sort === "default" ? filtered : [...filtered].sort(sorters[sort]);
-  const shown = sorted.slice(0, limit);
-  const remaining = sorted.length - shown.length;
+  // The manager's picks lead the shelf, but only in its default view: choosing a
+  // series or a sort means the shopper asked for a different order.
+  const leadIds = third === null && sort === "default" ? shelfPicksOf(slug ?? "", sub) : [];
+  const ranked = (() => {
+    if (leadIds.length === 0) return sorted;
+    const rank = new Map(leadIds.map((id, i) => [id, i]));
+    const lead = sorted.filter((p) => rank.has(p.id));
+    if (lead.length === 0) return sorted;
+    lead.sort((a, b) => (rank.get(a.id) as number) - (rank.get(b.id) as number));
+    return [...lead, ...sorted.filter((p) => !rank.has(p.id))];
+  })();
+  const shown = ranked.slice(0, limit);
+  const remaining = ranked.length - shown.length;
   const cheapest = Math.min(...all.map(finalPrice));
 
   return (
@@ -320,20 +352,20 @@ export const SubCategoryPage = () => {
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
+        {remaining > 0 && (
+          <>
+            {/* the shopper never asks for the next page — reaching the end does.
+                The sentinel sits a screenful early so the grid stays filled. */}
+            <div ref={setSentinel} aria-hidden="true" />
+            <p className="load-more-row" role="status">
+              טוען עוד מוצרים… ({remaining} נותרו)
+            </p>
+          </>
+        )}
         {shown.length === 0 && (
           <p className="empty-note">
             אין מוצרים בטווח המחיר הזה — נסו להרחיב את הטווח 🎨
           </p>
-        )}
-        {remaining > 0 && (
-          <div className="load-more-row">
-            <button
-              className="btn ghost"
-              onClick={() => setLimit((l) => l + PAGE_SIZE * 2)}
-            >
-              להציג עוד מהמדף ({remaining} נוספים)
-            </button>
-          </div>
         )}
       </section>
     </main>
