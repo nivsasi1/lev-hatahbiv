@@ -9,7 +9,7 @@ import {
   slugOf,
   subPath,
   subFromParam,
-  orderSeries,
+  seriesOfShelf,
   shelfPicksOf,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
@@ -121,6 +121,8 @@ const PAGE_SIZE = 24;
 type SortKey = "default" | "priceAsc" | "priceDesc";
 
 const sorters: Record<SortKey, (a: any, b: any) => number> = {
+  // "default" deliberately sorts nothing: it is the shelf's own order, which the
+  // manager controls from /manage (lead products, then the series order).
   default: () => 0,
   priceAsc: (a, b) => finalPrice(a) - finalPrice(b),
   priceDesc: (a, b) => finalPrice(b) - finalPrice(a),
@@ -164,9 +166,8 @@ export const SubCategoryPage = () => {
 
   const category = getCategory(slug ?? "");
   const all = productsByCategory(slug ?? "").filter((p) => p.sub === sub);
-  // series chips in the order the manager set in /manage (unranked ones keep
-  // their place after the ranked ones)
-  const thirds = orderSeries([...new Set(all.map((p) => p.third))], slug ?? "", sub);
+  // biggest series first, then the order the manager set in /manage
+  const thirds = seriesOfShelf(all, slug ?? "", sub);
   // the series/brand chip lives in the URL (?third=<slug>) so shelves are linkable
   const thirdParam = searchParams.get("third");
   const third = thirdParam ? thirds.find((t) => slugOf(t) === thirdParam) ?? null : null;
@@ -285,7 +286,7 @@ export const SubCategoryPage = () => {
             onChange={(e: any) => setSort(e.target.value as SortKey)}
             aria-label="מיון"
           >
-            <option value="default">מיון: א-ב</option>
+            <option value="default">מיון: סדר המדף</option>
             <option value="priceAsc">מחיר: מהזול ליקר</option>
             <option value="priceDesc">מחיר: מהיקר לזול</option>
           </select>

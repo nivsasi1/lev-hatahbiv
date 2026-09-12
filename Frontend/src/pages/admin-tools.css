@@ -476,3 +476,21 @@
   min-width: 0;
   max-width: none;
 }
+
+/* drag handle + drag feedback for the series list */
+.series-order li {
+  cursor: default;
+}
+
+.series-order .so-grip {
+  flex: none;
+  cursor: grab;
+  opacity: 0.45;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.series-order li.dragging {
+  opacity: 0.45;
+  border-style: dashed;
+}

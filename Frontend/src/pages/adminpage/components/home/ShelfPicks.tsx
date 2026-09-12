@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { useHomeSettings } from "../../hooks/useHomeSettings";
 import { imgUrl } from "../../lib/helpers";
 
@@ -7,6 +8,9 @@ type HomeApi = ReturnType<typeof useHomeSettings>;
 // order of its series chips. One shelf is edited at a time — there are dozens of
 // them, and the owner only ever cares about the one they are looking at.
 export function ShelfPicks({ home }: { home: HomeApi }) {
+  // the series being dragged; touch devices never fire these events, which is
+  // why the arrows stay — they are the only way to reorder on a phone
+  const [dragging, setDragging] = useState<string | null>(null);
   const picked = home.shelfPickIds
     .map((id) => ({ id, p: home.productById.get(id) }))
     .filter((x) => x.p);
@@ -106,10 +110,46 @@ export function ShelfPicks({ home }: { home: HomeApi }) {
             <p className="empty-note">במדף הזה יש סדרה אחת בלבד, אין מה לסדר</p>
           ) : (
             <>
+              <p className="import-help dim">
+                אפשר לגרור שורה למקומה בעכבר, או להשתמש בחיצים. ⤒ מקפיץ סדרה לראש
+                הרשימה בלחיצה אחת.
+              </p>
               <ol className="series-order">
                 {home.shelfSeries.map((name, i) => (
-                  <li key={name}>
+                  <li
+                    key={name}
+                    draggable
+                    className={dragging === name ? "dragging" : ""}
+                    onDragStart={(e: any) => {
+                      setDragging(name);
+                      e.dataTransfer.effectAllowed = "move";
+                      // Firefox refuses to start a drag without payload
+                      e.dataTransfer.setData("text/plain", name);
+                    }}
+                    onDragOver={(e: any) => {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = "move";
+                    }}
+                    onDrop={(e: any) => {
+                      e.preventDefault();
+                      if (dragging) home.reorderSeries(dragging, name);
+                      setDragging(null);
+                    }}
+                    onDragEnd={() => setDragging(null)}
+                  >
+                    <span className="so-grip" aria-hidden="true">
+                      ⠿
+                    </span>
                     <span className="so-name">{name}</span>
+                    <button
+                      type="button"
+                      aria-label={`העברת ${name} לראש הרשימה`}
+                      title="לראש הרשימה"
+                      disabled={i === 0}
+                      onClick={() => home.seriesToTop(name)}
+                    >
+                      ⤒
+                    </button>
                     <button
                       type="button"
                       aria-label={`הקדמת ${name}`}

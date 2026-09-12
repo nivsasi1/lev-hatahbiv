@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useAdmin } from "../context";
 import { toRibbonSlots } from "../lib/helpers";
-import { categories, slugOf } from "../../../data/catalog";
+import { categories, slugOf, rankSeries } from "../../../data/catalog";
 
 // Home-page content saved to the Express settings singleton: the marquee ribbon
 // texts, featured products, the home sale picks, and per-category shelf photos.
@@ -138,15 +138,16 @@ export function useHomeSettings() {
     [products, shelfSel]
   );
 
-  // series of the selected shelf, in the draft order being edited
+  // Series of the selected shelf in the draft order being edited. The base order
+  // MUST match the storefront's (biggest series first — see seriesOfShelf in
+  // data/catalog.ts), otherwise the manager reorders a list the shop never shows.
   const shelfSeries = useMemo(() => {
-    const names = [...new Set(shelfProducts.map((p) => (p.third_level || "").trim()).filter(Boolean))];
-    const wanted = shelfOrder[shelfSel];
-    if (!wanted || wanted.length === 0) return names;
-    const rank = new Map(wanted.map((n, i) => [n, i]));
-    return [...names].sort(
-      (a, b) => (rank.get(a) ?? Number.MAX_SAFE_INTEGER) - (rank.get(b) ?? Number.MAX_SAFE_INTEGER)
-    );
+    const counts = new Map<string, number>();
+    for (const p of shelfProducts) {
+      const name = (p.third_level || "").trim();
+      if (name) counts.set(name, (counts.get(name) ?? 0) + 1);
+    }
+    return rankSeries(counts, shelfOrder[shelfSel]);
   }, [shelfProducts, shelfOrder, shelfSel]);
 
   const shelfPickIds = shelfSel ? shelfPicks[shelfSel] ?? [] : [];
@@ -198,6 +199,29 @@ export function useHomeSettings() {
     [next[i], next[j]] = [next[j], next[i]];
     setShelfList(setShelfOrder, shelfSel, next);
   };
+  // drag-and-drop: drop the dragged name at another name's position
+  const reorderSeries = (from: string, to: string) => {
+    if (!shelfSel || from === to) return;
+    const i = shelfSeries.indexOf(from);
+    const j = shelfSeries.indexOf(to);
+    if (i < 0 || j < 0) return;
+    const next = [...shelfSeries];
+    next.splice(i, 1);
+    next.splice(j, 0, from);
+    setShelfList(setShelfOrder, shelfSel, next);
+  };
+
+  // the common case on a long shelf: "put this one first" without 14 clicks
+  const seriesToTop = (name: string) => {
+    if (!shelfSel) return;
+    const i = shelfSeries.indexOf(name);
+    if (i <= 0) return;
+    const next = [...shelfSeries];
+    next.splice(i, 1);
+    next.unshift(name);
+    setShelfList(setShelfOrder, shelfSel, next);
+  };
+
   const resetSeriesOrder = () => shelfSel && setShelfList(setShelfOrder, shelfSel, []);
 
   const saveShelves = () => putSettings("המדף נשמר! יופיע באתר אחרי פרסום");
@@ -267,6 +291,8 @@ export function useHomeSettings() {
     moveShelfPick,
     shelfSeries,
     moveSeries,
+    reorderSeries,
+    seriesToTop,
     resetSeriesOrder,
     shelfOrder,
     saveShelves,

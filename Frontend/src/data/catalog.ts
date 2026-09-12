@@ -342,15 +342,37 @@ export const shelfKey = (catSlug: string, sub: string) => `${catSlug}/${slugOf(s
 export const shelfPicksOf = (catSlug: string, sub: string): string[] =>
   siteSettings.shelfPicks[shelfKey(catSlug, sub)] ?? [];
 
-// Series chips in the manager's order; anything they didn't rank keeps its
-// existing relative position after the ranked ones (Array#sort is stable).
-export const orderSeries = (series: string[], catSlug: string, sub: string): string[] => {
-  const wanted = siteSettings.shelfOrder[shelfKey(catSlug, sub)];
-  if (!wanted || wanted.length === 0) return series;
+// The series chips of one shelf. The base order is biggest series first — the
+// dashboard derives it the same way, so what the manager reorders is exactly
+// what a shopper sees. (Before this rule the two disagreed: the storefront used
+// the catalog's natural order and the dashboard got Mongo's byte-order name
+// sort, which puts English product names ahead of Hebrew ones.)
+// The manager's ranking then applies on top; anything they didn't rank keeps its
+// place after the ranked ones, since Array#sort is stable.
+// The ordering rule itself, shared with the dashboard (which ranks the same
+// names against a draft it hasn't saved yet) so the two can never drift apart.
+export const rankSeries = (
+  counts: Map<string, number>,
+  wanted?: string[] | null
+): string[] => {
+  const base = [...counts.keys()].sort(
+    (a, b) => (counts.get(b) as number) - (counts.get(a) as number) || a.localeCompare(b, "he")
+  );
+  if (!wanted || wanted.length === 0) return base;
   const rank = new Map(wanted.map((name, i) => [name, i]));
-  return [...series].sort(
+  return base.sort(
     (a, b) => (rank.get(a) ?? Number.MAX_SAFE_INTEGER) - (rank.get(b) ?? Number.MAX_SAFE_INTEGER)
   );
+};
+
+export const seriesOfShelf = (
+  shelfProducts: Product[],
+  catSlug: string,
+  sub: string
+): string[] => {
+  const counts = new Map<string, number>();
+  for (const p of shelfProducts) counts.set(p.third, (counts.get(p.third) ?? 0) + 1);
+  return rankSeries(counts, siteSettings.shelfOrder[shelfKey(catSlug, sub)]);
 };
 
 export type SubSummary = {
