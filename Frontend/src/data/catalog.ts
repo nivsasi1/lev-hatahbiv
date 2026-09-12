@@ -255,6 +255,20 @@ export const DEFAULT_SHELF_IMAGES: Record<string, string> = {
   jewelry: `${SHELF_U}photo-1646070107254-3713cec279c1${SHELF_Q}`, // beads + charms
 };
 
+// a { shelfKey: [string, ...] } map from the baked settings, shape-checked so a
+// malformed singleton can never break the storefront
+const asShelfMap = (raw: unknown): Record<string, string[]> => {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out: Record<string, string[]> = {};
+  for (const [key, list] of Object.entries(raw as Record<string, unknown>)) {
+    if (Array.isArray(list)) {
+      const clean = list.map((v) => String(v)).filter(Boolean);
+      if (clean.length) out[key] = clean;
+    }
+  }
+  return out;
+};
+
 export const siteSettings = {
   ribbonTexts:
     settings.ribbonTexts && settings.ribbonTexts.length > 0
@@ -282,6 +296,10 @@ export const siteSettings = {
   })(),
   // NOTE: coupons + the newsletter welcome offer no longer live here — they're
   // served live by the Cloudflare Worker (D1) via /api. See worker/index.ts.
+  // Per-shelf manager choices, keyed by shelfKey(): which products lead the
+  // shelf page, and the order its series chips appear in.
+  shelfPicks: asShelfMap((settings as any).shelfPicks),
+  shelfOrder: asShelfMap((settings as any).shelfOrder),
 };
 
 const productById = new Map(products.map((p) => [p.id, p]));
@@ -314,6 +332,25 @@ export const subFromParam = (catSlug: string, param: string): string | undefined
   const subs = new Set(productsByCategory(catSlug).map((p) => p.sub));
   if (subs.has(param)) return param;
   return [...subs].find((s) => slugOf(s) === param || slugOf(s) === slugOf(param));
+};
+
+// One shelf = one sub-category page. Keyed by slug (not raw name) because sub
+// names may contain "/" — the same key the dashboard writes.
+export const shelfKey = (catSlug: string, sub: string) => `${catSlug}/${slugOf(sub)}`;
+
+// Product ids the manager put first on this shelf (empty = no preference).
+export const shelfPicksOf = (catSlug: string, sub: string): string[] =>
+  siteSettings.shelfPicks[shelfKey(catSlug, sub)] ?? [];
+
+// Series chips in the manager's order; anything they didn't rank keeps its
+// existing relative position after the ranked ones (Array#sort is stable).
+export const orderSeries = (series: string[], catSlug: string, sub: string): string[] => {
+  const wanted = siteSettings.shelfOrder[shelfKey(catSlug, sub)];
+  if (!wanted || wanted.length === 0) return series;
+  const rank = new Map(wanted.map((name, i) => [name, i]));
+  return [...series].sort(
+    (a, b) => (rank.get(a) ?? Number.MAX_SAFE_INTEGER) - (rank.get(b) ?? Number.MAX_SAFE_INTEGER)
+  );
 };
 
 export type SubSummary = {

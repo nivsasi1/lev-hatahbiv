@@ -4,6 +4,7 @@ import { RibbonEditor } from "./RibbonEditor";
 import { FeaturedPicker } from "./FeaturedPicker";
 import { SalePicker } from "./SalePicker";
 import { ShelfImages } from "./ShelfImages";
+import { ShelfPicks } from "./ShelfPicks";
 import { OffersEditor } from "./OffersEditor";
 
 type HomeApi = ReturnType<typeof useHomeSettings>;
@@ -16,6 +17,7 @@ export function HomeView({ home, coupons }: { home: HomeApi; coupons: CouponsApi
       <RibbonEditor home={home} />
       <FeaturedPicker home={home} />
       <SalePicker home={home} />
+      <ShelfPicks home={home} />
       <ShelfImages home={home} />
       <OffersEditor coupons={coupons} />
     </div>

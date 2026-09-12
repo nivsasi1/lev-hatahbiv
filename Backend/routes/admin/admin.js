@@ -658,6 +658,8 @@ router.get(
         ...base,
         saleIds: base.saleIds || [],
         shelfImages: base.shelfImages || {},
+        shelfPicks: base.shelfPicks || {},
+        shelfOrder: base.shelfOrder || {},
       },
     });
   })
@@ -712,11 +714,35 @@ router.put(
       }
     }
 
+    // Both shelf maps are keyed "<categorySlug>/<subCategorySlug>" and are
+    // optional in the body; an omitted key leaves the stored map untouched, an
+    // empty list for a shelf drops that shelf back to the default behaviour.
+    const shelfMap = (value, label, cap, itemMax) => {
+      if (value === undefined) return undefined;
+      if (typeof value !== "object" || value === null || Array.isArray(value)) {
+        throw badInput(`מבנה ${label} לא תקין`);
+      }
+      const out = {};
+      for (const [key, list] of Object.entries(value)) {
+        if (!Array.isArray(list)) throw badInput(`מבנה ${label} לא תקין`);
+        const clean = list
+          .map((v) => String(v).trim().slice(0, itemMax))
+          .filter(Boolean)
+          .slice(0, cap);
+        if (clean.length) out[String(key).slice(0, 200)] = clean;
+      }
+      return out;
+    };
+    const shelfPicks = shelfMap(body.shelfPicks, "המוצרים הראשונים במדף", 5, 64);
+    const shelfOrder = shelfMap(body.shelfOrder, "סדר הסדרות במדף", 60, 200);
+
     // NOTE: coupons + the newsletter welcome offer moved to the Cloudflare
     // Worker (D1) — they're no longer part of the Mongo settings singleton.
 
     const $set = { ribbonTexts, featuredIds, saleIds };
     if (shelfImages !== undefined) $set.shelfImages = shelfImages;
+    if (shelfPicks !== undefined) $set.shelfPicks = shelfPicks;
+    if (shelfOrder !== undefined) $set.shelfOrder = shelfOrder;
 
     const settings = await SiteSettings.findOneAndUpdate(
       {},

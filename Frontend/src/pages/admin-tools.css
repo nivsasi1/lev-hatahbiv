@@ -404,3 +404,75 @@
   padding: 0.5em 0.9em;
   outline: none;
 }
+
+/* ── per-shelf picks + series order (home tab) ───────────────────────────── */
+.shelf-select {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.5em 0.9em;
+  max-width: 100%;
+}
+
+.shelf-sub {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.series-order {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.series-order li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.35em 0.7em;
+}
+
+.series-order .so-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.series-order button,
+.featured-chip button[aria-label="הזזה אחורה"],
+.featured-chip button[aria-label="הזזה קדימה"] {
+  flex: none;
+  min-width: 2rem;
+  cursor: pointer;
+}
+
+.series-order button:disabled,
+.featured-chip button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* a shelf pick carries two order buttons on top of the usual image/name/remove,
+   so it becomes a full-width row that shrinks rather than an inline pill that
+   overflows the card on a phone */
+.shelf-chip {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+.shelf-chip .fc-name {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+}

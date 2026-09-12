@@ -213,6 +213,18 @@ if (existsSync(settingsDumpPath)) {
     rawSettings = {};
   }
 }
+// a { shelfKey: [string, ...] } map, ignoring anything of the wrong shape
+const shelfMap = (raw) => {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out = {};
+  for (const [key, list] of Object.entries(raw)) {
+    if (!Array.isArray(list)) continue;
+    const clean = list.map((v) => String(v)).filter(Boolean);
+    if (clean.length) out[key] = clean;
+  }
+  return out;
+};
+
 const settings = {
   ribbonTexts: Array.isArray(rawSettings.ribbonTexts) ? rawSettings.ribbonTexts : [],
   featuredIds: Array.isArray(rawSettings.featuredIds) ? rawSettings.featuredIds : [],
@@ -221,12 +233,18 @@ const settings = {
     rawSettings.shelfImages && typeof rawSettings.shelfImages === "object" && !Array.isArray(rawSettings.shelfImages)
       ? rawSettings.shelfImages
       : {},
+  // per-shelf lead products and series-chip order, both keyed
+  // "<categorySlug>/<subCategorySlug>" (see Frontend/src/data/catalog.ts)
+  shelfPicks: shelfMap(rawSettings.shelfPicks),
+  shelfOrder: shelfMap(rawSettings.shelfOrder),
   // coupons + the welcome offer are no longer baked — served live by the
   // Cloudflare Worker (D1). See worker/index.ts.
 };
 writeFileSync(settingsOutPath, JSON.stringify(settings));
 const saleCount = products.filter((p) => p.salePrice != null).length;
 console.log(
-  `wrote settings (${settings.ribbonTexts.length} ribbon, ${settings.featuredIds.length} featured, ${settings.saleIds.length} sale) -> ${settingsOutPath}`
+  `wrote settings (${settings.ribbonTexts.length} ribbon, ${settings.featuredIds.length} featured, ` +
+    `${settings.saleIds.length} sale, ${Object.keys(settings.shelfPicks).length} shelves with picks, ` +
+    `${Object.keys(settings.shelfOrder).length} ordered) -> ${settingsOutPath}`
 );
 console.log(`sale products: ${saleCount}`);
