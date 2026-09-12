@@ -27,7 +27,7 @@
     "איסוף מהיר מהחנות ברחובות"
   ],
   "saleIds": [],
-  "updatedAt": "2026-09-07T22:38:38.478Z",
+  "updatedAt": "2026-09-12T20:46:40.395Z",
   "shelfImages": {
     "drawing": "1781370471412-5a3cb409.jpg",
     "craft": "1781370599520-a561fad0.jpeg",
@@ -41,5 +41,31 @@
       "percent": 10
     }
   ],
-  "welcomeCoupon": "LEV10"
+  "welcomeCoupon": "LEV10",
+  "shelfOrder": {
+    "brushes/מכחולים": [
+      "מכחול שטוח סיגנט - SIGNET",
+      "פרינסטון מיני - PRINCETON - Mini",
+      "מכחול פרינסטון כללי - PRINCETON",
+      "PRINCETON - מכחול פרינסטון מופ ובלנדר",
+      "מכחול גומי מונט מרט",
+      "מכחול מניפנה סיגנט - SIGNET",
+      "PRINCETON - Round פרינסטון עגול",
+      "PRINCETON - Flat Shader פרינסטון שטוח",
+      "מכחול עגול סיגנט - SIGNET",
+      "מכחול פילברט סיגנט - SIGNET",
+      "PRINCETON - Angular Shader פרינסטון זווית",
+      "PRINCETON - Filbert פרינסטון פילברט",
+      "מכחול קולינסקי סידרה 7",
+      "מכחול שטוח ארוך סיגנט - SIGNET",
+      "כללי"
+    ]
+  },
+  "shelfPicks": {
+    "brushes/מכחולים": [
+      "66844bfdf2e4e8f572770524",
+      "66844bfdf2e4e8f572770521",
+      "66844bfdf2e4e8f57277051e"
+    ]
+  }
 }
