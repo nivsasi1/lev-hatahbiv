@@ -34,6 +34,7 @@ export function useHomeSettings() {
   // per-shelf: which products lead the page, and the order of its series chips
   const [shelfPicks, setShelfPicks] = useState<Record<string, string[]>>({});
   const [shelfOrder, setShelfOrder] = useState<Record<string, string[]>>({});
+  const [shelfTitles, setShelfTitles] = useState<Record<string, string>>({});
   const [shelfSel, setShelfSel] = useState("");
   const [shelfSearch, setShelfSearch] = useState("");
   const [shelfUploading, setShelfUploading] = useState<string | null>(null);
@@ -58,6 +59,11 @@ export function useHomeSettings() {
       );
       setShelfPicks(asShelfMap(d.settings.shelfPicks));
       setShelfOrder(asShelfMap(d.settings.shelfOrder));
+      setShelfTitles(
+        d.settings.shelfTitles && typeof d.settings.shelfTitles === "object"
+          ? d.settings.shelfTitles
+          : {}
+      );
       setLoaded(true);
     });
 
@@ -70,6 +76,7 @@ export function useHomeSettings() {
     shelfImages,
     shelfPicks,
     shelfOrder,
+    shelfTitles,
   });
   const putSettings = (okMsg: string) =>
     act(async () => {
@@ -224,6 +231,19 @@ export function useHomeSettings() {
 
   const resetSeriesOrder = () => shelfSel && setShelfList(setShelfOrder, shelfSel, []);
 
+  // heading above this shelf's picks; blank drops the key so the picks simply
+  // lead the grid with no label
+  const shelfTitle = shelfSel ? shelfTitles[shelfSel] ?? "" : "";
+  const setShelfTitle = (text: string) =>
+    shelfSel &&
+    setShelfTitles((prev) => {
+      const out = { ...prev };
+      const t = text.trimStart();
+      if (t) out[shelfSel] = t;
+      else delete out[shelfSel];
+      return out;
+    });
+
   const saveShelves = () => putSettings("המדף נשמר! יופיע באתר אחרי פרסום");
 
   // ── shelf images: per-category home-mosaic photos ──
@@ -289,6 +309,8 @@ export function useHomeSettings() {
     addShelfPick,
     removeShelfPick,
     moveShelfPick,
+    shelfTitle,
+    setShelfTitle,
     shelfSeries,
     moveSeries,
     reorderSeries,

@@ -11,6 +11,7 @@ import {
   subFromParam,
   seriesOfShelf,
   shelfPicksOf,
+  shelfTitleOf,
 } from "../data/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
@@ -220,16 +221,19 @@ export const SubCategoryPage = () => {
   // The manager's picks lead the shelf, but only in its default view: choosing a
   // series or a sort means the shopper asked for a different order.
   const leadIds = third === null && sort === "default" ? shelfPicksOf(slug ?? "", sub) : [];
-  const ranked = (() => {
-    if (leadIds.length === 0) return sorted;
-    const rank = new Map(leadIds.map((id, i) => [id, i]));
-    const lead = sorted.filter((p) => rank.has(p.id));
-    if (lead.length === 0) return sorted;
-    lead.sort((a, b) => (rank.get(a.id) as number) - (rank.get(b.id) as number));
-    return [...lead, ...sorted.filter((p) => !rank.has(p.id))];
-  })();
-  const shown = ranked.slice(0, limit);
-  const remaining = ranked.length - shown.length;
+  const rank = new Map(leadIds.map((id, i) => [id, i]));
+  const lead = leadIds.length
+    ? sorted
+        .filter((p) => rank.has(p.id))
+        .sort((a, b) => (rank.get(a.id) as number) - (rank.get(b.id) as number))
+    : [];
+  const rest = lead.length ? sorted.filter((p) => !rank.has(p.id)) : sorted;
+  // With a heading the picks become their own labelled row and only the rest
+  // paginates; without one they simply lead the single grid, as before.
+  const leadTitle = lead.length ? shelfTitleOf(slug ?? "", sub) : "";
+  const paged = leadTitle ? rest : [...lead, ...rest];
+  const shown = paged.slice(0, limit);
+  const remaining = paged.length - shown.length;
   const cheapest = Math.min(...all.map(finalPrice));
 
   return (
@@ -348,6 +352,23 @@ export const SubCategoryPage = () => {
           </div>
         </div>
 
+        {leadTitle && (
+          <>
+            <div className="section-head shelf-lead-head">
+              <h2 className="display">{leadTitle}</h2>
+              <div className="scribble" />
+            </div>
+            <div className="product-grid">
+              {lead.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+            <div className="section-head">
+              <h2 className="display">כל המוצרים במדף</h2>
+              <div className="scribble" />
+            </div>
+          </>
+        )}
         <div className="product-grid">
           {shown.map((p) => (
             <ProductCard key={p.id} product={p} />

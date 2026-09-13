@@ -269,6 +269,17 @@ const asShelfMap = (raw: unknown): Record<string, string[]> => {
   return out;
 };
 
+// a { shelfKey: "one line" } map from the baked settings
+const asTextMap = (raw: unknown): Record<string, string> => {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out: Record<string, string> = {};
+  for (const [key, text] of Object.entries(raw as Record<string, unknown>)) {
+    const t = String(text ?? "").trim();
+    if (t) out[key] = t;
+  }
+  return out;
+};
+
 export const siteSettings = {
   ribbonTexts:
     settings.ribbonTexts && settings.ribbonTexts.length > 0
@@ -300,6 +311,8 @@ export const siteSettings = {
   // shelf page, and the order its series chips appear in.
   shelfPicks: asShelfMap((settings as any).shelfPicks),
   shelfOrder: asShelfMap((settings as any).shelfOrder),
+  // optional heading the manager set above a shelf's picks
+  shelfTitles: asTextMap((settings as any).shelfTitles),
 };
 
 const productById = new Map(products.map((p) => [p.id, p]));
@@ -351,6 +364,10 @@ export const shelfPicksOf = (catSlug: string, sub: string): string[] =>
 // place after the ranked ones, since Array#sort is stable.
 // The ordering rule itself, shared with the dashboard (which ranks the same
 // names against a draft it hasn't saved yet) so the two can never drift apart.
+// Heading for this shelf's picks ("" = show them without one).
+export const shelfTitleOf = (catSlug: string, sub: string): string =>
+  siteSettings.shelfTitles[shelfKey(catSlug, sub)] ?? "";
+
 export const rankSeries = (
   counts: Map<string, number>,
   wanted?: string[] | null

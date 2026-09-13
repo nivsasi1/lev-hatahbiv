@@ -494,3 +494,16 @@
   opacity: 0.45;
   border-style: dashed;
 }
+
+.shelf-title-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.7em;
+  padding: 0.5em 0.9em;
+  margin-top: 0.4rem;
+}

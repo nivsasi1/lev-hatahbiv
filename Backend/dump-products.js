@@ -23,6 +23,7 @@ require("dotenv").config({ path: ".env" });
         shelfImages: settings.shelfImages || {},
         shelfPicks: settings.shelfPicks || {},
         shelfOrder: settings.shelfOrder || {},
+        shelfTitles: settings.shelfTitles || {},
       }
     : {};
   fs.writeFileSync("settings-dump.json", JSON.stringify(settingsOut, null, 2));

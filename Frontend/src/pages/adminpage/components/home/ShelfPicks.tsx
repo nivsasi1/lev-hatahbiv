@@ -105,6 +105,26 @@ export function ShelfPicks({ home }: { home: HomeApi }) {
           </div>
           <p className="import-help dim">נבחרו {home.shelfPickIds.length}/5 מוצרים</p>
 
+          <input
+            className="shelf-title-input"
+            list="dl-shelf-titles"
+            placeholder="כותרת מעל המוצרים האלה (לא חובה)"
+            value={home.shelfTitle}
+            onInput={(e: any) => home.setShelfTitle(e.target.value)}
+          />
+          <datalist id="dl-shelf-titles">
+            <option value="מומלצי החנות" />
+            <option value="הנמכרים ביותר" />
+            <option value="חדש על המדף" />
+            <option value="בחירת הצוות" />
+            <option value="הכי מבוקשים" />
+          </datalist>
+          <p className="import-help dim">
+            בלי כותרת המוצרים פשוט יופיעו ראשונים. עם כותרת הם מקבלים שורה משלהם
+            בראש העמוד, ושאר המדף ממשיך תחת ״כל המוצרים במדף״. כדאי שהכותרת תהיה
+            נכונה — ״הנמכרים ביותר״ היא הבטחה ללקוח.
+          </p>
+
           <h4 className="shelf-sub">סדר הסדרות בעמוד</h4>
           {home.shelfSeries.length < 2 ? (
             <p className="empty-note">במדף הזה יש סדרה אחת בלבד, אין מה לסדר</p>

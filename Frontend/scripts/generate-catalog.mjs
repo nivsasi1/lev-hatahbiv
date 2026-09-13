@@ -225,6 +225,17 @@ const shelfMap = (raw) => {
   return out;
 };
 
+// a { shelfKey: "one line" } map
+const shelfText = (raw) => {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out = {};
+  for (const [key, text] of Object.entries(raw)) {
+    const t = String(text || "").trim();
+    if (t) out[key] = t;
+  }
+  return out;
+};
+
 const settings = {
   ribbonTexts: Array.isArray(rawSettings.ribbonTexts) ? rawSettings.ribbonTexts : [],
   featuredIds: Array.isArray(rawSettings.featuredIds) ? rawSettings.featuredIds : [],
@@ -237,6 +248,7 @@ const settings = {
   // "<categorySlug>/<subCategorySlug>" (see Frontend/src/data/catalog.ts)
   shelfPicks: shelfMap(rawSettings.shelfPicks),
   shelfOrder: shelfMap(rawSettings.shelfOrder),
+  shelfTitles: shelfText(rawSettings.shelfTitles),
   // coupons + the welcome offer are no longer baked — served live by the
   // Cloudflare Worker (D1). See worker/index.ts.
 };

@@ -17,6 +17,9 @@ const SiteSettingsSchema = new mongoose.Schema(
     // per-shelf order of the series chips (names not listed keep their place
     // after the listed ones): { "<categorySlug>/<subCategorySlug>": ["GOLDEN...", ...] }
     shelfOrder: { type: Object, default: {} },
+    // heading shown above a shelf's picks, chosen per shelf by the manager:
+    // { "<categorySlug>/<subCategorySlug>": "מומלצי החנות" }
+    shelfTitles: { type: Object, default: {} },
     // NOTE: coupons + the newsletter welcome offer moved to the Cloudflare
     // Worker (D1). See worker/index.ts + worker/schema.sql.
   },

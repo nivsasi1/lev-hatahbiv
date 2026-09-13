@@ -660,6 +660,7 @@ router.get(
         shelfImages: base.shelfImages || {},
         shelfPicks: base.shelfPicks || {},
         shelfOrder: base.shelfOrder || {},
+        shelfTitles: base.shelfTitles || {},
       },
     });
   })
@@ -735,6 +736,23 @@ router.put(
     };
     const shelfPicks = shelfMap(body.shelfPicks, "המוצרים הראשונים במדף", 5, 64);
     const shelfOrder = shelfMap(body.shelfOrder, "סדר הסדרות במדף", 60, 200);
+    // same keying, but one line of text per shelf; a blank title drops the key
+    const shelfTitles = (() => {
+      if (body.shelfTitles === undefined) return undefined;
+      if (
+        typeof body.shelfTitles !== "object" ||
+        body.shelfTitles === null ||
+        Array.isArray(body.shelfTitles)
+      ) {
+        throw badInput("מבנה כותרות המדף לא תקין");
+      }
+      const out = {};
+      for (const [key, text] of Object.entries(body.shelfTitles)) {
+        const t = String(text || "").trim().slice(0, 60);
+        if (t) out[String(key).slice(0, 200)] = t;
+      }
+      return out;
+    })();
 
     // NOTE: coupons + the newsletter welcome offer moved to the Cloudflare
     // Worker (D1) — they're no longer part of the Mongo settings singleton.
@@ -743,6 +761,7 @@ router.put(
     if (shelfImages !== undefined) $set.shelfImages = shelfImages;
     if (shelfPicks !== undefined) $set.shelfPicks = shelfPicks;
     if (shelfOrder !== undefined) $set.shelfOrder = shelfOrder;
+    if (shelfTitles !== undefined) $set.shelfTitles = shelfTitles;
 
     const settings = await SiteSettings.findOneAndUpdate(
       {},
