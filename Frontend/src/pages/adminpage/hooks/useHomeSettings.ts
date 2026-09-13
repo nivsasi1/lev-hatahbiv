@@ -78,8 +78,13 @@ export function useHomeSettings() {
     shelfOrder,
     shelfTitles,
   });
+  // Every section posts the whole settings object, so saving before load()
+  // has answered would write empty state over the ribbon, the featured picks,
+  // the shelf choices — everything. The tab loads on open, but a slow network
+  // leaves a window where the buttons are already on screen, so refuse instead.
   const putSettings = (okMsg: string) =>
     act(async () => {
+      if (!loaded) throw new Error("ההגדרות עוד נטענות — רגע ונסו שוב");
       await call(`/settings`, { method: "PUT", body: JSON.stringify(settingsPayload()) });
     }, okMsg);
 
