@@ -15380,7 +15380,7 @@
     "name": "מכחול עגול רוברט סימונס סיגנט מספר 8",
     "description": "<p dir=\"rtl\">מכחול משער בריסטל קשה לצבעי שמן ואקריליק. מכחולים מקצועיים&nbsp; בעלי יכולת דיוק וספיגה גבוהים.</p><p dir=\"rtl\">ידית ארוכה</p><p dir=\"rtl\">סדרה: עגול 40R</p><p dir=\"rtl\">מספר 8</p>",
     "img": "733145_87c1bac7df2740b589bc106031a61fc6~mv2.jpg",
-    "sku": "38372289273",
+    "sku": "038372289273",
     "price": 52.8,
     "visible": true,
     "discountMode": "PERCENT",
@@ -15389,7 +15389,11 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול עגול סיגנט - SIGNET",
-    "updatedAt": "2026-09-14T06:51:11.556Z"
+    "updatedAt": "2026-09-14T06:56:57.791Z",
+    "noCoupon": false,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277074b",
