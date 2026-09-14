@@ -15385,11 +15385,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "מכחול עגול סיגנט - SIGNET",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-14T06:51:11.556Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277074b",
