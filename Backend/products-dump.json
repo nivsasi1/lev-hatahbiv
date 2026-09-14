@@ -32610,8 +32610,8 @@
   {
     "_id": "6a3689487d164beaf03f0b6e",
     "id": "product_69a8296e-f33d-b7c0-6424-ddd67b6a27b8",
-    "name": "סט צבע אקריליק 1/12 12מל בשפופרת/קוביה דאלר ראוני",
-    "price": 44.9,
+    "name": "סט צבע אקריליק 1/12 12מל בשפופרת דאלר ראוני",
+    "price": 47.2,
     "salePercentage": 0,
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -32623,8 +32623,11 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-10T23:24:14.255Z",
-    "searchKeywords": "Daler Rowney, דאלר רוני, Mont Marte"
+    "updatedAt": "2026-09-14T06:48:36.572Z",
+    "searchKeywords": "Daler Rowney, דאלר רוני, Mont Marte",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6a3689487d164beaf03f0b6f",
