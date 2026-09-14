@@ -9177,23 +9177,6 @@
     "updatedAt": "2026-09-10T23:24:14.255Z"
   },
   {
-    "_id": "66844bfdf2e4e8f5727705cf",
-    "id": "product_742f80ce-4457-4d38-336f-8d9f6714d4bf",
-    "name": "טאצ סט טוש 6 גווני צבעי בסיס דו צדדי TOUCH",
-    "img": "733145_3b56de8a6ead4ae7a5fd2cf7fae59cad~mv2.jpg;733145_c5fc2a4dcb9c4fccaeb930004ff71df2~mv2.jpg",
-    "sku": "8809326960256",
-    "price": 97.2,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
-  },
-  {
     "_id": "66844bfdf2e4e8f5727705c7",
     "id": "product_6908bf17-4c2c-46ab-dfe1-a5d6014c1504",
     "name": "כן ציור מתכת מתקפל",
@@ -9223,7 +9206,8 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
+    "updatedAt": "2026-09-14T08:25:42.772Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727705c4",
@@ -9291,41 +9275,8 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705cc",
-    "id": "product_986aab18-3eeb-81fb-0936-88de75249437",
-    "name": "טאצ סט טוש 12 גווני אפור דו צדדי TOUCH",
-    "img": "733145_a4e2f1a3f72e4724bbb800621ca41fdd~mv2.jpg;733145_38008234a54944e69a652ec2bcaaaabe~mv2.jpg",
-    "sku": "8809309663402",
-    "price": 183.6,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705cd",
-    "id": "product_a3874136-85a4-2980-d4fd-dfb7fba055a3",
-    "name": "טאצ סט טוש 6 גווני צבע גוף דו צדדי TOUCH",
-    "img": "733145_2590b3ee84f94a6e8dea1c394345dc6d~mv2.jpg;733145_b34ab71452a74ce5a7b14c3fedf2a259~mv2.jpg",
-    "sku": "8809326960270",
-    "price": 97.2,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
+    "updatedAt": "2026-09-14T08:28:54.972Z",
+    "salePercentage": 20
   },
   {
     "_id": "66844bfdf2e4e8f5727705ce",
@@ -9342,7 +9293,8 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
+    "updatedAt": "2026-09-14T08:25:24.399Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727705c6",
@@ -9404,7 +9356,8 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
+    "updatedAt": "2026-09-14T08:25:48.917Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727705d9",
@@ -9454,41 +9407,8 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705d5",
-    "id": "product_301e362a-681a-cd42-e9a5-7f2af01d2e5e",
-    "name": "טאצ סט טוש 6 גווני אפור דו צדדי עם מכחול TOUCH",
-    "img": "733145_451e067a31704b14844be6b7c14adf1c~mv2.jpg;733145_0a492155c2544b66a70894f70bd1ca7f~mv2.jpg",
-    "sku": "8809326960300",
-    "price": 116.7,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705d1",
-    "id": "product_60a6a99c-ae4f-bfd4-1857-d68889dd199f",
-    "name": "טאצ סט טוש 6 גווני צבעי בסיס דו צדדי עם מכחול TOUCH",
-    "img": "733145_65f2a80da7e1471188b5e9581367f6a3~mv2.jpg;733145_5b2ab8dc802b45e999f3ebb9436469b9~mv2.jpg",
-    "sku": "8809326960294",
-    "price": 116.7,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
+    "updatedAt": "2026-09-14T08:25:28.606Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727705d8",
@@ -9505,22 +9425,6 @@
     "category": "חומרי יצירה",
     "sub_cat": "דבקים",
     "third_level": "כללי"
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705d3",
-    "id": "product_e4f6349a-dd56-1785-e2a0-debdaeb61c07",
-    "name": "טאצ סט טוש 6 גווני צבע גוף דו צדדי עם מכחול TOUCH",
-    "img": "733145_9bf4d0913472406d8f0833a4bf1d18f4~mv2.jpg;733145_da98cfe2775f4bf197a699f8a823fc32~mv2.jpg",
-    "price": 116.7,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
   },
   {
     "_id": "66844bfdf2e4e8f5727705d7",
