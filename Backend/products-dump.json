@@ -42614,5 +42614,26 @@
     "createdAt": "2026-08-22T14:33:50.202Z",
     "updatedAt": "2026-09-10T23:24:14.255Z",
     "searchKeywords": "ריט, צבע לבד"
+  },
+  {
+    "_id": "6aa7b5e02b46f0911f342c49",
+    "name": "סט טוש אלכוהול 1/24 מכחול סונט sonnet",
+    "price": 286,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "",
+    "category": "רישום ועפרונות",
+    "sub_cat": "טוש אלכוהולי",
+    "third_level": "",
+    "img": "1789375885778-8a16c41b.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "",
+    "createdAt": "2026-09-14T08:52:48.273Z",
+    "updatedAt": "2026-09-14T08:52:48.273Z",
+    "__v": 0
   }
 ]
