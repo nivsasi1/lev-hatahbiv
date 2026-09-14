@@ -42594,5 +42594,26 @@
     "createdAt": "2026-09-14T08:52:48.273Z",
     "updatedAt": "2026-09-14T08:52:48.273Z",
     "__v": 0
+  },
+  {
+    "_id": "6aa7ca9b24443d1909c7b587",
+    "name": "צבע מים סנט פטרסבורג 1/12 RUSSIAN FAIRY TALES",
+    "price": 216,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "סט של 12 גוונים באריזת נשיאה פלסטיק",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי אקוורל",
+    "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
+    "img": "1789381269679-8801a40f.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
+    "createdAt": "2026-09-14T10:21:15.552Z",
+    "updatedAt": "2026-09-14T10:21:15.552Z",
+    "__v": 0
   }
 ]
