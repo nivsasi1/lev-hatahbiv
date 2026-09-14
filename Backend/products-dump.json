@@ -31392,9 +31392,9 @@
     "name": "צבע מים סנט פטרסבורג 1/24",
     "price": 220,
     "salePercentage": 0,
-    "category": "נייר לאמנות",
-    "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר לצבעי מים",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי אקוורל",
+    "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
     "description": "",
     "img": "733145_0ed82ae38ad14ec298b078674f3289dc~mv2.jpg",
     "sku": "4690688016910",
@@ -31402,8 +31402,11 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-10T23:24:14.255Z",
-    "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה"
+    "updatedAt": "2026-09-14T08:18:50.545Z",
+    "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6a3689487d164beaf03f0b3a",
