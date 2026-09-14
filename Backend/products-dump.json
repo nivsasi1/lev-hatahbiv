@@ -9192,24 +9192,6 @@
     "third_level": "כללי"
   },
   {
-    "_id": "66844bfdf2e4e8f5727705d0",
-    "id": "product_fb508963-945d-f46d-1d4c-93433a2037d8",
-    "name": "טאצ סט טוש 12 גווני צבעי בסיס דו צדדי TOUCH",
-    "img": "733145_70acd5d26e6e496784937f535672234b~mv2.jpg;733145_58e3fdc708f34675861f6fef249f9c15~mv2.jpg",
-    "sku": "8809309663372",
-    "price": 183.3,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-14T08:25:42.772Z",
-    "isActive": false
-  },
-  {
     "_id": "66844bfdf2e4e8f5727705c4",
     "id": "product_956586c7-34f7-1a89-1c3b-d3b916e176bf",
     "name": "Spring Green 685 Pearl Ex פיגמנט",
@@ -9261,42 +9243,6 @@
     "updatedAt": "2026-09-10T23:24:14.255Z"
   },
   {
-    "_id": "66844bfdf2e4e8f5727705cb",
-    "id": "product_8e7c8283-447c-8aeb-3e80-1c93a685dd58",
-    "name": "טאצ סט טוש 6 גווני אפור דו צדדי TOUCH",
-    "img": "733145_7556922f66094dce9113afd076f57220~mv2.jpg;733145_79a3e8e1453b4af485b9e8fba95fcd56~mv2.jpg",
-    "sku": "8809326960263",
-    "price": 97.2,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-14T08:28:54.972Z",
-    "salePercentage": 20
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705ce",
-    "id": "product_c6e1d2ad-49af-04a7-d3bc-01696dd1bcf9",
-    "name": "טאצ סט טוש 12 גווני צבע גוף דו צדדי TOUCH",
-    "img": "733145_813a745780934944b56761277dd34ff7~mv2.jpg;733145_1bed8fed141c43de80dfa30907def673~mv2.jpg",
-    "sku": "8809326963875",
-    "price": 183.6,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-14T08:25:24.399Z",
-    "isActive": false
-  },
-  {
     "_id": "66844bfdf2e4e8f5727705c6",
     "id": "product_d0375697-fdb4-a686-5ca2-7091ed64c3de",
     "name": "כן ציור אלומיניום מתקפל",
@@ -9343,23 +9289,6 @@
     "third_level": "כללי"
   },
   {
-    "_id": "66844bfdf2e4e8f5727705d2",
-    "id": "product_eed3fe51-937d-9dc8-8d18-009b28e9d319",
-    "name": "טאצ סט טוש 12 גווני צבעי בסיס דו צדדי עם מכחול TOUCH",
-    "img": "733145_947d61f7878a49fcb9679e30dd467a23~mv2.jpg;733145_a7242662be454a85b8ef59f6232fb4b6~mv2.jpg",
-    "price": 219.9,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-14T08:25:48.917Z",
-    "isActive": false
-  },
-  {
     "_id": "66844bfdf2e4e8f5727705d9",
     "id": "product_9b4650fa-8888-da3f-d28f-35432070fe82",
     "name": "דבק מקשה בדים נייר ועוד",
@@ -9390,25 +9319,8 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-10T23:24:14.255Z"
-  },
-  {
-    "_id": "66844bfdf2e4e8f5727705d4",
-    "id": "product_73a1e080-717b-739e-f491-9db0ee6ab33a",
-    "name": "טאצ סט טוש 12 גווני צבע גוף דו צדדי עם מכחול TOUCH",
-    "img": "733145_a5eed6b91a654c7284284727d4105591~mv2.jpg;733145_3934c994ebe54b22a0bfefe6e0d22351~mv2.jpg",
-    "sku": "8809309666854",
-    "price": 219.9,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "רישום ועפרונות",
-    "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - טאצ TOUCH",
-    "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-14T08:25:28.606Z",
-    "isActive": false
+    "updatedAt": "2026-09-14T08:37:04.916Z",
+    "salePercentage": 20
   },
   {
     "_id": "66844bfdf2e4e8f5727705d8",
@@ -15681,7 +15593,9 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - COPIC - קופיק"
+    "third_level": "טושי אלכוהול - COPIC - קופיק",
+    "isActive": false,
+    "updatedAt": "2026-09-14T08:35:56.665Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277075f",
@@ -15746,7 +15660,9 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
-    "third_level": "טושי אלכוהול - COPIC - קופיק"
+    "third_level": "טושי אלכוהול - COPIC - קופיק",
+    "isActive": false,
+    "updatedAt": "2026-09-14T08:35:56.665Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770766",
@@ -17044,11 +16960,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - נורה NORA!",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-14T08:36:22.119Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277081c",
