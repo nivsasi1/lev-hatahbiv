@@ -31850,7 +31850,7 @@
     "salePercentage": 0,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתורים - טאלנס / Royal Talens",
+    "third_level": "אקוורל כפתורים - סונט/ SONNET",
     "description": "סט Sonnet קוביות מים, 21 קוביות בקופסת מתכת.",
     "img": "733145_07d1f173fa3d439f845865f647345e5e~mv2.jpg",
     "sku": "4690688014121",
@@ -31858,8 +31858,11 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-10T23:24:14.255Z",
-    "searchKeywords": "סונט, Nevskaya Palitra, נבסקאיה"
+    "updatedAt": "2026-09-15T08:53:41.777Z",
+    "searchKeywords": "סונט, Nevskaya Palitra, נבסקאיה",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6a3689487d164beaf03f0b4f",
