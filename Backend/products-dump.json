@@ -31804,8 +31804,8 @@
   {
     "_id": "6a3689487d164beaf03f0b4c",
     "id": "product_632ef257-b602-b66c-b116-9eaa6b5174d3",
-    "name": "סט 24 Sonnet קוביות מים",
-    "price": 84.9,
+    "name": "סט 16 Sonnet קוביות מים",
+    "price": 66.9,
     "salePercentage": 0,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -31817,7 +31817,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-15T08:57:02.316Z",
+    "updatedAt": "2026-09-15T08:57:39.931Z",
     "searchKeywords": "סונט, Nevskaya Palitra, נבסקאיה",
     "noCoupon": false,
     "variantLabel": "",
@@ -42620,6 +42620,27 @@
     "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
     "createdAt": "2026-09-14T10:21:15.552Z",
     "updatedAt": "2026-09-14T10:33:52.432Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aa909ac20e5cd6b3d9d81b8",
+    "name": "סט 24 Sonnet קוביות מים",
+    "price": 84.9,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "סטים Sonnet קוביות מים, 24 קוביות באריזת קרטון",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי אקוורל",
+    "third_level": "אקוורל כפתורים - סונט/ SONNET",
+    "img": "1789462953343-0a0199ed.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "סונט, Nevskaya Palitra, נבסקאיה",
+    "createdAt": "2026-09-15T09:02:36.859Z",
+    "updatedAt": "2026-09-15T09:02:36.859Z",
     "__v": 0
   }
 ]
