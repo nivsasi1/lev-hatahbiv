@@ -80,12 +80,35 @@ export function useProducts() {
       return next;
     });
 
+  // The API caps one bulk call, and "select all" on this catalog is well past
+  // that cap — which is why selecting everything used to fail outright. Sending
+  // the ids in chunks also keeps each request small and each failure local.
+  const BULK_CHUNK = 500;
+
   const bulk = (action: { type: string; value?: any }, okMsg: string) =>
     act(async () => {
-      await call(`/products/bulk`, {
-        method: "POST",
-        body: JSON.stringify({ ids: [...selected], action }),
-      });
+      const ids = [...selected];
+      const chunked = ids.length > BULK_CHUNK;
+      let done = 0;
+      for (let i = 0; i < ids.length; i += BULK_CHUNK) {
+        const slice = ids.slice(i, i + BULK_CHUNK);
+        try {
+          await call(`/products/bulk`, {
+            method: "POST",
+            body: JSON.stringify({ ids: slice, action }),
+          });
+        } catch (e: any) {
+          // Say exactly how far it got. A percentage price change compounds, so
+          // "try again" after a partial run would apply it twice to the first ids.
+          throw new Error(
+            chunked
+              ? `הפעולה נעצרה אחרי ${done} מוצרים מתוך ${ids.length}. ${e.message}`
+              : e.message
+          );
+        }
+        done += slice.length;
+        if (chunked) setNotice(`מעדכן… ${done}/${ids.length}`);
+      }
       setSelected(new Set());
       await refresh();
     }, okMsg);
