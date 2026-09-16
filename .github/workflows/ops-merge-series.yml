@@ -1,0 +1,64 @@
+# Toolbox: merge over-split series (third_level) into one name per brand — the
+# table lives in Backend/scripts/merge-series.js. Dry run by default (prints the
+# plan only); "apply" writes to Atlas and, unless disabled, dispatches
+# publish-catalog so the storefront, sitemap and redirect map are rebuilt on the
+# merged names. Idempotent: a second apply finds nothing to change.
+# Requires the DB_URL repository secret.
+name: ops-merge-series
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write the merge to the database (off = dry run, prints the plan only)"
+        type: boolean
+        default: false
+      publish:
+        description: "After applying, run publish-catalog so the live site is rebuilt"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: write # dispatches publish-catalog
+
+# never overlap a publish — it dumps the same collection this job writes to
+concurrency:
+  group: publish-catalog
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend deps (mongoose)
+        working-directory: Backend
+        run: npm ci --omit=dev --no-audit --no-fund
+
+      - name: Merge series
+        working-directory: Backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::DB_URL secret not set (repo Settings → Secrets → Actions)"; exit 1; }
+          if [ "$APPLY" = "true" ]; then
+            node scripts/merge-series.js --apply
+          else
+            node scripts/merge-series.js
+          fi
+
+      - name: Publish catalog (rebuilds the site on the merged names)
+        if: ${{ inputs.apply && inputs.publish }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publish-catalog.yml --ref main
