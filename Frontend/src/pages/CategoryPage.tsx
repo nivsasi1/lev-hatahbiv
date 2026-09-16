@@ -122,8 +122,8 @@ const PAGE_SIZE = 24;
 type SortKey = "default" | "priceAsc" | "priceDesc";
 
 const sorters: Record<SortKey, (a: any, b: any) => number> = {
-  // "default" deliberately sorts nothing: it is the shelf's own order, which the
-  // manager controls from /manage (lead products, then the series order).
+  // "default" is the shelf's own order — the manager's picks, then the series in
+  // the order set in /manage — and is built in the page, not by a comparator.
   default: () => 0,
   priceAsc: (a, b) => finalPrice(a) - finalPrice(b),
   priceDesc: (a, b) => finalPrice(b) - finalPrice(a),
@@ -217,7 +217,21 @@ export const SubCategoryPage = () => {
         return v >= priceMin && v <= priceHi;
       })
     : byThird;
-  const sorted = sort === "default" ? filtered : [...filtered].sort(sorters[sort]);
+  // Shelf order = the series in the order the chips show them (the manager's
+  // ranking from /manage), catalog order within a series. Without this the grid
+  // followed the catalog's own order and putting a brand first in /manage only
+  // moved its chip, not its products. Sort is stable, so within a series nothing
+  // moves; a chosen series or a price sort replaces this order altogether.
+  const seriesRank = new Map(thirds.map((t, i) => [t, i]));
+  const sorted =
+    sort !== "default"
+      ? [...filtered].sort(sorters[sort])
+      : third === null
+        ? [...filtered].sort(
+            (a, b) =>
+              (seriesRank.get(a.third) ?? thirds.length) - (seriesRank.get(b.third) ?? thirds.length)
+          )
+        : filtered;
   // The manager's picks lead the shelf, but only in its default view: choosing a
   // series or a sort means the shopper asked for a different order.
   const leadIds = third === null && sort === "default" ? shelfPicksOf(slug ?? "", sub) : [];
