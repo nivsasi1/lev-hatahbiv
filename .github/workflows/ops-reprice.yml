@@ -1,0 +1,70 @@
+# Toolbox: reprice a product line from its series table in Backend/pricing
+# (e.g. golden-heavy-body: one store price per Golden series). Dry run by
+# default (prints the plan only); "apply" writes the prices to Atlas and, unless
+# disabled, dispatches publish-catalog so the storefront and checkout pricing
+# are rebuilt. Idempotent: a second apply finds nothing to change.
+# Requires the DB_URL repository secret.
+name: ops-reprice
+
+on:
+  workflow_dispatch:
+    inputs:
+      table:
+        description: "Price table (a file name in Backend/pricing, without .json)"
+        required: true
+        default: golden-heavy-body
+      apply:
+        description: "Write the prices to the database (off = dry run, prints the plan only)"
+        type: boolean
+        default: false
+      publish:
+        description: "After applying, run publish-catalog so the live site is rebuilt"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: write # dispatches publish-catalog
+
+# never overlap a publish — it dumps the same collection this job writes to
+concurrency:
+  group: publish-catalog
+  cancel-in-progress: false
+
+jobs:
+  reprice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend deps (mongoose)
+        working-directory: Backend
+        run: npm ci --omit=dev --no-audit --no-fund
+
+      - name: Reprice
+        working-directory: Backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          APPLY: ${{ inputs.apply }}
+          TABLE: ${{ inputs.table }}
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::DB_URL secret not set (repo Settings → Secrets → Actions)"; exit 1; }
+          case "$TABLE" in *[!a-z0-9-]*|"") echo "::error::table must be a plain file name (a-z, 0-9, -)"; exit 1;; esac
+          if [ "$APPLY" = "true" ]; then
+            node scripts/reprice-by-series.js "$TABLE" --apply
+          else
+            node scripts/reprice-by-series.js "$TABLE"
+          fi
+
+      - name: Publish catalog (rebuilds the site on the new prices)
+        if: ${{ inputs.apply && inputs.publish }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publish-catalog.yml --ref main
