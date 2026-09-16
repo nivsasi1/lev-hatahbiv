@@ -9319,8 +9319,12 @@
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - טאצ TOUCH",
     "searchKeywords": "טאצ', ShinHan, שינהאן",
-    "updatedAt": "2026-09-14T08:37:04.916Z",
-    "salePercentage": 20
+    "updatedAt": "2026-09-16T13:32:55.314Z",
+    "salePercentage": 20,
+    "description": "",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f5727705d8",
