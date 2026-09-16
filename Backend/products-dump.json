@@ -34120,12 +34120,16 @@
     "third_level": "רפידוגרף סנומן",
     "description": "",
     "img": "733145_442fb900645c40a48c101bf7667ddddb~mv2.jpg",
-    "sku": null,
+    "sku": "",
     "isActive": true,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-14T08:58:27.720Z"
+    "updatedAt": "2026-09-16T13:31:41.163Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6a3689487d164beaf03f0ba1",
@@ -36146,7 +36150,8 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-16T13:29:38.554Z",
+    "noCoupon": false
   },
   {
     "_id": "6a3689487d164beaf03f0c0d",
@@ -36164,7 +36169,8 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-16T13:29:38.554Z",
+    "noCoupon": false
   },
   {
     "_id": "6a3689487d164beaf03f0c0e",
@@ -36182,7 +36188,8 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-16T13:29:38.554Z",
+    "noCoupon": false
   },
   {
     "_id": "6a3689487d164beaf03f0c0f",
@@ -36200,7 +36207,8 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-16T13:29:38.554Z",
+    "noCoupon": false
   },
   {
     "_id": "6a3689487d164beaf03f0c10",
@@ -36218,7 +36226,8 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-06-20T12:36:24.223Z"
+    "updatedAt": "2026-09-16T13:29:38.554Z",
+    "noCoupon": false
   },
   {
     "_id": "6a3689487d164beaf03f0c11",
@@ -39027,7 +39036,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39047,7 +39056,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39067,7 +39076,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39087,7 +39096,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39107,7 +39116,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39127,7 +39136,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39147,7 +39156,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39167,7 +39176,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39187,7 +39196,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39207,7 +39216,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39227,7 +39236,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39247,7 +39256,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39267,7 +39276,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39287,7 +39296,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39307,7 +39316,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39327,7 +39336,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39347,7 +39356,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39367,7 +39376,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39387,7 +39396,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39407,7 +39416,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39427,7 +39436,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39447,7 +39456,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39467,7 +39476,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39487,7 +39496,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39507,7 +39516,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39527,7 +39536,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39547,7 +39556,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39567,7 +39576,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39587,7 +39596,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39607,7 +39616,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39627,7 +39636,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39647,7 +39656,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39667,7 +39676,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39687,7 +39696,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39707,7 +39716,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39727,7 +39736,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39747,7 +39756,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39767,7 +39776,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39787,7 +39796,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39807,7 +39816,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39827,7 +39836,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39847,7 +39856,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39867,7 +39876,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39887,7 +39896,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39907,7 +39916,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39927,7 +39936,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39947,7 +39956,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39967,7 +39976,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -39987,7 +39996,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40007,7 +40016,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40027,7 +40036,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40047,7 +40056,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40067,7 +40076,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40087,7 +40096,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40107,7 +40116,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40127,7 +40136,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40147,7 +40156,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40167,7 +40176,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40187,7 +40196,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40207,7 +40216,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40227,7 +40236,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40247,7 +40256,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40267,7 +40276,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40287,7 +40296,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40307,7 +40316,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40327,7 +40336,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40347,7 +40356,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40367,7 +40376,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40387,7 +40396,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40407,7 +40416,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40427,7 +40436,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40447,7 +40456,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40467,7 +40476,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40487,7 +40496,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40507,7 +40516,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40527,7 +40536,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40547,7 +40556,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40567,7 +40576,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40587,7 +40596,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40607,7 +40616,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40627,7 +40636,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40647,7 +40656,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40667,7 +40676,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40687,7 +40696,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40707,7 +40716,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40727,7 +40736,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40747,7 +40756,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40767,7 +40776,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40787,7 +40796,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40807,7 +40816,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40827,7 +40836,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40847,7 +40856,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40867,7 +40876,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40887,7 +40896,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40907,7 +40916,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40927,7 +40936,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40947,7 +40956,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40967,7 +40976,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -40987,7 +40996,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41007,7 +41016,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41027,7 +41036,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41047,7 +41056,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41067,7 +41076,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41087,7 +41096,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41107,7 +41116,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41127,7 +41136,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41147,7 +41156,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41167,7 +41176,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41187,7 +41196,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41207,7 +41216,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41227,7 +41236,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "searchKeywords": "Daniel Smith",
     "noCoupon": false
   },
@@ -41247,7 +41256,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "noCoupon": false,
     "searchKeywords": "",
     "variantLabel": "",
@@ -41269,7 +41278,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "noCoupon": false,
     "searchKeywords": "",
     "variantLabel": "",
@@ -41291,7 +41300,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "noCoupon": false,
     "searchKeywords": "",
     "variantLabel": "",
@@ -41313,7 +41322,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "noCoupon": false,
     "searchKeywords": "",
     "variantLabel": "",
@@ -41335,7 +41344,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "noCoupon": false,
     "searchKeywords": "",
     "variantLabel": "",
@@ -41357,7 +41366,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T13:23:54.745Z",
+    "updatedAt": "2026-09-16T13:29:38.554Z",
     "noCoupon": false,
     "searchKeywords": "",
     "variantLabel": "",
