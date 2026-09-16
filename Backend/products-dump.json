@@ -2449,9 +2449,9 @@
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
-    "updatedAt": "2026-09-16T14:19:54.857Z",
+    "updatedAt": "2026-09-16T19:57:21.230Z",
     "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
-    "noCoupon": true
+    "noCoupon": false
   },
   {
     "_id": "66844bfdf2e4e8f57277037b",
@@ -33408,7 +33408,7 @@
     "id": "product_6559b5cd-7414-9e84-4d50-546c11e742d7",
     "name": "צבע מים סנט פטרסבורג 1/12",
     "price": 129,
-    "salePercentage": 0,
+    "salePercentage": 20,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
@@ -33419,18 +33419,19 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T19:16:50.317Z",
+    "updatedAt": "2026-09-16T20:01:50.393Z",
     "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
-    "noCoupon": false,
+    "noCoupon": true,
     "variantLabel": "",
-    "variants": []
+    "variants": [],
+    "discountValue": 0
   },
   {
     "_id": "6a3689487d164beaf03f0b39",
     "id": "product_7ee63fea-300e-72ea-b48b-1ee72b6bd0bf",
     "name": "צבע מים סנט פטרסבורג 1/24",
     "price": 220,
-    "salePercentage": 0,
+    "salePercentage": 20,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
@@ -33441,18 +33442,19 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T19:16:50.317Z",
+    "updatedAt": "2026-09-16T20:01:50.393Z",
     "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
-    "noCoupon": false,
+    "noCoupon": true,
     "variantLabel": "",
-    "variants": []
+    "variants": [],
+    "discountValue": 0
   },
   {
     "_id": "6a3689487d164beaf03f0b3a",
     "id": "product_f4dcc59b-fdf8-f54a-880e-948abceb337e",
     "name": "צבע מים סנט פטרסבורג 1/36",
     "price": 356.9,
-    "salePercentage": 0,
+    "salePercentage": 20,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
@@ -33463,11 +33465,12 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T19:16:50.317Z",
+    "updatedAt": "2026-09-16T20:01:50.393Z",
     "searchKeywords": "St. Petersburg, White Nights, Nevskaya Palitra, וייט נייטס, נבסקאיה",
-    "noCoupon": false,
+    "noCoupon": true,
     "variantLabel": "",
-    "variants": []
+    "variants": [],
+    "discountValue": 0
   },
   {
     "_id": "6a3689487d164beaf03f0b3b",
