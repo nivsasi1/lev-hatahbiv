@@ -671,30 +671,41 @@ router.put(
   asyncRoute(async (req, res) => {
     const body = req.body || {};
 
-    if (!Array.isArray(body.ribbonTexts) || !Array.isArray(body.featuredIds)) {
-      return res.status(400).json({ error: "מבנה הגדרות לא תקין" });
-    }
-    // saleIds is optional in the request body; default to [] when missing.
-    if (body.saleIds !== undefined && !Array.isArray(body.saleIds)) {
-      return res.status(400).json({ error: "מבנה הגדרות לא תקין" });
-    }
-
-    const ribbonTexts = body.ribbonTexts.map((t) => String(t).trim());
-    if (ribbonTexts.length > 8) {
-      return res.status(400).json({ error: "עד 8 כיתובים בסרט" });
-    }
-    if (ribbonTexts.some((t) => !t || t.length > 80)) {
-      return res.status(400).json({ error: "כל כיתוב חייב להיות לא ריק ועד 80 תווים" });
+    // Every section is optional and only the sections in the body are written:
+    // the dashboard saves one section at a time, so a tab that was opened
+    // before another tab saved the shelf order cannot overwrite it with what it
+    // loaded an hour ago. An empty body is a no-op, not an error.
+    for (const key of ["ribbonTexts", "featuredIds", "saleIds"]) {
+      if (body[key] !== undefined && !Array.isArray(body[key])) {
+        return res.status(400).json({ error: "מבנה הגדרות לא תקין" });
+      }
     }
 
-    const featuredIds = body.featuredIds.map((id) => String(id));
-    if (featuredIds.length > 12) {
-      return res.status(400).json({ error: "עד 12 מוצרים מומלצים" });
+    let ribbonTexts;
+    if (body.ribbonTexts !== undefined) {
+      ribbonTexts = body.ribbonTexts.map((t) => String(t).trim());
+      if (ribbonTexts.length > 8) {
+        return res.status(400).json({ error: "עד 8 כיתובים בסרט" });
+      }
+      if (ribbonTexts.some((t) => !t || t.length > 80)) {
+        return res.status(400).json({ error: "כל כיתוב חייב להיות לא ריק ועד 80 תווים" });
+      }
     }
 
-    const saleIds = (body.saleIds || []).map((id) => String(id));
-    if (saleIds.length > 12) {
-      return res.status(400).json({ error: "עד 12 מוצרים במבצע" });
+    let featuredIds;
+    if (body.featuredIds !== undefined) {
+      featuredIds = body.featuredIds.map((id) => String(id));
+      if (featuredIds.length > 12) {
+        return res.status(400).json({ error: "עד 12 מוצרים מומלצים" });
+      }
+    }
+
+    let saleIds;
+    if (body.saleIds !== undefined) {
+      saleIds = body.saleIds.map((id) => String(id));
+      if (saleIds.length > 12) {
+        return res.status(400).json({ error: "עד 12 מוצרים במבצע" });
+      }
     }
 
     // shelfImages is optional: a { categorySlug: imageUrl } map. Empty/blank
@@ -757,17 +768,18 @@ router.put(
     // NOTE: coupons + the newsletter welcome offer moved to the Cloudflare
     // Worker (D1) — they're no longer part of the Mongo settings singleton.
 
-    const $set = { ribbonTexts, featuredIds, saleIds };
+    const $set = {};
+    if (ribbonTexts !== undefined) $set.ribbonTexts = ribbonTexts;
+    if (featuredIds !== undefined) $set.featuredIds = featuredIds;
+    if (saleIds !== undefined) $set.saleIds = saleIds;
     if (shelfImages !== undefined) $set.shelfImages = shelfImages;
     if (shelfPicks !== undefined) $set.shelfPicks = shelfPicks;
     if (shelfOrder !== undefined) $set.shelfOrder = shelfOrder;
     if (shelfTitles !== undefined) $set.shelfTitles = shelfTitles;
 
-    const settings = await SiteSettings.findOneAndUpdate(
-      {},
-      { $set },
-      { upsert: true, new: true }
-    ).lean();
+    const settings = Object.keys($set).length
+      ? await SiteSettings.findOneAndUpdate({}, { $set }, { upsert: true, new: true }).lean()
+      : (await SiteSettings.findOne({}).lean()) || {};
     res.json({ settings });
   })
 );

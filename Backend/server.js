@@ -72,6 +72,12 @@ mongoose
   )
   .catch((err) => console.log(err));
 
+// Liveness + which commit Render is running (RENDER_GIT_COMMIT is set by
+// Render), so a rollout can be confirmed from outside without credentials.
+app.get("/health", (_req, res) =>
+  res.json({ ok: true, commit: (process.env.RENDER_GIT_COMMIT || "").slice(0, 7) || null })
+);
+
 // JWT-protected manager dashboard API (login, product CRUD, upload, publish).
 const admin = require("./routes/admin/admin");
 app.use("/admin", admin);
