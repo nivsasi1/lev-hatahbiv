@@ -67,31 +67,35 @@ export function useHomeSettings() {
       setLoaded(true);
     });
 
-  // every section sends the CURRENT values of all keys so saving one section
-  // never wipes the others; ribbon is the non-empty trimmed inputs.
-  const settingsPayload = () => ({
-    ribbonTexts: ribbonSlots.map((s) => s.trim()).filter(Boolean).slice(0, 8),
-    featuredIds,
-    saleIds,
-    shelfImages,
-    shelfPicks,
-    shelfOrder,
-    shelfTitles,
-  });
-  // Every section posts the whole settings object, so saving before load()
-  // has answered would write empty state over the ribbon, the featured picks,
-  // the shelf choices — everything. The tab loads on open, but a slow network
+  // Each section saves ONLY its own keys and the API writes only what it gets.
+  // Sending everything every time meant a second /manage tab (the owner's,
+  // opened before the manager saved a shelf order) silently put its stale copy
+  // back over that order the next time it saved anything at all.
+  type SettingsPatch = Partial<{
+    ribbonTexts: string[];
+    featuredIds: string[];
+    saleIds: string[];
+    shelfImages: Record<string, string>;
+    shelfPicks: Record<string, string[]>;
+    shelfOrder: Record<string, string[]>;
+    shelfTitles: Record<string, string>;
+  }>;
+  // Saving before load() has answered would still write this tab's empty state
+  // over the section being saved. The tab loads on open, but a slow network
   // leaves a window where the buttons are already on screen, so refuse instead.
-  const putSettings = (okMsg: string) =>
+  const putSettings = (okMsg: string, patch: SettingsPatch) =>
     act(async () => {
       if (!loaded) throw new Error("ההגדרות עוד נטענות — רגע ונסו שוב");
-      await call(`/settings`, { method: "PUT", body: JSON.stringify(settingsPayload()) });
+      await call(`/settings`, { method: "PUT", body: JSON.stringify(patch) });
     }, okMsg);
 
   // ── ribbon ──
   const setRibbonSlot = (i: number, v: string) =>
     setRibbonSlots((slots) => slots.map((s, j) => (j === i ? v : s)));
-  const saveRibbons = () => putSettings("הטקסטים נשמרו! יופיעו באתר אחרי פרסום");
+  const saveRibbons = () =>
+    putSettings("הטקסטים נשמרו! יופיעו באתר אחרי פרסום", {
+      ribbonTexts: ribbonSlots.map((s) => s.trim()).filter(Boolean).slice(0, 8),
+    });
 
   // ── featured ──
   const featuredMatches = useMemo(() => {
@@ -104,7 +108,8 @@ export function useHomeSettings() {
   const addFeatured = (id: string) =>
     setFeaturedIds((ids) => (ids.includes(id) || ids.length >= 12 ? ids : [...ids, id]));
   const removeFeatured = (id: string) => setFeaturedIds((ids) => ids.filter((x) => x !== id));
-  const saveFeatured = () => putSettings("המוצרים הנבחרים נשמרו! יופיעו באתר אחרי פרסום");
+  const saveFeatured = () =>
+    putSettings("המוצרים הנבחרים נשמרו! יופיעו באתר אחרי פרסום", { featuredIds });
 
   // ── sale picker (candidates are only on-sale products) ──
   const saleMatches = useMemo(() => {
@@ -119,7 +124,7 @@ export function useHomeSettings() {
   const addSale = (id: string) =>
     setSaleIds((ids) => (ids.includes(id) || ids.length >= 5 ? ids : [...ids, id]));
   const removeSale = (id: string) => setSaleIds((ids) => ids.filter((x) => x !== id));
-  const saveSales = () => putSettings("המבצעים נשמרו! יופיעו באתר אחרי פרסום");
+  const saveSales = () => putSettings("המבצעים נשמרו! יופיעו באתר אחרי פרסום", { saleIds });
 
   // ── shelves: lead products + series order, per sub-category page ──
   // A shelf is identified the same way the storefront does it: category slug +
@@ -249,7 +254,8 @@ export function useHomeSettings() {
       return out;
     });
 
-  const saveShelves = () => putSettings("המדף נשמר! יופיע באתר אחרי פרסום");
+  const saveShelves = () =>
+    putSettings("המדף נשמר! יופיע באתר אחרי פרסום", { shelfPicks, shelfOrder, shelfTitles });
 
   // ── shelf images: per-category home-mosaic photos ──
   // an empty value removes the key so the storefront falls back to its default.
@@ -275,7 +281,8 @@ export function useHomeSettings() {
   };
   const saveShelfImages = () =>
     act(async () => {
-      await call(`/settings`, { method: "PUT", body: JSON.stringify(settingsPayload()) });
+      if (!loaded) throw new Error("ההגדרות עוד נטענות — רגע ונסו שוב");
+      await call(`/settings`, { method: "PUT", body: JSON.stringify({ shelfImages }) });
       setShelfSaved(true);
     }, "תמונות המדפים נשמרו! יופיעו באתר אחרי פרסום");
 
