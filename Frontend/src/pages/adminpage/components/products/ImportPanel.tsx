@@ -25,7 +25,8 @@ export function ImportPanel({ csv }: { csv: CsvApi }) {
         טיפ: אפשר לבקש מ-AI לסרוק אתר של מותג ולהחזיר קובץ בדיוק בפורמט הזה —
         עמודות: name, price, category, sub_cat, third_level, description, images,
         salePercentage, sku (ברקוד), searchKeywords (מילות חיפוש נסתרות). שורה עם
-        ברקוד שכבר קיים בחנות תדולג.
+        שם או ברקוד שכבר קיימים בחנות תדולג — הייבוא רק מוסיף, לא מעדכן. אין
+        מגבלה על גודל הקובץ: הוא נשלח במנות.
       </p>
       <div className="import-inputs">
         <label className="btn small ghost">

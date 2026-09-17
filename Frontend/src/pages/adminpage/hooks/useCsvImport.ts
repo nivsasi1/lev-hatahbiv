@@ -3,6 +3,8 @@ import { useAdmin } from "../context";
 import { parseCsv, rowsToProducts } from "../lib/csv";
 
 // CSV import: upload images in batches, map names -> stored urls, create products.
+const IMPORT_CHUNK = 250;
+
 export function useCsvImport() {
   const { call, refresh, setError, setNotice } = useAdmin();
 
@@ -47,12 +49,30 @@ export function useCsvImport() {
       if (errors.length) throw new Error(errors.join(" · "));
       if (rows.length === 0) throw new Error("לא נמצאו שורות מוצרים בקובץ");
 
-      // 3. create everything in one shot
-      setImportBusy(`מוסיף ${rows.length} מוצרים...`);
-      const result = await call(`/products/import`, {
-        method: "POST",
-        body: JSON.stringify({ products: rows }),
-      });
+      // 3. create everything, in slices: the API takes up to 500 rows per call,
+      //    and a whole-catalogue file (2,000+ rows) is a few calls with a running
+      //    count rather than one request that fails on size or times out.
+      //    Rows are sent in file order, so a duplicate later in the file is
+      //    still caught — by then the earlier row is already in the store.
+      const result = { created: 0, skipped: [] as any[], total: rows.length };
+      for (let i = 0; i < rows.length; i += IMPORT_CHUNK) {
+        const slice = rows.slice(i, i + IMPORT_CHUNK);
+        setImportBusy(`מוסיף מוצרים... ${i}/${rows.length}`);
+        let part: any;
+        try {
+          part = await call(`/products/import`, {
+            method: "POST",
+            body: JSON.stringify({ products: slice }),
+          });
+        } catch (e: any) {
+          // say how far it got — the rows before this slice are already in
+          throw new Error(
+            i > 0 ? `הייבוא נעצר אחרי ${i} שורות מתוך ${rows.length} (נוספו ${result.created}). ${e.message}` : e.message
+          );
+        }
+        result.created += part.created || 0;
+        for (const s of part.skipped || []) result.skipped.push(s.row ? { ...s, row: s.row + i } : s);
+      }
       setImportReport(result);
       setNotice(`נוספו ${result.created} מוצרים חדשים 🎉`);
       setImportCsv(null);
