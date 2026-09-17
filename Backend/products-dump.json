@@ -13093,11 +13093,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד פולי",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
+    "updatedAt": "2026-09-17T09:20:30.130Z",
     "searchKeywords": "Jacquard",
     "noCoupon": true
   },
@@ -13635,12 +13635,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד טבעי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-17T09:25:27.561Z",
     "noCoupon": true
   },
   {
@@ -14225,12 +14225,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אוונה",
     "searchKeywords": "Javana, גאוונה",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
+    "updatedAt": "2026-09-17T09:20:57.275Z",
     "noCoupon": true
   },
   {
@@ -14263,12 +14263,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אוונה",
     "searchKeywords": "Javana, גאוונה",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
+    "updatedAt": "2026-09-17T09:21:02.824Z",
     "noCoupon": true
   },
   {
@@ -14301,12 +14301,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אוונה",
     "searchKeywords": "Javana, גאוונה",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
+    "updatedAt": "2026-09-17T09:20:50.074Z",
     "noCoupon": true
   },
   {
