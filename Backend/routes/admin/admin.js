@@ -9,6 +9,7 @@ const fs = require("fs");
 const { execFile } = require("child_process");
 const Product = require("../../models/products/product.model");
 const SiteSettings = require("../../models/settings/settings.model");
+const { planSync, setOf, summarize } = require("../../lib/csv-sync");
 const Subscriber = require("../../models/newsletter/subscriber.model");
 const Order = require("../../models/orders/order.model");
 const adminAuth = require("../../middleware/adminAuth");
@@ -607,6 +608,54 @@ router.post("/upload", (req, res) => {
     }
   });
 });
+
+// ---------- CSV update: the exported file, edited, back in ----------
+// body: { rows: [{ id?, name?, price?, ... }], apply, deleteMissing }
+// Rows carry only the columns the file has; a row with an id is compared field
+// by field with the stored product and only what differs is written, a row
+// without one is a new product, and products missing from the file are deleted
+// only when deleteMissing is set. Without "apply" this is the preview.
+router.post(
+  "/products/sync",
+  asyncRoute(async (req, res) => {
+    const body = req.body || {};
+    const rows = body.rows;
+    if (!Array.isArray(rows) || rows.length === 0 || rows.length > 5000) {
+      return res.status(400).json({ error: "קובץ ריק או גדול מ־5000 שורות" });
+    }
+    const apply = body.apply === true;
+    const deleteMissing = body.deleteMissing === true;
+
+    const existing = await Product.find({})
+      .select("name price category sub_cat third_level description img salePercentage sku searchKeywords isActive isAvailable noCoupon")
+      .lean();
+    const plan = planSync(rows, existing);
+    const out = summarize(plan);
+    if (!apply) return res.json(out);
+
+    // a file full of errors is not something to half-apply
+    if (plan.errors.length) {
+      return res.status(400).json({ ...out, error: `יש ${plan.errors.length} שורות עם שגיאות — תקנו אותן ונסו שוב` });
+    }
+    const applied = { updated: 0, created: 0, deleted: 0 };
+    if (plan.update.length) {
+      const r = await Product.bulkWrite(
+        plan.update.map((u) => ({ updateOne: { filter: { _id: u.id }, update: { $set: setOf(u.changes) } } })),
+        { ordered: false }
+      );
+      applied.updated = r.modifiedCount || 0;
+    }
+    if (plan.create.length) {
+      const created = await Product.insertMany(plan.create, { ordered: false });
+      applied.created = created.length;
+    }
+    if (deleteMissing && plan.missing.length) {
+      const r = await Product.deleteMany({ _id: { $in: plan.missing.map((m) => m.id) } });
+      applied.deleted = r.deletedCount || 0;
+    }
+    res.json({ ...out, applied });
+  })
+);
 
 // ---------- batch image upload (for CSV imports) ----------
 // Accepts up to 60 images; returns original-name -> stored-name mapping so a
