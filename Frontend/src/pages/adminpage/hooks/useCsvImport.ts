@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAdmin } from "../context";
-import { parseCsv, rowsToProducts } from "../lib/csv";
+import { parseCsv, rowsToProducts, rowsToSync } from "../lib/csv";
 
 // CSV import: upload images in batches, map names -> stored urls, create products.
 const IMPORT_CHUNK = 250;
@@ -13,6 +13,95 @@ export function useCsvImport() {
   const [importImages, setImportImages] = useState<File[]>([]);
   const [importBusy, setImportBusy] = useState("");
   const [importReport, setImportReport] = useState<any>(null);
+  // "update from CSV": the preview the API computed for the chosen file, and
+  // whether products missing from the file should be deleted on apply
+  const [syncPreview, setSyncPreview] = useState<any>(null);
+  const [deleteMissing, setDeleteMissing] = useState(false);
+
+  // upload the chosen images in batches; original file name → stored url
+  const uploadImages = async () => {
+    const imageMap = new Map<string, string>();
+    const chunks: File[][] = [];
+    for (let i = 0; i < importImages.length; i += 6) chunks.push(importImages.slice(i, i + 6));
+    let uploaded = 0;
+    for (const chunk of chunks) {
+      setImportBusy(`מעלה תמונות... ${uploaded}/${importImages.length}`);
+      const body = new FormData();
+      for (const f of chunk) body.append("images", f);
+      const d = await call(`/upload-batch`, { method: "POST", body });
+      for (const f of d.files) {
+        if (f.img) {
+          imageMap.set(f.original, f.img);
+          imageMap.set(f.original.toLowerCase(), f.img);
+        }
+      }
+      uploaded += chunk.length;
+    }
+    return imageMap;
+  };
+
+  // parse the chosen file for "update": rows carry only the file's columns
+  const readSyncRows = async () => {
+    if (!importCsv) throw new Error("בחרו קובץ CSV");
+    const imageMap = await uploadImages();
+    setImportBusy("קורא את הקובץ...");
+    const { rows, errors } = rowsToSync(parseCsv(await importCsv.text()), imageMap);
+    if (errors.length) throw new Error(errors.join(" · "));
+    if (rows.length === 0) throw new Error("לא נמצאו שורות מוצרים בקובץ");
+    return rows;
+  };
+
+  // step 1: what would change — nothing is written
+  const runSyncPreview = async () => {
+    setError("");
+    setNotice("");
+    setImportReport(null);
+    setSyncPreview(null);
+    setDeleteMissing(false);
+    try {
+      const rows = await readSyncRows();
+      setImportBusy(`משווה ${rows.length} שורות מול החנות...`);
+      const preview = await call(`/products/sync`, {
+        method: "POST",
+        body: JSON.stringify({ rows, apply: false }),
+      });
+      setSyncPreview(preview);
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setImportBusy("");
+    }
+  };
+
+  // step 2: apply — the API recomputes the same plan against the store as it
+  // is now, so a product edited in between is compared fresh, not from the
+  // preview
+  const applySync = async () => {
+    if (!syncPreview) return;
+    setError("");
+    try {
+      const rows = await readSyncRows();
+      setImportBusy("מעדכן את החנות...");
+      const result = await call(`/products/sync`, {
+        method: "POST",
+        body: JSON.stringify({ rows, apply: true, deleteMissing }),
+      });
+      const a = result.applied || {};
+      setNotice(
+        `עודכנו ${a.updated || 0}, נוספו ${a.created || 0}` +
+          (deleteMissing ? `, נמחקו ${a.deleted || 0}` : "") +
+          " — לחצו על פרסום כשתסיימו"
+      );
+      setSyncPreview(null);
+      setImportCsv(null);
+      setImportImages([]);
+      await refresh();
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setImportBusy("");
+    }
+  };
 
   const runImport = async () => {
     if (!importCsv) {
@@ -22,25 +111,10 @@ export function useCsvImport() {
     setError("");
     setNotice("");
     setImportReport(null);
+    setSyncPreview(null);
     try {
       // 1. upload images (if any) in chunks, build original-name -> stored-name map
-      const imageMap = new Map<string, string>();
-      const chunks: File[][] = [];
-      for (let i = 0; i < importImages.length; i += 6) chunks.push(importImages.slice(i, i + 6));
-      let uploaded = 0;
-      for (const chunk of chunks) {
-        setImportBusy(`מעלה תמונות... ${uploaded}/${importImages.length}`);
-        const body = new FormData();
-        for (const f of chunk) body.append("images", f);
-        const d = await call(`/upload-batch`, { method: "POST", body });
-        for (const f of d.files) {
-          if (f.img) {
-            imageMap.set(f.original, f.img);
-            imageMap.set(f.original.toLowerCase(), f.img);
-          }
-        }
-        uploaded += chunk.length;
-      }
+      const imageMap = await uploadImages();
 
       // 2. parse the CSV and link images by filename
       setImportBusy("קורא את הקובץ...");
@@ -95,5 +169,11 @@ export function useCsvImport() {
     importBusy,
     importReport,
     runImport,
+    syncPreview,
+    setSyncPreview,
+    deleteMissing,
+    setDeleteMissing,
+    runSyncPreview,
+    applySync,
   };
 }

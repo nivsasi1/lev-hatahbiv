@@ -3,7 +3,7 @@ import { useAdmin } from "../context";
 import type { AdminProduct } from "../lib/types";
 import { ils } from "../lib/helpers";
 import { CSV_HEADERS } from "../lib/constants";
-import { csvEscape, downloadFile } from "../lib/csv";
+import { csvEscape, downloadFile, protectDigits } from "../lib/csv";
 
 // The products tab's list: search/status/price filters, derived counts, the
 // selection set + bulk actions, and the single-row actions. Reads the product
@@ -166,9 +166,11 @@ export function useProducts() {
   // ---- CSV export (also doubles as a backup) ----
   const exportCsv = () => {
     const lines = [CSV_HEADERS.join(",")];
+    const flag = (on: boolean | undefined) => (on ? "כן" : "");
     for (const p of products) {
       lines.push(
         [
+          p._id,
           csvEscape(p.name),
           p.price,
           csvEscape(p.category),
@@ -177,8 +179,12 @@ export function useProducts() {
           csvEscape(p.description || ""),
           csvEscape(p.img || ""),
           p.salePercentage || 0,
-          csvEscape(p.sku || ""),
+          // ="…" keeps Excel from turning a barcode into 8.71208E+12
+          csvEscape(protectDigits(p.sku || "")),
           csvEscape(p.searchKeywords || ""),
+          flag(p.isActive === false),
+          flag(p.isAvailable === false),
+          flag(p.noCoupon === true),
         ].join(",")
       );
     }

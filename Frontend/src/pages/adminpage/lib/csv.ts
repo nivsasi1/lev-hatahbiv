@@ -34,6 +34,16 @@ export const parseCsv = (text: string): string[][] => {
   return rows;
 };
 
+// A cell written as ="8712079312541" is the export protecting a barcode from
+// Excel (which would otherwise turn it into 8.71208E+12); read the value back.
+export const unwrapCell = (v: string) => {
+  const m = /^="(.*)"$/.exec(v.trim());
+  return m ? m[1] : v;
+};
+// the same protection on the way out, for any all-digit value (barcodes,
+// leading zeros)
+export const protectDigits = (v: string) => (/^\d+$/.test(v) ? `="${v}"` : v);
+
 export const csvEscape = (v: any) => {
   const s = String(v ?? "");
   return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
@@ -82,7 +92,7 @@ export const rowsToProducts = (rows: string[][], imageMap: Map<string, string>) 
       description: get(col.desc),
       img: images.join(";"),
       salePercentage: get(col.sale) || 0,
-      sku: get(col.sku),
+      sku: unwrapCell(get(col.sku)),
       searchKeywords: get(col.keywords),
     };
     products.push(p);
@@ -99,4 +109,52 @@ export const downloadFile = (filename: string, text: string) => {
   a.download = filename;
   a.click();
   URL.revokeObjectURL(a.href);
+};
+
+// The "update from CSV" payload: one object per row carrying ONLY the columns
+// the file has (so a file with just id + price compares and changes prices and
+// nothing else), the id when present, no inheritance from the row above —
+// an empty cell here means "empty", not "same as above".
+export const rowsToSync = (rows: string[][], imageMap: Map<string, string>) => {
+  if (rows.length < 2) return { rows: [], columns: [] as string[], errors: ["הקובץ ריק או חסרה שורת כותרות"] };
+  const headers = rows[0].map((h) => unwrapCell(h).trim().toLowerCase());
+  const idx = (names: string[]) => headers.findIndex((h) => names.includes(h));
+  const col: Record<string, number> = {
+    id: idx(["id", "מזהה"]),
+    name: idx(["name", "שם"]),
+    price: idx(["price", "מחיר"]),
+    category: idx(["category", "קטגוריה"]),
+    sub_cat: idx(["sub_cat", "subcategory", "מדף"]),
+    third_level: idx(["third_level", "series", "סדרה"]),
+    description: idx(["description", "תיאור"]),
+    img: idx(["images", "image", "img", "תמונות"]),
+    salePercentage: idx(["salepercentage", "sale", "מבצע"]),
+    sku: idx(["sku", "barcode", "ברקוד", "מק\"ט", "מקט"]),
+    searchKeywords: idx(["searchkeywords", "keywords", "מילות חיפוש"]),
+    isActive: idx(["hidden", "מוסתר"]),
+    isAvailable: idx(["soldout", "sold_out", "אזל"]),
+    noCoupon: idx(["nocoupon", "no_coupon", "בלי קופונים"]),
+  };
+  const columns = Object.keys(col).filter((k) => col[k] >= 0);
+  const errors: string[] = [];
+  if (col.id < 0) errors.push("חסרה עמודת id — ייצאו את הקטלוג מכאן וערכו את הקובץ הזה");
+  if (columns.length < 2) errors.push("הקובץ צריך לפחות עמודה אחת מלבד id");
+  if (errors.length) return { rows: [], columns, errors };
+  const out: Record<string, string>[] = [];
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    const get = (c: number) => (r[c] !== undefined ? unwrapCell(r[c]).trim() : "");
+    const o: Record<string, string> = {};
+    for (const k of columns) o[k] = get(col[k]);
+    if (o.img !== undefined) {
+      o.img = o.img
+        .split(/[;|]/)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((entry) => imageMap.get(entry) || imageMap.get(entry.toLowerCase()) || entry)
+        .join(";");
+    }
+    out.push(o);
+  }
+  return { rows: out, columns, errors };
 };

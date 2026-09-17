@@ -3536,6 +3536,33 @@ a.sub-chip {
   color: var(--ink-soft);
 }
 
+/* "update from CSV" preview: one block per outcome, lists scroll past 12 rows */
+.sync-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.sync-section ul {
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.sync-errors {
+  color: #b3261e;
+}
+
+.sync-change {
+  white-space: nowrap;
+}
+
+.sync-delete {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
 .admin-list {
   display: flex;
   flex-direction: column;

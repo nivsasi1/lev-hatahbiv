@@ -14,7 +14,10 @@ export const TOKEN_KEY = "lh-admin-jwt";
 
 export const S3 = "https://levhatahbiv.s3.eu-north-1.amazonaws.com/images/";
 
+// The export's columns. "id" is what "עדכון מ-CSV" matches rows by; the
+// three flags at the end round-trip the dashboard toggles (כן = on).
 export const CSV_HEADERS = [
+  "id",
   "name",
   "price",
   "category",
@@ -25,6 +28,9 @@ export const CSV_HEADERS = [
   "salePercentage",
   "sku",
   "searchKeywords",
+  "hidden",
+  "soldOut",
+  "noCoupon",
 ];
 
 export const CSV_TEMPLATE =
