@@ -27,7 +27,7 @@
     "איסוף מהיר מהחנות ברחובות"
   ],
   "saleIds": [],
-  "updatedAt": "2026-09-17T20:44:27.193Z",
+  "updatedAt": "2026-09-17T21:33:58.628Z",
   "shelfImages": {
     "drawing": "1781370471412-5a3cb409.jpg",
     "craft": "1781370599520-a561fad0.jpeg",
@@ -87,6 +87,9 @@
   "shelfPicks": {
     "paints/צבעי-אקוורל": [
       "6aa7ca9b24443d1909c7b587"
+    ],
+    "hobby/צבעי-בד-טקסטיל": [
+      "66844bfdf2e4e8f5727706e7"
     ]
   },
   "shelfTitles": {}
