@@ -1,0 +1,87 @@
+# Toolbox: bring the database back to a snapshot from Backend/snapshots (taken
+# by ops-snapshot). Dry run by default — prints exactly what would change.
+# "apply" first freezes the CURRENT state as a pre-restore snapshot (so even a
+# restore can be undone), then writes the snapshot back and, unless disabled,
+# runs publish-catalog so the live site follows. Products created after the
+# snapshot are kept unless delete_new is ticked. Requires the DB_URL secret.
+name: ops-restore
+
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot:
+        description: "Snapshot name (a file in Backend/snapshots, without .json)"
+        required: true
+      apply:
+        description: "Write the snapshot back to the database (off = dry run)"
+        type: boolean
+        default: false
+      delete_new:
+        description: "Also delete products created after the snapshot"
+        type: boolean
+        default: false
+      publish:
+        description: "After applying, run publish-catalog so the live site is rebuilt"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  actions: write # dispatches publish-catalog
+
+concurrency:
+  group: publish-catalog
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend deps (mongoose)
+        working-directory: Backend
+        run: npm ci --omit=dev --no-audit --no-fund
+
+      - name: Freeze the current state first (pre-restore snapshot)
+        if: ${{ inputs.apply }}
+        id: pre
+        working-directory: Backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::DB_URL secret not set"; exit 1; }
+          node scripts/snapshot.js pre-restore
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add snapshots/
+          git commit -m "snapshot: $(cat "$GITHUB_OUTPUT" | sed -n 's/^name=//p' | tail -1)"
+          git push origin main
+
+      - name: Restore
+        working-directory: Backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          SNAPSHOT: ${{ inputs.snapshot }}
+          APPLY: ${{ inputs.apply }}
+          DELETE_NEW: ${{ inputs.delete_new }}
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::DB_URL secret not set"; exit 1; }
+          case "$SNAPSHOT" in *[!A-Za-z0-9_.-]*|"") echo "::error::snapshot must be a plain file name"; exit 1;; esac
+          ARGS=""
+          [ "$APPLY" = "true" ] && ARGS="$ARGS --apply"
+          [ "$DELETE_NEW" = "true" ] && ARGS="$ARGS --delete-new"
+          node scripts/restore-snapshot.js "$SNAPSHOT" $ARGS
+
+      - name: Publish catalog (rebuilds the live site on the restored data)
+        if: ${{ inputs.apply && inputs.publish }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publish-catalog.yml --ref main

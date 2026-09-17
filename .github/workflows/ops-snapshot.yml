@@ -1,0 +1,57 @@
+# Toolbox: freeze the catalogue (all products + settings, exactly as stored)
+# into Backend/snapshots/<date>[-label].json and commit it to main — a point
+# the ops-restore workflow can bring the database back to. Take one before a
+# round of risky edits. Requires the DB_URL repository secret.
+name: ops-snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      label:
+        description: "Optional label for the file name (e.g. before-manager-edits)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+# never overlap a publish commit on main
+concurrency:
+  group: publish-catalog
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend deps (mongoose)
+        working-directory: Backend
+        run: npm ci --omit=dev --no-audit --no-fund
+
+      - name: Snapshot products + settings from Atlas
+        id: snap
+        working-directory: Backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          LABEL: ${{ inputs.label }}
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::DB_URL secret not set (repo Settings → Secrets → Actions)"; exit 1; }
+          node scripts/snapshot.js "$LABEL"
+
+      - name: Commit the snapshot to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Backend/snapshots/
+          git commit -m "snapshot: ${{ steps.snap.outputs.name }}"
+          git push origin main
+          echo "Restore with: ops-restore → snapshot = ${{ steps.snap.outputs.name }}"
