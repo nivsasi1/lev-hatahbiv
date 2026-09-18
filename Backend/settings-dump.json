@@ -27,7 +27,7 @@
     "איסוף מהיר מהחנות ברחובות"
   ],
   "saleIds": [],
-  "updatedAt": "2026-09-17T21:36:02.008Z",
+  "updatedAt": "2026-09-18T07:41:06.217Z",
   "shelfImages": {
     "drawing": "1781370471412-5a3cb409.jpg",
     "craft": "1781370599520-a561fad0.jpeg",
@@ -82,6 +82,14 @@
       "צבע לטקסטיל - ג'אוונה",
       "SoSoft Fabric Acrylics",
       "SoSoft Fabric Glow"
+    ],
+    "brushes/מכחולים": [
+      "פרינסטון - PRINCETON",
+      "PRINCETON - NEPTUNE",
+      "סיגנט - SIGNET",
+      "מכחול קולינסקי סידרה 7",
+      "כללי",
+      "מכחול גומי מונט מרט"
     ]
   },
   "shelfPicks": {
