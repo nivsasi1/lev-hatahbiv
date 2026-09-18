@@ -12391,24 +12391,6 @@
     "updatedAt": "2026-09-16T14:19:51.899Z"
   },
   {
-    "_id": "66844bfdf2e4e8f57277067a",
-    "id": "product_0468ceae-a65b-78a5-f99c-54f8ac6c36b6",
-    "name": "סט שפכטלים RGM איטליה",
-    "description": "<p dir=\"rtl\">סט שפכטלים ללא ידית עץ של חברת RGM האיטלקית בעיצוב מיוחד המאפשר ציור ספונטני וחופשי השומר על איזון.</p>",
-    "img": "733145_fc19025f1a1f4eefa17c7080c8aba4bf~mv2.jpg",
-    "price": 69.9,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "מכחולים ואביזרים",
-    "sub_cat": "שפכטלים",
-    "third_level": "שפכטל CARAN D'ACHE - קארנדאש",
-    "searchKeywords": "Caran dAche, קרנדש",
-    "updatedAt": "2026-09-16T14:19:54.857Z",
-    "noCoupon": true
-  },
-  {
     "_id": "66844bfdf2e4e8f572770667",
     "id": "product_bc5d667f-0494-fa8d-56e5-01bd48ae99f4",
     "name": "דיו אלכוהולי פיניאטה 027 HAVANA BROWN",
