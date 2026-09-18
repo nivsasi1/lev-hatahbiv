@@ -45567,7 +45567,7 @@
   {
     "_id": "6aac4fac040db62584e5018f",
     "name": "GLOW_IN_THE_DARK_DSS111",
-    "price": 17.5,
+    "price": 17.8,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -45580,7 +45580,10 @@
     "searchKeywords": "DecoArt, SoSoft, צבע לבד, צבע טקסטיל",
     "__v": 0,
     "createdAt": "2026-09-17T20:38:04.796Z",
-    "updatedAt": "2026-09-18T07:54:53.303Z"
+    "updatedAt": "2026-09-18T07:57:53.632Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aac4fac040db62584e50190",
