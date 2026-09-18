@@ -30922,8 +30922,9 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע שמן",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-09-18T07:42:16.962Z",
+    "noCoupon": true,
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770b4a",
@@ -30959,7 +30960,8 @@
     "sub_cat": "חומרי עזר",
     "third_level": "כללי",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-09-18T07:42:19.678Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770b49",
