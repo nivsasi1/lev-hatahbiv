@@ -46,8 +46,10 @@ const FONTS =
 
 const POPULAR = ["אקריליק", "אקוורל", "מכחול", "פימו", "קנסון", "פוסקה"];
 
-/* ---------- starter kits: real catalog items, matched by name ---------- */
-type KitDef = { key: string; name: string; blurb: string; picks: string[] };
+/* ---------- starter kits: real catalog items, matched by name ----------
+   The catalog is live (items sell out, get renamed), so a pick may be a list of
+   fallbacks — the first one that's in stock wins. */
+type KitDef = { key: string; name: string; blurb: string; picks: (string | string[])[] };
 
 const KIT_DEFS: KitDef[] = [
   {
@@ -55,7 +57,7 @@ const KIT_DEFS: KitDef[] = [
     name: "אקריליק",
     blurb: "הכי סלחני להתחיל איתו: מתייבש מהר, נשטף במים, ועובד על כמעט כל משטח.",
     picks: [
-      "סט צבע אקריליק 1/12 12מל",
+      ["סט צבע אקריליק 1/12 12מל", "סט צבע אקריליק מונט מרט 1/18", "סט צבע אקריליק"],
       "עגול ידית קצרה P3750 8",
       "Flat Shader P3750-10",
       "בלוק צבעי שמן ואקריליק",
@@ -90,10 +92,10 @@ const KIT_DEFS: KitDef[] = [
   {
     key: "oil",
     name: "צבעי שמן",
-    blurb: "הקלאסיקה. סט פתיחה, מדיום אקולוגי בלי ריח חריף, פלטת עץ ונייר ייעודי.",
+    blurb: "הקלאסיקה. סט פתיחה, חומר לניקוי ודילול, פלטת עץ ונייר ייעודי.",
     picks: [
       "Simply Oil 12ml sets",
-      "מדיום (מנקה) אקולוגי לצבעי שמן",
+      ["מדיום (מנקה) אקולוגי לצבעי שמן", "מנקה מכחולים לצבעי שמן", "טרפנטין מינרלי"],
       "פלטה עץ אובלית 30/20",
       "Canson XL OIL & ACRYLIC",
       "Flat Shader P3750-8",
@@ -119,9 +121,14 @@ type Kit = KitDef & { items: Product[] };
 const KITS: Kit[] = KIT_DEFS.map((k) => ({
   ...k,
   items: k.picks
-    .map((needle) =>
-      products.find((p) => p.name.includes(needle) && p.img && quickAddable(p))
-    )
+    .map((pick) => {
+      for (const needle of Array.isArray(pick) ? pick : [pick]) {
+        const hit = products.find(
+          (p) => p.name.includes(needle) && p.img && quickAddable(p)
+        );
+        if (hit) return hit;
+      }
+    })
     .filter((p): p is Product => Boolean(p)),
 })).filter((k) => k.items.length >= 3);
 
