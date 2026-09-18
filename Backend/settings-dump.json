@@ -22,7 +22,7 @@
     "איסוף מהיר מהחנות ברחובות"
   ],
   "saleIds": [],
-  "updatedAt": "2026-09-18T08:57:57.196Z",
+  "updatedAt": "2026-09-18T12:58:48.350Z",
   "shelfImages": {
     "drawing": "1781370471412-5a3cb409.jpg",
     "craft": "1781370599520-a561fad0.jpeg",
@@ -95,6 +95,14 @@
       "חימר",
       "פלסטלינה ובצק",
       "גליל חמרן"
+    ],
+    "drawing/עפרון-אקוורל": [
+      "CARAN D'ACHE - קארנדאש",
+      "פאבר קאסטל - Faber Castell",
+      "קוהינור - KOH-I-NOOR",
+      "לירה - Lyra",
+      "NEVSKAYA PALITRA - Sonnet - סונט",
+      "פאבר קאסטל אדום - Faber Castell"
     ]
   },
   "shelfPicks": {
