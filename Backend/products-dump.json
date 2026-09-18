@@ -46320,7 +46320,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "Princeton Neptune Series 4750 Travel Round, Size 10\nמכחול סינתטי מדמה שיער סנאי, רך וסופג במיוחד, מיועד לצבעי מים. ידית טלסקופית דו-חלקית, קומפקטי ונוח לנשיאה - מושלם לציור בטבע ובנסיעות.\nדגם: P4750TR10",
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
@@ -46330,7 +46330,7 @@
     "searchKeywords": "Princeton, Neptune, מכחול צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-18T07:25:14.328Z",
-    "updatedAt": "2026-09-18T07:26:49.573Z",
+    "updatedAt": "2026-09-18T07:39:21.838Z",
     "noCoupon": true
   },
   {
@@ -46510,7 +46510,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "Princeton Neptune Series 4750 Travel Round, Size 4\nמכחול סינתטי מדמה שיער סנאי, רך וסופג במיוחד, מיועד לצבעי מים. ידית טלסקופית דו-חלקית, קומפקטי ונוח לנשיאה - מושלם לציור בטבע ובנסיעות.\nדגם: P4750TR4",
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
@@ -46520,7 +46520,7 @@
     "searchKeywords": "Princeton, Neptune, מכחול צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-18T07:25:14.328Z",
-    "updatedAt": "2026-09-18T07:26:49.573Z",
+    "updatedAt": "2026-09-18T07:39:25.042Z",
     "noCoupon": true
   },
   {
@@ -46529,7 +46529,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "Princeton Neptune Series 4750 Travel Round, Size 6\nמכחול סינתטי מדמה שיער סנאי, רך וסופג במיוחד, מיועד לצבעי מים. ידית טלסקופית דו-חלקית, קומפקטי ונוח לנשיאה - מושלם לציור בטבע ובנסיעות.\nדגם: P4750TR6",
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
@@ -46539,7 +46539,7 @@
     "searchKeywords": "Princeton, Neptune, מכחול צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-18T07:25:14.328Z",
-    "updatedAt": "2026-09-18T07:26:49.573Z",
+    "updatedAt": "2026-09-18T07:39:35.809Z",
     "noCoupon": true
   },
   {
@@ -46548,7 +46548,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "Princeton Neptune Series 4750 Travel Round, Size 8\nמכחול סינתטי מדמה שיער סנאי, רך וסופג במיוחד, מיועד לצבעי מים. ידית טלסקופית דו-חלקית, קומפקטי ונוח לנשיאה - מושלם לציור בטבע ובנסיעות.\nדגם: P4750TR8",
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
@@ -46558,7 +46558,7 @@
     "searchKeywords": "Princeton, Neptune, מכחול צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-18T07:25:14.328Z",
-    "updatedAt": "2026-09-18T07:26:49.573Z",
+    "updatedAt": "2026-09-18T07:39:28.603Z",
     "noCoupon": true
   }
 ]
