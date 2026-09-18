@@ -24632,9 +24632,10 @@
     "sub_cat": "עפרון אקוורל",
     "third_level": "לירה - Lyra",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-18T12:52:32.049Z",
     "variantLabel": "",
-    "variants": []
+    "variants": [],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727709be",
@@ -25058,7 +25059,8 @@
     "sub_cat": "עפרון אקוורל",
     "third_level": "לירה - Lyra",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-09-18T12:52:48.636Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727709b2",
@@ -28920,7 +28922,8 @@
     "sub_cat": "עפרון אקוורל",
     "third_level": "לירה - Lyra",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-09-18T12:52:52.009Z",
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770aa7",
@@ -34280,11 +34283,11 @@
     "description": "",
     "img": "733145_1b02ffeed6694bf1ba7dbeb4a7dc430c~mv2.jpg",
     "sku": "8000825018442",
-    "isActive": true,
+    "isActive": false,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-18T12:52:24.863Z",
     "searchKeywords": "ג'וטו, גיוטו",
     "noCoupon": true
   },
