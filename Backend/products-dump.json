@@ -17239,7 +17239,7 @@
     "name": "כן ציור 3 רגלים LYRA",
     "description": "<p dir=\"rtl\">כן ציור אידיאלי לייצוג בתערוכות. עשוי עץ&nbsp;איכותי הנשמר לאורך שנים ומצופה בשמן&nbsp;טבעי ללא כימיקליים. לא מאפשר החזקת<br>קנווסים גדולים במיוחד. מודולארי וניתן&nbsp;לקיפול בקלות.<br>בסיס 56 ס”מ<br>גובה 160 ס”מ<br>גובה קנווס מקסימאלי: 200 ס”מ<br>משקל: 5.5 ק”ג</p>",
     "img": "733145_d25f3655f57e45ef96e6f03507b40ab0~mv2.jpg",
-    "price": 359,
+    "price": 350,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -17248,8 +17248,11 @@
     "sub_cat": "כני ציור סטודיו",
     "third_level": "כללי",
     "searchKeywords": "לירה",
-    "updatedAt": "2026-09-16T14:19:54.857Z",
-    "noCoupon": true
+    "updatedAt": "2026-09-18T12:57:04.302Z",
+    "noCoupon": true,
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770794",
