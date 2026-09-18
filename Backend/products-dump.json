@@ -11373,11 +11373,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
+    "updatedAt": "2026-09-18T07:50:37.307Z",
     "noCoupon": true
   },
   {
