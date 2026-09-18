@@ -82,7 +82,7 @@ const SaleCard = ({ p }: { p: Product }) => {
 };
 
 export default function DesignGallery() {
-  usePageMeta({ title: titleFor("עיצוב · גלריה"), path: "/designs/a", noindex: true });
+  usePageMeta({ title: titleFor("עיצוב · גלריה"), path: "/designs/d", noindex: true });
   return (
     <main className="dz-gallery page-main">
       {/* ---------- HERO — logo forward, calm ---------- */}

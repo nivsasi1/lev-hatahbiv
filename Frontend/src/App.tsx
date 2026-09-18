@@ -29,6 +29,8 @@ import { SearchPage } from "./pages/SearchPage";
 import { WorkshopsPage } from "./pages/WorkshopsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import DesignsIndex from "./pages/designs/DesignsIndex";
+import DesignStudio from "./pages/designs/DesignStudio";
+import DesignPigment from "./pages/designs/DesignPigment";
 import DesignGallery from "./pages/designs/DesignGallery";
 import DesignCraft from "./pages/designs/DesignCraft";
 import DesignKinetic from "./pages/designs/DesignKinetic";
@@ -106,7 +108,9 @@ const router = createBrowserRouter(
         { path: "/search", element: <SearchPage /> },
         { path: "/workshops", element: <WorkshopsPage /> },
         { path: "/designs", element: <DesignsIndex /> },
-        { path: "/designs/a", element: <DesignGallery /> },
+        { path: "/designs/a", element: <DesignStudio /> },
+        { path: "/designs/b", element: <DesignPigment /> },
+        { path: "/designs/d", element: <DesignGallery /> },
         { path: "/designs/c", element: <DesignCraft /> },
         { path: "/designs/e", element: <DesignKinetic /> },
         { path: "/designs/g", element: <DesignClay /> },
