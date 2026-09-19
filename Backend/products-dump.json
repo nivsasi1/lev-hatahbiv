@@ -46980,10 +46980,47 @@
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.588Z",
-    "updatedAt": "2026-09-19T16:52:24.326Z",
+    "updatedAt": "2026-09-19T17:06:58.390Z",
     "noCoupon": false,
-    "variantLabel": "",
-    "variants": []
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "1"
+      },
+      {
+        "key": "2"
+      },
+      {
+        "key": "4"
+      },
+      {
+        "key": "6"
+      },
+      {
+        "key": "8"
+      },
+      {
+        "key": "10"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "16"
+      },
+      {
+        "key": "18"
+      },
+      {
+        "key": "20"
+      },
+      {
+        "key": "22"
+      },
+      {
+        "key": "24"
+      }
+    ]
   },
   {
     "_id": "6aaebca25764683b7be2f740",
@@ -47060,10 +47097,23 @@
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.589Z",
-    "updatedAt": "2026-09-19T16:52:07.652Z",
+    "updatedAt": "2026-09-19T17:07:25.927Z",
     "noCoupon": false,
-    "variantLabel": "",
-    "variants": []
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "4"
+      },
+      {
+        "key": "8"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "16"
+      }
+    ]
   },
   {
     "_id": "6aaebca25764683b7be2f742",
@@ -47081,10 +47131,23 @@
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.603Z",
-    "updatedAt": "2026-09-19T16:51:44.749Z",
+    "updatedAt": "2026-09-19T17:07:52.872Z",
     "noCoupon": false,
-    "variantLabel": "",
-    "variants": []
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "4"
+      },
+      {
+        "key": "8"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "16"
+      }
+    ]
   },
   {
     "_id": "6aaebff1af8d880a403a9bc4",
@@ -47102,7 +47165,47 @@
     "searchKeywords": "PanArt, Echo, מכחול אקריליק, מכחול סינתטי",
     "__v": 0,
     "createdAt": "2026-09-19T17:01:37.782Z",
-    "updatedAt": "2026-09-19T17:01:37.782Z"
+    "updatedAt": "2026-09-19T17:05:43.135Z",
+    "noCoupon": false,
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "3/0"
+      },
+      {
+        "key": "0"
+      },
+      {
+        "key": "2"
+      },
+      {
+        "key": "4"
+      },
+      {
+        "key": "6"
+      },
+      {
+        "key": "8"
+      },
+      {
+        "key": "10"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "14"
+      },
+      {
+        "key": "16"
+      },
+      {
+        "key": "20"
+      },
+      {
+        "key": "24"
+      }
+    ]
   },
   {
     "_id": "6aaebff1af8d880a403a9bc5",
@@ -47120,7 +47223,44 @@
     "searchKeywords": "PanArt, Echo, מכחול אקריליק, מכחול סינתטי",
     "__v": 0,
     "createdAt": "2026-09-19T17:01:37.782Z",
-    "updatedAt": "2026-09-19T17:01:37.782Z"
+    "updatedAt": "2026-09-19T17:04:02.501Z",
+    "noCoupon": false,
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "1"
+      },
+      {
+        "key": "2"
+      },
+      {
+        "key": "4"
+      },
+      {
+        "key": "6"
+      },
+      {
+        "key": "8"
+      },
+      {
+        "key": "10"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "14"
+      },
+      {
+        "key": "16"
+      },
+      {
+        "key": "20"
+      },
+      {
+        "key": "24"
+      }
+    ]
   },
   {
     "_id": "6aaebff1af8d880a403a9bc6",
@@ -47138,6 +47278,40 @@
     "searchKeywords": "PanArt, Echo, מכחול אקריליק, מכחול סינתטי",
     "__v": 0,
     "createdAt": "2026-09-19T17:01:37.782Z",
-    "updatedAt": "2026-09-19T17:01:37.782Z"
+    "updatedAt": "2026-09-19T17:04:46.088Z",
+    "noCoupon": false,
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "2"
+      },
+      {
+        "key": "4"
+      },
+      {
+        "key": "6"
+      },
+      {
+        "key": "8"
+      },
+      {
+        "key": "10"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "14"
+      },
+      {
+        "key": "16"
+      },
+      {
+        "key": "20"
+      },
+      {
+        "key": "24"
+      }
+    ]
   }
 ]
