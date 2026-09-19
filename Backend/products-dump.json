@@ -46975,12 +46975,15 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "עגול_סדרה_2201.jpg",
+    "img": "1789836738153-c7d8c565.jpg",
     "sku": "",
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.588Z",
-    "updatedAt": "2026-09-19T16:47:30.588Z"
+    "updatedAt": "2026-09-19T16:52:24.326Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aaebca25764683b7be2f740",
@@ -46993,12 +46996,53 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "שטוח_סדרה_2221.jpg",
+    "img": "1789836759142-ebca824c.jpg",
     "sku": "",
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.588Z",
-    "updatedAt": "2026-09-19T16:47:30.588Z"
+    "updatedAt": "2026-09-19T16:54:09.408Z",
+    "noCoupon": false,
+    "variantLabel": "גודל",
+    "variants": [
+      {
+        "key": "1",
+        "price": 10
+      },
+      {
+        "key": "2"
+      },
+      {
+        "key": "4"
+      },
+      {
+        "key": "6"
+      },
+      {
+        "key": "10"
+      },
+      {
+        "key": "12"
+      },
+      {
+        "key": "14"
+      },
+      {
+        "key": "16"
+      },
+      {
+        "key": "18"
+      },
+      {
+        "key": "20"
+      },
+      {
+        "key": "22"
+      },
+      {
+        "key": "24"
+      }
+    ]
   },
   {
     "_id": "6aaebca25764683b7be2f741",
@@ -47011,12 +47055,15 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "פילברט_סדרה_2241.jpg",
+    "img": "1789836722194-64662266.jpg",
     "sku": "",
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.589Z",
-    "updatedAt": "2026-09-19T16:47:30.589Z"
+    "updatedAt": "2026-09-19T16:52:07.652Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aaebca25764683b7be2f742",
@@ -47029,11 +47076,14 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "זוית_סדרה_2261.jpg",
+    "img": "1789836683499-41d7b185.jpg",
     "sku": "",
     "searchKeywords": "PanArt, מכחול שמן, זיפי חזיר",
     "__v": 0,
     "createdAt": "2026-09-19T16:47:30.603Z",
-    "updatedAt": "2026-09-19T16:47:30.603Z"
+    "updatedAt": "2026-09-19T16:51:44.749Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
