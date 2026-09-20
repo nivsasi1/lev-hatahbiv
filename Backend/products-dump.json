@@ -29169,8 +29169,8 @@
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - טאלנס / Royal Talens",
-    "noCoupon": false,
-    "updatedAt": "2026-09-19T19:34:41.720Z",
+    "noCoupon": true,
+    "updatedAt": "2026-09-20T05:20:45.824Z",
     "img": "1789846481477-6fbbfc75.jpg;1789846481599-103f001f.jpg"
   },
   {
@@ -47367,6 +47367,7 @@
     "searchKeywords": "PanArt, סינר לאמנים, סינר ציור",
     "__v": 0,
     "createdAt": "2026-09-20T05:20:06.267Z",
-    "updatedAt": "2026-09-20T05:20:06.267Z"
+    "updatedAt": "2026-09-20T05:20:45.824Z",
+    "noCoupon": true
   }
 ]
