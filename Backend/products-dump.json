@@ -47350,5 +47350,23 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6aaf6d062c1348aaba83f245",
+    "name": "סינר סטודיו כותנה כחול נייבי PanArt",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "PanArt Studio Apron - 100% Cotton\nסינר סטודיו מבד כותנה 100% בצבע כחול נייבי, המגן על הבגדים מפני התזות וכתמי צבע תוך שמירה על מראה נקי ומינימליסטי. כולל שני כיסים גדולים בחזית להחזקת מכחולים וכלי עבודה, ורצועת צוואר מתכווננת לנוחות מרבית. מודפס עליו לוגו PAN ART.\nדגם: PA-STUDIO",
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "חומרי עזר",
+    "third_level": "PANART",
+    "img": "1789881603301-e016d46f.jpg",
+    "sku": "",
+    "searchKeywords": "PanArt, סינר לאמנים, סינר ציור",
+    "__v": 0,
+    "createdAt": "2026-09-20T05:20:06.267Z",
+    "updatedAt": "2026-09-20T05:20:06.267Z"
   }
 ]
