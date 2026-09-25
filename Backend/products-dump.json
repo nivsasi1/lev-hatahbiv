@@ -47571,7 +47571,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 8 כפתורי צבעי מים נוצצים (Shimmering) מסדרת White Nights של Nevskaya Palitra, בגווני קיץ: לימון, כתום, לילך, אדום-ורוד, כחול, ירוק-צהוב, לבן וטיטניום ושחור מארס. כל כפתור 2.5 מ״ל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -47581,7 +47581,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, נוצץ, צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-25T09:17:04.646Z",
-    "updatedAt": "2026-09-25T09:17:43.987Z",
+    "updatedAt": "2026-09-25T09:25:28.114Z",
     "noCoupon": true
   },
   {
