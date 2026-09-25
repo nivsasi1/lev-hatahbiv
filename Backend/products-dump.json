@@ -25178,7 +25178,7 @@
     "name": "עפרון שמן לירה פוליקולור 1/24",
     "img": "733145_40d0c2276da1453b87a0004c8e81f355~mv2.jpg;733145_b086b320b181450ab7669e4789862c7f~mv2.jpg",
     "sku": "4084900170311",
-    "price": 134.9,
+    "price": 159.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -25187,7 +25187,11 @@
     "sub_cat": "עפרון שמן/שעווה",
     "third_level": "לירה פוליקולור - Lyra",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-09-25T09:09:54.176Z",
+    "description": "",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f5727709e2",
@@ -47400,7 +47404,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 26 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, בגווני פסטל בהשראת מקרונים וכולל גוון זהב וכסף מטאליים. מרקם קרמי שמתמזג בקלות, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47410,7 +47414,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.170Z",
-    "updatedAt": "2026-09-20T18:05:00.170Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e7f",
@@ -47418,7 +47422,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 26 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, בגוונים טבעיים עם רוויה נמוכה ובטונים מעומעמים, אידיאלי לנופים ולטבע דומם. מרקם קרמי שמתמזג בקלות, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47428,7 +47432,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.170Z",
-    "updatedAt": "2026-09-20T18:05:00.170Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e80",
@@ -47436,7 +47440,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 39 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, בגוונים טבעיים עם רוויה נמוכה ובטונים מעומעמים, אידיאלי לנופים ולטבע דומם. מרקם קרמי שמתמזג בקלות, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47446,7 +47450,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.170Z",
-    "updatedAt": "2026-09-20T18:05:00.170Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e81",
@@ -47454,7 +47458,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 26 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, במגוון גוונים חיים ועזים. מרקם רך שמתמזג בקלות ומעצים את עוצמת הצבע, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס, ולכל רמות היכולת. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47464,7 +47468,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.170Z",
-    "updatedAt": "2026-09-20T18:05:00.170Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e82",
@@ -47472,7 +47476,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 39 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, במגוון גוונים חיים ועזים. מרקם רך שמתמזג בקלות ומעצים את עוצמת הצבע, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס, ולכל רמות היכולת. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47482,7 +47486,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.171Z",
-    "updatedAt": "2026-09-20T18:05:00.171Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e83",
@@ -47490,7 +47494,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 52 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, במגוון רחב של גוונים חיים ועזים. מרקם רך שמתמזג בקלות ומעצים את עוצמת הצבע, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס, ולכל רמות היכולת. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47500,7 +47504,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.171Z",
-    "updatedAt": "2026-09-20T18:05:00.171Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e84",
@@ -47508,7 +47512,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 72 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, במגוון רחב של גוונים חיים ועזים. מרקם רך שמתמזג בקלות ומעצים את עוצמת הצבע, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס, ולכל רמות היכולת. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47518,7 +47522,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.171Z",
-    "updatedAt": "2026-09-20T18:05:00.171Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   },
   {
     "_id": "6ab0204c255d601f5a8f2e85",
@@ -47526,7 +47530,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט 120 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, במגוון רחב במיוחד של גוונים חיים ועזים, בשתי מגירות. מרקם רך שמתמזג בקלות ומעצים את עוצמת הצבע, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס, ולכל רמות היכולת. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47536,6 +47540,6 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.171Z",
-    "updatedAt": "2026-09-20T18:05:00.171Z"
+    "updatedAt": "2026-09-20T18:24:10.763Z"
   }
 ]
