@@ -47403,10 +47403,10 @@
   {
     "_id": "6ab0204c255d601f5a8f2e7e",
     "name": "סט פסטל שמן אקסטרה רך מונט מרט 1/26 - גוונים מקרון",
-    "price": 50,
+    "price": 69.5,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">סט 26 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, בגווני פסטל בהשראת מקרונים וכולל גוון זהב וכסף מטאליים. מרקם קרמי שמתמזג בקלות, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47416,7 +47416,10 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.170Z",
-    "updatedAt": "2026-09-20T18:24:10.763Z"
+    "updatedAt": "2026-09-27T10:17:28.514Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ab0204c255d601f5a8f2e7f",
