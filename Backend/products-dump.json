@@ -47550,7 +47550,7 @@
     "price": 64.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">סט 12 כפתורי צבעי מים גרפיט מגוונים (Tinted Graphite) של Sketchmarker, כולל מכחול. הכפתורים מתמזגים במים כמו צבעי אקוורל ומאפשרים רישום בגווני אפור-חום עם אפקט גרפיט.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -47560,7 +47560,7 @@
     "searchKeywords": "Sketchmarker, גרפיט, צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-25T09:17:04.646Z",
-    "updatedAt": "2026-09-27T09:30:09.230Z",
+    "updatedAt": "2026-09-27T10:08:34.891Z",
     "noCoupon": true,
     "variantLabel": "",
     "variants": []
