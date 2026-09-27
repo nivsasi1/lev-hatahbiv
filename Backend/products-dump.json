@@ -47508,7 +47508,7 @@
   {
     "_id": "6ab0204c255d601f5a8f2e83",
     "name": "סט פסטל שמן אקסטרה רך מונט מרט 1/52 - גוונים עזים",
-    "price": 50,
+    "price": 99.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -47521,7 +47521,10 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.171Z",
-    "updatedAt": "2026-09-20T18:24:10.763Z"
+    "updatedAt": "2026-09-27T10:20:46.404Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ab0204c255d601f5a8f2e84",
