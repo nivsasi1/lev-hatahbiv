@@ -47427,7 +47427,7 @@
     "price": 69.5,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">סט 26 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, בגוונים טבעיים עם רוויה נמוכה ובטונים מעומעמים, אידיאלי לנופים ולטבע דומם. מרקם קרמי שמתמזג בקלות, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47437,7 +47437,7 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.170Z",
-    "updatedAt": "2026-09-27T10:16:48.113Z",
+    "updatedAt": "2026-09-27T10:20:07.962Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
