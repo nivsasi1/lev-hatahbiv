@@ -47592,7 +47592,7 @@
   {
     "_id": "6ab63c10d45aa25f2e801a7e",
     "name": "White Nights סט צבעי מים נוצצים 8 כפתורים - סתיו",
-    "price": 50,
+    "price": 157,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -47605,8 +47605,10 @@
     "searchKeywords": "White Nights, חלומות לבנים, נוצץ, צבעי מים",
     "__v": 0,
     "createdAt": "2026-09-25T09:17:04.646Z",
-    "updatedAt": "2026-09-25T09:17:43.987Z",
-    "noCoupon": true
+    "updatedAt": "2026-09-27T10:14:29.043Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ab63c10d45aa25f2e801a7f",
