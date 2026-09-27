@@ -15295,7 +15295,7 @@
     "name": "Bristle Fan (Mini)  P3750",
     "description": "<p dir=\"rtl\">מיני<br>סדרה P3750<br>BRISTLE FAN<br>ידית קצרה - מיני<br>20/0</p>",
     "img": "733145_0932550416fb4170b58de6795a31761c~mv2.jpg",
-    "price": 1000,
+    "price": 7.8,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -15303,8 +15303,12 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "פרינסטון - PRINCETON",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
-    "noCoupon": true
+    "updatedAt": "2026-09-27T10:28:50.278Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277071d",
