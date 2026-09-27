@@ -47529,10 +47529,10 @@
   {
     "_id": "6ab0204c255d601f5a8f2e85",
     "name": "סט פסטל שמן אקסטרה רך מונט מרט 1/120 - גוונים עזים",
-    "price": 50,
+    "price": 249.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">סט 120 פסטלי שמן אקסטרה רכים מסדרת Premium של Mont Marte, במגוון רחב במיוחד של גוונים חיים ועזים, בשתי מגירות. מרקם רך שמתמזג בקלות ומעצים את עוצמת הצבע, מתאים לנייר מרקם, קרטון צבעוני, כרטיסים וקנבס, ולכל רמות היכולת. לא רעיל.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -47542,7 +47542,10 @@
     "searchKeywords": "Mont Marte, פסטל שמן, מונט מארט",
     "__v": 0,
     "createdAt": "2026-09-20T18:05:00.171Z",
-    "updatedAt": "2026-09-20T18:24:10.763Z"
+    "updatedAt": "2026-09-27T10:13:51.733Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ab63c10d45aa25f2e801a7c",
