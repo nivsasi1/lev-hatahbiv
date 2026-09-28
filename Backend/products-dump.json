@@ -47753,7 +47753,7 @@
   {
     "_id": "6aba3420c13134b202748930",
     "name": "Clairefontaine Goldline Aquapad בלוק נייר אקוורל 300 גרם A3 - 30 דפים",
-    "price": 50,
+    "price": 95.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -47766,7 +47766,10 @@
     "searchKeywords": "Clairefontaine, קלרפונטיין, Aquapad, Goldline, נייר אקוורל, בלוק אקוורל, A3",
     "__v": 0,
     "createdAt": "2026-09-28T09:32:16.845Z",
-    "updatedAt": "2026-09-28T09:32:42.301Z"
+    "updatedAt": "2026-09-28T10:02:20.679Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aba3420c13134b202748931",
