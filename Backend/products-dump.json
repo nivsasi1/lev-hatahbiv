@@ -47735,7 +47735,7 @@
   {
     "_id": "6aba3420c13134b20274892f",
     "name": "Clairefontaine Goldline Aquapad בלוק נייר אקוורל 300 גרם A4 - 50 דפים",
-    "price": 50,
+    "price": 77.8,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -47748,7 +47748,10 @@
     "searchKeywords": "Clairefontaine, קלרפונטיין, Aquapad, Goldline, נייר אקוורל, בלוק אקוורל, A4",
     "__v": 0,
     "createdAt": "2026-09-28T09:32:16.845Z",
-    "updatedAt": "2026-09-28T09:32:42.301Z"
+    "updatedAt": "2026-09-28T10:03:08.110Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aba3420c13134b202748930",
@@ -47756,7 +47759,7 @@
     "price": 95.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">בלוק אקוורל בגודל A3 (29.7×42 סמ) עם 30 דפים, מודבק בצד אחד. נייר אקוורל 100% תאית בלבן טבעי, בגרמאז' 300 גרם/מ״ר, עם גרגר בינוני-עדין המודגש יותר בצד אחד של הדף. הנייר נטול חומצה בעל pH ניטרלי, ומתאים לטכניקות רטובות.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
@@ -47766,7 +47769,7 @@
     "searchKeywords": "Clairefontaine, קלרפונטיין, Aquapad, Goldline, נייר אקוורל, בלוק אקוורל, A3",
     "__v": 0,
     "createdAt": "2026-09-28T09:32:16.845Z",
-    "updatedAt": "2026-09-28T10:02:20.679Z",
+    "updatedAt": "2026-09-28T10:03:23.247Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
