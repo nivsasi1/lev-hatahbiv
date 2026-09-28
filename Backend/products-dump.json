@@ -47720,7 +47720,7 @@
     "price": 53.5,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">בלוק אקוורל בגודל A5 (14.8×21 סמ) עם 70 דפים, מודבק בצד אחד. נייר אקוורל 100% תאית בלבן טבעי, בגרמאז' 300 גרם/מ״ר, עם גרגר בינוני-עדין המודגש יותר בצד אחד של הדף. הנייר נטול חומצה בעל pH ניטרלי, ומתאים לטכניקות רטובות.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
@@ -47730,7 +47730,7 @@
     "searchKeywords": "Clairefontaine, קלרפונטיין, Aquapad, Goldline, נייר אקוורל, בלוק אקוורל, A5",
     "__v": 0,
     "createdAt": "2026-09-28T09:32:16.844Z",
-    "updatedAt": "2026-09-28T10:04:13.039Z",
+    "updatedAt": "2026-09-28T10:04:53.185Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
