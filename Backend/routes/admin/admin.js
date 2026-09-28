@@ -129,12 +129,13 @@ const EDITABLE_FIELDS = [
 
 const badInput = (msg) => Object.assign(new Error(msg), { name: "ValidationError" });
 
-// variants: [{key, price?, soldOut?, swatch?}] — key required+unique, price
-// optional (empty = the product's base price)
+// variants: [{key, price?, soldOut?, swatch?, sku?}] — key required+unique, price
+// optional (empty = the product's base price), sku unique like the product's
 const cleanVariants = (raw) => {
   if (!Array.isArray(raw)) throw badInput("מבנה וריאנטים לא תקין");
   if (raw.length > 120) throw badInput("עד 120 וריאנטים למוצר");
   const seen = new Set();
+  const seenSku = new Set();
   const out = [];
   for (const r of raw) {
     const key = String((r && r.key) || "").trim().slice(0, 80);
@@ -150,6 +151,12 @@ const cleanVariants = (raw) => {
     }
     if (r.soldOut) row.soldOut = true;
     if (r.swatch) row.swatch = String(r.swatch).trim().slice(0, 40);
+    const sku = String((r && r.sku) || "").trim().slice(0, 500);
+    if (sku) {
+      if (seenSku.has(sku)) throw badInput(`הברקוד ${sku} מופיע פעמיים באותו מוצר`);
+      seenSku.add(sku);
+      row.sku = sku;
+    }
     out.push(row);
   }
   return out;
@@ -175,16 +182,25 @@ const pickEditable = (body) => {
   return out;
 };
 
-// one barcode ↔ one product (a duplicate would make a scan ambiguous). The
-// partial unique index on sku is the real guard; this turns it into a message
-// that names the other product.
-const skuTakenBy = async (sku, exceptId) => {
-  if (!sku) return null;
-  const q = { sku };
+// one barcode ↔ one item across the whole catalogue — product barcodes and
+// variant barcodes share one space (a duplicate would make a scan ambiguous).
+// The partial unique index guards product skus; variant skus are checked here.
+// Returns { sku, name } of the first clash, or null.
+const skusOf = (fields) =>
+  [fields.sku, ...(fields.variants || []).map((v) => v.sku)]
+    .map((s) => String(s || "").trim())
+    .filter(Boolean);
+const skuClashFor = async (fields, exceptId) => {
+  const codes = skusOf(fields);
+  if (!codes.length) return null;
+  const q = { $or: [{ sku: { $in: codes } }, { "variants.sku": { $in: codes } }] };
   if (exceptId) q._id = { $ne: exceptId };
-  return Product.findOne(q).select("name").lean();
+  const other = await Product.findOne(q).select("name sku variants.sku").lean();
+  if (!other) return null;
+  const theirs = new Set([other.sku, ...(other.variants || []).map((v) => v.sku)]);
+  return { sku: codes.find((c) => theirs.has(c)), name: other.name };
 };
-const skuTakenMsg = (sku, other) => `הברקוד ${sku} כבר משויך למוצר "${other.name}"`;
+const skuTakenMsg = (clash) => `הברקוד ${clash.sku} כבר משויך למוצר "${clash.name}"`;
 
 router.get(
   "/products",
@@ -210,8 +226,8 @@ router.post(
     if (duplicate) {
       return res.status(409).json({ error: "התמונה כבר משויכת למוצר אחר" });
     }
-    const skuClash = await skuTakenBy(fields.sku);
-    if (skuClash) return res.status(409).json({ error: skuTakenMsg(fields.sku, skuClash) });
+    const skuClash = await skuClashFor(fields);
+    if (skuClash) return res.status(409).json({ error: skuTakenMsg(skuClash) });
     const product = await Product.create({ ...fields, isActive: true, isAvailable: true });
     res.status(201).json({ product });
   })
@@ -392,19 +408,24 @@ router.post(
       .select("name")
       .lean();
     const existingNames = new Set(existing.map((e) => e.name));
-    // ...and rows whose barcode is already on a product in the store
+    // ...and rows whose barcode is already on a product (or a variant) in the store
     const skus = valid.map((v) => v.sku).filter(Boolean);
     const skuOwners = skus.length
-      ? await Product.find({ sku: { $in: skus } }).select("sku name").lean()
+      ? await Product.find({ $or: [{ sku: { $in: skus } }, { "variants.sku": { $in: skus } }] })
+          .select("sku variants.sku name")
+          .lean()
       : [];
-    const skuOwner = new Map(skuOwners.map((e) => [e.sku, e.name]));
+    const skuOwner = new Map();
+    for (const e of skuOwners) {
+      for (const s of [e.sku, ...(e.variants || []).map((v) => v.sku)]) if (s) skuOwner.set(s, e.name);
+    }
     const toCreate = valid.filter((v) => {
       if (existingNames.has(v.name)) {
         skipped.push({ name: v.name, reason: "כבר קיים בחנות" });
         return false;
       }
       if (v.sku && skuOwner.has(v.sku)) {
-        skipped.push({ name: v.name, reason: skuTakenMsg(v.sku, { name: skuOwner.get(v.sku) }) });
+        skipped.push({ name: v.name, reason: skuTakenMsg({ sku: v.sku, name: skuOwner.get(v.sku) }) });
         return false;
       }
       return true;
@@ -426,8 +447,8 @@ router.put(
   "/products/:id",
   asyncRoute(async (req, res) => {
     const fields = pickEditable(req.body || {});
-    const skuClash = await skuTakenBy(fields.sku, req.params.id);
-    if (skuClash) return res.status(409).json({ error: skuTakenMsg(fields.sku, skuClash) });
+    const skuClash = await skuClashFor(fields, req.params.id);
+    if (skuClash) return res.status(409).json({ error: skuTakenMsg(skuClash) });
     const before = await Product.findById(req.params.id).select("img").lean();
     const product = await Product.findByIdAndUpdate(
       req.params.id,
@@ -627,7 +648,7 @@ router.post(
     const deleteMissing = body.deleteMissing === true;
 
     const existing = await Product.find({})
-      .select("name price category sub_cat third_level description img salePercentage sku searchKeywords isActive isAvailable noCoupon")
+      .select("name price category sub_cat third_level description img salePercentage sku variants.sku searchKeywords isActive isAvailable noCoupon")
       .lean();
     const plan = planSync(rows, existing);
     const out = summarize(plan);

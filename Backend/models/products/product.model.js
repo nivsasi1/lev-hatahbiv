@@ -32,6 +32,8 @@ const ProductSchema = new mongoose.Schema({
           price: { type: Number, min: 0 },
           soldOut: { type: Boolean },
           swatch: { type: String, trim: true }, // CSS color for color choices
+          // this option's own barcode — sizes are different physical items
+          sku: { type: String, trim: true },
         },
         { _id: false }
       ),

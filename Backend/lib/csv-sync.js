@@ -46,7 +46,13 @@ const LABELS = {
 const planSync = (rows, existing) => {
   const byId = new Map(existing.map((p) => [String(p._id), p]));
   const nameOwner = new Map(existing.map((p) => [str(p.name, 300), String(p._id)]));
-  const skuOwner = new Map(existing.filter((p) => p.sku).map((p) => [str(p.sku, 500), String(p._id)]));
+  // product and variant barcodes share one space
+  const skuOwner = new Map();
+  for (const p of existing) {
+    for (const s of [p.sku, ...(p.variants || []).map((v) => v.sku)]) {
+      if (s) skuOwner.set(str(s, 500), String(p._id));
+    }
+  }
   const plan = { update: [], create: [], missing: [], errors: [], unchanged: 0, total: rows.length };
   const seenIds = new Set();
   const seenNames = new Set();
