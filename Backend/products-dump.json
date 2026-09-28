@@ -47702,7 +47702,7 @@
     "price": 24.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">בלוק אקוורל בגודל A6 (10.5×14.8 סמ) עם 50 דפים, מודבק בצד אחד, הפורמט הקטן בסדרת Aquapad. נייר אקוורל 100% תאית בלבן טבעי, בגרמאז' 300 גרם/מ״ר, עם גרגר בינוני-עדין המודגש יותר בצד אחד של הדף. הנייר נטול חומצה בעל pH ניטרלי, ומתאים לטכניקות רטובות.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
@@ -47712,7 +47712,7 @@
     "searchKeywords": "Clairefontaine, קלרפונטיין, Aquapad, Goldline, נייר אקוורל, בלוק אקוורל, A6",
     "__v": 0,
     "createdAt": "2026-09-28T09:32:16.844Z",
-    "updatedAt": "2026-09-28T10:05:32.838Z",
+    "updatedAt": "2026-09-28T10:08:09.897Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -47825,10 +47825,10 @@
   {
     "_id": "6aba3420c13134b202748933",
     "name": "Clairefontaine Goldline Aquapad בלוק ספירלה נייר אקוורל 300 גרם A5+ - 25 דפים",
-    "price": 50,
+    "price": 25.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">בלוק אקוורל בכריכת ספירלה בגודל A5+ (מעט גדול מ-A5) עם 25 דפים מחוררים, שקל לתלוש מהם. נייר אקוורל 100% תאית בלבן טבעי, בגרמאז' 300 גרם/מ״ר, עם גרגר בינוני-עדין המודגש יותר בצד אחד של הדף. הנייר נטול חומצה בעל pH ניטרלי, ומתאים לטכניקות רטובות.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
@@ -47838,6 +47838,9 @@
     "searchKeywords": "Clairefontaine, קלרפונטיין, Aquapad, Goldline, נייר אקוורל, בלוק אקוורל, A5+, ספירלה",
     "__v": 0,
     "createdAt": "2026-09-28T09:32:16.845Z",
-    "updatedAt": "2026-09-28T09:32:42.301Z"
+    "updatedAt": "2026-09-28T10:08:07.957Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
