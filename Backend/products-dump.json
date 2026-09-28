@@ -15734,19 +15734,23 @@
   {
     "_id": "66844bfdf2e4e8f57277072c",
     "id": "product_9c587061-63c4-2e8e-2879-c2d177390f21",
-    "name": "Lunar Mop P3750",
+    "name": "1/2 Lunar Mop P3750",
     "description": "<p dir=\"rtl\">סדרה P3750<br>LUNAR MOP<br>ידית קצרה<br>”1/2</p>",
     "img": "733145_3cd6939d377e4c4eb7c04b8337a14a50~mv2.jpg",
-    "price": 1000,
+    "price": 42.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "פרינסטון - PRINCETON",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
-    "noCoupon": true
+    "updatedAt": "2026-09-28T10:18:24.616Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": "757063375629",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277072d",
