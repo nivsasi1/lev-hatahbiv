@@ -16,6 +16,7 @@ const toFormVariants = (v?: AdminVariant[]): FormVariant[] =>
     price: x.price != null ? String(x.price) : "",
     soldOut: !!x.soldOut,
     swatch: x.swatch ?? "",
+    sku: x.sku ?? "",
   }));
 
 const toApiVariants = (rows: FormVariant[]): AdminVariant[] =>
@@ -26,7 +27,14 @@ const toApiVariants = (rows: FormVariant[]): AdminVariant[] =>
       ...(r.price.trim() !== "" ? { price: Number(r.price) } : {}),
       ...(r.soldOut ? { soldOut: true } : {}),
       ...(r.swatch.trim() ? { swatch: r.swatch.trim() } : {}),
+      ...(r.sku.trim() ? { sku: r.sku.trim() } : {}),
     }));
+
+// every barcode a product carries — its own plus its options'
+export const skusOf = (p: { sku?: string; variants?: AdminVariant[] }) =>
+  [p.sku, ...(p.variants ?? []).map((v) => v.sku)]
+    .map((s) => (s || "").trim())
+    .filter(Boolean);
 
 // The product add/edit form: its state, the cascading category fields with
 // data-driven autocomplete, image handling, and create/update submit.
@@ -73,21 +81,24 @@ export function useProductForm() {
       searchKeywords: p.searchKeywords || "",
       imgs: (p.img || "").split(";").map((s) => s.trim()).filter(Boolean),
       variantLabel: p.variantLabel || "",
-      variants: toFormVariants(p.variants),
+      variants: toFormVariants(p.variants).map((v) => ({ ...v, sku: "" })),
       noCoupon: !!p.noCoupon,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // a scanned (or typed) barcode: open the product that carries it for editing,
-  // otherwise start a new product with the barcode already filled in. Returns the
-  // matched product so the caller can report which of the two happened.
+  // a scanned (or typed) barcode: open the product that carries it (on itself or
+  // on one of its options) for editing, otherwise start a new product with the
+  // barcode already filled in. Returns the match so the caller can report it.
   const openByBarcode = (raw: string) => {
     const code = raw.trim();
     if (!code) return null;
-    const hit = products.find((p) => (p.sku || "").trim() === code) || null;
+    const product = products.find((p) => skusOf(p).includes(code));
+    const hit = product
+      ? { product, variantKey: product.variants?.find((v) => (v.sku || "").trim() === code)?.key }
+      : null;
     if (hit) {
-      startEdit(hit);
+      startEdit(hit.product);
     } else {
       setEditingId(null);
       setShowAdd(true);
@@ -129,20 +140,27 @@ export function useProductForm() {
       );
       if (!ok) return;
     }
-    // one barcode per product — the server enforces it too, this just answers
-    // before the round-trip with the name of the product that has it
-    const sku = form.sku.trim();
-    const skuClash =
-      sku && products.find((p) => p._id !== editingId && (p.sku || "").trim() === sku);
-    if (skuClash) {
-      setError(`הברקוד ${sku} כבר משויך למוצר "${skuClash.name}"`);
-      return;
-    }
     const { imgs, variants, imgInput, ...rest } = form;
     const apiVariants = toApiVariants(variants);
     if (new Set(apiVariants.map((v) => v.key)).size !== apiVariants.length) {
       setError("יש שתי אפשרויות בחירה עם אותו שם — כל אפשרות צריכה שם ייחודי");
       return;
+    }
+    // one barcode ↔ one item, product and option barcodes alike — the server
+    // enforces it too, this just answers before the round-trip with a name
+    const mine = skusOf({ sku: form.sku, variants: apiVariants });
+    const twice = mine.find((s, i) => mine.indexOf(s) !== i);
+    if (twice) {
+      setError(`הברקוד ${twice} מופיע פעמיים באותו מוצר`);
+      return;
+    }
+    for (const p of products) {
+      if (p._id === editingId) continue;
+      const clash = skusOf(p).find((s) => mine.includes(s));
+      if (clash) {
+        setError(`הברקוד ${clash} כבר משויך למוצר "${p.name}"`);
+        return;
+      }
     }
     const payload = {
       ...rest,

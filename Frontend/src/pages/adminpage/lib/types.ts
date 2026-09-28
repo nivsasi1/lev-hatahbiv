@@ -6,6 +6,7 @@ export type AdminVariant = {
   price?: number;
   soldOut?: boolean;
   swatch?: string; // CSS color, synced from Wix color choices
+  sku?: string; // this option's own barcode (sizes are different physical items)
 };
 
 export type AdminProduct = {
@@ -39,7 +40,7 @@ export type DialogState = {
 } | null;
 
 // a variant row while being edited (inputs hold strings)
-export type FormVariant = { key: string; price: string; soldOut: boolean; swatch: string };
+export type FormVariant = { key: string; price: string; soldOut: boolean; swatch: string; sku: string };
 
 // the product add/edit form. imgs is stored in Mongo as one ";"-joined string.
 export type ProductForm = {

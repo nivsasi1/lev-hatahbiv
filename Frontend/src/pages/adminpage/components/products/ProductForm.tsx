@@ -121,8 +121,8 @@ export function ProductForm({ form }: { form: FormApi }) {
         <div className="variant-editor-head">
           <b>אפשרויות בחירה (גודל / צבע / כמות)</b>
           <span>
-            מחיר ריק = המחיר הרגיל של המוצר. מוצר בלי שורות כאן נמכר כרגיל, בלי
-            בחירה.
+            מחיר ריק = המחיר הרגיל של המוצר. לכל אפשרות אפשר ברקוד משלה (אפשר
+            לסרוק לתוך השדה). מוצר בלי שורות כאן נמכר כרגיל, בלי בחירה.
           </span>
         </div>
         {data.variants.length > 0 && (
@@ -169,6 +169,22 @@ export function ProductForm({ form }: { form: FormApi }) {
                 })
               }
             />
+            <input
+              className="variant-sku"
+              placeholder="ברקוד"
+              autoComplete="off"
+              value={v.sku}
+              onInput={(e: any) =>
+                setForm({
+                  ...data,
+                  variants: data.variants.map((x, j) =>
+                    j === i ? { ...x, sku: e.target.value } : x
+                  ),
+                })
+              }
+              // a scanner types the digits then Enter — don't submit the form
+              onKeyDown={(e: any) => e.key === "Enter" && e.preventDefault()}
+            />
             <label className="variant-oos">
               <input
                 type="checkbox"
@@ -201,7 +217,7 @@ export function ProductForm({ form }: { form: FormApi }) {
           onClick={() =>
             setForm({
               ...data,
-              variants: [...data.variants, { key: "", price: "", soldOut: false, swatch: "" }],
+              variants: [...data.variants, { key: "", price: "", soldOut: false, swatch: "", sku: "" }],
             })
           }
         >

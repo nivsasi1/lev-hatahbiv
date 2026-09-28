@@ -3693,6 +3693,31 @@ a.sub-chip {
   max-width: 7rem;
 }
 
+.variant-editor .variant-row .variant-sku {
+  flex: 1.3;
+  min-width: 0;
+  max-width: 11rem;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+/* phone: name on its own line, price/barcode/stock/✕ underneath */
+@media (max-width: 560px) {
+  .variant-editor .variant-row {
+    flex-wrap: wrap;
+  }
+  .variant-editor .variant-row input:first-of-type {
+    flex-basis: 100%;
+  }
+  .variant-editor .variant-row input[type="number"] {
+    flex: 1 1 4.5rem;
+  }
+  .variant-editor .variant-row .variant-sku {
+    flex: 2 1 8rem;
+    max-width: none;
+  }
+}
+
 .variant-editor .variant-oos {
   display: inline-flex;
   align-items: center;

@@ -231,7 +231,7 @@ export function useProducts() {
     // the barcode (a scanner types it into the box) and the hidden keywords
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
     return list.filter((p) => {
-      const hay = [p.name, p.category, p.sub_cat, p.third_level, p.sku, p.searchKeywords]
+      const hay = [p.name, p.category, p.sub_cat, p.third_level, p.sku, ...(p.variants ?? []).map((v) => v.sku), p.searchKeywords]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();

@@ -19,7 +19,10 @@ const DELIVERY_LABEL: Record<string, string> = {
 };
 
 export function OrdersView() {
-  const { orders, workerCall, act, setOrders } = useAdmin();
+  const { orders, products, workerCall, act, setOrders } = useAdmin();
+  // the option's barcode, looked up live — helps picking the right size off the shelf
+  const variantSku = (id?: string, key?: string) =>
+    key ? products.find((p) => p._id === id)?.variants?.find((v) => v.key === key)?.sku : undefined;
   const [refundTarget, setRefundTarget] = useState<Order | null>(null);
 
   // a refund makes sense only after money moved: paid / handled, or a paid
@@ -76,6 +79,9 @@ export function OrdersView() {
             {(o.items || []).map((i: any, idx: number) => (
               <span key={idx}>
                 {i.name} ×{i.qty}
+                {variantSku(i.id, i.variant) && (
+                  <small className="order-item-sku"> · ברקוד {variantSku(i.id, i.variant)}</small>
+                )}
               </span>
             ))}
           </div>

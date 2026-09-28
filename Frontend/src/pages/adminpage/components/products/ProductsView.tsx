@@ -43,7 +43,9 @@ export function ProductsView({
     if (hit) {
       products.setQuery(code);
       products.resetLimit();
-      setNotice(`נמצא: ${hit.name} — פתוח לעריכה`);
+      setNotice(
+        `נמצא: ${hit.product.name}${hit.variantKey ? ` — ${hit.variantKey}` : ""} — פתוח לעריכה`
+      );
     } else {
       setNotice(`ברקוד חדש (${code}) — מלאו את פרטי המוצר ושמרו`);
     }

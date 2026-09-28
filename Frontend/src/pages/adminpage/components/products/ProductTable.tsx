@@ -31,7 +31,11 @@ export function ProductTable({ products, form }: { products: ProductsApi; form: 
             <span className="meta">
               {p.category} › {p.sub_cat || "—"} · ₪{ils(p.price)}
               {(p.variants?.length || 0) > 0 && (
-                <b className="variants-tag"> ⚙ {p.variants!.length} אפשרויות</b>
+                <b className="variants-tag">
+                  {" "}⚙ {p.variants!.length} אפשרויות
+                  {p.variants!.some((v) => v.sku) &&
+                    ` · ${p.variants!.filter((v) => v.sku).length} ברקודים`}
+                </b>
               )}
               {p.noCoupon && <b className="nocoupon-tag"> 🎟️ בלי קופונים</b>}
               {p.sku && <span className="row-sku"> · ברקוד {p.sku}</span>}
