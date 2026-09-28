@@ -86,6 +86,7 @@ for (const p of dump) {
       }
       if (v.soldOut) row.soldOut = true;
       if (v.swatch) row.swatch = String(v.swatch);
+      if (v.sku && String(v.sku).trim()) row.sku = String(v.sku).trim(); // search-only
       return row;
     });
   }

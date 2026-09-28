@@ -34,6 +34,7 @@ export type ProductVariant = {
   salePrice?: number;
   soldOut?: boolean;
   swatch?: string; // CSS color — renders a dot on color choices
+  sku?: string; // this option's barcode — searchable, never displayed
 };
 
 export type Product = {
@@ -426,7 +427,7 @@ export const searchProducts = (query: string) => {
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (words.length === 0) return [];
   return products.filter((p) => {
-    const hay = [p.name, p.sub, p.third, categoryBySlug.get(p.category)?.name, p.sku, p.keywords]
+    const hay = [p.name, p.sub, p.third, categoryBySlug.get(p.category)?.name, p.sku, ...(p.variants ?? []).map((v) => v.sku), p.keywords]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();
