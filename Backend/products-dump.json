@@ -15189,16 +15189,18 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "פרינסטון - PRINCETON",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
+    "updatedAt": "2026-09-28T18:01:46.496Z",
     "variantLabel": "Size",
     "variants": [
       {
         "key": "2",
-        "price": 1000
+        "price": 1000,
+        "sku": "757063375636"
       },
       {
         "key": "4",
-        "price": 1000
+        "price": 1000,
+        "sku": "757063375643"
       },
       {
         "key": "6",
@@ -18402,20 +18404,23 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:46.571Z",
     "variantLabel": "כמות",
     "variants": [
       {
         "key": "220 מ\"ל",
-        "price": 19.9
+        "price": 19.9,
+        "sku": "7290008985239"
       },
       {
         "key": "500 מ\"ל",
-        "price": 33.7
+        "price": 33.7,
+        "sku": "7290008985246"
       },
       {
         "key": "1000 מ\"ל",
-        "price": 59.9
+        "price": 59.9,
+        "sku": "7290008985253"
       }
     ],
     "noCoupon": true
@@ -18639,20 +18644,23 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:46.634Z",
     "variantLabel": "כמות",
     "variants": [
       {
         "key": "220 מ\"ל",
-        "price": 22.9
+        "price": 22.9,
+        "sku": "7290008985208"
       },
       {
         "key": "500 מ\"ל",
-        "price": 42.9
+        "price": 42.9,
+        "sku": "7290008985215"
       },
       {
         "key": "1000 מ\"ל",
-        "price": 76.6
+        "price": 76.6,
+        "sku": "7290013877369"
       }
     ],
     "noCoupon": true
@@ -19362,16 +19370,18 @@
     "category": "צבעים לאמנות",
     "sub_cat": "הדפס",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:46.700Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "203X305",
-        "price": 31.9
+        "price": 31.9,
+        "sku": "5060127180653"
       },
       {
         "key": "305X406",
-        "price": 59.9
+        "price": 59.9,
+        "sku": "5060127180660"
       }
     ],
     "noCoupon": true
@@ -23697,12 +23707,13 @@
     "category": "צבעים להובי",
     "sub_cat": "מיקס מדיה",
     "third_level": "בלוק מיקס מדיה",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
+    "updatedAt": "2026-09-28T18:01:46.764Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "22.9x30.5cm",
-        "price": 31.9
+        "price": 31.9,
+        "sku": "12017462696"
       },
       {
         "key": "29'7x42cm-A3",
@@ -23727,13 +23738,14 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לרישום",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "updatedAt": "2026-09-28T18:01:46.834Z",
     "variantLabel": "Color",
     "variants": [
       {
         "key": "Grey",
         "price": 68.8,
-        "swatch": "rgb(128, 128, 128)"
+        "swatch": "rgb(128, 128, 128)",
+        "sku": "12017481154"
       },
       {
         "key": "TAN",
@@ -23846,23 +23858,26 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לרישום",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "updatedAt": "2026-09-28T18:01:46.897Z",
     "variantLabel": "Size",
     "variants": [
       {
         "key": "A4",
         "price": 27.6,
-        "soldOut": true
+        "soldOut": true,
+        "sku": "12017440946"
       },
       {
         "key": "A3",
         "price": 43.9,
-        "soldOut": true
+        "soldOut": true,
+        "sku": "12017440939"
       },
       {
         "key": "A5",
         "price": 17.6,
-        "soldOut": true
+        "soldOut": true,
+        "sku": "12017440953"
       }
     ],
     "searchKeywords": "Strathmore",
@@ -30615,16 +30630,18 @@
     "category": "צבעים לאמנות",
     "sub_cat": "הדפס",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:46.967Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "100x150mm",
-        "price": 12.5
+        "price": 12.5,
+        "sku": "38274121"
       },
       {
         "key": "200x300mm",
-        "price": 32.2
+        "price": 32.2,
+        "sku": "5060127181780"
       }
     ],
     "noCoupon": true
@@ -30661,7 +30678,7 @@
     "category": "צבעים לאמנות",
     "sub_cat": "הדפס",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:47.032Z",
     "variantLabel": "סוג",
     "variants": [
       {
@@ -30676,7 +30693,8 @@
       },
       {
         "key": "ערכת הדפס 5 חלקים",
-        "price": 50.9
+        "price": 50.9,
+        "sku": "5060127182077"
       }
     ],
     "noCoupon": true
@@ -30695,7 +30713,7 @@
     "category": "צבעים לאמנות",
     "sub_cat": "הדפס",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:47.096Z",
     "variantLabel": "גודל",
     "variants": [
       {
@@ -30709,7 +30727,8 @@
       },
       {
         "key": "15cm",
-        "price": 56
+        "price": 56,
+        "sku": "5060127183425"
       },
       {
         "key": "100mm",
@@ -30733,16 +30752,18 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לרישום",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:47.160Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "14'8x21cm-A5",
-        "price": 26.2
+        "price": 26.2,
+        "sku": "9780737631357"
       },
       {
         "key": "21x29'7cm-A4",
-        "price": 44.8
+        "price": 44.8,
+        "sku": "9780737631364"
       },
       {
         "key": "15'2x10'2cm",
@@ -30837,13 +30858,14 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לטושים ומרקרים",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
+    "updatedAt": "2026-09-28T18:01:47.226Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "21x29'7cm-A4",
         "price": 24.8,
-        "soldOut": true
+        "soldOut": true,
+        "sku": "3148953872002"
       }
     ],
     "noCoupon": true
@@ -30862,28 +30884,32 @@
     "category": "צבעים לאמנות",
     "sub_cat": "הדפס",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:47.288Z",
     "variantLabel": "Color",
     "variants": [
       {
         "key": "Black",
         "price": 64,
-        "swatch": "#000"
+        "swatch": "#000",
+        "sku": "5011385906974"
       },
       {
         "key": "White",
         "price": 64,
-        "swatch": "rgb(255, 255, 255)"
+        "swatch": "rgb(255, 255, 255)",
+        "sku": "5011385906967"
       },
       {
         "key": "Yellow",
         "price": 64,
-        "swatch": "#ffd100"
+        "swatch": "#ffd100",
+        "sku": "5011385907049"
       },
       {
         "key": "Red",
         "price": 64,
-        "swatch": "rgb(255, 0, 0)"
+        "swatch": "rgb(255, 0, 0)",
+        "sku": "5011385907032"
       },
       {
         "key": "Blue",
@@ -30894,12 +30920,14 @@
       {
         "key": "Green",
         "price": 64,
-        "swatch": "#2bba78"
+        "swatch": "#2bba78",
+        "sku": "5011385907018"
       },
       {
         "key": "Brown",
         "price": 64,
-        "swatch": "#783f04"
+        "swatch": "#783f04",
+        "sku": "5011385907001"
       }
     ],
     "noCoupon": true
@@ -31010,16 +31038,18 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לצבעי פסטל",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
+    "updatedAt": "2026-09-28T18:01:47.353Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "24x32cm",
-        "price": 56.2
+        "price": 56.2,
+        "sku": "3148950059949"
       },
       {
         "key": "32x41cm",
-        "price": 99.9
+        "price": 99.9,
+        "sku": "3148950059987"
       }
     ],
     "noCoupon": true
@@ -31056,16 +31086,18 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לצבעי פסטל",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
+    "updatedAt": "2026-09-28T18:01:47.419Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "24x32cm",
-        "price": 56.2
+        "price": 56.2,
+        "sku": "3148950059925"
       },
       {
         "key": "32x41cm",
-        "price": 99.9
+        "price": 99.9,
+        "sku": "3148950059963"
       }
     ],
     "noCoupon": true
@@ -31167,20 +31199,23 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לרישום",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
+    "updatedAt": "2026-09-28T18:01:47.483Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "14'8x21cm-A5",
-        "price": 29.2
+        "price": 29.2,
+        "sku": "3148950104199"
       },
       {
         "key": "21x29'7cm-A4",
-        "price": 39.9
+        "price": 39.9,
+        "sku": "3148950103956"
       },
       {
         "key": "29'7x42cm-A3",
-        "price": 62.9
+        "price": 62.9,
+        "sku": "3148950103987"
       }
     ],
     "noCoupon": true
@@ -31235,24 +31270,27 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לצבעי פסטל",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "updatedAt": "2026-09-28T18:01:47.547Z",
     "variantLabel": "גודל / Color",
     "variants": [
       {
         "key": "21x29'7cm-A4 · Grey",
         "price": 36.8,
-        "swatch": "rgb(128, 128, 128)"
+        "swatch": "rgb(128, 128, 128)",
+        "sku": "3148950028389"
       },
       {
         "key": "21x29'7cm-A4 · White",
         "price": 36.8,
         "soldOut": true,
-        "swatch": "rgb(255, 255, 255)"
+        "swatch": "rgb(255, 255, 255)",
+        "sku": "3148950021410"
       },
       {
         "key": "29'7x42cm-A3 · Grey",
         "price": 68.2,
-        "swatch": "rgb(128, 128, 128)"
+        "swatch": "rgb(128, 128, 128)",
+        "sku": "3148950028396"
       },
       {
         "key": "29'7x42cm-A3 · White",
@@ -33506,16 +33544,18 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T14:19:54.857Z",
+    "updatedAt": "2026-09-28T18:01:47.610Z",
     "variantLabel": "גודל",
     "variants": [
       {
         "key": "21x29'7cm-A4",
-        "price": 43.9
+        "price": 43.9,
+        "sku": "3148950075017"
       },
       {
         "key": "29'7x42cm-A3",
-        "price": 84.8
+        "price": 84.8,
+        "sku": "7290106532748"
       }
     ],
     "searchKeywords": "קנסון",
@@ -34043,16 +34083,18 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-09-28T18:01:47.674Z",
     "variantLabel": "סוג",
     "variants": [
       {
         "key": "Art set 6",
-        "price": 39.9
+        "price": 39.9,
+        "sku": "4005401190639"
       },
       {
         "key": "Art set 12",
-        "price": 74.9
+        "price": 74.9,
+        "sku": "4005401190653"
       }
     ],
     "noCoupon": true
