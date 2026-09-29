@@ -47891,5 +47891,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6abb6016b7b6c03aca39a86e",
+    "name": "uni POSCA סט טושי צבע אקרילי לבן 8 ראשים שונים",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": false,
+    "description": "<p dir=\"rtl\">סט 8 טושי POSCA בצבע לבן, כל אחד עם ראש בגודל אחר: מברשת PCF-350, ראשים עגולים PC-1MR‏, PC-1M‏, PC-3M‏, PC-5M ו-PC-7M, וראשים שטוחים PC-8K ו-PC-17K. צבע אקרילי מבוסס מים, אטום ועמיד באור, מתאים לכתיבה וציור על עשרות משטחים כמו זכוכית, מתכת, עץ, פלסטיק וקרמיקה, ומיובש במהירות.</p>",
+    "category": "רישום ועפרונות",
+    "sub_cat": "טוש אקרילי",
+    "third_level": "סטי טושי POSCA",
+    "img": "1790664769299-de3c3bb1.jpg;1790664784220-7b11dd59.jpg",
+    "sku": "4902778302965",
+    "searchKeywords": "POSCA, פוסקה, uni, טוש אקרילי, סט לבן, PC-MIX",
+    "__v": 0,
+    "createdAt": "2026-09-29T06:52:06.699Z",
+    "updatedAt": "2026-09-29T06:53:27.590Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
