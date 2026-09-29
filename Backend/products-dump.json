@@ -47939,5 +47939,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6abb686cd9cf8a63b2a3511e",
+    "name": "uni POSCA סט טושי צבע אקרילי מטאלי PC-5M - 8 צבעים",
+    "price": 105,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט 8 טושי POSCA מדגם PC-5M עם ראש עגול בינוני (1.8–2.5 מ״מ), בגוונים מטאליים: זהב, כסף, ברונזה, כחול מטאלי, ירוק מטאלי, ורוד מטאלי, אדום מטאלי וסגול מטאלי. צבע אקרילי מבוסס מים, אטום ועמיד באור, מתאים לציור וכתיבה על עשרות משטחים ומיובש במהירות.</p>",
+    "category": "רישום ועפרונות",
+    "sub_cat": "טוש אקרילי",
+    "third_level": "סטי טושי POSCA",
+    "img": "1790666855857-174a74aa.jpg;1790666858492-809fa265.jpg;1790666886775-37d7c922.jpg",
+    "sku": "4902778292044",
+    "searchKeywords": "POSCA, פוסקה, uni, טוש אקרילי, PC-5M, מטאלי, זהב, כסף",
+    "__v": 0,
+    "createdAt": "2026-09-29T07:27:40.402Z",
+    "updatedAt": "2026-09-29T07:28:08.373Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
