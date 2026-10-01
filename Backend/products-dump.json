@@ -186,10 +186,12 @@
     "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "פלטות ואביזרים",
+    "third_level": "מתקני סידור מכחולים ועפרונות",
     "searchKeywords": "Sonnet, Nevskaya Palitra, נבסקאיה",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-01T08:24:59.215Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770343",
@@ -11160,10 +11162,12 @@
     "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "כללי",
+    "third_level": "מתקני סידור מכחולים ועפרונות",
     "searchKeywords": "Mont Marte",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-01T08:24:24.904Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770625",
