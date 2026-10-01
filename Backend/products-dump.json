@@ -205,10 +205,12 @@
     "isAvailable": true,
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "פלטות ואביזרים",
+    "third_level": "סינרים",
     "searchKeywords": "Sonnet, Nevskaya Palitra, נבסקאיה",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-01T08:19:16.773Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770344",
@@ -47384,13 +47386,13 @@
     "description": "PanArt Professional Artists' Cotton Apron - 11 Brush Slots\nסינר מקצועי לאמנים מבד כותנה 100% איכותי ועמיד, המגן על הבגדים מפני התזות וכתמי צבע. כולל 11 תאים ייעודיים למכחולים וכיס גדול לאחסון חומרים וכלי עבודה נוספים, כך שהכל נשאר בהישג יד. סגירה מתכווננת בגב באמצעות רצועת בד ושתי טבעות D, להתאמה נוחה לכל גזרה. מידה: 85 ס\"מ x 66 ס\"מ. מודפס עליו לוגו PANART.\nדגם: PA-AP",
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "PANART",
+    "third_level": "סינרים",
     "img": "1789844118203-868b1233.jpg",
     "sku": "",
     "searchKeywords": "PanArt, סינר לאמנים, סינר ציור",
     "__v": 0,
     "createdAt": "2026-09-19T18:38:35.213Z",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
+    "updatedAt": "2026-10-01T08:18:44.504Z",
     "noCoupon": true,
     "variantLabel": "",
     "variants": []
@@ -47405,14 +47407,16 @@
     "description": "PanArt Studio Apron - 100% Cotton\nסינר סטודיו מבד כותנה 100% בצבע כחול נייבי, המגן על הבגדים מפני התזות וכתמי צבע תוך שמירה על מראה נקי ומינימליסטי. כולל שני כיסים גדולים בחזית להחזקת מכחולים וכלי עבודה, ורצועת צוואר מתכווננת לנוחות מרבית. מודפס עליו לוגו PAN ART.\nדגם: PA-STUDIO",
     "category": "מכחולים ואביזרים",
     "sub_cat": "חומרי עזר",
-    "third_level": "PANART",
+    "third_level": "סינרים",
     "img": "1789881603301-e016d46f.jpg",
     "sku": "",
     "searchKeywords": "PanArt, סינר לאמנים, סינר ציור",
     "__v": 0,
     "createdAt": "2026-09-20T05:20:06.267Z",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-01T08:19:04.118Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ab0204c255d601f5a8f2e83",
