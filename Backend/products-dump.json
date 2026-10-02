@@ -34080,13 +34080,13 @@
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - סונט/ SONNET",
     "description": "סטים Sonnet קוביות מים, 16 קוביות באריזת קרטון",
-    "img": "733145_f2135da5661d4e4e93e90d50dbaf2c01~mv2.jpg",
+    "img": "1790926808159-cea164d6.jpg;1790926825544-a42d631b.jpg;1790926827624-8c5ad25a.jpg;1790926832926-11a91c2a.jpg",
     "sku": "",
     "isActive": true,
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "updatedAt": "2026-10-02T07:40:43.211Z",
     "searchKeywords": "סונט, Nevskaya Palitra, נבסקאיה",
     "noCoupon": true,
     "variantLabel": "",
@@ -47702,7 +47702,7 @@
   {
     "_id": "6ab63c10d45aa25f2e801a81",
     "name": "White Nights Metamorphosis סט צבעי מים גרנולציה 12 כפתורים",
-    "price": 50,
+    "price": 114,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -47715,8 +47715,10 @@
     "searchKeywords": "White Nights, חלומות לבנים, Metamorphosis, גרנולציה",
     "__v": 0,
     "createdAt": "2026-09-25T09:17:04.646Z",
-    "updatedAt": "2026-09-25T09:17:43.987Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-02T07:32:47.588Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aba3420c13134b20274892d",
