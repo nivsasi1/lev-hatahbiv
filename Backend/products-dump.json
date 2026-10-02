@@ -54837,19 +54837,23 @@
   {
     "_id": "6abf598c92e51f22af728a22",
     "name": "Ladoga (Nevskaya Palitra) סט מתנה צבעי שמן 12 צבעים + שמן פשתן + 2 מכחולים",
-    "price": 50,
-    "salePercentage": 0,
+    "price": 185,
+    "salePercentage": 15,
     "isAvailable": true,
     "isActive": true,
     "description": "<p dir=\"rtl\">סט מתנה לציור בצבעי שמן מסדרת Ladoga של Nevskaya Palitra: 12 צבעים בשפופרות של 18 מ״ל כל אחת (כולל לבן טיטניום, צהוב קדמיום, אדום קדמיום, כחול קובלט, אולטרמרין, ויריד וחום אדמה), שמן פשתן מזוקק 120 מ״ל, ו-2 מכחולי זיפים איכותיים. עומס פיגמנט גבוה (עד 26%), עם מרקם סמיך ועשיר המתאים לטכניקות שונות כולל עבודה בסכין פלטה.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
     "third_level": "כללי",
-    "img": "1790925194748-8764cca5.jpg;1790925192127-2e3b45e4.jpg",
+    "img": "1790925192127-2e3b45e4.jpg;1790925494415-5af58dec.jpg",
     "sku": "4690688005525",
     "searchKeywords": "Ladoga, לדוגה, Nevskaya Palitra, נבסקאיה פליטרה, צבעי שמן, סט מתנה, oil paint set",
     "__v": 0,
     "createdAt": "2026-10-02T07:13:16.040Z",
-    "updatedAt": "2026-10-02T07:13:16.040Z"
+    "updatedAt": "2026-10-02T07:20:10.429Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": [],
+    "discountValue": 0
   }
 ]
