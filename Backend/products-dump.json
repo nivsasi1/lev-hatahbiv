@@ -58720,24 +58720,5 @@
     "__v": 0,
     "createdAt": "2026-10-03T14:04:00.821Z",
     "updatedAt": "2026-10-03T14:04:00.821Z"
-  },
-  {
-    "_id": "6ac10b50f2c98c1993d09cc2",
-    "name": "צבע שמן וינטון 200מ\"ל Debug_screenshot",
-    "price": 53,
-    "salePercentage": 0,
-    "isAvailable": true,
-    "noCoupon": true,
-    "isActive": true,
-    "description": "<p dir=\"rtl\">צבע שמן של Winsor &amp; Newton מסדרת Winton, בגוון Debug_screenshot. שפורפרת 200 מ\"ל.</p>",
-    "category": "צבעים לאמנות",
-    "sub_cat": "צבעי שמן",
-    "third_level": "Winton 200ml",
-    "img": "debug_screenshot.png",
-    "sku": "",
-    "searchKeywords": "Winton, Winsor & Newton, וינזור ניוטון",
-    "__v": 0,
-    "createdAt": "2026-10-03T14:04:00.821Z",
-    "updatedAt": "2026-10-03T14:04:00.821Z"
   }
 ]
