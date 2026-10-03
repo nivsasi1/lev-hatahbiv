@@ -58716,7 +58716,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון AZO GOLD IV. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PR101, PY150 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58726,7 +58726,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-03T16:14:09.851Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9986",
@@ -58734,7 +58734,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון LIGHT MAGENTA II. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: Pr112, PW6 | אטימות: חצי אטום | עמידות לאור: טובה מאוד</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58744,7 +58744,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-03T16:14:09.851Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9987",
@@ -58752,7 +58752,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון LIGHT ULTRAMARINE II. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PB29, PW6 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58762,7 +58762,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-03T16:14:09.851Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9988",
@@ -58770,7 +58770,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TITAN MARS PALE I. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PBR6, PW6 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58780,7 +58780,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-03T16:14:09.851Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9989",
@@ -58788,7 +58788,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון FLUORESCENT YELLOW V. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: Fluo. | אטימות: שקוף | עמידות לאור: Fugitive</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58798,7 +58798,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998a",
@@ -58806,7 +58806,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון FLUORESCENT RED V. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: Fluo. | אטימות: שקוף | עמידות לאור: Fugitive</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58816,7 +58816,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998b",
@@ -58824,7 +58824,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון FLUORESCENT PINK V. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: Fluo. | אטימות: שקוף | עמידות לאור: Fugitive</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58834,7 +58834,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998c",
@@ -58842,7 +58842,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון FLUORESCENT GREEN V. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: Fluo. | אטימות: שקוף | עמידות לאור: Fugitive</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58852,7 +58852,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998d",
@@ -58860,7 +58860,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון FLUORESCENT MAGENTA V. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: Fluo. | אטימות: שקוף | עמידות לאור: Fugitive</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58870,7 +58870,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998e",
@@ -58878,7 +58878,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון LIGHT PHTHALO BLUE I. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PB15:3, PW6 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58888,7 +58888,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998f",
@@ -58896,7 +58896,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TITANIUM WHITE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PW6 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58906,7 +58906,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9990",
@@ -58914,7 +58914,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ZINC WHITE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PW4 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58924,7 +58924,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9991",
@@ -58932,7 +58932,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TITAN BUFF. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PW6:1 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58942,7 +58942,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9992",
@@ -58950,7 +58950,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון BENZIMIDAZOLONE YELLOW LIGHT III. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 3 | פיגמנטים: PY175 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58960,7 +58960,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9993",
@@ -58978,7 +58978,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:42.117Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9994",
@@ -58986,7 +58986,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PRIMARY YELLOW. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PW6, PY3, PY73 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58996,7 +58996,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9995",
@@ -59004,7 +59004,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון HANSA YELLOW OPAQUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PY74 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59014,7 +59014,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9996",
@@ -59022,7 +59022,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון CADMIUM YELLOW MEDIUM HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PY3, PY53, PY83 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59032,7 +59032,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9997",
@@ -59040,7 +59040,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון DIARYLIDE YELLOW. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PY83 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59050,7 +59050,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9998",
@@ -59058,7 +59058,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון NICKEL AZO YELLOW. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PY150 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59068,7 +59068,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9999",
@@ -59076,7 +59076,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INDIAN YELLOW HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PR206, PY150, PY73 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59086,7 +59086,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999a",
@@ -59094,7 +59094,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון VAT ORANGE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 8 | פיגמנטים: PO43 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59104,7 +59104,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999b",
@@ -59112,7 +59112,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PYRROLE ORANGE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 8 | פיגמנטים: PO73 | אטימות: חצי שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59122,7 +59122,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999c",
@@ -59130,7 +59130,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון NAPHTHOL RED LIGHT. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: PR112 | אטימות: חצי אטום | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59140,7 +59140,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:14:09.852Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999d",
@@ -59148,7 +59148,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PYRROLE RED. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 8 | פיגמנטים: PR254 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59158,7 +59158,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999e",
@@ -59176,7 +59176,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:38.403Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999f",
@@ -59184,7 +59184,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PRIMARY MAGENTA. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PV19 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59194,7 +59194,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a0",
@@ -59202,7 +59202,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון NAPHTHOL RED MEDIUM. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: PR5 | אטימות: חצי שקוף | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59212,7 +59212,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a1",
@@ -59220,7 +59220,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון QUINACRIDONE RED. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PV19 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59230,7 +59230,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a2",
@@ -59238,7 +59238,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ALIZARIN CRIMSON HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PG7, PR122, PR206 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59248,7 +59248,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a3",
@@ -59256,7 +59256,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון QUINACRIDONE MAGENTA. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PR122 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59266,7 +59266,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a4",
@@ -59274,7 +59274,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון QUINACRIDONE VIOLET. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PV19 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59284,7 +59284,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a5",
@@ -59292,7 +59292,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PERMANENT VIOLET DARK. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PB60, PR122 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59302,7 +59302,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a6",
@@ -59310,7 +59310,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ULTRAMARINE VIOLET. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PV15 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59320,7 +59320,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a7",
@@ -59328,7 +59328,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון DIOXAZINE PURPLE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PV23 | אטימות: חצי אטום | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59338,7 +59338,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a8",
@@ -59346,7 +59346,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ULTRAMARINE BLUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PB29 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59356,7 +59356,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a9",
@@ -59364,7 +59364,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון COBALT BLUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 8 | פיגמנטים: PB28 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59374,7 +59374,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99aa",
@@ -59382,7 +59382,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון CERULEAN BLUE, CHROMIUM. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PB36:1 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59392,7 +59392,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:14:09.853Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ab",
@@ -59400,7 +59400,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ANTHRAQUINONE BLUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PB60 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59410,7 +59410,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ac",
@@ -59418,7 +59418,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PRUSSIAN BLUE HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PB15:1, PBk9, PV23 | אטימות: אטום | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59428,7 +59428,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ad",
@@ -59436,7 +59436,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PHTHALO BLUE (RED SHADE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PB15:1 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59446,7 +59446,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ae",
@@ -59454,7 +59454,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PHTHALO BLUE (GREEN SHADE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PB15:4 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59464,7 +59464,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99af",
@@ -59472,7 +59472,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PRIMARY CYAN. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PB15:3, PW6 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59482,7 +59482,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b0",
@@ -59490,7 +59490,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון CERULEAN BLUE DEEP. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 9 | פיגמנטים: PB36:1 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59500,7 +59500,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b1",
@@ -59508,7 +59508,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון MANGANESE BLUE HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PB15:3, PG7, PW4 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59518,7 +59518,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b2",
@@ -59526,7 +59526,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TEAL. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 3 | פיגמנטים: PB15:4, PG7, PW6 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59536,7 +59536,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b3",
@@ -59544,7 +59544,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TITAN GREEN PALE I. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PBr7, PG7, PW6, PY42 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59554,7 +59554,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b4",
@@ -59562,7 +59562,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TURQUOIS (PHTHALO). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PB15:1, PG7 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59572,7 +59572,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b5",
@@ -59580,7 +59580,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון COBALT TURQUOIS. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 8 | פיגמנטים: PB36 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59590,7 +59590,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b6",
@@ -59598,7 +59598,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PHTHALO GREEN (BLUE SHADE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PG7 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59608,7 +59608,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b7",
@@ -59616,7 +59616,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון SAP GREEN HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PBk7, PG36, PR101, PY150 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59626,7 +59626,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b8",
@@ -59634,7 +59634,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון VIRIDIAN GREEN HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PB15:4, PW4, PY150 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59644,7 +59644,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b9",
@@ -59652,7 +59652,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PHTHALO GREEN (YELLOW SHADE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PG36 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59662,7 +59662,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ba",
@@ -59670,7 +59670,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PERMANENT GREEN LIGHT. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PG7, PY3 | אטימות: חצי אטום | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59680,7 +59680,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bb",
@@ -59688,7 +59688,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון JENKINS GREEN. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PBk9, PG36, PY150 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59698,7 +59698,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bc",
@@ -59706,7 +59706,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון CHROMIUM OXIDE GREEN. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 3 | פיגמנטים: PG17 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59716,7 +59716,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bd",
@@ -59724,7 +59724,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון GREEN GOLD. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PG36, PY150, PY3 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59734,7 +59734,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:14:09.854Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99be",
@@ -59742,7 +59742,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון NAPLES YELLOW HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PW6, PY42, PY83 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59752,7 +59752,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bf",
@@ -59760,7 +59760,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון YELLOW OCHRE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PY42 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59770,7 +59770,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c0",
@@ -59778,7 +59778,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון RAW SIENNA. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PY43 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59788,7 +59788,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c1",
@@ -59796,7 +59796,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TRANSPARENT RED IRON OXIDE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 3 | פיגמנטים: PR101 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59806,7 +59806,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c2",
@@ -59814,7 +59814,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון RED OXIDE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PR101 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59824,7 +59824,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c3",
@@ -59842,7 +59842,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:43.451Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c4",
@@ -59850,7 +59850,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון BURNT UMBER LIGHT. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PBr7 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59860,7 +59860,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c5",
@@ -59868,7 +59868,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון RAW UMBER. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PBr7 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59878,7 +59878,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c6",
@@ -59886,7 +59886,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון VAN DYKE BROWN HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 3 | פיגמנטים: PBk7, PR101 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59896,7 +59896,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c7",
@@ -59904,7 +59904,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון BONE BLACK. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PBk9 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59914,7 +59914,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c8",
@@ -59922,7 +59922,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון CARBON BLACK. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PBk7 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59932,7 +59932,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:14:09.855Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c9",
@@ -59940,7 +59940,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון PAYNE'S GREY. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PB29, PBk7 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59950,7 +59950,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ca",
@@ -59958,7 +59958,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT COPPER LIGHT (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: חצי אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59968,7 +59968,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cb",
@@ -59976,7 +59976,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT COPPER (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: חצי אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59986,7 +59986,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cc",
@@ -59994,7 +59994,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT BRONZE (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PG7 | אטימות: חצי אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60004,7 +60004,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cd",
@@ -60012,7 +60012,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT GOLD (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: Mica | אטימות: חצי שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60022,7 +60022,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ce",
@@ -60030,7 +60030,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT GOLD DEEP (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: חצי אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60040,7 +60040,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cf",
@@ -60048,7 +60048,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT BRIGHT GOLD (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PR206, PY150 | אטימות: חצי שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60058,7 +60058,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d0",
@@ -60066,7 +60066,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT PEARL (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: Mica | אטימות: חצי שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60076,7 +60076,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d1",
@@ -60084,7 +60084,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT SILVER (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: PBk7 | אטימות: חצי אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60094,7 +60094,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d2",
@@ -60102,7 +60102,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT STAINLESS STEEL (COARSE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 5 | פיגמנטים: Mica | אטימות: אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60112,7 +60112,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d3",
@@ -60120,7 +60120,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון MICACEOUS IRON OXIDE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PR101 | אטימות: אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60130,7 +60130,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d4",
@@ -60138,7 +60138,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INTERFERENCE GOLD (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60148,7 +60148,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d5",
@@ -60156,7 +60156,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון RED FINE INTERFERENCE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60166,7 +60166,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d6",
@@ -60174,7 +60174,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INTERFERENCE VIOLET (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60184,7 +60184,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d7",
@@ -60192,7 +60192,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INTERFERENCE BLUE (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60202,7 +60202,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d8",
@@ -60210,7 +60210,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INTERFERENCE GREEN (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60220,7 +60220,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d9",
@@ -60228,7 +60228,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון COBALT TEAL. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PG50 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -60238,6 +60238,6 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:14:09.856Z"
+    "updatedAt": "2026-10-03T16:19:29.289Z"
   }
 ]
