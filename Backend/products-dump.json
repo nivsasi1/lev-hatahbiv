@@ -19480,10 +19480,13 @@
     "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד",
+    "third_level": "Old Holland 40ml",
     "searchKeywords": "Old Holland",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-03T14:17:53.259Z",
+    "noCoupon": true,
+    "description": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770868",
@@ -19534,10 +19537,13 @@
     "isAvailable": false,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "third_level": "Old Holland 40ml",
+    "updatedAt": "2026-10-03T14:16:50.741Z",
     "searchKeywords": "Old Holland",
-    "noCoupon": true
+    "noCoupon": true,
+    "description": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277086c",
@@ -22254,23 +22260,6 @@
     "noCoupon": true,
     "img": "1791014082251-fb96bfde.jpg;1789846479979-d938cbe7.jpg",
     "description": "<p dir=\"rtl\">צבע שמן Old Holland Classic בגוון Davy's Grey. צבעי השמן של Old Holland מיוצרים לפי מתכונים של המאסטרים הישנים, עם פיגמנטים עמידים לאור בריכוז גבוה. שפורפרת 40 מ\"ל.</p><p dir=\"rtl\">פיגמנטים: PBr7,PG23,PW4 | אטימות: אטום | עמידות לאור: מצוינת</p>"
-  },
-  {
-    "_id": "66844bfdf2e4e8f572770907",
-    "id": "product_80f31c36-f78a-b081-01ed-0489aa319ef9",
-    "name": "A370 Mars Black",
-    "img": "733145_13250d84fa4a4ba1bd02ef9387be51ff~mv2.jpg",
-    "price": 36.5,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "צבעים לאמנות",
-    "sub_cat": "צבעי שמן",
-    "third_level": "צבע שמן אולד הולנד",
-    "searchKeywords": "Old Holland",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
-    "noCoupon": true
   },
   {
     "_id": "66844bfdf2e4e8f57277090b",
