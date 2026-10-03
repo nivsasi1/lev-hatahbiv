@@ -22,7 +22,7 @@
     "איסוף מהיר מהחנות ברחובות"
   ],
   "saleIds": [],
-  "updatedAt": "2026-10-03T21:08:59.379Z",
+  "updatedAt": "2026-10-03T21:10:49.616Z",
   "shelfImages": {
     "drawing": "1781370471412-5a3cb409.jpg",
     "craft": "1781370599520-a561fad0.jpeg",
@@ -106,6 +106,15 @@
       "פאבר קאסטל אדום - Faber Castell"
     ]
   },
-  "shelfPicks": {},
-  "shelfTitles": {}
+  "shelfPicks": {
+    "paints/צבעי-אקוורל": [
+      "6ab63c10d45aa25f2e801a80",
+      "6ab63c10d45aa25f2e801a7f",
+      "6ab63c10d45aa25f2e801a7e",
+      "6ab63c10d45aa25f2e801a7d"
+    ]
+  },
+  "shelfTitles": {
+    "paints/צבעי-אקוורל": "חדש על המדף"
+  }
 }
