@@ -33,7 +33,7 @@ const recentPendingPayment = (): boolean => {
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
   { id: "courier", title: "משלוח עד הבית", note: "1–5 ימי עבודה", price: 35 },
-  { id: "mail", title: "דואר רשום", note: "7–14 ימי עסקים", price: 28 },
+  // registered mail was dropped 2026-10 — old orders still carry delivery "mail"
 ];
 
 // payer details for the invoice + payment page — remembered between visits

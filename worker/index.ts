@@ -619,7 +619,7 @@ type Pricing = {
   prices: Record<string, number>;
   names?: Record<string, string>; // server-authoritative product names
   soldOut?: string[]; // ids out of stock — rejected at checkout (server-authoritative)
-  pickupOnly?: string[]; // ids that can't ship — courier/mail rejected, pickup only
+  pickupOnly?: string[]; // ids that can't ship — courier rejected, pickup only
   variants?: Record<string, Record<string, number>>; // id -> variant key -> unit agorot
   variantSoldOut?: Record<string, string[]>; // id -> sold-out variant keys
   couponExcluded?: string[]; // ids that never get coupon discounts
@@ -658,7 +658,7 @@ function validatePayer(
   return { ok: true, payer: { name, phone, email } };
 }
 
-// shipping address — required only when the order ships (courier/mail), never for
+// shipping address — required only when the order ships (courier), never for
 // pickup. MUST stay identical to the cart form's client-side rules.
 type Shipping = { street: string; city: string; apt: string; zip: string; notes: string };
 function validateShipping(
@@ -775,7 +775,12 @@ async function computeCart(
     }
   }
 
-  const deliveryKey = ["pickup", "courier", "mail"].includes(String(rawDelivery))
+  // registered mail ("mail") was dropped 2026-10: a cart tab opened before that
+  // may still send it — refuse rather than silently turning it into free pickup
+  if (String(rawDelivery) === "mail") {
+    return { ok: false, error: "דואר רשום כבר לא זמין — בחרו משלוח עד הבית או איסוף מהחנות" };
+  }
+  const deliveryKey = ["pickup", "courier"].includes(String(rawDelivery))
     ? String(rawDelivery)
     : "pickup";
   // a pickup-only item can't be shipped — force the shopper to choose pickup
@@ -834,7 +839,7 @@ async function checkout(request: Request, env: Env, db: DB): Promise<Response> {
   const { lines, subtotal, discount, total, couponCode, deliveryKey } = c;
   if (total < 500) return json({ error: "סכום מינימלי לתשלום באתר הוא ₪5" }, 400);
 
-  // a shipping address is required once the order actually ships (courier/mail)
+  // a shipping address is required once the order actually ships (courier)
   const ship = validateShipping(deliveryKey, body.shipping);
   if (!ship.ok) return json({ error: ship.error }, 400);
 
