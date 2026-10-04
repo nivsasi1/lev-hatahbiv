@@ -3697,8 +3697,43 @@ a.sub-chip {
   flex: 1.3;
   min-width: 0;
   max-width: 11rem;
+}
+.variant-editor .variant-row .variant-sku input {
+  width: 100%;
   direction: ltr;
   font-variant-numeric: tabular-nums;
+}
+
+/* barcode input + camera button that scans straight into it */
+.sku-field {
+  position: relative;
+  min-width: 0;
+}
+.sku-field input {
+  width: 100%;
+  padding-inline-end: 2.9rem;
+}
+.sku-field button {
+  position: absolute;
+  inset-inline-end: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--purple);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.sku-field button svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+.sku-field button:hover {
+  background: var(--purple-light, #efe6f7);
 }
 
 /* phone: name on its own line, price/barcode/stock/✕ underneath */

@@ -106,12 +106,16 @@ const confirmHit = () => {
   }
 };
 
+// mode "find" (toolbar): the code opens/creates a product. mode "fill": the code
+// is dropped into the barcode field the manager clicked the camera from.
 export function BarcodeScanner({
   onDetected,
   onClose,
+  mode = "find",
 }: {
   onDetected: (code: string) => void;
   onClose: () => void;
+  mode?: "find" | "fill";
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const trackRef = useRef<MediaStreamTrack | null>(null);
@@ -250,8 +254,9 @@ export function BarcodeScanner({
 
         {status === "scanning" && (
           <p className="import-help">
-            כוונו את הברקוד למסגרת. המוצר ייפתח לעריכה אם הוא כבר קיים, ואם לא — ייפתח טופס
-            מוצר חדש עם הברקוד.
+            {mode === "fill"
+              ? "כוונו את הברקוד למסגרת — הוא ייכנס ישר לשדה שממנו פתחתם את הסריקה."
+              : "כוונו את הברקוד למסגרת. המוצר ייפתח לעריכה אם הוא כבר קיים, ואם לא — ייפתח טופס מוצר חדש עם הברקוד."}
           </p>
         )}
 
@@ -272,7 +277,7 @@ export function BarcodeScanner({
             onInput={(e: any) => setManual(e.target.value)}
           />
           <button className="btn small" type="submit" disabled={!manual.trim()}>
-            חיפוש
+            {mode === "fill" ? "אישור" : "חיפוש"}
           </button>
         </form>
 

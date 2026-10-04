@@ -1,9 +1,53 @@
+import { useState } from "react";
 import type { useProductForm } from "../../hooks/useProductForm";
 import { imgUrl } from "../../lib/helpers";
+import { useAdmin } from "../../context";
+import type { ProductForm as ProductFormState } from "../../lib/types";
+import { BarcodeScanner } from "./BarcodeScanner";
+
+const CameraIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 8h3l2-2.5h6L17 8h3v10H4z" />
+    <circle cx="12" cy="13" r="3.2" />
+  </svg>
+);
+
+// a barcode input with a camera button that opens the scanner for THIS field
+const SkuField = ({
+  value,
+  placeholder,
+  onChange,
+  onScan,
+  className,
+}: {
+  value: string;
+  placeholder: string;
+  onChange: (v: string) => void;
+  onScan: () => void;
+  className?: string;
+}) => (
+  <div className={`sku-field ${className || ""}`}>
+    <input
+      placeholder={placeholder}
+      autoComplete="off"
+      value={value}
+      onInput={(e: any) => onChange(e.target.value)}
+      // a USB scanner types the digits then Enter — don't submit the form
+      onKeyDown={(e: any) => e.key === "Enter" && e.preventDefault()}
+    />
+    <button type="button" onClick={onScan} aria-label="סריקת ברקוד לשדה" title="סריקת ברקוד">
+      <CameraIcon />
+    </button>
+  </div>
+);
 
 type FormApi = ReturnType<typeof useProductForm>;
 
 export function ProductForm({ form }: { form: FormApi }) {
+  const { setNotice } = useAdmin();
+  // which barcode field the scanner fills: the product's, or option row #n
+  const [scanTarget, setScanTarget] = useState<null | "product" | number>(null);
   const {
     form: data,
     setForm,
@@ -169,21 +213,17 @@ export function ProductForm({ form }: { form: FormApi }) {
                 })
               }
             />
-            <input
+            <SkuField
               className="variant-sku"
               placeholder="ברקוד"
-              autoComplete="off"
               value={v.sku}
-              onInput={(e: any) =>
+              onChange={(sku) =>
                 setForm({
                   ...data,
-                  variants: data.variants.map((x, j) =>
-                    j === i ? { ...x, sku: e.target.value } : x
-                  ),
+                  variants: data.variants.map((x, j) => (j === i ? { ...x, sku } : x)),
                 })
               }
-              // a scanner types the digits then Enter — don't submit the form
-              onKeyDown={(e: any) => e.key === "Enter" && e.preventDefault()}
+              onScan={() => setScanTarget(i)}
             />
             <label className="variant-oos">
               <input
@@ -236,11 +276,11 @@ export function ProductForm({ form }: { form: FormApi }) {
       </label>
 
       <div className="admin-form-grid">
-        <input
+        <SkuField
           placeholder="ברקוד / מק״ט (אפשר לסרוק לכאן)"
-          autoComplete="off"
           value={data.sku}
-          onInput={(e: any) => setForm({ ...data, sku: e.target.value })}
+          onChange={(sku) => setForm({ ...data, sku })}
+          onScan={() => setScanTarget("product")}
         />
         <input
           placeholder="מילות חיפוש נסתרות — למשל: גולדן, אקריליק מקצועי"
@@ -271,6 +311,25 @@ export function ProductForm({ form }: { form: FormApi }) {
           </button>
         )}
       </div>
-    </form>
+          {scanTarget !== null && (
+        <BarcodeScanner
+          mode="fill"
+          onClose={() => setScanTarget(null)}
+          onDetected={(raw) => {
+            const code = raw.trim();
+            const target = scanTarget;
+            setScanTarget(null);
+            if (!code) return;
+            // read the latest form state — the manager may have typed meanwhile
+            setForm((f: ProductFormState) =>
+              target === "product"
+                ? { ...f, sku: code }
+                : { ...f, variants: f.variants.map((x, j) => (j === target ? { ...x, sku: code } : x)) }
+            );
+            setNotice(`הברקוד ${code} נסרק לשדה — לחצו שמירה כדי לשמור`);
+          }}
+        />
+      )}
+</form>
   );
 }
