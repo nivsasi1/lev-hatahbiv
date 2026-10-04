@@ -53,8 +53,18 @@ cd ../Frontend && npm ci && npm run generate && npm run build
 ```
 
 - **From the dashboard**: the "פרסום" button calls `POST /admin/publish` on the
-  Render API → fires the static site's deploy hook. This is how the owner ships
-  product changes; no git involved.
+  Render API, which dispatches the `publish-catalog` GitHub workflow with the
+  `GH_PUBLISH_TOKEN` env var; the workflow commits the fresh catalog to `main`
+  and Cloudflare deploys it. This is how the owner ships product changes.
+  - **The token expires.** It's a fine-grained PAT (GitHub → Settings →
+    Developer settings → Fine-grained tokens), repo `nivsasi1/lev-hatahbiv`
+    only, permission **Actions: Read and write**, expiry = the maximum (1 year).
+    Paste it into Render → lev-hatahbiv-api → Environment → `GH_PUBLISH_TOKEN`
+    (Render restarts the service). Put the expiry date in your calendar.
+  - When it expires: the dashboard shows "מפתח הגישה ל-GitHub פג תוקף",
+    `GET /health` on the API reports `publishToken.ok:false`, and the watchdog
+    warns from 7 days before (`כפתור הפרסום`). Happened 2026-10-04 — the token
+    was created 2026-09-03 with the default 30-day expiry.
 - **From git**: any push to `main` triggers the same build on Cloudflare
   (deploy command: `npx wrangler deploy` — upload **and** activate) and on Render.
 - Build-time env: `DB_URL` (Atlas — the build bakes the catalog from it),
@@ -128,8 +138,8 @@ the production base arrives with the live credentials.
   Free tier: sleeps after ~15 min idle, wakes in 30–60s (the watchdog's 15-min
   ping keeps it warm most of the time).
 - Env vars (Render → lev-hatahbiv-api → Environment): `DB_URL`, `SECRET`,
-  `ADMIN_USER`, `ADMIN_PASS`, `DEPLOY_HOOK_URL` (the static site's deploy hook —
-  powers "פרסום"), `S3_BUCKET`=levhatahbiv, `S3_REGION`=eu-north-1,
+  `ADMIN_USER`, `ADMIN_PASS`, `GH_PUBLISH_TOKEN` (fine-grained GitHub PAT that
+  powers "פרסום" — expires, see §1), `DEPLOY_HOOK_URL` (legacy fallback), `S3_BUCKET`=levhatahbiv, `S3_REGION`=eu-north-1,
   `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `MANAGER_EMAIL`, `SMTP_USER`,
   `SMTP_PASS` (Gmail app password — same pair the watchdog uses).
 - Changing `SECRET` invalidates dashboard logins **and** must be mirrored to the

@@ -71,9 +71,25 @@ results.cf =
     ? { ok: true }
     : { ok: false, detail: cf.error || `HTTP ${cf.status}` };
 
+// 5. the GitHub token behind "פרסום" — /health reports whether it still works
+// and when it expires (fine-grained tokens die silently; 2026-10-04 one did and
+// the manager couldn't publish for a day). Warn a week ahead. Warning only.
+results.publish = { ok: true };
+if (results.api.ok) {
+  const h = await get(API_URL + "/health", 60_000);
+  let t = null;
+  try { t = JSON.parse(h.body).publishToken; } catch {}
+  if (!t || t.configured === false)
+    results.publish = { ok: false, detail: "GH_PUBLISH_TOKEN לא מוגדר ב-Render — כפתור הפרסום לא יעבוד" };
+  else if (t.ok === false)
+    results.publish = { ok: false, detail: `מפתח ה-GitHub לפרסום לא תקף (HTTP ${t.status}) — כנראה פג תוקף, יש לחדש ב-Render` };
+  else if (t.ok && t.daysLeft != null && t.daysLeft <= 7)
+    results.publish = { ok: false, detail: `מפתח ה-GitHub לפרסום פג בעוד ${t.daysLeft} ימים — לחדש ב-Render לפני כן` };
+}
+
 // --- compare with the previous run ---
-const KEYS = ["site", "catalog", "api", "cf"];
-let prev = { site: true, catalog: true, api: true, cf: true, fails: 0 };
+const KEYS = ["site", "catalog", "api", "cf", "publish"];
+let prev = { site: true, catalog: true, api: true, cf: true, publish: true, fails: 0 };
 try {
   prev = { ...prev, ...JSON.parse(readFileSync(join(STATE_DIR, "state.json"), "utf8")) };
 } catch {}
@@ -92,6 +108,7 @@ const NAMES = {
   catalog: "הקטלוג",
   api: "שרת הניהול (API)",
   cf: "עותק Cloudflare",
+  publish: "כפתור הפרסום",
 };
 const lines = KEYS.map((k) =>
   results[k].ok ? `✅ ${NAMES[k]} תקין` : `❌ ${NAMES[k]}: ${results[k].detail}`
