@@ -4137,10 +4137,12 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "עפרון פסטל - פאבר קאסטל - Faber Castell",
+    "third_level": "Faber Castell",
     "searchKeywords": "Faber-Castell, פאבר קסטל",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-04T21:22:34.479Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277042c",
@@ -4156,10 +4158,12 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "עפרון פסטל - פאבר קאסטל - Faber Castell",
+    "third_level": "Faber Castell",
     "searchKeywords": "Faber-Castell, פאבר קסטל",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-04T21:22:26.929Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277041e",
@@ -4283,10 +4287,12 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "עפרון פסטל - פאבר קאסטל - Faber Castell",
+    "third_level": "Faber Castell",
     "searchKeywords": "Faber-Castell, פאבר קסטל",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-04T21:22:15.782Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770427",
@@ -4319,10 +4325,13 @@
     "isAvailable": false,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "עפרון פסטל - פאבר קאסטל - Faber Castell",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "third_level": "Faber Castell",
+    "updatedAt": "2026-10-04T21:22:06.020Z",
     "searchKeywords": "Faber-Castell, פאבר קסטל",
-    "noCoupon": true
+    "noCoupon": true,
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770429",
