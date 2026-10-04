@@ -228,10 +228,12 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "כללי",
+    "third_level": "Sonnet",
     "searchKeywords": "Sonnet, Nevskaya Palitra, נבסקאיה",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-04T21:20:10.251Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277034e",
@@ -568,10 +570,12 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "כללי",
+    "third_level": "Sonnet",
     "searchKeywords": "Sonnet, Nevskaya Palitra, נבסקאיה",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-04T21:20:18.345Z",
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770370",
@@ -1435,10 +1439,13 @@
     "isAvailable": true,
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
-    "third_level": "כללי",
+    "third_level": "Sonnet",
     "searchKeywords": "Sonnet, Nevskaya Palitra, נבסקאיה",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-04T21:20:37.808Z",
+    "noCoupon": true,
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770351",
