@@ -74,8 +74,50 @@ mongoose
 
 // Liveness + which commit Render is running (RENDER_GIT_COMMIT is set by
 // Render), so a rollout can be confirmed from outside without credentials.
-app.get("/health", (_req, res) =>
-  res.json({ ok: true, commit: (process.env.RENDER_GIT_COMMIT || "").slice(0, 7) || null })
+// Also the state of the GitHub token behind "פרסום": fine-grained tokens expire
+// (max 1 year) and when one did, publishing silently died for a day. GitHub
+// returns the expiry in a response header, so the watchdog can warn a week early.
+let tokenCache = { at: 0, value: null };
+const publishTokenStatus = async () => {
+  if (!process.env.GH_PUBLISH_TOKEN) return { configured: false };
+  if (Date.now() - tokenCache.at < 30 * 60_000) return tokenCache.value; // 30-min cache
+  let value;
+  try {
+    const r = await fetch(
+      "https://api.github.com/repos/nivsasi1/lev-hatahbiv/actions/workflows/publish-catalog.yml",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GH_PUBLISH_TOKEN}`,
+          Accept: "application/vnd.github+json",
+          "User-Agent": "lev-hatahbiv-health",
+        },
+        signal: AbortSignal.timeout(8_000),
+      }
+    );
+    const exp = r.headers.get("github-authentication-token-expiration"); // e.g. "2027-10-03 12:00:00 UTC"
+    const expiresAt = exp ? new Date(exp.replace(" UTC", "Z").replace(" ", "T")) : null;
+    const daysLeft =
+      expiresAt && !isNaN(expiresAt) ? Math.floor((expiresAt - Date.now()) / 86_400_000) : null;
+    value = {
+      configured: true,
+      ok: r.status === 200,
+      status: r.status,
+      expiresAt: expiresAt && !isNaN(expiresAt) ? expiresAt.toISOString() : null,
+      daysLeft,
+    };
+  } catch (e) {
+    value = { configured: true, ok: null, error: e.name === "TimeoutError" ? "timeout" : "unreachable" };
+  }
+  tokenCache = { at: Date.now(), value };
+  return value;
+};
+
+app.get("/health", async (_req, res) =>
+  res.json({
+    ok: true,
+    commit: (process.env.RENDER_GIT_COMMIT || "").slice(0, 7) || null,
+    publishToken: await publishTokenStatus(),
+  })
 );
 
 // JWT-protected manager dashboard API (login, product CRUD, upload, publish).

@@ -896,8 +896,21 @@ router.post(
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ ref: "main" }),
+            // a hung call would otherwise keep `publishing` locked for good
+            signal: AbortSignal.timeout(20_000),
           }
         );
+        // 401 = the fine-grained token expired (they expire; 2026-10-04 it did) or
+        // was revoked; 403/404 = it lost the Actions: read&write permission.
+        // Say so plainly — the manager can't fix "שגיאת שרת", but can call Niv.
+        if (ghRes.status === 401 || ghRes.status === 403 || ghRes.status === 404) {
+          console.error(`[publish] GitHub dispatch ${ghRes.status} — GH_PUBLISH_TOKEN expired/invalid`);
+          return res.status(502).json({
+            error:
+              "הפרסום לא יצא לדרך: מפתח הגישה ל-GitHub פג תוקף או בוטל. " +
+              "צריך ליצור מפתח חדש ולעדכן את GH_PUBLISH_TOKEN ב-Render (ראו DEPLOY.md). השינויים שלכם נשמרו.",
+          });
+        }
         if (ghRes.status !== 204) {
           throw new Error(`publish dispatch failed (${ghRes.status})`);
         }
