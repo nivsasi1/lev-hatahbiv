@@ -3709,13 +3709,15 @@ a.sub-chip {
   position: relative;
   min-width: 0;
 }
+/* physical left: the page is RTL but barcode inputs are LTR, so logical
+   "end" would point at different sides for the input and the button */
 .sku-field input {
   width: 100%;
-  padding-inline-end: 2.9rem;
+  padding-left: 2.9rem;
 }
 .sku-field button {
   position: absolute;
-  inset-inline-end: 2px;
+  left: 2px;
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
