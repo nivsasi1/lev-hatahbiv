@@ -14970,8 +14970,9 @@
     "sub_cat": "כני ציור סטודיו",
     "third_level": "כללי",
     "searchKeywords": "Mont Marte",
-    "updatedAt": "2026-09-16T14:19:54.857Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-03T21:26:37.885Z",
+    "noCoupon": true,
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770706",
@@ -58094,7 +58095,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:42.117Z"
+    "updatedAt": "2026-10-04T06:49:13.256Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9994",
@@ -58282,7 +58283,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון CADMIUM RED MEDIUM HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PR112, PR5 | אטימות: חצי אטום | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58292,7 +58293,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:38.403Z"
+    "updatedAt": "2026-10-04T06:12:35.972Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999f",
@@ -58364,7 +58365,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-04T06:20:39.198Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a3",
@@ -58945,7 +58946,7 @@
   {
     "_id": "6ac129d12655a4676bcb99c3",
     "name": "BURNT SIENNA S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58958,7 +58959,10 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:19:43.451Z"
+    "updatedAt": "2026-10-04T16:15:08.249Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac129d12655a4676bcb99c4",

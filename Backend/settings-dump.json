@@ -22,7 +22,7 @@
     "איסוף מהיר מהחנות ברחובות"
   ],
   "saleIds": [],
-  "updatedAt": "2026-10-03T21:11:44.086Z",
+  "updatedAt": "2026-10-04T06:56:18.290Z",
   "shelfImages": {
     "drawing": "1781370471412-5a3cb409.jpg",
     "craft": "1781370599520-a561fad0.jpeg",
@@ -104,6 +104,10 @@
       "לירה - Lyra",
       "NEVSKAYA PALITRA - Sonnet - סונט",
       "פאבר קאסטל אדום - Faber Castell"
+    ],
+    "craft/דבקים": [
+      "העברת תמונה Potch",
+      "כללי"
     ]
   },
   "shelfPicks": {
@@ -112,6 +116,13 @@
       "6ab63c10d45aa25f2e801a7f",
       "6ab63c10d45aa25f2e801a7e",
       "6ab63c10d45aa25f2e801a7d"
+    ],
+    "craft/דבקים": [
+      "66844bfdf2e4e8f5727705dd",
+      "66844bfdf2e4e8f5727705dc",
+      "66844bfdf2e4e8f5727705e2",
+      "66844bfdf2e4e8f5727705e3",
+      "66844bfdf2e4e8f5727705d9"
     ]
   },
   "shelfTitles": {
