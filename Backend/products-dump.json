@@ -59175,7 +59175,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון IRIDESCENT GOLD DEEP (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: חצי אטום | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59185,7 +59185,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T08:46:52.082Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cf",
