@@ -60933,7 +60933,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי מים אמנותיים מקצועיים של White Nights הם תרחיפים עדינים של פיגמנטים וחומרי מילוי בקלסר שכולל תמיסה מימית של דבק צמחי - גום ערבי. כל הצבעים בפלטת White Nights בטוחים, מאושרים ועומדים בתקן ASTM D-4236.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -60943,7 +60943,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.260Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:40:06.157Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6935",
