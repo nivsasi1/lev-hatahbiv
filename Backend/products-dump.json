@@ -60914,7 +60914,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי מים אמנותיים מקצועיים של White Nights הם תרחיפים עדינים של פיגמנטים וחומרי מילוי בקלסר שכולל תמיסה מימית של דבק צמחי - גום ערבי. כל הצבעים בפלטת White Nights בטוחים, מאושרים ועומדים בתקן ASTM D-4236.</p><p dir=\"rtl\">מספרי הגוונים בסט:<br>203<br>201<br>218<br>216<br>226<br>302<br>309<br>321<br>319<br>313<br>607<br>511<br>509<br>508<br>516<br>718<br>713<br>725<br>405<br>418<br>408<br>412<br>413<br>805</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -60924,7 +60924,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.260Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:40:21.010Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6934",
@@ -60952,7 +60952,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי מים אמנותיים מקצועיים של White Nights הם תרחיפים עדינים של פיגמנטים וחומרי מילוי בקלסר שכולל תמיסה מימית של דבק צמחי - גום ערבי. כל הצבעים בפלטת White Nights בטוחים, מאושרים ועומדים בתקן ASTM D-4236.</p><p dir=\"rtl\">גוונים בסט:<br>100 Zinc white<br>214 Lemon<br>203 Cadmium lemon<br>253 Aureolin<br>201 Cadmium yellow medium<br>228 Indian yellow<br>206 Ochre light<br>217 Golden deep<br>304 Cadmium orange<br>315 Orange<br>302 Cadmium red light<br>364 Geranium red<br>321 English red<br>323 Ruby<br>319 Carmine<br>313 Madder lake red light<br>365 Venice purple<br>324 Quinacridone rose<br>609 Quinacridone lilac<br>628 Dioxazine violet<br>503 Ceruleum blue<br>509 Bright blue<br>508 Cobalt blue<br>515 Blue<br>511 Ultramarine<br>516 Indigo<br>713 Emerald green<br>257 Irgazin yellow<br>727 Olive green<br>716 Sap green<br>725 Green<br>704 Chromium oxide<br>405 Raw Sienna<br>418 Umber<br>408 Burnt umber<br>413 Sepia<br>812 Payne's grey<br>801 Lamp black<br>632 Hematite mist<br>555 Dark blue shadows<br>559 Aquamarine Mist<br>626 Lilaс<br>625 Lavender<br>735 Mint<br>819 Pearl-grey<br>968 Aztec gold<br>964 Copper<br>962 Silver deep</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -60962,7 +60962,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.260Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:40:25.209Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6937",
@@ -60990,7 +60990,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי המים White Nights נוצרו לאמנים מקצועיים, מפיגמנטים עדינים באיכות גבוהה ומדבק גום ערבי טבעי כקלסר. הצבעים בטוחים, מאושרים ועומדים בתקן ASTM D-4236, ובעלי ריכוז פיגמנט גבוה.</p><p dir=\"rtl\">גוונים בסט:<br>203 Cadmium lemon<br>201 Cadmium yellow medium<br>218 Yellow ochre<br>405 Raw Sienna<br>216 Golden<br>304 Cadmium orange<br>309 Red ochre<br>406 Burnt Sienna<br>321 English red<br>318 Scarlet<br>313 Madder lake red light<br>319 Carmine<br>607 Violet<br>511 Ultramarine<br>508 Cobalt blue<br>513 Azure<br>713 Emerald green<br>718 Yellowish green<br>725 Green<br>418 Umber<br>412 Mars brown<br>408 Burnt umber<br>413 Sepia<br>805 Neutral black</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61000,7 +61000,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.351Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:40:17.288Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6939",
