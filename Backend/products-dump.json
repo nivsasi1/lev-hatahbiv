@@ -60838,7 +60838,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">גוונים בסט:<br>256 Peach<br>368 Neon rose<br>364 Geranium red<br>627 Perylene violet<br>515 Blue<br>745 May green</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -60848,7 +60848,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.260Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:38:23.654Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d692e",
@@ -60857,7 +60857,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי הגרנולציה של White Nights מעניקים מבט חדש לטכניקת הציור באקוורל. בזמן שהצבע מתייבש, חלקיקי הפיגמנט מתקבצים ויוצרים כתמים וגוונים מעניינים ומשנים את מרקם המשטח. בהתאם לעובי שכבת הצבע ולסוג משיכות המכחול אפשר לקבל אפקטים שונים לחלוטין. מתאימים להעברת עומק ומרקמים.</p><p dir=\"rtl\">גוונים בסט:<br>268 Yellow tuff<br>386 Red brown hematite<br>634 Grey-violet granite<br>633 Augite porphyrite<br>389 Scarlet mist<br>387 Ruby mist<br>382 Rose mist<br>561 Turquoise-rose mist<br>762 Green mist<br>763 Yellowish green mist<br>563 Chromium cobalt mist<br>832 Grey-rose mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -60867,7 +60867,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.260Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:15.574Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d692f",
@@ -60971,7 +60971,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי הגרנולציה של White Nights מעניקים מבט חדש לטכניקת הציור באקוורל. בזמן שהצבע מתייבש, חלקיקי הפיגמנט מתקבצים ויוצרים כתמים וגוונים מעניינים ומשנים את מרקם המשטח. בהתאם לעובי שכבת הצבע ולסוג משיכות המכחול אפשר לקבל אפקטים שונים לחלוטין. מתאימים להעברת עומק ומרקמים.</p><p dir=\"rtl\">גוונים בסט:<br>389 Scarlet mist<br>387 Ruby mist<br>760 Green shadows<br>555 Dark blue shadows<br>629 Violet shadows<br>556 Blue shadows<br>557 Sky-blue shadows<br>630 Violet mist<br>559 Aquamarine Mist<br>560 Cobalt mist<br>563 Chromium cobalt mist<br>561 Turquoise-rose mist<br>382 Rose mist<br>632 Hematite mist<br>761 Taiga mist<br>631 Lilac mist<br>762 Green mist<br>763 Yellowish green mist<br>388 Orange mist<br>558 Blue mist<br>832 Grey-rose mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -60981,7 +60981,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.351Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:52.651Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6938",
@@ -61020,25 +61020,6 @@
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.351Z",
     "updatedAt": "2026-10-05T15:37:33.350Z"
-  },
-  {
-    "_id": "6ac3c0f31a21bf5db62d693a",
-    "name": "White Nights סט צבעי מים 12 כפתורים מלאים (מק״ט 191201561)",
-    "price": 100,
-    "salePercentage": 0,
-    "isAvailable": true,
-    "noCoupon": true,
-    "isActive": true,
-    "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">ריכוז גבוה של פיגמנט מבטיח עוצמת גוון מקסימלית, גם כשמדללים במים רבים. הצבעים שקופים ומאפשרים עבודה בזיגוגים דקים, ומתערבבים לשלל גוונים עשיר. רוב הצבעים בעלי עמידות גבוהה לאור, המסייעת לשמר את היצירות למעלה מ-100 שנה.</p><p dir=\"rtl\">גוונים בסט:<br>203 Cadmium lemon<br>201 Cadmium yellow medium<br>206 Ochre light<br>309 Red ochre<br>302 Cadmium red light<br>319 Carmine<br>532 Cobalt azure blue<br>511 Ultramarine<br>713 Emerald green<br>716 Sap green<br>408 Burnt umber<br>801 Lamp black</p>",
-    "category": "צבעים לאמנות",
-    "sub_cat": "צבעי אקוורל",
-    "third_level": "חלומות לבנים / סנט פטרסבורג / White Nights",
-    "img": "1791213248188-fedc363c.jpg;1791213248523-12fe1ccd.jpg;1791213248859-6ef0b7ba.jpg;1791213249196-0a52fab9.jpg;1791213249386-89e682bd.jpg;1791213265057-fa7ff220.jpg",
-    "sku": "4690688015050",
-    "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
-    "__v": 0,
-    "createdAt": "2026-10-05T15:23:31.351Z",
-    "updatedAt": "2026-10-05T15:36:29.705Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d693b",
@@ -61085,7 +61066,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">גוונים בסט:<br>558 Blue mist<br>559 Aquamarine Mist<br>555 Dark blue shadows</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61095,7 +61076,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:38:26.579Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6940",
@@ -61104,7 +61085,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">גוונים בסט:<br>832 Grey-rose mist<br>632 Hematite mist<br>562 Grey-blue mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61114,7 +61095,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:38:28.739Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6941",
@@ -61123,7 +61104,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">גוונים בסט:<br>563 Chromium cobalt mist<br>760 Green shadows<br>761 Taiga mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61133,7 +61114,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:38:15.826Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6942",
@@ -61142,7 +61123,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">גוונים בסט:<br>557 Sky-blue shadows<br>556 Blue shadows<br>560 Cobalt mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61152,7 +61133,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:38:13.846Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6943",
@@ -61161,7 +61142,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">גוונים בסט:<br>629 Violet shadows<br>630 Violet mist<br>631 Lilac mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61171,7 +61152,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:56.385Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6944",
@@ -61218,7 +61199,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי הגרנולציה של White Nights מעניקים מבט חדש לטכניקת הציור באקוורל. בזמן שהצבע מתייבש, חלקיקי הפיגמנט מתקבצים ויוצרים כתמים וגוונים מעניינים ומשנים את מרקם המשטח. בהתאם לעובי שכבת הצבע ולסוג משיכות המכחול אפשר לקבל אפקטים שונים לחלוטין. מתאימים להעברת עומק ומרקמים.</p><p dir=\"rtl\">גוונים בסט:<br>388 Orange mist<br>389 Scarlet mist<br>387 Ruby mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61228,7 +61209,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:32.247Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6947",
@@ -61237,7 +61218,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי הגרנולציה של White Nights מעניקים מבט חדש לטכניקת הציור באקוורל. בזמן שהצבע מתייבש, חלקיקי הפיגמנט מתקבצים ויוצרים כתמים וגוונים מעניינים ומשנים את מרקם המשטח. בהתאם לעובי שכבת הצבע ולסוג משיכות המכחול אפשר לקבל אפקטים שונים לחלוטין. מתאימים להעברת עומק ומרקמים.</p><p dir=\"rtl\">גוונים בסט:<br>595 Sea mist<br>561 Turquoise-rose mist<br>562 Grey-blue mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61247,7 +61228,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:25.175Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6948",
@@ -61256,7 +61237,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי הגרנולציה של White Nights מעניקים מבט חדש לטכניקת הציור באקוורל. בזמן שהצבע מתייבש, חלקיקי הפיגמנט מתקבצים ויוצרים כתמים וגוונים מעניינים ומשנים את מרקם המשטח. בהתאם לעובי שכבת הצבע ולסוג משיכות המכחול אפשר לקבל אפקטים שונים לחלוטין. מתאימים להעברת עומק ומרקמים.</p><p dir=\"rtl\">גוונים בסט:<br>763 Yellowish green mist<br>762 Green mist<br>760 Green shadows</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61266,7 +61247,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:27.414Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d6949",
@@ -61275,7 +61256,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">צבעי הגרנולציה של White Nights מעניקים מבט חדש לטכניקת הציור באקוורל. בזמן שהצבע מתייבש, חלקיקי הפיגמנט מתקבצים ויוצרים כתמים וגוונים מעניינים ומשנים את מרקם המשטח. בהתאם לעובי שכבת הצבע ולסוג משיכות המכחול אפשר לקבל אפקטים שונים לחלוטין. מתאימים להעברת עומק ומרקמים.</p><p dir=\"rtl\">גוונים בסט:<br>382 Rose mist<br>398 Purple mist<br>635 Sunset mist</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61285,6 +61266,6 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.352Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:37:21.479Z"
   }
 ]
