@@ -60573,7 +60573,7 @@
   {
     "_id": "6ac328d79663552bd91812cc",
     "name": "MEEDEN סט מכחולי צבעי מים מקצועיים, 9 מידות",
-    "price": 50,
+    "price": 349,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60586,7 +60586,7 @@
     "searchKeywords": "MEEDEN, מכחולי צבעי מים, סט מכחולים, watercolor brushes, 9 pieces",
     "__v": 0,
     "createdAt": "2026-10-05T04:34:31.049Z",
-    "updatedAt": "2026-10-05T04:42:12.249Z",
+    "updatedAt": "2026-10-05T07:42:21.931Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -60699,7 +60699,7 @@
   {
     "_id": "6ac32b4003fe239bb83d9e8e",
     "name": "מכחול MEEDEN שיער טבעי 6",
-    "price": 50,
+    "price": 55,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60712,12 +60712,15 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 6",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.481Z",
-    "updatedAt": "2026-10-05T04:44:48.481Z"
+    "updatedAt": "2026-10-05T07:41:18.090Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e8f",
     "name": "מכחול MEEDEN שיער טבעי 7",
-    "price": 50,
+    "price": 60,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60730,7 +60733,10 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 7",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.481Z",
-    "updatedAt": "2026-10-05T04:44:48.481Z"
+    "updatedAt": "2026-10-05T07:41:38.530Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e90",
