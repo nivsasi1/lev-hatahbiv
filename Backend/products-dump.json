@@ -534,9 +534,10 @@
     "category": "רישום ועפרונות",
     "sub_cat": "עפרון פסטל",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-10-05T21:50:12.756Z",
     "searchKeywords": "Sonnet, Nevskaya Palitra, נבסקאיה",
-    "noCoupon": true
+    "noCoupon": true,
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770346",
