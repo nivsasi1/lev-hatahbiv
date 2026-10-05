@@ -60988,7 +60988,7 @@
   {
     "_id": "6ac3c0f31a21bf5db62d693b",
     "name": "White Nights סט צבעי מים 12 שפופרות (מק״ט 19411227)",
-    "price": 100,
+    "price": 200,
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
@@ -60996,13 +60996,15 @@
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">ריכוז גבוה של פיגמנט מבטיח עוצמת גוון מקסימלית, גם כשמדללים במים רבים. הצבעים שקופים ומאפשרים עבודה בזיגוגים דקים, ומתערבבים לשלל גוונים עשיר. רוב הצבעים בעלי עמידות גבוהה לאור, המסייעת לשמר את היצירות למעלה מ-100 שנה.</p><p dir=\"rtl\">גוונים בסט:<br>214 Lemon<br>201 Cadmium yellow medium<br>217 Golden deep<br>302 Cadmium red light<br>319 Carmine<br>503 Ceruleum blue<br>511 Ultramarine<br>713 Emerald green<br>725 Green<br>405 Raw Sienna<br>413 Sepia<br>801 Lamp black</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "חלומות לבנים / סנט פטרסבורג / White Nights",
+    "third_level": "אקוורל כפתורים - חלומות לבנים / סנט פטרסבורג",
     "img": "1791213220051-5d758e06.jpg",
     "sku": "4690688011861",
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.351Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T17:48:03.440Z",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac3c0f31a21bf5db62d693c",
