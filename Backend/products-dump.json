@@ -58218,7 +58218,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INDIAN YELLOW HUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PR206, PY150, PY73 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58228,7 +58228,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T08:38:34.447Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999a",
@@ -58470,7 +58470,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון DIOXAZINE PURPLE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 6 | פיגמנטים: PV23 | אטימות: חצי אטום | עמידות לאור: טובה</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58480,7 +58480,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T08:37:42.002Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a8",
@@ -58866,7 +58866,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון GREEN GOLD. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: PG36, PY150, PY3 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58876,7 +58876,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T08:38:26.209Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99be",
@@ -59283,7 +59283,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון INTERFERENCE GOLD (FINE). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 7 | פיגמנטים: Mica | אטימות: שקוף | עמידות לאור: N/A</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -59293,7 +59293,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T08:38:56.933Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d5",
