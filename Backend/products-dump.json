@@ -58053,7 +58053,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ZINC WHITE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 1 | פיגמנטים: PW4 | אטימות: שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58063,7 +58063,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T15:45:00.723Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9991",
@@ -58488,7 +58488,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון ULTRAMARINE BLUE. צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 2 | פיגמנטים: PB29 | אטימות: חצי שקוף | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58498,7 +58498,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T15:44:10.112Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a9",
@@ -58704,7 +58704,7 @@
     "price": 10,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">צבע אקרילי Fluid של חברת Golden בגוון TURQUOIS (PHTHALO). צבע נוזלי בעל מרקם של שמנת סמיכה, מפיגמנטים עמידים לאור, מתאים למריחה במברשת, לריסוס ולהכתמה. בקבוק 30 מ\"ל.</p><p dir=\"rtl\">סדרה: 4 | פיגמנטים: PB15:1, PG7 | אטימות: חצי אטום | עמידות לאור: מצוינת</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבע אקריליק",
@@ -58714,7 +58714,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-05T15:44:01.939Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b5",
@@ -60927,25 +60927,6 @@
     "updatedAt": "2026-10-05T15:37:33.350Z"
   },
   {
-    "_id": "6ac3c0f31a21bf5db62d6930",
-    "name": "White Nights סט צבעי מים 12 כפתורים מלאים באריזת פלסטיק",
-    "price": 100,
-    "salePercentage": 0,
-    "isAvailable": true,
-    "noCoupon": true,
-    "isActive": true,
-    "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">ריכוז גבוה של פיגמנט מבטיח עוצמת גוון מקסימלית, גם כשמדללים במים רבים. הצבעים שקופים ומאפשרים עבודה בזיגוגים דקים, ומתערבבים לשלל גוונים עשיר. רוב הצבעים בעלי עמידות גבוהה לאור, המסייעת לשמר את היצירות למעלה מ-100 שנה.</p><p dir=\"rtl\">גוונים בסט:<br>203 Cadmium lemon<br>201 Cadmium yellow medium<br>218 Yellow ochre<br>302 Cadmium red light<br>319 Carmine<br>511 Ultramarine<br>513 Azure<br>713 Emerald green<br>725 Green<br>418 Umber<br>408 Burnt umber<br>805 Neutral black</p>",
-    "category": "צבעים לאמנות",
-    "sub_cat": "צבעי אקוורל",
-    "third_level": "חלומות לבנים / סנט פטרסבורג / White Nights",
-    "img": "1791213220979-ae4ad5e0.png;1791213221645-a028934d.png;1791213221841-5e63036a.png;1791213222040-d00e6acb.jpg;1791213222226-251bd6f2.jpg;1791213226310-04fb34ff.png;1791213227275-56466cd8.jpg;1791213227473-45fe25d8.jpg",
-    "sku": "4607010580704",
-    "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
-    "__v": 0,
-    "createdAt": "2026-10-05T15:23:31.260Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
-  },
-  {
     "_id": "6ac3c0f31a21bf5db62d6931",
     "name": "White Nights סט צבעי מים Urban Landscape 12 כפתורים מלאים",
     "price": 100,
@@ -61161,7 +61142,7 @@
     "salePercentage": 0,
     "isAvailable": true,
     "noCoupon": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">סט צבעי מים White Nights של Nevskaya Palitra.</p><p dir=\"rtl\">ריכוז גבוה של פיגמנט מבטיח עוצמת גוון מקסימלית, גם כשמדללים במים רבים. הצבעים שקופים ומאפשרים עבודה בזיגוגים דקים, ומתערבבים לשלל גוונים עשיר. רוב הצבעים בעלי עמידות גבוהה לאור, המסייעת לשמר את היצירות למעלה מ-100 שנה.</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -61171,7 +61152,7 @@
     "searchKeywords": "White Nights, חלומות לבנים, Nevskaya Palitra, נבסקאיה פליטרה, צבעי מים, watercolor",
     "__v": 0,
     "createdAt": "2026-10-05T15:23:31.351Z",
-    "updatedAt": "2026-10-05T15:37:33.350Z"
+    "updatedAt": "2026-10-05T15:43:44.650Z"
   },
   {
     "_id": "6ac3c0f31a21bf5db62d693d",
