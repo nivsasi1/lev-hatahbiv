@@ -60594,7 +60594,7 @@
   {
     "_id": "6ac32b4003fe239bb83d9e89",
     "name": "מכחול MEEDEN שיער טבעי 1",
-    "price": 50,
+    "price": 33,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60607,12 +60607,15 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 1",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.480Z",
-    "updatedAt": "2026-10-05T04:44:48.480Z"
+    "updatedAt": "2026-10-05T07:38:27.379Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e8a",
     "name": "מכחול MEEDEN שיער טבעי 2",
-    "price": 50,
+    "price": 33,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60625,12 +60628,15 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 2",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.481Z",
-    "updatedAt": "2026-10-05T04:44:48.481Z"
+    "updatedAt": "2026-10-05T07:39:33.087Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e8b",
     "name": "מכחול MEEDEN שיער טבעי 3",
-    "price": 50,
+    "price": 37,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60643,12 +60649,15 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 3",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.481Z",
-    "updatedAt": "2026-10-05T04:44:48.481Z"
+    "updatedAt": "2026-10-05T07:39:54.283Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e8c",
     "name": "מכחול MEEDEN שיער טבעי 4",
-    "price": 50,
+    "price": 42,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60661,12 +60670,15 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 4",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.481Z",
-    "updatedAt": "2026-10-05T04:44:48.481Z"
+    "updatedAt": "2026-10-05T07:40:30.649Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e8d",
     "name": "מכחול MEEDEN שיער טבעי 5",
-    "price": 50,
+    "price": 48,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60679,7 +60691,10 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 5",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.481Z",
-    "updatedAt": "2026-10-05T04:44:48.481Z"
+    "updatedAt": "2026-10-05T07:40:56.604Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e8e",
@@ -60720,7 +60735,7 @@
   {
     "_id": "6ac32b4003fe239bb83d9e90",
     "name": "מכחול MEEDEN שיער טבעי 8",
-    "price": 50,
+    "price": 68,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60733,12 +60748,15 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 8",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.482Z",
-    "updatedAt": "2026-10-05T04:44:48.482Z"
+    "updatedAt": "2026-10-05T07:38:49.232Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac32b4003fe239bb83d9e91",
     "name": "מכחול MEEDEN שיער טבעי 9",
-    "price": 50,
+    "price": 89,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60751,6 +60769,9 @@
     "searchKeywords": "MEEDEN, מכחול, שיער טבעי, watercolor brush, round, גודל 9",
     "__v": 0,
     "createdAt": "2026-10-05T04:44:48.482Z",
-    "updatedAt": "2026-10-05T04:44:48.482Z"
+    "updatedAt": "2026-10-05T07:39:14.757Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
