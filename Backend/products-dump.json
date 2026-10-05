@@ -11738,11 +11738,11 @@
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
-    "category": "מקרמה וטריקו",
+    "category": "חומרי יצירה",
     "sub_cat": "צמר",
     "third_level": "אמה כותון - Emma Cotton",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-05T20:44:31.447Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277064d",
@@ -11755,11 +11755,11 @@
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
-    "category": "מקרמה וטריקו",
+    "category": "חומרי יצירה",
     "sub_cat": "צמר",
     "third_level": "אמה כותון - Emma Cotton",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-05T20:44:31.447Z"
   },
   {
     "_id": "66844bfdf2e4e8f57277064f",
@@ -11772,11 +11772,11 @@
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
-    "category": "מקרמה וטריקו",
+    "category": "חומרי יצירה",
     "sub_cat": "צמר",
     "third_level": " חוט הילה - Heela",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-05T20:44:31.447Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770649",
@@ -11891,11 +11891,11 @@
     "discountMode": "PERCENT",
     "discountValue": 0,
     "isAvailable": true,
-    "category": "מקרמה וטריקו",
+    "category": "חומרי יצירה",
     "sub_cat": "צמר",
     "third_level": " חוט הילה - Heela",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-05T20:44:31.447Z"
   },
   {
     "_id": "66844bfdf2e4e8f572770650",
@@ -12149,7 +12149,11 @@
     "sub_cat": "טריקו",
     "third_level": "פרוסות טריקו",
     "noCoupon": true,
-    "updatedAt": "2026-10-05T20:34:28.569Z"
+    "updatedAt": "2026-10-05T20:38:41.345Z",
+    "searchKeywords": "",
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277065e",
@@ -18173,7 +18177,7 @@
     "description": "<p dir=\"rtl\">טוש דו צדדי - צד אחד דק וצד שני רחב על בסיס אלכוהול.</p>\n<p dir=\"rtl\">שקוף. תחליף התחלתי זול לטושי הקופיק והפרומרקר</p>\n<p dir=\"rtl\">&nbsp;</p>\n<p dir=\"rtl\">סט של 80 בנרתיק נשיאה</p>",
     "img": "733145_8ccf6cec664e4606944a19b6b5a2807d~mv2.jpg",
     "sku": "6922686424182",
-    "price": 149.9,
+    "price": 99,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -18181,8 +18185,11 @@
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - נורה NORA!",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-05T20:45:05.101Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277081c",
@@ -29594,7 +29601,7 @@
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לטושים ומרקרים",
     "searchKeywords": "Promarker, Winsor & Newton, וינזור ניוטון",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "updatedAt": "2026-10-05T20:44:31.447Z",
     "noCoupon": true
   },
   {
