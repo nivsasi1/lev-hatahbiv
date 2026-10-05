@@ -5598,9 +5598,10 @@
     "category": "רישום ועפרונות",
     "sub_cat": "חומרי עזר לעפרונות",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-10-05T20:55:14.497Z",
     "searchKeywords": "טומבו",
-    "noCoupon": true
+    "noCoupon": true,
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f5727704a2",
