@@ -60782,5 +60782,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac35817142e40234753699e",
+    "name": "סט 5 מכחולים עגולים ברברה בקלמר פלסטיק",
+    "price": 29.9,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "סט של 5 מכחולים עגולים בגדלים שונים. איכות המכחולים מתאימה לאומן מתחיל. מגיע בתוך קלמר פלסטיק לשמירה על המכחולים",
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "מכחולים",
+    "third_level": "כללי",
+    "img": "1791186951735-34510b4b.webp",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "",
+    "createdAt": "2026-10-05T07:56:07.143Z",
+    "updatedAt": "2026-10-05T07:56:07.143Z",
+    "__v": 0
   }
 ]
