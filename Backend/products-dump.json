@@ -60555,7 +60555,7 @@
   {
     "_id": "6ac325b83f35f8cc8f7c3563",
     "name": "MEEDEN פלטת ערבוב פורצלן עגולה, 12 תאים",
-    "price": 50,
+    "price": 36.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -60568,7 +60568,10 @@
     "searchKeywords": "MEEDEN, פלטה, פלטת ערבוב, פורצלן, palette, 12 well",
     "__v": 0,
     "createdAt": "2026-10-05T04:21:12.448Z",
-    "updatedAt": "2026-10-05T04:21:12.448Z"
+    "updatedAt": "2026-10-05T07:45:46.776Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac328d79663552bd91812cc",
