@@ -58104,7 +58104,7 @@
   {
     "_id": "6ac129d12655a4676bcb9993",
     "name": "BENZIMIDAZOLONE YELLOW MEDIUM III S3",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58117,7 +58117,10 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-04T06:49:13.256Z"
+    "updatedAt": "2026-10-05T08:17:56.909Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac129d12655a4676bcb9994",
@@ -60805,6 +60808,27 @@
     "searchKeywords": "",
     "createdAt": "2026-10-05T07:56:07.143Z",
     "updatedAt": "2026-10-05T07:56:07.143Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac35d406ceb9fa7faa61632",
+    "name": "גואש לבן 100 60מ\"ל",
+    "price": 33,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "• סוג צבע: צבע גואש אטום ומקצועי (גוון לבן מספר 100).\n• נפח: שפופרת גדולה של 60 מ\"ל.\n• גימור: גימור מט עם ריכוז פיגמנטים גבוה.\n• שימוש: מתאים לציור, איור גרפי ועבודות אומנות הדורשות כיסוי חזק ואטום, ומתייבש תוך דקות.",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי גואש",
+    "third_level": "צבע גואש טאלנס",
+    "img": "1791188282272-fcbbf8b3.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "",
+    "createdAt": "2026-10-05T08:18:08.209Z",
+    "updatedAt": "2026-10-05T08:18:08.209Z",
     "__v": 0
   }
 ]
