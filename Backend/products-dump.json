@@ -61807,5 +61807,23 @@
     "createdAt": "2026-10-06T09:05:17.755Z",
     "updatedAt": "2026-10-06T09:07:48.471Z",
     "__v": 0
+  },
+  {
+    "_id": "6ac4be0013448fcd16cd9a6f",
+    "name": "דיו הודי שחור HERBIN ENCRE DE CHINE 250ml",
+    "price": 85,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">דיו הודי שחור (Encre de Chine / Indian Ink) של Jacques Herbin, בבקבוק זכוכית של 250ml. הדיו עשיר מאוד בשלק ומבוסס על פיגמנט, ומתאים לעבודה עם עט או מכחול. הוא הופך מבריק עם הייבוש, בלתי מחיק ועמיד למים ולרוב הממיסים, ולכן אמנים מעריכים אותו על קביעות הצבע. תוצרת צרפת.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "דיו",
+    "third_level": "HERBIN",
+    "img": "1791278589061-8c5b5c53.png",
+    "sku": "",
+    "searchKeywords": "Jacques Herbin, HERBIN, הרבין, ז'ק הרבין, דיו הודי, דיו סיני, דיו שחור, Encre de Chine, Indian Ink, Black Indian Ink, 11009T",
+    "__v": 0,
+    "createdAt": "2026-10-06T09:23:12.714Z",
+    "updatedAt": "2026-10-06T09:23:12.714Z"
   }
 ]
