@@ -61829,7 +61829,7 @@
   {
     "_id": "6ac4c03a4751351a055c0c8c",
     "name": "דיו הודי שחור Talens Indian Ink 700 - 30ml",
-    "price": 20,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -61842,6 +61842,9 @@
     "searchKeywords": "Talens, טלנס, Royal Talens, דיו הודי, דיו סיני, דיו שחור, Indian Ink, Black Indian Ink, 700, 44257002",
     "__v": 0,
     "createdAt": "2026-10-06T09:32:42.237Z",
-    "updatedAt": "2026-10-06T09:32:42.237Z"
+    "updatedAt": "2026-10-06T20:14:45.301Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
