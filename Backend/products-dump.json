@@ -61780,5 +61780,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac4b9cd1a82fb66bde1c81d",
+    "name": "דיו וינסור ניוטון 30מ\"ל 951 BLACK INDIAN INK",
+    "price": 37.4,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">דיו ציור של Winsor & Newton בגוון שחור הודי (Black Indian Ink), בבקבוק זכוכית עם טפטפת 30ml. דיו ציור קלאסי שמשמש מאיירים ואמנים מאז שנות ה-90 של המאה ה-19, ומיוצר מצבענים מסיסים בתמיסת שלק איכותית לצבע בהיר, עשיר ובוהק. הדיו מתייבש מהר, שקוף ועמיד למים, ומתאים לעבודה עם מכחול, עט טבילה או אירוגרף. כל 26 גווני הסדרה ניתנים לערבוב ביניהם, ואפשר להוסיף מים לגוונים בהירים יותר או להניח שכבות לאפקטים חדשים. גוון זה מבוסס גם על פיגמנט, ולכן הוא עמיד לאור (lightfast).</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "דיו",
+    "third_level": "Winsor Newton Ink",
+    "img": "1791277511079-841a25fd.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "Winsor & Newton, Winsor Newton, וינסור ניוטון, דיו ציור, דיו, drawing ink, שחור הודי, Black Indian Ink",
+    "createdAt": "2026-10-06T09:05:17.755Z",
+    "updatedAt": "2026-10-06T09:07:48.471Z",
+    "__v": 0
   }
 ]
