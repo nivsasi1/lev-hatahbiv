@@ -18635,41 +18635,6 @@
     "noCoupon": true
   },
   {
-    "_id": "66844bfdf2e4e8f572770836",
-    "id": "product_713fdea4-13eb-9d21-80c7-e09000d595be",
-    "name": "משחת עיצוב",
-    "description": "<p dir=\"rtl\">משחת עיצוב - MODELING PASTE לציור בצבעי שמן/אקריליק.</p>\n<p dir=\"rtl\">קיים באריזות 220 מ\"ל, 500 מ\"ל, 1000 מ\"ל, גלון</p>",
-    "img": "733145_4519cf7691aa445b9862067e982b5b0d~mv2.jpg",
-    "price": 22.9,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "צבעים לאמנות",
-    "sub_cat": "מדיומים לציור",
-    "third_level": "כללי",
-    "updatedAt": "2026-09-28T18:01:46.634Z",
-    "variantLabel": "כמות",
-    "variants": [
-      {
-        "key": "220 מ\"ל",
-        "price": 22.9,
-        "sku": "7290008985208"
-      },
-      {
-        "key": "500 מ\"ל",
-        "price": 42.9,
-        "sku": "7290008985215"
-      },
-      {
-        "key": "1000 מ\"ל",
-        "price": 76.6,
-        "sku": "7290013877369"
-      }
-    ],
-    "noCoupon": true
-  },
-  {
     "_id": "66844bfdf2e4e8f57277082b",
     "id": "product_6787aa9a-7adf-9be4-7be0-8c08dd252972",
     "name": "STEP 1+2",
@@ -62850,5 +62815,77 @@
     "__v": 0,
     "createdAt": "2026-10-07T04:46:54.368Z",
     "updatedAt": "2026-10-07T04:46:54.368Z"
+  },
+  {
+    "_id": "6ac5d041e409b42368c74b5f",
+    "name": "XTC ג'סו אקרילי לבן 220 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">XTC ג'סו אקרילי לבן של הניג צבעים לאומנות, באריזה של 220 מ\"ל. צבע יסוד במרקם סמיך למחצה, משמש כצבע יסוד ראשוני למשטחים שאינם צבועים כלל, או לשיפור אחיזת הצבע על גבי בד מוכן, לפני ציור בצבעי אקריליק או שמן.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "כללי",
+    "img": "https://static.wixstatic.com/media/64857f_88494e95c2984fdd97cdeb9be44c8866~mv2.jpg/v1/fill/w_980,h_945,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_88494e95c2984fdd97cdeb9be44c8866~mv2.jpg",
+    "sku": "",
+    "searchKeywords": "הניג, XTC, ג'סו אקרילי, gesso, מדיום לציור, 220 מ\"ל",
+    "__v": 0,
+    "createdAt": "2026-10-07T04:53:21.254Z",
+    "updatedAt": "2026-10-07T04:53:21.254Z"
+  },
+  {
+    "_id": "6ac5d041e409b42368c74b60",
+    "name": "XTC ג'סו אקרילי לבן 500 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">XTC ג'סו אקרילי לבן של הניג צבעים לאומנות, באריזה של 500 מ\"ל. צבע יסוד במרקם סמיך למחצה, משמש כצבע יסוד ראשוני למשטחים שאינם צבועים כלל, או לשיפור אחיזת הצבע על גבי בד מוכן, לפני ציור בצבעי אקריליק או שמן.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "כללי",
+    "img": "https://static.wixstatic.com/media/64857f_0f63f8eaef394f948b8393f809b3261e~mv2.png/v1/fill/w_980,h_1120,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_0f63f8eaef394f948b8393f809b3261e~mv2.png",
+    "sku": "",
+    "searchKeywords": "הניג, XTC, ג'סו אקרילי, gesso, מדיום לציור, 500 מ\"ל",
+    "__v": 0,
+    "createdAt": "2026-10-07T04:53:21.255Z",
+    "updatedAt": "2026-10-07T04:53:21.255Z"
+  },
+  {
+    "_id": "6ac5d041e409b42368c74b61",
+    "name": "XTC ג'סו אקרילי לבן 1000 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">XTC ג'סו אקרילי לבן של הניג צבעים לאומנות, באריזה של 1000 מ\"ל. צבע יסוד במרקם סמיך למחצה, משמש כצבע יסוד ראשוני למשטחים שאינם צבועים כלל, או לשיפור אחיזת הצבע על גבי בד מוכן, לפני ציור בצבעי אקריליק או שמן.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "כללי",
+    "img": "https://static.wixstatic.com/media/64857f_68e905ac1b4342ef91218a3cbb2c08e1~mv2.jpg/v1/fill/w_980,h_1161,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_68e905ac1b4342ef91218a3cbb2c08e1~mv2.jpg",
+    "sku": "",
+    "searchKeywords": "הניג, XTC, ג'סו אקרילי, gesso, מדיום לציור, 1000 מ\"ל",
+    "__v": 0,
+    "createdAt": "2026-10-07T04:53:21.255Z",
+    "updatedAt": "2026-10-07T04:53:21.255Z"
+  },
+  {
+    "_id": "6ac5d041e409b42368c74b62",
+    "name": "XTC ג'סו אקרילי לבן 4000 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">XTC ג'סו אקרילי לבן של הניג צבעים לאומנות, באריזה של 4000 מ\"ל. צבע יסוד במרקם סמיך למחצה, משמש כצבע יסוד ראשוני למשטחים שאינם צבועים כלל, או לשיפור אחיזת הצבע על גבי בד מוכן, לפני ציור בצבעי אקריליק או שמן.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "כללי",
+    "img": "https://static.wixstatic.com/media/64857f_5aa6833e38a94dc5a05bef9f3928e32b~mv2.jpg/v1/fill/w_980,h_1051,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_5aa6833e38a94dc5a05bef9f3928e32b~mv2.jpg",
+    "sku": "",
+    "searchKeywords": "הניג, XTC, ג'סו אקרילי, gesso, מדיום לציור, 4000 מ\"ל",
+    "__v": 0,
+    "createdAt": "2026-10-07T04:53:21.255Z",
+    "updatedAt": "2026-10-07T04:53:21.255Z"
   }
 ]
