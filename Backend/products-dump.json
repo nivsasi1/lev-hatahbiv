@@ -29579,7 +29579,7 @@
     "description": "<p dir=\"rtl\">סט 12 עפרונות רישום וציור מקצועיים בקופסת פח הכוללים עפרונות גיר בגוונים שונים ועפרונות פחם.</p> \n<p dir=\"rtl\">סוגי העפרונות</p> \n<p dir=\"rtl\">1- White DRY Pencil</p> \n<p dir=\"rtl\">1- Sanguigne DRY Pencil</p> \n<p dir=\"rtl\">1- Sepia Dark DRY Pencil</p> \n<p dir=\"rtl\">1-&nbsp;Sanguigne OIL Pencil</p> \n<p dir=\"rtl\">1-&nbsp;Sepia Dark OIL Pencil</p> \n<p dir=\"rtl\">1-&nbsp;Carbon Extrad Dark Pencil 2B</p> \n<p dir=\"rtl\">1- Carbon Pencil 2B</p> \n<p dir=\"rtl\">1- Carbon Pencil B</p> \n<p dir=\"rtl\">1- Charcoal Pencil 2B</p> \n<p dir=\"rtl\">1- Charcoal Pencil HB</p> \n<p dir=\"rtl\">1- Graphite Aquarell Pencil HB</p> \n<p dir=\"rtl\">1- Graphite Aquarell Pencil 4B</p>",
     "img": "733145_b5fdcb8ef5fa4369b110d6f883c3bf03~mv2.jpg",
     "sku": "4084900105634",
-    "price": 67.2,
+    "price": 79.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -29588,7 +29588,10 @@
     "sub_cat": "עפרון רישום/גרפיט",
     "third_level": "כללי",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-07T08:23:27.599Z",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770b4d",
@@ -33487,7 +33490,7 @@
     "_id": "6a3689487d164beaf03f0c05",
     "id": "product_bfbace9c-17c7-a723-a816-26190bc63e74",
     "name": "סט צבעי מים 48 Aquafine Daler Rowney",
-    "price": 192,
+    "price": 207.9,
     "salePercentage": 0,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -33499,7 +33502,7 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T19:44:13.948Z",
+    "updatedAt": "2026-10-07T08:23:00.245Z",
     "searchKeywords": "דאלר רוני",
     "noCoupon": false,
     "variantLabel": "",
