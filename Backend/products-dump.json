@@ -63135,5 +63135,41 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac6a619b5e13b7f93feaee5",
+    "name": "XTC ג'סו אקרילי שחור 220 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">XTC ג'סו אקרילי שחור של הניג צבעים לאומנות, באריזה של 220 מ\"ל. צבע יסוד שחור במרקם סמיך למחצה, משמש כצבע יסוד ראשוני למשטחים שאינם צבועים כלל, או כבסיס שחור לציור בצבעי אקריליק או שמן, לשיפור אחיזת הצבע ולמניעת ספיגת יתר על גבי המשטח.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "כללי",
+    "img": "https://static.wixstatic.com/media/64857f_83b2b15533324094bb7a9647be0984c4~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_83b2b15533324094bb7a9647be0984c4~mv2.jpg",
+    "sku": "",
+    "searchKeywords": "הניג, XTC, ג'סו אקרילי שחור, black gesso, מדיום לציור, 220 מ\"ל",
+    "__v": 0,
+    "createdAt": "2026-10-07T20:05:45.048Z",
+    "updatedAt": "2026-10-07T20:05:45.048Z"
+  },
+  {
+    "_id": "6ac6a619b5e13b7f93feaee6",
+    "name": "XTC ג'סו אקרילי שחור 500 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">XTC ג'סו אקרילי שחור של הניג צבעים לאומנות, באריזה של 500 מ\"ל. צבע יסוד שחור במרקם סמיך למחצה, משמש כצבע יסוד ראשוני למשטחים שאינם צבועים כלל, או כבסיס שחור לציור בצבעי אקריליק או שמן, לשיפור אחיזת הצבע ולמניעת ספיגת יתר על גבי המשטח.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "כללי",
+    "img": "https://static.wixstatic.com/media/64857f_5742658bcd4e4b7d9ae325ec24b30260~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_5742658bcd4e4b7d9ae325ec24b30260~mv2.jpg",
+    "sku": "",
+    "searchKeywords": "הניג, XTC, ג'סו אקרילי שחור, black gesso, מדיום לציור, 500 מ\"ל",
+    "__v": 0,
+    "createdAt": "2026-10-07T20:05:45.048Z",
+    "updatedAt": "2026-10-07T20:05:45.048Z"
   }
 ]
