@@ -16679,7 +16679,7 @@
     "description": "<p dir=\"rtl\">מדיום לצבעי שמן השומר על סמיכות הצבע מתייבש בחצי הזמן לעומת שמן פשתן.</p><p dir=\"rtl\">גימור חצי מבריק</p><p dir=\"rtl\">מרכך ולכן מאריך את משיכת הצבע.</p><p dir=\"rtl\">מעלים את סימני משיחות המכחול.</p>",
     "img": "733145_66cc144719e242fea3a62e8ed08faf29~mv2.jpg",
     "sku": "884955016398",
-    "price": 109.9,
+    "price": 138.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -16687,8 +16687,11 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע שמן",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-07T08:03:01.443Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770763",
