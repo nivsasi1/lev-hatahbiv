@@ -62899,7 +62899,7 @@
   {
     "_id": "6ac6a1f07a2d39285169f906",
     "name": "לכות על בסיס מים/לכה סאטין 1000 מ\"ל",
-    "price": 50,
+    "price": 109.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62908,11 +62908,14 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "לכה אקרילית בסיס מים",
     "img": "https://static.wixstatic.com/media/64857f_1ff6a2e126ae4c0f81eadd5804ee3540~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_1ff6a2e126ae4c0f81eadd5804ee3540~mv2.jpg",
-    "sku": "",
+    "sku": "7290008985314",
     "searchKeywords": "הניג, לכה סאטין, לכה בסיס מים, varnish, 1000 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T19:48:00.154Z",
-    "updatedAt": "2026-10-07T19:48:00.154Z"
+    "updatedAt": "2026-10-08T08:02:54.043Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac6a1f07a2d39285169f907",
