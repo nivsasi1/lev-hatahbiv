@@ -57075,7 +57075,7 @@
   {
     "_id": "6ac129d12655a4676bcb99b0",
     "name": "CERULEAN BLUE DEEP S9",
-    "price": 10,
+    "price": 55,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57088,12 +57088,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T08:36:34.069Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bd",
     "name": "GREEN GOLD S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57106,12 +57106,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T08:38:26.209Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d2",
     "name": "IRIDESCENT STAINLESS STEEL (COARSE) S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57124,12 +57124,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T15:34:00.964Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d6",
     "name": "INTERFERENCE VIOLET (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57142,12 +57142,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9985",
     "name": "AZO GOLD IV S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57160,12 +57160,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-05T08:34:21.403Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998a",
     "name": "FLUORESCENT RED V S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57178,12 +57178,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998f",
     "name": "TITANIUM WHITE S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57196,12 +57196,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T15:41:21.480Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9991",
     "name": "TITAN BUFF S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57214,12 +57214,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T15:40:52.087Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9992",
     "name": "BENZIMIDAZOLONE YELLOW LIGHT III S3",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57232,12 +57232,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9998",
     "name": "NICKEL AZO YELLOW S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57250,12 +57250,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a3",
     "name": "QUINACRIDONE MAGENTA S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57268,12 +57268,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T15:38:49.323Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a5",
     "name": "PERMANENT VIOLET DARK S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57286,12 +57286,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T15:36:07.118Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c1",
     "name": "TRANSPARENT RED IRON OXIDE S3",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57304,12 +57304,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-05T15:42:39.242Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9997",
     "name": "DIARYLIDE YELLOW S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57322,12 +57322,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999f",
     "name": "PRIMARY MAGENTA S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57340,12 +57340,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T15:37:34.753Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b9",
     "name": "PHTHALO GREEN (YELLOW SHADE) S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57358,12 +57358,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bc",
     "name": "CHROMIUM OXIDE GREEN S3",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57376,12 +57376,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99be",
     "name": "NAPLES YELLOW HUE S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57394,12 +57394,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9987",
     "name": "LIGHT ULTRAMARINE II S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57412,12 +57412,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-05T15:34:17.034Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999b",
     "name": "PYRROLE ORANGE S8",
-    "price": 10,
+    "price": 49.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57430,12 +57430,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T15:38:28.822Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999e",
     "name": "CADMIUM RED MEDIUM HUE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57448,12 +57448,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T08:32:01.994Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a4",
     "name": "QUINACRIDONE VIOLET S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57466,12 +57466,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c2",
     "name": "RED OXIDE S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57484,12 +57484,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-05T15:40:17.558Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c4",
     "name": "BURNT UMBER LIGHT S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57502,12 +57502,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d7",
     "name": "INTERFERENCE BLUE (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57520,12 +57520,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9986",
     "name": "LIGHT MAGENTA II S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57538,7 +57538,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9993",
@@ -57564,7 +57564,7 @@
   {
     "_id": "6ac129d12655a4676bcb9994",
     "name": "PRIMARY YELLOW S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57577,12 +57577,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T15:37:42.902Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a2",
     "name": "ALIZARIN CRIMSON HUE S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57595,12 +57595,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-04T06:20:39.198Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ac",
     "name": "PRUSSIAN BLUE HUE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57613,12 +57613,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ba",
     "name": "PERMANENT GREEN LIGHT S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57631,12 +57631,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T15:35:56.166Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bf",
     "name": "YELLOW OCHRE S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57649,12 +57649,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9999",
     "name": "INDIAN YELLOW HUE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57667,12 +57667,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T08:38:34.447Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999c",
     "name": "NAPHTHOL RED LIGHT S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57685,12 +57685,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a6",
     "name": "ULTRAMARINE VIOLET S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57703,12 +57703,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99aa",
     "name": "CERULEAN BLUE, CHROMIUM S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57721,12 +57721,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cd",
     "name": "IRIDESCENT GOLD (FINE) S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57739,12 +57739,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:40:53.237Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d8",
     "name": "INTERFERENCE GREEN (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57757,12 +57757,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9989",
     "name": "FLUORESCENT YELLOW V S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57775,12 +57775,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998d",
     "name": "FLUORESCENT MAGENTA V S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57793,12 +57793,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b5",
     "name": "COBALT TURQUOIS S8",
-    "price": 10,
+    "price": 49.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57811,12 +57811,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b7",
     "name": "SAP GREEN HUE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57829,12 +57829,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ca",
     "name": "IRIDESCENT COPPER LIGHT (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57847,12 +57847,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:41:13.423Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cb",
     "name": "IRIDESCENT COPPER (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57865,12 +57865,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:40:43.211Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ce",
     "name": "IRIDESCENT GOLD DEEP (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57883,12 +57883,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:46:52.082Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d0",
     "name": "IRIDESCENT PEARL (FINE) S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57901,12 +57901,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:41:30.942Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d3",
     "name": "MICACEOUS IRON OXIDE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57919,12 +57919,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9990",
     "name": "ZINC WHITE S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57937,12 +57937,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T15:45:00.723Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9996",
     "name": "CADMIUM YELLOW MEDIUM HUE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57955,12 +57955,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-05T08:36:17.991Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ab",
     "name": "ANTHRAQUINONE BLUE S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -57973,12 +57973,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b4",
     "name": "TURQUOIS (PHTHALO) S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -57991,12 +57991,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T15:44:01.939Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b8",
     "name": "VIRIDIAN GREEN HUE S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58009,12 +58009,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9995",
     "name": "HANSA YELLOW OPAQUE S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58027,12 +58027,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a9",
     "name": "COBALT BLUE S8",
-    "price": 10,
+    "price": 49.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58045,12 +58045,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b6",
     "name": "PHTHALO GREEN (BLUE SHADE) S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58063,12 +58063,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T15:37:12.141Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998b",
     "name": "FLUORESCENT PINK V S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58081,12 +58081,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ad",
     "name": "PHTHALO BLUE (RED SHADE) S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58099,12 +58099,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b1",
     "name": "MANGANESE BLUE HUE S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58117,12 +58117,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b3",
     "name": "TITAN GREEN PALE I S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58135,12 +58135,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c5",
     "name": "RAW UMBER S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58153,12 +58153,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-05T15:39:52.301Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cc",
     "name": "IRIDESCENT BRONZE (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58171,12 +58171,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T15:33:46.516Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a0",
     "name": "NAPHTHOL RED MEDIUM S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58189,7 +58189,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c3",
@@ -58215,7 +58215,7 @@
   {
     "_id": "6ac129d12655a4676bcb99c6",
     "name": "VAN DYKE BROWN HUE S3",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58228,12 +58228,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb9988",
     "name": "TITAN MARS PALE I S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58246,12 +58246,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.851Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999d",
     "name": "PYRROLE RED S8",
-    "price": 10,
+    "price": 49.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58264,12 +58264,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T15:38:39.607Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a8",
     "name": "ULTRAMARINE BLUE S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58282,12 +58282,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T15:44:10.112Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d1",
     "name": "IRIDESCENT SILVER (FINE) S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58300,12 +58300,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:41:39.126Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d4",
     "name": "INTERFERENCE GOLD (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58318,12 +58318,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:38:56.933Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d9",
     "name": "COBALT TEAL S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58336,12 +58336,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a7",
     "name": "DIOXAZINE PURPLE S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58354,12 +58354,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T08:37:42.002Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99b2",
     "name": "TEAL S3",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58372,12 +58372,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T15:40:46.943Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99bb",
     "name": "JENKINS GREEN S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58390,12 +58390,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T08:41:49.469Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c0",
     "name": "RAW SIENNA S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58408,12 +58408,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-05T15:39:47.597Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c7",
     "name": "BONE BLACK S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58426,12 +58426,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-05T08:35:50.761Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c8",
     "name": "CARBON BLACK S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58444,12 +58444,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.855Z",
-    "updatedAt": "2026-10-05T15:32:28.955Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99cf",
     "name": "IRIDESCENT BRIGHT GOLD (FINE) S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58462,12 +58462,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T08:40:27.146Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99a1",
     "name": "QUINACRIDONE RED S6",
-    "price": 10,
+    "price": 41.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58480,12 +58480,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.853Z",
-    "updatedAt": "2026-10-05T15:38:56.188Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99ae",
     "name": "PHTHALO BLUE (GREEN SHADE) S4",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58498,12 +58498,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T15:36:41.437Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99af",
     "name": "PRIMARY CYAN S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58516,12 +58516,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.854Z",
-    "updatedAt": "2026-10-05T15:37:25.352Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99d5",
     "name": "RED FINE INTERFERENCE S7",
-    "price": 10,
+    "price": 45.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58534,12 +58534,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998c",
     "name": "FLUORESCENT GREEN V S5",
-    "price": 10,
+    "price": 38,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58552,12 +58552,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb998e",
     "name": "LIGHT PHTHALO BLUE I S1",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58570,12 +58570,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb999a",
     "name": "VAT ORANGE S8",
-    "price": 10,
+    "price": 49.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -58588,12 +58588,12 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.852Z",
-    "updatedAt": "2026-10-03T16:19:29.289Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac129d12655a4676bcb99c9",
     "name": "PAYNE'S GREY S2",
-    "price": 10,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -58606,7 +58606,7 @@
     "searchKeywords": "Golden, Fluid, גולדן, פלואיד",
     "__v": 0,
     "createdAt": "2026-10-03T16:14:09.856Z",
-    "updatedAt": "2026-10-05T15:35:47.248Z"
+    "updatedAt": "2026-10-08T13:43:06.948Z"
   },
   {
     "_id": "6ac13de74eecfc9a65af74d3",
@@ -62707,7 +62707,7 @@
   {
     "_id": "6ac5cd95dad81870af3c02a7",
     "name": "משחת עיצוב חלקה/MODELING 1000 מ\"ל",
-    "price": 76.9,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62716,11 +62716,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "משחות עיצוב",
     "img": "https://static.wixstatic.com/media/64857f_5d47fc36469e461f9be30e90d0df39e4~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_5d47fc36469e461f9be30e90d0df39e4~mv2.jpg",
-    "sku": "7290013877369",
+    "sku": "",
     "searchKeywords": "הניג, משחת עיצוב, modeling paste, מדיום לציור, 1000 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T04:41:57.379Z",
-    "updatedAt": "2026-10-08T13:42:38.799Z",
+    "updatedAt": "2026-10-08T13:43:06.948Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -62764,7 +62764,7 @@
   {
     "_id": "6ac5cebe57ed73e342082437",
     "name": "משחת עיצוב חולית/SAND TEXTURE 1000 מ\"ל",
-    "price": 86.2,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62773,11 +62773,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "משחות עיצוב",
     "img": "https://static.wixstatic.com/media/64857f_3fb7942982444c809351949d8f789740~mv2.png/v1/fill/w_980,h_1267,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_3fb7942982444c809351949d8f789740~mv2.png",
-    "sku": "7290008985284",
+    "sku": "",
     "searchKeywords": "הניג, משחת עיצוב חולית, sand texture, XTC, מדיום לציור, 1000 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T04:46:54.368Z",
-    "updatedAt": "2026-10-08T13:37:46.400Z",
+    "updatedAt": "2026-10-08T13:43:06.948Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -62785,7 +62785,7 @@
   {
     "_id": "6ac5cebe57ed73e342082436",
     "name": "משחת עיצוב חולית/SAND TEXTURE 500 מ\"ל",
-    "price": 49.5,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62794,11 +62794,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "משחות עיצוב",
     "img": "https://static.wixstatic.com/media/64857f_34586b7d4b4b404f883d3e00c2723c68~mv2.png/v1/fill/w_980,h_1054,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_34586b7d4b4b404f883d3e00c2723c68~mv2.png",
-    "sku": "7290008985277",
+    "sku": "",
     "searchKeywords": "הניג, משחת עיצוב חולית, sand texture, XTC, מדיום לציור, 500 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T04:46:54.368Z",
-    "updatedAt": "2026-10-08T13:40:34.126Z",
+    "updatedAt": "2026-10-08T13:43:06.948Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -62806,7 +62806,7 @@
   {
     "_id": "6ac5cebe57ed73e342082435",
     "name": "משחת עיצוב חולית/SAND TEXTURE 220 מ\"ל",
-    "price": 49.5,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62815,11 +62815,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "משחות עיצוב",
     "img": "https://static.wixstatic.com/media/64857f_4586c330d60b4f49af0f6e0541fbbf3a~mv2.png/v1/fill/w_980,h_929,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/64857f_4586c330d60b4f49af0f6e0541fbbf3a~mv2.png",
-    "sku": "5296408985277",
+    "sku": "",
     "searchKeywords": "הניג, משחת עיצוב חולית, sand texture, XTC, מדיום לציור, 220 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T04:46:54.368Z",
-    "updatedAt": "2026-10-08T13:39:02.644Z",
+    "updatedAt": "2026-10-08T13:43:06.948Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
