@@ -8103,7 +8103,7 @@
     "name": "גליון מפל",
     "description": "<p dir=\"rtl\">מפל/פוליפרופילן בגודל 100/70</p><p dir=\"rtl\">יש לבחור צבע</p>",
     "img": "733145_5528bcb92661431a908774255250d51d~mv2.jpg",
-    "price": 5.9,
+    "price": 7.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -8111,7 +8111,7 @@
     "category": "חומרי יצירה",
     "sub_cat": "מפל - פוליפרופילן",
     "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
+    "updatedAt": "2026-10-08T10:23:01.489Z",
     "variantLabel": "צבע",
     "variants": [
       {
@@ -8139,7 +8139,9 @@
         "swatch": "#FFFFFF"
       }
     ],
-    "noCoupon": true
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": ""
   },
   {
     "_id": "66844bfdf2e4e8f57277057b",
