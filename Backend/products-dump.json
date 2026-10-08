@@ -62813,7 +62813,7 @@
   {
     "_id": "6ac5d041e409b42368c74b5f",
     "name": "XTC ג'סו אקרילי לבן 220 מ\"ל",
-    "price": 50,
+    "price": 21.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62826,7 +62826,10 @@
     "searchKeywords": "הניג, XTC, ג'סו אקרילי, gesso, מדיום לציור, 220 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T04:53:21.254Z",
-    "updatedAt": "2026-10-07T04:53:21.254Z"
+    "updatedAt": "2026-10-08T08:31:13.821Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac5d041e409b42368c74b61",
