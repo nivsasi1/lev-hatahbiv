@@ -64850,7 +64850,7 @@
   },
   {
     "_id": "6ac81800c2c345b6393f2c0e",
-    "name": "בלוק דפי קנווס כותנה 100% מצופה Panart 9x12 אינץ'",
+    "name": "בלוק דפי קנווס Panart 30x23 ס\"מ",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -64864,11 +64864,14 @@
     "searchKeywords": "פנארט, Panart, בלוק קנווס, בלוק קנבס, canvas pad, כותנה, 9x12, 23x30.5 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-08T22:24:00.165Z",
-    "updatedAt": "2026-10-08T22:24:00.165Z"
+    "updatedAt": "2026-10-08T22:32:37.052Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac81800c2c345b6393f2c0f",
-    "name": "בלוק דפי קנווס כותנה 100% מצופה Panart 12x16 אינץ'",
+    "name": "בלוק דפי קנווס Panart 30x40 ס\"מ",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -64882,11 +64885,14 @@
     "searchKeywords": "פנארט, Panart, בלוק קנווס, בלוק קנבס, canvas pad, כותנה, 12x16, 30.5x40.5 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-08T22:24:00.260Z",
-    "updatedAt": "2026-10-08T22:24:00.260Z"
+    "updatedAt": "2026-10-08T22:31:21.731Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac81800c2c345b6393f2c10",
-    "name": "בלוק דפי קנווס כותנה 100% מצופה Panart 16x20 אינץ'",
+    "name": "בלוק דפי קנווס Panart 40x50 ס\"מ",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -64900,11 +64906,14 @@
     "searchKeywords": "פנארט, Panart, בלוק קנווס, בלוק קנבס, canvas pad, כותנה, 16x20, 40.5x51 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-08T22:24:00.260Z",
-    "updatedAt": "2026-10-08T22:24:00.260Z"
+    "updatedAt": "2026-10-08T22:31:50.347Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac81800c2c345b6393f2c11",
-    "name": "בלוק דפי קנווס כותנה 100% מצופה Panart 18x24 אינץ'",
+    "name": "בלוק דפי קנווס Panart 45x60 ס\"מ",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -64918,6 +64927,9 @@
     "searchKeywords": "פנארט, Panart, בלוק קנווס, בלוק קנבס, canvas pad, כותנה, 18x24, 45.5x61 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-08T22:24:00.260Z",
-    "updatedAt": "2026-10-08T22:24:00.260Z"
+    "updatedAt": "2026-10-08T22:32:13.975Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
