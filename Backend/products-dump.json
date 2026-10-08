@@ -63025,7 +63025,7 @@
   {
     "_id": "6ac6a3397a2d39285169f919",
     "name": "לכות על בסיס מים/גימור מבריק 220 מ\"ל",
-    "price": 50,
+    "price": 32.5,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -63034,11 +63034,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "לכה אקרילית בסיס מים",
     "img": "1791402874380-513ecab7.jpg",
-    "sku": "",
+    "sku": "7290008985468",
     "searchKeywords": "הניג, לכה מבריק, לכה בסיס מים, varnish gloss, 220 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T19:53:29.641Z",
-    "updatedAt": "2026-10-08T07:58:44.287Z",
+    "updatedAt": "2026-10-08T08:06:25.810Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
