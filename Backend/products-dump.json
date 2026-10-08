@@ -63055,7 +63055,7 @@
   {
     "_id": "6ac6a4eb939a631ffb9bdec2",
     "name": "לכות על בסיס מים/גימור מט 1000 מ\"ל",
-    "price": 109.9,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -63064,11 +63064,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "לכה אקרילית בסיס מים",
     "img": "1791403328502-5b68e712.jpg",
-    "sku": "7290008985147",
+    "sku": "",
     "searchKeywords": "הניג, לכה מט, לכה בסיס מים, varnish matte, 1000 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T20:00:43.724Z",
-    "updatedAt": "2026-10-08T07:27:15.934Z",
+    "updatedAt": "2026-10-08T07:28:48.737Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -63139,7 +63139,7 @@
   {
     "_id": "6ac6a619b5e13b7f93feaee5",
     "name": "XTC ג'סו אקרילי שחור 220 מ\"ל",
-    "price": 25.9,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -63148,11 +63148,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "כללי",
     "img": "https://static.wixstatic.com/media/64857f_83b2b15533324094bb7a9647be0984c4~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_83b2b15533324094bb7a9647be0984c4~mv2.jpg",
-    "sku": "7290013877161",
+    "sku": "",
     "searchKeywords": "הניג, XTC, ג'סו אקרילי שחור, black gesso, מדיום לציור, 220 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T20:05:45.048Z",
-    "updatedAt": "2026-10-08T07:24:35.116Z",
+    "updatedAt": "2026-10-08T07:28:48.737Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -63160,7 +63160,7 @@
   {
     "_id": "6ac6a619b5e13b7f93feaee6",
     "name": "XTC ג'סו אקרילי שחור 500 מ\"ל",
-    "price": 44.9,
+    "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -63169,11 +63169,11 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "כללי",
     "img": "https://static.wixstatic.com/media/64857f_5742658bcd4e4b7d9ae325ec24b30260~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_5742658bcd4e4b7d9ae325ec24b30260~mv2.jpg",
-    "sku": "15158772",
+    "sku": "",
     "searchKeywords": "הניג, XTC, ג'סו אקרילי שחור, black gesso, מדיום לציור, 500 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T20:05:45.048Z",
-    "updatedAt": "2026-10-08T07:26:13.859Z",
+    "updatedAt": "2026-10-08T07:28:48.737Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -63202,7 +63202,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-102 Dalai Orange, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63212,7 +63212,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-102 Dalai Orange",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.499Z",
-    "updatedAt": "2026-10-08T05:11:49.499Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596942",
@@ -63220,7 +63220,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-322 Medusa Red, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63230,7 +63230,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-322 Medusa Red",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.499Z",
-    "updatedAt": "2026-10-08T05:11:49.499Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596943",
@@ -63238,7 +63238,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-323 Vice Pink, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63248,7 +63248,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-323 Vice Pink",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.499Z",
-    "updatedAt": "2026-10-08T05:11:49.499Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596944",
@@ -63256,7 +63256,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-224 Witch Violet, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63266,7 +63266,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-224 Witch Violet",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.500Z",
-    "updatedAt": "2026-10-08T05:11:49.500Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596945",
@@ -63274,7 +63274,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-321 April Violet, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63284,7 +63284,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-321 April Violet",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.500Z",
-    "updatedAt": "2026-10-08T05:11:49.500Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596946",
@@ -63292,7 +63292,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-326 Gumball Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63302,7 +63302,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-326 Gumball Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.500Z",
-    "updatedAt": "2026-10-08T05:11:49.500Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596947",
@@ -63328,7 +63328,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-105 Tangerine, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63338,7 +63338,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-105 Tangerine",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.500Z",
-    "updatedAt": "2026-10-08T05:11:49.500Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596949",
@@ -63346,7 +63346,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-223 Buddha Red, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63356,7 +63356,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-223 Buddha Red",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.500Z",
-    "updatedAt": "2026-10-08T05:11:49.500Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59694a",
@@ -63382,7 +63382,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-225 Geisha Violet, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63392,7 +63392,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-225 Geisha Violet",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.500Z",
-    "updatedAt": "2026-10-08T05:11:49.500Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59694c",
@@ -63634,7 +63634,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-169 Taurus Red, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63644,7 +63644,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-169 Taurus Red",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59695a",
@@ -63688,7 +63688,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-265 Kruger Brown, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63698,7 +63698,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-265 Kruger Brown",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59695d",
@@ -63706,7 +63706,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-347 East Orange, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63716,7 +63716,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-347 East Orange",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59695e",
@@ -63742,7 +63742,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-324 Red Wine, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63752,7 +63752,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-324 Red Wine",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596960",
@@ -63760,7 +63760,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-28 Cosmos Violet, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63770,7 +63770,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-28 Cosmos Violet",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596961",
@@ -63778,7 +63778,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-154 Twister Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63788,7 +63788,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-154 Twister Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596962",
@@ -63796,7 +63796,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-327 Kathmandu Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63806,7 +63806,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-327 Kathmandu Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596963",
@@ -63814,7 +63814,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-336 Mykonos Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63824,7 +63824,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-336 Mykonos Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596964",
@@ -63832,7 +63832,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-341 Hawaii Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63842,7 +63842,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-341 Hawaii Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.501Z",
-    "updatedAt": "2026-10-08T05:11:49.501Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596965",
@@ -63868,7 +63868,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-235 Poison Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63878,7 +63878,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-235 Poison Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.592Z",
-    "updatedAt": "2026-10-08T05:11:49.592Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596967",
@@ -63886,7 +63886,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-329 Vera Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63896,7 +63896,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-329 Vera Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.592Z",
-    "updatedAt": "2026-10-08T05:11:49.592Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596968",
@@ -63904,7 +63904,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-345 Peyote Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63914,7 +63914,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-345 Peyote Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.592Z",
-    "updatedAt": "2026-10-08T05:11:49.592Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596969",
@@ -63940,7 +63940,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-337 Ona Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -63950,7 +63950,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-337 Ona Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.592Z",
-    "updatedAt": "2026-10-08T05:11:49.592Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59696b",
@@ -64030,7 +64030,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-179 Bonsai Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64040,7 +64040,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-179 Bonsai Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596970",
@@ -64066,7 +64066,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-338 123 Klan Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64076,7 +64076,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-338 123 Klan Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596972",
@@ -64084,7 +64084,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-343 Reef Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64094,7 +64094,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-343 Reef Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596973",
@@ -64102,7 +64102,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-220 UFO Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64112,7 +64112,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-220 UFO Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596974",
@@ -64120,7 +64120,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-333 Eva Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64130,7 +64130,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-333 Eva Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596975",
@@ -64246,7 +64246,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-334 Guernica Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64256,7 +64256,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-334 Guernica Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59697c",
@@ -64264,7 +64264,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-1127 Era Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64274,7 +64274,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-1127 Era Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59697d",
@@ -64282,7 +64282,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-346 Nebraska Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64292,7 +64292,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-346 Nebraska Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59697e",
@@ -64300,7 +64300,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-328 Abyss Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64310,7 +64310,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-328 Abyss Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59697f",
@@ -64318,7 +64318,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-234 Indigo Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64328,7 +64328,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-234 Indigo Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596980",
@@ -64354,7 +64354,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-335 Serengeti Green, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64364,7 +64364,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-335 Serengeti Green",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596982",
@@ -64390,7 +64390,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-331 Elephant Grey, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64400,7 +64400,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-331 Elephant Grey",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596984",
@@ -64408,7 +64408,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-6 Light Grey, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64418,7 +64418,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-6 Light Grey",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596985",
@@ -64462,7 +64462,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון Spectral Air White, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64472,7 +64472,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, Spectral Air White",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.593Z",
-    "updatedAt": "2026-10-08T05:11:49.593Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596988",
@@ -64498,7 +64498,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-302 Koala Grey, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64508,7 +64508,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-302 Koala Grey",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.594Z",
-    "updatedAt": "2026-10-08T05:11:49.594Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59698a",
@@ -64516,7 +64516,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-7047 Siberian Grey, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64526,7 +64526,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-7047 Siberian Grey",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.594Z",
-    "updatedAt": "2026-10-08T05:11:49.594Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59698b",
@@ -64570,7 +64570,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון Spectral Black Shadow, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64580,7 +64580,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, Spectral Black Shadow",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.594Z",
-    "updatedAt": "2026-10-08T05:11:49.594Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59698e",
@@ -64588,7 +64588,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-330 Anubis Brown, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64598,7 +64598,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-330 Anubis Brown",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.594Z",
-    "updatedAt": "2026-10-08T05:11:49.594Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d59698f",
@@ -64606,7 +64606,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון RV-332 Pinocchio Grey, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64616,7 +64616,7 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, RV-332 Pinocchio Grey",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.594Z",
-    "updatedAt": "2026-10-08T05:11:49.594Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   },
   {
     "_id": "6ac72615d22d6f5a7d596990",
@@ -64804,7 +64804,7 @@
     "price": 47,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספריי צבע MTN Water Based 400 של Montana Colors בגוון Fluorescent Blue, מסדרת MTN WB4. ספריי אקרילי על בסיס מים בגימור מאט, מתאים לאמנות, גרפיטי, ציורי קיר ועבודות DIY. נפח: 400 מ\"ל. כל בקבוקון מגיע עם פוקט קאפ.</p>",
     "category": "צבעים להובי",
     "sub_cat": "ספריי צבע",
@@ -64814,6 +64814,6 @@
     "searchKeywords": "מונטנה, MTN, ספריי צבע, water based, גרפיטי, Fluorescent Blue",
     "__v": 0,
     "createdAt": "2026-10-08T05:11:49.594Z",
-    "updatedAt": "2026-10-08T05:11:49.594Z"
+    "updatedAt": "2026-10-08T07:28:48.737Z"
   }
 ]
