@@ -17181,23 +17181,6 @@
     "variants": []
   },
   {
-    "_id": "66844bfdf2e4e8f572770790",
-    "id": "product_78219a99-0d2a-5e62-1269-a17c27def5f9",
-    "name": "כן ציור פינים שולחני עץ",
-    "description": "<p>&nbsp;</p>",
-    "img": "733145_756d796ccd9741f2934f215db6a83d56.jpg",
-    "price": 79,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": true,
-    "category": "כני ציור",
-    "sub_cat": "כני ציור שולחני",
-    "third_level": "כללי",
-    "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
-  },
-  {
     "_id": "66844bfdf2e4e8f572770791",
     "id": "product_e248849e-72c0-1e71-21a1-36579ddb08c5",
     "name": "כן ציור שולחני מתקפל מתכת",
@@ -17230,23 +17213,6 @@
     "third_level": "כללי",
     "searchKeywords": "Mont Marte",
     "updatedAt": "2026-09-16T14:19:54.857Z",
-    "noCoupon": true
-  },
-  {
-    "_id": "66844bfdf2e4e8f572770793",
-    "id": "product_dd1e1547-159c-cbe0-e9fe-a7a728cf4680",
-    "name": "כן ציור 3 רגלים עם פינים להחזקת הקנווס",
-    "description": "<p dir=\"rtl\">כן פשוט וזול עשוי&nbsp;עץ . מתאים לקנווסים לא גדולים במיוחד,&nbsp; מורכב ומוכן לשימוש מיידי.<br>&nbsp;</p>",
-    "img": "733145_abd9445c87d2428badb2f579de41749c.jpg",
-    "price": 89,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": false,
-    "category": "כני ציור",
-    "sub_cat": "כני ציור סטודיו",
-    "third_level": "כללי",
-    "updatedAt": "2026-09-16T14:19:51.899Z",
     "noCoupon": true
   },
   {
