@@ -43011,7 +43011,7 @@
   {
     "_id": "6aaebff1af8d880a403a9bc5",
     "name": "מכחול שטוח (בְּרַייט) לאקריליק PanArt Echo סדרה 5764",
-    "price": 50,
+    "price": 14.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -43024,42 +43024,53 @@
     "searchKeywords": "PanArt, Echo, מכחול אקריליק, מכחול סינתטי",
     "__v": 0,
     "createdAt": "2026-09-19T17:01:37.782Z",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
+    "updatedAt": "2026-10-08T14:27:42.139Z",
     "noCoupon": true,
     "variantLabel": "גודל",
     "variants": [
       {
-        "key": "1"
+        "key": "1",
+        "price": 14.9
       },
       {
-        "key": "2"
+        "key": "2",
+        "price": 14.9
       },
       {
-        "key": "4"
+        "key": "4",
+        "price": 19.9
       },
       {
-        "key": "6"
+        "key": "6",
+        "price": 19.9
       },
       {
-        "key": "8"
+        "key": "8",
+        "price": 19.9
       },
       {
-        "key": "10"
+        "key": "10",
+        "price": 24.9
       },
       {
-        "key": "12"
+        "key": "12",
+        "price": 24.9
       },
       {
-        "key": "14"
+        "key": "14",
+        "price": 29.9
       },
       {
-        "key": "16"
+        "key": "16",
+        "price": 29.9
       },
       {
-        "key": "20"
+        "key": "20",
+        "price": 35.9
       },
       {
-        "key": "24"
+        "key": "24",
+        "price": 39.9
       }
     ]
   },
