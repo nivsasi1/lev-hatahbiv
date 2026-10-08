@@ -43079,39 +43079,49 @@
     "searchKeywords": "PanArt, Echo, מכחול אקריליק, מכחול סינתטי",
     "__v": 0,
     "createdAt": "2026-09-19T17:01:37.782Z",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
+    "updatedAt": "2026-10-08T14:26:26.217Z",
     "noCoupon": true,
     "variantLabel": "גודל",
     "variants": [
       {
-        "key": "2"
+        "key": "2",
+        "price": 19.9
       },
       {
-        "key": "4"
+        "key": "4",
+        "price": 19.9
       },
       {
-        "key": "6"
+        "key": "6",
+        "price": 19.9
       },
       {
-        "key": "8"
+        "key": "8",
+        "price": 19.9
       },
       {
-        "key": "10"
+        "key": "10",
+        "price": 24.9
       },
       {
-        "key": "12"
+        "key": "12",
+        "price": 24.9
       },
       {
-        "key": "14"
+        "key": "14",
+        "price": 24.9
       },
       {
-        "key": "16"
+        "key": "16",
+        "price": 29.9
       },
       {
-        "key": "20"
+        "key": "20",
+        "price": 39.9
       },
       {
-        "key": "24"
+        "key": "24",
+        "price": 39.9
       }
     ]
   },
