@@ -62731,7 +62731,7 @@
   {
     "_id": "6ac5cd95dad81870af3c02a8",
     "name": "משחת עיצוב חלקה/MODELING 4000 מ\"ל",
-    "price": 50,
+    "price": 259.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62740,11 +62740,14 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "משחות עיצוב",
     "img": "https://static.wixstatic.com/media/64857f_4c81c457a1814714a063b536a6545b20~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_4c81c457a1814714a063b536a6545b20~mv2.jpg",
-    "sku": "",
+    "sku": "7290008985376",
     "searchKeywords": "הניג, משחת עיצוב, modeling paste, מדיום לציור, 4000 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T04:41:57.379Z",
-    "updatedAt": "2026-10-07T04:41:57.379Z"
+    "updatedAt": "2026-10-08T14:06:11.722Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac5cd95dad81870af3c02a5",
