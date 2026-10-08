@@ -62953,7 +62953,7 @@
   {
     "_id": "6ac6a1f07a2d39285169f909",
     "name": "לכות על בסיס מים/לכה סאטין 100 מ\"ל",
-    "price": 50,
+    "price": 21.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -62962,11 +62962,14 @@
     "sub_cat": "מדיומים לציור",
     "third_level": "לכה אקרילית בסיס מים",
     "img": "https://static.wixstatic.com/media/64857f_01812165d15a4768b27498a7bf1ac062~mv2.jpg/v1/fill/w_1200,h_1200,al_c,q_90/64857f_01812165d15a4768b27498a7bf1ac062~mv2.jpg",
-    "sku": "",
+    "sku": "7290008985499",
     "searchKeywords": "הניג, לכה סאטין, לכה בסיס מים, varnish, 100 מ\"ל",
     "__v": 0,
     "createdAt": "2026-10-07T19:48:00.155Z",
-    "updatedAt": "2026-10-07T19:48:00.155Z"
+    "updatedAt": "2026-10-08T07:59:56.503Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac6a3397a2d39285169f917",
