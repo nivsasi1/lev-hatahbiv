@@ -18606,26 +18606,12 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "כללי",
-    "updatedAt": "2026-09-28T18:01:46.571Z",
+    "updatedAt": "2026-10-08T08:20:43.968Z",
     "variantLabel": "כמות",
-    "variants": [
-      {
-        "key": "220 מ\"ל",
-        "price": 19.9,
-        "sku": "7290008985239"
-      },
-      {
-        "key": "500 מ\"ל",
-        "price": 33.7,
-        "sku": "7290008985246"
-      },
-      {
-        "key": "1000 מ\"ל",
-        "price": 59.9,
-        "sku": "7290008985253"
-      }
-    ],
-    "noCoupon": true
+    "variants": [],
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": "7290008985239"
   },
   {
     "_id": "66844bfdf2e4e8f572770838",
