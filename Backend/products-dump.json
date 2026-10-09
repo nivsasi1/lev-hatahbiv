@@ -27681,7 +27681,7 @@
     "name": "צבע מים כפתורים אריזת מתכת טלנס סט 12",
     "img": "733145_e79063c01a9940fd9f2028a8aa8d49e5~mv2.jpg",
     "sku": "8712079104023",
-    "price": 68.4,
+    "price": 78.4,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -27690,7 +27690,11 @@
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - טאלנס / Royal Talens",
     "noCoupon": false,
-    "updatedAt": "2026-09-16T19:16:50.317Z"
+    "updatedAt": "2026-10-09T09:04:58.148Z",
+    "description": "",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770ad6",
