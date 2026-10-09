@@ -65516,5 +65516,26 @@
     "__v": 0,
     "createdAt": "2026-10-09T05:28:20.559Z",
     "updatedAt": "2026-10-09T05:29:13.449Z"
+  },
+  {
+    "_id": "6ac8a20fa56e885fa4b7a8fc",
+    "name": "סט 15 מכחולים GOLDEN TEKLON",
+    "price": 48,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": true,
+    "isActive": true,
+    "description": "סט של 15 מכחולים ידית ארוכה עם שיער גולד טקלון.\nכולל מברשת",
+    "category": "מכחולים ואביזרים",
+    "sub_cat": "מכחולים",
+    "third_level": "",
+    "img": "1791533403729-594d7206.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "",
+    "searchKeywords": "סט מכחולים, ידית ארוכה, גולד טקלון",
+    "createdAt": "2026-10-09T08:13:03.632Z",
+    "updatedAt": "2026-10-09T08:13:03.632Z",
+    "__v": 0
   }
 ]
