@@ -5572,7 +5572,7 @@
     "name": "מחק מונו זירו מלבן MONO ZERO TOMBOW",
     "description": "<p dir=\"rtl\">מחק מעולה למחיקת פרטים מדוייקים.</p><p dir=\"rtl\">חברת TOMBOOW</p><p dir=\"rtl\">מחק במורת מלבן</p><p dir=\"rtl\">3 דגמים לבחירה (כסף,שחור,מפוספס)</p>",
     "img": "733145_b8952ae8f005437595542e1756bd3854~mv2.jpg",
-    "price": 22,
+    "price": 25.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -5580,10 +5580,13 @@
     "category": "רישום ועפרונות",
     "sub_cat": "חומרי עזר לעפרונות",
     "third_level": "כללי",
-    "updatedAt": "2026-10-06T20:34:40.362Z",
+    "updatedAt": "2026-10-09T06:48:04.989Z",
     "searchKeywords": "טומבו",
     "noCoupon": true,
-    "isActive": true
+    "isActive": true,
+    "sku": "4901991652529",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277049f",
