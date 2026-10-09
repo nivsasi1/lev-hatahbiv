@@ -27719,7 +27719,7 @@
     "name": "סט צבעי מים 12 כפתורים של KOI",
     "img": "733145_188abc161d26413f861e286a22d98fb0~mv2.jpg",
     "sku": "84511383821",
-    "price": 87.2,
+    "price": 92.6,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -27728,8 +27728,11 @@
     "sub_cat": "צבעי אקוורל",
     "third_level": "אקוורל כפתורים - KOI",
     "searchKeywords": "Sakura, סקורה",
-    "updatedAt": "2026-09-16T19:16:50.317Z",
-    "noCoupon": false
+    "updatedAt": "2026-10-09T09:12:25.734Z",
+    "noCoupon": false,
+    "description": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770ad8",
