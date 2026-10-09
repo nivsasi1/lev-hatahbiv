@@ -65397,7 +65397,7 @@
   {
     "_id": "6ac87a82344d6ff2d25dc28a",
     "name": "בלוק נייר 21x29.7 ס\"מ PaintON Mix 9 250g Multi-Technique",
-    "price": 50,
+    "price": 55.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -65410,7 +65410,10 @@
     "searchKeywords": "קלרפונטיין, Clairefontaine, PaintON, בלוק נייר, Mix 9, נייר מגוון, מיקס מדיה, 21x29.7 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-09T05:24:18.701Z",
-    "updatedAt": "2026-10-09T05:24:18.701Z"
+    "updatedAt": "2026-10-09T06:16:27.994Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac87a82344d6ff2d25dc28b",
