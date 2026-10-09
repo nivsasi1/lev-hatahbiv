@@ -31875,7 +31875,7 @@
     "_id": "6a3689487d164beaf03f0b5a",
     "id": "product_506be9d1-b97b-1b18-2d60-3102fe1ec617",
     "name": "קוהינור 36",
-    "price": 63.9,
+    "price": 69.9,
     "salePercentage": 0,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -31887,9 +31887,11 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
+    "updatedAt": "2026-10-09T09:07:34.019Z",
     "searchKeywords": "Koh-I-Noor",
-    "noCoupon": true
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6a3689487d164beaf03f0b8a",
