@@ -65454,7 +65454,7 @@
   {
     "_id": "6ac87b74ef3d972bad997aeb",
     "name": "בלוק נייר A4 PaintON Assorted 250g Multi-Technique",
-    "price": 50,
+    "price": 47.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -65467,7 +65467,10 @@
     "searchKeywords": "קלרפונטיין, Clairefontaine, PaintON, בלוק נייר, Assorted, נייר מגוון, מיקס מדיה, A4, 21x29.7 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-09T05:28:20.559Z",
-    "updatedAt": "2026-10-09T05:28:20.559Z"
+    "updatedAt": "2026-10-09T06:25:30.151Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac87b74ef3d972bad997aec",
