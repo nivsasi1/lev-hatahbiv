@@ -16866,9 +16866,12 @@
     "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר מיקס-מדיה",
+    "third_level": "מיקס מדיה",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-09T20:16:57.992Z",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277076a",
@@ -16902,9 +16905,13 @@
     "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר מיקס-מדיה",
+    "third_level": "מיקס מדיה",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-09T20:16:22.915Z",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": [],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277076c",
@@ -16956,9 +16963,12 @@
     "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר מיקס-מדיה",
+    "third_level": "מיקס מדיה",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-09T20:16:36.324Z",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277076f",
@@ -16974,9 +16984,12 @@
     "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוקי נייר מיקס-מדיה",
+    "third_level": "מיקס מדיה",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-09T20:16:49.301Z",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770770",
