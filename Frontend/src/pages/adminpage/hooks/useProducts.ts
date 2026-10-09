@@ -5,6 +5,13 @@ import { ils } from "../lib/helpers";
 import { CSV_HEADERS } from "../lib/constants";
 import { csvEscape, downloadFile, protectDigits } from "../lib/csv";
 
+// the list's sort key: last edit time, unless the edit dialog pinned the row
+export const sortTime = (p: AdminProduct) => {
+  if (p.sortAt !== undefined) return p.sortAt;
+  const d = p.updatedAt || p.createdAt;
+  return d ? new Date(d).getTime() : -1;
+};
+
 // The products tab's list: search/status/price filters, derived counts, the
 // selection set + bulk actions, and the single-row actions. Reads the product
 // list from the shared context; owns only the view-local filter/selection state.
@@ -195,14 +202,10 @@ export function useProducts() {
   // ---- derived list ----
   // newest-edited first; undated products keep their relative order (stable).
   const sortedProducts = useMemo(() => {
-    const t = (p: AdminProduct) => {
-      const d = p.updatedAt || p.createdAt;
-      return d ? new Date(d).getTime() : -1;
-    };
     return [...products]
       .map((p, i) => [p, i] as const)
       .sort((a, b) => {
-        const diff = t(b[0]) - t(a[0]);
+        const diff = sortTime(b[0]) - sortTime(a[0]);
         return diff !== 0 ? diff : a[1] - b[1];
       })
       .map(([p]) => p);

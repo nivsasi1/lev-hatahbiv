@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useAdmin } from "../context";
 import { categories } from "../../../data/catalog";
 import {
@@ -8,6 +8,7 @@ import {
   type FormVariant,
   type ProductForm,
 } from "../lib/types";
+import { sortTime } from "./useProducts";
 
 // Mongo variants <-> editable rows (inputs hold strings)
 const toFormVariants = (v?: AdminVariant[]): FormVariant[] =>
@@ -39,16 +40,27 @@ export const skusOf = (p: { sku?: string; variants?: AdminVariant[] }) =>
 // The product add/edit form: its state, the cascading category fields with
 // data-driven autocomplete, image handling, and create/update submit.
 export function useProductForm() {
-  const { products, setProducts, call, act, uiConfirm, setError } = useAdmin();
+  const { products, setProducts, call, act, uiConfirm, setError, setNotice } = useAdmin();
 
   const [form, setForm] = useState<ProductForm>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
+  // the row that was just saved glows for a moment — the dialog closes in place,
+  // so this is the manager's "it worked" cue
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const savedTimer = useRef<number>();
 
   const patchLocal = (p: AdminProduct) =>
     setProducts((prev) => prev.map((x) => (x._id === p._id ? { ...x, ...p } : x)));
 
+  // the form dialog shows the banners itself, so start it without stale ones
+  const clearBanners = () => {
+    setError("");
+    setNotice("");
+  };
+
   const startEdit = (p: AdminProduct) => {
+    clearBanners();
     setEditingId(p._id);
     setShowAdd(false);
     setForm({
@@ -68,6 +80,7 @@ export function useProductForm() {
   };
 
   const duplicate = (p: AdminProduct) => {
+    clearBanners();
     setEditingId(null);
     setShowAdd(true);
     setForm({
@@ -84,7 +97,6 @@ export function useProductForm() {
       variants: toFormVariants(p.variants).map((v) => ({ ...v, sku: "" })),
       noCoupon: !!p.noCoupon,
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // a scanned (or typed) barcode: open the product that carries it (on itself or
@@ -100,22 +112,25 @@ export function useProductForm() {
     if (hit) {
       startEdit(hit.product);
     } else {
+      clearBanners();
       setEditingId(null);
       setShowAdd(true);
       setForm({ ...emptyForm, sku: code });
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
     return hit;
   };
 
   const toggleAdd = () => {
+    clearBanners();
     setShowAdd((v) => !v);
     setEditingId(null);
     setForm(emptyForm);
   };
 
+  // closes the dialog, whether it was editing or adding
   const cancelEdit = () => {
     setEditingId(null);
+    setShowAdd(false);
     setForm(emptyForm);
   };
 
@@ -169,22 +184,31 @@ export function useProductForm() {
       variants: apiVariants,
     };
     act(async () => {
+      let saved: AdminProduct;
       if (editingId) {
         const d = await call(`/products/${editingId}`, {
           method: "PUT",
           body: JSON.stringify(payload),
         });
-        patchLocal(d.product);
+        saved = d.product;
+        // the list sorts by last edit, so the fresh timestamp would fling the row
+        // to the top — out from under the manager. Pin it where it was instead.
+        const before = products.find((p) => p._id === editingId);
+        patchLocal(before ? { ...d.product, sortAt: sortTime(before) } : d.product);
       } else {
         const d = await call(`/products`, {
           method: "POST",
           body: JSON.stringify(payload),
         });
+        saved = d.product;
         setProducts((prev) => [d.product, ...prev]);
       }
       setEditingId(null);
       setShowAdd(false);
       setForm(emptyForm);
+      setSavedId(saved?._id ?? null);
+      window.clearTimeout(savedTimer.current);
+      savedTimer.current = window.setTimeout(() => setSavedId(null), 2400);
     }, editingId ? "המוצר עודכן" : "המוצר נוסף");
   };
 
@@ -245,6 +269,7 @@ export function useProductForm() {
     setForm,
     editingId,
     showAdd,
+    savedId,
     visible: showAdd || editingId !== null,
     startEdit,
     duplicate,

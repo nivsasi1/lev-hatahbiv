@@ -3043,7 +3043,7 @@ a.sub-chip {
 .ui-veil {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 600; /* over the dashboard's sticky publish banner (500) */
   display: grid;
   place-items: center;
   background: rgba(43, 36, 64, 0.45);

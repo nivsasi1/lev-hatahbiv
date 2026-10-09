@@ -219,6 +219,27 @@ body.lh-admin-clean { background: #eef1f6; }
   background: #f7f9ff;
 }
 
+/* dialog sheets (product form, order details) */
+.adm-clean .adm-sheet {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(40, 52, 67, 0.22);
+}
+.adm-clean .adm-sheet-head { border-bottom: 1px solid var(--line); }
+.adm-clean .adm-sheet-foot { border-top: 1px solid var(--line); }
+.adm-clean .adm-sheet-title h3 { font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+.adm-clean .adm-sheet-x { border: 1px solid var(--line-strong); background: #fff; }
+.adm-clean .adm-sheet-x:hover { background: #f3f6fb; }
+
+/* the filled edit button keeps its accent over the neutral row chips */
+.adm-clean .admin-row-actions .edit {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+  box-shadow: none;
+}
+.adm-clean .admin-row-actions .edit:hover { background: #2746b8; }
+
 /* =====================================================================
    Theme switch — segmented control (styled for BOTH themes so the user
    can always switch back). Lives in the dashboard header + login screen.

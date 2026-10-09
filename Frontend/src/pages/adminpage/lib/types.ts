@@ -28,6 +28,7 @@ export type AdminProduct = {
   searchKeywords?: string; // hidden search terms, never shown to shoppers
   createdAt?: string;
   updatedAt?: string;
+  sortAt?: number; // client-only: keeps a row edited this session in its list spot
 };
 
 // promise-based dialog (replaces native prompt/confirm)

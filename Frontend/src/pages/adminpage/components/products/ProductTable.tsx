@@ -16,7 +16,7 @@ export function ProductTable({ products, form }: { products: ProductsApi; form: 
           key={p._id}
           className={`admin-row ${p.isActive === false ? "inactive" : ""} ${
             p.isAvailable === false ? "oos" : ""
-          } ${selected.has(p._id) ? "row-selected" : ""}`}
+          } ${selected.has(p._id) ? "row-selected" : ""} ${form.savedId === p._id ? "just-saved" : ""}`}
         >
           <input
             type="checkbox"
@@ -67,8 +67,9 @@ export function ProductTable({ products, form }: { products: ProductsApi; form: 
             >
               📦
             </button>
-            <button data-tip="עריכת פרטים" aria-label="עריכת פרטים" onClick={() => form.startEdit(p)}>
-              ✏️
+            {/* the main action — wider, filled, and labelled */}
+            <button className="edit" aria-label="עריכת פרטים" onClick={() => form.startEdit(p)}>
+              ✏️ <span>עריכה</span>
             </button>
             <button data-tip="שכפול מוצר" aria-label="שכפול מוצר" onClick={() => form.duplicate(p)}>
               📋

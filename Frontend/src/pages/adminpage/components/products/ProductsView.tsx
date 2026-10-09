@@ -7,7 +7,7 @@ import type { Setter } from "../../lib/types";
 import { ProductFilters } from "./ProductFilters";
 import { SubscribersPanel } from "./SubscribersPanel";
 import { ImportPanel } from "./ImportPanel";
-import { ProductForm } from "./ProductForm";
+import { ProductFormDialog } from "./ProductForm";
 import { BulkBar } from "./BulkBar";
 import { ProductTable } from "./ProductTable";
 import { BarcodeScanner } from "./BarcodeScanner";
@@ -86,7 +86,7 @@ export function ProductsView({
 
       {scanOpen && <BarcodeScanner onDetected={handleScan} onClose={() => setScanOpen(false)} />}
       {csv.showImport && <ImportPanel csv={csv} />}
-      {form.visible && <ProductForm form={form} />}
+      {form.visible && <ProductFormDialog form={form} />}
 
       <div className="select-all-row">
         <label>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { useProductForm } from "../../hooks/useProductForm";
 import { imgUrl } from "../../lib/helpers";
 import { useAdmin } from "../../context";
@@ -44,8 +44,31 @@ const SkuField = ({
 
 type FormApi = ReturnType<typeof useProductForm>;
 
+// The form floats over the list as a dialog, so editing a row deep in the list
+// no longer throws the manager back to the top — and closing it leaves them on
+// the same row. Phone: a full-screen sheet with Save pinned at the bottom.
+export function ProductFormDialog({ form }: { form: FormApi }) {
+  const veil = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    // focus the dialog itself, not a field — a field would pop the phone keyboard
+    veil.current?.querySelector<HTMLElement>(".adm-sheet")?.focus({ preventScroll: true });
+    return () => {
+      document.body.style.overflow = prev;
+      opener?.focus?.({ preventScroll: true });
+    };
+  }, []);
+  return (
+    <div className="ui-veil adm-sheet-veil" ref={veil}>
+      <ProductForm form={form} />
+    </div>
+  );
+}
+
 export function ProductForm({ form }: { form: FormApi }) {
-  const { setNotice } = useAdmin();
+  const { setNotice, error, notice } = useAdmin();
   // which barcode field the scanner fills: the product's, or option row #n
   const [scanTarget, setScanTarget] = useState<null | "product" | number>(null);
   const {
@@ -63,8 +86,23 @@ export function ProductForm({ form }: { form: FormApi }) {
   } = form;
 
   return (
-    <form className="admin-form" onSubmit={submitForm}>
-      <h3 className="display">{editingId ? "עריכת מוצר" : "מוצר חדש"}</h3>
+    <form
+      className="admin-form adm-sheet"
+      onSubmit={submitForm}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pf-title"
+      tabIndex={-1}
+    >
+      <div className="adm-sheet-head">
+        <div className="adm-sheet-title">
+          <h3 className="display" id="pf-title">{editingId ? "עריכת מוצר" : "מוצר חדש"}</h3>
+          {editingId && data.name && <small>{data.name}</small>}
+        </div>
+        <button type="button" className="adm-sheet-x" aria-label="סגירה" onClick={cancelEdit}>
+          ✕
+        </button>
+      </div>
       <div className="admin-form-grid">
         <input
           placeholder="שם המוצר *"
@@ -135,6 +173,15 @@ export function ProductForm({ form }: { form: FormApi }) {
         מהמחשב בכפתור למטה · הקלדת שם קובץ שכבר קיים במאגר התמונות (S3) של החנות.
         התמונה הראשונה ברשימה היא התמונה הראשית.
       </p>
+      <label className="btn small ghost pf-upload">
+        📷 העלאת תמונה מהמחשב
+        <input
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={(e: any) => e.target.files?.[0] && uploadImage(e.target.files[0])}
+        />
+      </label>
       {data.imgs.length > 0 && (
         <div className="img-chips">
           {data.imgs.map((im, i) => (
@@ -292,24 +339,24 @@ export function ProductForm({ form }: { form: FormApi }) {
         מילות החיפוש לא מוצגות ללקוחות — הן רק עוזרות למצוא את המוצר בחיפוש (בחנות ובניהול),
         למשל שם המותג בעברית. מפרידים בפסיק או ברווח. ברקוד: סורק ברקוד ״מקליד״ את הספרות בעצמו.
       </p>
-      <div className="admin-form-foot">
-        <label className="btn small ghost">
-          📷 העלאת תמונה מהמחשב
-          <input
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(e: any) => e.target.files?.[0] && uploadImage(e.target.files[0])}
-          />
-        </label>
+      <div className="admin-form-foot adm-sheet-foot">
+        {/* the page banners sit behind the dialog — repeat them where the eye is */}
+        {error && (
+          <p className="admin-error adm-sheet-msg" role="alert">
+            {error}
+          </p>
+        )}
+        {notice && (
+          <p className="admin-notice adm-sheet-msg" role="status">
+            {notice}
+          </p>
+        )}
         <button className="btn small" type="submit">
           {editingId ? "שמירת שינויים" : "הוספת המוצר"}
         </button>
-        {editingId && (
-          <button type="button" className="btn small ghost" onClick={cancelEdit}>
-            ביטול
-          </button>
-        )}
+        <button type="button" className="btn small ghost" onClick={cancelEdit}>
+          ביטול
+        </button>
       </div>
           {scanTarget !== null && (
         <BarcodeScanner

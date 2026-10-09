@@ -507,3 +507,241 @@
   padding: 0.5em 0.9em;
   margin-top: 0.4rem;
 }
+
+/* ===========================================================================
+   Dialog sheets — the product add/edit form and the order details. Centered
+   over the page on desktop, full screen on a phone. The head and the action
+   row stay pinned while the middle scrolls, so Save / Close are one tap away
+   and the list behind keeps its scroll position.
+   =========================================================================== */
+.ui-veil.adm-sheet-veil {
+  z-index: 550; /* over the sticky publish banner (500), under confirm dialogs (600) */
+  animation: adm-veil-in 0.18s ease-out;
+}
+
+.adm-sheet {
+  --sheet-pad: 1.4rem;
+  width: min(54rem, 100%);
+  max-height: calc(100vh - 2.4rem);
+  max-height: calc(100dvh - 2.4rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 1.1rem;
+  box-shadow: 0.35em 0.35em 0 var(--shadow);
+  padding: 0 var(--sheet-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  animation: adm-sheet-in 0.26s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+.admin-form.adm-sheet {
+  margin: 0;
+  padding: 0 var(--sheet-pad);
+}
+/* the sheet scrolls instead — without this a height-capped flex column
+   squashes its children (the description textarea collapses to a line) */
+.adm-sheet > * {
+  flex-shrink: 0;
+}
+.adm-sheet:focus {
+  outline: none;
+}
+
+.adm-sheet-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 calc(-1 * var(--sheet-pad));
+  padding: 0.9rem var(--sheet-pad) 0.7rem;
+  background: var(--card);
+  border-bottom: 2px dashed rgba(43, 36, 64, 0.22);
+}
+.adm-sheet-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.adm-sheet-title h3 {
+  margin: 0;
+  font-size: 2.1rem;
+  line-height: 1.05;
+  color: var(--purple);
+}
+.adm-sheet-title small {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.adm-sheet-head .order-status {
+  flex: none;
+}
+.adm-sheet-x {
+  flex: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.15s ease;
+}
+.adm-sheet-x:hover {
+  transform: rotate(90deg);
+  background: var(--paper-deep);
+}
+
+.adm-sheet-foot {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: auto calc(-1 * var(--sheet-pad)) 0;
+  padding: 0.75rem var(--sheet-pad) calc(0.9rem + env(safe-area-inset-bottom, 0px));
+  background: var(--card);
+  border-top: 2px dashed rgba(43, 36, 64, 0.22);
+}
+.adm-sheet-foot .btn {
+  min-height: 2.6rem;
+}
+.adm-sheet-msg {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* the upload button now sits with the images instead of beside Save */
+.pf-upload {
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+@keyframes adm-veil-in {
+  from { opacity: 0; }
+}
+@keyframes adm-sheet-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+}
+@keyframes adm-sheet-up {
+  from { opacity: 0; transform: translateY(28px); }
+}
+
+/* phone: a full-screen sheet; Save gets the wide thumb-sized button */
+@media (max-width: 640px) {
+  .ui-veil.adm-sheet-veil {
+    display: block;
+    padding: 0;
+  }
+  .ui-veil.adm-sheet-veil .adm-sheet {
+    --sheet-pad: 1rem;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    animation-name: adm-sheet-up;
+  }
+  .adm-sheet-title h3 {
+    font-size: 1.9rem;
+  }
+  .adm-sheet-foot .btn {
+    flex: 1;
+    min-height: 2.9rem;
+    font-size: 1rem;
+  }
+  .adm-sheet-foot .btn:not(.ghost) {
+    flex: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-veil.adm-sheet-veil,
+  .ui-veil.adm-sheet-veil .adm-sheet {
+    animation: none;
+  }
+}
+
+/* ── product rows: edit is the main action, so it's wider, filled, labelled ── */
+.admin-row-actions .edit {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 0.85rem;
+  background: var(--purple);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 800;
+  box-shadow: 0.12em 0.12em 0 var(--ink);
+}
+.admin-row-actions .edit:hover {
+  background: var(--purple);
+  background: color-mix(in srgb, var(--purple) 84%, #000);
+}
+/* labelled — no hover tooltip needed */
+.admin-row-actions .edit::before,
+.admin-row-actions .edit::after {
+  display: none;
+}
+@media (max-width: 640px) {
+  .admin-row-actions .edit {
+    flex: 2.2;
+    font-size: 1rem;
+  }
+}
+
+/* the row that was just saved glows, with a little "saved" tag */
+.admin-row.just-saved {
+  position: relative;
+  animation: row-saved 2.4s ease-out;
+}
+.admin-row.just-saved::after {
+  content: "✓ נשמר";
+  position: absolute;
+  top: -0.75rem;
+  right: 1rem;
+  background: var(--teal);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.1em 0.75em;
+  border-radius: 2em;
+  pointer-events: none;
+  animation: saved-tag 2.4s ease-out forwards;
+}
+@keyframes row-saved {
+  0%, 35% {
+    background: #e3f4ec;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(15, 157, 107, 0.25);
+  }
+}
+@keyframes saved-tag {
+  0% { opacity: 0; transform: translateY(4px) scale(0.8); }
+  10%, 75% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-row.just-saved,
+  .admin-row.just-saved::after {
+    animation: none;
+  }
+}
+
