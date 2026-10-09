@@ -240,6 +240,13 @@ body.lh-admin-clean { background: #eef1f6; }
 }
 .adm-clean .admin-row-actions .edit:hover { background: #2746b8; }
 
+.adm-clean .btn.ghost.order-details-btn { color: var(--purple); border-color: var(--purple); }
+.adm-clean .od-item { border: 1px solid var(--line); border-radius: 10px; background: #f7f9fc; }
+.adm-clean .od-thumb { border: 1px solid var(--line); border-radius: 8px; }
+.adm-clean .od-sec { border: 1px solid var(--line); border-radius: 10px; }
+.adm-clean .od-qty-n { border-width: 1px; }
+.adm-clean .od-money .od-total { border-top: 1px solid var(--line-strong); }
+
 /* =====================================================================
    Theme switch — segmented control (styled for BOTH themes so the user
    can always switch back). Lives in the dashboard header + login screen.

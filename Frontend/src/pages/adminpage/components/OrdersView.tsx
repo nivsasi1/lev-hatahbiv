@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAdmin } from "../context";
 import { ils } from "../lib/helpers";
 import { RefundDialog } from "./RefundDialog";
+import { OrderDetailsDialog } from "./OrderDetailsDialog";
 import type { Order } from "../lib/types";
 
 const STATUS_LABEL: Record<string, string> = {
@@ -24,6 +25,7 @@ export function OrdersView() {
   const variantSku = (id?: string, key?: string) =>
     key ? products.find((p) => p._id === id)?.variants?.find((v) => v.key === key)?.sku : undefined;
   const [refundTarget, setRefundTarget] = useState<Order | null>(null);
+  const [detailsTarget, setDetailsTarget] = useState<Order | null>(null);
 
   // a refund makes sense only after money moved: paid / handled, or a paid
   // order the owner cancelled (a never-paid one gets rejected by PayMe).
@@ -109,6 +111,9 @@ export function OrdersView() {
               ) : null}
             </span>
             <span className="order-actions">
+              <button className="btn small ghost order-details-btn" onClick={() => setDetailsTarget(o)}>
+                🔍 פרטי הזמנה
+              </button>
               {o.status !== "handled" && !isUnpaid(o) && (
                 <button className="btn small" onClick={() => setStatus(o._id, "handled")}>
                   ✓ סימון טופלה
@@ -167,6 +172,22 @@ export function OrdersView() {
       )}
       {refundTarget && (
         <RefundDialog order={refundTarget} onClose={() => setRefundTarget(null)} />
+      )}
+      {detailsTarget && (
+        <OrderDetailsDialog
+          order={detailsTarget}
+          status={STATUS_LABEL[detailsTarget.status] || detailsTarget.status}
+          delivery={DELIVERY_LABEL[detailsTarget.delivery] || detailsTarget.delivery}
+          onClose={() => setDetailsTarget(null)}
+          onHandled={
+            detailsTarget.status !== "handled" && !isUnpaid(detailsTarget)
+              ? () => {
+                  setStatus(detailsTarget._id, "handled");
+                  setDetailsTarget(null);
+                }
+              : undefined
+          }
+        />
       )}
     </div>
   );
