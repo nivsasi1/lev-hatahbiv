@@ -59,7 +59,9 @@ export const NewsletterDialog = () => {
   // trigger, move focus in, close on Escape, and trap Tab inside the dialog so a
   // keyboard user can't wander onto the (inert) page behind the veil.
   useEffect(() => {
-    if (!open) return;
+    // the 15s timer still fires on /manage, where nothing renders — locking
+    // scroll there froze the dashboard
+    if (!open || pathname.startsWith("/manage")) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     lastFocused.current = document.activeElement;
@@ -100,7 +102,7 @@ export const NewsletterDialog = () => {
       (lastFocused.current as HTMLElement | null)?.focus?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, pathname]);
 
   // never interrupt the manager screens
   if (pathname.startsWith("/manage")) return null;
