@@ -32741,7 +32741,7 @@
     "_id": "6a3689487d164beaf03f0b69",
     "id": "product_7c5c2e04-5e50-e809-d6f9-512f10f3bca9",
     "name": "צבעי מים דאלר רואני סט 12 צבעים ומכחול אריזת כיס",
-    "price": 57.6,
+    "price": 60,
     "salePercentage": 0,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
@@ -32753,9 +32753,11 @@
     "isAvailable": true,
     "visible": true,
     "createdAt": "2026-06-20T12:36:24.223Z",
-    "updatedAt": "2026-09-20T05:21:44.388Z",
+    "updatedAt": "2026-10-09T09:06:28.752Z",
     "searchKeywords": "Daler Rowney, דאלר רוני",
-    "noCoupon": true
+    "noCoupon": true,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6a3689487d164beaf03f0b77",
