@@ -66204,12 +66204,15 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "מיקס מדיה",
-    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma4.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcxlmma4.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcxlmma4_add_1.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma4_add_1.jpg",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma4.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcxlmma4.jpg",
     "sku": "PCXLMMA4",
     "searchKeywords": "קנסון, Canson, מיקס מדיה, Mixed Media, בלוק ספירלה, בלוק ציור, 300 גרם, 300gsm, A4",
     "__v": 0,
     "createdAt": "2026-10-09T21:45:40.930Z",
-    "updatedAt": "2026-10-09T21:45:40.930Z"
+    "updatedAt": "2026-10-09T21:48:40.215Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac96084832191f86be88d30",
@@ -66222,11 +66225,14 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "מיקס מדיה",
-    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma3.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcxlmma3.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcxlmma3_add_1.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma3_add_1.jpg",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma3.jpg",
     "sku": "PCXLMMA3",
     "searchKeywords": "קנסון, Canson, מיקס מדיה, Mixed Media, בלוק ספירלה, בלוק ציור, 300 גרם, 300gsm, A3",
     "__v": 0,
     "createdAt": "2026-10-09T21:45:40.930Z",
-    "updatedAt": "2026-10-09T21:45:40.930Z"
+    "updatedAt": "2026-10-09T21:48:30.890Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
