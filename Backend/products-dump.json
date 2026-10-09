@@ -66234,5 +66234,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac96857fc4957f9f28b082f",
+    "name": "בלוק פסטל Canson Mi-Teintes Velvet גווני חום - 24x32cm",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">בלוק נייר פסטל מקצועי מסדרת Canson Mi-Teintes Velvet. הנייר בעל טקסטורה מיוחדת דמוית קטיפה, המאפשרת אחיזה מעולה של צבעי פסטל רך ופחם לעבודה בשכבות מרובות. מכיל 12 דפים בגווני חום (Brown Tones). משקל הנייר: 430 גרם (430gsm). מתאים גם לעבודה בטכניקות רטובות.</p>",
+    "category": "נייר לאמנות",
+    "sub_cat": "בלוקי נייר",
+    "third_level": "בלוקי נייר לצבעי פסטל",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcmvp002.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp002_add_1.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp002_add_2.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp002_add_3.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcmvp002_add_3.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcmvp002_add_1.jpg",
+    "sku": "",
+    "searchKeywords": "קנסון, Canson, מי-טאנט, Mi-Teintes, ולווט, Velvet, בלוק פסטל, פסטל רך, 430 גרם, 430gsm, גווני חום",
+    "__v": 0,
+    "createdAt": "2026-10-09T22:19:03.982Z",
+    "updatedAt": "2026-10-09T22:19:23.958Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
