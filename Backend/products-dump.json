@@ -66272,9 +66272,27 @@
     "searchKeywords": "קנסון, Canson, מי-טאנט, Mi-Teintes, ולווט, Velvet, בלוק פסטל, פסטל רך, 430 גרם, 430gsm, גווני חום, 32x41",
     "__v": 0,
     "createdAt": "2026-10-09T22:23:02.325Z",
-    "updatedAt": "2026-10-09T22:23:15.084Z",
+    "updatedAt": "2026-10-09T22:25:15.605Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac969c3dd8f149b71fc8543",
+    "name": "בלוק פסטל Canson Mi-Teintes Velvet גווני אפור - 24x32cm",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">בלוק נייר פסטל מקצועי מסדרת Canson Mi-Teintes Velvet בגודל 24x32 ס\"מ. הנייר בעל טקסטורה מיוחדת דמוית קטיפה, המאפשרת אחיזה מעולה של צבעי פסטל רך ופחם לעבודה בשכבות מרובות. מכיל 12 דפים בגווני אפור (Grey Tones). משקל הנייר: 430 גרם (430gsm). מתאים גם לעבודה בטכניקות רטובות.</p>",
+    "category": "נייר לאמנות",
+    "sub_cat": "בלוקי נייר",
+    "third_level": "בלוקי נייר לצבעי פסטל",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcmvp001.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp001.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp001_add_1.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp001_add_2.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/c/pcmvp001_add_3.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcmvp001_add_3.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcmvp001_add_1.jpg",
+    "sku": "3148950110602",
+    "searchKeywords": "קנסון, Canson, מי-טאנט, Mi-Teintes, ולווט, Velvet, בלוק פסטל, פסטל רך, 430 גרם, 430gsm, גווני אפור, 24x32",
+    "__v": 0,
+    "createdAt": "2026-10-09T22:25:07.052Z",
+    "updatedAt": "2026-10-09T22:25:07.052Z"
   }
 ]
