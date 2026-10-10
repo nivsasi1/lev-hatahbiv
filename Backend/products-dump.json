@@ -66369,5 +66369,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac9da0a0a65f3a09ae6f8b0",
+    "name": "בלוק לטושים ומרקרים Canson XL Marker 70g - A3",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">בלוק נייר מקצועי לטושים ומרקרים מסדרת Canson XL בגודל A3. הנייר חלק מאוד ולבן, במשקל 70 גרם (70gsm). הנייר כולל שכבת מגן מיוחדת שמונעת חלחול ודליפה של דיו לדפים הבאים, מה שהופך אותו לאידיאלי לעבודה עם מרקרים מבוססי אלכוהול, מים או סולבנט. מכיל 100 דפים.</p>",
+    "category": "נייר לאמנות",
+    "sub_cat": "בלוקי נייר",
+    "third_level": "בלוק נייר לטושים ומרקרים",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmaa3.jpg",
+    "sku": "3148952972376",
+    "searchKeywords": "קנסון, Canson, מרקרים, Marker, טושים, מרקר פד, בלוק ציור, 70 גרם, 70gsm, A3",
+    "__v": 0,
+    "createdAt": "2026-10-10T06:24:10.727Z",
+    "updatedAt": "2026-10-10T06:24:59.417Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
