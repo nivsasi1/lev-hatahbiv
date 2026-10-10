@@ -66513,5 +66513,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac9fb8adf0d47bdd28b308a",
+    "name": "סט 6 בלוקים גרפיט צבעוני Derwent Graphitint XL במארז פח",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט חדשני של 6 בלוקים עבים במיוחד (XL) מסדרת Graphitint של חברת <strong>Derwent</strong>. הבלוקים משלבים גרפיט איכותית יחד עם פיגמנטים של צבע, ומאפשרים עבודה יבשה לרישום דרמטי או עבודה רטובה (בעזרת מכחול מים) שהופכת את הגרפיט לצבעי מים עשירים ומלאי חיים. בלוק ה-XL הגדול במיוחד אידיאלי לכיסוי שטחים נרחבים, ציורי נוף ועבודות אקספרסיביות. הסט מגיע במארז פח מהודר לשמירה מרבית.</p>",
+    "category": "רישום ועפרונות",
+    "sub_cat": "עפרון רישום/גרפיט",
+    "third_level": "גרפיט צבעוני",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/g/d/gdgbxls6.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/g/d/gdgbxls6_add_1.jpg",
+    "sku": "5028252635547",
+    "searchKeywords": "דרוונט, Derwent, גרפיט צבעוני, Graphitint, בלוק גרפיט, XL Block, רישום, מסיס במים, אקוורל, סט 6, מארז פח",
+    "__v": 0,
+    "createdAt": "2026-10-10T08:47:06.762Z",
+    "updatedAt": "2026-10-10T08:48:40.422Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
