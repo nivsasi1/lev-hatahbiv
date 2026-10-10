@@ -66492,5 +66492,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac9f98696b584ba70103ba6",
+    "name": "סט 24 עפרונות פחם צבעוני Derwent Tinted Charcoal במארז פח",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט מקצועי ומורחב של 24 עפרונות פחם צבעוני (Tinted Charcoal) מבית <strong>Derwent</strong>. העפרונות משלבים את האופי הדרמטי והעמוק של הפחם יחד עם רמז עדין של צבע. הפיגמנטים עשירים, נמרחים ומיטשטשים בקלות, ומאפשרים יצירת אפקטים מיוחדים, מעברי צבע רכים וציורי נוף ופורטרט. הסט מגיע במארז פח יוקרתי לשמירה על העפרונות.</p>",
+    "category": "רישום ועפרונות",
+    "sub_cat": "פחם",
+    "third_level": "פחם צבעוני",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/g/d/gdtc24m.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/g/d/gdtc24m_add_1.jpg",
+    "sku": "5028252225359",
+    "searchKeywords": "דרוונט, Derwent, פחם צבעוני, Tinted Charcoal, עפרונות פחם, מארז פח, רישום, סט 24",
+    "__v": 0,
+    "createdAt": "2026-10-10T08:38:30.185Z",
+    "updatedAt": "2026-10-10T08:43:35.335Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
