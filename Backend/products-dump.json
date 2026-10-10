@@ -66408,5 +66408,26 @@
     "__v": 0,
     "createdAt": "2026-10-10T06:27:59.585Z",
     "updatedAt": "2026-10-10T06:27:59.585Z"
+  },
+  {
+    "_id": "6ac9dd1c238b09cd16e0a2c8",
+    "name": "בלוק ספירלה לצבעי מים Canson Montval 300g מרובע - 20x20cm",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">בלוק ספירלה מקצועי לצבעי מים מסדרת Canson Montval בפורמט מרובע ייחודי בגודל 20x20 ס\"מ. נייר איכותי נטול חומצה במשקל 300 גרם (300gsm), המיוצר מ-100% תאית (Cellulose). הנייר בעל טקסטורה עדינה המאפשרת מחיקות ותיקונים בעזרת מים מבלי לפגוע במשטח. אידיאלי לצבעי מים, גואש ואקריליק. מכיל 24 דפים בכריכת ספירלה נוחה.</p>",
+    "category": "נייר לאמנות",
+    "sub_cat": "בלוקי נייר",
+    "third_level": "בלוק נייר לצבעי מים",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcabw2020m.jpg",
+    "sku": "3148950042835",
+    "searchKeywords": "קנסון, Canson, מונטבל, Montval, צבעי מים, גואש, אקריליק, ספירלה, מרובע, בלוק ציור, 300 גרם, 300gsm, 20x20",
+    "__v": 0,
+    "createdAt": "2026-10-10T06:37:16.696Z",
+    "updatedAt": "2026-10-10T06:37:30.163Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
