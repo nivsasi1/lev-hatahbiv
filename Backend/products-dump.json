@@ -69109,13 +69109,16 @@
     "isActive": true,
     "description": "<p dir=\"rtl\">מדיום מעכב ייבוש (Retarder) מקצועי לצבעי אקריליק מבית <strong>Amsterdam</strong> (אמסטרדם). המדיום מאריך את זמן הייבוש של צבעי האקריליק בשיעור של עד 20%, ומאפשר זמן עבודה ארוך יותר למיזוג צבעים (Blending) ויצירת מעברי צבע רכים וחלקים (רטוב-על-רטוב). אינו משפיע על רמת הצמיגות או השקיפות של הצבע. מתייבש לגימור שקוף למחצה וגמיש.</p>",
     "category": "צבעים לאמנות",
-    "sub_cat": "עזרים ומדיומים",
-    "third_level": "כללי",
-    "img": "https://www.royaltalens.com/cdn/shop/files/24283070.jpg;https://www.royaltalens.com/cdn/shop/files/24173070.jpg;https://www.royaltalens.com/products/amsterdam-acrylic-retarder;https://www.royaltalens.com/cdn/shop/files/fsc.webp",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "עזרים ומדיומים לצבע אקריליק",
+    "img": "https://www.royaltalens.com/cdn/shop/files/24283070.jpg",
     "sku": "8712079379612",
     "searchKeywords": "אמסטרדם, Amsterdam, מעכב ייבוש, Retarder, מדיום לאקריליק, צבעי אקריליק, עזרים לאקריליק",
     "__v": 0,
     "createdAt": "2026-10-10T20:54:17.498Z",
-    "updatedAt": "2026-10-10T20:54:17.498Z"
+    "updatedAt": "2026-10-10T20:56:15.139Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
