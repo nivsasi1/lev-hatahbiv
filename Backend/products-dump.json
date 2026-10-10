@@ -66390,5 +66390,23 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac9daefb6e8b0a1d5cbfa98",
+    "name": "בלוק נייר בריסטול Canson Bristol 250g - A4",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">בלוק נייר בריסטול מקצועי מסדרת Canson Bristol בגודל A4. הנייר לבן במיוחד, חלק לחלוטין ועמיד מאוד במשקל 250 גרם (250gsm). המשטח החלק אידיאלי במיוחד לעבודות מדויקות הדורשות קווים חדים: טושים, עטים, דיו, מרקרים, איירבראש ועפרונות. הנייר עמיד בפני מחיקות וגירודים מבלי להיפגם. מכיל 20 דפים.</p>",
+    "category": "נייר לאמנות",
+    "sub_cat": "בלוקי נייר",
+    "third_level": "בלוק נייר בריסטול",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/b/pbra4.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/b/pbra4.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/b/pbra4_add_1.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=71,height=71/media/catalog/product/p/b/pbra4_add_2.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/b/pbra4_add_2.jpg;https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/b/pbra4_add_1.jpg",
+    "sku": "3148954571201",
+    "searchKeywords": "קנסון, Canson, בריסטול, Bristol, חלק, עטים, דיו, טושים, 250 גרם, 250gsm, A4",
+    "__v": 0,
+    "createdAt": "2026-10-10T06:27:59.585Z",
+    "updatedAt": "2026-10-10T06:27:59.585Z"
   }
 ]
