@@ -65588,13 +65588,16 @@
     "description": "<p dir=\"rtl\">בלוק נייר סקיצות Petit Grain של Clairefontaine בגודל A4 (מידות 21x29.7 ס\"מ, 70 דפים, 180 גרם למ\"ר). נייר לבן טבעי בגרעיניות בינונית-עדינה, המיועד לטכניקות יבשות כמו עיפרון, פחם, גיר וטוש. מראה פשוט ונקי, נייר נטול חומצה בעל pH ניטרלי, ביחס איכות-מחיר מצוין. הבלוק מודבק וכריכתו רכה.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "סקיצות",
-    "img": "https://www.clairefontaine.com/134753-large_default/bloc-papier-sketch-petit-grain.jpg;https://www.clairefontaine.com/134754-large_default/bloc-papier-sketch-petit-grain.jpg",
+    "third_level": "בלוקי נייר לרישום",
+    "img": "https://www.clairefontaine.com/134753-large_default/bloc-papier-sketch-petit-grain.jpg",
     "sku": "8712063118142",
     "searchKeywords": "קלרפונטיין, Clairefontaine, Sketch, Petit Grain, בלוק סקיצות, בלוק נייר, A4, 21x29.7 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-09T20:12:52.147Z",
-    "updatedAt": "2026-10-09T20:12:52.147Z"
+    "updatedAt": "2026-10-10T06:18:30.673Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac94ac4f55fcf3b7099a2b7",
@@ -65606,13 +65609,16 @@
     "description": "<p dir=\"rtl\">בלוק נייר סקיצות Petit Grain של Clairefontaine בגודל A5 (מידות 14.8x21 ס\"מ, 70 דפים, 180 גרם למ\"ר). נייר לבן טבעי בגרעיניות בינונית-עדינה, המיועד לטכניקות יבשות כמו עיפרון, פחם, גיר וטוש. מראה פשוט ונקי, נייר נטול חומצה בעל pH ניטרלי, ביחס איכות-מחיר מצוין. הבלוק מודבק וכריכתו רכה.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "סקיצות",
-    "img": "https://www.clairefontaine.com/134749-large_default/bloc-papier-sketch-petit-grain.jpg;https://www.clairefontaine.com/134750-large_default/bloc-papier-sketch-petit-grain.jpg",
+    "third_level": "",
+    "img": "https://www.clairefontaine.com/134749-large_default/bloc-papier-sketch-petit-grain.jpg",
     "sku": "8712063118159",
     "searchKeywords": "קלרפונטיין, Clairefontaine, Sketch, Petit Grain, בלוק סקיצות, בלוק נייר, A5, 14.8x21 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-09T20:12:52.147Z",
-    "updatedAt": "2026-10-09T20:12:52.147Z"
+    "updatedAt": "2026-10-10T06:18:40.015Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac94ac4f55fcf3b7099a2b8",
@@ -65624,13 +65630,16 @@
     "description": "<p dir=\"rtl\">בלוק נייר סקיצות Petit Grain של Clairefontaine בגודל A3 (מידות 29.7x42 ס\"מ, 70 דפים, 180 גרם למ\"ר). נייר לבן טבעי בגרעיניות בינונית-עדינה, המיועד לטכניקות יבשות כמו עיפרון, פחם, גיר וטוש. מראה פשוט ונקי, נייר נטול חומצה בעל pH ניטרלי, ביחס איכות-מחיר מצוין. הבלוק מודבק וכריכתו רכה.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "סקיצות",
-    "img": "https://www.clairefontaine.com/134757-large_default/bloc-papier-sketch-petit-grain.jpg;https://www.clairefontaine.com/134758-large_default/bloc-papier-sketch-petit-grain.jpg",
+    "third_level": "בלוקי נייר לרישום",
+    "img": "https://www.clairefontaine.com/134757-large_default/bloc-papier-sketch-petit-grain.jpg",
     "sku": "8712063118135",
     "searchKeywords": "קלרפונטיין, Clairefontaine, Sketch, Petit Grain, בלוק סקיצות, בלוק נייר, A3, 29.7x42 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-09T20:12:52.147Z",
-    "updatedAt": "2026-10-09T20:12:52.147Z"
+    "updatedAt": "2026-10-10T06:18:18.405Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac94d4e89915a92c0c64465",
