@@ -66429,5 +66429,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ac9f48878f17482a6f79bb4",
+    "name": "מדיום לצבעי מים דניאל סמית' (Watercolour Ground) 118 מ\"ל - לבן טיטניום",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">מדיום יסוד מקצועי לצבעי מים (Watercolour Ground) מבית <strong>Daniel Smith</strong>, בגוון לבן טיטניום (Titanium White). המשחה מאפשרת להפוך כמעט כל משטח – קנבס, עץ, מתכת, פלסטיק, זכוכית, טיח או פאנל – למשטח סופג המתאים לציור בצבעי מים. מעולה גם לתיקון טעויות על ציור קיים (\"מחיקה\" וצביעה מחדש). מוכן לשימוש ישר מהצנצנת. כמות: 118 מ\"ל (4oz).</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "עזרים לצבעי מים",
+    "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/w/d/wdng4002.jpg",
+    "sku": "743162030880",
+    "searchKeywords": "דניאל סמית, Daniel Smith, מדיום, מדיום לצבעי מים, Watercolour Ground, גראונד, לבן טיטניום, Titanium White, 118 מ\"ל, 4oz",
+    "__v": 0,
+    "createdAt": "2026-10-10T08:17:12.058Z",
+    "updatedAt": "2026-10-10T08:17:51.269Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
