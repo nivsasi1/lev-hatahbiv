@@ -69057,5 +69057,41 @@
     "__v": 0,
     "createdAt": "2026-10-10T18:20:26.220Z",
     "updatedAt": "2026-10-10T18:28:40.524Z"
+  },
+  {
+    "_id": "6acaa26edca579a010101c34",
+    "name": "סט 45 צבעי פסטל יבש שלמים Rembrandt רמברנדט - מארז קרטון כללי",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט מקצועי ואיכותי במיוחד של 45 צבעי פסטל יבש שלמים (Whole Pastels) מבית <strong>Rembrandt</strong> (רמברנדט). סדרת רמברנדט ידועה בעולם בזכות רכות הצבע המצוינת שלו, פיגמנטים טהורים ועמידות אור גבוהה. הפסטלים מיוצרים ללא פיגמנטים מבוססי עופרת, קדמיום או קובלט. סט הבחירה הכללית (General Selection) מציע מגוון רחב ומושלם לכל טכניקות הציור והרישום בפסטל. הסט מגיע במארז קרטון לשמירה וארגון.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי פסטל",
+    "third_level": "פסטל יבש - REMEBRANDT",
+    "img": "https://www.royaltalens.com/cdn/shop/files/31823047_203.jpg;https://www.royaltalens.com/cdn/shop/files/31823047_2_dae38.jpg;https://www.royaltalens.com/cdn/shop/files/31823047_201.jpg;https://www.royaltalens.com/cdn/shop/files/fsc.webp",
+    "sku": "8712079257477",
+    "searchKeywords": "רמברנדט, Rembrandt, פסטל יבש, Soft Pastel, סט 45, צבעי פסטל, ציור, רישום, מארז קרטון",
+    "__v": 0,
+    "createdAt": "2026-10-10T20:39:10.673Z",
+    "updatedAt": "2026-10-10T20:39:10.673Z"
+  },
+  {
+    "_id": "6acaa2e3dca579a010101c39",
+    "name": "סט 15 צבעי פסטל יבש שלמים Rembrandt רמברנדט - מארז קרטון כללי",
+    "price": 250,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט מקצועי ואיכותי של 15 צבעי פסטל יבש שלמים (Whole Pastels) מבית <strong>Rembrandt</strong> (רמברנדט). סדרת רמברנדט ידועה בעולם בזכות רכות הצבע המצוינת שלו, פיגמנטים טהורים ועמידות אור גבוהה. הפסטלים מיוצרים ללא פיגמנטים מבוססי עופרת, קדמיום או קובלט. סט הבחירה הכללית (General Selection) מציע מגוון צבעי בסיס מושלם לכל טכניקות הציור והרישום בפסטל. הסט מגיע במארז קרטון לשמירה וארגון.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי פסטל",
+    "third_level": "פסטל יבש - REMEBRANDT",
+    "img": "https://www.royaltalens.com/cdn/shop/files/31823017_201.jpg;https://www.royaltalens.com/cdn/shop/files/31823017.jpg;https://www.royaltalens.com/cdn/shop/files/fsc.webp",
+    "sku": "8712079257439",
+    "searchKeywords": "רמברנדט, Rembrandt, פסטל יבש, Soft Pastel, סט 15, צבעי פסטל, ציור, רישום, מארז קרטון",
+    "__v": 0,
+    "createdAt": "2026-10-10T20:41:07.813Z",
+    "updatedAt": "2026-10-10T20:41:07.813Z"
   }
 ]
