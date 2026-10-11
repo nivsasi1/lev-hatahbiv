@@ -23379,12 +23379,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לצבעי מים",
     "searchKeywords": "Strathmore",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
+    "updatedAt": "2026-10-11T08:29:55.694Z",
     "noCoupon": true
   },
   {
