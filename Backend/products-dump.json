@@ -66315,13 +66315,13 @@
     "description": "<p dir=\"rtl\">בלוק ספירלה מקצועי לצבעי מים מסדרת Canson Montval בפורמט מרובע ייחודי בגודל 20x20 ס\"מ. נייר איכותי נטול חומצה במשקל 300 גרם (300gsm), המיוצר מ-100% תאית (Cellulose). הנייר בעל טקסטורה עדינה המאפשרת מחיקות ותיקונים בעזרת מים מבלי לפגוע במשטח. אידיאלי לצבעי מים, גואש ואקריליק. מכיל 24 דפים בכריכת ספירלה נוחה.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
-    "third_level": "בלוק נייר לצבעי מים",
+    "third_level": "בלוקי נייר לצבעי מים",
     "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcabw2020m.jpg",
     "sku": "3148950042835",
     "searchKeywords": "קנסון, Canson, מונטבל, Montval, צבעי מים, גואש, אקריליק, ספירלה, מרובע, בלוק ציור, 300 גרם, 300gsm, 20x20",
     "__v": 0,
     "createdAt": "2026-10-10T06:37:16.696Z",
-    "updatedAt": "2026-10-11T09:02:06.752Z",
+    "updatedAt": "2026-10-11T21:58:03.169Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -69208,26 +69208,5 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
-  },
-  {
-    "_id": "6acb521614e037ba56f63864",
-    "name": "בלוק ספירלה לצבעי מים Canson Montval 300g מרובע - 20x20cm (עותק)",
-    "price": 80,
-    "salePercentage": 0,
-    "isAvailable": true,
-    "noCoupon": false,
-    "isActive": false,
-    "description": "<p dir=\"rtl\">בלוק ספירלה מקצועי לצבעי מים מסדרת Canson Montval בפורמט מרובע ייחודי בגודל 14.8x21 ס\"מ. נייר איכותי נטול חומצה במשקל 300 גרם (300gsm), המיוצר מ-100% תאית (Cellulose). הנייר בעל טקסטורה עדינה המאפשרת מחיקות ותיקונים בעזרת מים מבלי לפגוע במשטח. אידיאלי לצבעי מים, גואש ואקריליק. מכיל 24 דפים בכריכת ספירלה נוחה.</p>",
-    "category": "נייר לאמנות",
-    "sub_cat": "בלוקי נייר",
-    "third_level": "בלוק נייר לצבעי מים",
-    "img": "1791709712139-f46721e5.jpg",
-    "variantLabel": "",
-    "variants": [],
-    "sku": "",
-    "searchKeywords": "קנסון, Canson, מונטבל, Montval, צבעי מים, גואש, אקריליק, ספירלה, מרובע, בלוק ציור, 300 גרם, 300gsm, 20x20",
-    "createdAt": "2026-10-11T09:08:38.163Z",
-    "updatedAt": "2026-10-11T09:11:20.878Z",
-    "__v": 0
   }
 ]
