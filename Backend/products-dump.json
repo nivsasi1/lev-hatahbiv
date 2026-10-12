@@ -23433,7 +23433,7 @@
     "description": "<p dir=\"rtl\">בלוק לצבעי מים למתחילים - מתאים לעפרונות אקוורל ולצבעי מים.</p> \n<p dir=\"rtl\">גודל A4- 29.7/21</p> \n<p dir=\"rtl\">250גרם 20 דף</p> \n<p dir=\"rtl\">&nbsp;</p>",
     "img": "733145_3301009fd3cc4e1b8f4bbded27351f7a~mv2.jpg",
     "sku": "3148950021151",
-    "price": 23.9,
+    "price": 27.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -23442,7 +23442,10 @@
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לצבעי מים",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-10-12T07:57:04.748Z",
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770980",
@@ -29418,7 +29421,7 @@
     "name": "llustration | בלוק A4 קומיקס ומנגה",
     "description": "<p dir=\"rtl\">בלוק נייר, 250 גרם, נוצר במיוחד בשביל איורים, קריטקורות ומנגה.כ12 דפים בחבילה.חלק במיוחד.</p> \n<p dir=\"rtl\">מתאים למרקר אלכוהולי, עפרונות ועפרונות מים.</p>",
     "img": "733145_c23a7dbfcedc4faf81ac6e6c8e53315d~mv2.jpg",
-    "price": 24.8,
+    "price": 27.2,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -29426,7 +29429,7 @@
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "בלוקי נייר לטושים ומרקרים",
-    "updatedAt": "2026-09-28T18:01:47.226Z",
+    "updatedAt": "2026-10-12T07:55:25.804Z",
     "variantLabel": "גודל",
     "variants": [
       {
@@ -29436,7 +29439,9 @@
         "sku": "3148953872002"
       }
     ],
-    "noCoupon": true
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": ""
   },
   {
     "_id": "66844bfdf2e4e8f572770b4c",
