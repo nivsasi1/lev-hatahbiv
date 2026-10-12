@@ -69597,5 +69597,26 @@
     "createdAt": "2026-10-12T13:43:06.756Z",
     "updatedAt": "2026-10-12T13:43:06.756Z",
     "__v": 0
+  },
+  {
+    "_id": "6acce4d8bbecfcacdc40fbb1",
+    "name": "טוש אקריליק מכחול 60",
+    "price": 105.9,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "noCoupon": false,
+    "isActive": true,
+    "description": "סט של 36 טושים אקריליים עם קצה גמיש כמו מכחול.\nמגיע במזוודה מפלסטיק",
+    "category": "רישום ועפרונות",
+    "sub_cat": "טוש אקרילי",
+    "third_level": "SkyGlory",
+    "img": "1791812811434-4fe8e922.jpg",
+    "variantLabel": "",
+    "variants": [],
+    "sku": "6978804630263",
+    "searchKeywords": "",
+    "createdAt": "2026-10-12T13:47:04.281Z",
+    "updatedAt": "2026-10-12T13:47:04.281Z",
+    "__v": 0
   }
 ]
