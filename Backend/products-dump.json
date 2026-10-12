@@ -5468,7 +5468,7 @@
     "description": "<p dir=\"rtl\">טוש דו צדדי - צד אחד דק וצד שני רחב על בסיס אלכוהול.</p><p dir=\"rtl\">שקוף. תחליף התחלתי זול לטושי הקופיק והפרומרקר</p><p dir=\"rtl\">&nbsp;</p><p dir=\"rtl\">סט של 168 בנרתיק נשיאה</p>",
     "img": "733145_d308d81389fd429eb126d782c9aad896~mv2.jpg;733145_0524e9e97242417b868a640542057728~mv2.jpg;733145_f399062665f04f588a5949d17d7df1cd~mv2.jpg",
     "sku": "6922686424304",
-    "price": 179.9,
+    "price": 159.9,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -5476,8 +5476,11 @@
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - נורה NORA!",
-    "updatedAt": "2026-10-12T09:16:35.163Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-12T13:20:29.525Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770499",
