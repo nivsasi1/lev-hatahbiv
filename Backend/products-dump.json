@@ -69699,5 +69699,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6acdd2f9d37c910880d0b8d8",
+    "name": "משחת חול גסה Mont Marte Sand Texture Medium Coarse Premium 250ml",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">משחת מרקם חול גסה (Sand Texture Medium Coarse) מסדרת Premium של Mont Marte, בנפח 250 מ\"ל. מאפשרת ליצור צורות וקוצים עם אפקט חולי. מדיום שפותח במיוחד ליצירת מרקם ואפקטים תלת-ממדיים ביצירות. גימור לבן אטום עם גרגירי חול גסים, המתאים למשטחים נקבוביים כמו קרטון, עץ, קנבס ועוד. אפשר לערבב אותה ישירות עם צבע אקריליק, או למרוח אותה לבדה, להמתין עד שתתייבש ולהוסיף מעליה צבעי אקריליק או שמן. מתייבשת מהר, כך שלא צריך להמתין זמן רב עד שגם שכבות עבות מתייבשות.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "משחות עיצוב",
+    "img": "https://cdn.shopify.com/s/files/1/0603/3745/5243/files/Mont-Marte-Sand-Texture-Medium-Coarse-Premium-250ml-MPA0043-V01-F.jpg?v=1687758176;https://cdn.shopify.com/s/files/1/0603/3745/5243/files/Mont-Marte-Sand-Texture-Medium-Coarse-Premium-250ml-MPA0043-V01-Contents.jpg?v=1687758176;https://cdn.shopify.com/s/files/1/0603/3745/5243/files/Mont-Marte-Sand-Texture-Medium-Coarse-Premium-250ml-MPA0043-V01-A.jpg?v=1687758176",
+    "sku": "9328577052606",
+    "searchKeywords": "מונט מארט, Mont Marte, Sand Texture Medium Coarse Premium 250ml (8.5 US fl.oz)",
+    "__v": 0,
+    "createdAt": "2026-10-13T06:43:05.330Z",
+    "updatedAt": "2026-10-13T06:43:27.255Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
