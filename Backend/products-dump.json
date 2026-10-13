@@ -69622,7 +69622,7 @@
   {
     "_id": "6acd524c043fd0cc3d182910",
     "name": "כן ציור סטודיו A-Frame מתכוונן MEEDEN W09B גוון טבעי",
-    "price": 350,
+    "price": 399,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69635,12 +69635,15 @@
     "searchKeywords": "מיידן, MEEDEN, כן ציור, A-Frame, W09B, כן סטודיו, עץ אשור, Natural",
     "__v": 0,
     "createdAt": "2026-10-12T21:34:04.998Z",
-    "updatedAt": "2026-10-12T21:34:04.998Z"
+    "updatedAt": "2026-10-13T07:49:14.034Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acd524c043fd0cc3d182911",
     "name": "כן ציור סטודיו A-Frame מתכוונן MEEDEN W09B גוון אגוז כהה",
-    "price": 350,
+    "price": 399,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69653,7 +69656,7 @@
     "searchKeywords": "מיידן, MEEDEN, כן ציור, A-Frame, W09B, כן סטודיו, עץ אשור, Dark Walnut",
     "__v": 0,
     "createdAt": "2026-10-12T21:34:04.998Z",
-    "updatedAt": "2026-10-12T21:43:40.488Z",
+    "updatedAt": "2026-10-13T07:48:52.095Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
