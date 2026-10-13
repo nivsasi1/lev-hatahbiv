@@ -69723,5 +69723,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ace83fa081a8c711fb9d333",
+    "name": "מדיום זרימה אקרילי Mont Marte Acrylic Flow Medium Premium 250ml",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">מדיום זרימה אקרילי (Acrylic Flow Medium) מסדרת Premium של Mont Marte, בנפח 250 מ\"ל. מגביר את השקיפות ואת הזרימה של צבעי האקריליק, בלי לאבד מעוצמת הצבע. מדיום רב-שימושי המשמש להזרמת צבעי אקריליק (Pouring), לדילול צבעי אקריליק ומדיומים, ולדילול בינדרים. מקל על פריסת הצבע על שטחים גדולים, יוצר משיכות מכחול ארוכות וחלקות, מתאים לספין ארט (Spin Art) ומצוין לכתיבה בצבע אקריליק.</p><p dir=\"rtl\"><strong>הוראות שימוש:</strong> מערבבים כמות משתנה של המדיום עם צבעי האקריליק כדי לקבל רמות זרימה שונות. לצבעי אקריליק סמיכים אפשר להוסיף למדיום טיפת מים. מנקים במים חמים וסבון בעוד הצבע רטוב. שימו לב: כמות גדולה של מדיום עלולה להגביר את שקיפות הצבע.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "מדיומים לציור",
+    "third_level": "עזרים ומדיומים לצבע אקריליק",
+    "img": "https://cdn.shopify.com/s/files/1/0603/3745/5243/products/Mont-Marte-Acrylic-Flow-Medium-Premium-250ml-MAMD2501_V04-F.jpg?v=1669610649;https://cdn.shopify.com/s/files/1/0603/3745/5243/products/Mont-Marte-Acrylic-Flow-Medium-Premium-250ml-MAMD2501_V04-Contents2.jpg?v=1669610649;https://cdn.shopify.com/s/files/1/0603/3745/5243/products/Mont-Marte-Acrylic-Flow-Medium-Premium-250ml-MAMD2501_V04-UF.jpg?v=1669610649",
+    "sku": "9328577035142",
+    "searchKeywords": "מונט מארט, Mont Marte, Acrylic Flow Medium Premium 250ml  (8.5 US fl.oz)",
+    "__v": 0,
+    "createdAt": "2026-10-13T19:18:18.607Z",
+    "updatedAt": "2026-10-13T19:18:42.877Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
