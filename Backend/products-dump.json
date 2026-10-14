@@ -69871,7 +69871,7 @@
   {
     "_id": "6acf0ade0a3325accbab4f30",
     "name": "סט כלי עבודה לחימר 14 חלקים Mont Marte Clay Tool Set Signature 14pc",
-    "price": 50,
+    "price": 12.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69884,7 +69884,10 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, כלי חימר, סט כלי חימר, פיסול, clay tool set",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.799Z",
-    "updatedAt": "2026-10-14T04:53:50.799Z"
+    "updatedAt": "2026-10-14T14:54:10.041Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f31",
