@@ -65965,7 +65965,7 @@
   {
     "_id": "6ac94efee3129593a12742aa",
     "name": "מכחול שטוח רחב Mottler סינתטי da Vinci FIT סדרה 5073 מידה 20",
-    "price": 50,
+    "price": 55.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -65974,11 +65974,14 @@
     "sub_cat": "מכחולים",
     "third_level": "da Vinci FIT",
     "img": "https://red.davinci-defet.com/assets/product_images/780imQuadratskaliert/5073_20.avif;https://red.davinci-defet.com/assets/product_images/1500brush/5073_20.avif;https://red.davinci-defet.com/assets/product_images/mood/5073+Mood286.avif",
-    "sku": "",
+    "sku": "4017505114961",
     "searchKeywords": "דה וינצ'י, da Vinci, FIT, סדרה 5073, Mottler, מכחול רחב, מכחול שטוח, מכחול סינתטי, מידה 20",
     "__v": 0,
     "createdAt": "2026-10-09T20:30:54.915Z",
-    "updatedAt": "2026-10-09T20:30:54.915Z"
+    "updatedAt": "2026-10-14T15:48:33.736Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac94efee3129593a12742ab",
