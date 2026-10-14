@@ -69994,7 +69994,7 @@
   {
     "_id": "6acf0ade0a3325accbab4f37",
     "name": "לוח ציור A2 מעץ אשור Mont Marte Drawing Board Signature A2",
-    "price": 50,
+    "price": 228,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -70007,12 +70007,15 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, לוח ציור, לוח שרטוט, drawing board, A2",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.800Z",
-    "updatedAt": "2026-10-14T04:53:50.800Z"
+    "updatedAt": "2026-10-14T14:49:20.580Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f38",
     "name": "כן קופסה שולחני בינוני מעץ אשור Mont Marte Tabletop Box Easel Signature Medium",
-    "price": 50,
+    "price": 208.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -70025,7 +70028,10 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, כן שולחני, כן קופסה, box easel, tabletop easel",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.800Z",
-    "updatedAt": "2026-10-14T04:53:50.800Z"
+    "updatedAt": "2026-10-14T14:48:56.551Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f39",
