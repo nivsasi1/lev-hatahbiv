@@ -69958,7 +69958,7 @@
   {
     "_id": "6acf0ade0a3325accbab4f35",
     "name": "סט עט טבילה לקליגרפיה 10 חלקים Mont Marte Calligraphy Dip Pen Set Signature 10pc",
-    "price": 50,
+    "price": 36.8,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69971,12 +69971,15 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, קליגרפיה, עט טבילה, calligraphy, dip pen",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.800Z",
-    "updatedAt": "2026-10-14T04:53:50.800Z"
+    "updatedAt": "2026-10-14T14:50:33.734Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f36",
     "name": "עפרונות גוני עור 12 יחידות Mont Marte Skin Colour Pencils Signature 12pc",
-    "price": 50,
+    "price": 33.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69989,7 +69992,10 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, עפרונות גוני עור, עפרונות צבעוניים, דיוקן, skin colour pencils",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.800Z",
-    "updatedAt": "2026-10-14T04:53:50.800Z"
+    "updatedAt": "2026-10-14T14:50:57.481Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f37",
