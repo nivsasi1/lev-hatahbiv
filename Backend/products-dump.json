@@ -69850,7 +69850,7 @@
   {
     "_id": "6acf0ade0a3325accbab4f2f",
     "name": "מערוך לחימר פולימרי Mont Marte Polymer Clay Roller Signature",
-    "price": 50,
+    "price": 19.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69863,7 +69863,10 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, מערוך חימר, חימר פולימרי, polymer clay roller",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.799Z",
-    "updatedAt": "2026-10-14T04:53:50.799Z"
+    "updatedAt": "2026-10-14T14:53:29.678Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f30",
@@ -69925,7 +69928,7 @@
   {
     "_id": "6acf0ade0a3325accbab4f33",
     "name": "סט כלי חריטה בעץ 12 חלקים Mont Marte Wood Carving Set Premium 12pc",
-    "price": 50,
+    "price": 79.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69938,7 +69941,10 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, גילוף בעץ, אזמלים, לינוקאט, wood carving",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.799Z",
-    "updatedAt": "2026-10-14T04:53:50.799Z"
+    "updatedAt": "2026-10-14T14:53:51.116Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acf0ade0a3325accbab4f34",
