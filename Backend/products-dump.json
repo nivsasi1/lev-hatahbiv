@@ -66091,7 +66091,7 @@
   {
     "_id": "6ac96084832191f86be88d2e",
     "name": "בלוק ספירלה מיקס מדיה Canson XL 300g - A5",
-    "price": 50,
+    "price": 21.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -66100,11 +66100,14 @@
     "sub_cat": "בלוקי נייר",
     "third_level": "מיקס מדיה",
     "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=700,height=700/media/catalog/product/p/c/pcxlmma5.jpg",
-    "sku": "PCXLMMA5",
+    "sku": "3148950018724",
     "searchKeywords": "קנסון, Canson, מיקס מדיה, Mixed Media, בלוק ספירלה, בלוק ציור, 300 גרם, 300gsm, A5",
     "__v": 0,
     "createdAt": "2026-10-09T21:45:40.929Z",
-    "updatedAt": "2026-10-09T21:45:40.929Z"
+    "updatedAt": "2026-10-14T15:28:08.761Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ac96084832191f86be88d2f",
