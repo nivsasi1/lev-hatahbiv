@@ -69769,7 +69769,7 @@
   {
     "_id": "6ace86387165b0cfab917f45",
     "name": "מדיום אקרילי מבריק Mont Marte Acrylic Medium Gloss Premium 250ml",
-    "price": 50,
+    "price": 29.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -69782,7 +69782,10 @@
     "searchKeywords": "מונט מארט, Mont Marte, מדיום אקרילי, מדיום מבריק, acrylic medium, gloss, זיגוג, וורניש",
     "__v": 0,
     "createdAt": "2026-10-13T19:27:52.368Z",
-    "updatedAt": "2026-10-13T19:27:52.368Z"
+    "updatedAt": "2026-10-14T14:56:12.547Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ace86387165b0cfab917f46",
