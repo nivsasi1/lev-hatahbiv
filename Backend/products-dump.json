@@ -70030,7 +70030,7 @@
   {
     "_id": "6acf0ade0a3325accbab4f39",
     "name": "טושים כפולי קצה לבד 24 יחידות Mont Marte Dual Tip Fabric Markers Signature 24pc",
-    "price": 50,
+    "price": 59.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -70043,6 +70043,9 @@
     "searchKeywords": "מונט מארט, Mont Marte, Signature, טושי בד, טוש לבד, fabric markers, dual tip",
     "__v": 0,
     "createdAt": "2026-10-14T04:53:50.800Z",
-    "updatedAt": "2026-10-14T04:53:50.800Z"
+    "updatedAt": "2026-10-14T14:46:44.715Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
