@@ -70141,20 +70141,23 @@
   {
     "_id": "6acff6027ea7cc024391e435",
     "name": "בלוק נייר A5 PaintON White 250g 40 Sheets",
-    "price": 50,
+    "price": 23.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">בלוק נייר רב-טכניקות PaintON לבן של Clairefontaine בגודל A5 (כ-14.8x21 ס\"מ), 40 דפים בגרמאז' 250, בכריכה מודבקת. מתאים לטכניקות יבשות (עיפרון, טוש) וגם לטכניקות רטובות (דיו, גואש, אקריליק).</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
     "third_level": "מיקס מדיה",
     "img": "https://www.jacksonsart.com/cdn-cgi/image/quality=80,background=%23ffffff,fit=scale-down,width=1000,height=1000/media/catalog/product/p/c/pcpna5w.jpg",
-    "sku": "",
+    "sku": "3329680965384",
     "searchKeywords": "קלרפונטיין, Clairefontaine, PaintON, בלוק נייר, נייר לבן, מיקס מדיה, A5, 14.8x21 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-14T21:37:06.722Z",
-    "updatedAt": "2026-10-14T21:37:06.722Z"
+    "updatedAt": "2026-10-15T06:11:23.467Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acff6027ea7cc024391e436",
