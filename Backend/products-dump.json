@@ -70123,7 +70123,7 @@
   {
     "_id": "6acff45e7ea7cc024391e42f",
     "name": "משחת הדבקה לגילדינג Pebeo Gedeo Mixtion Relief Gilding Paste 37ml",
-    "price": 50,
+    "price": 25.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -70132,11 +70132,14 @@
     "sub_cat": "גילדינג",
     "third_level": "כללי",
     "img": "https://cld-assets.dick-blick.com/image/upload/f_auto/q_auto/v1748375875/61916-1003-1-4ww.jpg",
-    "sku": "",
+    "sku": "3597587665458",
     "searchKeywords": "פבאו, Pebeo, Gedeo, גילדינג, משחת גילדינג, דבק גילדינג, עלי מתכת, Mirror Effect, 37ml",
     "__v": 0,
     "createdAt": "2026-10-14T21:30:06.965Z",
-    "updatedAt": "2026-10-14T21:30:06.965Z"
+    "updatedAt": "2026-10-15T06:16:09.732Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6acff6027ea7cc024391e435",
