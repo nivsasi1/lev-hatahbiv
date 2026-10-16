@@ -43143,7 +43143,7 @@
   {
     "_id": "6aaf6d062c1348aaba83f245",
     "name": "סינר סטודיו כותנה כחול נייבי PanArt",
-    "price": 50,
+    "price": 29.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -43152,11 +43152,11 @@
     "sub_cat": "חומרי עזר",
     "third_level": "סינרים",
     "img": "1789881603301-e016d46f.jpg",
-    "sku": "",
+    "sku": "8907685024265",
     "searchKeywords": "PanArt, סינר לאמנים, סינר ציור",
     "__v": 0,
     "createdAt": "2026-09-20T05:20:06.267Z",
-    "updatedAt": "2026-10-01T08:19:04.118Z",
+    "updatedAt": "2026-10-16T06:21:14.945Z",
     "noCoupon": true,
     "variantLabel": "",
     "variants": []
