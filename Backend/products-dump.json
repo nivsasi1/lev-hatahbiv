@@ -64975,7 +64975,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">גיליונות נייר PaintON לבן חלק (White Smooth Sheets) של Clairefontaine בגודל A6 (מידות 10.5x14.8 ס\"מ, 15 גיליונות באריזה). נייר תאית 100% בגרמאז' 250, לבן במיוחד עם משטח חלק לחלוטין, מתאים לטכניקות יבשות (עיפרון, טוש) וגם לטכניקות רטובות (דיו, גואש, אקריליק). מתאים לציורים טכניים ומדויקים וגם לאיור, עם יכולת ספיגה מצוינת ואפשרות לתיקונים.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
@@ -64985,7 +64985,7 @@
     "searchKeywords": "קלרפונטיין, Clairefontaine, PaintON, גיליונות נייר, נייר חלק, מיקס מדיה, A6, 10.5x14.8 ס\"מ",
     "__v": 0,
     "createdAt": "2026-10-08T22:54:51.004Z",
-    "updatedAt": "2026-10-08T22:56:20.181Z",
+    "updatedAt": "2026-10-16T06:09:03.167Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
