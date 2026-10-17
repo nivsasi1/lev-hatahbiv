@@ -18671,20 +18671,24 @@
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות נייר",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-10-17T21:22:40.153Z",
     "variantLabel": "משקל",
     "variants": [
       {
         "key": "170"
       },
       {
-        "key": "240"
+        "key": "240",
+        "price": 3.5
       },
       {
-        "key": "450"
+        "key": "450",
+        "price": 7
       }
     ],
-    "noCoupon": true
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": ""
   },
   {
     "_id": "66844bfdf2e4e8f57277083b",
