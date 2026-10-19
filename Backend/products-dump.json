@@ -70436,5 +70436,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ad51587e1e7db1db03f8f33",
+    "name": "סרגל T אקרילי שקוף 100 ס\"מ Linero",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סרגל T מאקריליק שקוף באורך 100 ס\"מ, תוצרת LINERO. הסרגל ללא שנתות. מתאים לעבודות שרטוט וגרפיקה.</p>",
+    "category": "מקרמה וטריקו",
+    "sub_cat": "כללי",
+    "third_level": "כללי",
+    "img": "1792349573948-851188cb.png",
+    "sku": "",
+    "searchKeywords": "לינרו, Linero, סרגל T, סרגל אקרילי, סרגל שקוף, שרטוט, 80 ס\"מ",
+    "__v": 0,
+    "createdAt": "2026-10-18T18:52:56.005Z",
+    "updatedAt": "2026-10-18T18:53:18.021Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
