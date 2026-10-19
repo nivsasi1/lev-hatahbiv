@@ -71289,7 +71289,7 @@
   {
     "_id": "6ad59d348e1088b6232ec58e",
     "name": "ספר סקיצות כריכה קשה Talens Art Creation Navy Blue 21x29.7 ס\"מ",
-    "price": 50,
+    "price": 62,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -71302,7 +71302,10 @@
     "searchKeywords": "רויאל טלנס, Royal Talens, Talens Art Creation, ספר סקיצות, מחברת סקיצות, Navy Blue, כחול נייבי, 21x29.7",
     "__v": 0,
     "createdAt": "2026-10-19T04:31:48.593Z",
-    "updatedAt": "2026-10-19T04:31:48.593Z"
+    "updatedAt": "2026-10-19T06:37:46.756Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ad59d348e1088b6232ec58f",
@@ -71829,7 +71832,7 @@
   {
     "_id": "6ad59d348e1088b6232ec5ac",
     "name": "ספר סקיצות כריכה קשה Talens Art Creation White Gold 21x29.7 ס\"מ",
-    "price": 50,
+    "price": 62,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -71842,7 +71845,10 @@
     "searchKeywords": "רויאל טלנס, Royal Talens, Talens Art Creation, ספר סקיצות, מחברת סקיצות, White Gold, לבן זהב, 21x29.7",
     "__v": 0,
     "createdAt": "2026-10-19T04:31:48.594Z",
-    "updatedAt": "2026-10-19T04:31:48.594Z"
+    "updatedAt": "2026-10-19T06:38:07.022Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ad59d348e1088b6232ec5ad",
