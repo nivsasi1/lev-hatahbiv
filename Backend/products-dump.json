@@ -72944,7 +72944,7 @@
   },
   {
     "_id": "6ada85ae55093b5a93e8ed63",
-    "name": "ספריי לכה לציורי קנבס Montana MTN WEPRO Canvas Varnish Glossy",
+    "name": "ספריי לכה מבריקה לציורי קנבס Montana MTN WEPRO Canvas Varnish Glossy",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -72953,16 +72953,19 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע אקריליק",
-    "img": "https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-wepro-canvas-varnish-4488.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-wepro-canvas-varnish-3428.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-procanvasvarnish2-10copia811.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-procanvasvarnish1-3221.jpg",
+    "img": "1792706356244-eb861e3f.jpg",
     "sku": "",
     "searchKeywords": "מונטנה, Montana, MTN, WEPRO, Canvas Varnish, לכה לקנבס, ספריי לכה, וורניש, Glossy, מבריק",
     "__v": 0,
     "createdAt": "2026-10-22T21:52:46.405Z",
-    "updatedAt": "2026-10-22T21:52:46.405Z"
+    "updatedAt": "2026-10-22T21:59:22.933Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ada85ae55093b5a93e8ed64",
-    "name": "ספריי לכה לציורי קנבס Montana MTN WEPRO Canvas Varnish Matt",
+    "name": "ספריי לכה  מט לציורי קנבס Montana MTN WEPRO Canvas Varnish Matt",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -72971,16 +72974,19 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע אקריליק",
-    "img": "https://www.montanacolors.com/content/imgsxml/productos/mtnwepro-canvasvarnish-matt946.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-wepro-canvas-varnish-4488.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-wepro-canvas-varnish-3428.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-procanvasvarnish2-10copia811.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-procanvasvarnish1-3221.jpg",
+    "img": "https://www.montanacolors.com/content/imgsxml/productos/mtnwepro-canvasvarnish-matt946.jpg",
     "sku": "",
     "searchKeywords": "מונטנה, Montana, MTN, WEPRO, Canvas Varnish, לכה לקנבס, ספריי לכה, וורניש, Matt, מט",
     "__v": 0,
     "createdAt": "2026-10-22T21:52:46.406Z",
-    "updatedAt": "2026-10-22T21:52:46.406Z"
+    "updatedAt": "2026-10-22T21:56:58.486Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ada85ae55093b5a93e8ed65",
-    "name": "ספריי לכה לציורי קנבס Montana MTN WEPRO Canvas Varnish Satin",
+    "name": "ספריי לכה סאטן לציורי קנבס Montana MTN WEPRO Canvas Varnish Satin",
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
@@ -72989,11 +72995,14 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע אקריליק",
-    "img": "https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-wepro-canvas-varnish-4488.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-wepro-canvas-varnish-3428.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-procanvasvarnish2-10copia811.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/79/pre-procanvasvarnish1-3221.jpg",
+    "img": "1792706327608-09f94793.jpg",
     "sku": "",
     "searchKeywords": "מונטנה, Montana, MTN, WEPRO, Canvas Varnish, לכה לקנבס, ספריי לכה, וורניש, Satin, סאטן",
     "__v": 0,
     "createdAt": "2026-10-22T21:52:46.406Z",
-    "updatedAt": "2026-10-22T21:52:46.406Z"
+    "updatedAt": "2026-10-22T21:58:55.832Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
