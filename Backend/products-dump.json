@@ -73064,5 +73064,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6adbb2b32c00f6da682ee7e6",
+    "name": "ספריי פריימר שקוף לפלסטיק Montana MTN WEPRO Plastic Primer",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">ספריי פריימר שקוף MTN WEPRO Plastic Primer של Montana Colors, שכבת עיגון הנדרשת לצביעה של משטחי פלסטיק מסוג PP (פוליפרופילן, EPDM). מבוסס על תוספים מיוחדים שמעניקים לצבע היבש הדבקה יוצאת דופן לפוליפרופילן (PP) המעובד עם EPDM ולפלסטיקים אחרים. בכל ספק לגבי סוג הפלסטיק, מומלץ לבדוק מראש על פינה קטנה או להתייעץ עם המחלקה הטכנית של היצרן.</p><p dir=\"rtl\"><strong>תכונות:</strong> ייבוש מהיר מאוד, גמישות טובה, קל ליישום ולצביעה מחדש במוצרי אקריליק, סינתטיים וניטרוצלולוזה, והדבקה מצוינת על פוליפרופילן (EPDM מעובד). בפלסטיקים אחרים מומלץ לערוך ניסיון לפני השימוש.</p>",
+    "category": "צבעים להובי",
+    "sub_cat": "ספריי צבע",
+    "third_level": "ספריי מיוחדים",
+    "img": "https://www.montanacolors.com/content/imgsxml/productos/mtnwepro-imprimacinplasticos947.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/74/pre-wepro-plastic-primer-4531.jpg;https://www.montanacolors.com/content/imgsxml/galerias/productos/74/pre-plastic-primer-wepro-mtn531.jpg",
+    "sku": "",
+    "searchKeywords": "מונטנה, Montana, MTN, WEPRO, Plastic Primer, פריימר לפלסטיק, פריימר שקוף, ספריי, פוליפרופילן, PP",
+    "__v": 0,
+    "createdAt": "2026-10-23T19:17:07.625Z",
+    "updatedAt": "2026-10-24T06:26:55.092Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
