@@ -73193,5 +73193,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6adc555f1e0f21c3957bdc90",
+    "name": "סט דיו ציור וינסור אנד ניוטון Henry Collection 8 בקבוקים 14 מ\"ל",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט היכרות של 8 בקבוקי דיו ציור של Winsor & Newton (Drawing Inks – Henry Collection), 14 מ\"ל כל אחד. הגוונים בסט: Canary Yellow (צהוב קנרית), Orange (כתום), Carmine (קרמין), Violet (סגול), Blue (כחול), Emerald (ירוק אמרלד), Nut Brown (חום אגוז) ו-Black (שחור). התוכן בפועל עשוי להשתנות.</p><p dir=\"rtl\">דיו ציור קלאסי מהבקבוקונים האייקוניים של Winsor & Newton. מתייבש מהר, עמיד למים ושקוף, ואפשר להשתמש בו עם מכחול, עט טבילה או אירברש. כל הגוונים ניתנים לערבוב, ואפשר להניח שכבות של גוונים שונים לקבלת אפקטים וגוונים חדשים. הסדרה כוללת 26 גוונים, ביניהם Liquid Indian Ink, תמיסה על בסיס מים של דיו סיני מסורתי.</p><p dir=\"rtl\">המוצר אושר על ידי ACMI וקיבל את חותם AP (Approved Product), כלומר אינו נושא סכנות כרוניות או חריפות לבני אדם.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "דיו",
+    "third_level": "Winsor Newton Ink",
+    "img": "https://www.winsornewton.com/cdn/shop/files/11447_30fce0e6-4ec4-4854-8ea4-1ba1d521bfbe.jpg?v=1721326104",
+    "sku": "5012572402484",
+    "searchKeywords": "וינסור ניוטון, Winsor Newton, W&N, דיו ציור, Drawing Inks, Henry Collection, סט דיו, דיו, 14ml",
+    "__v": 0,
+    "createdAt": "2026-10-24T06:51:11.611Z",
+    "updatedAt": "2026-10-24T06:51:50.764Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
