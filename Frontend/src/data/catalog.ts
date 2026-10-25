@@ -491,6 +491,7 @@ export const store = {
     { days: "ראשון – שישי", time: "9:00 – 13:30" },
     { days: "א', ב', ד', ה'", time: "16:00 – 19:00" },
   ],
+  courierEta: "1–5 ימי עבודה", // home delivery, as promised at checkout
 };
 
 // חוגים וסדנאות — מתקיימים בחנות (מתוך האתר הישן)

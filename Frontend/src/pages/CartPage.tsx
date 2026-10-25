@@ -32,7 +32,7 @@ const recentPendingPayment = (): boolean => {
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
-  { id: "courier", title: "משלוח עד הבית", note: "1–5 ימי עבודה", price: 35 },
+  { id: "courier", title: "משלוח עד הבית", note: store.courierEta, price: 35 },
   // registered mail was dropped 2026-10 — old orders still carry delivery "mail"
 ];
 
@@ -330,7 +330,17 @@ export const CartPage = () => {
         if (data.orderId) {
           sessionStorage.setItem(
             `lh-order-${data.orderId}`,
-            JSON.stringify({ valueAgorot: grandTotalAg, coupon: appliedCoupon?.code, items: trackItems })
+            // also what the thank-you page shows: the server's order-status
+            // deliberately returns the status only, so the details come from here
+            JSON.stringify({
+              valueAgorot: grandTotalAg,
+              coupon: appliedCoupon?.code,
+              items: trackItems,
+              delivery: delivery.id,
+              shippingAgorot: shippingAg,
+              discountAgorot: discountAg,
+              hasEmail: Boolean(payer.email.trim()),
+            })
           );
         }
         sessionStorage.setItem(PENDING_KEY, JSON.stringify({ at: Date.now(), orderId: data.orderId }));

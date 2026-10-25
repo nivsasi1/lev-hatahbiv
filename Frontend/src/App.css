@@ -5053,3 +5053,67 @@ html.a11y-underline a {
   gap: 0.6rem;
   flex: none;
 }
+
+/* thank-you page: the order the shopper just paid for, and what happens next */
+.ty-code {
+  font-size: 1.05rem;
+}
+
+.ty-card {
+  max-width: 30rem;
+  margin: 1rem auto;
+  padding: 0.9rem 1.1rem;
+  text-align: start;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.9rem;
+  box-shadow: 0.18em 0.18em 0 var(--shadow);
+}
+
+.ty-card h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+}
+
+.ty-summary p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.25rem 0;
+}
+
+.ty-summary .ty-total {
+  margin-block-start: 0.6rem;
+  padding-block-start: 0.5rem;
+  border-top: 2px dashed var(--ink);
+  font-weight: 800;
+}
+
+.ty-next p {
+  margin: 0.3rem 0;
+}
+
+.ty-hours {
+  list-style: none;
+  margin: 0.3rem 0;
+  padding: 0;
+  color: var(--ink-soft);
+}
+
+.ty-hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ty-note {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.ty-wa,
+.a11y-page a.ty-wa {
+  margin-top: 0.4rem;
+  color: var(--card);
+  text-decoration: none;
+}
