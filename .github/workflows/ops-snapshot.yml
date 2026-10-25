@@ -69,4 +69,6 @@ jobs:
           # main may have moved while this ran (a publish, a code push)
           git pull --rebase origin main
           git push origin main
-          [ -n "${{ steps.snap.outputs.name }}" ] && echo "Restore with: ops-restore → snapshot = ${{ steps.snap.outputs.name }}"
+          if [ -n "${{ steps.snap.outputs.name }}" ]; then
+            echo "Restore with: ops-restore → snapshot = ${{ steps.snap.outputs.name }}"
+          fi
