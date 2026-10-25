@@ -13,6 +13,8 @@ on:
         options:
           - inspect-schema
           - orders-summary
+          - refunds-audit
+          - repair-refunded-status
           - migrate-unsubscribed-at
 
 permissions: {}
@@ -39,6 +41,15 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 7e3908ec50c0d81a964afd3cb7f90a4f
+          REFUNDS_AUDIT: >-
+            SELECT o.status AS status,
+            CASE WHEN o.refunded_total = 0 THEN 'no refund'
+            WHEN o.refunded_total >= o.total THEN 'full'
+            WHEN o.refunded_total + COALESCE(f.fee, 0) >= o.total THEN 'full minus fee'
+            ELSE 'partial' END AS refund,
+            COUNT(*) AS n
+            FROM orders o LEFT JOIN (SELECT order_id, SUM(fee) AS fee FROM refunds GROUP BY order_id) f ON f.order_id = o.id
+            GROUP BY 1, 2 ORDER BY 1, 2;
         run: |
           set -o pipefail  # a wrangler failure must not be masked by the tee pipe
           [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "::error::CLOUDFLARE_API_TOKEN secret not set (repo Settings → Secrets → Actions)"; exit 1; }
@@ -50,6 +61,17 @@ jobs:
             orders-summary)
               # counts only — no PII leaves the database
               npx wrangler d1 execute lev --remote --command "SELECT status, COUNT(*) AS n FROM orders GROUP BY status ORDER BY n DESC;" | tee -a "$GITHUB_STEP_SUMMARY"
+              ;;
+            refunds-audit)
+              # counts only: each status split by how much of it was refunded.
+              # A fully refunded order (fee included) should only ever be "refunded".
+              npx wrangler d1 execute lev --remote --command "$REFUNDS_AUDIT" | tee -a "$GITHUB_STEP_SUMMARY"
+              ;;
+            repair-refunded-status)
+              # Orders refunded in full (a cancellation fee counts as settled) that
+              # a later "טופלה"/"בוטלה" click knocked out of "refunded". Idempotent.
+              npx wrangler d1 execute lev --remote --command "UPDATE orders SET status = 'refunded' WHERE status IN ('paid','handled','cancelled') AND total > 0 AND refunded_total > 0 AND refunded_total + COALESCE((SELECT SUM(fee) FROM refunds WHERE refunds.order_id = orders.id), 0) >= total;" | tee -a "$GITHUB_STEP_SUMMARY"
+              npx wrangler d1 execute lev --remote --command "$REFUNDS_AUDIT" | tee -a "$GITHUB_STEP_SUMMARY"
               ;;
             migrate-unsubscribed-at)
               npx wrangler d1 execute lev --remote --command "ALTER TABLE subscribers ADD COLUMN unsubscribed_at TEXT;" | tee -a "$GITHUB_STEP_SUMMARY" \

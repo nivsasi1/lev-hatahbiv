@@ -21,7 +21,7 @@ const DELIVERY_LABEL: Record<string, string> = {
 };
 
 export function OrdersView() {
-  const { orders, products, workerCall, act, setOrders } = useAdmin();
+  const { orders, products, workerCall, act, setOrders, refresh } = useAdmin();
   // the option's barcode, looked up live — helps picking the right size off the shelf
   const variantSku = (id?: string, key?: string) =>
     key ? products.find((p) => p._id === id)?.variants?.find((v) => v.key === key)?.sku : undefined;
@@ -39,11 +39,17 @@ export function OrdersView() {
   // orders live in D1 (PayMe card + WhatsApp), updated via the Worker
   const setStatus = (id: string, status: "handled" | "cancelled") =>
     act(async () => {
-      const d = await workerCall(`/orders/${encodeURIComponent(id)}`, {
-        method: "PATCH",
-        body: JSON.stringify({ status }),
-      });
-      setOrders((prev) => prev.map((x) => (x._id === id ? d.order : x)));
+      try {
+        const d = await workerCall(`/orders/${encodeURIComponent(id)}`, {
+          method: "PATCH",
+          body: JSON.stringify({ status }),
+        });
+        setOrders((prev) => prev.map((x) => (x._id === id ? d.order : x)));
+      } catch (e) {
+        // refused (e.g. another tab already refunded it) — show the real state
+        await refresh();
+        throw e;
+      }
     });
 
   // the "delete my data" path — wipes the customer details with the order row
@@ -89,8 +95,12 @@ export function OrdersView() {
                 {level === "late" ? "⚠" : "⏳"} ממתינה לטיפול {span(now - Date.parse(o.createdAt))}
               </span>
             )}
-            {(o.refundedTotal || 0) > 0 && o.status !== "refunded" && (
-              <span className="order-refund-chip">זוכה חלקית ₪{ils(o.refundedTotal!)}</span>
+            {(o.refundedTotal || 0) > 0 && (o.refundedTotal || 0) < o.total && (
+              <span className="order-refund-chip">
+                {o.status === "refunded"
+                  ? `זוכו ₪${ils(o.refundedTotal!)} · נוכו דמי ביטול ₪${ils(o.total - o.refundedTotal!)}`
+                  : `זוכה חלקית ₪${ils(o.refundedTotal!)}`}
+              </span>
             )}
             <span className="order-total">₪{ils(o.total)}</span>
           </div>
@@ -131,7 +141,9 @@ export function OrdersView() {
               <button className="btn small ghost order-details-btn" onClick={() => setDetailsTarget(o)}>
                 🔍 פרטי הזמנה
               </button>
-              {o.status !== "handled" && !isUnpaid(o) && (
+              {/* only a paid order is waiting to be sent: a refunded or cancelled
+                  one has nothing left to handle (the API refuses it too) */}
+              {o.status === "paid" && (
                 <button className="btn small" onClick={() => setStatus(o._id, "handled")}>
                   ✓ סימון טופלה
                 </button>
@@ -141,7 +153,7 @@ export function OrdersView() {
                   ↩ זיכוי
                 </button>
               )}
-              {o.status !== "cancelled" && (
+              {o.status !== "cancelled" && o.status !== "refunded" && (
                 <button
                   className="btn small ghost"
                   onClick={() => {
@@ -211,7 +223,7 @@ export function OrdersView() {
           delivery={DELIVERY_LABEL[detailsTarget.delivery] || detailsTarget.delivery}
           onClose={() => setDetailsTarget(null)}
           onHandled={
-            detailsTarget.status !== "handled" && !isUnpaid(detailsTarget)
+            detailsTarget.status === "paid"
               ? () => {
                   setStatus(detailsTarget._id, "handled");
                   setDetailsTarget(null);

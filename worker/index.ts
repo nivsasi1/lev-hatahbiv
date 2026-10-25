@@ -1628,12 +1628,35 @@ async function updateOrderStatus(request: Request, db: DB, id: string): Promise<
   // A manager may only set FULFILMENT states by hand. Money states
   // (paid/refunded/failed) come exclusively from the verified PayMe path — never
   // from a dashboard click — so they can't be forged into the ledger here.
-  const allowed = ["handled", "cancelled"];
+  //
+  // ...and only from states where they mean something. "handled" = shipped /
+  // picked up, so only a paid order can become handled. Neither may overwrite
+  // "refunded": a fully refunded order marked handled used to lose its refund
+  // status and show up as a partial refund.
+  const from: Record<string, string[]> = {
+    handled: ["paid", "handled"],
+    cancelled: ["new", "failed", "paid", "handled", "cancelled"],
+  };
   const status = String(body.status || "");
-  if (!allowed.includes(status)) return json({ error: "bad status" }, 400);
-  await db.update(orders).set({ status }).where(eq(orders.id, id)).run();
+  if (!from[status]) return json({ error: "bad status" }, 400);
+  const res = await db
+    .update(orders)
+    .set({ status })
+    .where(and(eq(orders.id, id), inArray(orders.status, from[status])))
+    .run();
   const o = await db.select().from(orders).where(eq(orders.id, id)).get();
   if (!o) return json({ error: "not found" }, 404);
+  if ((res.meta?.changes ?? 0) === 0) {
+    const he: Record<string, string> = {
+      new: "ממתינה לתשלום", failed: "תשלום נכשל", paid: "שולמה",
+      handled: "טופלה", cancelled: "בוטלה", refunded: "זוכתה",
+    };
+    const why =
+      o.status === "refunded"
+        ? "ההזמנה זוכתה במלואה — הסטטוס שלה נשאר \"זוכה\""
+        : `אי אפשר לסמן הזמנה ש${he[o.status] || o.status} כ"${he[status]}"`;
+    return json({ error: why, order: mapOrder(o) }, 409);
+  }
   return json({ order: mapOrder(o) });
 }
 
@@ -1735,7 +1758,18 @@ async function refundOrder(request: Request, env: Env, db: DB, id: string): Prom
       source: "dashboard",
     })
     .run();
-  if (order.refundedTotal + amount >= order.total) {
+  // Fully refunded = nothing left to give back. Cancellation fees count as
+  // settled: "full refund minus ₪X fee" returns everything the shop is going to
+  // return, so the order leaves fulfilment instead of sitting "paid" with a
+  // "partial refund" chip and turning red as unhandled. Every fee on this order
+  // counts (the ledger row above included), the same rule as ops-d1's
+  // repair-refunded-status.
+  const fees = await db
+    .select({ total: sql<number>`COALESCE(SUM(${refunds.fee}), 0)` })
+    .from(refunds)
+    .where(eq(refunds.orderId, id))
+    .get();
+  if (order.refundedTotal + amount + Number(fees?.total ?? 0) >= order.total) {
     await db.update(orders).set({ status: "refunded" }).where(eq(orders.id, id)).run();
   }
   const fresh = await db.select().from(orders).where(eq(orders.id, id)).get();
