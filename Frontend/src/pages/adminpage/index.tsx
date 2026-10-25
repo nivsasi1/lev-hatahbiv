@@ -15,6 +15,7 @@ import { OrdersView } from "./components/OrdersView";
 import { HomeView } from "./components/home/HomeView";
 import { ProductsView } from "./components/products/ProductsView";
 import { DialogOverlay } from "./components/DialogOverlay";
+import { ageLevel, useNow } from "./lib/orderAge";
 import "../admin-tools.css";
 import "../admin-clean.css";
 import "../admin-mobile.css";
@@ -67,6 +68,8 @@ function Dashboard({
   const home = useHomeSettings();
   const coupons = useCoupons();
   const [view, setView] = useState<View>("products");
+  // ticks every minute: an order crosses into "late" while the tab sits open
+  const now = useNow();
   // newsletter-list toggle lives here (not in the products view) so it stays
   // open across tab switches, like the original.
   const [showSubs, setShowSubs] = useState(false);
@@ -94,6 +97,7 @@ function Dashboard({
         setView={setView}
         productCount={products.length}
         newOrders={orders.filter((o) => o.status === "paid").length}
+        lateOrders={orders.filter((o) => ageLevel(o, now) === "late").length}
       />
 
       {error && <p className="admin-error">{error}</p>}

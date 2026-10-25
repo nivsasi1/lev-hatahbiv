@@ -1,8 +1,10 @@
 export type View = "products" | "orders" | "stats" | "home";
 
-const TABS = (productCount: number, newOrders: number): [View, string][] => [
+const TABS = (productCount: number, newOrders: number, lateOrders: number): [View, string][] => [
   ["products", `🎨 מוצרים (${productCount})`],
-  ["orders", `🧾 הזמנות (${newOrders} חדשות)`],
+  // the late count shows on every tab, so an order waiting 2+ days is seen
+  // even while working on products
+  ["orders", `🧾 הזמנות (${newOrders} חדשות${lateOrders ? ` · ⚠ ${lateOrders} באיחור` : ""})`],
   ["stats", "📊 נתונים"],
   ["home", "🏠 דף הבית"],
 ];
@@ -13,17 +15,23 @@ export function TabNav({
   setView,
   productCount,
   newOrders,
+  lateOrders = 0,
 }: {
   view: View;
   setView: (v: View) => void;
   productCount: number;
   newOrders: number;
+  lateOrders?: number;
 }) {
-  const tabs = TABS(productCount, newOrders);
+  const tabs = TABS(productCount, newOrders, lateOrders);
   return (
     <div className="admin-tabs">
       {tabs.map(([key, label]) => (
-        <button key={key} className={view === key ? "active" : ""} onClick={() => setView(key)}>
+        <button
+          key={key}
+          className={`${view === key ? "active" : ""}${key === "orders" && lateOrders ? " has-late" : ""}`}
+          onClick={() => setView(key)}
+        >
           {label}
         </button>
       ))}

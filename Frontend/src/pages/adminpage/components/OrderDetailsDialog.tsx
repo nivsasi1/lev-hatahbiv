@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ago, orderWhen } from "../lib/orderAge";
 import { useAdmin } from "../context";
 import { imgUrl, ils } from "../lib/helpers";
 import type { Order } from "../lib/types";
@@ -70,7 +71,6 @@ export function OrderDetailsDialog({
   const addr = o.shipping
     ? [o.shipping.street, o.shipping.apt, o.shipping.city, o.shipping.zip].filter(Boolean).join(", ")
     : "";
-  const when = new Date(o.createdAt);
 
   return (
     <div className="ui-veil adm-sheet-veil" onClick={onClose}>
@@ -87,12 +87,7 @@ export function OrderDetailsDialog({
           <div className="adm-sheet-title">
             <h3 className="display" id="od-title">פרטי הזמנה</h3>
             <small>
-              {when.toLocaleDateString("he-IL", { timeZone: "Asia/Jerusalem" })}{" "}
-              {when.toLocaleTimeString("he-IL", {
-                hour: "2-digit",
-                minute: "2-digit",
-                timeZone: "Asia/Jerusalem",
-              })}
+              {orderWhen(o.createdAt)} ({ago(o.createdAt, Date.now())})
               {" · "}
               {units} פריטים · ₪{ils(o.total)}
             </small>

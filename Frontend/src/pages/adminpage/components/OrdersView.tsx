@@ -4,6 +4,7 @@ import { ils } from "../lib/helpers";
 import { RefundDialog } from "./RefundDialog";
 import { OrderDetailsDialog } from "./OrderDetailsDialog";
 import type { Order } from "../lib/types";
+import { ageLevel, ago, orderWhen, span, useNow, AGING } from "../lib/orderAge";
 
 const STATUS_LABEL: Record<string, string> = {
   new: "ממתין לתשלום",
@@ -26,6 +27,7 @@ export function OrdersView() {
     key ? products.find((p) => p._id === id)?.variants?.find((v) => v.key === key)?.sku : undefined;
   const [refundTarget, setRefundTarget] = useState<Order | null>(null);
   const [detailsTarget, setDetailsTarget] = useState<Order | null>(null);
+  const now = useNow();
 
   // a refund makes sense only after money moved: paid / handled, or a paid
   // order the owner cancelled (a never-paid one gets rejected by PayMe).
@@ -58,20 +60,35 @@ export function OrdersView() {
   const real = orders.filter((o) => !isUnpaid(o));
   const unpaid = orders.filter(isUnpaid);
 
-  const renderOrder = (o: (typeof orders)[number]) => (
-        <div key={o._id} className={`order-card ${o.status}${isUnpaid(o) ? " unpaid" : ""}`}>
+  // paid and still waiting for "טופלה" — the oldest first, for the banner
+  const waiting = real
+    .filter((o) => o.status === "paid")
+    .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
+  const oldest = waiting[0];
+  const oldestLevel = oldest ? ageLevel(oldest, now) : null;
+  const lateCount = waiting.filter((o) => ageLevel(o, now) === "late").length;
+  const showOldest = () =>
+    document.getElementById(`order-${oldest?._id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  const renderOrder = (o: (typeof orders)[number]) => {
+    const level = ageLevel(o, now);
+    return (
+        <div
+          key={o._id}
+          id={`order-${o._id}`}
+          className={`order-card ${o.status}${isUnpaid(o) ? " unpaid" : ""}${level ? ` aging-${level}` : ""}`}
+        >
           <div className="order-head">
-            <b>
-              {new Date(o.createdAt).toLocaleDateString("he-IL", {
-                timeZone: "Asia/Jerusalem",
-              })}{" "}
-              {new Date(o.createdAt).toLocaleTimeString("he-IL", {
-                hour: "2-digit",
-                minute: "2-digit",
-                timeZone: "Asia/Jerusalem",
-              })}
-            </b>
+            <span className="order-when">
+              <b>{orderWhen(o.createdAt)}</b>
+              <small className="order-ago">{ago(o.createdAt, now)}</small>
+            </span>
             <span className={`order-status ${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>
+            {level && (
+              <span className={`order-wait-chip ${level}`} role="status">
+                {level === "late" ? "⚠" : "⏳"} ממתינה לטיפול {span(now - Date.parse(o.createdAt))}
+              </span>
+            )}
             {(o.refundedTotal || 0) > 0 && o.status !== "refunded" && (
               <span className="order-refund-chip">זוכה חלקית ₪{ils(o.refundedTotal!)}</span>
             )}
@@ -154,12 +171,26 @@ export function OrdersView() {
             </span>
           </div>
         </div>
-  );
+    );
+  };
 
   return (
     <div className="orders-list">
       {real.length === 0 && (
         <p className="empty-note">עוד אין הזמנות — הן יופיעו כאן ברגע שלקוח ישלם</p>
+      )}
+      {oldest && (
+        <div className={`orders-waiting ${oldestLevel || "ok"}`} role="status">
+          <span>
+            {waiting.length === 1 ? "הזמנה אחת ממתינה" : `${waiting.length} הזמנות ממתינות`} לסימון
+            "טופלה"
+            {lateCount > 0 && ` · ${lateCount} מעל ${AGING.lateHours / 24} ימים`}
+            {" · "}הוותיקה {ago(oldest.createdAt, now)}
+          </span>
+          <button className="btn small ghost" onClick={showOldest}>
+            להזמנה הוותיקה ↓
+          </button>
+        </div>
       )}
       {real.map(renderOrder)}
       {unpaid.length > 0 && (

@@ -283,3 +283,14 @@ body.lh-admin-clean { background: #eef1f6; }
 /* in the clean theme, the active chip adopts the indigo accent */
 .adm-clean .adm-theme-switch { background: #e3e8f2; border-color: #d4dbe8; }
 .adm-clean .adm-theme-switch button.on { color: var(--purple); }
+
+/* orders waiting for "טופלה": the shared 1px card border above would hide
+   the aging colour, so restate it here */
+.adm-clean .order-card.aging-warn {
+  border-color: var(--gold);
+  border-inline-start: 4px solid var(--gold);
+}
+.adm-clean .order-card.aging-late {
+  border-color: var(--red);
+  border-inline-start: 4px solid var(--red);
+}
