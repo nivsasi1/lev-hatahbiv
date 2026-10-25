@@ -976,3 +976,60 @@ a.od-thumb:hover img {
     min-width: 3.2rem;
   }
 }
+
+/* order details → "🖨 הדפסה": print the order alone, as a one-page packing
+   slip. Everything that isn't the dialog or one of its ancestors is dropped,
+   and the fixed overlay becomes ordinary page flow. */
+.adm-sheet-foot .od-print {
+  flex: 0 0 auto;
+}
+.od-code {
+  font-size: 0.7em;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+@media print {
+  html.lh-print-order body *:not(:has(.od-dialog)):not(.od-dialog):not(.od-dialog *) {
+    display: none !important;
+  }
+  html.lh-print-order .ui-veil.adm-sheet-veil {
+    position: static !important;
+    display: block !important;
+    padding: 0 !important;
+    background: none !important;
+    backdrop-filter: none !important;
+  }
+  html.lh-print-order .od-dialog {
+    position: static !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+  html.lh-print-order .adm-sheet-foot,
+  html.lh-print-order .adm-sheet-x,
+  html.lh-print-order .no-print {
+    display: none !important;
+  }
+  html.lh-print-order body,
+  html.lh-print-order main {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* the dialog's ancestors (page shell, list, overlay) must not keep it narrow */
+  html.lh-print-order body *:has(.od-dialog) {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  html.lh-print-order .od-dialog {
+    width: 100% !important;
+  }
+}

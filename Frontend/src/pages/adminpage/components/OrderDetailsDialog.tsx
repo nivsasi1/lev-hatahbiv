@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ago, orderWhen } from "../lib/orderAge";
+import { orderCode } from "../../../lib/orderCode";
+import { customerWaLink } from "../lib/whatsapp";
 import { useAdmin } from "../context";
 import { imgUrl, ils } from "../lib/helpers";
 import type { Order } from "../lib/types";
@@ -36,6 +38,19 @@ export function OrderDetailsDialog({
 }) {
   const { products } = useAdmin();
   const box = useRef<HTMLDivElement>(null);
+
+  // print just this order (the packing slip): a class on <html> switches on the
+  // print rules in admin-tools.css that hide everything else
+  const printOrder = () => {
+    const root = document.documentElement;
+    root.classList.add("lh-print-order");
+    const done = () => {
+      root.classList.remove("lh-print-order");
+      window.removeEventListener("afterprint", done);
+    };
+    window.addEventListener("afterprint", done);
+    window.print();
+  };
 
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
@@ -85,7 +100,9 @@ export function OrderDetailsDialog({
       >
         <div className="adm-sheet-head">
           <div className="adm-sheet-title">
-            <h3 className="display" id="od-title">פרטי הזמנה</h3>
+            <h3 className="display" id="od-title">
+              פרטי הזמנה <span dir="ltr" className="od-code">{orderCode(o._id)}</span>
+            </h3>
             <small>
               {orderWhen(o.createdAt)} ({ago(o.createdAt, Date.now())})
               {" · "}
@@ -164,6 +181,11 @@ export function OrderDetailsDialog({
                 📞 <bdi dir="ltr">{o.payerPhone}</bdi>
               </a>
             )}
+            {customerWaLink(o) && (
+              <a className="od-wa no-print" href={customerWaLink(o)!} target="_blank" rel="noreferrer">
+                💬 וואטסאפ ללקוח
+              </a>
+            )}
             {o.payerEmail && (
               <a href={`mailto:${o.payerEmail}`}>
                 ✉️ <bdi dir="ltr">{o.payerEmail}</bdi>
@@ -217,6 +239,14 @@ export function OrderDetailsDialog({
         </div>
 
         <div className="adm-sheet-foot">
+          <button
+            type="button"
+            className="btn small ghost od-print"
+            onClick={printOrder}
+            title="הדפסת פרטי ההזמנה (לאריזה)"
+          >
+            🖨 הדפסה
+          </button>
           {onHandled && (
             <button className="btn small" onClick={onHandled}>
               ✓ סימון טופלה

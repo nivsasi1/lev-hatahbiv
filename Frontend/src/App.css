@@ -2795,7 +2795,7 @@ a.sub-chip {
   line-height: 1.25;
 }
 
-.order-ago {
+.order-sub {
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--ink-soft);
@@ -5116,4 +5116,9 @@ html.a11y-underline a {
   margin-top: 0.4rem;
   color: var(--card);
   text-decoration: none;
+}
+
+.orders-search {
+  width: 100%;
+  max-width: 28rem;
 }

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAdmin } from "../context";
 import { ils } from "../lib/helpers";
 import { RefundDialog } from "./RefundDialog";
 import { OrderDetailsDialog } from "./OrderDetailsDialog";
 import type { Order } from "../lib/types";
 import { ageLevel, ago, orderWhen, span, useNow, AGING } from "../lib/orderAge";
+import { customerWaLink, waLabel } from "../lib/whatsapp";
+import { orderCode, matchesOrderCode } from "../../../lib/orderCode";
 
 const STATUS_LABEL: Record<string, string> = {
   new: "ממתין לתשלום",
@@ -27,6 +29,7 @@ export function OrdersView() {
     key ? products.find((p) => p._id === id)?.variants?.find((v) => v.key === key)?.sku : undefined;
   const [refundTarget, setRefundTarget] = useState<Order | null>(null);
   const [detailsTarget, setDetailsTarget] = useState<Order | null>(null);
+  const [query, setQuery] = useState("");
   const now = useNow();
 
   // a refund makes sense only after money moved: paid / handled, or a paid
@@ -63,11 +66,29 @@ export function OrdersView() {
   // PayMe refused to open a sale. Neither is an order until the callback flips it
   // to 'paid', so they live in a collapsed section instead of the main list.
   const isUnpaid = (o: (typeof orders)[number]) => o.status === "new" || o.status === "failed";
-  const real = orders.filter((o) => !isUnpaid(o));
-  const unpaid = orders.filter(isUnpaid);
+  // search: name, phone (any format), email, order number or a product name
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return orders;
+    const qDigits = q.replace(/\D/g, "");
+    const local = (p?: string | null) => String(p || "").replace(/\D/g, "").replace(/^972/, "0");
+    return orders.filter(
+      (o) =>
+        matchesOrderCode(o._id, q) ||
+        String(o.payerName || "").toLowerCase().includes(q) ||
+        String(o.payerEmail || "").toLowerCase().includes(q) ||
+        (qDigits.length >= 3 && local(o.payerPhone).includes(qDigits.replace(/^972/, "0"))) ||
+        (o.items || []).some((i: any) => String(i.name || "").toLowerCase().includes(q))
+    );
+  }, [orders, query]);
+
+  // the banner and the "waiting" count always look at every order, not the search
+  const allReal = orders.filter((o) => !isUnpaid(o));
+  const real = shown.filter((o) => !isUnpaid(o));
+  const unpaid = shown.filter(isUnpaid);
 
   // paid and still waiting for "טופלה" — the oldest first, for the banner
-  const waiting = real
+  const waiting = allReal
     .filter((o) => o.status === "paid")
     .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
   const oldest = waiting[0];
@@ -87,7 +108,12 @@ export function OrdersView() {
           <div className="order-head">
             <span className="order-when">
               <b>{orderWhen(o.createdAt)}</b>
-              <small className="order-ago">{ago(o.createdAt, now)}</small>
+              <small className="order-sub">
+                <span className="order-ago">{ago(o.createdAt, now)}</span> ·{" "}
+                <span className="order-code" dir="ltr">
+                  {orderCode(o._id)}
+                </span>
+              </small>
             </span>
             <span className={`order-status ${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>
             {level && (
@@ -141,6 +167,17 @@ export function OrdersView() {
               <button className="btn small ghost order-details-btn" onClick={() => setDetailsTarget(o)}>
                 🔍 פרטי הזמנה
               </button>
+              {(o.status === "paid" || o.status === "handled") && customerWaLink(o) && (
+                <a
+                  className="btn small ghost order-wa-btn"
+                  href={customerWaLink(o)!}
+                  target="_blank"
+                  rel="noreferrer"
+                  title="פותח וואטסאפ ללקוח עם הודעה מוכנה — אפשר לערוך לפני השליחה"
+                >
+                  {waLabel(o)}
+                </a>
+              )}
               {/* only a paid order is waiting to be sent: a refunded or cancelled
                   one has nothing left to handle (the API refuses it too) */}
               {o.status === "paid" && (
@@ -188,7 +225,18 @@ export function OrdersView() {
 
   return (
     <div className="orders-list">
-      {real.length === 0 && (
+      {orders.length > 0 && (
+        <input
+          className="featured-search orders-search"
+          type="search"
+          value={query}
+          onChange={(e: any) => setQuery(e.target.value)}
+          placeholder="חיפוש הזמנה: שם, טלפון, מספר הזמנה או מוצר"
+          aria-label="חיפוש הזמנה"
+        />
+      )}
+      {query.trim() && shown.length === 0 && <p className="empty-note">לא נמצאה הזמנה שמתאימה ל"{query.trim()}"</p>}
+      {!query.trim() && allReal.length === 0 && (
         <p className="empty-note">עוד אין הזמנות — הן יופיעו כאן ברגע שלקוח ישלם</p>
       )}
       {oldest && (
