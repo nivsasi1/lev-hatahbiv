@@ -70590,7 +70590,7 @@
     "price": 50,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": true,
+    "isActive": false,
     "description": "<p dir=\"rtl\">ספר סקיצות בכריכה קשה של Sakura (Sketch/Notebook), בגודל 9x14 ס\"מ, עם 80 דפים (160 עמודים) מנייר בצבע קרם, נטול חומצה, בגרמאז' 140, ששומרים במקום אחד את יצירות הדיו, העיפרון, פסטל השמן והפחם שלך. לספר מחזיק עט שמתאים לעטים כמו Pigma Micron ו-Sakura Gelly Roll, כיס מתרחב בגב לאחסון סקיצות ופתקים, וגומיית סגירה שמחזיקה אותו סגור וקומפקטי בנסיעות. עטיפת הנייר המאוירת ייחודית לספר ואפשר להשתמש בה כסימנייה (איור: Kim Dijkstra).</p><p dir=\"rtl\">מתאים לסקיצות ולכתיבה עם כל מוצרי Sakura: Pigma Micron, Pigma Brush, Koi Coloring Brush Pen, Gelly Roll, Permapaque ופסטל השמן Cray-Pas המקורי.</p>",
     "category": "נייר לאמנות",
     "sub_cat": "בלוקי נייר",
@@ -70600,7 +70600,7 @@
     "searchKeywords": "רויאל טלנס, Royal Talens, Sakura, סאקורה, ספר סקיצות, מחברת סקיצות, Sketch Notebook, 9x14",
     "__v": 0,
     "createdAt": "2026-10-19T04:31:48.592Z",
-    "updatedAt": "2026-10-19T04:31:48.592Z"
+    "updatedAt": "2026-10-26T04:33:16.505Z"
   },
   {
     "_id": "6ad59d348e1088b6232ec568",
