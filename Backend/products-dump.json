@@ -73716,7 +73716,7 @@
     "price": 279,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">מבחר צבעים לנופי ים, מתאימים גם לשמיים. כל הצבעים ניתנים לערבוב ליצירת גוונים ביניים. צבעי PanPastel ניתנים לערבוב, מחיקים, דלי אבק, עמידים לאור ובאיכות אמן מקצועית.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>10 צבעי PanPastel</li><li>2 צנצנות אחסון</li><li>4 מיני אפליקטורים של Sofft</li><li>2 מוטות ספוג של Sofft</li></ul></div>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -73726,7 +73726,7 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, סט פסטל, 10 Seascape Set",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.233Z",
-    "updatedAt": "2026-10-28T15:35:37.624Z",
+    "updatedAt": "2026-10-28T15:35:45.999Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
@@ -73788,10 +73788,10 @@
   {
     "_id": "6adedac357a360643ff66044",
     "name": "סט פסטל PanPastel 20 Landscape Set",
-    "price": 50,
+    "price": 499,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">אידיאלי לנופים ולטבע. כל הצבעים ניתנים לערבוב ליצירת גוונים ביניים. צבעי PanPastel ניתנים לערבוב, מחיקים, דלי אבק, עמידים לאור ובאיכות אמן מקצועית.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>20 צבעי PanPastel</li><li>2 סכיני ציור של Sofft (Round, Flat)</li><li>10 כיסויי סכין של Sofft (Round, Flat)</li><li>2 מוטות ספוג של Sofft</li><li>ספוג Big Oval אחד של Sofft</li><li>3 מיני אפליקטורים של Sofft</li><li>4 צנצנות אחסון</li></ul></div>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -73801,7 +73801,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, סט פסטל, 20 Landscape Set",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.233Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:35:48.850Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66045",
