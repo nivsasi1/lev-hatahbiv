@@ -74355,10 +74355,10 @@
   {
     "_id": "6adedac357a360643ff66066",
     "name": "אביזר ל-PanPastel Sofft 10-Covers No. 3 Oval",
-    "price": 50,
+    "price": 18.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">הכיסויים החדשניים האלה מותאמים בגודלם לשימוש עם סכיני Sofft. הם עשויים מספוג מיקרו-נקבובי שפותח במיוחד והופכים את סכיני Sofft לכלים סופגים, שמסוגלים לשאת ולשחרר צבע וחומר בדרך ייחודית. מתאימים לסכין Sofft מס' 3.</p><p dir=\"rtl\">אריזה של 10 כיסויים | גודל כל כיסוי: 26x13 מ\"מ</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74368,7 +74368,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, Sofft 10-Covers No. 3 Oval",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.234Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:18:42.907Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66067",
