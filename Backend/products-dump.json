@@ -73308,10 +73308,10 @@
   {
     "_id": "6adedac357a360643ff6602a",
     "name": "סט פסטל PanPastel 5 Starter Shades Set",
-    "price": 50,
+    "price": 145,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">סט פתיחה של גוונים כהים (Shades). כל הצבעים ניתנים לערבוב ליצירת גוונים ביניים. צבעי PanPastel ניתנים לערבוב, מחיקים, דלי אבק, עמידים לאור ובאיכות אמן מקצועית.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>5 צבעי PanPastel</li><li>צנצנת אחסון אחת</li><li>3 מיני אפליקטורים של Sofft</li><li>מוט ספוג אחד של Sofft</li></ul></div>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -73321,7 +73321,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, סט פסטל, 5 Starter Shades Set",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.232Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:54:05.586Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff6602b",
