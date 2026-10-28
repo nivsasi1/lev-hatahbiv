@@ -73434,10 +73434,10 @@
   {
     "_id": "6adedac357a360643ff66031",
     "name": "סט פסטל PanPastel 6 Pearlescent Colors Set",
-    "price": 50,
+    "price": 189,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">כולל את כל 6 הצבעים הפנינתיים (Pearlescent). אפשר להשתמש בהם לבדם או לערבב עם הצבעים המקוריים לאפקטי פנינה מותאמים אישית. צבעי PanPastel ניתנים לערבוב, מחיקים, דלי אבק, עמידים לאור ובאיכות אמן מקצועית.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>6 צבעי PanPastel</li><li>2 צנצנות אחסון</li><li>2 מוטות ספוג של Sofft</li><li>4 מיני אפליקטורים של Sofft</li></ul></div>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -73447,7 +73447,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, סט פסטל, 6 Pearlescent Colors Set",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.232Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:32:47.236Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66032",
@@ -74490,10 +74493,10 @@
   {
     "_id": "6adedac357a360643ff6606d",
     "name": "אביזר ל-PanPastel Sofft 5 - No. 2 Flat Covers & Knife",
-    "price": 50,
+    "price": 18.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">בשימוש עם כיסויי Sofft, הסכין הופכת לאפליקטור סופג רב-שימושי לטכניקות אמנות ויצירה, והיא פועלת כמעין שילוב בין מכחול לסכין. צורת כל סכין מבוססת על צורות מכחולים והידית מבוססת על סכינים בעלות ידית עץ, ונוחה לאחיזה ולשליטה. סכיני Sofft עשויות מחומר פלסטי גמיש ועמיד, וכל סכין ממוספרת לזיהוי קל.</p><p dir=\"rtl\">אריזה של סכין אחת ו-5 כיסויים | גודל כל סכין: 170x10 מ\"מ | גודל כל כיסוי: 26x13 מ\"מ</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74503,7 +74506,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, Sofft 5 - No. 2 Flat Covers & Knife",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.234Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:33:18.226Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff6606e",
