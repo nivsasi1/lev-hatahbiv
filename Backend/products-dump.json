@@ -73695,10 +73695,10 @@
   {
     "_id": "6adedac357a360643ff6603f",
     "name": "סט פסטל PanPastel 10 Drawing Set",
-    "price": 50,
+    "price": 270,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">מבחר צבעים לרישום (כולל שחור, לבן, אפורים וגווני אדמה). כל הצבעים ניתנים לערבוב ליצירת גוונים ביניים. צבעי PanPastel ניתנים לערבוב, מחיקים, דלי אבק, עמידים לאור ובאיכות אמן מקצועית.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>10 צבעי PanPastel</li><li>2 צנצנות אחסון</li><li>4 מיני אפליקטורים של Sofft</li><li>2 מוטות ספוג של Sofft</li></ul></div>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -73708,7 +73708,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, סט פסטל, 10 Drawing Set",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.233Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:53:24.325Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66040",
