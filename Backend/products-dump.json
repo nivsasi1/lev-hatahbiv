@@ -74136,10 +74136,10 @@
   {
     "_id": "6adedac357a360643ff6605a",
     "name": "אביזר ל-PanPastel 20 Color Palette Tray & Lid",
-    "price": 50,
+    "price": 69.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">מגשי פלטה הם הדרך האידיאלית להחזיק את צבעי PanPastel בזמן העבודה, והם מחזיקים את הפאנים בצורה מאובטחת. כל מגש כולל מכסה, כך שאחסון כל הצבעים במגש מהיר וקל. מכיל 20 צבעים. מסופק ריק.</p><p dir=\"rtl\">מידות: 35.6x29x1.9 ס\"מ</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74149,7 +74149,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, 20 Color Palette Tray & Lid",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.234Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:17:03.205Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff6605b",
