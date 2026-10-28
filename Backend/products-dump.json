@@ -73713,7 +73713,7 @@
   {
     "_id": "6adedac357a360643ff66040",
     "name": "סט פסטל PanPastel 10 Seascape Set",
-    "price": 50,
+    "price": 279,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -73726,7 +73726,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, סט פסטל, 10 Seascape Set",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.233Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-10-28T15:35:37.624Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66041",
