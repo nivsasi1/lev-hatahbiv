@@ -74630,5 +74630,26 @@
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.235Z",
     "updatedAt": "2026-10-26T04:55:37.191Z"
+  },
+  {
+    "_id": "6ae26db825250bc3dd91284a",
+    "name": "סט פסטל PanPastel Extra Dark Warm 10 Colours",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": false,
+    "description": "<p dir=\"rtl\">סט של 10 צבעי PanPastel בגוונים כהים וחמים במיוחד (Extra Dark Warm). הצבעים נעשים מפיגמנטים באיכות הגבוהה ביותר, בעלי עמידות מצוינת לאור, ורכים כל כך שאי אפשר להחזיק אותם. כל פאן מכיל 9 מ\"ל, כ-35% יותר חומר ממקל פסטל ממוצע. צבעי PanPastel ניתנים לערבוב, מחיקים ודלי אבק. תכולת הסט: 10 צבעי PanPastel (9 מ\"ל כל אחד), כלי Sofft וצנצנות אחסון. התכולה עשויה להשתנות מעט בהתאם לזמינות.</p><p dir=\"rtl\"><strong>הגוונים בסט:</strong></p><div dir=\"rtl\"><ul><li>Orange Extra Dark (280.1)</li><li>Yellow Ochre Extra Dark (270.1)</li><li>Diarylide Yellow Extra Dark (250.1)</li><li>Hansa Yellow Extra Dark (220.1)</li><li>Bright Yellow Green Extra Dark (680.1)</li><li>Permanent Red Extra Dark (340.1)</li><li>Red Iron Oxide Extra Dark (380.1)</li><li>Burnt Sienna Extra Dark (740.1)</li><li>Raw Umber Extra Dark (780.1)</li><li>Neutral Grey Extra Dark (820.2)</li></ul></div>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי פסטל",
+    "third_level": "פסטל יבש - PanPastel",
+    "img": "1793224140397-ad05c563.jpg;1793224147896-91fe6584.jpg;1793224153118-737fbfe3.jpg",
+    "sku": "879465000463",
+    "searchKeywords": "פאן פסטל, PanPastel, סט פסטל, Extra Dark, Warm, כהים, חמים, 10 צבעים",
+    "__v": 0,
+    "createdAt": "2026-10-28T21:48:40.297Z",
+    "updatedAt": "2026-10-28T21:49:19.952Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
