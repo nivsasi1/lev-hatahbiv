@@ -18968,15 +18968,15 @@
     "name": "גליון נייר מונטוול אקוורל 300 גרם",
     "description": "<p dir=\"rtl\">נייר מונוול אקוורל מתאים לכל הטכניקות הרטובות: צבעי מים, גואש ואקריליק.<br>הנייר&nbsp; ללא חומצה, בעל אריכות ימים מעולה, נוגד עובש וכתמים וללא תוספי בהירות אופטיים. הנייר נבדק ונמצא כאיכותי ביותר לצבעי מים ולתיקוני אפקט (ניתן לשטוף את הנייר עם מברשת)</p>",
     "img": "733145_f604d2ae7c544cbdaa72e258ba5d3494~mv2.jpg",
-    "price": 9,
+    "price": 12.6,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות ציור",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-10-29T19:20:20.057Z",
     "variantLabel": "Size",
     "variants": [
       {
@@ -18985,10 +18985,13 @@
       },
       {
         "key": "110*75",
+        "price": 23,
         "soldOut": true
       }
     ],
-    "noCoupon": true
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": ""
   },
   {
     "_id": "66844bfdf2e4e8f572770848",
