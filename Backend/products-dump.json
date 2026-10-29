@@ -19027,35 +19027,6 @@
     "noCoupon": true
   },
   {
-    "_id": "66844bfdf2e4e8f57277084a",
-    "id": "product_6bef60e5-81a9-b6c0-c398-dd146497b54a",
-    "name": "נייר ארצ' אקוורל 100% כותנה 56*76",
-    "description": "<p dir=\"rtl\">נייר צבעי המים של ARCHE Aquarelle הוא הנייר מעוטר ביותר בפרסים בעולם.<br>אידיאלי לצבעי מים כמו גם לטכניקות רטובות כמו דיו, גואש ואקריליק.<br>3 טקסטורות: כבישה קרה, כבישה חמה, גרעון גס<br>משקל:300 גרם<br>100% כותנה איכותית<br>צבע: לבן טבעי ולבן בוהק<br>שימור: טיפול טבעי מונע פטריות ועובש, נטול חומצה וללא מבהירים תעשייתיים</p>",
-    "img": "733145_75d026d35ea643da95f6f8dff6c737ca~mv2.jpg",
-    "price": 25.6,
-    "visible": true,
-    "discountMode": "PERCENT",
-    "discountValue": 0,
-    "isAvailable": false,
-    "category": "נייר לאמנות",
-    "sub_cat": "גליונות נייר",
-    "third_level": "גליונות ציור",
-    "updatedAt": "2026-09-16T14:19:55.880Z",
-    "variantLabel": "סוג",
-    "variants": [
-      {
-        "key": "כבישה חמה",
-        "soldOut": true
-      },
-      {
-        "key": "כבישה קרה",
-        "soldOut": true
-      }
-    ],
-    "searchKeywords": "Arches, ארש",
-    "noCoupon": true
-  },
-  {
     "_id": "66844bfdf2e4e8f57277084b",
     "id": "product_2a759afb-2f93-4a7f-fb53-0392a665a30e",
     "name": "סט פסטל יבש רך מאוד 1/24 קוהינור KOH-I-NOOR",
