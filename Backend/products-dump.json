@@ -74651,5 +74651,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ae39a36ea8a5b86acf36cce",
+    "name": "סט פסטל PanPastel 3 Colour Pearlescent Secondary Set",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": false,
+    "description": "<p dir=\"rtl\">סט של 3 צבעי PanPastel פנינתיים משניים (Pearlescent Secondary), עם כלי Sofft נוספים. אפשר להשתמש בצבעים הפנינתיים של PanPastel לבדם או לערבב אותם עם צבעי PanPastel אחרים, כדי להעצים את היצירה וליצור אפקט פנינה מותאם אישית, ואפשר לערבב אותם גם עם כל 80 צבעי PanPastel המקוריים. הסט מכיל פיגמנטים באיכות אמנים לצבעים מרוכזים ככל האפשר, ומתאים לציור, לרישום ולמדיה מעורבת. מיוצר בתהליך ייחודי הדורש מעט מאוד חומר מקשר ומילוי, וכך מתקבלים צבעים עשירים, רכים במיוחד וקלים מאוד למיזוג. המוצר אינו רעיל.</p><p dir=\"rtl\">צבעי PanPastel פנינתיים ניתנים למחיקה, דלי אבק, עמידים לאור ובאיכות אמן מקצועית.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>צבע פנינתי ירוק (Pearlescent Green 956.5)</li><li>צבע פנינתי סגול (Pearlescent Violet 954.5)</li><li>צבע פנינתי כתום (Pearlescent Orange 952.5)</li><li>מיני אפליקטור אחד של Sofft</li><li>מוט ספוג אחד של Sofft</li><li>2 כיסויי סכין של Sofft (מס' 1 ו-2)</li><li>צנצנת אחסון אחת</li></ul></div>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי פסטל",
+    "third_level": "פסטל יבש - PanPastel",
+    "img": "https://atcraft.com.au/cdn/shop/files/30034_3_Color_Pearl_Secondary_1AAA-scaled.jpg?v=1747718348&width=1500",
+    "sku": "879465001606",
+    "searchKeywords": "פאן פסטל, PanPastel, סט פסטל, פנינתי, Pearlescent, Secondary, 3 צבעים",
+    "__v": 0,
+    "createdAt": "2026-10-29T19:10:46.932Z",
+    "updatedAt": "2026-10-29T19:11:01.957Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
