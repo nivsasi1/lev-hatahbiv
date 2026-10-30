@@ -19008,8 +19008,9 @@
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות ציור",
     "searchKeywords": "Arches, ארש",
-    "updatedAt": "2026-10-29T19:21:11.068Z",
-    "noCoupon": true
+    "updatedAt": "2026-10-30T05:04:27.870Z",
+    "noCoupon": true,
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770849",
@@ -74643,6 +74644,27 @@
     "__v": 0,
     "createdAt": "2026-10-29T19:10:46.932Z",
     "updatedAt": "2026-10-29T19:11:01.957Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
+  },
+  {
+    "_id": "6ae425ea0c758f0009b58c16",
+    "name": "סט פסטל PanPastel Extra Dark Cool 10 Colours",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": false,
+    "description": "<p dir=\"rtl\">סט של 10 צבעי PanPastel בגוונים כהים וקרים במיוחד (Extra Dark Cool). הצבעים עשויים מפיגמנטים באיכות הגבוהה ביותר, בעלי עמידות לאור, ורכים במיוחד. כל פאן מכיל 9 מ\"ל, כ-40% יותר חומר ממקל פסטל ממוצע. צבעי PanPastel ניתנים לערבוב, מחיקים ודלי אבק. תכולת הסט: 10 צבעי PanPastel (9 מ\"ל כל אחד), כלי Sofft וצנצנות אחסון. התכולה עשויה להשתנות מעט בהתאם לזמינות.</p><p dir=\"rtl\"><strong>הגוונים בסט:</strong></p><div dir=\"rtl\"><ul><li>Phthalo Blue Extra Dark (560.1)</li><li>Ultramarine Blue Extra Dark (520.1)</li><li>Turquoise Extra Dark (580.1)</li><li>Phthalo Green Extra Dark (620.1)</li><li>Permanent Green Extra Dark (640.1)</li><li>Chromium Oxide Green Extra Dark (660.1)</li><li>Magenta Extra Dark (430.1)</li><li>Violet Extra Dark (470.1)</li><li>Paynes Grey Extra Dark (840.1)</li><li>Neutral Grey Extra Dark (820.1)</li></ul></div>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי פסטל",
+    "third_level": "פסטל יבש - PanPastel",
+    "img": "1793336824377-3debd794.jpg;1793336831219-7572332a.jpg;1793336835554-f4968fcd.jpg",
+    "sku": "879465000555",
+    "searchKeywords": "פאן פסטל, PanPastel, סט פסטל, Extra Dark, Cool, כהים, קרים, 10 צבעים",
+    "__v": 0,
+    "createdAt": "2026-10-30T05:06:50.952Z",
+    "updatedAt": "2026-10-30T05:07:24.093Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
