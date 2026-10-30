@@ -74671,5 +74671,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ae508e0084f52528b6f6507",
+    "name": "סט פסטל PanPastel 3 Colour Pearlescent Primary Set",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": false,
+    "description": "<p dir=\"rtl\">סט של 3 צבעי PanPastel פנינתיים ראשוניים (Pearlescent Primary): צהוב פנינתי (951.5), אדום פנינתי (953.5) וכחול פנינתי (955.5), 9 מ\"ל כל אחד, עם כלי Sofft נוספים. אפשר להשתמש בצבעים הפנינתיים של PanPastel לבדם או לערבב אותם עם צבעי PanPastel אחרים, כדי להעצים את היצירה וליצור אפקט פנינה מותאם אישית. הצבעים מיוצרים בתהליך ייחודי הדורש מעט מאוד חומר מקשר ומילוי, וכך מתקבלים צבעים עשירים, רכים במיוחד וקלים מאוד למיזוג. מתאים לציור, לרישום ולמדיה מעורבת.</p><p dir=\"rtl\">צבעי PanPastel פנינתיים ניתנים למחיקה, דלי אבק ועמידים לאור.</p><p dir=\"rtl\"><strong>הסט כולל:</strong></p><div dir=\"rtl\"><ul><li>3 צבעי PanPastel פנינתיים: אדום (953.5), כחול (955.5) וצהוב (951.5)</li><li>4 כלי Sofft: כיסוי סכין שטוח, כיסוי סכין עגול, מיני אפליקטור ומוט ספוג עגול/שטוח</li></ul></div>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי פסטל",
+    "third_level": "פסטל יבש - PanPastel",
+    "img": "1793394930907-677e082e.jpg;1793394938046-d6024a5d.jpg",
+    "sku": "879465001576",
+    "searchKeywords": "פאן פסטל, PanPastel, סט פסטל, פנינתי, Pearlescent, Primary, 3 צבעים",
+    "__v": 0,
+    "createdAt": "2026-10-30T21:15:12.316Z",
+    "updatedAt": "2026-10-30T21:15:45.229Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
