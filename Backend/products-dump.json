@@ -19003,14 +19003,14 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות ציור",
     "searchKeywords": "Arches, ארש",
-    "updatedAt": "2026-10-30T05:04:27.870Z",
+    "updatedAt": "2026-10-30T08:20:39.709Z",
     "noCoupon": true,
-    "isActive": false
+    "isActive": true
   },
   {
     "_id": "66844bfdf2e4e8f572770849",
