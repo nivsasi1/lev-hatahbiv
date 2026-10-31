@@ -74692,5 +74692,26 @@
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
+  },
+  {
+    "_id": "6ae575f9de2336b62f3e1501",
+    "name": "6 GANSAI TAMBI OPAL COLORS צבעי מים סט",
+    "price": 50,
+    "salePercentage": 0,
+    "isAvailable": true,
+    "isActive": true,
+    "description": "<p dir=\"rtl\">סט של 6 צבעי מים Opal Colors מסדרת Gansai Tambi (顔彩耽美) של Kuretake. בזכות אפקט האור, הצבעים משנים גוון לפי זווית הראייה. על נייר לבן הם נוצצים בעדינות בסגנון פנינה, ועל נייר כהה מתווספים להם צבע מטאלי חזק ונצנוץ.</p><p dir=\"rtl\">אפשר לערבב את צבעי ה-Opal Colors זה עם זה, וגם עם דיו וצבעים אחרים על בסיס מים. מתאים לאיור, לציור, לקליגרפיה ולכל סוג של יצירת אמנות.</p><p dir=\"rtl\">מידות האריזה: 194x16x70 מ\"מ. משקל: 77 גרם. חומרים: הצבעים מפיגמנטים ושרף, המיכל מ-PS והקופסה מקרטון ו-PP. תוצרת יפן.</p>",
+    "category": "צבעים לאמנות",
+    "sub_cat": "צבעי אקוורל",
+    "third_level": "אקוורל כפתורים - Kuretake/ GANSAI",
+    "img": "https://order.kuretake.co.jp/html/upload/save_image/0822173335_68a82b5fa9ed4.jpg;https://order.kuretake.co.jp/html/upload/save_image/MC20OC_6V_01.jpg;https://order.kuretake.co.jp/html/upload/save_image/MC20OC_6V_02.jpg;https://order.kuretake.co.jp/html/upload/save_image/MC20OC_6V_03.jpg",
+    "sku": "4901427315004",
+    "searchKeywords": "קורטקה, Kuretake, גנסאי, Gansai Tambi, Opal Colors, צבעי מים, צבעי אופל, סט 6 צבעים, פנינה",
+    "__v": 0,
+    "createdAt": "2026-10-31T05:00:41.859Z",
+    "updatedAt": "2026-10-31T05:01:37.953Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
