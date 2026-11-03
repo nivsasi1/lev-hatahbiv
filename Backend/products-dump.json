@@ -74798,12 +74798,15 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "https://panartglobal.com/images/products/39bfa78afceab436f804840cf8bb30cd.jpg;https://panartglobal.com/images/products/3349e8fd0d05d65d4c6fa38b5d3eb5e6.jpg;https://panartglobal.com/images/products/4e5d96d9105efb08a91c165edd9970a5.jpg;https://panartglobal.com/images/products/1bad8a3dbbe0351ca8d4c5199ecec007.jpg",
+    "img": "https://panartglobal.com/images/products/3349e8fd0d05d65d4c6fa38b5d3eb5e6.jpg;https://panartglobal.com/images/products/4e5d96d9105efb08a91c165edd9970a5.jpg;https://panartglobal.com/images/products/1bad8a3dbbe0351ca8d4c5199ecec007.jpg",
     "sku": "",
     "searchKeywords": "פנארט, PanArt, Panart, ליינר, Reservoir Liner, מכחול ליינר, מכחול מאגר, סדרה 1424, מידה 6",
     "__v": 0,
     "createdAt": "2026-11-03T22:34:46.306Z",
-    "updatedAt": "2026-11-03T22:34:46.306Z"
+    "updatedAt": "2026-11-03T22:38:16.717Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aea6186041e375bfc033b7c",
@@ -74816,12 +74819,15 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "https://panartglobal.com/images/products/d1b7555a48f3e065311ec51342385ef7.jpg;https://panartglobal.com/images/products/3349e8fd0d05d65d4c6fa38b5d3eb5e6.jpg;https://panartglobal.com/images/products/4e5d96d9105efb08a91c165edd9970a5.jpg;https://panartglobal.com/images/products/1bad8a3dbbe0351ca8d4c5199ecec007.jpg",
+    "img": "https://panartglobal.com/images/products/3349e8fd0d05d65d4c6fa38b5d3eb5e6.jpg;https://panartglobal.com/images/products/4e5d96d9105efb08a91c165edd9970a5.jpg;https://panartglobal.com/images/products/1bad8a3dbbe0351ca8d4c5199ecec007.jpg",
     "sku": "",
     "searchKeywords": "פנארט, PanArt, Panart, ליינר, Reservoir Liner, מכחול ליינר, מכחול מאגר, סדרה 1424, מידה 8",
     "__v": 0,
     "createdAt": "2026-11-03T22:34:46.307Z",
-    "updatedAt": "2026-11-03T22:34:46.307Z"
+    "updatedAt": "2026-11-03T22:38:09.647Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aea6186041e375bfc033b7d",
@@ -74834,11 +74840,14 @@
     "category": "מכחולים ואביזרים",
     "sub_cat": "מכחולים",
     "third_level": "PANART - PROFESSIONAL RANGE",
-    "img": "https://panartglobal.com/images/products/f8b7136dad818124944d7d508d765ed7.jpg;https://panartglobal.com/images/products/3349e8fd0d05d65d4c6fa38b5d3eb5e6.jpg;https://panartglobal.com/images/products/4e5d96d9105efb08a91c165edd9970a5.jpg;https://panartglobal.com/images/products/1bad8a3dbbe0351ca8d4c5199ecec007.jpg",
+    "img": "https://panartglobal.com/images/products/3349e8fd0d05d65d4c6fa38b5d3eb5e6.jpg;https://panartglobal.com/images/products/4e5d96d9105efb08a91c165edd9970a5.jpg;https://panartglobal.com/images/products/1bad8a3dbbe0351ca8d4c5199ecec007.jpg",
     "sku": "",
     "searchKeywords": "פנארט, PanArt, Panart, ליינר, Reservoir Liner, מכחול ליינר, מכחול מאגר, סדרה 1424, מידה 12",
     "__v": 0,
     "createdAt": "2026-11-03T22:34:46.307Z",
-    "updatedAt": "2026-11-03T22:34:46.307Z"
+    "updatedAt": "2026-11-03T22:38:03.587Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
