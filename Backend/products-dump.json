@@ -74522,10 +74522,10 @@
   {
     "_id": "6adedac357a360643ff6606e",
     "name": "אביזר ל-PanPastel Sofft 5 No. 3 Oval Covers & Knife",
-    "price": 50,
+    "price": 18.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">בשימוש עם כיסויי Sofft, הסכין הופכת לאפליקטור סופג רב-שימושי לטכניקות אמנות ויצירה, והיא פועלת כמעין שילוב בין מכחול לסכין. צורת כל סכין מבוססת על צורות מכחולים והידית מבוססת על סכינים בעלות ידית עץ, ונוחה לאחיזה ולשליטה. סכיני Sofft עשויות מחומר פלסטי גמיש ועמיד, וכל סכין ממוספרת לזיהוי קל.</p><p dir=\"rtl\">אריזה של סכין אחת ו-5 כיסויים | גודל כל סכין: 170x10 מ\"מ | גודל כל כיסוי: 26x13 מ\"מ</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74535,12 +74535,15 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, Sofft 5 No. 3 Oval Covers & Knife",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.235Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-11-03T08:10:13.003Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff6606f",
     "name": "אביזר ל-PanPastel Sofft 5 No. 4 Point Covers & Knife",
-    "price": 50,
+    "price": 18.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -74553,7 +74556,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, Sofft 5 No. 4 Point Covers & Knife",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.235Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-11-03T08:10:40.014Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66070",
