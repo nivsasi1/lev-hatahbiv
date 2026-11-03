@@ -71669,7 +71669,7 @@
   {
     "_id": "6ad59d348e1088b6232ec5a4",
     "name": "ספר סקיצות כריכה קשה Talens Art Creation Shiny Silver 12x12 ס\"מ",
-    "price": 50,
+    "price": 23.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -71682,12 +71682,15 @@
     "searchKeywords": "רויאל טלנס, Royal Talens, Talens Art Creation, ספר סקיצות, מחברת סקיצות, Shiny Silver, כסף מבריק, 12x12",
     "__v": 0,
     "createdAt": "2026-10-19T04:31:48.594Z",
-    "updatedAt": "2026-10-19T04:31:48.594Z"
+    "updatedAt": "2026-11-03T09:06:04.974Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ad59d348e1088b6232ec5a5",
     "name": "ספר סקיצות כריכה קשה Talens Art Creation Shiny Silver 13x21 ס\"מ",
-    "price": 50,
+    "price": 38.2,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": true,
@@ -71700,7 +71703,10 @@
     "searchKeywords": "רויאל טלנס, Royal Talens, Talens Art Creation, ספר סקיצות, מחברת סקיצות, Shiny Silver, כסף מבריק, 13x21",
     "__v": 0,
     "createdAt": "2026-10-19T04:31:48.594Z",
-    "updatedAt": "2026-10-19T04:31:48.594Z"
+    "updatedAt": "2026-11-03T09:06:25.114Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ad59d348e1088b6232ec5a6",
