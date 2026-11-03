@@ -71999,7 +71999,7 @@
   {
     "_id": "6ad68f2e26fb1cfec9760a6c",
     "name": "לכה סאטן Amsterdam Acrylic Varnish Satin 250 מ\"ל",
-    "price": 50,
+    "price": 85.5,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -72012,7 +72012,10 @@
     "searchKeywords": "אמסטרדם, Amsterdam, רויאל טלנס, לכה אקרילית, וורניש, Varnish, Satin, 250ml",
     "__v": 0,
     "createdAt": "2026-10-19T21:44:14.853Z",
-    "updatedAt": "2026-10-19T21:45:03.339Z"
+    "updatedAt": "2026-11-03T09:02:15.647Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6ad6915226fb1cfec9760a77",
