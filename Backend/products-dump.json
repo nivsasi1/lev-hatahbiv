@@ -5497,8 +5497,9 @@
     "category": "רישום ועפרונות",
     "sub_cat": "טוש אלכוהולי",
     "third_level": "טושי אלכוהול - נורה NORA!",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-11-03T22:30:08.051Z",
+    "noCoupon": true,
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f57277049a",
