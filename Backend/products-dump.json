@@ -74657,7 +74657,7 @@
     "price": 279,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">סט של 10 צבעי PanPastel בגוונים כהים וקרים במיוחד (Extra Dark Cool). הצבעים עשויים מפיגמנטים באיכות הגבוהה ביותר, בעלי עמידות לאור, ורכים במיוחד. כל פאן מכיל 9 מ\"ל, כ-40% יותר חומר ממקל פסטל ממוצע. צבעי PanPastel ניתנים לערבוב, מחיקים ודלי אבק. תכולת הסט: 10 צבעי PanPastel (9 מ\"ל כל אחד), כלי Sofft וצנצנות אחסון. התכולה עשויה להשתנות מעט בהתאם לזמינות.</p><p dir=\"rtl\"><strong>הגוונים בסט:</strong></p><div dir=\"rtl\"><ul><li>Phthalo Blue Extra Dark (560.1)</li><li>Ultramarine Blue Extra Dark (520.1)</li><li>Turquoise Extra Dark (580.1)</li><li>Phthalo Green Extra Dark (620.1)</li><li>Permanent Green Extra Dark (640.1)</li><li>Chromium Oxide Green Extra Dark (660.1)</li><li>Magenta Extra Dark (430.1)</li><li>Violet Extra Dark (470.1)</li><li>Paynes Grey Extra Dark (840.1)</li><li>Neutral Grey Extra Dark (820.1)</li></ul></div>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74667,7 +74667,7 @@
     "searchKeywords": "פאן פסטל, PanPastel, סט פסטל, Extra Dark, Cool, כהים, קרים, 10 צבעים",
     "__v": 0,
     "createdAt": "2026-10-30T05:06:50.952Z",
-    "updatedAt": "2026-11-03T08:05:15.871Z",
+    "updatedAt": "2026-11-03T08:05:57.427Z",
     "noCoupon": false,
     "variantLabel": "",
     "variants": []
