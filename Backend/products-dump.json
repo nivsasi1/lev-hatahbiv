@@ -9,11 +9,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע שמן",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-11-04T15:24:19.673Z",
     "noCoupon": true
   },
   {
@@ -16711,7 +16711,7 @@
     "description": "<p dir=\"rtl\">מדיום נוזלי לצבעי שמן&nbsp; מתייבש בחצי הזמן לעומת שמן פשתן.</p><p dir=\"rtl\">גימור חצי מבריק</p><p dir=\"rtl\">מרכך ולכן מאריך את משיכת הצבע.</p><p dir=\"rtl\">מעלים את סימני משיחות המכחול.</p><p dir=\"rtl\">מעולה לציור מדוייק</p>",
     "img": "733145_25c4fb5044334a01a20ada0a9771e04d~mv2.jpg",
     "sku": "2214716076619",
-    "price": 29.9,
+    "price": 60,
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
@@ -16719,8 +16719,11 @@
     "category": "צבעים לאמנות",
     "sub_cat": "מדיומים לציור",
     "third_level": "עזרים ומדיומים לצבע שמן",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-11-04T15:24:07.170Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770760",
