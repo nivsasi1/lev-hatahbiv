@@ -74439,10 +74439,10 @@
   {
     "_id": "6adedac357a360643ff66068",
     "name": "אביזר ל-PanPastel Sofft 40-Covers - Mixed",
-    "price": 50,
+    "price": 69.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">הכיסויים החדשניים האלה מותאמים בגודלם לשימוש עם סכיני Sofft. הם עשויים מספוג מיקרו-נקבובי שפותח במיוחד והופכים את סכיני Sofft לכלים סופגים, שמסוגלים לשאת ולשחרר צבע וחומר בדרך ייחודית. מתאימים את מספר הכיסוי למספר הסכין, למשל כיסוי מס' 1 עם סכין מס' 1.</p><p dir=\"rtl\">אריזה של 40 כיסויים (מעורבים) | גודל כל כיסוי: 26x13 מ\"מ</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74452,15 +74452,18 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, Sofft 40-Covers - Mixed",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.234Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-11-04T16:43:20.644Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff66069",
     "name": "אביזר ל-PanPastel Sofft 12-Mini Applicators",
-    "price": 50,
+    "price": 36.9,
     "salePercentage": 0,
     "isAvailable": true,
-    "isActive": false,
+    "isActive": true,
     "description": "<p dir=\"rtl\">מושלם לסימנים קטנים ולפרטים. עשוי מחומר הספוג המיקרו-נקבובי הייחודי, המחזיק ומשחרר את כמות הצבע האופטימלית, ואינו שוחק.</p><p dir=\"rtl\">אריזה של 12 | גודל כל אפליקטור: 52x10 מ\"מ</p>",
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי פסטל",
@@ -74470,7 +74473,10 @@
     "searchKeywords": "פאן פסטל, PanPastel, גולדן, Golden, Sofft, כלי Sofft, אביזר, Sofft 12-Mini Applicators",
     "__v": 0,
     "createdAt": "2026-10-26T04:44:51.234Z",
-    "updatedAt": "2026-10-26T04:55:37.191Z"
+    "updatedAt": "2026-11-04T16:43:39.874Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6adedac357a360643ff6606a",
