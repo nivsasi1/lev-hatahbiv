@@ -18980,17 +18980,15 @@
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות ציור",
-    "updatedAt": "2026-10-29T19:20:20.057Z",
+    "updatedAt": "2026-11-08T19:43:46.525Z",
     "variantLabel": "Size",
     "variants": [
       {
-        "key": "50*65",
-        "soldOut": true
+        "key": "50*65"
       },
       {
         "key": "110*75",
-        "price": 23,
-        "soldOut": true
+        "price": 23
       }
     ],
     "noCoupon": true,
