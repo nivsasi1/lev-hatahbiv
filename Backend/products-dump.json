@@ -74925,7 +74925,7 @@
   {
     "_id": "6aee42b7ecc9cc2800981816",
     "name": "עפרון צבעוני פאבר קאסטל Black Edition 1/50",
-    "price": 50,
+    "price": 91.5,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -74938,7 +74938,10 @@
     "searchKeywords": "פאבר קאסטל, Faber-Castell, Black Edition, עפרונות צבעוניים, עפרון צבעוני, סדרה שחורה, 116450",
     "__v": 0,
     "createdAt": "2026-11-06T21:12:23.721Z",
-    "updatedAt": "2026-11-06T21:20:21.034Z"
+    "updatedAt": "2026-11-08T16:45:58.817Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "6aee42b7ecc9cc2800981817",
