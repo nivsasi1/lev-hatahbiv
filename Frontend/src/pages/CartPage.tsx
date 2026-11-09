@@ -9,7 +9,8 @@ import {
   REDUCED_SHIPPING_PRICE,
   store,
 } from "../data/catalog";
-import { lineKey, useCart } from "../context/cart-context";
+import { lineKey, useCart, type CartItem } from "../context/cart-context";
+import { ConfirmDialog } from "../components/ConfirmDialog";
 import { ProductThumb } from "../components/ProductThumb";
 import { WORKER_API } from "../data/api";
 import { usePageMeta, titleFor } from "../lib/seo";
@@ -75,8 +76,12 @@ const validatePayer = (p: Payer): { errors: PayerErrors; clean: Payer } => {
   if (!/^05\d{8}$/.test(phone)) {
     errors.phone = "מספר נייד לא תקין (05XXXXXXXX)";
   }
+  // required: it's where PayMe sends the payment confirmation and the invoice
+  // (the site sends nothing itself, and there's no SMS)
   const email = p.email.trim();
-  if (email && !isEmail(email)) {
+  if (!email) {
+    errors.email = "נא למלא אימייל לקבלת החשבונית";
+  } else if (!isEmail(email)) {
     errors.email = "אימייל לא תקין";
   }
   return { errors, clean: { name, phone, email } };
@@ -189,7 +194,6 @@ export const CartPage = () => {
     }
   };
   const [newsOptIn, setNewsOptIn] = useState(false);
-  const termsRef = useRef<HTMLInputElement>(null);
   // the pinned bar's height → --co-bar-h, so the accessibility button floats above it
   const barRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -209,6 +213,8 @@ export const CartPage = () => {
     if (hasPickupOnly && delivery.id !== "pickup") setDelivery(deliveryOptions[0]);
   }, [hasPickupOnly, delivery.id]);
   const [confirmClear, setConfirmClear] = useState(false);
+  // removing a line always asks first (trash, or "−" at quantity 1)
+  const [confirmRemove, setConfirmRemove] = useState<CartItem | null>(null);
   const [couponOpen, setCouponOpen] = useState(false);
   const [couponInput, setCouponInput] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<
@@ -219,7 +225,6 @@ export const CartPage = () => {
   const [payBusy, setPayBusy] = useState(false);
   const [payError, setPayError] = useState("");
   const [payPending, setPayPending] = useState(recentPendingPayment);
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [payer, setPayer] = useState<Payer>(() =>
     loadStored<Payer>(PAYER_KEY, { name: "", phone: "", email: "" })
   );
@@ -368,8 +373,6 @@ export const CartPage = () => {
     if (payBusy || items.length === 0) return;
     const { errors, clean } = validatePayer(payer);
     const { errors: sErrors, clean: sClean } = validateShip({ ...ship, zip: "" }, needsAddress);
-    // the news opt-in needs somewhere to send the news
-    if (newsOptIn && !clean.email && !errors.email) errors.email = "כדי לקבל עדכונים צריך אימייל";
     if (errors.name || errors.phone || errors.email || sErrors.street || sErrors.city) {
       setPayerErrors(errors);
       setShipErrors(sErrors);
@@ -386,11 +389,6 @@ export const CartPage = () => {
       first.current?.focus();
       return;
     }
-    if (!termsAccepted) {
-      setPayError("יש לאשר את התקנון ומדיניות הביטולים לפני התשלום");
-      termsRef.current?.focus();
-      return;
-    }
     setPayerErrors({});
     setShipErrors({});
     setPayBusy(true);
@@ -398,7 +396,7 @@ export const CartPage = () => {
 
     // newsletter opt-in: fire and forget, so a slow or failed signup never holds
     // up the payment; marked "subscribed" so the signup popup doesn't ask again
-    if (newsOptIn && clean.email) {
+    if (newsOptIn) {
       try {
         fetch(`${WORKER_API}/subscribe`, {
           method: "POST",
@@ -464,7 +462,7 @@ export const CartPage = () => {
               delivery: delivery.id,
               shippingAgorot: shippingAg,
               discountAgorot: discountAg,
-              hasEmail: Boolean(payer.email.trim()),
+              hasEmail: Boolean(clean.email),
             })
           );
         }
@@ -632,9 +630,7 @@ export const CartPage = () => {
                   )}
                 </div>
                 <div className="co-field">
-                  <label htmlFor="payer-email">
-                    אימייל <span className="co-opt">(לא חובה)</span>
-                  </label>
+                  <label htmlFor="payer-email">אימייל</label>
                   <input
                     id="payer-email"
                     ref={emailRef}
@@ -733,26 +729,10 @@ export const CartPage = () => {
 
             <label className="co-check">
               <input
-                ref={termsRef}
-                type="checkbox"
-                checked={termsAccepted}
-                onChange={(e) => {
-                  setTermsAccepted((e.target as HTMLInputElement).checked);
-                  setPayError("");
-                }}
-              />
-              <span>
-                קראתי ואני מאשר/ת את <Link to="/terms" target="_blank">התקנון</Link> ו
-                <Link to="/returns" target="_blank">מדיניות הביטולים וההחזרות</Link>
-              </span>
-            </label>
-            <label className="co-check">
-              <input
                 type="checkbox"
                 checked={newsOptIn}
                 onChange={(e) => {
                   setNewsOptIn((e.target as HTMLInputElement).checked);
-                  setPayerErrors((er) => ({ ...er, email: undefined }));
                 }}
               />
               <span>
@@ -779,7 +759,17 @@ export const CartPage = () => {
                   {payBusy ? "מעבירים לתשלום מאובטח…" : "לתשלום מאובטח"}
                 </button>
               </div>
-              <p className="co-bar-note">התשלום בעמוד מאובטח של PayMe. פרטי הכרטיס לא עוברים דרך האתר.</p>
+              <p className="co-bar-note">
+                בלחיצה על "לתשלום מאובטח" אני מאשר/ת את{" "}
+                <Link to="/terms" target="_blank">
+                  התקנון
+                </Link>{" "}
+                ו
+                <Link to="/returns" target="_blank">
+                  מדיניות הביטולים
+                </Link>
+                . התשלום בעמוד המאובטח של PayMe.
+              </p>
             </div>
           </form>
         </div>
@@ -840,7 +830,7 @@ export const CartPage = () => {
                     <button
                       type="button"
                       className="co-rm"
-                      onClick={() => remove(product.id, variant)}
+                      onClick={() => setConfirmRemove(item)}
                       aria-label={`הסרת ${product.name}${variant ? ` (${variant})` : ""} מהעגלה`}
                       title="הסרה מהעגלה"
                     >
@@ -859,8 +849,9 @@ export const CartPage = () => {
                     <div className="co-qty" role="group" aria-label={`כמות של ${product.name}`}>
                       <button
                         type="button"
-                        onClick={() => setQty(product.id, qty - 1, variant)}
-                        disabled={qty <= 1}
+                        onClick={() =>
+                          qty <= 1 ? setConfirmRemove(item) : setQty(product.id, qty - 1, variant)
+                        }
                         aria-label="הפחתת כמות"
                       >
                         −
@@ -974,34 +965,33 @@ export const CartPage = () => {
       </div>
 
       {confirmClear && (
-        <div
-          className="confirm-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="confirm-clear-title"
-          onClick={() => setConfirmClear(false)}
+        <ConfirmDialog
+          title="לרוקן את כל העגלה?"
+          confirmLabel="כן, לרוקן"
+          onCancel={() => setConfirmClear(false)}
+          onConfirm={() => {
+            clear();
+            setConfirmClear(false);
+          }}
         >
-          <div className="confirm-card" onClick={(e) => e.stopPropagation()}>
-            <h3 className="display" id="confirm-clear-title">
-              לרוקן את כל העגלה?
-            </h3>
-            <p>כל המוצרים יוסרו מהעגלה. אי אפשר לבטל את הפעולה.</p>
-            <div className="confirm-actions">
-              <button className="btn ghost" onClick={() => setConfirmClear(false)}>
-                ביטול
-              </button>
-              <button
-                className="btn danger"
-                onClick={() => {
-                  clear();
-                  setConfirmClear(false);
-                }}
-              >
-                כן, לרוקן
-              </button>
-            </div>
-          </div>
-        </div>
+          <p>כל המוצרים יוסרו מהעגלה. אי אפשר לבטל את הפעולה.</p>
+        </ConfirmDialog>
+      )}
+      {confirmRemove && (
+        <ConfirmDialog
+          title="להסיר מהעגלה?"
+          confirmLabel="כן, להסיר"
+          onCancel={() => setConfirmRemove(null)}
+          onConfirm={() => {
+            remove(confirmRemove.product.id, confirmRemove.variant);
+            setConfirmRemove(null);
+          }}
+        >
+          <p>
+            {confirmRemove.product.name}
+            {confirmRemove.variant ? ` · ${confirmRemove.variant}` : ""}
+          </p>
+        </ConfirmDialog>
       )}
     </main>
   );

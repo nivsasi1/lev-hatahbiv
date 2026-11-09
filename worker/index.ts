@@ -653,8 +653,10 @@ function validatePayer(
   if (!/^05\d{8}$/.test(phone)) {
     return { ok: false, error: "מספר נייד לא תקין (05XXXXXXXX)" };
   }
+  // required: PayMe sends the payment confirmation + invoice to it (sale_email)
   const email = String(raw?.email ?? "").trim();
-  if (email && !isEmail(email)) return { ok: false, error: "אימייל לא תקין" };
+  if (!email) return { ok: false, error: "נא למלא אימייל לקבלת החשבונית" };
+  if (!isEmail(email)) return { ok: false, error: "אימייל לא תקין" };
   return { ok: true, payer: { name, phone, email } };
 }
 

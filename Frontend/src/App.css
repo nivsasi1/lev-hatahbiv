@@ -4520,7 +4520,7 @@ html.a11y-underline a {
 .confirm-overlay {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 1000; /* above the cart drawer (95) and the accessibility button */
   display: grid;
   place-items: center;
   padding: 1.2rem;

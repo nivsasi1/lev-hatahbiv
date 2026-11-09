@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { lineKey, useCart } from "../context/cart-context";
+import { lineKey, useCart, type CartItem } from "../context/cart-context";
+import { ConfirmDialog } from "./ConfirmDialog";
 import {
   linePrice,
   shekel,
@@ -36,6 +38,8 @@ export const ShipMeter = ({ total }: { total: number }) => {
 
 export const CartSheet = () => {
   const { items, total, isSheetOpen, closeSheet, setQty, remove } = useCart();
+  // removing a line asks first (✕, or "−" at quantity 1) — same as the cart page
+  const [confirmRemove, setConfirmRemove] = useState<CartItem | null>(null);
 
   return (
     <>
@@ -83,13 +87,18 @@ export const CartSheet = () => {
                         +
                       </button>
                       <span>{qty}</span>
-                      <button onClick={() => setQty(product.id, qty - 1, variant)} aria-label="הפחתה">
+                      <button
+                        onClick={() =>
+                          qty <= 1 ? setConfirmRemove(item) : setQty(product.id, qty - 1, variant)
+                        }
+                        aria-label="הפחתה"
+                      >
                         −
                       </button>
                     </div>
                     <button
                       className="rm"
-                      onClick={() => remove(product.id, variant)}
+                      onClick={() => setConfirmRemove(item)}
                       aria-label="הסרה מהעגלה"
                     >
                       ✕
@@ -116,6 +125,22 @@ export const CartSheet = () => {
           </>
         )}
       </aside>
+      {confirmRemove && (
+        <ConfirmDialog
+          title="להסיר מהעגלה?"
+          confirmLabel="כן, להסיר"
+          onCancel={() => setConfirmRemove(null)}
+          onConfirm={() => {
+            remove(confirmRemove.product.id, confirmRemove.variant);
+            setConfirmRemove(null);
+          }}
+        >
+          <p>
+            {confirmRemove.product.name}
+            {confirmRemove.variant ? ` · ${confirmRemove.variant}` : ""}
+          </p>
+        </ConfirmDialog>
+      )}
     </>
   );
 };
