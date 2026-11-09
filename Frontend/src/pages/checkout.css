@@ -1,0 +1,619 @@
+/* Cart + checkout (two steps), after the "עגלה · מובייל" / "פרטים לפני תשלום"
+   designs. The column is phone-shaped on every screen; the total and the next
+   action stay pinned to the bottom while the shopper scrolls. */
+.co-page {
+  --co-line: #e3dccb;
+  --co-soft: #efe6f7;
+  --co-col: 40rem;
+  background: var(--paper);
+  /* a full screen tall, so on a short cart the bar sits at the bottom of the
+     screen (as in the design) instead of the footer peeking under it */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* slim header, full width, content aligned to the column */
+.co-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 56px;
+  padding-inline: max(12px, calc((100% - var(--co-col)) / 2 + 12px));
+  background: var(--card);
+  border-bottom: 1px solid var(--ink);
+}
+.co-logo {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+.co-logo img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+.co-head-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--purple);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* step indicator (details step) */
+.co-steps {
+  list-style: none;
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--co-col);
+  padding: 10px 16px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+.co-steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--co-line);
+  color: #8a8398;
+}
+.co-steps li span {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #cfc7b8;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.co-steps li.on {
+  border-bottom-color: var(--purple);
+  color: var(--ink);
+}
+.co-steps li.on span {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+
+.co-body {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: var(--co-col);
+  margin: 0 auto;
+  padding: 12px 16px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.co-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.co-title {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1;
+}
+.co-muted {
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.co-small {
+  font-size: 12px;
+  margin: 0;
+}
+
+.co-card {
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--ink);
+}
+
+/* free-shipping progress: ₪0 → ₪300 (₪20 shipping) → ₪500 (free) */
+.co-ship {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-color: var(--co-line);
+}
+.co-ship p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+.co-ship-bar {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--co-soft);
+  overflow: hidden;
+}
+.co-ship-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--purple);
+  transition: width 0.3s ease;
+}
+.co-ship-tier {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--ink);
+}
+.co-ship-scale {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.co-ship-scale span:nth-child(2) {
+  position: absolute;
+  transform: translateX(50%);
+}
+
+/* lines */
+.co-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.co-line {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px;
+}
+.co-thumb {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.co-thumb img,
+.co-thumb svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.co-line-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.co-line-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+}
+.co-line-name {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.co-line-name .variant-tag {
+  margin-inline-start: 0.35em;
+}
+.co-rm {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-top: -8px;
+  margin-inline-end: -8px;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.co-rm:hover,
+.co-rm:focus-visible {
+  background: var(--co-soft);
+  color: var(--red);
+}
+.co-line-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.co-price b {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--purple);
+}
+.co-price small {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.co-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  flex: 0 0 auto;
+}
+.co-qty button {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+.co-qty button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.co-qty span {
+  min-width: 22px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* delivery choice */
+.co-delivery,
+.co-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.co-delivery legend {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding: 0;
+}
+.co-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+  cursor: pointer;
+}
+.co-option.on {
+  border: 2px solid var(--purple);
+  background: var(--co-soft);
+}
+.co-option.off {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.co-option input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--purple);
+  flex: none;
+}
+.co-option b,
+.co-chosen b {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+.co-option small,
+.co-chosen small {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.co-link {
+  align-self: flex-start;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--purple);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.co-clear {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* the pinned bar: total + the next step */
+.co-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin: auto -16px 0;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--card);
+  border-top: 1px solid var(--ink);
+  box-shadow: 0 -6px 16px rgba(43, 36, 64, 0.08);
+}
+.co-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.co-bar-total {
+  display: flex;
+  flex-direction: column;
+  min-width: 96px;
+}
+.co-bar-total span {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.co-bar-total b {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.co-cta {
+  flex: 1 1 auto;
+  height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--purple);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 3px 0 var(--gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.co-cta:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+.co-cta:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+.co-bar-note {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.co-bar-err {
+  margin: 0;
+  text-align: center;
+}
+.co-pay-methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.co-pay-methods li {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  border: 1px solid var(--co-line);
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+
+/* details step */
+.co-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.co-mini-text {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.co-mini-thumbs {
+  display: inline-flex;
+}
+.co-mini-thumbs > * {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid var(--co-line);
+  background: #fff;
+  overflow: hidden;
+}
+.co-mini-thumbs > * + * {
+  margin-inline-start: -8px;
+}
+.co-form {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 4px;
+}
+.co-form fieldset {
+  gap: 10px;
+}
+.co-form legend {
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 800;
+}
+.co-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.co-field label {
+  font-size: 13px;
+  font-weight: 700;
+}
+.co-field input {
+  height: 48px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  padding: 0 12px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* 16px: iOS doesn't zoom into the field */
+  font-weight: 600;
+  min-width: 0;
+  width: 100%;
+}
+.co-field input::placeholder {
+  color: #8a8398;
+  font-weight: 400;
+}
+.co-field input[aria-invalid="true"] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px rgba(226, 58, 58, 0.15);
+}
+.co-hint {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.co-opt {
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+.co-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.co-chosen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--purple);
+  background: var(--co-soft);
+}
+.co-chosen-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--purple);
+}
+.co-chosen-main b {
+  color: var(--ink);
+}
+.co-form a {
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.co-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.co-check input {
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--purple);
+  flex: none;
+}
+
+/* wider screens: the bar is the width of the column, so close its sides */
+@media (min-width: 42rem) {
+  .co-bar {
+    border: 1px solid var(--ink);
+    border-bottom: 0;
+    border-radius: 14px 14px 0 0;
+  }
+}
+
+@media (max-width: 340px) {
+  .co-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* keep the accessibility button clear of the pinned bar (its height is
+   measured live — chips wrap, errors appear — and published as --co-bar-h) */
+body:has(.co-bar) .a11y-root {
+  bottom: calc(var(--co-bar-h, 10rem) + 0.75rem);
+}
+.co-title:focus { outline: none; }

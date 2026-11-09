@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
+  asset,
   linePrice,
   shekel,
   FREE_SHIPPING_FROM,
@@ -10,10 +11,10 @@ import {
 } from "../data/catalog";
 import { lineKey, useCart } from "../context/cart-context";
 import { ProductThumb } from "../components/ProductThumb";
-import { ShipMeter } from "../components/CartSheet";
 import { WORKER_API } from "../data/api";
 import { usePageMeta, titleFor } from "../lib/seo";
 import { trackBeginCheckout, type TrackItem } from "../data/analytics";
+import "./checkout.css";
 
 // A checkout was started within this window → warn the shopper not to pay twice
 // if they came back to the cart (closed the PayMe tab, hit back, etc.).
@@ -38,6 +39,7 @@ const deliveryOptions = [
 
 // payer details for the invoice + payment page — remembered between visits
 const PAYER_KEY = "lh-payer-v1";
+const DELIVERY_KEY = "lh-delivery-v1";
 const SHIP_KEY = "lh-ship-v1";
 type Payer = { name: string; phone: string; email: string };
 type PayerErrors = { name?: string; phone?: string; email?: string };
@@ -97,10 +99,115 @@ const validateShip = (s: Ship, needed: boolean): { errors: ShipErrors; clean: Sh
   return { errors, clean };
 };
 
+// what PayMe's page offers for this account (sale_payment_method "multi")
+const PAY_METHODS = ["ויזה", "מאסטרקארד", "Apple Pay", "Google Pay", "Bit", "סליקה מאובטחת PayMe"];
+
+const Icon = {
+  arrowBack: (
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  ),
+  arrowNext: (
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 12H5M12 5l-7 7 7 7" />
+    </svg>
+  ),
+  lock: (
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="11" width="16" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+  ),
+  trash: (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 7h16" />
+      <path d="M9 7V4h6v3" />
+      <path d="M6 7l1 13h10l1-13" />
+      <path d="M10 11v6M14 11v6" />
+    </svg>
+  ),
+  truck: (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" />
+      <circle cx="7" cy="18" r="2" />
+      <circle cx="17" cy="18" r="2" />
+    </svg>
+  ),
+  store: (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 10v10h16V10" />
+      <path d="M3 10l2-6h14l2 6z" />
+      <path d="M10 20v-5h4v5" />
+    </svg>
+  ),
+};
+
+// "פריט אחד" / "3 פריטים"
+const itemsLabel = (n: number) => (n === 1 ? "פריט אחד" : `${n} פריטים`);
+
 export const CartPage = () => {
   usePageMeta({ title: titleFor("העגלה שלי"), path: "/cart", noindex: true });
-  const { items, setQty, remove, clear } = useCart();
-  const [delivery, setDelivery] = useState(deliveryOptions[0]);
+  const { items, count, setQty, remove, clear } = useCart();
+  // two steps, in the URL so the phone's back button goes from details to cart
+  const [params, setParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const step: "cart" | "details" = params.get("step") === "details" ? "details" : "cart";
+  const goDetails = () => setParams({ step: "details" }, { state: { fromCart: true } });
+  const goCart = () => {
+    // came here from the cart step → back, so history doesn't fill with copies
+    if ((location.state as any)?.fromCart) navigate(-1);
+    else setParams({}, { replace: true });
+  };
+  // each step starts at the top, with focus on its heading (also on browser back)
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const firstStep = useRef(true);
+  useEffect(() => {
+    if (firstStep.current) {
+      firstStep.current = false;
+      return;
+    }
+    window.scrollTo(0, 0);
+    titleRef.current?.focus({ preventScroll: true });
+  }, [step]);
+  // the choice survives a refresh of the details step (same tab only)
+  const [delivery, setDeliveryState] = useState(() => {
+    try {
+      const id = sessionStorage.getItem(DELIVERY_KEY);
+      return deliveryOptions.find((d) => d.id === id) ?? deliveryOptions[0];
+    } catch {
+      return deliveryOptions[0];
+    }
+  });
+  const setDelivery = (d: (typeof deliveryOptions)[number]) => {
+    setDeliveryState(d);
+    try {
+      sessionStorage.setItem(DELIVERY_KEY, d.id);
+    } catch {
+      /* storage blocked — the choice just isn't remembered */
+    }
+  };
+  const [newsOptIn, setNewsOptIn] = useState(false);
+  const termsRef = useRef<HTMLInputElement>(null);
+  // the pinned bar's height → --co-bar-h, so the accessibility button floats above it
+  const barRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const bar = barRef.current;
+    const root = document.documentElement;
+    if (!bar || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => root.style.setProperty("--co-bar-h", `${bar.offsetHeight}px`));
+    ro.observe(bar);
+    return () => {
+      ro.disconnect();
+      root.style.removeProperty("--co-bar-h");
+    };
+  }, [step, items.length === 0]);
+  // a product that can't ship takes the courier option off the table
+  const hasPickupOnly = items.some(({ product }) => product.pickupOnly);
+  useEffect(() => {
+    if (hasPickupOnly && delivery.id !== "pickup") setDelivery(deliveryOptions[0]);
+  }, [hasPickupOnly, delivery.id]);
   const [confirmClear, setConfirmClear] = useState(false);
   const [couponOpen, setCouponOpen] = useState(false);
   const [couponInput, setCouponInput] = useState("");
@@ -197,7 +304,6 @@ export const CartPage = () => {
   const grandTotalAg = subtotalAg - discountAg + shippingAg;
   // shekel views for display (exact — all on the 10-agorot grid)
   const subtotalNis = subtotalAg / 100;
-  const shippingCost = shippingAg / 100;
   const discount = discountAg / 100;
   const grandTotal = grandTotalAg / 100;
 
@@ -260,12 +366,10 @@ export const CartPage = () => {
 
   const payCard = async () => {
     if (payBusy || items.length === 0) return;
-    if (!termsAccepted) {
-      setPayError("יש לאשר את התקנון ומדיניות הביטולים לפני התשלום");
-      return;
-    }
     const { errors, clean } = validatePayer(payer);
-    const { errors: sErrors, clean: sClean } = validateShip(ship, needsAddress);
+    const { errors: sErrors, clean: sClean } = validateShip({ ...ship, zip: "" }, needsAddress);
+    // the news opt-in needs somewhere to send the news
+    if (newsOptIn && !clean.email && !errors.email) errors.email = "כדי לקבל עדכונים צריך אימייל";
     if (errors.name || errors.phone || errors.email || sErrors.street || sErrors.city) {
       setPayerErrors(errors);
       setShipErrors(sErrors);
@@ -282,10 +386,31 @@ export const CartPage = () => {
       first.current?.focus();
       return;
     }
+    if (!termsAccepted) {
+      setPayError("יש לאשר את התקנון ומדיניות הביטולים לפני התשלום");
+      termsRef.current?.focus();
+      return;
+    }
     setPayerErrors({});
     setShipErrors({});
     setPayBusy(true);
     setPayError("");
+
+    // newsletter opt-in: fire and forget, so a slow or failed signup never holds
+    // up the payment; marked "subscribed" so the signup popup doesn't ask again
+    if (newsOptIn && clean.email) {
+      try {
+        fetch(`${WORKER_API}/subscribe`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: clean.email }),
+          keepalive: true,
+        }).catch(() => {});
+        localStorage.setItem("lh-news-v1", "subscribed");
+      } catch {
+        /* storage blocked — the signup itself still went out */
+      }
+    }
 
     // ecommerce items for analytics (money in agorot, mirroring the server total)
     const trackItems: TrackItem[] = items.map(({ product, qty, variant }) => ({
@@ -355,322 +480,497 @@ export const CartPage = () => {
     }
   };
 
+  // the slim checkout header (the site header is hidden on /cart, see App.tsx)
+  const coHeader = (
+    <header className="co-head">
+      {step === "details" ? (
+        <>
+          <button type="button" className="co-head-link" onClick={goCart}>
+            {Icon.arrowBack}
+            חזרה לעגלה
+          </button>
+          <Link to="/" className="co-logo" aria-label="לב התחביב — דף הבית">
+            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link to="/" className="co-logo" aria-label="לב התחביב — דף הבית">
+            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+          </Link>
+          <Link to="/" className="co-head-link">
+            {Icon.arrowBack}
+            להמשיך לקנות
+          </Link>
+        </>
+      )}
+    </header>
+  );
+
   if (items.length === 0) {
     return (
-      <main className="page-main shell cart-page">
-        <h1 className="display">העגלה שלי</h1>
-        <p className="empty-note">
-          העגלה ריקה לגמרי — בואו נתקן את זה. <Link to="/">לחנות ←</Link>
-        </p>
+      <main className="page-main co-page">
+        {coHeader}
+        <div className="co-body">
+          <h1 className="display co-title">העגלה שלי</h1>
+          <p className="empty-note">
+            העגלה ריקה לגמרי — בואו נתקן את זה. <Link to="/">לחנות ←</Link>
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  const pendingWarn = payPending && (
+    <div className="pay-pending-warn" role="alert">
+      <span>
+        ⚠️ התחלתם תשלום לא מזמן. אם כבר שילמתם — <b>אל תשלמו שוב</b>, ההזמנה בדרך אליכם
+        (אישור יופיע בעמוד התודה). רק אם התשלום לא הושלם, אפשר לנסות שוב.
+      </span>
+      <button
+        type="button"
+        className="btn small ghost"
+        onClick={() => {
+          try {
+            sessionStorage.removeItem(PENDING_KEY);
+          } catch {
+            /* ignore */
+          }
+          setPayPending(false);
+        }}
+      >
+        הבנתי
+      </button>
+    </div>
+  );
+
+  // free shipping: ₪20 from ₪300, free from ₪500 (the same tiers as the Worker)
+  const toFree = Math.max(0, FREE_SHIPPING_FROM - subtotalNis);
+  const shipLine = freeShipping
+    ? "🎉 יש לכם משלוח חינם"
+    : reducedShipping
+    ? `עוד ${shekel(toFree)} למשלוח חינם · המשלוח עכשיו רק ${shekel(REDUCED_SHIPPING_PRICE)}`
+    : `עוד ${shekel(toFree)} למשלוח חינם · מעל ${shekel(REDUCED_SHIPPING_FROM)} המשלוח רק ${shekel(REDUCED_SHIPPING_PRICE)}`;
+  const shipPct = Math.min(100, (subtotalNis / FREE_SHIPPING_FROM) * 100);
+  const tierPct = (REDUCED_SHIPPING_FROM / FREE_SHIPPING_FROM) * 100;
+  const deliveryPrice = (d: (typeof deliveryOptions)[number]) =>
+    d.price > 0 && effectiveShipPrice(d.price) > 0 ? shekel(effectiveShipPrice(d.price)) : "חינם";
+
+  if (step === "details") {
+    return (
+      <main className="page-main co-page">
+        {coHeader}
+        <ol className="co-steps" aria-label="שלבי ההזמנה">
+          <li aria-current="step" className="on">
+            <span>1</span>פרטים וקבלה
+          </li>
+          <li>
+            <span>2</span>תשלום ב-PayMe
+          </li>
+        </ol>
+        <div className="co-body">
+          {pendingWarn}
+          <div className="co-title-row">
+            <h1 className="display co-title" ref={titleRef} tabIndex={-1}>
+              למי ולאן?
+            </h1>
+            <button type="button" className="co-mini" onClick={goCart} aria-label="חזרה לעגלה">
+              <span className="co-mini-thumbs" aria-hidden="true">
+                {items.slice(0, 3).map((i) => (
+                  <ProductThumb key={lineKey(i)} product={i.product} />
+                ))}
+              </span>
+              <span className="co-mini-text">
+                {itemsLabel(count)} · <span dir="ltr">{shekel(grandTotal)}</span>
+              </span>
+            </button>
+          </div>
+
+          <form
+            className="co-form"
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              payCard();
+            }}
+          >
+            <fieldset>
+              <legend>פרטי קשר</legend>
+              <div className="co-field">
+                <label htmlFor="payer-name">שם מלא</label>
+                <input
+                  id="payer-name"
+                  ref={nameRef}
+                  type="text"
+                  autoComplete="name"
+                  placeholder="כמו שרשום באשראי"
+                  value={payer.name}
+                  aria-invalid={Boolean(payerErrors.name)}
+                  onInput={(e) => updatePayer("name", (e.target as HTMLInputElement).value)}
+                />
+                {payerErrors.name && <span className="payer-err">{payerErrors.name}</span>}
+              </div>
+              <div className="co-grid">
+                <div className="co-field">
+                  <label htmlFor="payer-phone">טלפון נייד</label>
+                  <input
+                    id="payer-phone"
+                    ref={phoneRef}
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    dir="ltr"
+                    placeholder="050-0000000"
+                    value={payer.phone}
+                    aria-invalid={Boolean(payerErrors.phone)}
+                    onInput={(e) => updatePayer("phone", (e.target as HTMLInputElement).value)}
+                  />
+                  {payerErrors.phone ? (
+                    <span className="payer-err">{payerErrors.phone}</span>
+                  ) : (
+                    <span className="co-hint">לעדכון כשההזמנה מוכנה</span>
+                  )}
+                </div>
+                <div className="co-field">
+                  <label htmlFor="payer-email">
+                    אימייל <span className="co-opt">(לא חובה)</span>
+                  </label>
+                  <input
+                    id="payer-email"
+                    ref={emailRef}
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    dir="ltr"
+                    placeholder="name@example.com"
+                    value={payer.email}
+                    aria-invalid={Boolean(payerErrors.email)}
+                    onInput={(e) => updatePayer("email", (e.target as HTMLInputElement).value)}
+                  />
+                  {payerErrors.email ? (
+                    <span className="payer-err">{payerErrors.email}</span>
+                  ) : (
+                    <span className="co-hint">לאישור ההזמנה והקבלה</span>
+                  )}
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>קבלת ההזמנה</legend>
+              <div className="co-chosen">
+                <span className="co-chosen-main">
+                  {needsAddress ? Icon.truck : Icon.store}
+                  <span>
+                    <b>
+                      {delivery.title} · {deliveryPrice(delivery)}
+                    </b>
+                    <small>{delivery.note}</small>
+                  </span>
+                </span>
+                <button type="button" className="co-link" onClick={goCart}>
+                  שינוי
+                </button>
+              </div>
+              {needsAddress && (
+                <>
+                  <div className="co-grid">
+                    <div className="co-field">
+                      <label htmlFor="ship-city">עיר</label>
+                      <input
+                        id="ship-city"
+                        ref={cityRef}
+                        type="text"
+                        autoComplete="address-level2"
+                        value={ship.city}
+                        aria-invalid={Boolean(shipErrors.city)}
+                        onInput={(e) => updateShip("city", (e.target as HTMLInputElement).value)}
+                      />
+                      {shipErrors.city && <span className="payer-err">{shipErrors.city}</span>}
+                    </div>
+                    <div className="co-field">
+                      <label htmlFor="ship-street">רחוב ומספר</label>
+                      <input
+                        id="ship-street"
+                        ref={streetRef}
+                        type="text"
+                        autoComplete="address-line1"
+                        value={ship.street}
+                        aria-invalid={Boolean(shipErrors.street)}
+                        onInput={(e) => updateShip("street", (e.target as HTMLInputElement).value)}
+                      />
+                      {shipErrors.street && <span className="payer-err">{shipErrors.street}</span>}
+                    </div>
+                  </div>
+                  <div className="co-grid">
+                    <div className="co-field">
+                      <label htmlFor="ship-apt">
+                        דירה / קומה / כניסה <span className="co-opt">(לא חובה)</span>
+                      </label>
+                      <input
+                        id="ship-apt"
+                        type="text"
+                        value={ship.apt}
+                        onInput={(e) => updateShip("apt", (e.target as HTMLInputElement).value)}
+                      />
+                    </div>
+                    <div className="co-field">
+                      <label htmlFor="ship-notes">
+                        הערה לשליח <span className="co-opt">(לא חובה)</span>
+                      </label>
+                      <input
+                        id="ship-notes"
+                        type="text"
+                        placeholder="קוד לבניין, להשאיר אצל השכן…"
+                        value={ship.notes}
+                        onInput={(e) => updateShip("notes", (e.target as HTMLInputElement).value)}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+            </fieldset>
+
+            <label className="co-check">
+              <input
+                ref={termsRef}
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => {
+                  setTermsAccepted((e.target as HTMLInputElement).checked);
+                  setPayError("");
+                }}
+              />
+              <span>
+                קראתי ואני מאשר/ת את <Link to="/terms" target="_blank">התקנון</Link> ו
+                <Link to="/returns" target="_blank">מדיניות הביטולים וההחזרות</Link>
+              </span>
+            </label>
+            <label className="co-check">
+              <input
+                type="checkbox"
+                checked={newsOptIn}
+                onChange={(e) => {
+                  setNewsOptIn((e.target as HTMLInputElement).checked);
+                  setPayerErrors((er) => ({ ...er, email: undefined }));
+                }}
+              />
+              <span>
+                לשלוח לי מדי פעם חדשות וקופונים למייל. <span className="co-muted">אפשר לבטל בכל רגע.</span>
+              </span>
+            </label>
+            <p className="co-muted co-small">
+              הפרטים משמשים רק לטיפול בהזמנה ולקבלה. <Link to="/privacy">מדיניות הפרטיות</Link>
+            </p>
+
+            <div className="co-bar" ref={barRef}>
+              {payError && (
+                <p className="coupon-err co-bar-err" role="alert">
+                  {payError}
+                </p>
+              )}
+              <div className="co-bar-row">
+                <div className="co-bar-total">
+                  <span>{needsAddress ? "סה״כ כולל משלוח" : "סה״כ לתשלום"}</span>
+                  <b dir="ltr">{shekel(grandTotal)}</b>
+                </div>
+                <button type="submit" className="co-cta" disabled={payBusy}>
+                  {Icon.lock}
+                  {payBusy ? "מעבירים לתשלום מאובטח…" : "לתשלום מאובטח"}
+                </button>
+              </div>
+              <p className="co-bar-note">התשלום בעמוד מאובטח של PayMe. פרטי הכרטיס לא עוברים דרך האתר.</p>
+            </div>
+          </form>
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="page-main shell cart-page">
-      <h1 className="display">העגלה שלי</h1>
-
-      {payPending && (
-        <div className="pay-pending-warn" role="alert">
-          <span>
-            ⚠️ התחלתם תשלום לא מזמן. אם כבר שילמתם — <b>אל תשלמו שוב</b>, ההזמנה בדרך אליכם
-            (אישור יופיע בעמוד התודה). רק אם התשלום לא הושלם, אפשר לנסות שוב.
-          </span>
-          <button
-            type="button"
-            className="btn small ghost"
-            onClick={() => {
-              try {
-                sessionStorage.removeItem(PENDING_KEY);
-              } catch {
-                /* ignore */
-              }
-              setPayPending(false);
-            }}
-          >
-            הבנתי
-          </button>
+    <main className="page-main co-page">
+      {coHeader}
+      <div className="co-body">
+        {pendingWarn}
+        <div className="co-title-row">
+          <h1 className="display co-title" ref={titleRef} tabIndex={-1}>
+            העגלה שלי
+          </h1>
+          <span className="co-muted">{itemsLabel(count)}</span>
         </div>
-      )}
 
-      <div className="cart-layout">
-        <div className="cart-list">
+        <section className="co-card co-ship" aria-label="התקדמות למשלוח חינם">
+          <p>{shipLine}</p>
+          <div
+            className="co-ship-bar"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={FREE_SHIPPING_FROM}
+            aria-valuenow={Math.round(subtotalNis * 10) / 10}
+            aria-label={`סכום העגלה מתוך ${FREE_SHIPPING_FROM} שקלים למשלוח חינם`}
+          >
+            <div className="co-ship-fill" style={{ width: `${shipPct}%` }} />
+            <div className="co-ship-tier" style={{ insetInlineStart: `${tierPct}%` }} aria-hidden="true" />
+          </div>
+          <div className="co-ship-scale" aria-hidden="true">
+            <span dir="ltr">₪0</span>
+            {/* positioned in the page's RTL (a dir="ltr" span would flip the side) */}
+            <span style={{ insetInlineStart: `${tierPct}%` }}>
+              <bdi dir="ltr">{shekel(REDUCED_SHIPPING_FROM)}</bdi>
+            </span>
+            <span dir="ltr">{shekel(FREE_SHIPPING_FROM)}</span>
+          </div>
+        </section>
+
+        <ul className="co-lines">
           {items.map((item) => {
             const { product, qty, variant } = item;
             const unit = linePrice(product, variant);
             return (
-              <div className="cart-line" key={lineKey(item)}>
-                <Link to={`/product/${product.id}`} className="thumb">
+              <li className="co-card co-line" key={lineKey(item)}>
+                <Link to={`/product/${product.id}`} className="co-thumb" tabIndex={-1} aria-hidden="true">
                   <ProductThumb product={product} />
                 </Link>
-                <div className="mid">
-                  <Link to={`/product/${product.id}`} className="nm">
-                    {product.name}
-                  </Link>
-                  {variant && <span className="variant-tag">{variant}</span>}
+                <div className="co-line-main">
+                  <div className="co-line-top">
+                    <Link to={`/product/${product.id}`} className="co-line-name">
+                      {product.name}
+                      {variant && <span className="variant-tag">{variant}</span>}
+                    </Link>
+                    <button
+                      type="button"
+                      className="co-rm"
+                      onClick={() => remove(product.id, variant)}
+                      aria-label={`הסרת ${product.name}${variant ? ` (${variant})` : ""} מהעגלה`}
+                      title="הסרה מהעגלה"
+                    >
+                      {Icon.trash}
+                    </button>
+                  </div>
                   {appliedCoupon && product.noCoupon && (
                     <span className="variant-tag no-coupon">לא משתתף בהנחת הקופון</span>
                   )}
-                  <span className="pr">
-                    {shekel(unit)} ליח' · {shekel(unit * qty)}
-                  </span>
+                  {product.pickupOnly && <span className="variant-tag">איסוף עצמי בלבד</span>}
+                  <div className="co-line-bottom">
+                    <span className="co-price">
+                      <b dir="ltr">{shekel(unit * qty)}</b>
+                      {qty > 1 && <small> · {shekel(unit)} ליח׳</small>}
+                    </span>
+                    <div className="co-qty" role="group" aria-label={`כמות של ${product.name}`}>
+                      <button
+                        type="button"
+                        onClick={() => setQty(product.id, qty - 1, variant)}
+                        disabled={qty <= 1}
+                        aria-label="הפחתת כמות"
+                      >
+                        −
+                      </button>
+                      <span aria-live="polite">{qty}</span>
+                      <button
+                        type="button"
+                        onClick={() => setQty(product.id, qty + 1, variant)}
+                        aria-label="הוספת כמות"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="qty">
-                  <button onClick={() => setQty(product.id, qty + 1, variant)} aria-label="הוספה">
-                    +
-                  </button>
-                  <span>{qty}</span>
-                  <button onClick={() => setQty(product.id, qty - 1, variant)} aria-label="הפחתה">
-                    −
-                  </button>
-                </div>
-                <button className="rm" onClick={() => remove(product.id, variant)} aria-label="הסרה">
-                  ✕
-                </button>
-              </div>
+              </li>
             );
           })}
+        </ul>
 
-          <div className="sub-chips" style={{ margin: "0.5rem 0 0" }}>
-            {deliveryOptions.map((d) => (
-              <button
-                key={d.id}
-                className={`sub-chip ${delivery.id === d.id ? "active" : ""}`}
-                onClick={() => setDelivery(d)}
-              >
-                {d.title}
-                {d.price > 0 && effectiveShipPrice(d.price) > 0
-                  ? ` · ${shekel(effectiveShipPrice(d.price))}`
-                  : " · חינם"}
-              </button>
-            ))}
-          </div>
-
-          <div className="coupon-box">
-            {!appliedCoupon && !couponOpen && (
-              <button
-                type="button"
-                className="coupon-toggle"
-                onClick={() => setCouponOpen(true)}
-              >
-                יש לי קופון
-              </button>
-            )}
-            {!appliedCoupon && couponOpen && (
-              <form
-                className="coupon-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  applyCoupon();
-                }}
-              >
+        <fieldset className="co-delivery">
+          <legend>איך תרצו לקבל את ההזמנה?</legend>
+          {deliveryOptions.map((d) => {
+            const off = d.id !== "pickup" && hasPickupOnly;
+            return (
+              <label key={d.id} className={`co-option${delivery.id === d.id ? " on" : ""}${off ? " off" : ""}`}>
                 <input
-                  type="text"
-                  className="coupon-input"
-                  placeholder="קוד קופון"
-                  value={couponInput}
-                  onInput={(e) => {
-                    setCouponInput((e.target as HTMLInputElement).value);
-                    setCouponError("");
-                  }}
-                  autoFocus
+                  type="radio"
+                  name="delivery"
+                  checked={delivery.id === d.id}
+                  disabled={off}
+                  onChange={() => setDelivery(d)}
                 />
-                <button
-                  type="submit"
-                  className="btn coupon-confirm"
-                  disabled={couponBusy}
-                >
-                  {couponBusy ? "בודק…" : "אישור"}
-                </button>
-              </form>
-            )}
-            {couponError && <span className="coupon-err">{couponError}</span>}
-            {appliedCoupon && (
-              <div className="coupon-applied">
                 <span>
-                  קופון {appliedCoupon.code} · הנחה {appliedCoupon.percent}% 🎉
+                  <b>
+                    {d.id === "pickup" ? "איסוף מהחנות" : d.title} · {deliveryPrice(d)}
+                  </b>
+                  <small>{off ? "חלק מהמוצרים בעגלה זמינים באיסוף עצמי בלבד" : d.note}</small>
                 </span>
-                <button
-                  type="button"
-                  className="coupon-remove"
-                  onClick={removeCoupon}
-                  aria-label="הסרת קופון"
-                >
-                  ✕
-                </button>
-              </div>
-            )}
-          </div>
+              </label>
+            );
+          })}
+        </fieldset>
+
+        <div className="coupon-box">
+          {!appliedCoupon && !couponOpen && (
+            <button type="button" className="co-link" onClick={() => setCouponOpen(true)}>
+              יש לכם קוד קופון?
+            </button>
+          )}
+          {!appliedCoupon && couponOpen && (
+            <form
+              className="coupon-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                applyCoupon();
+              }}
+            >
+              <input
+                type="text"
+                className="coupon-input"
+                placeholder="קוד קופון"
+                aria-label="קוד קופון"
+                value={couponInput}
+                onInput={(e) => {
+                  setCouponInput((e.target as HTMLInputElement).value);
+                  setCouponError("");
+                }}
+                autoFocus
+              />
+              <button type="submit" className="btn coupon-confirm" disabled={couponBusy}>
+                {couponBusy ? "בודק…" : "אישור"}
+              </button>
+            </form>
+          )}
+          {couponError && <span className="coupon-err">{couponError}</span>}
+          {appliedCoupon && (
+            <div className="coupon-applied">
+              <span>
+                קופון {appliedCoupon.code} · הנחה {appliedCoupon.percent}% (−{shekel(discount)}) 🎉
+              </span>
+              <button type="button" className="coupon-remove" onClick={removeCoupon} aria-label="הסרת קופון">
+                ✕
+              </button>
+            </div>
+          )}
         </div>
 
-        <aside className="summary-card">
-          <h2 className="display">סיכום הזמנה</h2>
-          <ShipMeter total={subtotalNis} />
-          <div className="sum-row">
-            <span>מוצרים ({items.length})</span>
-            <span>{shekel(subtotalNis)}</span>
+        <button type="button" className="co-link co-clear" onClick={() => setConfirmClear(true)}>
+          ריקון העגלה
+        </button>
+
+        <div className="co-bar" ref={barRef}>
+          <div className="co-bar-row">
+            <div className="co-bar-total">
+              <span>סה״כ לתשלום</span>
+              <b dir="ltr">{shekel(grandTotal)}</b>
+            </div>
+            <button type="button" className="co-cta" onClick={goDetails}>
+              להמשיך לפרטים
+              {Icon.arrowNext}
+            </button>
           </div>
-          <div className="sum-row">
-            <span>{delivery.title}</span>
-            <span>{shippingCost === 0 ? "חינם" : shekel(shippingCost)}</span>
-          </div>
-          {appliedCoupon && (
-            <div className="sum-row">
-              <span>
-                קופון {appliedCoupon.code} ({appliedCoupon.percent}%-)
-              </span>
-              <span>−{shekel(discount)}</span>
-            </div>
-          )}
-          <div className="sum-row total">
-            <span>סה"כ לתשלום</span>
-            <span>{shekel(grandTotal)}</span>
-          </div>
-
-          <div className="payer-fields">
-            <h3>פרטים לחשבונית ולעדכונים</h3>
-            <div className="payer-field">
-              <label htmlFor="payer-name">שם מלא</label>
-              <input
-                id="payer-name"
-                ref={nameRef}
-                type="text"
-                autoComplete="name"
-                value={payer.name}
-                onInput={(e) => updatePayer("name", (e.target as HTMLInputElement).value)}
-              />
-              {payerErrors.name && <span className="payer-err">{payerErrors.name}</span>}
-            </div>
-            <div className="payer-field">
-              <label htmlFor="payer-phone">נייד</label>
-              <input
-                id="payer-phone"
-                ref={phoneRef}
-                type="tel"
-                autoComplete="tel"
-                inputMode="tel"
-                dir="ltr"
-                placeholder="0501234567"
-                value={payer.phone}
-                onInput={(e) => updatePayer("phone", (e.target as HTMLInputElement).value)}
-              />
-              {payerErrors.phone && <span className="payer-err">{payerErrors.phone}</span>}
-            </div>
-            <div className="payer-field">
-              <label htmlFor="payer-email">אימייל — לא חובה</label>
-              <input
-                id="payer-email"
-                ref={emailRef}
-                type="email"
-                autoComplete="email"
-                dir="ltr"
-                value={payer.email}
-                onInput={(e) => updatePayer("email", (e.target as HTMLInputElement).value)}
-              />
-              {payerErrors.email && <span className="payer-err">{payerErrors.email}</span>}
-            </div>
-          </div>
-
-          {needsAddress && (
-            <div className="payer-fields">
-              <h3>כתובת למשלוח</h3>
-              <div className="payer-field">
-                <label htmlFor="ship-street">רחוב ומספר בית</label>
-                <input
-                  id="ship-street"
-                  ref={streetRef}
-                  type="text"
-                  autoComplete="address-line1"
-                  value={ship.street}
-                  onInput={(e) => updateShip("street", (e.target as HTMLInputElement).value)}
-                />
-                {shipErrors.street && <span className="payer-err">{shipErrors.street}</span>}
-              </div>
-              <div className="payer-field">
-                <label htmlFor="ship-city">עיר</label>
-                <input
-                  id="ship-city"
-                  ref={cityRef}
-                  type="text"
-                  autoComplete="address-level2"
-                  value={ship.city}
-                  onInput={(e) => updateShip("city", (e.target as HTMLInputElement).value)}
-                />
-                {shipErrors.city && <span className="payer-err">{shipErrors.city}</span>}
-              </div>
-              <div className="payer-field">
-                <label htmlFor="ship-apt">דירה / כניסה / קומה — לא חובה</label>
-                <input
-                  id="ship-apt"
-                  type="text"
-                  value={ship.apt}
-                  onInput={(e) => updateShip("apt", (e.target as HTMLInputElement).value)}
-                />
-              </div>
-              <div className="payer-field">
-                <label htmlFor="ship-zip">מיקוד — לא חובה</label>
-                <input
-                  id="ship-zip"
-                  type="text"
-                  inputMode="numeric"
-                  dir="ltr"
-                  autoComplete="postal-code"
-                  value={ship.zip}
-                  onInput={(e) => updateShip("zip", (e.target as HTMLInputElement).value)}
-                />
-              </div>
-              <div className="payer-field">
-                <label htmlFor="ship-notes">הערות לשליח — לא חובה</label>
-                <input
-                  id="ship-notes"
-                  type="text"
-                  value={ship.notes}
-                  onInput={(e) => updateShip("notes", (e.target as HTMLInputElement).value)}
-                />
-              </div>
-            </div>
-          )}
-
-          <label className="terms-accept">
-            <input
-              type="checkbox"
-              checked={termsAccepted}
-              onChange={(e) => {
-                setTermsAccepted((e.target as HTMLInputElement).checked);
-                setPayError("");
-              }}
-            />
-            <span>
-              קראתי ואני מאשר/ת את <Link to="/terms" target="_blank">התקנון</Link> ו
-              <Link to="/returns" target="_blank">מדיניות הביטולים וההחזרות</Link>
-            </span>
-          </label>
-
-          <button
-            className="btn pay-card-btn"
-            style={{ width: "100%" }}
-            onClick={payCard}
-            disabled={payBusy || !termsAccepted}
-          >
-            {payBusy ? "מעבירים לתשלום מאובטח…" : "💳 תשלום מאובטח בכרטיס"}
-          </button>
-          {payError && (
-            <p className="coupon-err" style={{ textAlign: "center", marginTop: "0.4rem" }}>
-              {payError}
-            </p>
-          )}
-
-          <p className="order-note">
-            התשלום מתבצע בעמוד סליקה מאובטח. אפשר גם לאסוף מהחנות — {store.address}.
-          </p>
-          <button
-            className="add-btn"
-            style={{ marginTop: "0.8rem" }}
-            onClick={() => setConfirmClear(true)}
-          >
-            ריקון העגלה
-          </button>
-        </aside>
+          <p className="co-bar-note">שלב 1 מתוך 2 · אחר כך תשלום מאובטח ב-PayMe</p>
+          <ul className="co-pay-methods" aria-label="אמצעי תשלום">
+            {PAY_METHODS.map((m) => (
+              <li key={m}>{m}</li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {confirmClear && (

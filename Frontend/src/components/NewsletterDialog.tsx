@@ -44,7 +44,12 @@ export const NewsletterDialog = () => {
 
     let timer: any;
     if (!localStorage.getItem(SEEN_KEY)) {
-      timer = setTimeout(openNow, 15000);
+      // the automatic invitation never interrupts a purchase: if the 15s land on
+      // the cart/checkout or the thank-you page, it simply doesn't open (the
+      // footer link still opens it on purpose)
+      timer = setTimeout(() => {
+        if (!/\/(cart|thank-you)\/?$/.test(window.location.pathname)) openNow();
+      }, 15000);
     }
     return () => {
       window.removeEventListener("lh-open-news", openNow);

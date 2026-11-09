@@ -69,7 +69,9 @@ const Layout = () => {
       <a href="#main" className="skip-link">
         דלג לתוכן
       </a>
-      <Header />
+      {/* the cart/checkout has its own slim header (logo + back) — fewer ways
+          to wander off mid-purchase, more room on a phone */}
+      {pathname !== "/cart" && <Header />}
       <div id="main" ref={mainRef} tabIndex={-1} className="route-region">
         <Outlet />
       </div>
