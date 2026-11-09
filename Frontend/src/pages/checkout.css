@@ -229,8 +229,28 @@
   text-decoration: none;
   overflow-wrap: anywhere;
 }
-.co-line-name .variant-tag {
-  margin-inline-start: 0.35em;
+/* tags under a line's name: option, "no coupon", pickup only */
+.co-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.co-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 999px;
+  padding: 0 10px;
+  background: #f3ede1;
+}
+.co-tag.no-coupon {
+  color: #946200;
+  border-color: #946200;
+  border-style: dashed;
+  background: transparent;
 }
 .co-rm {
   flex: none;
@@ -305,6 +325,11 @@
   padding: 0;
   border: 0;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.co-delivery-opts {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -621,3 +646,453 @@ body:has(.co-bar) .a11y-root {
   bottom: calc(var(--co-bar-h, 10rem) + 0.75rem);
 }
 .co-title:focus { outline: none; }
+
+/* visually hidden, still read by screen readers */
+.co-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── wide screens (CHECKOUT_WIDE, ≥1000px): the site header and footer, the
+   lines / form on the right, a summary card that stays in view on the left.
+   Below that width everything above (the phone layout) applies. ── */
+.co-page.co-wide {
+  --co-col: 75rem;
+  min-height: 0;
+}
+.co-wide .co-body {
+  padding: 24px 32px 72px;
+  gap: 20px;
+}
+.co-wide .co-title {
+  font-size: 60px;
+}
+.co-wide .co-title-row {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.co-wide .co-title-row .co-muted {
+  font-size: 16px;
+}
+.co-spacer {
+  flex: 1 1 auto;
+}
+.co-wide .co-head-link {
+  padding: 0;
+  font-size: 15px;
+}
+
+.co-steps3 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b6480;
+}
+.co-steps3 li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.co-steps3 li > span {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #cfc7b8;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+.co-steps3 li.on {
+  color: var(--ink);
+}
+.co-steps3 li.on > span {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+.co-steps3 li.done {
+  color: var(--purple);
+}
+.co-steps3 li.done > span {
+  border-color: var(--purple);
+}
+.co-steps3 .co-steps3-line {
+  width: 40px;
+  height: 2px;
+  background: var(--co-line);
+}
+.co-steps3 .co-steps3-line.done {
+  background: var(--purple);
+}
+
+.co-cols {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+.co-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.co-aside {
+  flex: 0 0 340px;
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--site-header-h, 150px) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (min-width: 1200px) {
+  .co-aside {
+    flex-basis: 400px;
+  }
+}
+/* 1000–1199px: a little more room for the product names */
+@media (max-width: 1199px) {
+  .co-aside {
+    flex-basis: 320px;
+  }
+  .co-row {
+    padding: 16px;
+    gap: 14px;
+  }
+  .co-row .co-thumb {
+    width: 72px;
+    height: 72px;
+  }
+  .co-row-main {
+    gap: 12px;
+  }
+  .co-row-total {
+    width: 72px;
+  }
+}
+
+/* the lines: one card, a row each */
+.co-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+.co-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 18px 20px;
+}
+.co-row + .co-row {
+  border-top: 1px solid var(--co-line);
+}
+.co-row-main {
+  flex: 1 1 224px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.co-row .co-thumb {
+  width: 88px;
+  height: 88px;
+  border-radius: 12px;
+  border: 1px solid var(--co-line);
+}
+.co-row-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.co-row .co-line-name {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.3;
+}
+.co-unit {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.co-row-side {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.co-row-total {
+  width: 80px;
+  text-align: left;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--purple);
+}
+.co-row .co-rm {
+  margin: 0;
+}
+.co-wide .co-qty button {
+  width: 42px;
+  height: 42px;
+}
+.co-wide .co-clear {
+  align-self: flex-end;
+  margin-top: -8px;
+  font-size: 14px;
+}
+
+/* delivery, side by side */
+.co-wide .co-delivery legend {
+  font-size: 18px;
+  font-weight: 800;
+}
+.co-wide .co-delivery-opts {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.co-wide .co-option {
+  flex: 1 1 260px;
+  min-height: 72px;
+  padding: 12px 16px;
+  gap: 12px;
+  border-radius: 14px;
+}
+.co-wide .co-option b {
+  font-size: 15px;
+}
+.co-wide .co-option small {
+  font-size: 13px;
+}
+.co-option-icon {
+  display: inline-flex;
+  color: var(--ink);
+}
+.co-option.on .co-option-icon {
+  color: var(--purple);
+}
+
+/* the summary card */
+.co-summary {
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--ink);
+  padding: 22px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 4px 4px 0 rgba(43, 36, 64, 0.08);
+}
+.co-summary h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+.co-summary .co-ship {
+  background: var(--paper);
+  border: 1px solid var(--co-line);
+  border-radius: 12px;
+}
+.co-summary .co-ship p {
+  font-size: 13px;
+}
+.co-summary .coupon-box {
+  margin: 0;
+}
+.co-sum-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.co-sum-head .co-link {
+  align-self: auto;
+}
+.co-sum-rows {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+}
+.co-sum-rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.co-sum-rows dt {
+  color: var(--ink-soft);
+}
+.co-sum-rows dd {
+  margin: 0;
+  font-weight: 700;
+}
+.co-sum-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--co-line);
+  font-size: 16px;
+  font-weight: 700;
+}
+.co-sum-total b {
+  font-size: 28px;
+  font-weight: 800;
+}
+.co-summary .co-cta {
+  flex: none;
+  width: 100%;
+  height: 54px;
+  font-size: 18px;
+}
+/* the items on the details step — scroll inside the card when long, so the
+   pay button stays on screen, clear of the accessibility button (the rest
+   of the card is ~470px tall, plus ~70px for that button) */
+.co-sum-items {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0 0;
+  padding-inline-end: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: clamp(112px, calc(100vh - var(--site-header-h, 150px) - 540px), 300px);
+  overflow-y: auto;
+}
+.co-sum-items li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.co-sum-thumb {
+  position: relative;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--co-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.co-sum-thumb > img,
+.co-sum-thumb > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+.co-sum-qty {
+  position: absolute;
+  top: -8px;
+  inset-inline-end: -8px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.co-sum-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.co-sum-name small {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.co-sum-items b {
+  flex: none;
+  font-size: 14px;
+}
+.co-summary a {
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.co-help {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.co-help a {
+  font-weight: 700;
+  color: var(--purple);
+}
+
+/* the details form, in cards */
+.co-wide .co-form {
+  gap: 20px;
+  margin-top: 0;
+}
+.co-wide .co-form fieldset {
+  padding: 22px 24px 24px;
+  border: 1px solid var(--co-line);
+  border-radius: 16px;
+  background: var(--card);
+  gap: 14px;
+}
+.co-wide .co-form legend {
+  padding: 0 6px;
+  margin-bottom: 0;
+  font-size: 18px;
+}
+.co-wide .co-field label {
+  font-size: 14px;
+}
+.co-wide .co-hint {
+  font-size: 12px;
+}
+.co-wide .co-chosen {
+  min-height: 68px;
+  padding: 10px 16px;
+  border-radius: 14px;
+}
+.co-wide .co-chosen b {
+  font-size: 15px;
+}
+.co-wide .co-chosen small {
+  font-size: 13px;
+}
+.co-wide .co-check {
+  font-size: 14px;
+}
+.co-wide .co-small {
+  font-size: 13px;
+}

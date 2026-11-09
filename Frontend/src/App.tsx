@@ -39,11 +39,13 @@ import DesignMuseum from "./pages/designs/DesignMuseum";
 import DesignMagazine from "./pages/designs/DesignMagazine";
 import { A11yWidget } from "./components/A11yWidget";
 import { initAnalytics, trackPageView } from "./data/analytics";
+import { CHECKOUT_WIDE, useMediaQuery } from "./lib/useMediaQuery";
 
 initAnalytics(); // no-op unless VITE_GA_ID is configured
 
 const Layout = () => {
   const { pathname } = useLocation();
+  const wideCheckout = useMediaQuery(CHECKOUT_WIDE);
   const mainRef = useRef<HTMLDivElement>(null);
   const firstRun = useRef(true);
   useEffect(() => {
@@ -69,9 +71,10 @@ const Layout = () => {
       <a href="#main" className="skip-link">
         דלג לתוכן
       </a>
-      {/* the cart/checkout has its own slim header (logo + back) — fewer ways
-          to wander off mid-purchase, more room on a phone */}
-      {pathname !== "/cart" && <Header />}
+      {/* on a phone the cart/checkout has its own slim header (logo + back) —
+          fewer ways to wander off mid-purchase, more room; wide screens keep
+          the site header */}
+      {(pathname !== "/cart" || wideCheckout) && <Header />}
       <div id="main" ref={mainRef} tabIndex={-1} className="route-region">
         <Outlet />
       </div>
