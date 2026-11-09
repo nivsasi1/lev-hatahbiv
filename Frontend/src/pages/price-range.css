@@ -55,6 +55,11 @@
   appearance: none;
   pointer-events: none;
   height: 24px;
+  z-index: 1;
+}
+/* the handle used last is on top (see CategoryPage) */
+.pr-slider input[type="range"].is-top {
+  z-index: 2;
 }
 .pr-slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;

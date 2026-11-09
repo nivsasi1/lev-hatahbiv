@@ -140,12 +140,16 @@ export const SubCategoryPage = () => {
   // subtle price-range filter (₪). null upper bound = "up to the max".
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState<number | null>(null);
+  // the handle used last sits on top, so two handles that meet can always be
+  // pulled apart again
+  const [topThumb, setTopThumb] = useState<"min" | "max">("max");
 
   useEffect(() => {
     setSort("default");
     setLimit(PAGE_SIZE);
     setPriceMin(0);
     setPriceMax(null);
+    setTopThumb("max");
   }, [slug, sub]);
 
   // Infinite scroll. The sentinel node is kept in state, not a ref, so the
@@ -211,6 +215,12 @@ export const SubCategoryPage = () => {
   const maxPrice = Math.max(10, Math.ceil(Math.max(...all.map(finalPrice)) / 10) * 10);
   const priceHi = priceMax ?? maxPrice;
   const priceActive = priceMin > 0 || priceMax !== null;
+  // where the handles meet at an end only one of them can move: at the top the
+  // low one (down), at ₪0 the high one (up) — that one must be the one grabbed
+  const minOnTop =
+    priceMin >= priceHi
+      ? priceHi >= maxPrice || (priceMin > 0 && topThumb === "min")
+      : topThumb === "min";
   const filtered = priceActive
     ? byThird.filter((p) => {
         const v = finalPrice(p);
@@ -327,8 +337,17 @@ export const SubCategoryPage = () => {
                 step={1}
                 value={priceMin}
                 aria-label="מחיר מינימלי"
+                className={minOnTop ? "is-top" : undefined}
+                onPointerDown={() => setTopThumb("min")}
+                onFocus={() => setTopThumb("min")}
                 onInput={(e: any) => {
-                  setPriceMin(Math.min(Number(e.target.value), priceHi));
+                  const raw = Number(e.target.value);
+                  const v = Math.min(raw, priceHi);
+                  // stopped at the high handle: once the stored value stops
+                  // changing nothing re-renders, so put the handle back by hand
+                  // or it slides on past the other one
+                  if (v !== raw) e.target.value = String(v);
+                  setPriceMin(v);
                   setLimit(PAGE_SIZE);
                 }}
               />
@@ -339,8 +358,13 @@ export const SubCategoryPage = () => {
                 step={1}
                 value={priceHi}
                 aria-label="מחיר מקסימלי"
+                className={minOnTop ? undefined : "is-top"}
+                onPointerDown={() => setTopThumb("max")}
+                onFocus={() => setTopThumb("max")}
                 onInput={(e: any) => {
-                  const v = Math.max(Number(e.target.value), priceMin);
+                  const raw = Number(e.target.value);
+                  const v = Math.max(raw, priceMin);
+                  if (v !== raw) e.target.value = String(v); // same as above
                   setPriceMax(v >= maxPrice ? null : v);
                   setLimit(PAGE_SIZE);
                 }}
