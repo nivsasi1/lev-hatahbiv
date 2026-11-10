@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { LAST_ADD_KEY } from "../context/cart-context";
 import { useLocation } from "react-router-dom";
 import { WORKER_API } from "../data/api";
 import { store } from "../data/catalog";
@@ -44,12 +45,25 @@ export const NewsletterDialog = () => {
 
     let timer: any;
     if (!localStorage.getItem(SEEN_KEY)) {
-      // the automatic invitation never interrupts a purchase: if the 15s land on
-      // the cart/checkout or the thank-you page, it simply doesn't open (the
-      // footer link still opens it on purpose)
-      timer = setTimeout(() => {
-        if (!/\/(cart|thank-you)\/?$/.test(window.location.pathname)) openNow();
-      }, 15000);
+      // the automatic invitation never interrupts a purchase: not on the cart /
+      // checkout or thank-you pages, not while the cart drawer is open, not
+      // within a minute of adding something — it waits and tries again later
+      // (the footer link still opens it on purpose)
+      const busyShopping = () => {
+        if (/\/(cart|thank-you)\/?$/.test(window.location.pathname)) return true;
+        if (document.querySelector(".cart-sheet.open")) return true;
+        try {
+          return Date.now() - Number(sessionStorage.getItem(LAST_ADD_KEY) || 0) < 60_000;
+        } catch {
+          return false;
+        }
+      };
+      const tryOpen = () => {
+        if (localStorage.getItem(SEEN_KEY)) return;
+        if (busyShopping()) timer = setTimeout(tryOpen, 15000);
+        else openNow();
+      };
+      timer = setTimeout(tryOpen, 15000);
     }
     return () => {
       window.removeEventListener("lh-open-news", openNow);

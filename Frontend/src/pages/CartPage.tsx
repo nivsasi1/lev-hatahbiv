@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   asset,
+  categories,
   linePrice,
   shekel,
+  shipProgress,
+  getProduct,
   FREE_SHIPPING_FROM,
   REDUCED_SHIPPING_FROM,
   REDUCED_SHIPPING_PRICE,
@@ -34,7 +37,7 @@ const recentPendingPayment = (): boolean => {
 };
 
 const deliveryOptions = [
-  { id: "pickup", title: "איסוף עצמי מהחנות", note: store.address, price: 0 },
+  { id: "pickup", title: "איסוף עצמי מהחנות", note: `${store.address} · נעדכן בוואטסאפ כשההזמנה מוכנה`, price: 0 },
   { id: "courier", title: "משלוח עד הבית", note: store.courierEta, price: 35 },
   // registered mail was dropped 2026-10 — old orders still carry delivery "mail"
 ];
@@ -154,6 +157,37 @@ const Icon = {
   ),
 };
 
+// opening hours, one line: "ראשון – שישי 9:00 – 13:30 · א', ב', ד', ה' 16:00 – 19:00"
+const hoursLine = store.hours.map((h) => `${h.days} ${h.time}`).join(" · ");
+
+// what stops a line from being bought today (the server refuses these too)
+const lineIssue = (i: CartItem): string | null => {
+  const live = getProduct(i.product.id);
+  if (!live) return "המוצר כבר לא זמין באתר";
+  if (live.soldOut) return "אזל מהמלאי";
+  if (i.variant) {
+    const v = live.variants?.find((x) => x.key === i.variant);
+    if (!v) return "האפשרות הזו כבר לא זמינה";
+    if (v.soldOut) return "אזל מהמלאי";
+  }
+  return null;
+};
+
+// the empty cart: a blank canvas on an easel, a few drops of paint beside it
+const EmptyCanvas = () => (
+  <svg className="co-empty-art" viewBox="0 0 220 170" aria-hidden="true">
+    <path d="M70 160 L110 30 L150 160 M110 30 L110 150" fill="none" stroke="#2b2440" strokeWidth="5" strokeLinecap="round" />
+    <rect x="62" y="38" width="96" height="76" rx="4" fill="#fffdf7" stroke="#2b2440" strokeWidth="4" />
+    <path d="M56 116 H164" stroke="#2b2440" strokeWidth="5" strokeLinecap="round" />
+    <circle cx="28" cy="132" r="11" fill="#e2574c" />
+    <circle cx="44" cy="152" r="8" fill="#e09f3e" />
+    <circle cx="186" cy="138" r="10" fill="#5b2d8e" />
+    <circle cx="200" cy="157" r="6" fill="#2a9d8f" />
+    <path d="M168 60 l26 -34" stroke="#2b2440" strokeWidth="4" strokeLinecap="round" />
+    <path d="M194 26 q8 -6 10 -14 q-10 2 -14 10z" fill="#e2574c" stroke="#2b2440" strokeWidth="2" strokeLinejoin="round" />
+  </svg>
+);
+
 // "פריט אחד" / "3 פריטים"
 const itemsLabel = (n: number) => (n === 1 ? "פריט אחד" : `${n} פריטים`);
 
@@ -165,6 +199,9 @@ export const CartPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const step: "cart" | "details" = params.get("step") === "details" ? "details" : "cart";
+  // when the details step opened: "לתשלום מאובטח" appears right where
+  // "להמשיך לפרטים" was, so a double click must not submit the empty form
+  const detailsAt = useRef(0);
   // ≥1000px: the site header + two columns; below it the phone layout
   const wide = useMediaQuery(CHECKOUT_WIDE);
   // the summary card sticks below the site's sticky header, whose height
@@ -183,7 +220,12 @@ export const CartPage = () => {
       root.style.removeProperty("--site-header-h");
     };
   }, [wide]);
-  const goDetails = () => setParams({ step: "details" }, { state: { fromCart: true } });
+  const goDetails = () => {
+    // stamped HERE, not only in the effect below: the 2nd click of a double
+    // click can land after the re-render but before effects run
+    detailsAt.current = Date.now();
+    setParams({ step: "details" }, { state: { fromCart: true } });
+  };
   const goCart = () => {
     // came here from the cart step → back, so history doesn't fill with copies
     if ((location.state as any)?.fromCart) navigate(-1);
@@ -193,6 +235,7 @@ export const CartPage = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const firstStep = useRef(true);
   useEffect(() => {
+    if (step === "details") detailsAt.current = Date.now();
     if (firstStep.current) {
       firstStep.current = false;
       return;
@@ -239,6 +282,18 @@ export const CartPage = () => {
   const [confirmClear, setConfirmClear] = useState(false);
   // removing a line always asks first (trash, or "−" at quantity 1)
   const [confirmRemove, setConfirmRemove] = useState<CartItem | null>(null);
+  // the details step switches pickup/courier in place ("שינוי"), no trip back
+  const [pickingDelivery, setPickingDelivery] = useState(false);
+  const pickerWasOpen = useRef(false);
+  const pointerPick = useRef(false);
+  useEffect(() => {
+    if (pickingDelivery) {
+      document.querySelector<HTMLInputElement>(".co-delivery-inline input:checked")?.focus();
+    } else if (pickerWasOpen.current) {
+      document.querySelector<HTMLButtonElement>(".co-chosen .co-link")?.focus();
+    }
+    pickerWasOpen.current = pickingDelivery;
+  }, [pickingDelivery]);
   const [couponOpen, setCouponOpen] = useState(false);
   const [couponInput, setCouponInput] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<
@@ -304,6 +359,17 @@ export const CartPage = () => {
     if (field === "street" || field === "city") {
       setShipErrors((e) => ({ ...e, [field]: undefined }));
     }
+  };
+
+  // a sold-out / removed product blocks the checkout until it's taken out
+  const blocked = items.some((i) => lineIssue(i) !== null);
+  const blockMsg = "יש בעגלה מוצר שאזל או שכבר לא זמין — הסירו אותו כדי להמשיך";
+  const goDetailsChecked = () => {
+    if (blocked) {
+      document.querySelector<HTMLElement>(".co-issue")?.closest("li")?.scrollIntoView({ block: "center" });
+      return;
+    }
+    goDetails();
   };
 
   // All money in AGOROT, mirroring the Worker's checkout math EXACTLY (prices are
@@ -395,6 +461,11 @@ export const CartPage = () => {
 
   const payCard = async () => {
     if (payBusy || items.length === 0) return;
+    if (Date.now() - detailsAt.current < 700) return; // the 2nd click of a double click
+    if (blocked) {
+      setPayError(blockMsg);
+      return;
+    }
     const { errors, clean } = validatePayer(payer);
     const { errors: sErrors, clean: sClean } = validateShip({ ...ship, zip: "" }, needsAddress);
     if (errors.name || errors.phone || errors.email || sErrors.street || sErrors.city) {
@@ -458,7 +529,8 @@ export const CartPage = () => {
           delivery: delivery.id,
           couponCode: appliedCoupon?.code,
           payer: clean,
-          ...(needsAddress ? { shipping: sClean } : {}),
+          // courier: the address (+ note); pickup: just the note, if there is one
+          ...(needsAddress ? { shipping: sClean } : sClean.notes ? { shipping: { notes: sClean.notes } } : {}),
         }),
       });
       const data = await res.json().catch(() => null);
@@ -506,26 +578,20 @@ export const CartPage = () => {
   // see App.tsx)
   const coHeader = (
     <header className="co-head">
+      {/* the logo stays on the right in both steps, the way out on the left */}
+      <Link to="/" className="co-logo" aria-label="לב התחביב — דף הבית">
+        <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+      </Link>
       {step === "details" ? (
-        <>
-          <button type="button" className="co-head-link" onClick={goCart}>
-            {Icon.arrowBack}
-            חזרה לעגלה
-          </button>
-          <Link to="/" className="co-logo" aria-label="לב התחביב — דף הבית">
-            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
-          </Link>
-        </>
+        <button type="button" className="co-head-link" onClick={goCart}>
+          {Icon.arrowBack}
+          חזרה לעגלה
+        </button>
       ) : (
-        <>
-          <Link to="/" className="co-logo" aria-label="לב התחביב — דף הבית">
-            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
-          </Link>
-          <Link to="/" className="co-head-link">
-            {Icon.arrowBack}
-            להמשיך לקנות
-          </Link>
-        </>
+        <Link to="/" className="co-head-link">
+          {Icon.arrowBack}
+          להמשיך לקנות
+        </Link>
       )}
     </header>
   );
@@ -536,11 +602,25 @@ export const CartPage = () => {
     return (
       <main className={pageClass}>
         {!wide && coHeader}
-        <div className="co-body">
+        <div className="co-body co-empty">
+          <EmptyCanvas />
           <h1 className="display co-title">העגלה שלי</h1>
-          <p className="empty-note">
-            העגלה ריקה לגמרי — בואו נתקן את זה. <Link to="/">לחנות ←</Link>
-          </p>
+          <p className="co-empty-lead">העגלה ריקה — כמו קנבס לפני המשיכה הראשונה.</p>
+          <Link to="/" className="co-cta co-empty-cta">
+            למדפים
+            {Icon.arrowNext}
+          </Link>
+          <h2 className="co-empty-h">מאיפה מתחילים?</h2>
+          <ul className="co-empty-cats">
+            {categories.map((c) => (
+              <li key={c.slug}>
+                <Link to={`/category/${c.slug}`} style={{ "--c": c.color, "--soft": c.soft } as any}>
+                  <span className="co-empty-dot" aria-hidden="true" />
+                  {c.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
     );
@@ -570,12 +650,7 @@ export const CartPage = () => {
   );
 
   // free shipping: ₪20 from ₪300, free from ₪500 (the same tiers as the Worker)
-  const toFree = Math.max(0, FREE_SHIPPING_FROM - subtotalNis);
-  const shipLine = freeShipping
-    ? "🎉 יש לכם משלוח חינם"
-    : reducedShipping
-    ? `עוד ${shekel(toFree)} למשלוח חינם · המשלוח עכשיו רק ${shekel(REDUCED_SHIPPING_PRICE)}`
-    : `עוד ${shekel(toFree)} למשלוח חינם · מעל ${shekel(REDUCED_SHIPPING_FROM)} המשלוח רק ${shekel(REDUCED_SHIPPING_PRICE)}`;
+  const shipLine = shipProgress(subtotalNis);
   const shipPct = Math.min(100, (subtotalNis / FREE_SHIPPING_FROM) * 100);
   const tierPct = (REDUCED_SHIPPING_FROM / FREE_SHIPPING_FROM) * 100;
   const deliveryPrice = (d: (typeof deliveryOptions)[number]) =>
@@ -632,6 +707,13 @@ export const CartPage = () => {
   const lineTags = (item: CartItem) => {
     const { product, variant } = item;
     const tags = [];
+    const issue = lineIssue(item);
+    if (issue)
+      tags.push(
+        <span className="co-tag co-issue" key="x">
+          {issue}
+        </span>
+      );
     if (variant)
       tags.push(
         <span className="co-tag" key="v">
@@ -749,32 +831,47 @@ export const CartPage = () => {
     );
   };
 
+  const deliveryOption = (d: (typeof deliveryOptions)[number], inline = false) => {
+    const off = d.id !== "pickup" && hasPickupOnly;
+    return (
+      <label
+        key={d.id}
+        className={`co-option${delivery.id === d.id ? " on" : ""}${off ? " off" : ""}`}
+        onPointerDown={() => (pointerPick.current = true)}
+      >
+        <input
+          type="radio"
+          name={inline ? "delivery-inline" : "delivery"}
+          checked={delivery.id === d.id}
+          disabled={off}
+          // in the details step a mouse/finger pick closes the picker — in the
+          // change itself, so the choice lands before the options unmount;
+          // arrow keys only move the choice, "סגירה" closes
+          onChange={() => {
+            setDelivery(d);
+            if (inline && pointerPick.current) setPickingDelivery(false);
+            pointerPick.current = false;
+          }}
+          // tapping the option that's already chosen fires no change
+          onClick={(e) => {
+            if (inline && delivery.id === d.id && (e as MouseEvent).detail > 0) setPickingDelivery(false);
+          }}
+        />
+        {(wide || inline) && <span className="co-option-icon">{d.id === "pickup" ? Icon.store : Icon.truck}</span>}
+        <span>
+          <b>
+            {d.id === "pickup" ? "איסוף מהחנות" : d.title} · {deliveryPrice(d)}
+          </b>
+          <small>{off ? "חלק מהמוצרים בעגלה זמינים באיסוף עצמי בלבד" : d.note}</small>
+        </span>
+      </label>
+    );
+  };
+
   const deliveryChoice = (
     <fieldset className="co-delivery">
       <legend>איך תרצו לקבל את ההזמנה?</legend>
-      <div className="co-delivery-opts">
-        {deliveryOptions.map((d) => {
-          const off = d.id !== "pickup" && hasPickupOnly;
-          return (
-            <label key={d.id} className={`co-option${delivery.id === d.id ? " on" : ""}${off ? " off" : ""}`}>
-              <input
-                type="radio"
-                name="delivery"
-                checked={delivery.id === d.id}
-                disabled={off}
-                onChange={() => setDelivery(d)}
-              />
-              {wide && <span className="co-option-icon">{d.id === "pickup" ? Icon.store : Icon.truck}</span>}
-              <span>
-                <b>
-                  {d.id === "pickup" ? "איסוף מהחנות" : d.title} · {deliveryPrice(d)}
-                </b>
-                <small>{off ? "חלק מהמוצרים בעגלה זמינים באיסוף עצמי בלבד" : d.note}</small>
-              </span>
-            </label>
-          );
-        })}
-      </div>
+      <div className="co-delivery-opts">{deliveryOptions.map((d) => deliveryOption(d))}</div>
     </fieldset>
   );
 
@@ -916,11 +1013,16 @@ export const CartPage = () => {
           placeholder="כמו שרשום באשראי"
           value={payer.name}
           aria-invalid={Boolean(payerErrors.name)}
+          aria-describedby={payerErrors.name ? "payer-name-msg" : undefined}
           onInput={(e) => updatePayer("name", (e.target as HTMLInputElement).value)}
         />
-        {payerErrors.name && <span className="payer-err">{payerErrors.name}</span>}
+        {payerErrors.name && (
+          <span className="payer-err" id="payer-name-msg">
+            {payerErrors.name}
+          </span>
+        )}
       </div>
-      <div className="co-grid">
+      <div className="co-grid co-grid-contact">
         <div className="co-field">
           <label htmlFor="payer-phone">טלפון נייד</label>
           <input
@@ -933,12 +1035,17 @@ export const CartPage = () => {
             placeholder="050-0000000"
             value={payer.phone}
             aria-invalid={Boolean(payerErrors.phone)}
+            aria-describedby="payer-phone-msg"
             onInput={(e) => updatePayer("phone", (e.target as HTMLInputElement).value)}
           />
           {payerErrors.phone ? (
-            <span className="payer-err">{payerErrors.phone}</span>
+            <span className="payer-err" id="payer-phone-msg">
+              {payerErrors.phone}
+            </span>
           ) : (
-            <span className="co-hint">לעדכון כשההזמנה מוכנה</span>
+            <span className="co-hint" id="payer-phone-msg">
+              לעדכון כשההזמנה מוכנה
+            </span>
           )}
         </div>
         <div className="co-field">
@@ -953,35 +1060,71 @@ export const CartPage = () => {
             placeholder="name@example.com"
             value={payer.email}
             aria-invalid={Boolean(payerErrors.email)}
+            aria-describedby="payer-email-msg"
             onInput={(e) => updatePayer("email", (e.target as HTMLInputElement).value)}
           />
           {payerErrors.email ? (
-            <span className="payer-err">{payerErrors.email}</span>
+            <span className="payer-err" id="payer-email-msg">
+              {payerErrors.email}
+            </span>
           ) : (
-            <span className="co-hint">לשם נשלחים אישור התשלום והחשבונית</span>
+            <span className="co-hint" id="payer-email-msg">
+              לשם נשלחים אישור התשלום והחשבונית
+            </span>
           )}
         </div>
       </div>
     </fieldset>
   );
 
+  const notesField = (
+    <div className="co-field">
+      <label htmlFor="ship-notes">
+        הערה להזמנה <span className="co-opt">(לא חובה)</span>
+      </label>
+      <input
+        id="ship-notes"
+        type="text"
+        maxLength={200}
+        placeholder={needsAddress ? "קוד לבניין, להשאיר אצל השכן, לארוז כמתנה…" : "למשל: אגיע ביום חמישי, לארוז כמתנה"}
+        value={ship.notes}
+        onInput={(e) => updateShip("notes", (e.target as HTMLInputElement).value)}
+      />
+    </div>
+  );
+
   const receiveFields = (
     <fieldset>
       <legend>קבלת ההזמנה</legend>
-      <div className="co-chosen">
-        <span className="co-chosen-main">
-          {needsAddress ? Icon.truck : Icon.store}
-          <span>
-            <b>
-              {delivery.title} · {deliveryPrice(delivery)}
-            </b>
-            <small>{delivery.note}</small>
+      {pickingDelivery ? (
+        <div className="co-delivery-opts co-delivery-inline" role="radiogroup" aria-label="איך תרצו לקבל את ההזמנה?">
+          {deliveryOptions.map((d) => deliveryOption(d, true))}
+          <button type="button" className="co-link" onClick={() => setPickingDelivery(false)}>
+            סגירה
+          </button>
+        </div>
+      ) : (
+        <div className="co-chosen">
+          <span className="co-chosen-main">
+            {needsAddress ? Icon.truck : Icon.store}
+            <span>
+              <b>
+                {delivery.title} · {deliveryPrice(delivery)}
+              </b>
+              <small>{delivery.note}</small>
+              {!needsAddress && <small>שעות פתיחה: {hoursLine}</small>}
+            </span>
           </span>
-        </span>
-        <button type="button" className="co-link" onClick={goCart}>
-          שינוי
-        </button>
-      </div>
+          <button
+            type="button"
+            className="co-link"
+            onClick={() => setPickingDelivery(true)}
+            aria-label="שינוי אופן קבלת ההזמנה"
+          >
+            שינוי
+          </button>
+        </div>
+      )}
       {needsAddress && (
         <>
           <div className="co-grid">
@@ -994,9 +1137,14 @@ export const CartPage = () => {
                 autoComplete="address-level2"
                 value={ship.city}
                 aria-invalid={Boolean(shipErrors.city)}
+                aria-describedby={shipErrors.city ? "ship-city-msg" : undefined}
                 onInput={(e) => updateShip("city", (e.target as HTMLInputElement).value)}
               />
-              {shipErrors.city && <span className="payer-err">{shipErrors.city}</span>}
+              {shipErrors.city && (
+                <span className="payer-err" id="ship-city-msg">
+                  {shipErrors.city}
+                </span>
+              )}
             </div>
             <div className="co-field">
               <label htmlFor="ship-street">רחוב ומספר</label>
@@ -1007,9 +1155,14 @@ export const CartPage = () => {
                 autoComplete="address-line1"
                 value={ship.street}
                 aria-invalid={Boolean(shipErrors.street)}
+                aria-describedby={shipErrors.street ? "ship-street-msg" : undefined}
                 onInput={(e) => updateShip("street", (e.target as HTMLInputElement).value)}
               />
-              {shipErrors.street && <span className="payer-err">{shipErrors.street}</span>}
+              {shipErrors.street && (
+                <span className="payer-err" id="ship-street-msg">
+                  {shipErrors.street}
+                </span>
+              )}
             </div>
           </div>
           <div className="co-grid">
@@ -1024,21 +1177,11 @@ export const CartPage = () => {
                 onInput={(e) => updateShip("apt", (e.target as HTMLInputElement).value)}
               />
             </div>
-            <div className="co-field">
-              <label htmlFor="ship-notes">
-                הערה לשליח <span className="co-opt">(לא חובה)</span>
-              </label>
-              <input
-                id="ship-notes"
-                type="text"
-                placeholder="קוד לבניין, להשאיר אצל השכן…"
-                value={ship.notes}
-                onInput={(e) => updateShip("notes", (e.target as HTMLInputElement).value)}
-              />
-            </div>
+            {notesField}
           </div>
         </>
       )}
+      {!needsAddress && notesField}
     </fieldset>
   );
 
@@ -1064,7 +1207,7 @@ export const CartPage = () => {
   // checkout isn't lost)
   const consentNote = (
     <p className="co-bar-note">
-      בלחיצה על "לתשלום מאובטח" אני מאשר/ת את{" "}
+      בלחיצה על התשלום אני מאשר/ת את{" "}
       <Link to="/terms" target="_blank">
         התקנון
       </Link>{" "}
@@ -1072,9 +1215,9 @@ export const CartPage = () => {
       <Link to="/returns" target="_blank">
         מדיניות הביטולים
       </Link>
-      . התשלום בעמוד המאובטח של PayMe.
     </p>
   );
+  const payMeNote = <p className="co-bar-note">התשלום בעמוד המאובטח של PayMe. פרטי הכרטיס לא עוברים דרך האתר.</p>;
 
   const payErrorNote = payError && (
     <p className="coupon-err co-bar-err" role="alert">
@@ -1153,6 +1296,7 @@ export const CartPage = () => {
                 {payErrorNote}
                 {payButton}
                 {consentNote}
+                {payMeNote}
                 {payMethods}
               </div>
               {helpLine}
@@ -1197,6 +1341,10 @@ export const CartPage = () => {
             {contactFields}
             {receiveFields}
             {optIns}
+            <div className="co-trust">
+              {payMeNote}
+              {payMethods}
+            </div>
             <div className="co-bar" ref={barRef}>
               {payErrorNote}
               <div className="co-bar-row">
@@ -1251,7 +1399,8 @@ export const CartPage = () => {
                   <span>סה״כ לתשלום</span>
                   <b dir="ltr">{shekel(grandTotal)}</b>
                 </div>
-                <button type="button" className="co-cta" onClick={goDetails}>
+                {blocked && <p className="coupon-err co-bar-err">{blockMsg}</p>}
+                <button type="button" className="co-cta" onClick={goDetailsChecked}>
                   להמשיך לפרטים
                   {Icon.arrowNext}
                 </button>
@@ -1286,20 +1435,21 @@ export const CartPage = () => {
         {deliveryChoice}
         {couponBox}
         {clearButton}
+        <div className="co-trust">{payMethods}</div>
 
         <div className="co-bar" ref={barRef}>
+          {blocked && <p className="coupon-err co-bar-err">{blockMsg}</p>}
           <div className="co-bar-row">
             <div className="co-bar-total">
               <span>סה״כ לתשלום</span>
               <b dir="ltr">{shekel(grandTotal)}</b>
             </div>
-            <button type="button" className="co-cta" onClick={goDetails}>
+            <button type="button" className="co-cta" onClick={goDetailsChecked}>
               להמשיך לפרטים
               {Icon.arrowNext}
             </button>
           </div>
           <p className="co-bar-note">שלב 1 מתוך 2 · אחר כך תשלום מאובטח ב-PayMe</p>
-          {payMethods}
         </div>
       </div>
       {dialogs}

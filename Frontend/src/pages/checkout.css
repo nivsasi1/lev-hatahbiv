@@ -639,6 +639,99 @@
     grid-template-columns: 1fr;
   }
 }
+/* phone + email: one under the other on phones (an email needs the width) */
+@media (max-width: 479px) {
+  .co-grid-contact {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* trust row (payment methods, PayMe line) in the content, above the bar —
+   the bar itself keeps just the total, the button and one line */
+.co-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+/* a line that can't be bought today */
+.co-tag.co-issue {
+  color: #fff;
+  background: var(--red, #d64545);
+  border-color: var(--red, #d64545);
+}
+
+/* in-place delivery switch on the details step */
+.co-delivery-inline > .co-link {
+  align-self: flex-start;
+}
+.co-chosen small + small {
+  margin-top: 2px;
+}
+
+/* the empty cart */
+.co-empty {
+  align-items: center;
+  text-align: center;
+  padding-top: 28px;
+  padding-bottom: 48px;
+}
+.co-empty-art {
+  width: 200px;
+  height: auto;
+}
+.co-empty-lead {
+  margin: 0;
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+.co-empty-cta {
+  flex: none;
+  width: min(100%, 280px);
+  margin-top: 4px;
+  text-decoration: none;
+}
+.co-empty-h {
+  margin: 20px 0 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+.co-empty-cats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 34rem;
+}
+.co-empty-cats a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--soft, var(--card));
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+.co-empty-cats a:hover,
+.co-empty-cats a:focus-visible {
+  background: var(--card);
+}
+.co-empty-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c, var(--purple));
+}
 
 /* keep the accessibility button clear of the pinned bar (its height is
    measured live — chips wrap, errors appear — and published as --co-bar-h) */

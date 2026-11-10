@@ -462,9 +462,11 @@ export const salePct = (p: Product): number =>
   p.salePrice && p.price > 0 ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
 
 // all prices display rounded to one decimal (4.333 -> ₪4.3, 4.0 -> ₪4)
+// whole shekels as they are (₪50), anything with agorot always with two
+// decimals (₪119.90) — the same everywhere a price shows
 export const shekel = (n: number) => {
-  const r = Math.round(n * 10) / 10;
-  return `₪${Number.isInteger(r) ? r : r.toFixed(1)}`;
+  const r = Math.round(n * 100) / 100;
+  return `₪${Number.isInteger(r) ? r : r.toFixed(2)}`;
 };
 
 export const FREE_SHIPPING_FROM = 500;
@@ -472,6 +474,15 @@ export const FREE_SHIPPING_FROM = 500;
 // price; below REDUCED_SHIPPING_FROM each method charges its full price
 export const REDUCED_SHIPPING_FROM = 300;
 export const REDUCED_SHIPPING_PRICE = 20;
+
+// how far the cart is from the NEXT shipping threshold — the same words in the
+// cart drawer and on the cart page
+export const shipProgress = (subtotal: number): string =>
+  subtotal >= FREE_SHIPPING_FROM
+    ? "🎉 יש לכם משלוח חינם"
+    : subtotal >= REDUCED_SHIPPING_FROM
+    ? `המשלוח ב־${shekel(REDUCED_SHIPPING_PRICE)} כבר שלכם · עוד ${shekel(FREE_SHIPPING_FROM - subtotal)} למשלוח חינם`
+    : `עוד ${shekel(REDUCED_SHIPPING_FROM - subtotal)} למשלוח ב־${shekel(REDUCED_SHIPPING_PRICE)} בלבד`;
 
 export const store = {
   name: "לב התחביב",

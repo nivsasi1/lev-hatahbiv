@@ -2,33 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { lineKey, useCart, type CartItem } from "../context/cart-context";
 import { ConfirmDialog } from "./ConfirmDialog";
-import {
-  linePrice,
-  shekel,
-  FREE_SHIPPING_FROM,
-  REDUCED_SHIPPING_FROM,
-  REDUCED_SHIPPING_PRICE,
-} from "../data/catalog";
+import { linePrice, shekel, shipProgress, FREE_SHIPPING_FROM } from "../data/catalog";
 import { ProductThumb } from "./ProductThumb";
 
 // two milestones: reduced-price shipping at ₪300, free shipping at ₪500
 export const ShipMeter = ({ total }: { total: number }) => {
-  const toReduced = REDUCED_SHIPPING_FROM - total;
-  const toFree = FREE_SHIPPING_FROM - total;
   const pct = Math.min(100, (total / FREE_SHIPPING_FROM) * 100);
   return (
     <div className="ship-meter">
-      {toReduced > 0 ? (
-        <span>
-          עוד {shekel(toReduced)} למשלוח ב־{shekel(REDUCED_SHIPPING_PRICE)} בלבד! 🚚
-        </span>
-      ) : toFree > 0 ? (
-        <span>
-          משלוח ב־{shekel(REDUCED_SHIPPING_PRICE)} הושג! עוד {shekel(toFree)} למשלוח חינם 🚚
-        </span>
-      ) : (
-        <span>יש! הרווחתם משלוח חינם 🎉</span>
-      )}
+      <span>{shipProgress(total)}</span>
       <div className="bar">
         <div className="fill" style={{ width: `${pct}%` }} />
       </div>

@@ -2260,12 +2260,17 @@ a.sub-chip {
   display: flex;
   flex-direction: column;
   transform: translateX(-105%);
-  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  /* closed = out of reach too: hidden once it has slid away, so keyboard and
+     screen-reader users don't land on its links and buttons off-screen */
+  visibility: hidden;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.32s;
   box-shadow: 0.5em 0 2em rgba(43, 36, 64, 0.25);
 }
 
 .cart-sheet.open {
   transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
 }
 
 .cart-sheet .head {

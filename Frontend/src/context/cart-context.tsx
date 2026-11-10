@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { Product, linePrice } from "../data/catalog";
+import { Product, getProduct, linePrice } from "../data/catalog";
 import { trackAddToCart } from "../data/analytics";
 
 export type CartItem = {
@@ -33,10 +33,25 @@ const sameLine = (i: CartItem, productId: string, variant?: string) =>
 
 export const lineKey = (i: CartItem) => `${i.product.id}::${i.variant ?? ""}`;
 
+// when something was last added — the newsletter invitation waits a minute
+// after that rather than interrupting a purchase
+export const LAST_ADD_KEY = "lh-last-add";
+
+// A saved line holds a COPY of the product from when it was added. Prices,
+// "sold out", "no coupon" and "pickup only" change since (a price update, a
+// catalogue publish), and the server always charges today's price — so every
+// line takes the product's current data from the catalogue on load. A product
+// no longer in the catalogue keeps its old copy; the cart flags it.
 const loadItems = (): CartItem[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const saved: CartItem[] = raw ? JSON.parse(raw) : [];
+    return saved
+      .filter((i) => i && i.product && i.product.id)
+      .map((i) => {
+        const live = getProduct(i.product.id);
+        return live ? { ...i, product: live } : i;
+      });
   } catch {
     return [];
   }
@@ -51,6 +66,11 @@ export const CartProvider = ({ children }: { children?: any }) => {
   }, [items]);
 
   const add = (product: Product, qty = 1, variant?: string) => {
+    try {
+      sessionStorage.setItem(LAST_ADD_KEY, String(Date.now()));
+    } catch {
+      /* storage blocked — the popup simply isn't held back */
+    }
     setItems((prev) => {
       const existing = prev.find((i) => sameLine(i, product.id, variant));
       if (existing) {

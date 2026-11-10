@@ -148,6 +148,10 @@ export function OrdersView() {
               {o.shipping.notes ? ` — ${o.shipping.notes}` : ""}
             </div>
           )}
+          {/* a pickup order can carry a note too (no address around it) */}
+          {o.shipping?.notes && !(o.shipping.street || o.shipping.city) && (
+            <div className="order-address">📝 {o.shipping.notes}</div>
+          )}
           <div className="order-foot">
             <span className="meta">
               {DELIVERY_LABEL[o.delivery] || o.delivery}

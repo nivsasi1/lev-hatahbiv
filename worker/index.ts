@@ -87,7 +87,7 @@ const CSP = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.googleadservices.com https://connect.facebook.net",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.googleadservices.com https://connect.facebook.net https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https:",
@@ -96,7 +96,7 @@ const CSP = [
   // The google.com/doubleclick hosts are for Google Ads conversion/remarketing
   // beacons (only fire once VITE_GADS_ID is set) — allowlisted now so enabling ads
   // later is config-only, no CSP edit.
-  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://stats.g.doubleclick.net",
+  "connect-src 'self' https://lev-hatahbiv-api.onrender.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://td.doubleclick.net https://stats.g.doubleclick.net https://cloudflareinsights.com",
   "frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://bid.g.doubleclick.net https://www.facebook.com",
 ].join("; ");
 
@@ -661,13 +661,18 @@ function validatePayer(
 }
 
 // shipping address — required only when the order ships (courier), never for
-// pickup. MUST stay identical to the cart form's client-side rules.
+// pickup. MUST stay identical to the cart form's client-side rules. A pickup
+// order may still carry a note ("אגיע ביום חמישי", "לארוז כמתנה"): it is kept in
+// the same JSON with an empty address, which every reader already skips.
 type Shipping = { street: string; city: string; apt: string; zip: string; notes: string };
 function validateShipping(
   deliveryKey: string,
   raw: { street?: string; city?: string; apt?: string; zip?: string; notes?: string } | undefined
 ): { ok: true; shipping: Shipping | null } | { ok: false; error: string } {
-  if (deliveryKey === "pickup") return { ok: true, shipping: null };
+  if (deliveryKey === "pickup") {
+    const notes = String(raw?.notes ?? "").trim().slice(0, 200);
+    return { ok: true, shipping: notes ? { street: "", city: "", apt: "", zip: "", notes } : null };
+  }
   const street = String(raw?.street ?? "").trim();
   const city = String(raw?.city ?? "").trim();
   if (street.length < 2 || city.length < 2) {
@@ -1021,8 +1026,8 @@ async function probePayMeSale(
 // plan. Best-effort by design: the order is already paid when this runs, so the
 // caller wraps it in try/catch and a failure only leaves a log line.
 const agorotIls = (agorot: number): string => {
-  const n = Math.round(agorot / 10) / 10; // integer agorot -> ₪ with one decimal
-  return Number.isInteger(n) ? String(n) : n.toFixed(1);
+  const n = Math.round(agorot) / 100; // integer agorot -> ₪50 / ₪119.90 (as the site)
+  return Number.isInteger(n) ? String(n) : n.toFixed(2);
 };
 
 // The human-readable order summary both notification channels send (email +
@@ -1041,11 +1046,12 @@ function paidOrderText(order: typeof orders.$inferSelect): string {
     .map((i) => `• ${i.name ?? "?"} ×${i.qty ?? 1} — ₪${agorotIls((i.price ?? 0) * (i.qty ?? 1))}`);
   if (items.length > MAX_LINES) lines.push(`… ועוד ${items.length - MAX_LINES} פריטים`);
   let shipLine = "";
+  let noteLine = "";
   if (order.shipping) {
     try {
       const s = JSON.parse(order.shipping) as Record<string, string>;
       shipLine = [s.street, s.apt, s.city, s.zip].filter(Boolean).join(", ");
-      if (s.notes) shipLine += ` (${s.notes})`;
+      noteLine = s.notes || "";
     } catch {
       /* ignore */
     }
@@ -1059,6 +1065,7 @@ function paidOrderText(order: typeof orders.$inferSelect): string {
     ``,
     `אספקה: ${deliveryLabel}`,
     shipLine ? `כתובת: ${shipLine}` : null,
+    noteLine ? `הערה: ${noteLine}` : null,
     order.couponCode ? `קופון: ${order.couponCode} (הנחה ₪${agorotIls(order.discount)})` : null,
     `סה"כ ששולם: ₪${agorotIls(order.total)}`,
     ``,
@@ -1220,10 +1227,12 @@ async function notifyPaidOrderMetaWA(
     used += itemParts[i].length + 3;
   }
   let shipLine = "";
+  let noteLine = "";
   if (order.shipping) {
     try {
       const s = JSON.parse(order.shipping) as Record<string, string>;
       shipLine = [s.street, s.apt, s.city, s.zip].filter(Boolean).join(", ");
+      noteLine = s.notes || "";
     } catch {
       /* ignore */
     }
@@ -1236,7 +1245,7 @@ async function notifyPaidOrderMetaWA(
       `₪${agorotIls(order.total)}` +
         (order.couponCode ? ` (קופון ${order.couponCode}, הנחה ₪${agorotIls(order.discount)})` : "")
     ),
-    waParam(deliveryLabel + (shipLine ? ` — ${shipLine}` : "")),
+    waParam(deliveryLabel + (shipLine ? ` — ${shipLine}` : "") + (noteLine ? ` · הערה: ${noteLine}` : "")),
     waParam([order.payerName, order.payerPhone, order.payerEmail].filter(Boolean).join(" · ")),
     waParam(order.id),
   ];

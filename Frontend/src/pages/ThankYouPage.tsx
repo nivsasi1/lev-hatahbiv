@@ -67,7 +67,7 @@ const readSnapshot = (orderId: string): Snapshot | null => {
 };
 const sh = (agorot: number) => {
   const n = Math.round(agorot) / 100;
-  return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/0$/, "");
+  return Number.isInteger(n) ? String(n) : n.toFixed(2);
 };
 
 // Landing after PayMe redirects back. The webhook is the source of truth for
