@@ -74979,7 +74979,7 @@
   {
     "_id": "6aee42b7ecc9cc2800981817",
     "name": "עפרון צבעוני פאבר קאסטל Black Edition ניאון ופסטל 1/12",
-    "price": 50,
+    "price": 24.9,
     "salePercentage": 0,
     "isAvailable": true,
     "isActive": false,
@@ -74992,6 +74992,9 @@
     "searchKeywords": "פאבר קאסטל, Faber-Castell, Black Edition, עפרונות צבעוניים, עפרון צבעוני, סדרה שחורה, 116410",
     "__v": 0,
     "createdAt": "2026-11-06T21:12:23.721Z",
-    "updatedAt": "2026-11-06T21:20:22.197Z"
+    "updatedAt": "2026-11-10T09:20:35.607Z",
+    "noCoupon": false,
+    "variantLabel": "",
+    "variants": []
   }
 ]
