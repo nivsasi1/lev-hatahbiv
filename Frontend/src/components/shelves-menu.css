@@ -1,0 +1,234 @@
+/* ============================================================================
+   shelves-menu.css — the phone's shelves menu (ShelvesMenu.tsx).
+   The drawer is only mounted while the screen is phone-sized. It is portalled
+   to <body>, outside #root's stacking context, so it sits over everything.
+   Type is in rem (15px phone root) so the larger-text setting applies.
+   ========================================================================== */
+
+.sm-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(43, 36, 64, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.sm-veil.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sm {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0; /* RTL → the right edge */
+  z-index: 11;
+  width: min(326px, 84vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  color: var(--ink);
+  border-inline-end: 2.5px solid var(--ink);
+  box-shadow: -8px 0 28px rgba(43, 36, 64, 0.28);
+  transform: translateX(105%);
+  /* closed = out of reach too, once it has slid away */
+  visibility: hidden;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.32s;
+}
+.sm.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+
+.sm-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 0 1.0667rem 0 0.5rem;
+  border-bottom: 2.5px solid var(--ink);
+}
+.sm-head h2 {
+  margin: 0;
+  font-size: 2.2667rem;
+  line-height: 1;
+}
+.sm-close {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+}
+.sm-close svg {
+  width: 22px;
+  height: 22px;
+}
+.sm-close:active {
+  background: var(--paper-deep);
+}
+
+.sm-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.sm-list > li {
+  border-bottom: 1px solid #e3dccb;
+}
+.sm-list > li.is-open {
+  background: var(--paper);
+}
+.sm-row {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.3rem 1.0667rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-align: start;
+  font-size: 1.0667rem;
+  font-weight: 700;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+.sm-row:active {
+  background: var(--paper-deep);
+}
+.sm-list > li.is-open .sm-row,
+.sm-list > li.is-here .sm-row {
+  font-weight: 800;
+}
+.sm-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.sm-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1.2;
+}
+.sm-count {
+  flex: none;
+  font-size: 0.8667rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.sm-chev {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* the sub-shelves: two columns, lined up under the shelf's name */
+.sm-subs {
+  list-style: none;
+  margin: 0;
+  /* start side clears the dot (16 + 12 + 10); end side matches the row */
+  padding: 0 2.5333rem 0.5rem 1.0667rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.3rem;
+}
+.sm-subs a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0.2rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.sm-subs a > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.sm-subs .sm-all {
+  grid-column: 1 / -1;
+}
+.sm-subs .sm-all a {
+  justify-content: flex-start;
+  font-size: 0.9333rem;
+  font-weight: 700;
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* more in the shop — pinned under the list */
+.sm-foot {
+  flex: none;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 2.5px solid var(--ink);
+  background: var(--paper);
+}
+.sm-foot li + li {
+  border-inline-start: 1px solid #e3dccb;
+}
+.sm-foot a {
+  min-height: 56px;
+  padding: 0.3rem 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--ink);
+}
+.sm-foot a:active {
+  background: var(--paper-deep);
+}
+.sm-foot svg {
+  width: 20px;
+  height: 20px;
+  color: var(--purple);
+}
+
+.sm a:focus-visible,
+.sm button:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: -3px;
+}
+
+/* read out, not shown: the unit after a shelf's count */
+.sm-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm,
+  .sm-veil {
+    transition: none;
+  }
+}

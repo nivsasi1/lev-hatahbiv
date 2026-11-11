@@ -1,0 +1,131 @@
+/* ============================================================================
+   header-phone.css — the site header on a phone: one row (menu, logo, search,
+   cart) instead of logo row + scrolling chip row. The shelves live in the menu
+   (ShelvesMenu.tsx).
+
+   Everything visible is inside the phone media query; above it the header is
+   exactly what App.css makes it.
+   ========================================================================== */
+
+/* the menu button exists only on a phone */
+.header-menu {
+  display: none;
+}
+/* <picture> only swaps the logo file on a phone; it must not add a box */
+.header-logo picture {
+  display: contents;
+}
+
+@media (max-width: 760px) {
+  .header .shell {
+    width: auto;
+    margin: 0;
+    padding-inline: 10px;
+  }
+  .header-row {
+    gap: 8px;
+    min-height: 60px;
+    padding: 0;
+  }
+
+  .header-menu {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    font-size: 0.7333rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+    border-radius: 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .header-menu svg {
+    width: 24px;
+    height: 24px;
+  }
+  .header-menu:active {
+    background: var(--paper-deep);
+  }
+
+  /* inner pages carry a small logo home; on the homepage the opening is the logo */
+  .header-logo {
+    flex: none;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .header-logo img {
+    width: 92px;
+    height: auto;
+  }
+  .header.is-home .header-logo {
+    display: none;
+  }
+
+  .header-search {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+  }
+  .header-search input {
+    height: 44px;
+    /* 16px at least: a smaller field makes iOS zoom the page on focus */
+    font-size: max(16px, 1.0667rem);
+    border-width: 2px;
+    padding: 0 2.5em 0 0.7em;
+    box-shadow: 2px 2px 0 var(--shadow);
+  }
+  .header-search > svg {
+    right: 0.8em;
+    width: 18px;
+    height: 18px;
+  }
+  /* results open across the whole bar, not just under the (narrow) field */
+  .search-pop {
+    position: fixed;
+    top: 68px;
+    right: 10px;
+    left: 10px;
+  }
+  /* a result without a photo shows its shelf's drawing. App.css's magnifier
+     rule (.header-search svg) reaches that drawing too and floats it over the
+     list; inside a result it is an ordinary thumbnail. */
+  .search-pop .thumb svg {
+    position: static;
+    transform: none;
+  }
+
+  .header-cart {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    margin-inline-start: 0;
+    padding: 0;
+    justify-content: center;
+  }
+  .header-cart svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* the shelves moved into the menu */
+  .header .cat-nav {
+    display: none;
+  }
+}
+
+/* 320px-wide phones: a slightly smaller logo leaves the search field usable */
+@media (max-width: 340px) {
+  .header-row {
+    gap: 6px;
+  }
+  .header-logo img {
+    width: 76px;
+  }
+}

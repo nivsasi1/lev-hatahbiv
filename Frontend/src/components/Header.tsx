@@ -18,6 +18,9 @@ import {
 import { useCart } from "../context/cart-context";
 import { ProductThumb } from "./ProductThumb";
 import { AdminBell } from "./AdminBell";
+import { ShelvesMenu } from "./ShelvesMenu";
+import { PHONE, useMediaQuery } from "../lib/useMediaQuery";
+import "./header-phone.css";
 
 // Walk up from `el` to the nearest ancestor that establishes a containing block
 // for position:fixed descendants (an element with transform/filter/perspective/
@@ -79,6 +82,22 @@ export const Header = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const location = useLocation();
+
+  // --- phone: one-row bar with a menu button; the shelves open as a drawer ---
+  const phone = useMediaQuery(PHONE);
+  // the narrowest phones: beside the logo the search field is too short for
+  // the two-word hint
+  const narrow = useMediaQuery("(max-width: 379px)");
+  const isHome = location.pathname === "/";
+  const searchHint =
+    phone && !isHome ? (narrow ? "חיפוש" : "חיפוש בחנות") : "מה יוצרים היום?";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeShelves = useCallback(() => setMenuOpen(false), []);
+  // leaving phone width (a turn to landscape) closes it, so the page behind is
+  // never left locked
+  useEffect(() => {
+    if (!phone) setMenuOpen(false);
+  }, [phone]);
 
   // --- category chip row with per-category sub-menus ---
   // which category slug's dropdown is open (only one at a time), or null
@@ -364,6 +383,7 @@ export const Header = () => {
   // close on route change
   useEffect(() => {
     closeMenu();
+    setMenuOpen(false);
   }, [location.pathname, closeMenu]);
 
   // tidy timers on unmount
@@ -373,11 +393,38 @@ export const Header = () => {
   const showPop = focused && query.trim().length > 0;
 
   return (
-    <header className="header">
+    <header className={isHome ? "header is-home" : "header"}>
       <div className="shell">
         <div className="header-row">
+          <button
+            type="button"
+            className="header-menu"
+            aria-haspopup="dialog"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(true)}
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+            >
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+            תפריט
+          </button>
+
           <Link to="/" className="header-logo" aria-label="לב התחביב — דף הבית">
-            <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+            <picture>
+              {/* phone: the logo cropped to its ink, so it reads at 92px */}
+              <source
+                media={PHONE}
+                srcSet={asset("/images/logo-trim.webp")}
+              />
+              <img src={asset("/images/LevHatahbivLogo.png")} alt="לב התחביב" />
+            </picture>
           </Link>
 
           <AdminBell />
@@ -385,7 +432,7 @@ export const Header = () => {
           <div className="header-search">
             <input
               type="search"
-              placeholder="מה יוצרים היום?"
+              placeholder={searchHint}
               value={query}
               onInput={(e: any) => setQuery(e.target.value)}
               onFocus={() => setFocused(true)}
@@ -577,6 +624,7 @@ export const Header = () => {
           </button>
         </nav>
       </div>
+      {phone && <ShelvesMenu open={menuOpen} onClose={closeShelves} />}
     </header>
   );
 };

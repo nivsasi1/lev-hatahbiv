@@ -46,12 +46,12 @@ export const NewsletterDialog = () => {
     let timer: any;
     if (!localStorage.getItem(SEEN_KEY)) {
       // the automatic invitation never interrupts a purchase: not on the cart /
-      // checkout or thank-you pages, not while the cart drawer is open, not
-      // within a minute of adding something — it waits and tries again later
-      // (the footer link still opens it on purpose)
+      // checkout or thank-you pages, not while the cart drawer or the phone's
+      // shelves menu is open, not within a minute of adding something — it
+      // waits and tries again later (the footer link still opens it on purpose)
       const busyShopping = () => {
         if (/\/(cart|thank-you)\/?$/.test(window.location.pathname)) return true;
-        if (document.querySelector(".cart-sheet.open")) return true;
+        if (document.querySelector(".cart-sheet.open, .sm.open")) return true;
         try {
           return Date.now() - Number(sessionStorage.getItem(LAST_ADD_KEY) || 0) < 60_000;
         } catch {
