@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 // slim header) to the wide one (site header, two columns) at this width.
 export const CHECKOUT_WIDE = "(min-width: 1000px)";
 
+// Phones get their own top bar, shelves menu and homepage opening. Wider
+// screens (tablets, desktop) keep the full header and the split hero.
+export const PHONE = "(max-width: 760px)";
+
 // true while the media query matches; follows resizes and rotation
 export const useMediaQuery = (query: string): boolean => {
   const [matches, setMatches] = useState(

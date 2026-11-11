@@ -1,0 +1,282 @@
+/* ============================================================================
+   home-phone.css — the top of the homepage on a phone (HomePhoneTop.tsx):
+   logo on paper, delivery strip, the shelves as cards.
+
+   These elements only exist while the screen is phone-sized (MainHome renders
+   them behind the PHONE media query), so nothing here reaches a wide screen.
+   Type is in rem so the accessibility panel's larger-text setting applies; the
+   rem values are written for the 15px phone root (16px design px = 1.0667rem).
+   ========================================================================== */
+
+/* ---------- opening: the logo on a sheet of paper ---------- */
+.hm-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #f6ead8;
+  border-bottom: 2.5px solid var(--ink);
+}
+/* the photo keeps its supplies in the four corners and its middle empty; a
+   slight zoom tucks the corner objects further out so the middle stays clear */
+.hm-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 56%;
+  transform: scale(1.19);
+  transform-origin: 50% 56%;
+}
+/* a soft pool of paper colour behind the text, fading out before the corners */
+.hm-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 54% 64% at 50% 56%,
+    rgba(247, 236, 219, 0.96) 0%,
+    rgba(247, 236, 219, 0.9) 55%,
+    rgba(247, 236, 219, 0) 100%
+  );
+}
+.hm-hero-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.35rem 1rem 1.3rem;
+  text-align: center;
+}
+.hm-hero-logo {
+  margin: 0;
+  line-height: 0;
+}
+/* the logo keeps the slow float it has always had on the homepage */
+.hm-hero-logo img {
+  display: block;
+  width: clamp(13.5rem, 62vw, 21rem);
+  height: auto;
+  filter: drop-shadow(0 0.5rem 0.7rem rgba(43, 36, 64, 0.16));
+  animation: logoFloat 8s ease-in-out infinite;
+}
+.hm-hero-sub {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #3f3856;
+}
+.hm-hero-sub span {
+  display: block;
+}
+.hm-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+.hm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 46px;
+  padding: 0.3rem 1.2rem;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.hm-btn svg {
+  flex: none;
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.hm-btn.fill {
+  padding-inline: 1.7rem;
+  background: var(--purple);
+  color: #fff;
+  font-size: 1.0667rem;
+  font-weight: 800;
+  box-shadow: 0 3px 0 var(--gold);
+}
+.hm-btn.fill:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--gold);
+}
+.hm-btn.line {
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+}
+.hm-btn.line:active {
+  background: var(--paper-deep);
+}
+
+/* ---------- delivery strip ---------- */
+.hm-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0.8rem;
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem 1.2rem;
+  background: var(--card);
+  border-bottom: 1px solid #e3dccb;
+  font-size: 0.8667rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.hm-strip li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.hm-strip svg {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--purple);
+}
+
+/* ---------- the shelves ---------- */
+.hm-shelves {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* the bottom padding matches a .ph-sec, so the gap to "נבחרים מהמדפים" is
+     the one the page already had */
+  padding: 1.0667rem 1rem clamp(2.6rem, 5vw, 4.4rem);
+}
+.hm-shelves-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.hm-shelves-head h2 {
+  margin: 0;
+  font-size: 2.6667rem;
+  line-height: 1;
+  color: var(--ink);
+}
+.hm-shelves-head h2 span {
+  color: var(--purple);
+}
+.hm-shelves-head p {
+  margin: 0;
+  font-size: 0.8667rem;
+  color: var(--ink-soft);
+}
+
+.hm-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+/* a shelf card: its photo above, its name on a strip of card paper below */
+.hm-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hm-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: #f5e9d8; /* the photos' own paper colour, while one loads */
+}
+.hm-card:active {
+  background: var(--paper-deep);
+}
+.hm-cap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.45rem 0.8rem;
+  border-top: 1.5px solid var(--ink);
+}
+.hm-cap-name {
+  font-size: 1.0667rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.hm-chev {
+  flex: none;
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--ink-soft);
+}
+
+/* the first shelf holds more than half the shop, so it gets the full width */
+.hm-feature {
+  border-radius: 16px;
+}
+/* a wide slice through the middle of the photo: the row of tubes and the dabs
+   of paint above them */
+.hm-feature img {
+  aspect-ratio: 358 / 150;
+  object-position: center 52%;
+}
+.hm-feature .hm-cap {
+  gap: 0.7rem;
+  padding: 0.65rem 0.95rem 0.75rem;
+}
+.hm-cap-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+.hm-feature .hm-cap-name {
+  font-size: 1.3333rem;
+}
+.hm-cap-sub {
+  font-size: 0.8667rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+.hm-feature .hm-chev {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* the widest "phones" (small tablets held upright, unfolded foldables): four
+   to a row, so the eight shelves stay two tidy rows */
+@media (min-width: 640px) {
+  .hm-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.hm-card:focus-visible,
+.hm-btn:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hm-hero-logo img {
+    animation: none;
+  }
+}

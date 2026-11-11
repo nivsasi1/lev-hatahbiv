@@ -16,6 +16,8 @@ import { ProductCard } from "../components/ProductCard";
 import { Splat } from "../components/Splat";
 import { FeaturedRail } from "../components/HomeContent";
 import { usePageMeta, HOME_TITLE, DEFAULT_DESCRIPTION } from "../lib/seo";
+import { PHONE, useMediaQuery } from "../lib/useMediaQuery";
+import { HomePhoneTop } from "./HomePhoneTop";
 import "./home-photographic.css"; // design-7 body (.ph-*)
 import "./main-home.css"; // hero tweak + micro-interactions + overrides (scoped under .main-home)
 
@@ -84,6 +86,9 @@ const tileClass = (i: number) => (i === 0 ? "big" : i <= 2 ? "wide" : "std");
 export default ({ cursorFx }: { cursorFx?: any }) => {
   usePageMeta({ title: HOME_TITLE, description: DEFAULT_DESCRIPTION, path: "/" });
   const ref = useRef<HTMLElement>(null);
+  // a phone gets its own opening + shelves (HomePhoneTop); the rest of the
+  // page is shared
+  const phone = useMediaQuery(PHONE);
 
   /* ---------------------------------------------------------------------------
      Micro-interactions (design 11), all scoped to this <main>:
@@ -209,7 +214,10 @@ export default ({ cursorFx }: { cursorFx?: any }) => {
     cleanups.push(() => cancelAnimationFrame(raf));
 
     return () => cleanups.forEach((fn) => fn());
-  }, []);
+    // re-run when the layout flips (a phone turned on its side): the hero and
+    // shelves that mount then must be picked up by the reveal observer, or
+    // they would stay in their hidden start state
+  }, [phone]);
 
   return (
     <main className="page-main ph-home main-home" ref={ref}>
@@ -217,6 +225,10 @@ export default ({ cursorFx }: { cursorFx?: any }) => {
           the live homepage renders nothing here. */}
       {cursorFx}
 
+      {phone ? (
+        <HomePhoneTop />
+      ) : (
+      <>
       {/* ---------- 1) HERO — current split hero (shrunk field + centred logo) ---------- */}
       <section className="hero">
         <div className="hero-field" aria-hidden="true">
@@ -299,6 +311,8 @@ export default ({ cursorFx }: { cursorFx?: any }) => {
           </div>
         </div>
       </section>
+      </>
+      )}
 
       {/* ---------- 3) FEATURED — design-7 head + the shared MOVING rail ---------- */}
       {featured.length > 0 && (
