@@ -1,0 +1,682 @@
+/* ============================================================================
+   product-phone.css — the product page on a phone (ProductPhone.tsx).
+
+   These elements only exist while the screen is phone-sized (ProductPage
+   renders them behind the PHONE media query), so nothing here reaches a wide
+   screen. Type is in rem so the accessibility panel's larger-text setting
+   applies; the rem values are written for the 15px phone root
+   (16px design px = 1.0667rem).
+   ========================================================================== */
+
+.pp {
+  display: flex;
+  flex-direction: column;
+}
+.pp-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.0667rem 1.6rem;
+}
+
+.pp-crumbs {
+  padding-top: 0.6667rem;
+  font-size: 0.8667rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pp-crumbs a {
+  color: inherit;
+}
+
+/* ---------- the photo ---------- */
+.pp-stage {
+  position: relative;
+  margin-top: 0.5333rem;
+  height: clamp(240px, 72vw, 380px);
+  border-radius: 16px;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--ink);
+  overflow: hidden;
+}
+/* several photos sit side by side; a swipe moves to the next and snaps */
+.pp-track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.pp-track::-webkit-scrollbar {
+  display: none;
+}
+.pp-track img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+/* no photo: the shelf's drawing on its soft colour */
+.pp-art {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: var(--pp-soft, #fff);
+}
+.pp-art img,
+.pp-art svg {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+}
+
+.pp-flag {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 0.7333rem;
+  border-radius: 999px;
+  font-size: 0.8667rem;
+  font-weight: 800;
+  color: #fff;
+  pointer-events: none;
+}
+.pp-flag.sale {
+  background: #c62828;
+}
+.pp-flag.out {
+  background: var(--ink);
+}
+.pp-count {
+  position: absolute;
+  inset-inline-start: 10px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 0.6667rem;
+  border-radius: 999px;
+  background: rgba(43, 36, 64, 0.78);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+.pp-dots {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.pp-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(43, 36, 64, 0.3);
+  transition: width 0.2s ease, background 0.2s ease;
+}
+.pp-dots i.on {
+  width: 18px;
+  background: var(--ink);
+}
+.pp-zoom {
+  position: absolute;
+  inset-inline-end: 8px;
+  bottom: 8px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+}
+.pp-zoom svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- name and price ---------- */
+/* product names are data (model numbers, Latin brand names), so they are set
+   in the reading face, not the display one */
+.pp-title {
+  margin: 0.9333rem 0 0;
+  font-family: "Assistant", "Heebo", sans-serif;
+  font-size: 1.4667rem;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.pp-series {
+  margin: 0.2rem 0 0;
+  font-size: 0.9333rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.pp-series a {
+  font-weight: 700;
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.pp-price {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.6667rem;
+  margin-top: 0.4rem;
+}
+.pp-price .now {
+  font-size: 1.7333rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--purple);
+}
+.pp-price s {
+  font-size: 1.0667rem;
+  color: var(--ink-soft);
+}
+.pp-price .save {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  background: #fdeceb;
+  color: #a31515;
+  font-size: 0.8667rem;
+  font-weight: 800;
+}
+.pp-price .same {
+  font-size: 0.8667rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- options ---------- */
+.pp-options {
+  margin-top: 0.9333rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5333rem;
+}
+.pp-options-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+.pp-options-head p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+.pp-options-head b {
+  font-weight: 800;
+}
+.pp-options-head > span {
+  flex: none;
+  font-size: 0.8667rem;
+  color: var(--ink-soft);
+}
+
+/* colours: a circle each, big enough for a thumb */
+.pp-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 44px);
+  justify-content: space-between;
+  gap: 8px 6px;
+}
+.pp-swatch {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid rgba(43, 36, 64, 0.25);
+  background: var(--sw);
+  -webkit-tap-highlight-color: transparent;
+}
+.pp-swatch svg {
+  width: 18px;
+  height: 18px;
+}
+.pp-swatch.light {
+  color: var(--ink);
+}
+.pp-swatch.dark {
+  color: #fff;
+}
+.pp-swatch.on {
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--ink);
+}
+/* sold out: the colour faded inside a dashed ring, struck through */
+.pp-swatch.oos {
+  border: 1.5px dashed #8d869c;
+  background: var(--paper);
+  overflow: hidden;
+}
+.pp-swatch.oos::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--sw);
+  opacity: 0.45;
+}
+.pp-swatch.oos::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  right: -4px;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--ink);
+  transform: rotate(-45deg);
+}
+
+/* any other choice (size, kind, quantity): its name, and its price when the
+   prices differ */
+.pp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pp-chip {
+  min-height: 44px;
+  padding: 0.35rem 0.9333rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1px;
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: start;
+  -webkit-tap-highlight-color: transparent;
+}
+.pp-chip .nm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pp-chip .nm svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  color: var(--purple);
+}
+.pp-chip .nm i {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(43, 36, 64, 0.35);
+}
+.pp-chip small {
+  font-size: 0.8667rem;
+  font-weight: 700;
+  color: var(--purple);
+}
+.pp-chip.on {
+  /* 1px less padding, so the thicker border does not move the neighbours */
+  padding: calc(0.35rem - 0.5px) calc(0.9333rem - 0.5px);
+  border: 2px solid var(--purple);
+  background: #efe6f7;
+  font-weight: 800;
+}
+.pp-chip.oos {
+  border-style: dashed;
+  border-color: #8d869c;
+  background: transparent;
+  color: var(--ink-soft);
+}
+.pp-chip.oos .nm > span {
+  text-decoration: line-through;
+}
+.pp-chip.oos small {
+  color: var(--ink-soft);
+}
+.pp-chip.on.oos {
+  border-color: var(--purple);
+  background: #efe6f7;
+}
+
+/* ---------- description ---------- */
+.pp-desc-wrap {
+  margin-top: 0.9333rem;
+}
+.pp-desc {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #3f3856;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.pp-desc.clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pp-desc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 0.15rem;
+}
+.pp-more {
+  min-height: 44px;
+  margin: 0 -4px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9333rem;
+  font-weight: 800;
+  color: var(--purple);
+}
+.pp-more svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.6;
+}
+.pp-sku {
+  margin-inline-start: auto;
+  padding: 0.3rem 0;
+  font-size: 0.8667rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- delivery facts ---------- */
+.pp-info {
+  list-style: none;
+  margin: 0.9333rem 0 0;
+  padding: 0.8rem 0.9333rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6667rem;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid #e3dccb;
+  font-size: 0.9333rem;
+  line-height: 1.35;
+}
+.pp-desc-foot + .pp-info,
+.pp-desc-wrap:has(.pp-desc-foot) + .pp-info {
+  margin-top: 0.4rem;
+}
+.pp-info li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6667rem;
+}
+.pp-info svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--purple);
+}
+.pp-info small {
+  display: block;
+  font-size: 0.8667rem;
+  color: var(--ink-soft);
+}
+.pp-info a {
+  font-weight: 700;
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+/* pickup-only changes how the order can arrive, so it is not a quiet line */
+.pp-info li.only {
+  margin: -0.2667rem -0.4rem 0;
+  padding: 0.6rem 0.6667rem;
+  border-radius: 10px;
+  background: #fdf0d6;
+  border: 1px solid #e0b46a;
+  font-weight: 700;
+}
+.pp-info li.only svg {
+  color: #7a4b00;
+}
+.pp-info li.only small {
+  font-weight: 400;
+}
+
+.pp-ask {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.6667rem;
+}
+.pp-ask a {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 0.9333rem;
+  font-weight: 700;
+}
+.pp-ask a:active {
+  background: var(--paper-deep);
+}
+.pp-ask svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- the buy bar: pinned to the bottom of the screen ---------- */
+.pp-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 1.0667rem max(14px, env(safe-area-inset-bottom, 0px));
+  background: var(--card);
+  border-top: 1.5px solid var(--ink);
+  box-shadow: 0 -8px 18px rgba(43, 36, 64, 0.08);
+}
+.pp-qty {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border-radius: 14px;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  overflow: hidden;
+}
+.pp-qty button {
+  width: 44px;
+  height: 100%;
+  padding: 0;
+  font-size: 1.3333rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.pp-qty button:disabled {
+  color: #b5afc2;
+}
+.pp-qty button:active:not(:disabled) {
+  background: var(--paper-deep);
+}
+.pp-qty output {
+  min-width: 24px;
+  text-align: center;
+  font-size: 1.0667rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.pp-buy {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 48px;
+  margin: 0;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 14px;
+  background: var(--purple);
+  color: #fff;
+  font-size: 1.0667rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 3px 0 var(--gold);
+}
+.pp-buy:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--gold);
+}
+/* the chosen colour, shown again where the thumb is about to press */
+.pp-buy i {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+}
+.pp-buy.off,
+.pp-buy:disabled {
+  background: #e9e3d6;
+  color: #4a4460;
+  font-size: 1rem;
+  box-shadow: none;
+}
+p.pp-buy.off {
+  display: block;
+  height: auto;
+  min-height: 48px;
+  padding: 0.8rem 10px;
+  line-height: 1.3;
+  text-align: center;
+  white-space: normal;
+}
+.pp-bar-out {
+  flex: none;
+  font-size: 1rem;
+  font-weight: 800;
+}
+.pp-bar-ask {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: center;
+}
+.pp-bar-ask svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* a narrow phone, or enlarged text, leaves the bar short of room. The widths
+   are the bar's inner width in rem, so they follow the text size: 21.6rem is
+   under 356px of screen at the normal size, 16.4rem only happens with enlarged
+   text. First the stepper tightens and the colour dot gives way, then the price
+   drops to a second line. */
+.pp-bar {
+  container-type: inline-size;
+}
+@container (max-width: 21.6rem) {
+  .pp-qty button {
+    width: 38px;
+  }
+  .pp-qty output {
+    min-width: 20px;
+  }
+  .pp-buy {
+    padding: 0 6px;
+    gap: 5px;
+    font-size: 1rem;
+  }
+  .pp-buy i {
+    display: none;
+  }
+}
+@container (max-width: 16.4rem) {
+  .pp-buy {
+    flex-wrap: wrap;
+    row-gap: 0;
+    height: auto;
+    min-height: 48px;
+    padding: 5px 6px;
+    line-height: 1.15;
+  }
+  .pp-buy > span[aria-hidden] {
+    display: none;
+  }
+}
+
+/* keep the accessibility button clear of the bar (its height is measured and
+   published as --pp-bar-h) */
+body:has(.pp-bar) .a11y-root {
+  bottom: calc(var(--pp-bar-h, 4.9rem) + 0.75rem);
+}
+
+.pp a:focus-visible,
+.pp button:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-dots i {
+    transition: none;
+  }
+}

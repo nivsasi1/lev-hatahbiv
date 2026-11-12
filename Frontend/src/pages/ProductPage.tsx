@@ -20,6 +20,8 @@ import { ProductCard } from "../components/ProductCard";
 import { ProductThumb } from "../components/ProductThumb";
 import { usePageMeta, titleFor, breadcrumbLd, productLd } from "../lib/seo";
 import { trackViewItem } from "../data/analytics";
+import { PHONE, useMediaQuery } from "../lib/useMediaQuery";
+import { ProductPhone } from "./ProductPhone";
 import "./product-lightbox.css";
 
 export const ProductPage = () => {
@@ -34,6 +36,8 @@ export const ProductPage = () => {
   const stageRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
+  // a phone gets its own layout (ProductPhone); the state above serves both
+  const phone = useMediaQuery(PHONE);
 
   useEffect(() => {
     setQtyLocal(1);
@@ -46,9 +50,10 @@ export const ProductPage = () => {
     setVariantKey(first?.key);
   }, [id]);
 
-  // Show "read more" only when the description ACTUALLY exceeds ~5 lines.
-  // Measured (not char-counted): temporarily drop the clamp, compare the full
-  // text height to 5 line-heights. Runs before paint so there's no flash.
+  // Show "read more" only when the description ACTUALLY exceeds ~5 lines (3 on
+  // a phone, where it sits under the buy area). Measured (not char-counted):
+  // temporarily drop the clamp, compare the full text height to that many
+  // line-heights. Runs before paint so there's no flash.
   useLayoutEffect(() => {
     const el = descRef.current;
     if (!el) {
@@ -60,8 +65,8 @@ export const ProductPage = () => {
     el.classList.remove("clamped");
     const full = el.scrollHeight;
     if (had) el.classList.add("clamped");
-    setDescOverflows(full > lh * 5 + 4);
-  }, [id]);
+    setDescOverflows(full > lh * (phone ? 3 : 5) + 4);
+  }, [id, phone]);
 
   // Lock body scroll, handle Escape, and manage focus while the lightbox is open.
   useEffect(() => {
@@ -156,6 +161,110 @@ export const ProductPage = () => {
   const canZoom = gallery.length > 0;
   const step = (d: number) =>
     setImgIdx((i) => (i + d + gallery.length) % gallery.length);
+
+  const relatedEl = related.length > 0 && (
+    <section className="related">
+      <div className="section-head">
+        <h2 className="display">משתלב יפה עם</h2>
+        <div className="scribble" />
+        <Link to={`/category/${product.category}`} className="more">
+          לכל המדף ←
+        </Link>
+      </div>
+      <div className="product-grid">
+        {related.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
+      </div>
+    </section>
+  );
+
+  const lightboxEl = lightbox && canZoom && (
+    <div
+      className="lightbox-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label={product.name}
+      onClick={() => setLightbox(false)}
+    >
+      <button
+        ref={closeBtnRef}
+        className="lightbox-close"
+        onClick={(e) => {
+          e.stopPropagation();
+          setLightbox(false);
+        }}
+        aria-label="סגירת התמונה"
+      >
+        ✕
+      </button>
+
+      {hasGallery && (
+        <>
+          <button
+            className="lightbox-arrow next"
+            onClick={(e) => {
+              e.stopPropagation();
+              step(1);
+            }}
+            aria-label="התמונה הבאה"
+          >
+            ‹
+          </button>
+          <button
+            className="lightbox-arrow prev"
+            onClick={(e) => {
+              e.stopPropagation();
+              step(-1);
+            }}
+            aria-label="התמונה הקודמת"
+          >
+            ›
+          </button>
+        </>
+      )}
+
+      <div className="lightbox-frame">
+        <img
+          className="lightbox-img"
+          src={gallery[imgIdx]}
+          alt={product.name}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
+
+      {hasGallery && (
+        <div className="lightbox-count" aria-hidden="true">
+          {imgIdx + 1} / {gallery.length}
+        </div>
+      )}
+    </div>
+  );
+
+  if (phone) {
+    return (
+      <ProductPhone
+        product={product}
+        category={category}
+        qty={qty}
+        setQty={setQtyLocal}
+        variantKey={variantKey}
+        setVariantKey={setVariantKey}
+        imgIdx={imgIdx}
+        setImgIdx={setImgIdx}
+        lightbox={lightbox}
+        openLightbox={() => setLightbox(true)}
+        descRef={descRef}
+        descOverflows={descOverflows}
+        descExpanded={descExpanded}
+        toggleDesc={() => setDescExpanded((v) => !v)}
+        onAdd={() => add(product, qty, variantKey)}
+      >
+        {relatedEl && <div className="shell">{relatedEl}</div>}
+        {lightboxEl}
+      </ProductPhone>
+    );
+  }
 
   return (
     <main className="page-main">
@@ -384,85 +493,10 @@ export const ProductPage = () => {
           </div>
         </div>
 
-        {related.length > 0 && (
-          <section className="related">
-            <div className="section-head">
-              <h2 className="display">משתלב יפה עם</h2>
-              <div className="scribble" />
-              <Link to={`/category/${product.category}`} className="more">
-                לכל המדף ←
-              </Link>
-            </div>
-            <div className="product-grid">
-              {related.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          </section>
-        )}
+        {relatedEl}
       </div>
 
-      {lightbox && canZoom && (
-        <div
-          className="lightbox-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label={product.name}
-          onClick={() => setLightbox(false)}
-        >
-          <button
-            ref={closeBtnRef}
-            className="lightbox-close"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLightbox(false);
-            }}
-            aria-label="סגירת התמונה"
-          >
-            ✕
-          </button>
-
-          {hasGallery && (
-            <>
-              <button
-                className="lightbox-arrow next"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  step(1);
-                }}
-                aria-label="התמונה הבאה"
-              >
-                ‹
-              </button>
-              <button
-                className="lightbox-arrow prev"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  step(-1);
-                }}
-                aria-label="התמונה הקודמת"
-              >
-                ›
-              </button>
-            </>
-          )}
-
-          <div className="lightbox-frame">
-            <img
-              className="lightbox-img"
-              src={gallery[imgIdx]}
-              alt={product.name}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-
-          {hasGallery && (
-            <div className="lightbox-count" aria-hidden="true">
-              {imgIdx + 1} / {gallery.length}
-            </div>
-          )}
-        </div>
-      )}
+      {lightboxEl}
     </main>
   );
 };

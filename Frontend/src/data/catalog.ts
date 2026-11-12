@@ -474,6 +474,8 @@ export const FREE_SHIPPING_FROM = 500;
 // price; below REDUCED_SHIPPING_FROM each method charges its full price
 export const REDUCED_SHIPPING_FROM = 300;
 export const REDUCED_SHIPPING_PRICE = 20;
+// home delivery below the reduced threshold (the Worker charges the same: checkout-pricing.json)
+export const COURIER_PRICE = 35;
 
 // how far the cart is from the NEXT shipping threshold — the same words in the
 // cart drawer and on the cart page

@@ -10,6 +10,7 @@ import {
   FREE_SHIPPING_FROM,
   REDUCED_SHIPPING_FROM,
   REDUCED_SHIPPING_PRICE,
+  COURIER_PRICE,
   store,
 } from "../data/catalog";
 import { lineKey, useCart, type CartItem } from "../context/cart-context";
@@ -38,7 +39,7 @@ const recentPendingPayment = (): boolean => {
 
 const deliveryOptions = [
   { id: "pickup", title: "איסוף עצמי מהחנות", note: `${store.address} · נעדכן בוואטסאפ כשההזמנה מוכנה`, price: 0 },
-  { id: "courier", title: "משלוח עד הבית", note: store.courierEta, price: 35 },
+  { id: "courier", title: "משלוח עד הבית", note: store.courierEta, price: COURIER_PRICE },
   // registered mail was dropped 2026-10 — old orders still carry delivery "mail"
 ];
 
