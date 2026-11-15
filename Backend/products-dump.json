@@ -12930,12 +12930,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד פולי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-10-12T09:16:35.163Z",
+    "updatedAt": "2026-11-15T11:11:56.935Z",
     "noCoupon": true
   },
   {
@@ -13119,12 +13119,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד פולי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-10-12T09:16:35.163Z",
+    "updatedAt": "2026-11-15T11:07:43.889Z",
     "noCoupon": true
   },
   {
