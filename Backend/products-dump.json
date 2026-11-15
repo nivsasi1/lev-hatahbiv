@@ -13698,12 +13698,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד טבעי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-11-15T11:02:17.502Z",
     "noCoupon": true
   },
   {
@@ -13788,12 +13788,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד טבעי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-11-15T11:02:10.345Z",
     "noCoupon": true
   },
   {
@@ -13896,11 +13896,11 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": false,
+    "isAvailable": true,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד טבעי",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-11-15T11:01:52.222Z",
     "isActive": true,
     "searchKeywords": "Jacquard",
     "noCoupon": true
@@ -13987,12 +13987,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד טבעי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-11-15T11:00:59.225Z",
     "noCoupon": true
   },
   {
@@ -14005,12 +14005,12 @@
     "visible": true,
     "discountMode": "PERCENT",
     "discountValue": 0,
-    "isAvailable": true,
+    "isAvailable": false,
     "category": "צבעים להובי",
     "sub_cat": "צבעי בד/טקסטיל",
     "third_level": "צבע לטקסטיל - ג'אקרד טבעי",
     "searchKeywords": "Jacquard",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
+    "updatedAt": "2026-11-15T11:00:43.175Z",
     "noCoupon": true
   },
   {
