@@ -10608,7 +10608,7 @@
     "_id": "66844bfdf2e4e8f57277060c",
     "id": "product_e6103e32-636f-79a2-f2ca-3fdd8e2512e7",
     "name": "קרמיקל לבן 3קג",
-    "description": "<p dir=\"rtl\">חימר לשריפה בתנור ביתי 170 מעלות.</p><p dir=\"rtl\">אריזת 3 קג</p><p dir=\"rtl\">צבע לבן</p><p dir=\"rtl\">הוראות עבודה: https://www.keramikal.com/kermiZ/zpros1.htm</p>",
+    "description": "<p dir=\"rtl\">חימר לשריפה בתנור ביתי 170 מעלות ** איסוף בלבד** .</p><p dir=\"rtl\">אריזת 3 קג</p><p dir=\"rtl\">צבע לבן</p><p dir=\"rtl\">הוראות עבודה: https://www.keramikal.com/kermiZ/zpros1.htm</p>",
     "img": "733145_5c8d404094074f079f52bea15b76aa0a~mv2.jpg",
     "ribbon": "לאיסוף מהחנות בלבד",
     "price": 48.5,
@@ -10620,7 +10620,11 @@
     "sub_cat": "פיסול",
     "third_level": "חימר",
     "noCoupon": true,
-    "updatedAt": "2026-09-16T14:19:51.899Z"
+    "updatedAt": "2026-11-17T22:30:46.662Z",
+    "searchKeywords": "",
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770606",
