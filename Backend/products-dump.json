@@ -17306,11 +17306,12 @@
     "sub_cat": "כני ציור סטודיו",
     "third_level": "כללי",
     "searchKeywords": "לירה",
-    "updatedAt": "2026-09-18T12:57:04.302Z",
+    "updatedAt": "2026-11-17T20:48:45.103Z",
     "noCoupon": true,
     "sku": "",
     "variantLabel": "",
-    "variants": []
+    "variants": [],
+    "isActive": false
   },
   {
     "_id": "66844bfdf2e4e8f572770794",
