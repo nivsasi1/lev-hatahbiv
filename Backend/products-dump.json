@@ -18830,7 +18830,7 @@
   {
     "_id": "66844bfdf2e4e8f57277083c",
     "id": "product_dffe61fa-9fcc-5ce1-d25a-6076a5af0c3b",
-    "name": "נייר קרפט - נייר אריזה גליון 10 יחידות",
+    "name": "גליון קראפט חום 90 גרם  4 יחידות",
     "description": "<p dir=\"rtl\">נייר אריזה חום - קרפט</p>\n<p dir=\"rtl\">100/70</p>",
     "img": "733145_7479a6dc920346d882e4f4217b15290e~mv2.jpg",
     "price": 10,
@@ -18841,8 +18841,12 @@
     "category": "נייר לאמנות",
     "sub_cat": "גליונות נייר",
     "third_level": "גליונות נייר",
-    "updatedAt": "2026-09-16T14:19:52.543Z",
-    "noCoupon": true
+    "updatedAt": "2026-11-20T08:39:44.113Z",
+    "noCoupon": true,
+    "searchKeywords": "",
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f57277083d",
