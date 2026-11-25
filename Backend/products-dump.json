@@ -8676,10 +8676,13 @@
     "isAvailable": true,
     "category": "צבעים לאמנות",
     "sub_cat": "צבעי אקוורל",
-    "third_level": "אקוורל כפתורים - Kuretake/ GANSAI",
+    "third_level": "Kuretake/ GANSAI",
     "searchKeywords": "Gansai Tambi, קורטאקה, גנסאי",
-    "updatedAt": "2026-09-16T14:19:53.149Z",
-    "noCoupon": true
+    "updatedAt": "2026-11-25T16:42:59.398Z",
+    "noCoupon": true,
+    "sku": "",
+    "variantLabel": "",
+    "variants": []
   },
   {
     "_id": "66844bfdf2e4e8f572770589",
